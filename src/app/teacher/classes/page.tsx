@@ -1,10 +1,10 @@
 import { getDb } from "@/lib/mongodb";
-import { createClassAction, deleteClassAction } from "@/app/actions/classes";
+import { createClassAction, deleteClassAction, archiveClassAction } from "@/app/actions/classes";
 
 export default async function ClassesPage() {
   const db = await getDb();
-  // Fetch classes from MongoDB
-  const classesData = await db.collection("classes").find({}).sort({ createdAt: -1 }).toArray();
+  // Fetch classes from MongoDB, ignoring archived ones
+  const classesData = await db.collection("classes").find({ archived: { $ne: true } }).sort({ createdAt: -1 }).toArray();
   
   // Transform to plain objects to pass to client components or render directly
   const classes = classesData.map(cls => ({
@@ -20,7 +20,7 @@ export default async function ClassesPage() {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Classes</h1>
-          <p className="text-gray-500">Manage your classes and sections</p>
+          <p className="text-gray-500">Manage your active classes and sections</p>
         </div>
       </div>
 
@@ -71,23 +71,33 @@ export default async function ClassesPage() {
         <div className="md:col-span-2 space-y-4">
           {classes.length === 0 ? (
             <div className="text-center p-12 bg-white rounded-xl border border-gray-200 border-dashed">
-              <p className="text-gray-500">No classes created yet. Create your first class to get started.</p>
+              <p className="text-gray-500">No active classes found. Create your first class to get started.</p>
             </div>
           ) : (
             classes.map((cls) => (
-              <div key={cls.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+              <div key={cls.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center hover:border-blue-300 transition-colors">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">{cls.name}</h3>
                   <p className="text-sm text-gray-500">Section {cls.section} • {cls.studentCount} Students</p>
                 </div>
-                <form action={async () => {
-                  "use server";
-                  await deleteClassAction(cls.id);
-                }}>
-                  <button type="submit" className="text-red-600 hover:text-red-800 text-sm font-medium px-3 py-1 rounded hover:bg-red-50 transition-colors">
-                    Delete
-                  </button>
-                </form>
+                <div className="flex gap-2">
+                  <form action={async () => {
+                    "use server";
+                    await archiveClassAction(cls.id);
+                  }}>
+                    <button type="submit" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 transition-colors">
+                      Archive
+                    </button>
+                  </form>
+                  <form action={async () => {
+                    "use server";
+                    await deleteClassAction(cls.id);
+                  }}>
+                    <button type="submit" className="text-red-600 hover:text-red-800 text-sm font-medium px-3 py-1 rounded hover:bg-red-50 transition-colors">
+                      Delete
+                    </button>
+                  </form>
+                </div>
               </div>
             ))
           )}

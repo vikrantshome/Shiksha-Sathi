@@ -35,6 +35,16 @@ export async function submitAssignmentAction(
 ) {
   const db = await getDb();
   
+  // Check for duplicate submission
+  const existingSubmission = await db.collection("submissions").findOne({
+    assignmentId,
+    studentRollNumber: studentIdentity.rollNumber
+  });
+
+  if (existingSubmission) {
+    throw new Error("You have already submitted this assignment.");
+  }
+  
   // Re-fetch the assignment to get the correct answers securely on the server
   const { ObjectId } = require("mongodb");
   const assignment = await db.collection("assignments").findOne({ _id: new ObjectId(assignmentId) });
@@ -62,7 +72,9 @@ export async function submitAssignmentAction(
 
     return {
       questionId: q.id,
+      questionText: q.text,
       studentAnswer,
+      correctAnswer: q.correctAnswer,
       isCorrect,
       marksAwarded: isCorrect ? q.marks : 0,
     };
@@ -83,6 +95,7 @@ export async function submitAssignmentAction(
   return {
     success: true,
     score,
-    totalMarks: assignment.totalMarks
+    totalMarks: assignment.totalMarks,
+    feedback: gradedAnswers
   };
 }

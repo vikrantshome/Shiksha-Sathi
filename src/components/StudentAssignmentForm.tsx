@@ -17,7 +17,12 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
   const [identity, setIdentity] = useState<{ name: string; rollNumber: string } | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
-  const [result, setResult] = useState<{ success: boolean; score: number; totalMarks: number } | null>(null);
+  const [result, setResult] = useState<{ 
+    success: boolean; 
+    score: number; 
+    totalMarks: number;
+    feedback?: any[];
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleIdentitySubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,6 +32,7 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
       name: formData.get("name") as string,
       rollNumber: formData.get("rollNumber") as string,
     });
+    setError(null);
   };
 
   const handleAnswerChange = (questionId: string, answer: string) => {
@@ -64,12 +70,43 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
         <h2 className="text-3xl font-bold text-gray-900 mb-2">Assignment Submitted!</h2>
         <p className="text-gray-600 mb-8">Thank you, {identity?.name}. Your responses have been recorded.</p>
         
-        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 max-w-sm mx-auto">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 max-w-2xl mx-auto mb-8 shadow-sm">
           <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Your Score</h3>
           <div className="text-4xl font-extrabold text-blue-600">
             {result.score} <span className="text-xl text-gray-400">/ {result.totalMarks}</span>
           </div>
         </div>
+
+        {result.feedback && result.feedback.length > 0 && (
+          <div className="max-w-2xl mx-auto text-left space-y-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Answer Feedback</h3>
+            {result.feedback.map((f: any, i: number) => (
+              <div key={f.questionId} className={`p-4 rounded-xl border ${f.isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-semibold text-gray-900">Question {i + 1}</span>
+                  {f.isCorrect ? (
+                    <span className="text-green-700 font-bold flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                      Correct ({f.marksAwarded} Marks)
+                    </span>
+                  ) : (
+                    <span className="text-red-700 font-bold flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      Incorrect (0 Marks)
+                    </span>
+                  )}
+                </div>
+                <p className="text-gray-800 mb-3">{f.questionText}</p>
+                <div className="text-sm space-y-1">
+                  <div><span className="text-gray-600">Your Answer:</span> <span className="font-medium text-gray-900">{f.studentAnswer}</span></div>
+                  {!f.isCorrect && (
+                    <div><span className="text-gray-600">Correct Answer:</span> <span className="font-medium text-green-700">{Array.isArray(f.correctAnswer) ? f.correctAnswer.join(" or ") : f.correctAnswer}</span></div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -79,6 +116,11 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
       <div className="p-6 sm:p-8">
         <div className="max-w-md mx-auto">
           <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Enter your details to start</h2>
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleIdentitySubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
