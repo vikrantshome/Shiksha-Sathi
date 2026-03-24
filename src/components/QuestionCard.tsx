@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { Question } from "@/lib/questions";
+import { useAssignment } from "./AssignmentContext";
 
 export default function QuestionCard({ question: q }: { question: Question }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const { toggleQuestion, isSelected } = useAssignment();
+  
+  const selected = isSelected(q.id);
 
   return (
-    <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 transition-colors">
+    <div className={`bg-white p-5 rounded-xl shadow-sm border transition-colors ${selected ? 'border-blue-500 bg-blue-50/30' : 'border-gray-200 hover:border-blue-300'}`}>
       <div className="flex justify-between items-start mb-2">
         <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded">
           {q.topic}
@@ -21,7 +25,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
       {q.options && (
         <ul className="mt-3 space-y-1">
           {q.options.map((opt, i) => (
-            <li key={i} className="text-sm text-gray-600 border border-gray-100 p-2 rounded">
+            <li key={i} className="text-sm text-gray-600 border border-gray-100 p-2 rounded bg-white">
               {String.fromCharCode(65 + i)}. {opt}
             </li>
           ))}
@@ -36,8 +40,11 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           {isPreviewOpen ? "Hide Preview" : "Preview Question"}
         </button>
         
-        <button className="bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-1 rounded text-sm font-medium transition-colors">
-          Add to Assignment
+        <button 
+          onClick={() => toggleQuestion(q)}
+          className={`px-3 py-1 rounded text-sm font-medium transition-colors ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+        >
+          {selected ? "Added" : "Add to Assignment"}
         </button>
       </div>
 
