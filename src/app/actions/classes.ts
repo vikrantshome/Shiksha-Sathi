@@ -18,6 +18,7 @@ export async function createClassAction(formData: FormData) {
     name,
     section,
     studentCount,
+    archived: false,
     createdAt: new Date().toISOString(),
   });
 
@@ -27,5 +28,14 @@ export async function createClassAction(formData: FormData) {
 export async function deleteClassAction(id: string) {
   const db = await getDb();
   await db.collection("classes").deleteOne({ _id: new ObjectId(id) });
+  revalidatePath("/teacher/classes");
+}
+
+export async function archiveClassAction(id: string) {
+  const db = await getDb();
+  await db.collection("classes").updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { archived: true } }
+  );
   revalidatePath("/teacher/classes");
 }

@@ -18,23 +18,26 @@ export default function TeacherLayout({
               <div className="flex items-center">
                 <span className="text-xl font-bold text-blue-600">Shiksha Sathi</span>
                 <nav className="ml-8 hidden md:flex space-x-4">
-                  <Link href="/teacher/dashboard" className="text-gray-900 px-3 py-2 rounded-md font-medium bg-gray-100">
+                  <Link href="/teacher/dashboard" className="text-gray-900 px-3 py-2 rounded-md font-medium hover:bg-gray-100">
                     Dashboard
                   </Link>
-                  <Link href="/teacher/classes" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md font-medium">
+                  <Link href="/teacher/classes" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md font-medium hover:bg-gray-100">
                     Classes
                   </Link>
-                  <Link href="/teacher/question-bank" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md font-medium">
+                  <Link href="/teacher/question-bank" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md font-medium hover:bg-gray-100">
                     Question Bank
                   </Link>
                 </nav>
               </div>
               <div className="flex items-center space-x-4">
                 <CartIcon />
+                <Link href="/teacher/profile" className="text-sm font-medium text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md hover:bg-gray-100">
+                  Profile
+                </Link>
                 <form action={logoutAction}>
                   <button
                     type="submit"
-                    className="text-sm font-medium text-gray-500 hover:text-gray-900"
+                    className="text-sm font-medium text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md hover:bg-gray-100"
                   >
                     Log out
                   </button>
