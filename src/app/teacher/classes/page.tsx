@@ -1,9 +1,19 @@
-import { getDb } from "@/lib/db";
+import { getDb } from "@/lib/mongodb";
 import { createClassAction, deleteClassAction } from "@/app/actions/classes";
 
 export default async function ClassesPage() {
   const db = await getDb();
-  const classes = db.classes;
+  // Fetch classes from MongoDB
+  const classesData = await db.collection("classes").find({}).sort({ createdAt: -1 }).toArray();
+  
+  // Transform to plain objects to pass to client components or render directly
+  const classes = classesData.map(cls => ({
+    id: cls._id.toString(),
+    name: cls.name,
+    section: cls.section,
+    studentCount: cls.studentCount,
+    createdAt: cls.createdAt,
+  }));
 
   return (
     <div>

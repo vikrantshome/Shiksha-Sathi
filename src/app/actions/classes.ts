@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getDb, saveDb, Class } from "@/lib/db";
-import { randomUUID } from "crypto";
+import { getDb } from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function createClassAction(formData: FormData) {
   const name = formData.get("name") as string;
@@ -14,23 +14,18 @@ export async function createClassAction(formData: FormData) {
   }
 
   const db = await getDb();
-  const newClass: Class = {
-    id: randomUUID(),
+  await db.collection("classes").insertOne({
     name,
     section,
     studentCount,
     createdAt: new Date().toISOString(),
-  };
-
-  db.classes.push(newClass);
-  await saveDb(db);
+  });
 
   revalidatePath("/teacher/classes");
 }
 
 export async function deleteClassAction(id: string) {
   const db = await getDb();
-  db.classes = db.classes.filter(c => c.id !== id);
-  await saveDb(db);
+  await db.collection("classes").deleteOne({ _id: new ObjectId(id) });
   revalidatePath("/teacher/classes");
 }
