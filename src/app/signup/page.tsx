@@ -1,21 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { loginAction } from "@/app/actions/auth";
 
 export default function SignupPage() {
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSignup = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement actual signup
-    // Mock signup success
-    router.push("/teacher/dashboard");
-  };
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
@@ -25,16 +15,15 @@ export default function SignupPage() {
           <p className="text-gray-500 mt-2">Join Shiksha Sathi for free</p>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-6">
+        <form action={(formData) => startTransition(() => loginAction(formData))} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Full Name
             </label>
             <input
               type="text"
+              name="name"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="John Doe"
             />
@@ -46,9 +35,8 @@ export default function SignupPage() {
             </label>
             <input
               type="email"
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="teacher@school.com"
             />
@@ -60,9 +48,8 @@ export default function SignupPage() {
             </label>
             <input
               type="password"
+              name="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="••••••••"
             />
@@ -70,9 +57,10 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            disabled={isPending}
+            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-blue-400"
           >
-            Sign Up
+            {isPending ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 

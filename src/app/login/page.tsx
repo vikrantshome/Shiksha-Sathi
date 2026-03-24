@@ -1,20 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { loginAction } from "@/app/actions/auth";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement actual auth
-    // Mock login success
-    router.push("/teacher/dashboard");
-  };
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
@@ -24,16 +15,15 @@ export default function LoginPage() {
           <p className="text-gray-500 mt-2">Log in to Shiksha Sathi</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form action={(formData) => startTransition(() => loginAction(formData))} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email Address
             </label>
             <input
               type="email"
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="teacher@school.com"
             />
@@ -45,9 +35,8 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
+              name="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="••••••••"
             />
@@ -55,9 +44,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            disabled={isPending}
+            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-blue-400"
           >
-            Log In
+            {isPending ? "Logging in..." : "Log In"}
           </button>
         </form>
 
