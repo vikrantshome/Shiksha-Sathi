@@ -1,5 +1,4 @@
 import { MongoClient } from 'mongodb';
-import { getMockDb } from './mock-db';
 
 const uri = process.env.MONGODB_URI;
 const options = {};
@@ -9,7 +8,7 @@ let clientPromise: Promise<MongoClient>;
 
 if (uri) {
   if (process.env.NODE_ENV === 'development') {
-    let globalWithMongo = global as typeof globalThis & {
+    const globalWithMongo = global as typeof globalThis & {
       _mongoClientPromise?: Promise<MongoClient>;
     };
 
@@ -22,19 +21,21 @@ if (uri) {
     client = new MongoClient(uri, options);
     clientPromise = client.connect();
   }
+} else {
+  throw new Error('Please add your Mongo URI to .env.local');
 }
 
 export default clientPromise!;
 
 export async function getDb(dbName = "shikshasathi") {
   if (!uri) {
-    return getMockDb();
+    throw new Error('Please add your Mongo URI to .env.local');
   }
   try {
     const client = await clientPromise;
     return client.db(dbName);
   } catch (error) {
-    console.error("Mongo connection failed, falling back to mock:", error);
-    return getMockDb();
+    console.error("Mongo connection failed", error);
+    throw error;
   }
 }

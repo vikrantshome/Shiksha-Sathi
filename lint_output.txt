@@ -1,0 +1,55 @@
+
+> shiksha-sathi-app@0.1.0 lint
+> eslint
+
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/actions/auth.ts
+  6:35  warning  'formData' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/actions/student.ts
+  17:13  warning  'correctAnswer' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  49:24  error    A `require()` style import is forbidden             @typescript-eslint/no-require-imports
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/actions/teacher.ts
+  66:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/login/page.tsx
+   3:10  warning  'useState' is defined but never used                             @typescript-eslint/no-unused-vars
+  55:14  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/teacher/assignments/[id]/page.tsx
+  98:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/teacher/dashboard/page.tsx
+  39:54  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/app/teacher/question-bank/page.tsx
+  1:24  warning  'QuestionType' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/components/CreateAssignmentForm.tsx
+  27:21  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  65:52  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/components/ProfileForm.tsx
+  6:69  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/components/QuestionBankFilters.tsx
+  5:10  warning  'QuestionType' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/components/StudentAssignmentForm.tsx
+  24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  83:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/anuraagpatil/naviksha/Shiksha Sathi/src/lib/mock-db.ts
+   4:9   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 24 problems (19 errors, 5 warnings)
+

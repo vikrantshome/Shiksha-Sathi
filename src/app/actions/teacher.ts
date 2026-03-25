@@ -2,6 +2,7 @@
 
 import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { Question, GradedAnswer } from "@/lib/questions";
 
 export async function getAssignmentsWithStats() {
   const db = await getDb();
@@ -59,14 +60,14 @@ export async function getAssignmentReport(assignmentId: string) {
     score: sub.score,
     totalMarks: sub.totalMarks,
     submittedAt: sub.submittedAt,
-    answers: sub.answers // Contains {questionId, studentAnswer, isCorrect, marksAwarded}
+    answers: sub.answers as GradedAnswer[]
   }));
 
   // Calculate question-level stats
-  const questionStats = assignment.questions.map((q: any) => {
+  const questionStats = assignment.questions.map((q: Question) => {
     let correctCount = 0;
     submissions.forEach(sub => {
-      const ans = sub.answers.find((a: any) => a.questionId === q.id);
+      const ans = sub.answers.find((a: GradedAnswer) => a.questionId === q.id);
       if (ans && ans.isCorrect) correctCount++;
     });
 

@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { submitAssignmentAction } from "@/app/actions/student";
-import { Question } from "@/lib/questions";
+import { Question, GradedAnswer } from "@/lib/questions";
 
 interface StudentAssignmentFormProps {
   assignment: {
@@ -21,7 +21,7 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
     success: boolean; 
     score: number; 
     totalMarks: number;
-    feedback?: any[];
+    feedback?: GradedAnswer[];
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,8 +53,8 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
       try {
         const res = await submitAssignmentAction(assignment.id, identity, answers);
         setResult(res);
-      } catch (err: any) {
-        setError(err.message || "Failed to submit assignment");
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to submit assignment");
       }
     });
   };
@@ -80,7 +80,7 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
         {result.feedback && result.feedback.length > 0 && (
           <div className="max-w-2xl mx-auto text-left space-y-4">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Answer Feedback</h3>
-            {result.feedback.map((f: any, i: number) => (
+            {result.feedback.map((f: GradedAnswer, i: number) => (
               <div key={f.questionId} className={`p-4 rounded-xl border ${f.isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-semibold text-gray-900">Question {i + 1}</span>
