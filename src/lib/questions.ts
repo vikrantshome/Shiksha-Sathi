@@ -13,6 +13,15 @@ export interface Question {
   marks: number;
 }
 
+export interface GradedAnswer {
+  questionId: string;
+  questionText: string;
+  studentAnswer: string;
+  correctAnswer: string | string[];
+  isCorrect: boolean;
+  marksAwarded: number;
+}
+
 export const questionBank: Question[] = [
   // Science - Chapter: Life Processes
   {

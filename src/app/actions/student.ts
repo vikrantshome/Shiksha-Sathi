@@ -2,6 +2,7 @@
 
 import { getDb } from "@/lib/mongodb";
 import { Question } from "@/lib/questions";
+import { ObjectId } from "mongodb";
 
 export async function getAssignmentByLinkId(linkId: string) {
   const db = await getDb();
@@ -14,6 +15,7 @@ export async function getAssignmentByLinkId(linkId: string) {
   // Return assignment without exposing the correct answers directly to the client if possible
   // But since we pass the whole object in MVP, let's just strip correct answers for the student view.
   const sanitizedQuestions = assignment.questions.map((q: Question) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { correctAnswer, ...rest } = q;
     return rest;
   });
@@ -46,7 +48,6 @@ export async function submitAssignmentAction(
   }
   
   // Re-fetch the assignment to get the correct answers securely on the server
-  const { ObjectId } = require("mongodb");
   const assignment = await db.collection("assignments").findOne({ _id: new ObjectId(assignmentId) });
 
   if (!assignment) {
@@ -60,11 +61,14 @@ export async function submitAssignmentAction(
     // Basic case-insensitive matching for fill-in-blanks, exact for MCQ/TF
     let isCorrect = false;
     
-    if (Array.isArray(q.correctAnswer)) {
-      isCorrect = q.correctAnswer.some(ans => ans.toLowerCase() === studentAnswer.trim().toLowerCase());
-    } else {
-      isCorrect = q.correctAnswer.toLowerCase() === studentAnswer.trim().toLowerCase();
-    }
+    // Ensure correctAnswer is always a string for comparison if not an array
+    const normalizedCorrectAnswer = Array.isArray(q.correctAnswer) 
+      ? q.correctAnswer 
+      : [q.correctAnswer];
+
+    isCorrect = normalizedCorrectAnswer.some(ans => 
+      ans.toLowerCase() === studentAnswer.trim().toLowerCase()
+    );
 
     if (isCorrect) {
       score += q.marks;
@@ -99,3 +103,4 @@ export async function submitAssignmentAction(
     feedback: gradedAnswers
   };
 }
+

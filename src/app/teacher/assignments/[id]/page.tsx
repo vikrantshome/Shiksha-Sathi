@@ -95,7 +95,7 @@ export default async function AssignmentReportPage({
             <h2 className="text-lg font-bold text-gray-900">Question Performance</h2>
           </div>
           <div className="p-6 space-y-6">
-            {questionStats.map((q: any, i: number) => (
+            {questionStats.map((q: { questionId: string; text: string; topic: string; marks: number; correctPercentage: number }, i: number) => (
               <div key={q.questionId}>
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-sm font-medium text-gray-900">Q{i + 1}. {q.topic}</span>
@@ -105,8 +105,8 @@ export default async function AssignmentReportPage({
                 </div>
                 <p className="text-sm text-gray-600 line-clamp-2">{q.text}</p>
                 <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3">
-                  <div 
-                    className={`h-1.5 rounded-full ${q.correctPercentage >= 70 ? 'bg-green-500' : q.correctPercentage >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`} 
+                  <div
+                    className={`h-1.5 rounded-full ${q.correctPercentage >= 70 ? 'bg-green-500' : q.correctPercentage >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
                     style={{ width: `${q.correctPercentage}%` }}
                   ></div>
                 </div>
