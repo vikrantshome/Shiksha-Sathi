@@ -31,6 +31,16 @@ export async function publishAssignmentAction(formData: FormData, questions: Que
 
   const result = await db.collection("assignments").insertOne(newAssignment);
   
+  // Track successful assignment publish
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("assignment_published", { 
+      assignmentId: result.insertedId.toString(), 
+      title, 
+      classId, 
+      questionCount: questions.length 
+    });
+  });
+
   return {
     success: true,
     assignmentId: result.insertedId.toString(),

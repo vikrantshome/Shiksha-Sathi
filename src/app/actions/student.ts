@@ -20,6 +20,11 @@ export async function getAssignmentByLinkId(linkId: string) {
     return rest;
   });
 
+  // Track student viewing the assignment
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("student_assignment_started", { assignmentId: assignment._id.toString(), linkId });
+  });
+
   return {
     id: assignment._id.toString(),
     title: assignment.title,
@@ -95,6 +100,15 @@ export async function submitAssignmentAction(
   };
 
   await db.collection("submissions").insertOne(submission);
+
+  // Track successful submission
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("student_assignment_submitted", { 
+      assignmentId, 
+      score, 
+      totalMarks: assignment.totalMarks 
+    });
+  });
 
   return {
     success: true,
