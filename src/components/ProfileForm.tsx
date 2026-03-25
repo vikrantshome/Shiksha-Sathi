@@ -3,7 +3,7 @@
 import { useTransition, useState } from "react";
 import { updateProfileAction } from "@/app/actions/profile";
 
-export default function ProfileForm({ initialData }: { initialData: any }) {
+export default function ProfileForm({ initialData }: { initialData: { name?: string; school?: string; board?: string } | null }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
 

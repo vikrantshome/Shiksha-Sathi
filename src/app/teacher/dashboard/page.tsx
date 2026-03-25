@@ -36,7 +36,7 @@ export default async function TeacherDashboard() {
       
       {assignments.length === 0 ? (
         <div className="text-center p-12 bg-white rounded-xl border border-gray-200 border-dashed">
-          <p className="text-gray-500 mb-4">You haven't created any assignments yet.</p>
+          <p className="text-gray-500 mb-4">You haven&apos;t created any assignments yet.</p>
           <Link href="/teacher/question-bank" className="text-blue-600 hover:text-blue-800 font-medium">
             Browse the Question Bank to get started &rarr;
           </Link>
