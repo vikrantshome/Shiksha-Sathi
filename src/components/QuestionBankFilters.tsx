@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useTransition } from "react";
-import { QuestionType } from "@/lib/questions";
 
 export default function QuestionBankFilters({ 
   subjects, 

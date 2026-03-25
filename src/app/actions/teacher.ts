@@ -91,3 +91,50 @@ export async function getAssignmentReport(assignmentId: string) {
     questionStats
   };
 }
+
+export async function getDistinctSubjects(): Promise<string[]> {
+  const db = await getDb();
+  return await db.collection("questions").distinct("subject");
+}
+
+export async function getDistinctChapters(subject: string | null): Promise<string[]> {
+  if (!subject) return [];
+  const db = await getDb();
+  return await db.collection("questions").distinct("chapter", { subject });
+}
+
+export async function getQuestions(filters: { 
+  subject: string | null; 
+  chapter: string | null; 
+  q: string | null; 
+  type: string | null; 
+}): Promise<Question[]> {
+  const db = await getDb();
+  
+  const query: Record<string, unknown> = {};
+  if (filters.subject) query.subject = filters.subject;
+  if (filters.chapter) query.chapter = filters.chapter;
+  if (filters.type && filters.type !== "ALL") query.type = filters.type;
+  
+  if (filters.q) {
+    query.$or = [
+      { text: { $regex: filters.q, $options: "i" } },
+      { topic: { $regex: filters.q, $options: "i" } }
+    ];
+  }
+  
+  const docs = await db.collection("questions").find(query).toArray();
+  
+  return docs.map(doc => ({
+    id: doc.id || doc._id.toString(),
+    subject: doc.subject,
+    grade: doc.grade,
+    chapter: doc.chapter,
+    topic: doc.topic,
+    type: doc.type,
+    text: doc.text,
+    options: doc.options,
+    correctAnswer: doc.correctAnswer,
+    marks: doc.marks
+  }));
+}
