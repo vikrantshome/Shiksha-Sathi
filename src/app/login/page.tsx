@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import Link from "next/link";
 import { loginAction } from "@/app/actions/auth";
 
@@ -52,7 +52,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center mt-6 text-gray-600">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/signup" className="text-blue-600 hover:underline font-medium">
             Sign up
           </Link>
@@ -61,3 +61,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

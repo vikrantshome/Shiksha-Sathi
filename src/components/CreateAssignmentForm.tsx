@@ -24,8 +24,11 @@ export default function CreateAssignmentForm({ classes }: { classes: ClassType[]
         const result = await publishAssignmentAction(formData, selectedQuestions);
         setPublishResult(result);
         clearSelection();
-      } catch (err: any) {
-        setPublishResult({ success: false, error: err.message });
+      } catch (err: unknown) {
+        setPublishResult({ 
+          success: false, 
+          error: err instanceof Error ? err.message : "An unexpected error occurred" 
+        });
       }
     });
   };
@@ -62,7 +65,7 @@ export default function CreateAssignmentForm({ classes }: { classes: ClassType[]
   if (selectedQuestions.length === 0) {
     return (
       <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-        <p className="text-gray-500 mb-4">You haven't selected any questions yet.</p>
+        <p className="text-gray-500 mb-4">You haven&apos;t selected any questions yet.</p>
         <Link href="/teacher/question-bank" className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
           Browse Question Bank
         </Link>

@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
-import { loginAction } from "@/app/actions/auth";
+import { signupAction } from "@/app/actions/auth";
 
 export default function SignupPage() {
   const [isPending, startTransition] = useTransition();
@@ -15,7 +15,7 @@ export default function SignupPage() {
           <p className="text-gray-500 mt-2">Join Shiksha Sathi for free</p>
         </div>
 
-        <form action={(formData) => startTransition(() => loginAction(formData))} className="space-y-6">
+        <form action={(formData) => startTransition(() => signupAction(formData))} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Full Name

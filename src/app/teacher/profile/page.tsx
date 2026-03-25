@@ -7,11 +7,11 @@ export default async function ProfilePage() {
   const session = cookieStore.get("session")?.value;
   
   const db = await getDb();
-  let profile = await db.collection("profiles").findOne({ session });
+  const profile = await db.collection("profiles").findOne({ session });
 
-  if (!profile) {
-    profile = { name: "", school: "", board: "", session };
-  }
+  const initialData = profile 
+    ? { name: profile.name, school: profile.school, board: profile.board }
+    : { name: "", school: "", board: "" };
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -21,7 +21,7 @@ export default async function ProfilePage() {
           <p className="text-gray-500">Manage your personal and school details.</p>
         </div>
       </div>
-      <ProfileForm initialData={{ name: profile.name, school: profile.school, board: profile.board }} />
+      <ProfileForm initialData={initialData} />
     </div>
   );
 }
