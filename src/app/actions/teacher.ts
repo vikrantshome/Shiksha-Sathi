@@ -80,6 +80,11 @@ export async function getAssignmentReport(assignmentId: string) {
     };
   });
 
+  // Track that a teacher inspected this report
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("teacher_result_viewed", { assignmentId, submissionCount: submissions.length });
+  });
+
   return {
     assignment: {
       id: assignment._id.toString(),
