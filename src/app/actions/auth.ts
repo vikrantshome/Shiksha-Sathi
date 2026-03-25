@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
 
 export async function loginAction(formData: FormData) {
   const email = formData.get("email") as string;

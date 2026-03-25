@@ -1,4 +1,5 @@
-import { questionBank, QuestionType } from "@/lib/questions";
+import { getDistinctSubjects, getDistinctChapters, getQuestions } from "@/app/actions/teacher";
+import { Question } from "@/lib/questions";
 import QuestionBankFilters from "@/components/QuestionBankFilters";
 import QuestionCard from "@/components/QuestionCard";
 
@@ -13,25 +14,14 @@ export default async function QuestionBankPage({
   const q = typeof resolvedParams.q === 'string' ? resolvedParams.q.toLowerCase() : null;
   const type = typeof resolvedParams.type === 'string' ? resolvedParams.type : "ALL";
 
-  // Simulate server-side DB fetching and filtering
-  const subjects = Array.from(new Set(questionBank.map(item => item.subject)));
-  const chapters = subject 
-    ? Array.from(new Set(questionBank.filter(item => item.subject === subject).map(item => item.chapter)))
-    : [];
+  // Server-side DB fetching and filtering
+  const subjects = await getDistinctSubjects();
+  const chapters = await getDistinctChapters(subject);
 
-  let displayedQuestions = chapter
-    ? questionBank.filter(item => item.subject === subject && item.chapter === chapter)
-    : [];
-
-  if (q) {
-    displayedQuestions = displayedQuestions.filter(item => 
-      item.text.toLowerCase().includes(q) || 
-      item.topic.toLowerCase().includes(q)
-    );
-  }
-
-  if (type && type !== "ALL") {
-    displayedQuestions = displayedQuestions.filter(item => item.type === type);
+  // Fetch only if chapter is selected, or if user is searching globally
+  let displayedQuestions: Question[] = [];
+  if (chapter || q) {
+    displayedQuestions = await getQuestions({ subject, chapter, q, type });
   }
 
   return (
