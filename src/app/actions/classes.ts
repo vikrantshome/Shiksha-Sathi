@@ -22,6 +22,11 @@ export async function createClassAction(formData: FormData) {
     createdAt: new Date().toISOString(),
   });
 
+  // Track successful class creation
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("class_created", { className: name, section, studentCount });
+  });
+
   revalidatePath("/teacher/classes");
 }
 

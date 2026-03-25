@@ -62,6 +62,11 @@ export async function signupAction(formData: FormData) {
     path: "/" 
   });
   
+  // Track successful signup
+  import("@/lib/analytics").then(({ trackEvent }) => {
+    trackEvent("teacher_signup", { email });
+  });
+
   redirect("/teacher/dashboard");
 }
 
