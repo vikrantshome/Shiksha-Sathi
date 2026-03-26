@@ -17,9 +17,9 @@ vi.mock('next/navigation', () => ({
 }));
 
 describe('Auth Actions', () => {
-  let mockDb: any;
-  let mockCollection: any;
-  let mockCookieStore: any;
+  let mockDb: { collection: ReturnType<typeof vi.fn> };
+  let mockCollection: { findOne: ReturnType<typeof vi.fn>; insertOne: ReturnType<typeof vi.fn> };
+  let mockCookieStore: { set: ReturnType<typeof vi.fn>; delete: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -37,7 +37,7 @@ describe('Auth Actions', () => {
       set: vi.fn(),
       delete: vi.fn(),
     };
-    vi.mocked(cookies).mockResolvedValue(mockCookieStore as any);
+    vi.mocked(cookies).mockResolvedValue(mockCookieStore as unknown as ReturnType<typeof cookies>);
   });
 
   describe('loginAction', () => {
