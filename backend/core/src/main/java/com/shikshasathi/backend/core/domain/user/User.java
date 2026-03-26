@@ -33,6 +33,9 @@ public class User extends BaseEntity {
     @Field("school_id")
     private String schoolId;
 
+    @Field("roll_number")
+    private String rollNumber;
+
     @Field("is_active")
     private boolean active = true;
 

@@ -39,7 +39,8 @@ export default function SignupPage() {
 
       router.push("/teacher");
     } catch (err: unknown) {
-      setError((err as any).message || "Something went wrong. Please try again.");
+      const error = err as { message?: string };
+      setError(error.message || "Something went wrong. Please try again.");
       setIsPending(false);
     }
   };

@@ -23,6 +23,12 @@ public class ClassEntity extends BaseEntity {
     @Field("name")
     private String name;
 
+    @Field("section")
+    private String section;
+
+    @Field("student_count")
+    private int studentCount;
+
     @Field("teacher_ids")
     private List<String> teacherIds;
 

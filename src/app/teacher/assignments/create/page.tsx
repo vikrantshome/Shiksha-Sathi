@@ -1,12 +1,12 @@
-import { getDb } from "@/lib/mongodb";
+import { api } from "@/lib/api";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
+import { ClassItem } from "@/lib/api/types";
 
 export default async function CreateAssignmentPage() {
-  const db = await getDb();
-  const classesData = await db.collection("classes").find({}).sort({ createdAt: -1 }).toArray();
+  const classesData = await api.classes.getClasses();
   
-  const classes = classesData.map(c => ({
-    id: c._id.toString(),
+  const classes = classesData.map((c: ClassItem) => ({
+    id: c.id,
     name: c.name,
     section: c.section
   }));

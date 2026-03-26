@@ -1,5 +1,7 @@
 package com.shikshasathi.backend.api.controller;
 
+import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
+import com.shikshasathi.backend.api.dto.AssignmentWithStats;
 import com.shikshasathi.backend.api.service.AssignmentService;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,16 @@ public class AssignmentController {
     @GetMapping("/teacher/{teacherId}")
     public ResponseEntity<List<Assignment>> getByTeacher(@PathVariable String teacherId) {
         return ResponseEntity.ok(assignmentService.getAssignmentsByTeacher(teacherId));
+    }
+
+    @GetMapping("/teacher/{teacherId}/stats")
+    public ResponseEntity<List<AssignmentWithStats>> getTeacherStats(@PathVariable String teacherId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsWithStatsForTeacher(teacherId));
+    }
+
+    @GetMapping("/{assignmentId}/report")
+    public ResponseEntity<AssignmentReportDTO> getReport(@PathVariable String assignmentId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentReport(assignmentId));
     }
 
     @PostMapping
