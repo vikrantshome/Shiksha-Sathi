@@ -2,17 +2,17 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const session = request.cookies.get('session');
+  const authToken = request.cookies.get('auth-token');
 
   // Protect /teacher routes
   if (request.nextUrl.pathname.startsWith('/teacher')) {
-    if (!session) {
+    if (!authToken) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 
   // Redirect authenticated users away from auth pages
-  if (session && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
+  if (authToken && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
     return NextResponse.redirect(new URL('/teacher/dashboard', request.url));
   }
 
