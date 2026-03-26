@@ -1,6 +1,6 @@
 "use server";
 
-import { getDb } from "./mongodb";
+import { fetchApi } from "./api/client";
 
 type EventName = 
   | "teacher_signup"
@@ -16,16 +16,15 @@ export async function trackEvent(
 ) {
   try {
     // Fire and forget, don't block the main thread/await
-    const db = await getDb();
-    
-    // Use an async IIFE to avoid blocking the main server action return
     (async () => {
       try {
-        await db.collection("analytics_events").insertOne({
-          event: eventName,
-          payload,
-          userAgent: "server", // We can enhance this if needed by passing headers
-          timestamp: new Date().toISOString(),
+        await fetchApi("/analytics/track", {
+          method: "POST",
+          body: JSON.stringify({
+            event: eventName,
+            payload,
+            userAgent: "server"
+          })
         });
       } catch (err) {
         console.error("Failed to track event:", eventName, err);

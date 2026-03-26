@@ -150,8 +150,8 @@ public class AssignmentService {
                     if (q == null) return null;
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
-                            .subject(q.getSubject())
-                            .grade(q.getGrade())
+                            .subject(q.getSubjectId())
+                            .grade(null)
                             .chapter(q.getChapter())
                             .topic(q.getTopic())
                             .type(q.getType())
