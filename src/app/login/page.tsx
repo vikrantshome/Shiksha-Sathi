@@ -1,11 +1,43 @@
-"use client";
-
-import { useTransition } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { loginAction } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { auth } from "@/lib/api/auth";
 
 export default function LoginPage() {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const response = await auth.login({ email, password });
+      
+      // Store token securely in cookies
+      setCookie("auth-token", response.token, {
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+        path: "/",
+      });
+
+      // Redirect based on role
+      if (response.role === "TEACHER") {
+        router.push("/teacher");
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (err: unknown) {
+      setError((err as any).message || "Invalid credentials");
+      setIsPending(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
@@ -15,7 +47,13 @@ export default function LoginPage() {
           <p className="text-gray-500 mt-2">Log in to Shiksha Sathi</p>
         </div>
 
-        <form action={(formData) => startTransition(() => loginAction(formData))} className="space-y-6">
+        {error && (
+          <div className="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email Address
