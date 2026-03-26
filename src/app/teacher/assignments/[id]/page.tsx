@@ -1,4 +1,4 @@
-import { getAssignmentReport } from "@/app/actions/teacher";
+import { api } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -8,16 +8,17 @@ export default async function AssignmentReportPage({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = await params;
-  const report = await getAssignmentReport(resolvedParams.id);
-
-  if (!report) {
+  let report;
+  try {
+    report = await api.assignments.getReport(resolvedParams.id);
+  } catch (error) {
     notFound();
   }
 
   const { assignment, submissions, questionStats } = report;
 
   const averageScore = submissions.length > 0
-    ? submissions.reduce((acc, sub) => acc + sub.score, 0) / submissions.length
+    ? submissions.reduce((acc: number, sub: any) => acc + sub.score, 0) / submissions.length
     : 0;
 
   return (
@@ -80,7 +81,7 @@ export default async function AssignmentReportPage({
                       {sub.studentRollNumber}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-blue-600">
-                      {sub.score} / {sub.totalMarks}
+                      {sub.score} / {assignment.totalMarks}
                     </td>
                   </tr>
                 ))}

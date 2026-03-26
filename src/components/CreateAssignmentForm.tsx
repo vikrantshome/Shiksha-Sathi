@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useAssignment } from "@/components/AssignmentContext";
-import { publishAssignmentAction } from "@/app/actions/assignments";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
 interface ClassType {
@@ -16,13 +16,26 @@ export default function CreateAssignmentForm({ classes }: { classes: ClassType[]
   const [isPending, startTransition] = useTransition();
   const [publishResult, setPublishResult] = useState<{ success: boolean; linkId?: string; error?: string } | null>(null);
 
-  const totalMarks = selectedQuestions.reduce((acc, q) => acc + q.marks, 0);
+  const totalMarks = selectedQuestions.reduce((acc, q) => acc + q.points, 0);
 
   const handlePublish = (formData: FormData) => {
     startTransition(async () => {
       try {
-        const result = await publishAssignmentAction(formData, selectedQuestions);
-        setPublishResult(result);
+        const title = formData.get("title") as string;
+        const classId = formData.get("classId") as string;
+        const dueDate = formData.get("dueDate") as string;
+
+        const result = await api.assignments.create({
+          title,
+          classId,
+          dueDate,
+          description: `Assignment for class ${classId}`,
+          questionIds: selectedQuestions.map(q => q.id),
+          maxScore: totalMarks,
+          status: 'PUBLISHED'
+        });
+
+        setPublishResult({ success: true, linkId: result.linkId || result.id });
         clearSelection();
       } catch (err: unknown) {
         setPublishResult({ 
@@ -92,7 +105,7 @@ export default function CreateAssignmentForm({ classes }: { classes: ClassType[]
             <p className="text-gray-900 font-medium">{q.text}</p>
             <div className="mt-3 flex gap-2 text-xs font-medium text-gray-500">
               <span className="bg-gray-100 px-2 py-1 rounded">{q.type.replace(/_/g, ' ')}</span>
-              <span className="bg-green-50 text-green-700 px-2 py-1 rounded">{q.marks} Marks</span>
+              <span className="bg-green-50 text-green-700 px-2 py-1 rounded">{q.points} Marks</span>
             </div>
           </div>
         ))}

@@ -20,13 +20,19 @@ public class Question extends BaseEntity {
     @Field("subject_id")
     private String subjectId;
 
+    @Field("chapter")
+    private String chapter;
+
+    @Field("topic")
+    private String topic;
+
     @Field("text")
     private String text;
 
     @Field("type") // MULTIPLE_CHOICE, SHORT_ANSWER, ESSAY
     private String type;
 
-    @Field("options") // Could be a map or structured object for Multiple Choice
+    @Field("options")
     private List<String> options;
 
     @Field("correct_answer")
