@@ -44,35 +44,48 @@ public class ClassService {
         return classRepository.save(entity);
     }
 
-    public void deleteClass(String classId) {
+    public void deleteClass(String classId, String email) {
+        // Enforce ownership
+        getClassById(classId, email);
         classRepository.deleteById(classId);
     }
 
-    public ClassEntity archiveClass(String classId) {
-        ClassEntity entity = classRepository.findById(classId)
-                .orElseThrow(() -> new RuntimeException("Class not found"));
+    public ClassEntity archiveClass(String classId, String email) {
+        ClassEntity entity = getClassById(classId, email);
         entity.setActive(false);
         return classRepository.save(entity);
     }
 
-    public ClassEntity getClassById(String id) {
-        return classRepository.findById(id)
+    public ClassEntity getClassById(String id, String email) {
+        User teacher = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+        ClassEntity classEntity = classRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found"));
+        
+        if (classEntity.getTeacherIds() == null || !classEntity.getTeacherIds().contains(teacher.getId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized: You do not have access to this class");
+        }
+        return classEntity;
     }
 
-    public List<User> getStudentsInClass(String classId) {
-        ClassEntity entity = getClassById(classId);
+    public List<User> getStudentsInClass(String classId, String email) {
+        ClassEntity entity = getClassById(classId, email);
         if (entity.getStudentIds() == null || entity.getStudentIds().isEmpty()) {
             return new ArrayList<>();
         }
         return userRepository.findAllById(entity.getStudentIds());
     }
 
-    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date) {
+    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date, String email) {
+        // Enforce ownership
+        getClassById(classId, email);
         return attendanceRepository.findByClassIdAndDate(classId, date);
     }
 
-    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status) {
+    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status, String email) {
+        // Enforce ownership
+        getClassById(classId, email);
+
         AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, date)
                 .orElse(new AttendanceRecord());
         
