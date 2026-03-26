@@ -2,13 +2,13 @@ package com.shikshasathi.backend.api.controller;
 
 import com.shikshasathi.backend.api.dto.auth.AuthRequest;
 import com.shikshasathi.backend.api.dto.auth.AuthResponse;
+import com.shikshasathi.backend.api.dto.auth.SignupRequest;
+import com.shikshasathi.backend.api.dto.auth.UserResponse;
 import com.shikshasathi.backend.api.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -20,5 +20,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<AuthResponse> signup(@RequestBody SignupRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(authService.getCurrentUser(username));
     }
 }
