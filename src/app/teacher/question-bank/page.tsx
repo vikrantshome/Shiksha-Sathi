@@ -3,6 +3,8 @@ import { Question } from "@/lib/api/types";
 import QuestionBankFilters from "@/components/QuestionBankFilters";
 import QuestionCard from "@/components/QuestionCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function QuestionBankPage({
   searchParams,
 }: {
