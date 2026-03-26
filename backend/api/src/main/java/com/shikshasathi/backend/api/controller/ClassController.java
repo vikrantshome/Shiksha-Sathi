@@ -24,6 +24,16 @@ public class ClassController {
     private final ClassService classService;
     private final UserRepository userRepository;
 
+    @GetMapping("/{classId}")
+    public ResponseEntity<ClassEntity> getClass(@PathVariable String classId) {
+        return ResponseEntity.ok(classService.getClassById(classId));
+    }
+
+    @GetMapping("/{classId}/students")
+    public ResponseEntity<List<User>> getStudents(@PathVariable String classId) {
+        return ResponseEntity.ok(classService.getStudentsInClass(classId));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<List<ClassEntity>> getMyClasses() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

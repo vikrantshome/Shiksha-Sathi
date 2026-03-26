@@ -1,9 +1,15 @@
 import { fetchApi } from './client';
-import { ClassItem, ClassRequest } from './types';
+import { ClassItem, ClassRequest, User, AttendanceRecord } from './types';
 
 export const classes = {
   getClasses: (): Promise<ClassItem[]> => 
     fetchApi<ClassItem[]>('/classes/me', { method: 'GET' }),
+
+  getClass: (classId: string): Promise<ClassItem> => 
+    fetchApi<ClassItem>(`/classes/${classId}`, { method: 'GET' }),
+
+  getStudents: (classId: string): Promise<User[]> => 
+    fetchApi<User[]>(`/classes/${classId}/students`, { method: 'GET' }),
 
   createClass: (data: ClassRequest): Promise<ClassItem> => 
     fetchApi<ClassItem>('/classes', {
@@ -16,4 +22,13 @@ export const classes = {
 
   deleteClass: (classId: string): Promise<void> => 
     fetchApi<void>(`/classes/${classId}`, { method: 'DELETE' }),
+
+  getAttendance: (classId: string, date: string): Promise<AttendanceRecord[]> => 
+    fetchApi<AttendanceRecord[]>(`/classes/${classId}/attendance?date=${date}`, { method: 'GET' }),
+
+  markAttendance: (classId: string, studentId: string, date: string, status: string): Promise<AttendanceRecord> => 
+    fetchApi<AttendanceRecord>(`/classes/${classId}/attendance`, {
+      method: 'POST',
+      body: JSON.stringify({ studentId, date, status }),
+    }),
 };
