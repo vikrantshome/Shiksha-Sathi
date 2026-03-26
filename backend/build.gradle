@@ -30,8 +30,8 @@ subprojects {
         runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
         runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
+        compileOnly 'org.projectlombok:lombok:1.18.36'
+        annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
         testImplementation platform('org.testcontainers:testcontainers-bom:1.19.7')
         testImplementation 'org.testcontainers:junit-jupiter'
