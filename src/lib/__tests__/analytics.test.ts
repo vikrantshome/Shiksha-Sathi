@@ -1,24 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { trackEvent } from '../analytics';
-import { getDb } from '../mongodb';
+import { fetchApi } from '../api/client';
 
-vi.mock('../mongodb', () => ({
-  getDb: vi.fn(),
+vi.mock('../api/client', () => ({
+  fetchApi: vi.fn(),
 }));
 
 describe('Analytics trackEvent', () => {
-  let mockDb: any;
-  let mockCollection: any;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockCollection = {
-      insertOne: vi.fn().mockResolvedValue({ insertedId: '123' }),
-    };
-    mockDb = {
-      collection: vi.fn().mockReturnValue(mockCollection),
-    };
-    vi.mocked(getDb).mockResolvedValue(mockDb);
+    vi.mocked(fetchApi).mockResolvedValue({ success: true });
   });
 
   it('tracks event successfully without blocking', async () => {
@@ -26,33 +18,19 @@ describe('Analytics trackEvent', () => {
     const result = await trackEvent('class_created', { classId: '456' });
     
     expect(result).toBe(true);
-    expect(getDb).toHaveBeenCalled();
     
     // Wait for the async IIFE to run
     await new Promise(process.nextTick);
     
-    expect(mockDb.collection).toHaveBeenCalledWith('analytics_events');
-    expect(mockCollection.insertOne).toHaveBeenCalledWith(expect.objectContaining({
-      event: 'class_created',
-      payload: { classId: '456' },
-      userAgent: 'server',
-      timestamp: expect.any(String)
+    expect(fetchApi).toHaveBeenCalledWith('/analytics/track', expect.objectContaining({
+      method: 'POST',
+      body: expect.stringContaining('"event":"class_created"')
     }));
   });
 
-  it('fails gracefully when getDb throws error', async () => {
-    vi.mocked(getDb).mockRejectedValue(new Error('DB connection failed'));
+  it('fails gracefully when fetchApi throws error', async () => {
+    vi.mocked(fetchApi).mockRejectedValue(new Error('Network error'));
     
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const result = await trackEvent('teacher_signup');
-    
-    expect(result).toBe(false);
-    expect(consoleSpy).toHaveBeenCalledWith('Analytics initialization error:', expect.any(Error));
-    consoleSpy.mockRestore();
-  });
-
-  it('handles insertion errors silently in background', async () => {
-    mockCollection.insertOne.mockRejectedValue(new Error('Insertion failed'));
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     
     // Main thread returns true
