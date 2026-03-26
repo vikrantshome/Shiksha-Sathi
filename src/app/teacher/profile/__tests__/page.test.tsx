@@ -1,15 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ProfilePage from '../page';
-import { getDb } from '@/lib/mongodb';
-import { cookies } from 'next/headers';
 
-vi.mock('@/lib/mongodb', () => ({
-  getDb: vi.fn(),
+vi.mock('@/lib/api', () => ({
+  api: {
+    teachers: {
+      getProfile: vi.fn(),
+    },
+  },
 }));
 
-vi.mock('next/headers', () => ({
-  cookies: vi.fn(),
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(() => { throw new Error('REDIRECT'); }),
 }));
 
 // Mock ProfileForm since it's a client component and tested separately
@@ -20,32 +22,16 @@ vi.mock('@/components/ProfileForm', () => ({
   }
 }));
 
-describe('ProfilePage', () => {
-  let mockDb: { collection: ReturnType<typeof vi.fn> };
-  let mockCollection: { findOne: ReturnType<typeof vi.fn> };
-  let mockCookieStore: { get: ReturnType<typeof vi.fn> };
+import { api } from '@/lib/api';
 
+describe('ProfilePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    mockCollection = {
-      findOne: vi.fn(),
-    };
-    mockDb = {
-      collection: vi.fn().mockReturnValue(mockCollection),
-    };
-    // @ts-expect-error test mock
-    vi.mocked(getDb).mockResolvedValue(mockDb);
-
-    mockCookieStore = {
-      get: vi.fn().mockReturnValue({ value: 'session-id' }),
-    };
-    // @ts-expect-error test mock
-    vi.mocked(cookies).mockResolvedValue(mockCookieStore);
+    vi.mocked(api.teachers.getProfile).mockResolvedValue(null as any);
   });
 
   it('renders ProfilePage with empty defaults if no profile found', async () => {
-    mockCollection.findOne.mockResolvedValue(null);
+    vi.mocked(api.teachers.getProfile).mockRejectedValue({ status: 500 });
 
     const Page = await ProfilePage();
     render(Page);
@@ -55,11 +41,11 @@ describe('ProfilePage', () => {
   });
 
   it('renders ProfilePage with fetched profile data', async () => {
-    mockCollection.findOne.mockResolvedValue({
+    vi.mocked(api.teachers.getProfile).mockResolvedValue({
       name: 'Alice',
       school: 'Wonderland',
       board: 'ICSE',
-    });
+    } as any);
 
     const Page = await ProfilePage();
     render(Page);

@@ -22,4 +22,18 @@ export const assignments = {
 
   publish: (assignmentId: string): Promise<Assignment> => 
     fetchApi<Assignment>(`/assignments/${assignmentId}/publish`, { method: 'POST' }),
+
+  getByLinkId: (linkId: string): Promise<any> =>
+    fetchApi<any>(`/assignments/link/${linkId}`, { method: 'GET' }),
+
+  submitAssignment: (assignmentId: string, studentName: string, studentRollNumber: string, answers: Record<string, string>): Promise<any> =>
+    fetchApi<any>('/submissions', {
+      method: 'POST',
+      body: JSON.stringify({
+        assignmentId,
+        studentId: studentRollNumber, // Mapping rollNumber to studentId for temporary MVP
+        answers,
+        submittedAt: new Date().toISOString()
+      }),
+    }),
 };

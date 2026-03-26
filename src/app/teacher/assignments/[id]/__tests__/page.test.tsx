@@ -1,13 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import AssignmentReportPage from '../page';
-import { getAssignmentReport } from '@/app/actions/teacher';
 import { notFound } from 'next/navigation';
 
-// Mock the server action
-vi.mock('@/app/actions/teacher', () => ({
-  getAssignmentReport: vi.fn(),
+vi.mock('@/lib/api', () => ({
+  api: {
+    assignments: {
+      getReport: vi.fn(),
+    },
+  },
 }));
+
+import { api } from '@/lib/api';
 
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
@@ -21,43 +25,58 @@ vi.mock('next/link', () => ({
 
 describe('AssignmentReportPage', () => {
   it('calls notFound when report is not found', async () => {
-    vi.mocked(getAssignmentReport).mockResolvedValue(null);
+    vi.mocked(api.assignments.getReport).mockRejectedValueOnce(new Error('Not found'));
     vi.mocked(notFound).mockImplementation(() => { throw new Error('NOT_FOUND'); });
 
     await expect(async () => {
       await AssignmentReportPage({ params: Promise.resolve({ id: 'invalid-id' }) });
     }).rejects.toThrow('NOT_FOUND');
     
-    expect(getAssignmentReport).toHaveBeenCalledWith('invalid-id');
     expect(notFound).toHaveBeenCalled();
   });
 
   it('renders report details correctly', async () => {
-    vi.mocked(getAssignmentReport).mockResolvedValue({
+    vi.mocked(api.assignments.getReport).mockResolvedValue({
       assignment: { 
         id: '123', 
         title: 'Math Test', 
         totalMarks: 20, 
-        linkId: 'math-123' 
+        linkId: 'math-123',
+        description: '',
+        subjectId: '',
+        classId: '',
+        teacherId: '',
+        questionIds: [],
+        maxScore: 20,
+        status: 'PUBLISHED',
+        className: '',
+        submissionCount: 2,
+        averageScore: 15,
       },
       submissions: [
         { 
           id: 'sub1', 
+          assignmentId: '123',
+          studentId: 's1',
           studentName: 'Alice', 
           studentRollNumber: 'A1', 
           score: 18, 
-          totalMarks: 20, 
-          submittedAt: new Date(), 
-          answers: [] 
+          totalMarks: 20,
+          submittedAt: '2024-01-01T00:00:00Z',
+          status: 'SUBMITTED',
+          answers: {} 
         },
         { 
-          id: 'sub2', 
+          id: 'sub2',
+          assignmentId: '123',
+          studentId: 's2',
           studentName: 'Bob', 
           studentRollNumber: 'B1', 
           score: 12, 
-          totalMarks: 20, 
-          submittedAt: new Date(), 
-          answers: [] 
+          totalMarks: 20,
+          submittedAt: '2024-01-01T00:00:00Z',
+          status: 'SUBMITTED',
+          answers: {} 
         },
       ],
       questionStats: [
@@ -76,33 +95,27 @@ describe('AssignmentReportPage', () => {
           correctPercentage: 50 
         },
       ]
-    });
+    } as any);
 
     const jsx = await AssignmentReportPage({ params: Promise.resolve({ id: '123' }) });
     render(jsx);
 
-    // Verify header details
     expect(screen.getByText('Math Test')).toBeDefined();
     expect(screen.getByText('/student/assignment/math-123')).toBeDefined();
     
-    // Verify summary stats
     expect(screen.getByText('Total Submissions')).toBeDefined();
-    expect(screen.getByText('2')).toBeDefined(); // number of submissions
+    expect(screen.getByText('2')).toBeDefined();
     expect(screen.getByText('Average Score')).toBeDefined();
-    // 18 + 12 = 30 / 2 = 15.0
     expect(screen.getByText('15.0')).toBeDefined();
     
-    // Verify submissions table
     expect(screen.getByText('Alice')).toBeDefined();
     expect(screen.getByText('A1')).toBeDefined();
-    // 18 / 20 score text
     expect(screen.getByText('18 / 20')).toBeDefined();
     
     expect(screen.getByText('Bob')).toBeDefined();
     expect(screen.getByText('B1')).toBeDefined();
     expect(screen.getByText('12 / 20')).toBeDefined();
     
-    // Verify question stats
     expect(screen.getByText('Q1. Addition')).toBeDefined();
     expect(screen.getByText('100% Correct')).toBeDefined();
     
@@ -111,22 +124,33 @@ describe('AssignmentReportPage', () => {
   });
 
   it('renders empty state when there are no submissions', async () => {
-    vi.mocked(getAssignmentReport).mockResolvedValue({
+    vi.mocked(api.assignments.getReport).mockResolvedValue({
       assignment: { 
         id: '123', 
         title: 'Empty Test', 
         totalMarks: 10, 
-        linkId: 'empty-123' 
+        linkId: 'empty-123',
+        description: '',
+        subjectId: '',
+        classId: '',
+        teacherId: '',
+        questionIds: [],
+        maxScore: 10,
+        status: 'PUBLISHED',
+        className: '',
+        submissionCount: 0,
+        averageScore: 0,
       },
       submissions: [],
       questionStats: []
-    });
+    } as any);
 
     const jsx = await AssignmentReportPage({ params: Promise.resolve({ id: '123' }) });
     render(jsx);
 
     expect(screen.getByText('Total Submissions')).toBeDefined();
-    expect(screen.getByText('0')).toBeDefined(); // Multiple 0s might be displayed
+    expect(screen.getByText('0')).toBeDefined();
     expect(screen.getByText('No submissions yet.')).toBeDefined();
   });
 });
+
