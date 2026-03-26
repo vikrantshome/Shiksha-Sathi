@@ -18,7 +18,8 @@ public class AssignmentSubmissionController {
 
     @GetMapping("/assignment/{assignmentId}")
     public ResponseEntity<List<SubmissionDTO>> getByAssignment(@PathVariable String assignmentId) {
-        return ResponseEntity.ok(submissionService.getSubmissionsForAssignment(assignmentId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(submissionService.getSubmissionsForAssignment(assignmentId, email));
     }
 
     @GetMapping("/student/{studentId}")
