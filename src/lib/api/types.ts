@@ -26,9 +26,23 @@ export interface ProfileRequest {
   board: string;
 }
 
-export interface ProfileResponse {
+export interface ProfileResponse extends ProfileRequest {
   userId: string;
+}
+
+export interface ClassItem {
+  id: string;
   name: string;
-  school: string;
-  board: string;
+  section: string;
+  studentCount: number;
+  active: boolean;
+  schoolId: string;
+  teacherIds: string[];
+  studentIds: string[];
+}
+
+export interface ClassRequest {
+  name: string;
+  section: string;
+  studentCount: number;
 }
