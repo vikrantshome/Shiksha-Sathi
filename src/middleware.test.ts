@@ -23,7 +23,7 @@ describe('Middleware', () => {
       url: `http://localhost${pathname}`,
       cookies: {
         get: vi.fn().mockImplementation((name) => {
-          if (name === 'session' && sessionCookie) {
+          if (name === 'auth-token' && sessionCookie) {
             return { value: sessionCookie };
           }
           return undefined;
