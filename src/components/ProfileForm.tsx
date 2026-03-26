@@ -1,3 +1,5 @@
+"use client";
+
 import { useTransition, useState } from "react";
 import { api } from "@/lib/api";
 

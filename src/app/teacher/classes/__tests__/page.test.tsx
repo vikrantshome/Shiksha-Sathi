@@ -1,40 +1,32 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ClassesPage from '../page';
-import { getDb } from '@/lib/mongodb';
 
-vi.mock('@/lib/mongodb', () => ({
-  getDb: vi.fn(),
+vi.mock('@/lib/api', () => ({
+  api: {
+    classes: {
+      getClasses: vi.fn(),
+      createClass: vi.fn(),
+      archiveClass: vi.fn(),
+      deleteClass: vi.fn(),
+    },
+  },
 }));
 
-// Mock the actions so their imports do not cause issues during render
-vi.mock('@/app/actions/classes', () => ({
-  createClassAction: vi.fn(),
-  deleteClassAction: vi.fn(),
-  archiveClassAction: vi.fn(),
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(() => { throw new Error('REDIRECT'); }),
 }));
+
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}));
+
+import { api } from '@/lib/api';
 
 describe('ClassesPage', () => {
-  let mockDb: { collection: ReturnType<typeof vi.fn> };
-  let mockCollection: { find: ReturnType<typeof vi.fn> };
-  let mockCursor: { sort: ReturnType<typeof vi.fn> };
-  let mockSortedCursor: { toArray: ReturnType<typeof vi.fn> };
-
   beforeEach(() => {
-    mockSortedCursor = {
-      toArray: vi.fn().mockResolvedValue([]),
-    };
-    mockCursor = {
-      sort: vi.fn().mockReturnValue(mockSortedCursor),
-    };
-    mockCollection = {
-      find: vi.fn().mockReturnValue(mockCursor),
-    };
-    mockDb = {
-      collection: vi.fn().mockReturnValue(mockCollection),
-    };
-    // @ts-expect-error test mock
-    vi.mocked(getDb).mockResolvedValue(mockDb);
+    vi.clearAllMocks();
+    vi.mocked(api.classes.getClasses).mockResolvedValue([] as any);
   });
 
   it('renders empty state when no classes exist', async () => {
@@ -46,15 +38,18 @@ describe('ClassesPage', () => {
   });
 
   it('renders list of classes', async () => {
-    mockSortedCursor.toArray.mockResolvedValue([
+    vi.mocked(api.classes.getClasses).mockResolvedValue([
       {
-        _id: { toString: () => 'class-1' },
+        id: 'class-1',
         name: 'React 101',
         section: 'A',
         studentCount: 20,
-        createdAt: '2023-01-01',
+        active: true,
+        schoolId: 'school-1',
+        teacherIds: [],
+        studentIds: [],
       }
-    ]);
+    ] as any);
 
     const Page = await ClassesPage();
     render(Page);
@@ -63,3 +58,6 @@ describe('ClassesPage', () => {
     expect(screen.getByText('Section A • 20 Students')).toBeInTheDocument();
   });
 });
+
+
+

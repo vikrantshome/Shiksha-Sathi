@@ -7,10 +7,15 @@ export default async function TeacherDashboard() {
   try {
     user = await api.auth.getMe();
   } catch (error) {
-    redirect("/auth/login");
+    redirect("/login");
   }
 
-  const assignments = await api.assignments.getStats(user.id);
+  let assignments: any[] = [];
+  try {
+    assignments = await api.assignments.getStats(user.id);
+  } catch (error) {
+    console.error("Failed to load assignments", error);
+  }
 
   return (
     <div>

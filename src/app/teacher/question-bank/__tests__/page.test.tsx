@@ -1,13 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import QuestionBankPage from '../page';
-import { getDistinctSubjects, getDistinctChapters, getQuestions } from '@/app/actions/teacher';
 
-vi.mock('@/app/actions/teacher', () => ({
-  getDistinctSubjects: vi.fn(),
-  getDistinctChapters: vi.fn(),
-  getQuestions: vi.fn(),
+vi.mock('@/lib/api', () => ({
+  api: {
+    questions: {
+      getSubjects: vi.fn(),
+      getChapters: vi.fn(),
+      search: vi.fn(),
+    },
+  },
 }));
+
+import { api } from '@/lib/api';
 
 // Mock components to simplify page testing
 vi.mock('@/components/QuestionBankFilters', () => ({
@@ -27,11 +32,11 @@ vi.mock('@/components/QuestionCard', () => ({
 describe('QuestionBankPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(getDistinctSubjects).mockResolvedValue(['Math', 'Science']);
-    vi.mocked(getDistinctChapters).mockResolvedValue(['Algebra', 'Biology']);
-    vi.mocked(getQuestions).mockResolvedValue([
-      { id: 'q1', text: 'Test Math Q', subject: 'Math', chapter: 'Algebra', grade: '10', topic: 'X', type: 'MCQ', correctAnswer: 'A', marks: 1 }
-    ]);
+    vi.mocked(api.questions.getSubjects).mockResolvedValue(['Math', 'Science'] as any);
+    vi.mocked(api.questions.getChapters).mockResolvedValue(['Algebra', 'Biology'] as any);
+    vi.mocked(api.questions.search).mockResolvedValue([
+      { id: 'q1', text: 'Test Math Q', subjectId: 'Math', chapter: 'Algebra', grade: '10', topic: 'X', type: 'MCQ', correctAnswer: 'A', points: 1 }
+    ] as any);
   });
 
   it('renders initial state without subject', async () => {
@@ -63,3 +68,5 @@ describe('QuestionBankPage', () => {
     expect(screen.getByTestId('mock-card')).toHaveTextContent('Test Math Q');
   });
 });
+
+

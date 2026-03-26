@@ -1,10 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import CreateAssignmentPage from '../page';
-import { getDb } from '@/lib/mongodb';
 
-vi.mock('@/lib/mongodb', () => ({
-  getDb: vi.fn(),
+vi.mock('@/lib/api', () => ({
+  api: {
+    classes: {
+      getClasses: vi.fn(),
+    },
+  },
 }));
 
 // Mock the child component to simplify
@@ -15,33 +18,19 @@ vi.mock('@/components/CreateAssignmentForm', () => ({
   }
 }));
 
-describe('CreateAssignmentPage', () => {
-  let mockDb: { collection: ReturnType<typeof vi.fn> };
-  let mockCollection: { find: ReturnType<typeof vi.fn> };
-  let mockCursor: { sort: ReturnType<typeof vi.fn> };
-  let mockSortedCursor: { toArray: ReturnType<typeof vi.fn> };
+import { api } from '@/lib/api';
 
+describe('CreateAssignmentPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSortedCursor = {
-      toArray: vi.fn().mockResolvedValue([
-        { _id: { toString: () => 'c1' }, name: 'Class 1', section: 'A' }
-      ]),
-    };
-    mockCursor = {
-      sort: vi.fn().mockReturnValue(mockSortedCursor),
-    };
-    mockCollection = {
-      find: vi.fn().mockReturnValue(mockCursor),
-    };
-    mockDb = {
-      collection: vi.fn().mockReturnValue(mockCollection),
-    };
-    // @ts-expect-error test mock
-    vi.mocked(getDb).mockResolvedValue(mockDb);
+    vi.mocked(api.classes.getClasses).mockResolvedValue([] as any);
   });
 
   it('renders page and passes classes to form', async () => {
+    vi.mocked(api.classes.getClasses).mockResolvedValue([
+      { id: 'c1', name: 'Class 1', section: 'A', active: true, studentCount: 30, schoolId: 's1', teacherIds: [], studentIds: [] }
+    ] as any);
+
     const Page = await CreateAssignmentPage();
     render(Page);
     
