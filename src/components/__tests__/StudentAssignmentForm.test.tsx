@@ -1,10 +1,14 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { expect, test, vi, beforeEach, describe } from "vitest";
 import StudentAssignmentForm from "../StudentAssignmentForm";
-import { submitAssignmentAction } from "@/app/actions/student";
+import { api } from "@/lib/api";
 
-vi.mock("@/app/actions/student", () => ({
-  submitAssignmentAction: vi.fn(),
+vi.mock("@/lib/api", () => ({
+  api: {
+    assignments: {
+      submitAssignment: vi.fn(),
+    }
+  }
 }));
 
 describe("StudentAssignmentForm", () => {
@@ -62,7 +66,7 @@ describe("StudentAssignmentForm", () => {
   });
 
   test("submits answers and shows results", async () => {
-    vi.mocked(submitAssignmentAction).mockResolvedValueOnce({
+    vi.mocked(api.assignments.submitAssignment).mockResolvedValueOnce({
       success: true,
       score: 10,
       totalMarks: 10,
@@ -70,7 +74,7 @@ describe("StudentAssignmentForm", () => {
         { questionId: "q1", questionText: "Q1 Text", studentAnswer: "A", isCorrect: true, marksAwarded: 5, correctAnswer: "A" },
         { questionId: "q2", questionText: "Q2 Text", studentAnswer: "Test", isCorrect: true, marksAwarded: 5, correctAnswer: "Test" },
       ],
-    });
+    } as any);
 
     render(<StudentAssignmentForm assignment={mockAssignment} />);
     
@@ -86,7 +90,7 @@ describe("StudentAssignmentForm", () => {
     // Submit
     fireEvent.click(screen.getByText("Submit Assignment"));
     
-    expect(submitAssignmentAction).toHaveBeenCalledWith("a1", { name: "Student", rollNumber: "Roll" }, { q1: "A", q2: "Test" });
+    expect(api.assignments.submitAssignment).toHaveBeenCalledWith("a1", "Student", "Roll", { q1: "A", q2: "Test" });
     
     await waitFor(() => {
       expect(screen.getByText("Assignment Submitted!")).toBeInTheDocument();
