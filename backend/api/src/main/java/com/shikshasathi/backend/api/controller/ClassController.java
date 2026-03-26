@@ -26,12 +26,14 @@ public class ClassController {
 
     @GetMapping("/{classId}")
     public ResponseEntity<ClassEntity> getClass(@PathVariable String classId) {
-        return ResponseEntity.ok(classService.getClassById(classId));
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getClassById(classId, email));
     }
 
     @GetMapping("/{classId}/students")
     public ResponseEntity<List<User>> getStudents(@PathVariable String classId) {
-        return ResponseEntity.ok(classService.getStudentsInClass(classId));
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getStudentsInClass(classId, email));
     }
 
     @GetMapping("/me")
@@ -50,12 +52,14 @@ public class ClassController {
 
     @PatchMapping("/{classId}/archive")
     public ResponseEntity<ClassEntity> archiveClass(@PathVariable String classId) {
-        return ResponseEntity.ok(classService.archiveClass(classId));
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.archiveClass(classId, email));
     }
 
     @DeleteMapping("/{classId}")
     public ResponseEntity<Void> deleteClass(@PathVariable String classId) {
-        classService.deleteClass(classId);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        classService.deleteClass(classId, email);
         return ResponseEntity.noContent().build();
     }
 
@@ -63,16 +67,18 @@ public class ClassController {
     public ResponseEntity<List<AttendanceRecord>> getAttendance(
             @PathVariable String classId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return ResponseEntity.ok(classService.getClassAttendance(classId, date));
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getClassAttendance(classId, date, email));
     }
 
     @PostMapping("/{classId}/attendance")
     public ResponseEntity<AttendanceRecord> markAttendance(
             @PathVariable String classId,
             @RequestBody Map<String, String> request) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         String studentId = request.get("studentId");
         LocalDate date = LocalDate.parse(request.get("date"));
         String status = request.get("status");
-        return ResponseEntity.ok(classService.markAttendance(classId, studentId, date, status));
+        return ResponseEntity.ok(classService.markAttendance(classId, studentId, date, status, email));
     }
 }
