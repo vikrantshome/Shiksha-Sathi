@@ -15,18 +15,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfig {
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        // Dummy implementation until User repository is migrated in Phase 2
+    public UserDetailsService userDetailsService(com.shikshasathi.backend.infrastructure.repository.user.UserRepository userRepository) {
         return username -> {
-            throw new UsernameNotFoundException("User not found: " + username);
+            com.shikshasathi.backend.core.domain.user.User user = userRepository.findByEmail(username)
+                    .or(() -> userRepository.findByPhone(username))
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+            
+            return org.springframework.security.core.userdetails.User.builder()
+                    .username(user.getEmail() != null ? user.getEmail() : user.getPhone())
+                    .password(user.getPasswordHash())
+                    .roles(user.getRole().name())
+                    .build();
         };
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 
