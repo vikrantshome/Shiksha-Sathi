@@ -1,4 +1,8 @@
+plugins {
+    id 'java-library'
+}
+
 dependencies {
     // Spring Data MongoDB — provides @Document, @Id, @Field, @CreatedDate, @LastModifiedDate etc.
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    api 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
