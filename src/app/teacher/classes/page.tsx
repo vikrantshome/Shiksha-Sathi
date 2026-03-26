@@ -1,6 +1,7 @@
 import { api } from "@/lib/api";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 import { ClassItem } from "@/lib/api/types";
 
@@ -119,6 +120,12 @@ export default async function ClassesPage() {
                   <p className="text-sm text-gray-500">Section {cls.section} • {cls.studentCount} Students</p>
                 </div>
                 <div className="flex gap-3">
+                  <Link 
+                    href={`/teacher/classes/${cls.id}/attendance`}
+                    className="text-blue-600 hover:text-blue-900 text-sm font-semibold px-4 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition-all"
+                  >
+                    Attendance
+                  </Link>
                   <form action={handleArchiveClass.bind(null, cls.id)}>
                     <button type="submit" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all">
                       Archive

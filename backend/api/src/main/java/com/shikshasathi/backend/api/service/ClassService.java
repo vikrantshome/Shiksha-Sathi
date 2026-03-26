@@ -55,6 +55,19 @@ public class ClassService {
         return classRepository.save(entity);
     }
 
+    public ClassEntity getClassById(String id) {
+        return classRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Class not found"));
+    }
+
+    public List<User> getStudentsInClass(String classId) {
+        ClassEntity entity = getClassById(classId);
+        if (entity.getStudentIds() == null || entity.getStudentIds().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return userRepository.findAllById(entity.getStudentIds());
+    }
+
     public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date) {
         return attendanceRepository.findByClassIdAndDate(classId, date);
     }

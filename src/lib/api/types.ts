@@ -4,8 +4,9 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  phone: string;
-  role: Role;
+  phone?: string;
+  role: Role | string;
+  schoolId?: string;
 }
 
 export interface AuthResponse {
@@ -45,4 +46,12 @@ export interface ClassRequest {
   name: string;
   section: string;
   studentCount: number;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  classId: string;
+  studentId: string;
+  date: string;
+  status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
 }
