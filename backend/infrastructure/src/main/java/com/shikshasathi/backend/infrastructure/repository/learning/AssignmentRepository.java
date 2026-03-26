@@ -10,4 +10,5 @@ import java.util.List;
 public interface AssignmentRepository extends MongoRepository<Assignment, String> {
     List<Assignment> findByClassId(String classId);
     List<Assignment> findByTeacherId(String teacherId);
+    java.util.Optional<Assignment> findFirstByIdStartingWith(String linkId);
 }
