@@ -10,6 +10,7 @@ import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.core.domain.learning.Question;
 import com.shikshasathi.backend.core.domain.school.ClassEntity;
+import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
@@ -33,9 +34,16 @@ public class AssignmentService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
 
-    public AssignmentReportDTO getAssignmentReport(String assignmentId) {
+    public AssignmentReportDTO getAssignmentReport(String assignmentId, String teacherEmail) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
+                
+        User teacher = userRepository.findByEmail(teacherEmail)
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized to view this assignment's report");
+        }
 
         List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
         List<SubmissionDTO> submissionDTOs = submissions.stream()
@@ -127,7 +135,12 @@ public class AssignmentService {
                 .build();
     }
 
-    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId) {
+    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
+        User teacher = userRepository.findByEmail(email).orElse(null);
+        if (teacher == null || !teacher.getId().equals(teacherId)) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized assignment fetch for mismatched teacher");
+        }
+        
         List<Assignment> assignments = assignmentRepository.findByTeacherId(teacherId);
         
         return assignments.stream().map(assignment -> {
@@ -136,7 +149,17 @@ public class AssignmentService {
         }).collect(Collectors.toList());
     }
 
-    public List<Assignment> getAssignmentsByClass(String classId) {
+    public List<Assignment> getAssignmentsByClass(String classId, String email) {
+        User teacher = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Teacher not found"));
+            
+        ClassEntity classEntity = classRepository.findById(classId)
+            .orElseThrow(() -> new RuntimeException("Class not found"));
+            
+        if (classEntity.getTeacherIds() == null || !classEntity.getTeacherIds().contains(teacher.getId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized to fetch assignments for this class");
+        }
+        
         return assignmentRepository.findByClassId(classId);
     }
 
@@ -173,24 +196,41 @@ public class AssignmentService {
                 .build();
     }
 
-    public List<Assignment> getAssignmentsByTeacher(String teacherId) {
+    public List<Assignment> getAssignmentsByTeacher(String teacherId, String email) {
+        User teacher = userRepository.findByEmail(email).orElse(null);
+        if (teacher == null || !teacher.getId().equals(teacherId)) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+        }
         return assignmentRepository.findByTeacherId(teacherId);
     }
 
-    public Assignment createAssignment(Assignment assignment) {
+    public Assignment createAssignment(Assignment assignment, String teacherEmail) {
+        User teacher = userRepository.findByEmail(teacherEmail)
+            .orElseThrow(() -> new RuntimeException("Teacher not found"));
+            
         if (assignment.getQuestionIds() == null || assignment.getQuestionIds().isEmpty()) {
             throw new IllegalArgumentException("Assignment must have at least one question.");
         }
         if (assignment.getMaxScore() == null || assignment.getMaxScore() <= 0) {
             throw new IllegalArgumentException("Assignment must have a valid max score.");
         }
+        
+        assignment.setTeacherId(teacher.getId());
         assignment.setStatus("DRAFT");
         return assignmentRepository.save(assignment);
     }
 
-    public Assignment publishAssignment(String assignmentId) {
+    public Assignment publishAssignment(String assignmentId, String teacherEmail) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
+                
+        User teacher = userRepository.findByEmail(teacherEmail)
+            .orElseThrow(() -> new RuntimeException("Teacher not found"));
+            
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized to publish this assignment");
+        }
+        
         assignment.setStatus("PUBLISHED");
         return assignmentRepository.save(assignment);
     }

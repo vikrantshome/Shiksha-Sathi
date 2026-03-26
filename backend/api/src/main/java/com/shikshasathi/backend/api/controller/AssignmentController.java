@@ -26,31 +26,37 @@ public class AssignmentController {
 
     @GetMapping("/class/{classId}")
     public ResponseEntity<List<Assignment>> getByClass(@PathVariable String classId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByClass(classId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getAssignmentsByClass(classId, email));
     }
 
     @GetMapping("/teacher/{teacherId}")
     public ResponseEntity<List<Assignment>> getByTeacher(@PathVariable String teacherId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByTeacher(teacherId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getAssignmentsByTeacher(teacherId, email));
     }
 
     @GetMapping("/teacher/{teacherId}/stats")
     public ResponseEntity<List<AssignmentWithStats>> getTeacherStats(@PathVariable String teacherId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsWithStatsForTeacher(teacherId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getAssignmentsWithStatsForTeacher(teacherId, email));
     }
 
     @GetMapping("/{assignmentId}/report")
     public ResponseEntity<AssignmentReportDTO> getReport(@PathVariable String assignmentId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentReport(assignmentId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getAssignmentReport(assignmentId, email));
     }
 
     @PostMapping
     public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
-        return ResponseEntity.ok(assignmentService.createAssignment(assignment));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.createAssignment(assignment, email));
     }
 
     @PostMapping("/{assignmentId}/publish")
     public ResponseEntity<Assignment> publishAssignment(@PathVariable String assignmentId) {
-        return ResponseEntity.ok(assignmentService.publishAssignment(assignmentId));
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.publishAssignment(assignmentId, email));
     }
 }
