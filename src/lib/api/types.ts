@@ -19,3 +19,16 @@ export interface ApiError {
   message: string;
   status?: number;
 }
+
+export interface ProfileRequest {
+  name: string;
+  school: string;
+  board: string;
+}
+
+export interface ProfileResponse {
+  userId: string;
+  name: string;
+  school: string;
+  board: string;
+}
