@@ -1,11 +1,13 @@
 import { auth } from './auth';
-import { teachers } from './teachers';
 import { classes } from './classes';
+import { assignments } from './assignments';
+import { questions } from './questions';
 
 export const api = {
   auth,
-  teachers,
   classes,
+  assignments,
+  questions,
 };
 
 export default api;

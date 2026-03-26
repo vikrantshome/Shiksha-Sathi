@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Question } from "@/lib/questions";
+import { Question } from "@/lib/api/types";
 import { useAssignment } from "./AssignmentContext";
 
 export default function QuestionCard({ question: q }: { question: Question }) {
@@ -54,7 +54,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Teacher Preview</h4>
           <div className="flex flex-col gap-2 text-sm">
             <div><span className="font-medium text-gray-700">Correct Answer:</span> <span className="text-green-700 font-medium">{q.correctAnswer}</span></div>
-            <div><span className="font-medium text-gray-700">Marks:</span> {q.marks}</div>
+            <div><span className="font-medium text-gray-700">Points:</span> {q.points}</div>
             <div><span className="font-medium text-gray-700">ID:</span> {q.id}</div>
           </div>
         </div>

@@ -55,3 +55,64 @@ export interface AttendanceRecord {
   date: string;
   status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
 }
+
+export interface Question {
+  id: string;
+  subjectId: string;
+  chapter: string;
+  topic: string;
+  text: string;
+  type: 'MCQ' | 'TRUE_FALSE' | 'FILL_IN_BLANKS' | 'MULTIPLE_CHOICE' | 'SHORT_ANSWER' | 'ESSAY';
+  options?: string[];
+  correctAnswer: string;
+  points: number;
+}
+
+export interface Assignment {
+  id: string;
+  title: string;
+  description: string;
+  subjectId: string;
+  classId: string;
+  teacherId: string;
+  questionIds: string[];
+  dueDate: string;
+  maxScore: number;
+  status: 'DRAFT' | 'PUBLISHED' | 'CLOSED';
+  linkId: string;
+  totalMarks: number;
+}
+
+export interface AssignmentWithStats extends Assignment {
+  className: string;
+  submissionCount: number;
+  averageScore: number;
+  linkId: string;
+  totalMarks: number;
+}
+
+export interface AssignmentSubmission {
+  id: string;
+  assignmentId: string;
+  studentId: string;
+  studentName: string;
+  studentRollNumber: string;
+  answers: Record<string, any>;
+  score: number;
+  submittedAt: string;
+  status: 'SUBMITTED' | 'GRADED';
+}
+
+export interface QuestionPerformance {
+  questionId: string;
+  text: string;
+  topic: string;
+  marks: number;
+  correctPercentage: number;
+}
+
+export interface AssignmentReport {
+  assignment: AssignmentWithStats;
+  submissions: AssignmentSubmission[];
+  questionStats: QuestionPerformance[];
+}

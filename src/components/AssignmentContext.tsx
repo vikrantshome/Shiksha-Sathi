@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Question } from "@/lib/questions";
+import { Question } from "@/lib/api/types";
 
 interface AssignmentContextType {
   selectedQuestions: Question[];
