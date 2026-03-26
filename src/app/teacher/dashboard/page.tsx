@@ -1,8 +1,16 @@
-import { getAssignmentsWithStats } from "@/app/actions/teacher";
+import { api } from "@/lib/api";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function TeacherDashboard() {
-  const assignments = await getAssignmentsWithStats();
+  let user;
+  try {
+    user = await api.auth.getMe();
+  } catch (error) {
+    redirect("/auth/login");
+  }
+
+  const assignments = await api.assignments.getStats(user.id);
 
   return (
     <div>
@@ -27,7 +35,7 @@ export default async function TeacherDashboard() {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Total Submissions</h3>
           <p className="text-3xl font-bold text-gray-900">
-            {assignments.reduce((acc, a) => acc + a.stats.completionCount, 0)}
+            {assignments.reduce((acc: number, a: any) => acc + a.submissionCount, 0)}
           </p>
         </div>
       </div>
@@ -66,10 +74,10 @@ export default async function TeacherDashboard() {
                     {assignment.className}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {assignment.stats.completionCount}
+                    {assignment.submissionCount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {assignment.stats.averageScore} / {assignment.totalMarks}
+                    {assignment.averageScore} / {assignment.maxScore}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link href={`/teacher/assignments/${assignment.id}`} className="text-blue-600 hover:text-blue-900">

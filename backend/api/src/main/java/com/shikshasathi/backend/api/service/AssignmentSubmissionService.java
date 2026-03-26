@@ -1,25 +1,51 @@
 package com.shikshasathi.backend.api.service;
 
+import com.shikshasathi.backend.api.dto.SubmissionDTO;
+
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
+import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AssignmentSubmissionService {
 
     private final AssignmentSubmissionRepository submissionRepository;
+    private final UserRepository userRepository;
 
-    public List<AssignmentSubmission> getSubmissionsForAssignment(String assignmentId) {
-        return submissionRepository.findByAssignmentId(assignmentId);
+    public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId) {
+        return submissionRepository.findByAssignmentId(assignmentId).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<AssignmentSubmission> getSubmissionsForStudent(String studentId) {
-        return submissionRepository.findByStudentId(studentId);
+    public List<SubmissionDTO> getSubmissionsForStudent(String studentId) {
+        return submissionRepository.findByStudentId(studentId).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private SubmissionDTO mapToDTO(AssignmentSubmission submission) {
+        String studentName = userRepository.findById(submission.getStudentId())
+                .map(u -> u.getName())
+                .orElse("Unknown Student");
+
+        return SubmissionDTO.builder()
+                .id(submission.getId())
+                .assignmentId(submission.getAssignmentId())
+                .studentId(submission.getStudentId())
+                .studentName(studentName)
+                .answers(submission.getAnswers())
+                .score(submission.getScore())
+                .submittedAt(submission.getSubmittedAt())
+                .status(submission.getStatus())
+                .build();
     }
 
     // Includes Duplicate Submission Prevention Logic (SSA-127)

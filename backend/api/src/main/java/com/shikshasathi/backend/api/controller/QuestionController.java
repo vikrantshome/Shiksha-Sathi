@@ -15,9 +15,23 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping("/subject/{subjectId}")
-    public ResponseEntity<List<Question>> getQuestions(@PathVariable String subjectId) {
-        return ResponseEntity.ok(questionService.getQuestionsForSubject(subjectId));
+    @GetMapping("/subjects")
+    public ResponseEntity<List<String>> getSubjects() {
+        return ResponseEntity.ok(questionService.getDistinctSubjects());
+    }
+
+    @GetMapping("/chapters")
+    public ResponseEntity<List<String>> getChapters(@RequestParam(required = false) String subjectId) {
+        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Question>> searchQuestions(
+            @RequestParam(required = false) String subjectId,
+            @RequestParam(required = false) String chapter,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false, defaultValue = "ALL") String type) {
+        return ResponseEntity.ok(questionService.searchQuestions(subjectId, chapter, q, type));
     }
 
     @PostMapping

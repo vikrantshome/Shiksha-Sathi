@@ -1,5 +1,6 @@
 package com.shikshasathi.backend.api.controller;
 
+import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.api.service.AssignmentSubmissionService;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,12 @@ public class AssignmentSubmissionController {
     private final AssignmentSubmissionService submissionService;
 
     @GetMapping("/assignment/{assignmentId}")
-    public ResponseEntity<List<AssignmentSubmission>> getByAssignment(@PathVariable String assignmentId) {
+    public ResponseEntity<List<SubmissionDTO>> getByAssignment(@PathVariable String assignmentId) {
         return ResponseEntity.ok(submissionService.getSubmissionsForAssignment(assignmentId));
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<AssignmentSubmission>> getByStudent(@PathVariable String studentId) {
+    public ResponseEntity<List<SubmissionDTO>> getByStudent(@PathVariable String studentId) {
         return ResponseEntity.ok(submissionService.getSubmissionsForStudent(studentId));
     }
 
