@@ -3,6 +3,8 @@ package com.shikshasathi.backend.api.service;
 import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
 import com.shikshasathi.backend.api.dto.AssignmentWithStats;
 import com.shikshasathi.backend.api.dto.QuestionPerformance;
+import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
+import com.shikshasathi.backend.api.dto.StudentQuestionDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
@@ -136,6 +138,39 @@ public class AssignmentService {
 
     public List<Assignment> getAssignmentsByClass(String classId) {
         return assignmentRepository.findByClassId(classId);
+    }
+
+    public StudentAssignmentDTO getAssignmentByLinkId(String linkId) {
+        Assignment assignment = assignmentRepository.findFirstByIdStartingWith(linkId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+        
+        List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
+                .map(qId -> {
+                    Question q = questionRepository.findById(qId).orElse(null);
+                    if (q == null) return null;
+                    return StudentQuestionDTO.builder()
+                            .id(q.getId())
+                            .subject(q.getSubject())
+                            .grade(q.getGrade())
+                            .chapter(q.getChapter())
+                            .topic(q.getTopic())
+                            .type(q.getType())
+                            .text(q.getText())
+                            .options(q.getOptions())
+                            .marks(q.getPoints())
+                            .build();
+                })
+                .filter(q -> q != null)
+                .collect(Collectors.toList());
+
+        return StudentAssignmentDTO.builder()
+                .id(assignment.getId())
+                .title(assignment.getTitle())
+                .classId(assignment.getClassId())
+                .dueDate(assignment.getDueDate())
+                .totalMarks(assignment.getMaxScore())
+                .questions(questions)
+                .build();
     }
 
     public List<Assignment> getAssignmentsByTeacher(String teacherId) {

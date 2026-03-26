@@ -10,12 +10,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
+
 @RestController
 @RequestMapping("/api/v1/assignments")
 @RequiredArgsConstructor
 public class AssignmentController {
 
     private final AssignmentService assignmentService;
+
+    @GetMapping("/link/{linkId}")
+    public ResponseEntity<StudentAssignmentDTO> getByLinkId(@PathVariable String linkId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentByLinkId(linkId));
+    }
 
     @GetMapping("/class/{classId}")
     public ResponseEntity<List<Assignment>> getByClass(@PathVariable String classId) {
