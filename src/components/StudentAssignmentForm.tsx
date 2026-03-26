@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { submitAssignmentAction } from "@/app/actions/student";
 import { Question, GradedAnswer } from "@/lib/questions";
+import { api } from "@/lib/api";
 
 interface StudentAssignmentFormProps {
   assignment: {
@@ -51,7 +51,7 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
     setError(null);
     startTransition(async () => {
       try {
-        const res = await submitAssignmentAction(assignment.id, identity, answers);
+        const res = await api.assignments.submitAssignment(assignment.id, identity.name, identity.rollNumber, answers);
         setResult(res);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Failed to submit assignment");

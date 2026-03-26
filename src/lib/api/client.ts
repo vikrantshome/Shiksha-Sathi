@@ -1,5 +1,4 @@
 import { getCookie } from 'cookies-next';
-import { cookies } from 'next/headers';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
@@ -9,12 +8,17 @@ export async function fetchApi<T>(
 ): Promise<T> {
   let token: string | undefined;
   
-  try {
-    // Try to get from next/headers on the server
-    const serverCookies = await cookies();
-    token = serverCookies.get('auth-token')?.value;
-  } catch {
-    // Fallback to cookies-next on the client
+  if (typeof window === 'undefined') {
+    // Server-side
+    try {
+      const { cookies } = await import('next/headers');
+      const cookieStore = await cookies();
+      token = cookieStore.get('auth-token')?.value;
+    } catch (e) {
+      // Ignore if headers not available
+    }
+  } else {
+    // Client-side
     token = getCookie('auth-token') as string | undefined;
   }
   
