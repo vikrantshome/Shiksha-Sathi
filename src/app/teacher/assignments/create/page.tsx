@@ -2,6 +2,8 @@ import { api } from "@/lib/api";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
 import { ClassItem } from "@/lib/api/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function CreateAssignmentPage() {
   const classesData = await api.classes.getClasses();
   

@@ -3,6 +3,8 @@ import ProfileForm from "@/components/ProfileForm";
 import { redirect } from "next/navigation";
 import { ProfileResponse } from "@/lib/api/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfilePage() {
   let profile: ProfileResponse | null = null;
   let errorState = false;

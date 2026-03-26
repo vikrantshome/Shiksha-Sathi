@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import StudentAssignmentForm from "@/components/StudentAssignmentForm";
 import { api } from "@/lib/api";
 
+export const dynamic = "force-dynamic";
+
 interface StudentAssignmentPageProps {
   params: Promise<{
     linkId: string;
