@@ -3,6 +3,8 @@ package com.shikshasathi.backend.api.service;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
+import com.shikshasathi.backend.core.domain.learning.Assignment;
+import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,19 @@ public class AssignmentSubmissionService {
 
     private final AssignmentSubmissionRepository submissionRepository;
     private final UserRepository userRepository;
+    private final AssignmentRepository assignmentRepository;
 
-    public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId) {
+    public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
+        com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
+            .orElseThrow(() -> new RuntimeException("Teacher not found"));
+            
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+            .orElseThrow(() -> new RuntimeException("Assignment not found"));
+            
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized to view submissions for this assignment");
+        }
+    
         return submissionRepository.findByAssignmentId(assignmentId).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
