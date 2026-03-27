@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 10,
+    "chapterTitle": "Straight Lines",
+    "sourceFile": "kemh110.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 211,
+      "text": "The slope of a line parallel to x-axis is:",
+      "type": "MCQ",
+      "options": ["0", "1", "Infinity", "-1"],
+      "correctAnswer": "0",
+      "explanation": "A line parallel to x-axis has slope 0 because there is no change in y-coordinate."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 211,
+      "text": "Two lines are perpendicular if the product of their slopes is -1.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "If m1 and m2 are slopes of two perpendicular lines, then m1 × m2 = -1"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 212,
+      "text": "The equation of line with slope m and y-intercept c is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "y = mx + c",
+      "explanation": "Slope-intercept form of line: y = mx + c, where m is slope and c is y-intercept."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 212,
+      "text": "Find the distance between points (1, 2) and (4, 6).",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "5 units",
+      "explanation": "Distance = √[(4-1)² + (6-2)²] = √[9 + 16] = √25 = 5 units"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "12",
+    "subject": "Mathematics",
+    "book": "Mathematics Part I",
+    "chapterNumber": 8,
+    "chapterTitle": "Application of Integrals",
+    "sourceFile": "lemh108.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 365,
+      "text": "The area under the curve y = f(x) from x = a to x = b is given by:",
+      "type": "MCQ",
+      "options": ["∫f(x)dx", "∫[a to b] f(x)dx", "f(b) - f(a)", "d/dx f(x)"],
+      "correctAnswer": "∫[a to b] f(x)dx",
+      "explanation": "The area bounded by the curve y = f(x), x-axis, and lines x = a, x = b is given by definite integral ∫[a to b] f(x)dx"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 365,
+      "text": "The area of the region bounded by y = x², x = 0, x = 2 is 8/3 square units.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Area = ∫[0 to 2] x² dx = [x³/3][0 to 2] = 8/3 - 0 = 8/3 sq units"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 366,
+      "text": "The area enclosed by a circle x² + y² = a² is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "πa²",
+      "explanation": "Area of circle with radius a is πa². This can be found using integration: 4 × ∫[0 to a] √(a²-x²)dx"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 366,
+      "text": "How do you find the area between two curves?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Area between curves y = f(x) and y = g(x) from x = a to x = b is ∫[a to b] |f(x) - g(x)| dx",
+      "explanation": "The area between two curves is the integral of the absolute difference of the functions over the given interval."
+    }
+  ]
+}
