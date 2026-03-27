@@ -2,6 +2,7 @@ package com.shikshasathi.backend.api.service;
 
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 
+import com.shikshasathi.backend.api.events.NotificationEvent;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
@@ -21,6 +22,7 @@ public class AssignmentSubmissionService {
     private final AssignmentSubmissionRepository submissionRepository;
     private final UserRepository userRepository;
     private final AssignmentRepository assignmentRepository;
+    private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
     public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
@@ -69,6 +71,8 @@ public class AssignmentSubmissionService {
         
         submission.setSubmittedAt(Instant.now());
         submission.setStatus("SUBMITTED");
-        return submissionRepository.save(submission);
+        AssignmentSubmission saved = submissionRepository.save(submission);
+        eventPublisher.publishEvent(new NotificationEvent(this, submission.getStudentId(), "Assignment submitted successfully!"));
+        return saved;
     }
 }
