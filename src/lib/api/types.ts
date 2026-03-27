@@ -56,6 +56,19 @@ export interface AttendanceRecord {
   status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
 }
 
+export interface Provenance {
+  extractionRunId?: string;
+  board: string;
+  classLevel: string;
+  subject: string;
+  book: string;
+  chapterNumber: number;
+  chapterTitle: string;
+  sourceFile: string;
+  pageNumbers?: string;
+  section?: string;
+}
+
 export interface Question {
   id: string;
   subjectId: string;
@@ -66,6 +79,11 @@ export interface Question {
   options?: string[];
   correctAnswer: string;
   points: number;
+  explanation?: string;
+  sourceKind?: 'CANONICAL' | 'DERIVED';
+  reviewStatus?: 'DRAFT' | 'APPROVED' | 'REJECTED';
+  provenance?: Provenance;
+  language?: string;
 }
 
 export interface Assignment {

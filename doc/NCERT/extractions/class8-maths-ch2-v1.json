@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 2,
+    "chapterTitle": "Linear Equations in One Variable",
+    "sourceFile": "hegp102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 48,
+      "text": "The solution of the equation 2x + 3 = 7 is:",
+      "type": "MCQ",
+      "options": ["1", "2", "3", "4"],
+      "correctAnswer": "2",
+      "explanation": "2x + 3 = 7 → 2x = 7 - 3 → 2x = 4 → x = 2"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 49,
+      "text": "A linear equation in one variable has only one solution.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "A linear equation in one variable (ax + b = 0, where a ≠ 0) always has exactly one solution: x = -b/a"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 42,
+      "text": "Solve: 3y - 5 = 10",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "y = 5",
+      "explanation": "3y - 5 = 10 → 3y = 10 + 5 → 3y = 15 → y = 15/3 → y = 5"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 50,
+      "text": "The process of moving a term from one side of an equation to the other is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "transposition",
+      "explanation": "Transposition is the method of moving a term from one side of an equation to the other side by changing its sign."
+    }
+  ]
+}

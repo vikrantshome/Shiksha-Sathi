@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 1,
+    "chapterTitle": "Matter in Our Surroundings",
+    "sourceFile": "iesc101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 12,
+      "text": "Which of the following are matter?",
+      "type": "MCQ",
+      "options": ["Chair", "Air", "Love", "Thought", "Almonds"],
+      "correctAnswer": "Chair, Air, Almonds",
+      "explanation": "Matter is anything that occupies space and has mass. Chair and almonds are solids, air is a gas. Love and thought are emotions/thoughts, not matter."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 12,
+      "text": "The smell of hot sizzling food reaches you several metres away, but to get the smell from cold food you have to go close because:",
+      "type": "MCQ",
+      "options": ["Hot food releases more particles", "Particles move faster at higher temperature", "Cold food has no smell", "None of these"],
+      "correctAnswer": "Particles move faster at higher temperature",
+      "explanation": "At higher temperatures, particles have more kinetic energy and diffuse faster. This is why the smell of hot food travels farther."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 13,
+      "text": "Particles of matter are continuously moving.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Particles of matter are always in motion. This is evidenced by diffusion and Brownian motion. The speed of motion increases with temperature."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 13,
+      "text": "The process of a liquid changing into vapour at any temperature below its boiling point is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "evaporation",
+      "explanation": "Evaporation is the process where a liquid changes to vapour at any temperature below its boiling point. It causes cooling."
+    }
+  ]
+}

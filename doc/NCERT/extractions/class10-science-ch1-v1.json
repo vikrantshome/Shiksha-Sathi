@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 1,
+    "chapterTitle": "Chemical Reactions and Equations",
+    "sourceFile": "jesc101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 14,
+      "text": "What happens when dilute hydrochloric acid is added to iron filings?",
+      "type": "MCQ",
+      "options": ["Hydrogen gas and iron chloride are produced", "Chlorine gas and iron hydroxide are produced", "No reaction takes place", "Iron salt and water are produced"],
+      "correctAnswer": "Hydrogen gas and iron chloride are produced",
+      "explanation": "Fe + 2HCl → FeCl2 + H2. Iron reacts with dilute HCl to produce iron(II) chloride and hydrogen gas. This is a displacement reaction."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 14,
+      "text": "What does one mean by exothermic and endothermic reactions?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Exothermic reactions release heat; endothermic reactions absorb heat.",
+      "explanation": "Exothermic reactions release energy (heat) to surroundings (e.g., combustion). Endothermic reactions absorb energy from surroundings (e.g., photosynthesis)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "Respiration is an exothermic reaction.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Cellular respiration (C6H12O6 + 6O2 → 6CO2 + 6H2O + energy) releases energy, making it an exothermic reaction. This energy is used by our body."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "When carbon dioxide is passed through lime water, it turns milky due to formation of ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "calcium carbonate",
+      "explanation": "CO2 + Ca(OH)2 → CaCO3 + H2O. Calcium carbonate is insoluble and forms a white precipitate, making the lime water turn milky."
+    }
+  ]
+}

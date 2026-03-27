@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Social Science",
+    "book": "Social and Political Life",
+    "chapterNumber": 1,
+    "chapterTitle": "Understanding Diversity",
+    "sourceFile": "fees101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 18,
+      "text": "India is known for its:",
+      "type": "MCQ",
+      "options": ["Unity only", "Diversity only", "Unity in Diversity", "None of these"],
+      "correctAnswer": "Unity in Diversity",
+      "explanation": "India is famous for its 'Unity in Diversity' - despite differences in language, religion, and culture, Indians live together in harmony."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 19,
+      "text": "All Indians speak the same language.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "India has hundreds of languages. Hindi and English are official languages, but there are 22 scheduled languages and many more dialects."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 12,
+      "text": "Name any two festivals celebrated in India.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Diwali and Eid (or any two Indian festivals)",
+      "explanation": "India celebrates numerous festivals including Diwali, Eid, Christmas, Holi, Eid-ul-Fitr, Pongal, Baisakhi, etc., reflecting its religious diversity."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 20,
+      "text": "________ means accepting and respecting differences among people.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Tolerance",
+      "explanation": "Tolerance means accepting and respecting the differences in opinions, beliefs, and practices of others, even when they differ from our own."
+    }
+  ]
+}

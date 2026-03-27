@@ -11,23 +11,33 @@ export default async function QuestionBankPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const resolvedParams = await searchParams;
+  const board = typeof resolvedParams.board === 'string' ? resolvedParams.board : null;
+  const classLevel = typeof resolvedParams.class === 'string' ? resolvedParams.class : null;
   const subjectId = typeof resolvedParams.subject === 'string' ? resolvedParams.subject : null;
+  const book = typeof resolvedParams.book === 'string' ? resolvedParams.book : null;
   const chapter = typeof resolvedParams.chapter === 'string' ? resolvedParams.chapter : null;
   const q = typeof resolvedParams.q === 'string' ? resolvedParams.q.toLowerCase() : null;
   const type = typeof resolvedParams.type === 'string' ? resolvedParams.type : "ALL";
 
   // Server-side DB fetching and filtering via Spring Boot API
-  const subjects = await api.questions.getSubjects();
-  const chapters = await api.questions.getChapters(subjectId || undefined);
+  const boards = await api.questions.getBoards();
+  const classes = await api.questions.getClasses(board || undefined);
+  const subjects = await api.questions.getSubjects(); // Existing method
+  const books = await api.questions.getBooks({ board: board || undefined, classLevel: classLevel || undefined, subject: subjectId || undefined });
+  const chapters = await api.questions.getChapters(subjectId || undefined, book || undefined);
 
   // Fetch only if chapter is selected, or if user is searching globally
   let displayedQuestions: Question[] = [];
   if (chapter || q) {
-    displayedQuestions = await api.questions.search({ 
-      subjectId, 
-      chapter, 
-      q, 
-      type 
+    displayedQuestions = await api.questions.search({
+      board,
+      classLevel,
+      subjectId,
+      book,
+      chapter,
+      q,
+      type,
+      approvedOnly: true // Only show approved NCERT content to teachers
     });
   }
 
@@ -36,12 +46,18 @@ export default async function QuestionBankPage({
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Question Bank</h1>
-          <p className="text-gray-500">Browse, search, and preview questions for your assignments.</p>
+          <p className="text-gray-500">Browse NCERT and local questions for your assignments.</p>
         </div>
       </div>
       
       {/* Layout Grid containing Filters and Content */}
-      <QuestionBankFilters subjects={subjects} chapters={chapters} />
+      <QuestionBankFilters 
+        subjects={subjects} 
+        chapters={chapters} 
+        boards={boards}
+        classes={classes}
+        books={books}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
         {/* Empty col-span-1 to offset the sidebar from Filters */}
@@ -49,17 +65,27 @@ export default async function QuestionBankPage({
 
         {/* Content Area */}
         <div className="md:col-span-3">
-          {!subjectId ? (
+          {!board && !q ? (
             <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-              <p className="text-gray-500">Select a subject from the left to start browsing.</p>
+              <p className="text-gray-500">Select a board from the left to start browsing.</p>
             </div>
-          ) : !chapter ? (
+          ) : !classLevel && !q ? (
+            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
+              <p className="text-gray-500">Select a class to continue.</p>
+            </div>
+          ) : !subjectId && !q ? (
+            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
+              <p className="text-gray-500">Select a subject to view chapters.</p>
+            </div>
+          ) : !chapter && !q ? (
             <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
               <p className="text-gray-500">Select a chapter to view questions.</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">{chapter} Questions ({displayedQuestions.length})</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                {chapter || "Search"} Results ({displayedQuestions.length})
+              </h2>
               
               {displayedQuestions.length === 0 ? (
                 <div className="text-center p-8 bg-white rounded-xl border border-gray-200 border-dashed">

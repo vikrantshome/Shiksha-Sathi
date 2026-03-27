@@ -20,18 +20,42 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getDistinctSubjects());
     }
 
+    @GetMapping("/boards")
+    public ResponseEntity<List<String>> getBoards() {
+        return ResponseEntity.ok(questionService.getDistinctBoards());
+    }
+
+    @GetMapping("/classes")
+    public ResponseEntity<List<String>> getClasses(@RequestParam(required = false) String board) {
+        return ResponseEntity.ok(questionService.getDistinctClasses(board));
+    }
+
+    @GetMapping("/books")
+    public ResponseEntity<List<String>> getBooks(
+            @RequestParam(required = false) String board,
+            @RequestParam(required = false) String classLevel,
+            @RequestParam(required = false) String subject) {
+        return ResponseEntity.ok(questionService.getDistinctBooks(board, classLevel, subject));
+    }
+
     @GetMapping("/chapters")
-    public ResponseEntity<List<String>> getChapters(@RequestParam(required = false) String subjectId) {
-        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId));
+    public ResponseEntity<List<String>> getChapters(
+            @RequestParam(required = false) String subjectId,
+            @RequestParam(required = false) String book) {
+        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId, book));
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<Question>> searchQuestions(
+            @RequestParam(required = false) String board,
+            @RequestParam(required = false) String classLevel,
             @RequestParam(required = false) String subjectId,
+            @RequestParam(required = false) String book,
             @RequestParam(required = false) String chapter,
             @RequestParam(required = false) String q,
-            @RequestParam(required = false, defaultValue = "ALL") String type) {
-        return ResponseEntity.ok(questionService.searchQuestions(subjectId, chapter, q, type));
+            @RequestParam(required = false, defaultValue = "ALL") String type,
+            @RequestParam(required = false, defaultValue = "false") Boolean approvedOnly) {
+        return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapter, q, type, approvedOnly));
     }
 
     @PostMapping

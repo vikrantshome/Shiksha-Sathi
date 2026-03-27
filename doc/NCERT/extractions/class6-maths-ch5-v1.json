@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 5,
+    "chapterTitle": "Understanding Elementary Shapes",
+    "sourceFile": "fegp105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 88,
+      "text": "What fraction of a clockwise revolution does the hour hand turn through when it goes from 3 to 9?",
+      "type": "MCQ",
+      "options": ["1/4", "1/2", "3/4", "1"],
+      "correctAnswer": "1/2",
+      "explanation": "From 3 to 9 is 6 hours. One complete revolution is 12 hours. So, 6/12 = 1/2 of a revolution."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 89,
+      "text": "An angle measuring 180 degrees is called a straight angle.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "A straight angle measures exactly 180 degrees and forms a straight line."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 82,
+      "text": "How many degrees are there in a complete revolution?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "360 degrees",
+      "explanation": "A complete revolution (full circle) measures 360 degrees. This is the standard unit for measuring angles."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 90,
+      "text": "A triangle with all three sides equal is called an ________ triangle.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "equilateral",
+      "explanation": "An equilateral triangle has all three sides equal in length and all three angles equal to 60 degrees."
+    }
+  ]
+}

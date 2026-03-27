@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 2,
+    "chapterTitle": "Water: A Precious Gift",
+    "sourceFile": "gecu102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 38,
+      "text": "Which of the following is NOT a source of fresh water?",
+      "type": "MCQ",
+      "options": ["Rivers", "Lakes", "Oceans", "Groundwater"],
+      "correctAnswer": "Oceans",
+      "explanation": "Oceans contain saltwater, not fresh water. Fresh water sources include rivers, lakes, ponds, glaciers, and groundwater."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 39,
+      "text": "The water cycle is also known as the hydrological cycle.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The water cycle (hydrological cycle) describes the continuous movement of water on, above, and below the Earth's surface."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 32,
+      "text": "Name the process by which water changes from liquid to vapor.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Evaporation",
+      "explanation": "Evaporation is the process where liquid water changes into water vapor due to heat from the sun or other sources."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 40,
+      "text": "The conversion of water vapor into liquid water is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "condensation",
+      "explanation": "Condensation is the process where water vapor cools and changes back into liquid water, forming clouds, dew, or fog."
+    }
+  ]
+}

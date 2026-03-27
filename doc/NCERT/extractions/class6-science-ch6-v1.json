@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 6,
+    "chapterTitle": "Materials Around Us",
+    "sourceFile": "fecu106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 88,
+      "text": "Which of the following is a natural material?",
+      "type": "MCQ",
+      "options": ["Plastic", "Wood", "Glass", "Nylon"],
+      "correctAnswer": "Wood",
+      "explanation": "Wood is a natural material obtained from trees. Plastic, glass, and nylon are man-made materials."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 89,
+      "text": "Metals are good conductors of heat and electricity.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Metals are good conductors of both heat and electricity due to the presence of free electrons in their structure."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 82,
+      "text": "What is the difference between transparent and opaque materials?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Transparent materials allow light to pass through completely, while opaque materials do not allow any light to pass through.",
+      "explanation": "Transparent materials (like glass, air) allow clear vision through them. Opaque materials (like wood, metal) block all light."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 90,
+      "text": "Materials that allow light to pass through partially are called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "translucent",
+      "explanation": "Translucent materials allow some light to pass through but objects cannot be seen clearly through them. Examples: frosted glass, butter paper."
+    }
+  ]
+}

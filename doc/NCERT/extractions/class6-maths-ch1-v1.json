@@ -1,0 +1,32 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 1,
+    "chapterTitle": "Patterns in Mathematics",
+    "sourceFile": "fegp101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "Identify the next term in the pattern: 2, 4, 6, 8, ...",
+      "type": "MCQ",
+      "options": ["9", "10", "12", "14"],
+      "correctAnswer": "10",
+      "explanation": "The pattern is a sequence of even numbers, where each term increases by 2. The next term after 8 is 10."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 8,
+      "text": "What is a mathematical pattern?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A sequence or arrangement that follows a specific rule.",
+      "explanation": "Patterns in mathematics involve identifying regularity and rules that govern sequences or shapes."
+    }
+  ]
+}
