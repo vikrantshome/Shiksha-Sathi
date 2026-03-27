@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Biology",
+    "book": "Biology",
+    "chapterNumber": 6,
+    "chapterTitle": "Anatomy of Flowering Plants",
+    "sourceFile": "kebo106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 99,
+      "text": "The meristem present at the tips of roots and shoots is:",
+      "type": "MCQ",
+      "options": ["Intercalary meristem", "Lateral meristem", "Apical meristem", "Secondary meristem"],
+      "correctAnswer": "Apical meristem",
+      "explanation": "Apical meristem is present at the growing tips of roots and shoots and is responsible for primary growth."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 99,
+      "text": "Xylem conducts water and minerals from roots to leaves.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Xylem is the water-conducting tissue that transports water and minerals from roots to other parts of the plant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 100,
+      "text": "The tissue that conducts food in plants is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "phloem",
+      "explanation": "Phloem is the food-conducting tissue that transports organic nutrients (mainly sucrose) from leaves to other parts."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 100,
+      "text": "What are stomata?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Stomata are tiny pores in the epidermis of leaves that regulate gas exchange and transpiration.",
+      "explanation": "Stomata are surrounded by guard cells and help in gas exchange (CO2 intake, O2 release) and transpiration."
+    }
+  ]
+}
