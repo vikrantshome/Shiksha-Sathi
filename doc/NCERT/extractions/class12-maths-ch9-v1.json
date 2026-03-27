@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "12",
+    "subject": "Mathematics",
+    "book": "Mathematics Part II",
+    "chapterNumber": 9,
+    "chapterTitle": "Differential Equations",
+    "sourceFile": "lemh209.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 383,
+      "text": "The order of a differential equation is the order of the:",
+      "type": "MCQ",
+      "options": ["Highest derivative", "Lowest derivative", "Function", "Constant"],
+      "correctAnswer": "Highest derivative",
+      "explanation": "The order of a differential equation is the order of the highest order derivative present."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 383,
+      "text": "The degree of a differential equation is the power of the highest order derivative.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The degree is the power of the highest order derivative when the equation is polynomial in derivatives."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 384,
+      "text": "A differential equation of order 1 and degree 1 is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "first order first degree",
+      "explanation": "A differential equation with order 1 and degree 1 is called first order first degree differential equation."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 384,
+      "text": "What is a particular solution of a differential equation?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A solution obtained by giving specific values to arbitrary constants in the general solution is called particular solution.",
+      "explanation": "General solution contains arbitrary constants. Particular solution is obtained by assigning specific values to these constants."
+    }
+  ]
+}

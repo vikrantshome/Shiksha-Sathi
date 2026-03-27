@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 3,
+    "chapterTitle": "Trigonometric Functions",
+    "sourceFile": "kemh103.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 65,
+      "text": "Convert 60 degrees to radians.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "π/3 radians",
+      "explanation": "To convert degrees to radians: radians = degrees × π/180. So 60° = 60 × π/180 = π/3 radians."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 65,
+      "text": "The value of sin(π/6) is:",
+      "type": "MCQ",
+      "options": ["1/2", "√3/2", "1/√2", "1"],
+      "correctAnswer": "1/2",
+      "explanation": "sin(π/6) = sin(30°) = 1/2. This is a standard trigonometric value."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 66,
+      "text": "sin^2(x) + cos^2(x) = 1 for all real x.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "This is the fundamental trigonometric identity: sin²(x) + cos²(x) = 1 for all real values of x."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 66,
+      "text": "The period of sin(x) is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "2π",
+      "explanation": "The sine function repeats its values every 2π radians. So the period of sin(x) is 2π."
+    }
+  ]
+}

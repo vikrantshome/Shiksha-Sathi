@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Biology",
+    "book": "Biology",
+    "chapterNumber": 4,
+    "chapterTitle": "Animal Kingdom",
+    "sourceFile": "kebo104.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 65,
+      "text": "Which of the following is a characteristic of chordates?",
+      "type": "MCQ",
+      "options": ["Notochord", "Dorsal heart", "Ventral nerve cord", "All of these"],
+      "correctAnswer": "Notochord",
+      "explanation": "Chordates are characterized by presence of notochord, dorsal hollow nerve cord, and pharyngeal gill slits at some stage of life."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 65,
+      "text": "Mammals are warm-blooded animals.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Mammals are endothermic (warm-blooded) animals that maintain constant body temperature regardless of environment."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 66,
+      "text": "The excretory organs in insects are ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Malpighian tubules",
+      "explanation": "Malpighian tubules are the excretory organs in insects. They remove nitrogenous wastes from the hemolymph."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 66,
+      "text": "Give two examples of oviparous animals.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Birds and reptiles (or fish, amphibians)",
+      "explanation": "Oviparous animals lay eggs. Examples include birds, reptiles, most fish, and amphibians."
+    }
+  ]
+}

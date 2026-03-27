@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Physics",
+    "book": "Physics Part I",
+    "chapterNumber": 9,
+    "chapterTitle": "Mechanical Properties of Fluids",
+    "sourceFile": "keph109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 271,
+      "text": "The SI unit of pressure is:",
+      "type": "MCQ",
+      "options": ["N/m", "Pascal", "Joule", "Watt"],
+      "correctAnswer": "Pascal",
+      "explanation": "Pressure is measured in Pascal (Pa). 1 Pa = 1 N/m²"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 271,
+      "text": "Bernoulli's principle is based on conservation of energy.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Bernoulli's principle states that for streamline flow, the sum of pressure energy, kinetic energy, and potential energy per unit volume is constant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 272,
+      "text": "The viscosity of liquids ________ with increase in temperature.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "decreases",
+      "explanation": "Viscosity of liquids decreases with temperature, while viscosity of gases increases with temperature."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 272,
+      "text": "State Pascal's law.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Pascal's law states that pressure applied to an enclosed fluid is transmitted undiminished to every part of the fluid.",
+      "explanation": "Pascal's law is the principle behind hydraulic lift and hydraulic brakes."
+    }
+  ]
+}

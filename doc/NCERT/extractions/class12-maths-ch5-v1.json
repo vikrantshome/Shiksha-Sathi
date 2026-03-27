@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "12",
+    "subject": "Mathematics",
+    "book": "Mathematics Part I",
+    "chapterNumber": 5,
+    "chapterTitle": "Continuity and Differentiability",
+    "sourceFile": "lemh105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 176,
+      "text": "A function f(x) is continuous at x = a if:",
+      "type": "MCQ",
+      "options": ["lim(x→a) f(x) = f(a)", "f(a) exists", "lim(x→a) f(x) exists", "All of these"],
+      "correctAnswer": "All of these",
+      "explanation": "For continuity at x = a: (1) f(a) exists, (2) lim(x→a) f(x) exists, (3) lim(x→a) f(x) = f(a)"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 176,
+      "text": "Every differentiable function is continuous.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Every differentiable function is continuous, but the converse is not true. A continuous function may not be differentiable."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 177,
+      "text": "The derivative of sin(x) with respect to x is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "cos(x)",
+      "explanation": "d/dx(sin x) = cos x. This is a standard derivative formula."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 177,
+      "text": "State the chain rule for differentiation.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "If y = f(u) and u = g(x), then dy/dx = dy/du × du/dx",
+      "explanation": "Chain rule: For composite function f(g(x)), derivative is f'(g(x)) × g'(x)"
+    }
+  ]
+}

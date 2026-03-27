@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Biology",
+    "book": "Biology",
+    "chapterNumber": 2,
+    "chapterTitle": "Biological Classification",
+    "sourceFile": "kebo102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 28,
+      "text": "Which of the following is a prokaryote?",
+      "type": "MCQ",
+      "options": ["Amoeba", "Bacteria", "Yeast", "Spirogyra"],
+      "correctAnswer": "Bacteria",
+      "explanation": "Bacteria are prokaryotes (no well-defined nucleus). Amoeba, Yeast, and Spirogyra are eukaryotes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 28,
+      "text": "The five kingdom classification was proposed by:",
+      "type": "MCQ",
+      "options": ["Linnaeus", "Whittaker", "Haeckel", "Darwin"],
+      "correctAnswer": "Whittaker",
+      "explanation": "R.H. Whittaker proposed the five kingdom classification in 1969: Monera, Protista, Fungi, Plantae, and Animalia."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 29,
+      "text": "Fungi are heterotrophic organisms.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Fungi are heterotrophic as they lack chlorophyll and obtain nutrition from dead and decaying organic matter."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 29,
+      "text": "The cell wall of fungi is made up of ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "chitin",
+      "explanation": "The fungal cell wall is made of chitin, a complex polysaccharide. Plant cell walls are made of cellulose."
+    }
+  ]
+}

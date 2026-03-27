@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 9,
+    "chapterTitle": "Sequences and Series",
+    "sourceFile": "kemh109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 181,
+      "text": "The common difference of an AP is denoted by:",
+      "type": "MCQ",
+      "options": ["a", "d", "n", "l"],
+      "correctAnswer": "d",
+      "explanation": "In an Arithmetic Progression (AP), 'd' denotes the common difference between consecutive terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 181,
+      "text": "The sum of first n terms of GP is a(r^n - 1)/(r-1) for r ≠ 1.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Sum of n terms of GP: Sn = a(r^n - 1)/(r-1) for r ≠ 1, where a is first term, r is common ratio."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 182,
+      "text": "The arithmetic mean of a and b is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "(a+b)/2",
+      "explanation": "Arithmetic Mean (AM) of two numbers a and b is (a+b)/2"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 182,
+      "text": "Find the 10th term of AP: 2, 7, 12, ...",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "47",
+      "explanation": "For AP: a = 2, d = 5. nth term = a + (n-1)d = 2 + 9×5 = 2 + 45 = 47"
+    }
+  ]
+}
