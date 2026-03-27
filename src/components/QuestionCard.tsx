@@ -52,10 +52,30 @@ export default function QuestionCard({ question: q }: { question: Question }) {
       {isPreviewOpen && (
         <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Teacher Preview</h4>
-          <div className="flex flex-col gap-2 text-sm">
-            <div><span className="font-medium text-gray-700">Correct Answer:</span> <span className="text-green-700 font-medium">{q.correctAnswer}</span></div>
-            <div><span className="font-medium text-gray-700">Points:</span> {q.points}</div>
-            <div><span className="font-medium text-gray-700">ID:</span> {q.id}</div>
+          <div className="flex flex-col gap-3 text-sm">
+            <div>
+              <span className="font-medium text-gray-700">Correct Answer:</span> 
+              <span className="ml-2 text-green-700 font-medium">{q.correctAnswer}</span>
+            </div>
+            
+            {q.explanation && (
+              <div>
+                <span className="font-medium text-gray-700 block mb-1">Explanation:</span>
+                <p className="text-gray-600 bg-white p-2 rounded border border-gray-100">{q.explanation}</p>
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-gray-200">
+              <div><span className="text-gray-500">Points:</span> <span className="text-gray-700">{q.points}</span></div>
+              <div><span className="text-gray-500">Source:</span> <span className="text-gray-700">{q.sourceKind || 'LOCAL'}</span></div>
+              {q.provenance && (
+                <>
+                  <div className="col-span-2"><span className="text-gray-500">Book:</span> <span className="text-gray-700">{q.provenance.book} (Class {q.provenance.classLevel})</span></div>
+                  <div><span className="text-gray-500">Chapter:</span> <span className="text-gray-700">{q.provenance.chapterNumber}. {q.provenance.chapterTitle}</span></div>
+                  <div><span className="text-gray-500">Section:</span> <span className="text-gray-700">{q.provenance.section || 'N/A'}</span></div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -40,4 +40,19 @@ public class Question extends BaseEntity {
 
     @Field("points")
     private Integer points;
+
+    @Field("explanation")
+    private String explanation;
+
+    @Field("source_kind") // CANONICAL, DERIVED
+    private String sourceKind;
+
+    @Field("review_status") // DRAFT, APPROVED, REJECTED
+    private String reviewStatus;
+
+    @Field("provenance")
+    private Provenance provenance;
+
+    @Field("language")
+    private String language;
 }
