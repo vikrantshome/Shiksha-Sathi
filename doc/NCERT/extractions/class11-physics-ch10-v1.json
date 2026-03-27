@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Physics",
+    "book": "Physics Part I",
+    "chapterNumber": 10,
+    "chapterTitle": "Thermal Properties of Matter",
+    "sourceFile": "keph110.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 294,
+      "text": "The SI unit of temperature is:",
+      "type": "MCQ",
+      "options": ["Celsius", "Fahrenheit", "Kelvin", "Joule"],
+      "correctAnswer": "Kelvin",
+      "explanation": "Kelvin (K) is the SI unit of temperature. 0 K = -273.15°C"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 294,
+      "text": "Heat transfer by convection requires a medium.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Convection requires a material medium (liquid or gas) for heat transfer. Radiation does not require medium."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 295,
+      "text": "The specific heat capacity of water is ________ J/kg·K.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "4186 (or 4200)",
+      "explanation": "Specific heat capacity of water is 4186 J/kg·K (approximately 4200 J/kg·K)"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 295,
+      "text": "State Stefan-Boltzmann law.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The total energy radiated per unit surface area of a black body is proportional to T⁴. E = σT⁴",
+      "explanation": "Stefan-Boltzmann law: E = σT⁴, where σ is Stefan-Boltzmann constant (5.67×10^-8 W/m²K⁴)"
+    }
+  ]
+}
