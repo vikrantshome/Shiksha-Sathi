@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 1,
+    "chapterTitle": "The Cell: Basic Unit of Life",
+    "sourceFile": "hecu101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 25,
+      "text": "Which of the following is NOT found in an animal cell?",
+      "type": "MCQ",
+      "options": ["Cell membrane", "Nucleus", "Cell wall", "Mitochondria"],
+      "correctAnswer": "Cell wall",
+      "explanation": "Animal cells do not have a cell wall. Cell walls are found in plant cells, bacteria, and fungi, providing structural support."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 26,
+      "text": "The powerhouse of the cell is the mitochondria.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Mitochondria are called the powerhouse of the cell because they produce ATP (adenosine triphosphate), the cell's main energy-carrying molecule."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 18,
+      "text": "What is the function of the nucleus in a cell?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The nucleus controls cell activities and contains genetic material (DNA).",
+      "explanation": "The nucleus is the control center of the cell. It contains DNA (genetic material) and regulates cell growth, metabolism, and reproduction."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 27,
+      "text": "The ________ is the jelly-like substance inside the cell membrane.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "cytoplasm",
+      "explanation": "Cytoplasm is the gel-like substance within the cell membrane that contains all organelles and is where most cellular activities occur."
+    }
+  ]
+}

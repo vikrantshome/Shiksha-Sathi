@@ -1,0 +1,37 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 1,
+    "chapterTitle": "The Wonderful World of Science",
+    "sourceFile": "fecu101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 12,
+      "text": "Which of the following is a method used by scientists to find out about the world around them?",
+      "type": "MCQ",
+      "options": [
+        "Observation",
+        "Guessing",
+        "Ignoring data",
+        "Sleeping"
+      ],
+      "correctAnswer": "Observation",
+      "explanation": "Scientists use systematic observation, experimentation, and analysis to understand natural phenomena."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 5,
+      "text": "What is the primary goal of science?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To understand the natural world through evidence and logic.",
+      "explanation": "Science is a systematic enterprise that builds and organizes knowledge in the form of testable explanations and predictions about the universe."
+    }
+  ]
+}

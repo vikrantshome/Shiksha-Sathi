@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 1,
+    "chapterTitle": "The Gift of Words",
+    "sourceFile": "fepr101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 18,
+      "text": "Who is the author of the chapter 'The Gift of Words'?",
+      "type": "MCQ",
+      "options": ["Rabindranath Tagore", "Ruskin Bond", "Sudha Murty", "APJ Abdul Kalam"],
+      "correctAnswer": "Ruskin Bond",
+      "explanation": "Ruskin Bond is a renowned Indian author known for his simple and engaging writing style, especially for children."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 19,
+      "text": "The protagonist in the story loved reading books.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The story emphasizes the importance of reading and how books can be a source of joy and knowledge."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 12,
+      "text": "What is the main message of the chapter?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The chapter emphasizes the power of words and education to transform lives.",
+      "explanation": "The story highlights how learning and literacy can empower individuals and open new opportunities in life."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 20,
+      "text": "The word 'generous' means willing to give and ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "share",
+      "explanation": "Generous means showing a readiness to give more of something, especially money or time, than is strictly necessary or expected."
+    }
+  ]
+}
