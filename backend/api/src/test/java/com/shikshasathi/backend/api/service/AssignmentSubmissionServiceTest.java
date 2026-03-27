@@ -32,6 +32,9 @@ public class AssignmentSubmissionServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    
+    @Mock
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
 
     @InjectMocks
     private AssignmentSubmissionService submissionService;

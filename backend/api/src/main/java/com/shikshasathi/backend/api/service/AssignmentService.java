@@ -6,6 +6,7 @@ import com.shikshasathi.backend.api.dto.QuestionPerformance;
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.api.dto.StudentQuestionDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
+import com.shikshasathi.backend.api.events.NotificationEvent;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.core.domain.learning.Question;
@@ -33,6 +34,7 @@ public class AssignmentService {
     private final ClassRepository classRepository;
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
+    private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
     public AssignmentReportDTO getAssignmentReport(String assignmentId, String teacherEmail) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
@@ -232,6 +234,8 @@ public class AssignmentService {
         }
         
         assignment.setStatus("PUBLISHED");
-        return assignmentRepository.save(assignment);
+        Assignment saved = assignmentRepository.save(assignment);
+        eventPublisher.publishEvent(new NotificationEvent(this, teacher.getId(), "Assignment published: " + assignment.getTitle()));
+        return saved;
     }
 }
