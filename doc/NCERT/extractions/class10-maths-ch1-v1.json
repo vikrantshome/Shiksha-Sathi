@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 1,
+    "chapterTitle": "Chemical Reactions and Equations",
+    "sourceFile": "jesc101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 14,
+      "text": "Which of the following statements about the reaction 2PbO + C → 2Pb + CO2 is not correct?",
+      "type": "MCQ",
+      "options": ["Lead is getting reduced", "Carbon dioxide is getting oxidised", "Carbon is getting oxidised", "Lead oxide is getting reduced"],
+      "correctAnswer": "Carbon dioxide is getting oxidised",
+      "explanation": "In this reaction, lead oxide (PbO) is reduced to lead (Pb), and carbon (C) is oxidized to carbon dioxide (CO2). CO2 is a product, not being oxidized."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 14,
+      "text": "A chemical equation must be balanced to satisfy the law of conservation of mass.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The law of conservation of mass states that mass can neither be created nor destroyed. A balanced equation ensures equal number of atoms of each element on both sides."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 6,
+      "text": "What is a balanced chemical equation?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A chemical equation where the number of atoms of each element is equal on both reactant and product sides.",
+      "explanation": "A balanced chemical equation has equal numbers of each type of atom on both sides, satisfying the law of conservation of mass."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "The reaction Fe2O3 + 2Al → Al2O3 + 2Fe is an example of ________ reaction.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "displacement (or thermite)",
+      "explanation": "This is a displacement reaction where aluminium displaces iron from iron oxide. It's also known as the thermite reaction, used for welding."
+    }
+  ]
+}
