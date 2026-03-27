@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 2,
+    "chapterTitle": "Polynomials",
+    "sourceFile": "iemh102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "Which of the following expressions are polynomials in one variable?",
+      "type": "MCQ",
+      "options": ["x^2 + 3x + 2", "y + 2/y", "√x + 1", "3t^2 - 2t + 1"],
+      "correctAnswer": "x^2 + 3x + 2 and 3t^2 - 2t + 1",
+      "explanation": "A polynomial in one variable has whole number powers only. y + 2/y has negative power, √x has fractional power."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "The degree of a zero polynomial is:",
+      "type": "MCQ",
+      "options": ["0", "1", "undefined", "any natural number"],
+      "correctAnswer": "undefined",
+      "explanation": "The degree of a zero polynomial (0) is undefined because it has no non-zero terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 35,
+      "text": "A polynomial of degree 2 is called a quadratic polynomial.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "A polynomial of degree 2 is called quadratic, degree 1 is linear, degree 3 is cubic."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 35,
+      "text": "The coefficient of x^2 in (x + 1)(x - 1) is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1",
+      "explanation": "(x + 1)(x - 1) = x^2 - 1. The coefficient of x^2 is 1."
+    }
+  ]
+}

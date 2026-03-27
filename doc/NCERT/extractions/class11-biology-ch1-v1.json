@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Biology",
+    "book": "Biology",
+    "chapterNumber": 1,
+    "chapterTitle": "The Living World",
+    "sourceFile": "kebo101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "Which of the following is NOT a characteristic of living organisms?",
+      "type": "MCQ",
+      "options": ["Growth", "Reproduction", "Metabolism", "Crystallization"],
+      "correctAnswer": "Crystallization",
+      "explanation": "Crystallization is a property of non-living matter. Living organisms show growth, reproduction, metabolism, and consciousness."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 15,
+      "text": "The scientific name of mango is Mangifera indica. Here 'indica' represents:",
+      "type": "MCQ",
+      "options": ["Genus", "Species", "Family", "Order"],
+      "correctAnswer": "Species",
+      "explanation": "In binomial nomenclature, the first word (Mangifera) is the genus, and the second word (indica) is the species."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 16,
+      "text": "Taxonomy is the science of classification of living organisms.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Taxonomy is the science of identification, nomenclature, and classification of living organisms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 16,
+      "text": "The basic unit of classification is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "species",
+      "explanation": "Species is the fundamental unit of biological classification. It's a group of organisms that can interbreed and produce fertile offspring."
+    }
+  ]
+}

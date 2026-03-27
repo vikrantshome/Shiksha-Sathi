@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 2,
+    "chapterTitle": "Is Matter Around Us Pure?",
+    "sourceFile": "iesc102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 24,
+      "text": "A substance containing two or more elements chemically combined in a fixed ratio is called:",
+      "type": "MCQ",
+      "options": ["Element", "Compound", "Mixture", "Solution"],
+      "correctAnswer": "Compound",
+      "explanation": "A compound is a pure substance made of two or more elements chemically combined in a fixed proportion by mass."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 24,
+      "text": "Which of the following is a homogeneous mixture?",
+      "type": "MCQ",
+      "options": ["Oil and water", "Salt solution", "Sand and iron filings", "Air"],
+      "correctAnswer": "Salt solution and Air",
+      "explanation": "Homogeneous mixtures have uniform composition throughout. Salt solution and air are homogeneous."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 25,
+      "text": "The Tyndall effect is observed in colloids.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The Tyndall effect (scattering of light) is observed in colloidal solutions due to their particle size."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 25,
+      "text": "The technique used to separate butter from curd is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "centrifugation",
+      "explanation": "Centrifugation separates particles based on density. It's used to separate butter from curd/cream from milk."
+    }
+  ]
+}
