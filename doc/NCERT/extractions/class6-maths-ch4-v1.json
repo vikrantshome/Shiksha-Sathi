@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 4,
+    "chapterTitle": "Basic Geometrical Ideas",
+    "sourceFile": "fegp104.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 68,
+      "text": "How many endpoints does a line segment have?",
+      "type": "MCQ",
+      "options": ["0", "1", "2", "Infinite"],
+      "correctAnswer": "2",
+      "explanation": "A line segment has two endpoints. It is a part of a line with a definite length."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 69,
+      "text": "A ray has one endpoint and extends infinitely in one direction.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "A ray has one endpoint (starting point) and extends infinitely in one direction. It is denoted by an arrow symbol."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 62,
+      "text": "What is a polygon?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A closed figure made up of line segments.",
+      "explanation": "A polygon is a simple closed curve made up of straight line segments. Examples: triangle, quadrilateral, pentagon."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 70,
+      "text": "A polygon with 5 sides is called a ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "pentagon",
+      "explanation": "A pentagon is a polygon with 5 sides and 5 angles. 'Penta' means five in Greek."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Social Science",
+    "book": "Social and Political Life",
+    "chapterNumber": 3,
+    "chapterTitle": "What is Government?",
+    "sourceFile": "fees103.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 45,
+      "text": "Who makes laws for the country?",
+      "type": "MCQ",
+      "options": ["President", "Government", "Prime Minister", "All citizens"],
+      "correctAnswer": "Government",
+      "explanation": "The government makes laws and takes decisions for the welfare of the people. In India, Parliament makes laws at the national level."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 46,
+      "text": "India is a democracy where people elect their representatives.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "India is a democratic republic where citizens above 18 years elect their representatives through free and fair elections."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 38,
+      "text": "Name any two things that the government does for people.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Building roads and schools (or any two government functions)",
+      "explanation": "Government performs many functions including building infrastructure (roads, bridges), providing education (schools), healthcare (hospitals), and maintaining law and order."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 47,
+      "text": "The system where people elect their rulers is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "democracy",
+      "explanation": "Democracy is a form of government where citizens elect their representatives through voting. The word comes from Greek 'demos' (people) and 'kratos' (rule)."
+    }
+  ]
+}
