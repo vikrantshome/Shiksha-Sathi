@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 7,
+    "chapterTitle": "Getting to Know Plants",
+    "sourceFile": "fecu107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 105,
+      "text": "Which part of the plant anchors it to the soil?",
+      "type": "MCQ",
+      "options": ["Stem", "Leaf", "Root", "Flower"],
+      "correctAnswer": "Root",
+      "explanation": "Roots anchor the plant firmly to the soil and absorb water and minerals from it."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 106,
+      "text": "Plants with weak stems that spread on the ground are called creepers.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Creepers are plants with weak stems that cannot stand upright and spread along the ground. Examples: pumpkin, watermelon."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 98,
+      "text": "What is the function of stomata in leaves?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Stomata help in exchange of gases (oxygen and carbon dioxide) and transpiration.",
+      "explanation": "Stomata are tiny pores on leaf surfaces that allow gas exchange for photosynthesis and respiration, and also help in water loss through transpiration."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 107,
+      "text": "The process by which plants lose water through leaves is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "transpiration",
+      "explanation": "Transpiration is the process of water loss from plants through stomata in the leaves. It helps in upward movement of water and minerals."
+    }
+  ]
+}

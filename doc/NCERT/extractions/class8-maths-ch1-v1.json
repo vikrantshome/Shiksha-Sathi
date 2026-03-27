@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 1,
+    "chapterTitle": "Rational Numbers",
+    "sourceFile": "hegp101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 32,
+      "text": "Which of the following is a rational number?",
+      "type": "MCQ",
+      "options": ["√2", "π", "0", "√3"],
+      "correctAnswer": "0",
+      "explanation": "0 is a rational number because it can be expressed as 0/1. √2, π, and √3 are irrational numbers."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 33,
+      "text": "The sum of a rational number and its additive inverse is always 0.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The additive inverse of a number is what you add to it to get zero. For any rational number a, a + (-a) = 0."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 26,
+      "text": "What is the reciprocal of 5/7?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "7/5",
+      "explanation": "The reciprocal of a fraction is obtained by swapping the numerator and denominator. Reciprocal of 5/7 is 7/5."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "Between any two rational numbers, there are ________ rational numbers.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "infinitely many",
+      "explanation": "Between any two rational numbers, there exist infinitely many rational numbers. This is a key property of rational numbers."
+    }
+  ]
+}

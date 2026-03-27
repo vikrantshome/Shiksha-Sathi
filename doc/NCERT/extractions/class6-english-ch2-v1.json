@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 2,
+    "chapterTitle": "The Friendly Mongoose",
+    "sourceFile": "fepr102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 35,
+      "text": "Where did the farmer find the mongoose?",
+      "type": "MCQ",
+      "options": ["In the forest", "In his garden", "Near the river", "On the road"],
+      "correctAnswer": "In his garden",
+      "explanation": "The farmer found the baby mongoose in his garden and decided to take care of it."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 36,
+      "text": "The mongoose fought with a snake to protect the farmer's baby.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The brave mongoose killed a poisonous snake that had come near the farmer's baby, showing its loyalty and courage."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 30,
+      "text": "Why did the farmer's wife initially not trust the mongoose?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "She was afraid it might harm her baby because it was a wild animal.",
+      "explanation": "The farmer's wife was initially wary of the mongoose as she feared it might be dangerous for her infant child."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 37,
+      "text": "The mongoose was ________ and playful.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "friendly",
+      "explanation": "The mongoose in the story is described as friendly, loyal, and playful, becoming a beloved member of the family."
+    }
+  ]
+}

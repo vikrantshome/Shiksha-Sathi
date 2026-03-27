@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 2,
+    "chapterTitle": "Lines and Angles",
+    "sourceFile": "fegp102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 32,
+      "text": "An angle that measures exactly 90 degrees is called a:",
+      "type": "MCQ",
+      "options": ["Acute angle", "Obtuse angle", "Right angle", "Straight angle"],
+      "correctAnswer": "Right angle",
+      "explanation": "A right angle measures exactly 90 degrees. It forms a square corner."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 33,
+      "text": "Two lines that never meet are called parallel lines.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Parallel lines are lines in the same plane that never intersect, no matter how far they are extended."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 28,
+      "text": "What is the measure of a straight angle?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "180 degrees",
+      "explanation": "A straight angle measures exactly 180 degrees. It forms a straight line."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "An angle smaller than 90 degrees is called an ________ angle.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "acute",
+      "explanation": "An acute angle measures less than 90 degrees but more than 0 degrees."
+    }
+  ]
+}
