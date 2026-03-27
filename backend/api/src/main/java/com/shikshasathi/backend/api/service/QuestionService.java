@@ -35,15 +35,15 @@ public class QuestionService {
         if (board != null && !board.isEmpty()) {
             query.addCriteria(Criteria.where("provenance.board").is(board));
         }
-        return mongoTemplate.findDistinct(query, "provenance.class_level", Question.class, String.class);
+        return mongoTemplate.findDistinct(query, "provenance.class", Question.class, String.class);
     }
 
     public List<String> getDistinctBooks(String board, String classLevel, String subject) {
         Query query = new Query();
         if (board != null && !board.isEmpty()) query.addCriteria(Criteria.where("provenance.board").is(board));
-        if (classLevel != null && !classLevel.isEmpty()) query.addCriteria(Criteria.where("provenance.class_level").is(classLevel));
+        if (classLevel != null && !classLevel.isEmpty()) query.addCriteria(Criteria.where("provenance.class").is(classLevel));
         if (subject != null && !subject.isEmpty()) query.addCriteria(Criteria.where("subject_id").is(subject));
-        
+
         return mongoTemplate.findDistinct(query, "provenance.book", Question.class, String.class);
     }
 
@@ -61,9 +61,9 @@ public class QuestionService {
 
     public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, String chapter, String queryText, String type, Boolean approvedOnly) {
         Query query = new Query();
-        
+
         if (board != null && !board.isEmpty()) query.addCriteria(Criteria.where("provenance.board").is(board));
-        if (classLevel != null && !classLevel.isEmpty()) query.addCriteria(Criteria.where("provenance.class_level").is(classLevel));
+        if (classLevel != null && !classLevel.isEmpty()) query.addCriteria(Criteria.where("provenance.class").is(classLevel));
         if (subjectId != null && !subjectId.isEmpty() && !subjectId.equalsIgnoreCase("null")) {
             query.addCriteria(Criteria.where("subject_id").is(subjectId));
         }
@@ -71,15 +71,15 @@ public class QuestionService {
         if (chapter != null && !chapter.isEmpty() && !chapter.equalsIgnoreCase("null")) {
             query.addCriteria(Criteria.where("chapter").is(chapter));
         }
-        
+
         if (approvedOnly != null && approvedOnly) {
-            query.addCriteria(Criteria.where("reviewStatus").is("APPROVED"));
+            query.addCriteria(Criteria.where("review_status").is("APPROVED"));
         }
-        
+
         if (type != null && !type.equalsIgnoreCase("ALL")) {
             query.addCriteria(Criteria.where("type").is(type));
         }
-        
+
         if (queryText != null && !queryText.isEmpty()) {
             Criteria textCriteria = new Criteria().orOperator(
                 Criteria.where("text").regex(queryText, "i"),
@@ -88,7 +88,7 @@ public class QuestionService {
             );
             query.addCriteria(textCriteria);
         }
-        
+
         return mongoTemplate.find(query, Question.class);
     }
 

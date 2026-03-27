@@ -3,7 +3,7 @@ spring:
     name: shikshasathi-backend
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/shiksha-sathi}
+      uri: ${MONGODB_URI:mongodb://localhost:27017/shikshasathi}
 server:
   port: ${PORT:8080}
 
