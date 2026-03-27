@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 2,
+    "chapterTitle": "Relations and Functions",
+    "sourceFile": "kemh102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 44,
+      "text": "If A = {1, 2, 3} and B = {4, 5}, then the number of elements in A × B is:",
+      "type": "MCQ",
+      "options": ["5", "6", "9", "12"],
+      "correctAnswer": "6",
+      "explanation": "A × B (Cartesian product) has n(A) × n(B) = 3 × 2 = 6 elements. The elements are (1,4), (1,5), (2,4), (2,5), (3,4), (3,5)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 44,
+      "text": "A function is a relation in which every element of the domain has a unique image.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "A function is a special type of relation where each element of the domain has exactly one image in the codomain."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 45,
+      "text": "The domain of f(x) = 1/x is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "R - {0} (all real numbers except 0)",
+      "explanation": "The function f(x) = 1/x is undefined at x = 0. So the domain is all real numbers except 0."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 45,
+      "text": "If f(x) = x^2 and g(x) = x + 1, find (f + g)(x).",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "x^2 + x + 1",
+      "explanation": "(f + g)(x) = f(x) + g(x) = x^2 + (x + 1) = x^2 + x + 1"
+    }
+  ]
+}

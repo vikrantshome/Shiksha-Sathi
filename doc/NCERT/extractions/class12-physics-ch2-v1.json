@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "12",
+    "subject": "Physics",
+    "book": "Physics Part I",
+    "chapterNumber": 2,
+    "chapterTitle": "Electrostatic Potential and Capacitance",
+    "sourceFile": "leph102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 88,
+      "text": "The SI unit of electric potential is:",
+      "type": "MCQ",
+      "options": ["Coulomb", "Volt", "Newton", "Joule"],
+      "correctAnswer": "Volt",
+      "explanation": "Electric potential is measured in Volts (V). 1 Volt = 1 Joule/Coulomb."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 88,
+      "text": "The capacitance of a parallel plate capacitor is given by:",
+      "type": "MCQ",
+      "options": ["ε0A/d", "ε0d/A", "Ad/ε0", "ε0Ad"],
+      "correctAnswer": "ε0A/d",
+      "explanation": "For a parallel plate capacitor: C = ε0A/d, where A is plate area, d is separation, ε0 is permittivity of free space."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 89,
+      "text": "Equipotential surfaces are always perpendicular to electric field lines.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Electric field lines are always perpendicular to equipotential surfaces because no work is done moving a charge along an equipotential."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 89,
+      "text": "The energy stored in a capacitor is given by ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "(1/2)CV^2 or Q^2/(2C)",
+      "explanation": "Energy stored in a capacitor: U = (1/2)CV^2 = (1/2)QV = Q^2/(2C), where C is capacitance, V is potential difference, Q is charge."
+    }
+  ]
+}

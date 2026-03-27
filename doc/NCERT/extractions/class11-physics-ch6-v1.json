@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Physics",
+    "book": "Physics Part I",
+    "chapterNumber": 6,
+    "chapterTitle": "System of Particles and Rotational Motion",
+    "sourceFile": "keph106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 171,
+      "text": "The center of mass of a uniform rod is at:",
+      "type": "MCQ",
+      "options": ["One end", "The middle point", "Any point", "Outside the rod"],
+      "correctAnswer": "The middle point",
+      "explanation": "For a uniform rod, the center of mass is at its geometric center (middle point)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 171,
+      "text": "Angular momentum is the rotational analogue of linear momentum.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Angular momentum (L) is the rotational analogue of linear momentum (p). L = Iω corresponds to p = mv."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 172,
+      "text": "The moment of inertia of a solid sphere about its diameter is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "(2/5)MR²",
+      "explanation": "For a solid sphere of mass M and radius R, I = (2/5)MR² about its diameter."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 172,
+      "text": "Define torque.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Torque is the turning effect of force. τ = r × F = rF sin θ",
+      "explanation": "Torque (τ) is the rotational analogue of force. It equals the cross product of position vector and force."
+    }
+  ]
+}

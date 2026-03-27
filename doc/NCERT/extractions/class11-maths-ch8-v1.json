@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 8,
+    "chapterTitle": "Binomial Theorem",
+    "sourceFile": "kemh108.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 171,
+      "text": "The binomial expansion of (a+b)^n has how many terms?",
+      "type": "MCQ",
+      "options": ["n", "n-1", "n+1", "2n"],
+      "correctAnswer": "n+1",
+      "explanation": "The binomial expansion of (a+b)^n contains (n+1) terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 171,
+      "text": "The general term in (a+b)^n is given by T(r+1) = nCr × a^(n-r) × b^r.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The general term (r+1)th term in binomial expansion is T(r+1) = nCr × a^(n-r) × b^r"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 172,
+      "text": "The value of nC0 is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1",
+      "explanation": "nC0 = 1 for all n ≥ 0. Similarly, nCn = 1."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 172,
+      "text": "State Pascal's triangle property.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "nCr + nC(r-1) = (n+1)Cr",
+      "explanation": "Pascal's identity: nCr + nC(r-1) = (n+1)Cr. This forms the basis of Pascal's triangle."
+    }
+  ]
+}

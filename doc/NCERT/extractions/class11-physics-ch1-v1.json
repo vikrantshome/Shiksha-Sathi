@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "11",
+    "subject": "Physics",
+    "book": "Physics Part I",
+    "chapterNumber": 1,
+    "chapterTitle": "Units and Measurements",
+    "sourceFile": "keph101.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 35,
+      "text": "The SI unit of length is:",
+      "type": "MCQ",
+      "options": ["Centimeter", "Meter", "Kilometer", "Millimeter"],
+      "correctAnswer": "Meter",
+      "explanation": "Meter (m) is the SI unit of length. It's one of the seven base SI units."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 35,
+      "text": "The number of significant figures in 0.00340 is:",
+      "type": "MCQ",
+      "options": ["2", "3", "4", "6"],
+      "correctAnswer": "3",
+      "explanation": "Leading zeros are not significant. The significant figures are 3, 4, and 0 (trailing zero after decimal is significant)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 36,
+      "text": "Dimensional analysis can be used to derive the exact numerical constants in formulas.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "Dimensional analysis can check consistency and derive relationships, but cannot determine dimensionless numerical constants."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 36,
+      "text": "The dimensional formula of force is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "[MLT^-2]",
+      "explanation": "Force = mass × acceleration = M × LT^-2 = [MLT^-2]"
+    }
+  ]
+}

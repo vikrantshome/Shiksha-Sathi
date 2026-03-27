@@ -1,0 +1,52 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 2,
+    "chapterTitle": "Acids, Bases and Salts",
+    "sourceFile": "jesc102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 33,
+      "text": "Which gas is evolved when an acid reacts with a metal?",
+      "type": "MCQ",
+      "options": ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"],
+      "correctAnswer": "Hydrogen",
+      "explanation": "When an acid reacts with a metal, hydrogen gas is evolved. Example: Zn + 2HCl → ZnCl2 + H2"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 33,
+      "text": "The pH of a neutral solution is:",
+      "type": "MCQ",
+      "options": ["0", "7", "14", "1"],
+      "correctAnswer": "7",
+      "explanation": "pH 7 is neutral (pure water). pH < 7 is acidic, pH > 7 is basic."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "Bleaching powder is chemically calcium oxychloride (CaOCl2).",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Bleaching powder is calcium oxychloride (CaOCl2). It's used for bleaching cotton, disinfecting water, etc."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "The chemical formula of washing soda is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Na2CO3.10H2O",
+      "explanation": "Washing soda is sodium carbonate decahydrate (Na2CO3.10H2O). It's used in laundry and water softening."
+    }
+  ]
+}
