@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 39,
+    "chapterTitle": "Sustainable Management of Natural Resources",
+    "sourceFile": "jesc139.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 818,
+      "text": "Which of these is a traditional method of water harvesting?",
+      "type": "MCQ",
+      "options": ["Tube well", "Khadin", "Hand pump", "Dam"],
+      "correctAnswer": "Khadin",
+      "explanation": "Khadin is a traditional water harvesting system in Rajasthan. Tube wells, hand pumps, and dams are modern methods."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 819,
+      "text": "Bishnoi community is known for conservation of forests.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The Bishnoi community of Rajasthan is famous for their commitment to protecting trees and wildlife."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 814,
+      "text": "What is the main benefit of water harvesting?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "It helps conserve water and recharge groundwater.",
+      "explanation": "Water harvesting collects rainwater, reduces runoff, recharges groundwater, and provides water during dry periods."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 820,
+      "text": "The Chipko movement was started by ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Sunderlal Bahuguna (or local villagers)",
+      "explanation": "The Chipko movement was started by Sunderlal Bahuguna and local villagers in Uttarakhand to protect trees."
+    }
+  ]
+}
