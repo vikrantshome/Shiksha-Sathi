@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 19,
+    "chapterTitle": "Crop Production and Management",
+    "sourceFile": "hecu119.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 428,
+      "text": "Which of these is a Kharif crop?",
+      "type": "MCQ",
+      "options": ["Wheat", "Rice", "Gram", "Mustard"],
+      "correctAnswer": "Rice",
+      "explanation": "Rice is a Kharif crop (sown in rainy season). Wheat, gram, mustard are Rabi crops (sown in winter)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 429,
+      "text": "Irrigation is the supply of water to crops at regular intervals.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Irrigation is the artificial supply of water to crops at regular intervals for proper growth."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 424,
+      "text": "What is threshing?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The process of separating grains from harvested crop.",
+      "explanation": "Threshing separates grains from the chaff after harvesting. It can be done manually or by machines."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 430,
+      "text": "The process of loosening and turning soil is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "ploughing (or tilling)",
+      "explanation": "Ploughing/tilling is the process of loosening and turning soil to prepare it for sowing seeds."
+    }
+  ]
+}
