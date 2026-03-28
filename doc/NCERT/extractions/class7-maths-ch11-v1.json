@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 11,
+    "chapterTitle": "Perimeter and Area",
+    "sourceFile": "gegp111.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 218,
+      "text": "Perimeter of a square with side 5 cm is:",
+      "type": "MCQ",
+      "options": ["10 cm", "20 cm", "25 cm", "15 cm"],
+      "correctAnswer": "20 cm",
+      "explanation": "Perimeter of square = 4 × side = 4 × 5 = 20 cm"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 219,
+      "text": "Area of a triangle = (1/2) × base × height.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Area of triangle = (1/2) × base × height. This formula works for all triangles."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 214,
+      "text": "What is the formula for circumference of a circle?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Circumference = 2πr or πd",
+      "explanation": "Circumference is the distance around a circle. C = 2πr where r is radius, or C = πd where d is diameter."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 220,
+      "text": "1 hectare = ________ m².",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "10,000",
+      "explanation": "1 hectare = 10,000 m². This is a standard unit conversion for land area."
+    }
+  ]
+}

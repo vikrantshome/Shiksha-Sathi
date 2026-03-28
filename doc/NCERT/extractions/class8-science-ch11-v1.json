@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 11,
+    "chapterTitle": "Chemical Effects of Electric Current",
+    "sourceFile": "hecu111.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 268,
+      "text": "Which of these is a good conductor of electricity?",
+      "type": "MCQ",
+      "options": ["Distilled water", "Copper wire", "Rubber", "Wood"],
+      "correctAnswer": "Copper wire",
+      "explanation": "Copper is a metal and a good conductor of electricity. Rubber, wood, and distilled water are insulators."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 269,
+      "text": "Electroplating is based on chemical effect of electric current.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Electroplating uses the chemical effect of electric current to deposit a layer of metal on another object."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 264,
+      "text": "What is electrolysis?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The decomposition of a substance by passing electric current through its solution.",
+      "explanation": "Electrolysis is the chemical decomposition produced by passing electric current through a conducting solution."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 270,
+      "text": "The electrode connected to positive terminal is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "anode",
+      "explanation": "Anode is the positive electrode, cathode is the negative electrode in an electrolytic cell."
+    }
+  ]
+}
