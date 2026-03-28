@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 43,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc143.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 878,
+      "text": "Which of these is a method of water conservation?",
+      "type": "MCQ",
+      "options": ["Deforestation", "Drip irrigation", "Overgrazing", "Industrial waste"],
+      "correctAnswer": "Drip irrigation",
+      "explanation": "Drip irrigation conserves water by delivering it directly to plant roots. Deforestation, overgrazing, and industrial waste cause water depletion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 879,
+      "text": "Forest conservation is important for maintaining ecological balance.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Forests maintain ecological balance by producing oxygen, preventing soil erosion, and providing habitat for wildlife."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 874,
+      "text": "What is the main cause of air pollution in cities?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Vehicle emissions, industrial pollution, and burning of fossil fuels.",
+      "explanation": "Air pollution in cities is mainly caused by vehicle exhaust, industrial emissions, and burning of fossil fuels for energy."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 880,
+      "text": "The process of cleaning water to make it fit for drinking is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "purification",
+      "explanation": "Water purification removes contaminants to make water safe for drinking and other uses."
+    }
+  ]
+}
