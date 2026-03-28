@@ -23,10 +23,14 @@
 2. Create free cluster (M0 - Free tier)
 3. Create database user (username + password)
 4. Whitelist IP: `0.0.0.0/0` (Allow access from anywhere)
-5. Get connection string:
-   ```
-   mongodb+srv://username:password@cluster.mongodb.net/shikshasathi?retryWrites=true&w=majority
-   ```
+5. Get connection string from Atlas dashboard
+
+**Connection string format:**
+```
+mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+```
+
+⚠️ **IMPORTANT:** Never commit your actual connection string to Git. Always use `.env.local` (gitignored).
 
 ### Environment Setup
 
@@ -35,15 +39,17 @@
 # Copy template
 cp .env.local.example .env.local
 
-# Edit with your MongoDB Atlas URI
+# Edit with your MongoDB Atlas URI (NEVER commit this file)
 nano .env.local
 ```
 
 **.env.local should have:**
 ```bash
-MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/shikshasathi?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/shikshasathi?retryWrites=true&w=majority
 JWT_SECRET=your-secret-key-here
 ```
+
+⚠️ **SECURITY:** `.env.local` is gitignored. Never commit real credentials!
 
 ### Start Services
 
