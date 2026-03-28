@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 29,
+    "chapterTitle": "Management of Natural Resources",
+    "sourceFile": "jesc129.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 618,
+      "text": "Which of these is a traditional water harvesting structure?",
+      "type": "MCQ",
+      "options": ["Dam", "Khadin", "Tube well", "Canal"],
+      "correctAnswer": "Khadin",
+      "explanation": "Khadin is a traditional water harvesting system in Rajasthan. Dams, tube wells, and canals are modern water management structures."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 619,
+      "text": "Recycling of paper helps in conservation of forests.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Recycling paper reduces the need for cutting trees, thus helping in forest conservation."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 614,
+      "text": "What is the main aim of the Ganga Action Plan?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To reduce pollution and clean the Ganga river.",
+      "explanation": "Ganga Action Plan aims to reduce pollution by treating sewage and industrial waste before it enters the Ganga river."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 620,
+      "text": "The three R's for conservation are Reduce, Reuse, and ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Recycle",
+      "explanation": "The three R's are Reduce (minimize use), Reuse (use again), and Recycle (process waste into new products)."
+    }
+  ]
+}
