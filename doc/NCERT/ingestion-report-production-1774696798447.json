@@ -1,0 +1,9 @@
+{
+  "startedAt": "2026-03-28T11:19:46.725Z",
+  "completedAt": "2026-03-28T11:19:58.447Z",
+  "mode": "production",
+  "filesProcessed": 2,
+  "questionsIngested": 8,
+  "questionsSkipped": 1036,
+  "errors": []
+}
