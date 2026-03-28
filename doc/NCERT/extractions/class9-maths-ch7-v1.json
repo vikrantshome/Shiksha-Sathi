@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 7,
+    "chapterTitle": "Heron's Formula",
+    "sourceFile": "iemh107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 138,
+      "text": "Heron's formula is used to find the area of a triangle when:",
+      "type": "MCQ",
+      "options": ["Base and height are given", "All three sides are given", "Two sides are given", "One side and one angle are given"],
+      "correctAnswer": "All three sides are given",
+      "explanation": "Heron's formula calculates the area of a triangle when all three sides are known, without needing the height."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 139,
+      "text": "Semi-perimeter s = (a + b + c)/2.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Semi-perimeter is half the perimeter of a triangle. s = (a + b + c)/2 where a, b, c are the three sides."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 134,
+      "text": "State Heron's formula.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Area = √[s(s-a)(s-b)(s-c)] where s is semi-perimeter",
+      "explanation": "Heron's formula: Area = √[s(s-a)(s-b)(s-c)], where s = (a+b+c)/2 and a, b, c are the sides of the triangle."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 140,
+      "text": "For an equilateral triangle with side a, area = ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "(√3/4)a²",
+      "explanation": "Area of equilateral triangle = (√3/4) × side² = (√3/4)a²"
+    }
+  ]
+}
