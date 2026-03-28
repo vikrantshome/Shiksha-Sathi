@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 18,
+    "chapterTitle": "Wastewater Story",
+    "sourceFile": "gecu118.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 388,
+      "text": "Wastewater is treated in:",
+      "type": "MCQ",
+      "options": ["Hospitals", "Sewage treatment plants", "Factories", "Homes"],
+      "correctAnswer": "Sewage treatment plants",
+      "explanation": "Wastewater is treated in sewage treatment plants (STP) to remove pollutants before releasing into water bodies."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 389,
+      "text": "Sludge is the solid waste that settles at the bottom during wastewater treatment.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Sludge is the solid organic matter that settles at the bottom during sedimentation in wastewater treatment."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 384,
+      "text": "What is biogas?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Gas produced by anaerobic decomposition of organic matter, mainly methane.",
+      "explanation": "Biogas is produced when sludge decomposes anaerobically. It contains methane and can be used as fuel."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 390,
+      "text": "The process of removing pollutants from water before it enters water bodies is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "sewage treatment",
+      "explanation": "Sewage treatment is the process of removing contaminants from wastewater to make it safe for disposal."
+    }
+  ]
+}
