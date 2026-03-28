@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 13,
+    "chapterTitle": "Algebraic Expressions",
+    "sourceFile": "gegp113.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 258,
+      "text": "An expression with one term is called:",
+      "type": "MCQ",
+      "options": ["Binomial", "Trinomial", "Monomial", "Polynomial"],
+      "correctAnswer": "Monomial",
+      "explanation": "A monomial has one term (e.g., 5x). Binomial has two terms, trinomial has three terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 259,
+      "text": "Like terms have the same variables raised to same powers.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Like terms have identical algebraic factors. Example: 3x²y and 5x²y are like terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 254,
+      "text": "What is the degree of a polynomial?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The highest power of the variable in the polynomial.",
+      "explanation": "Degree is the highest exponent. Example: 3x² + 5x + 2 has degree 2."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 260,
+      "text": "The numerical coefficient of -5xy is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "-5",
+      "explanation": "The numerical coefficient is the number multiplying the variables. In -5xy, it's -5."
+    }
+  ]
+}
