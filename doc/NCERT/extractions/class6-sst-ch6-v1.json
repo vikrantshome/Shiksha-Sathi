@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Social Science",
+    "book": "Social and Political Life",
+    "chapterNumber": 6,
+    "chapterTitle": "Urban Livelihoods",
+    "sourceFile": "fees106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 75,
+      "text": "Where do most urban people work?",
+      "type": "MCQ",
+      "options": ["Farms", "Factories", "Shops and offices", "Forests"],
+      "correctAnswer": "Shops and offices",
+      "explanation": "Most urban people work in shops, offices, factories, and service sectors like hospitals and schools."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 76,
+      "text": "Street vendors need a permanent shop to sell their goods.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "Street vendors often sell from temporary stalls or pushcarts. They don't have permanent shops."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 71,
+      "text": "What is a market?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A place where goods and services are bought and sold.",
+      "explanation": "A market is any place where buyers and sellers come together to exchange goods and services."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 77,
+      "text": "People who work in offices are called ________ workers.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "white-collar",
+      "explanation": "White-collar workers typically work in offices and do administrative or professional work."
+    }
+  ]
+}
