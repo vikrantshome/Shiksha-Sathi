@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 5,
+    "chapterTitle": "Algebraic Expressions",
+    "sourceFile": "gegp105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 92,
+      "text": "The coefficient of x in 3x + 5 is:",
+      "type": "MCQ",
+      "options": ["3", "5", "x", "8"],
+      "correctAnswer": "3",
+      "explanation": "In the expression 3x + 5, the coefficient of x is 3 (the number multiplying x)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 93,
+      "text": "Terms with same variables are called like terms.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Like terms have the same variables raised to the same powers. They can be added or subtracted."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 88,
+      "text": "What is a monomial?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "An algebraic expression with only one term.",
+      "explanation": "A monomial is an expression with one term. Examples: 5x, 3y², 7. Binomial has two terms, trinomial has three."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 94,
+      "text": "The value of 2x + 3 when x = 4 is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "11",
+      "explanation": "When x = 4: 2x + 3 = 2(4) + 3 = 8 + 3 = 11"
+    }
+  ]
+}
