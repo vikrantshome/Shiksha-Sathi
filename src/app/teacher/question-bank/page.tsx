@@ -37,7 +37,7 @@ export default async function QuestionBankPage({
       chapter,
       q,
       type,
-      approvedOnly: true // Only show approved NCERT content to teachers
+      visibleOnly: true // Production: only show PUBLISHED content
     });
   }
 

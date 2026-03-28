@@ -68,3 +68,4 @@ doc/temporary stuck chat/
 # Allow the NCERT registry file
 !doc/NCERT/registry.json
 doc/NCERT
+.env*.local

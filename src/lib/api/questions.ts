@@ -38,6 +38,7 @@ export const questions = {
     q?: string | null;
     type?: string | null;
     approvedOnly?: boolean;
+    visibleOnly?: boolean;
   }): Promise<Question[]> => {
     const params = new URLSearchParams();
     if (filters.board) params.append('board', filters.board);
@@ -47,7 +48,8 @@ export const questions = {
     if (filters.chapter) params.append('chapter', filters.chapter);
     if (filters.q) params.append('q', filters.q);
     if (filters.type && filters.type !== 'ALL') params.append('type', filters.type);
-    if (filters.approvedOnly) params.append('approvedOnly', 'true');
+    if (filters.visibleOnly) params.append('visibleOnly', 'true');
+    else if (filters.approvedOnly) params.append('approvedOnly', 'true');
 
     return fetchApi<Question[]>(`/questions/search?${params.toString()}`, { method: 'GET' });
   },
