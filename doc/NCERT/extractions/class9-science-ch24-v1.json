@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 24,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc124.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 498,
+      "text": "Which of these is a fossil fuel?",
+      "type": "MCQ",
+      "options": ["Wood", "Coal", "Biogas", "Solar energy"],
+      "correctAnswer": "Coal",
+      "explanation": "Coal is a fossil fuel formed from ancient plant remains. Wood, biogas, and solar energy are renewable."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 499,
+      "text": "Air pollution is caused by burning of fossil fuels.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Burning fossil fuels releases pollutants like SO₂, NO₂, CO₂, and particulate matter causing air pollution."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 494,
+      "text": "What is rainwater harvesting?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The collection and storage of rainwater for later use.",
+      "explanation": "Rainwater harvesting collects rainwater from rooftops or surfaces and stores it for future use, helping conserve water."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 500,
+      "text": "The process of soil erosion can be prevented by ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "afforestation (or planting trees)",
+      "explanation": "Planting trees (afforestation) helps prevent soil erosion as tree roots hold the soil firmly."
+    }
+  ]
+}
