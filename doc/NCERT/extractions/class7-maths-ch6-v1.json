@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 6,
+    "chapterTitle": "The Triangle and its Properties",
+    "sourceFile": "gegp106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 118,
+      "text": "The sum of angles in a triangle is:",
+      "type": "MCQ",
+      "options": ["90°", "180°", "270°", "360°"],
+      "correctAnswer": "180°",
+      "explanation": "The angle sum property of a triangle states that the sum of all three interior angles is 180°."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 119,
+      "text": "In a right triangle, the side opposite to the right angle is called hypotenuse.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The hypotenuse is the longest side of a right triangle, opposite to the right angle."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 114,
+      "text": "What is an altitude of a triangle?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A perpendicular line segment from a vertex to the opposite side.",
+      "explanation": "An altitude is the perpendicular dropped from a vertex to the line containing the opposite side."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 120,
+      "text": "A triangle with all sides equal is called an ________ triangle.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "equilateral",
+      "explanation": "An equilateral triangle has all three sides equal and all three angles equal to 60°."
+    }
+  ]
+}

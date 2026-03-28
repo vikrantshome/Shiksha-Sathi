@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 6,
+    "chapterTitle": "Physical and Chemical Changes",
+    "sourceFile": "gecu106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 108,
+      "text": "Which of these is a physical change?",
+      "type": "MCQ",
+      "options": ["Burning paper", "Rusting iron", "Melting ice", "Cooking food"],
+      "correctAnswer": "Melting ice",
+      "explanation": "Melting ice is a physical change because no new substance is formed. The change is reversible."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 109,
+      "text": "Rusting of iron is a chemical change.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Rusting is a chemical change where iron reacts with oxygen and moisture to form iron oxide (rust)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 104,
+      "text": "What is crystallization?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The process of obtaining pure substance in the form of crystals from its solution.",
+      "explanation": "Crystallization is a physical change used to obtain pure crystals from impure solutions."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 110,
+      "text": "The process of coating iron with zinc to prevent rusting is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "galvanization",
+      "explanation": "Galvanization is the process of depositing a layer of zinc on iron to prevent rusting."
+    }
+  ]
+}
