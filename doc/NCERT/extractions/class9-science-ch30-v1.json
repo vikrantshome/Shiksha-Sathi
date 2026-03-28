@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 30,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc130.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 618,
+      "text": "Which of these is a consequence of air pollution?",
+      "type": "MCQ",
+      "options": ["Global warming", "Acid rain", "Respiratory diseases", "All of these"],
+      "correctAnswer": "All of these",
+      "explanation": "Air pollution causes global warming (greenhouse gases), acid rain (SO₂, NO₂), and respiratory diseases in humans."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 619,
+      "text": "Water pollution can be prevented by treating industrial waste.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Treating industrial waste before disposal prevents water pollution by removing harmful chemicals and pollutants."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 614,
+      "text": "What is the main cause of soil pollution?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Excessive use of fertilizers, pesticides, and industrial waste disposal.",
+      "explanation": "Soil pollution is mainly caused by excessive use of chemical fertilizers, pesticides, and improper disposal of industrial and household waste."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 620,
+      "text": "The process of planting trees is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "afforestation",
+      "explanation": "Afforestation is the process of planting trees in areas where there were no forests before, helping restore the environment."
+    }
+  ]
+}
