@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 15,
+    "chapterTitle": "Probability",
+    "sourceFile": "iemh115.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 298,
+      "text": "The probability of a certain event is:",
+      "type": "MCQ",
+      "options": ["0", "0.5", "1", "2"],
+      "correctAnswer": "1",
+      "explanation": "Probability of a certain event is 1. Probability of impossible event is 0."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 299,
+      "text": "Probability lies between 0 and 1.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Probability of any event always lies between 0 and 1 (inclusive)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 294,
+      "text": "What is the formula for probability?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "P(E) = Number of favorable outcomes / Total number of outcomes",
+      "explanation": "Probability of event E = n(E)/n(S), where n(E) is favorable outcomes and n(S) is total outcomes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 300,
+      "text": "The probability of getting a head when a coin is tossed is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1/2",
+      "explanation": "When a fair coin is tossed, there are 2 equally likely outcomes (H or T). P(H) = 1/2."
+    }
+  ]
+}
