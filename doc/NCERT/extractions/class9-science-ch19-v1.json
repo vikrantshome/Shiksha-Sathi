@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 19,
+    "chapterTitle": "Improvement in Food Resources",
+    "sourceFile": "iesc119.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 398,
+      "text": "Which of these is a Rabi crop?",
+      "type": "MCQ",
+      "options": ["Rice", "Maize", "Wheat", "Soybean"],
+      "correctAnswer": "Wheat",
+      "explanation": "Wheat is a Rabi crop (sown in winter). Rice, maize, and soybean are Kharif crops (sown in rainy season)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 399,
+      "text": "Green manure enriches soil with nitrogen.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Green manure is prepared by ploughing green plants into the soil. Leguminous plants add nitrogen to soil."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 394,
+      "text": "What is hybridization?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Crossing between genetically dissimilar plants to obtain improved varieties.",
+      "explanation": "Hybridization is the crossing of two different varieties to combine desirable traits from both parents."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 400,
+      "text": "The practice of rearing fish on large scale is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "pisciculture",
+      "explanation": "Pisciculture is the breeding, rearing, and transplantation of fish by artificial means."
+    }
+  ]
+}
