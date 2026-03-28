@@ -11,29 +11,49 @@
 
 ### Prerequisites
 
-1. **Docker Desktop** running
-2. **Node.js** v18+ installed
-3. **Java** v21+ installed (for backend)
+1. **Node.js** v18+ installed
+2. **Java** v21+ installed (for backend)
+3. **MongoDB** connection configured in `.env.local`
+
+### Environment Setup
+
+**Check your `.env.local` file:**
+```bash
+# .env.local should have:
+MONGODB_URI=mongodb://your-mongodb-host:27017/shikshasathi
+```
 
 ### Start Services
 
 ```bash
-# Start MongoDB
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
-docker-compose up -d mongodb
-
 # Start Backend (Terminal 1)
-cd backend
+cd "/Users/anuraagpatil/naviksha/Shiksha Sathi/backend"
 ./gradlew bootRun
 
 # Start Frontend (Terminal 2)
+cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
 npm run dev:frontend
 ```
 
 **Access:**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
-- MongoDB: mongodb://localhost:27017
+- MongoDB: Uses URI from `.env.local`
+
+---
+
+### Alternative: Using Docker MongoDB (Optional)
+
+If you want to use local Docker MongoDB instead:
+
+```bash
+# Start MongoDB in Docker
+cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
+docker-compose up -d mongodb
+
+# Update .env.local temporarily
+echo "MONGODB_URI=mongodb://localhost:27017/shikshasathi" >> .env.local
+```
 
 ---
 
@@ -273,8 +293,8 @@ BUILD SUCCESSFUL
 **Verify question data:**
 
 ```bash
-# Connect to MongoDB
-docker exec -it shikshasathi-mongodb mongosh shikshasathi
+# Using MongoDB CLI with your .env.local URI
+mongosh $(grep MONGODB_URI .env.local | cut -d'=' -f2)
 
 # Count total questions
 db.questions.countDocuments()
@@ -296,6 +316,12 @@ db.questions.countDocuments({ review_status: "PENDING" })
 # Expected: 336
 ```
 
+**Alternative: Using MongoDB Compass**
+1. Open MongoDB Compass
+2. Connect using URI from `.env.local`
+3. Navigate to `shikshasathi` database → `questions` collection
+4. Run queries in "Documents" tab
+
 ---
 
 ## � Remaining Work (Backlog)
@@ -311,7 +337,7 @@ db.questions.countDocuments({ review_status: "PENDING" })
 
 **Steps:**
 1. Extract questions for remaining chapters (see `doc/NCERT/extractions/`)
-2. Run: `MONGODB_URI=mongodb://localhost:27017 node scripts/update-registry-titles.mjs`
+2. Run: `node scripts/update-registry-titles.mjs` (uses `.env.local` MongoDB URI)
 3. Commit `doc/NCERT/registry-updated.json`
 
 **Priority:** Low - Does not affect production

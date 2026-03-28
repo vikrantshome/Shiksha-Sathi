@@ -1,5 +1,9 @@
 import fs from 'fs';
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
+
+// Load .env.local for MongoDB URI
+dotenv.config({ path: '.env.local' });
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
