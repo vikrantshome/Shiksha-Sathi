@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 14,
+    "chapterTitle": "Statistics",
+    "sourceFile": "iemh114.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 278,
+      "text": "The mean of first 5 natural numbers is:",
+      "type": "MCQ",
+      "options": ["2", "2.5", "3", "3.5"],
+      "correctAnswer": "3",
+      "explanation": "Mean = (1+2+3+4+5)/5 = 15/5 = 3"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 279,
+      "text": "Mode is the most frequently occurring observation.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Mode is the value that appears most frequently in a data set."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 274,
+      "text": "What is the formula for mean of grouped data?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Mean = Σfᵢxᵢ / Σfᵢ",
+      "explanation": "For grouped data, mean = Σfᵢxᵢ / Σfᵢ, where fᵢ is frequency and xᵢ is class mark."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 280,
+      "text": "The median divides the data into ________ equal parts.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "two",
+      "explanation": "Median is the middle value that divides the data into two equal halves."
+    }
+  ]
+}
