@@ -13,6 +13,9 @@ async function ingest(filePath) {
   const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   const { provenance, questions } = data;
 
+  // Generate extraction run ID from file metadata for proper versioning (SSA-200)
+  const extractionRunId = `${provenance.class}-${provenance.subject}-${provenance.book.replace(/\s+/g, '-').toLowerCase()}-ch${provenance.chapterNumber}-v1`;
+
   try {
     await client.connect();
     const db = client.db("shikshasathi");
@@ -24,16 +27,26 @@ async function ingest(filePath) {
       chapter: `Chapter ${provenance.chapterNumber}: ${provenance.chapterTitle}`,
       provenance: {
         ...provenance,
-        extraction_run_id: "initial-v1" // Mock ID for now
+        extraction_run_id: extractionRunId
       },
-      review_status: "APPROVED", // Auto-approving for this phase
+      review_status: "PENDING", // Require review before publishing (SSA-210)
       created_at: new Date(),
       updated_at: new Date()
     }));
 
-    // In a real scenario, we'd check for existing questions from the same extraction run/chapter
+    // Check for existing questions from the same extraction run
+    const existingCount = await collection.countDocuments({
+      "provenance.extraction_run_id": extractionRunId
+    });
+
+    if (existingCount > 0) {
+      console.log(`⚠️  Skipping ${filePath}: ${existingCount} questions already exist for this extraction run`);
+      return;
+    }
+
     const result = await collection.insertMany(mappedQuestions);
-    console.log(`Ingested ${result.insertedCount} questions from ${filePath}`);
+    console.log(`✅ Ingested ${result.insertedCount} questions from ${filePath} (Status: PENDING review)`);
+    console.log(`   Extraction Run ID: ${extractionRunId}`);
   } catch (error) {
     console.error("Error during ingestion:", error);
   } finally {

@@ -18,7 +18,7 @@ public class Provenance {
     @Field("board")
     private String board;
 
-    @Field("class_level")
+    @Field("class")
     private String classLevel;
 
     @Field("subject")
