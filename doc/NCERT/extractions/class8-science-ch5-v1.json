@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 5,
+    "chapterTitle": "Combustion and Flame",
+    "sourceFile": "hecu105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 78,
+      "text": "Which gas is necessary for combustion?",
+      "type": "MCQ",
+      "options": ["Nitrogen", "Oxygen", "Carbon dioxide", "Hydrogen"],
+      "correctAnswer": "Oxygen",
+      "explanation": "Oxygen is necessary for combustion. It supports burning and is called the supporter of combustion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 79,
+      "text": "Water can be used to extinguish oil fires.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "Water should NOT be used on oil fires because oil floats on water and spreads the fire. Use foam or CO₂ extinguishers."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 74,
+      "text": "What is ignition temperature?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The minimum temperature at which a substance catches fire.",
+      "explanation": "Ignition temperature is the lowest temperature at which a substance will spontaneously ignite and burn without external heat source."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 80,
+      "text": "The innermost zone of a flame is the ________ zone.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "darkest",
+      "explanation": "The innermost zone of a candle flame is the darkest zone containing unburnt wax vapours."
+    }
+  ]
+}
