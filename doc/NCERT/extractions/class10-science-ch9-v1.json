@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 9,
+    "chapterTitle": "Heredity and Evolution",
+    "sourceFile": "jesc109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 168,
+      "text": "Who is known as the father of genetics?",
+      "type": "MCQ",
+      "options": ["Darwin", "Mendel", "Lamarck", "Haldane"],
+      "correctAnswer": "Mendel",
+      "explanation": "Gregor Johann Mendel is known as the father of genetics for his work on pea plants that established the laws of inheritance."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 169,
+      "text": "Evolution occurs by natural selection.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Darwin's theory of evolution states that evolution occurs through natural selection, where organisms better adapted to their environment survive and reproduce."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 164,
+      "text": "What are homologous organs?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Organs with same basic structure but different functions.",
+      "explanation": "Homologous organs have similar structure and origin but different functions. Example: forelimbs of human, bat, whale."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 170,
+      "text": "The scientific name of human is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Homo sapiens",
+      "explanation": "Homo sapiens is the scientific name for modern humans. 'Homo' means man, 'sapiens' means wise."
+    }
+  ]
+}
