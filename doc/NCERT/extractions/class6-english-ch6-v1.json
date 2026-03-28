@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 6,
+    "chapterTitle": "A Game of Chance",
+    "sourceFile": "fepr106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 75,
+      "text": "What lesson does 'A Game of Chance' teach?",
+      "type": "MCQ",
+      "options": ["Hard work pays off", "Gambling is risky", "Friends are important", "Money brings happiness"],
+      "correctAnswer": "Gambling is risky",
+      "explanation": "The story warns against the dangers of gambling and shows how it can lead to loss and regret."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 76,
+      "text": "The main character lost all his money at the fair.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "In the story, the protagonist gambles away all his money at the fair games, learning a hard lesson."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 72,
+      "text": "Why did Rasheed feel foolish after the fair?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "He realized he had been tricked into gambling and lost all his money.",
+      "explanation": "Rasheed understood that the game was rigged and he had been fooled by the shopkeeper's tricks."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 77,
+      "text": "Rasheed's uncle advised him not to ________ at the fair.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "gamble",
+      "explanation": "Rasheed's uncle warned him against gambling at the fair, but he didn't listen and lost his money."
+    }
+  ]
+}

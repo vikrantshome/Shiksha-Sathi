@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 10,
+    "chapterTitle": "Perimeter and Area",
+    "sourceFile": "fegp110.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 175,
+      "text": "The perimeter of a rectangle is calculated as:",
+      "type": "MCQ",
+      "options": ["l × b", "2(l + b)", "l + b", "2l + b"],
+      "correctAnswer": "2(l + b)",
+      "explanation": "Perimeter of rectangle = 2(length + breadth). This gives the total distance around the rectangle."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 176,
+      "text": "Area of a square = side × side.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Area of a square = side × side (or side²). This gives the space enclosed within the square."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 171,
+      "text": "What is the difference between perimeter and area?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Perimeter is the distance around a shape. Area is the space inside the shape.",
+      "explanation": "Perimeter measures the boundary length (in units like cm, m). Area measures the surface covered (in square units like cm², m²)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 177,
+      "text": "The area of a rectangle with length 5 cm and breadth 3 cm is ________ cm².",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "15",
+      "explanation": "Area of rectangle = length × breadth = 5 × 3 = 15 cm²"
+    }
+  ]
+}
