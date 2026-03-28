@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 35,
+    "chapterTitle": "Management of Natural Resources",
+    "sourceFile": "jesc135.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 738,
+      "text": "Which of these is a renewable resource?",
+      "type": "MCQ",
+      "options": ["Petroleum", "Coal", "Solar energy", "Natural gas"],
+      "correctAnswer": "Solar energy",
+      "explanation": "Solar energy is renewable as it is continuously available. Petroleum, coal, and natural gas are non-renewable fossil fuels."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 739,
+      "text": "Recycling of paper helps in conservation of forests.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Recycling paper reduces the need for cutting trees, thus helping in forest conservation."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 734,
+      "text": "What is the main aim of the Chipko movement?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To protect trees from cutting and conserve forests.",
+      "explanation": "The Chipko movement started in 1973 in Uttarakhand to protect trees by hugging them, preventing loggers from cutting."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 740,
+      "text": "The three R's for conservation are Reduce, Reuse, and ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Recycle",
+      "explanation": "The three R's are Reduce (minimize use), Reuse (use again), and Recycle (process waste into new products)."
+    }
+  ]
+}
