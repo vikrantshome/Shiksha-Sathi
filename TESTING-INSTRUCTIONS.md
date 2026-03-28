@@ -298,7 +298,27 @@ db.questions.countDocuments({ review_status: "PENDING" })
 
 ---
 
-## 🐛 Known Issues & Workarounds
+## � Remaining Work (Backlog)
+
+### Registry Title Completion
+
+**Parent Task:** SSA-198 (Done - Base Registry Complete)
+
+**Remaining Work:**
+- 253/272 chapter titles need updating (93%)
+- Script ready: `scripts/update-registry-titles.mjs`
+- **Action Required:** Extract questions for Classes 9-12, then run script
+
+**Steps:**
+1. Extract questions for remaining chapters (see `doc/NCERT/extractions/`)
+2. Run: `MONGODB_URI=mongodb://localhost:27017 node scripts/update-registry-titles.mjs`
+3. Commit `doc/NCERT/registry-updated.json`
+
+**Priority:** Low - Does not affect production
+
+---
+
+## �🐛 Known Issues & Workarounds
 
 ### Issue 1: All Questions Show as PENDING
 
