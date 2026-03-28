@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 16,
+    "chapterTitle": "Water: A Precious Resource",
+    "sourceFile": "gecu116.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 348,
+      "text": "Most of the Earth's water is found in:",
+      "type": "MCQ",
+      "options": ["Rivers", "Lakes", "Oceans", "Groundwater"],
+      "correctAnswer": "Oceans",
+      "explanation": "About 97% of Earth's water is in oceans. Only 3% is freshwater, and most of that is frozen in glaciers."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 349,
+      "text": "Groundwater is replenished by infiltration.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Infiltration is the process of water seeping into the ground, which replenishes groundwater."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 344,
+      "text": "What is water table?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The level below which the ground is saturated with water.",
+      "explanation": "Water table is the upper limit of groundwater. It varies from place to place and season to season."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 350,
+      "text": "The process of water changing into vapour is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "evaporation",
+      "explanation": "Evaporation is the process where liquid water changes into water vapour due to heating."
+    }
+  ]
+}
