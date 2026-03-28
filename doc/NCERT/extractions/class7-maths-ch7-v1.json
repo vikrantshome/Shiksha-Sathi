@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 7,
+    "chapterTitle": "Congruence of Triangles",
+    "sourceFile": "gegp107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 138,
+      "text": "Two triangles are congruent if:",
+      "type": "MCQ",
+      "options": ["They have same area", "They have same shape and size", "They have same perimeter", "They look similar"],
+      "correctAnswer": "They have same shape and size",
+      "explanation": "Congruent triangles have exactly the same shape and size. All corresponding sides and angles are equal."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 139,
+      "text": "SSS congruence rule requires three sides to be equal.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "SSS (Side-Side-Side) congruence rule states that if three sides of one triangle equal three sides of another, they are congruent."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 134,
+      "text": "What does CPCT stand for?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Corresponding Parts of Congruent Triangles",
+      "explanation": "CPCT means that if two triangles are congruent, their corresponding parts (sides and angles) are equal."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 140,
+      "text": "In RHS congruence, H stands for ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Hypotenuse",
+      "explanation": "RHS congruence rule: Right angle - Hypotenuse - Side. Used for right-angled triangles."
+    }
+  ]
+}
