@@ -13,14 +13,36 @@
 
 1. **Node.js** v18+ installed
 2. **Java** v21+ installed (for backend)
-3. **MongoDB** connection configured in `.env.local`
+3. **MongoDB Atlas** cluster configured
+
+### MongoDB Atlas Setup (Required)
+
+**Create free MongoDB Atlas cluster:**
+
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+2. Create free cluster (M0 - Free tier)
+3. Create database user (username + password)
+4. Whitelist IP: `0.0.0.0/0` (Allow access from anywhere)
+5. Get connection string:
+   ```
+   mongodb+srv://username:password@cluster.mongodb.net/shikshasathi?retryWrites=true&w=majority
+   ```
 
 ### Environment Setup
 
-**Check your `.env.local` file:**
+**Configure `.env.local`:**
 ```bash
-# .env.local should have:
-MONGODB_URI=mongodb://your-mongodb-host:27017/shikshasathi
+# Copy template
+cp .env.local.example .env.local
+
+# Edit with your MongoDB Atlas URI
+nano .env.local
+```
+
+**.env.local should have:**
+```bash
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/shikshasathi?retryWrites=true&w=majority
+JWT_SECRET=your-secret-key-here
 ```
 
 ### Start Services
@@ -38,22 +60,23 @@ npm run dev:frontend
 **Access:**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
-- MongoDB: Uses URI from `.env.local`
+- MongoDB: Uses Atlas cluster from `.env.local`
 
 ---
 
-### Alternative: Using Docker MongoDB (Optional)
+### Local Development (Optional - Not Recommended)
 
-If you want to use local Docker MongoDB instead:
+If you need local MongoDB for offline development:
 
 ```bash
-# Start MongoDB in Docker
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
-docker-compose up -d mongodb
+# Install MongoDB locally or use Docker
+docker run -d -p 27017:27017 --name mongodb mongo:7.0.4
 
 # Update .env.local temporarily
-echo "MONGODB_URI=mongodb://localhost:27017/shikshasathi" >> .env.local
+MONGODB_URI=mongodb://localhost:27017/shikshasathi
 ```
+
+**Note:** Production uses MongoDB Atlas. Local MongoDB is for offline development only.
 
 ---
 
