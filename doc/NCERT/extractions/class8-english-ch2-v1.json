@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 2,
+    "chapterTitle": "The Ant and the Cricket",
+    "sourceFile": "hepr102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 32,
+      "text": "What did the cricket do during summer?",
+      "type": "MCQ",
+      "options": ["Stored food", "Sang and danced", "Built a house", "Worked hard"],
+      "correctAnswer": "Sang and danced",
+      "explanation": "The cricket spent the summer singing and dancing instead of preparing for winter, unlike the hardworking ant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 33,
+      "text": "The ant helped the cricket during winter.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "The ant refused to help the cricket, teaching the lesson that one must work hard and prepare for the future."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 29,
+      "text": "What moral does the poem teach?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The poem teaches that we should work hard and prepare for the future.",
+      "explanation": "The fable teaches the importance of hard work, planning ahead, and not being lazy."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 34,
+      "text": "A fable is a short story that teaches a ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "moral",
+      "explanation": "A fable is a short story, often with animals as characters, that teaches a moral lesson."
+    }
+  ]
+}
