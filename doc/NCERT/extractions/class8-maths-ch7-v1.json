@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 7,
+    "chapterTitle": "Algebraic Expressions and Identities",
+    "sourceFile": "hegp107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 128,
+      "text": "An expression with two terms is called:",
+      "type": "MCQ",
+      "options": ["Monomial", "Binomial", "Trinomial", "Polynomial"],
+      "correctAnswer": "Binomial",
+      "explanation": "A binomial has two terms (e.g., x + y). Monomial has one term, trinomial has three terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 129,
+      "text": "(a + b)² = a² + 2ab + b².",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "This is a standard algebraic identity: (a + b)² = a² + 2ab + b²"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 124,
+      "text": "What are like terms?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Terms with same variables raised to same powers.",
+      "explanation": "Like terms have same algebraic factors. Example: 3x and 5x are like terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 130,
+      "text": "The product of monomial and binomial is a ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "binomial",
+      "explanation": "When a monomial multiplies a binomial, the result is a binomial. Example: 2(x + y) = 2x + 2y"
+    }
+  ]
+}

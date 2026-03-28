@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 7,
+    "chapterTitle": "Reaching the Age of Adolescence",
+    "sourceFile": "hecu107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 168,
+      "text": "The hormone responsible for male characteristics is:",
+      "type": "MCQ",
+      "options": ["Estrogen", "Testosterone", "Insulin", "Thyroxine"],
+      "correctAnswer": "Testosterone",
+      "explanation": "Testosterone is the male sex hormone produced by testes. It controls male secondary sexual characteristics."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 169,
+      "text": "Adolescence is the period of physical and mental development.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Adolescence is the transitional period between childhood and adulthood involving physical, mental, and emotional changes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 164,
+      "text": "What is puberty?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The process of physical changes leading to sexual maturity.",
+      "explanation": "Puberty is the process during which adolescents develop secondary sexual characteristics and become capable of reproduction."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 170,
+      "text": "The female sex hormone is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "estrogen",
+      "explanation": "Estrogen is the primary female sex hormone produced by ovaries. It controls female secondary sexual characteristics."
+    }
+  ]
+}
