@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 5,
+    "chapterTitle": "Acids, Bases and Salts",
+    "sourceFile": "gecu105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 72,
+      "text": "Which of these turns blue litmus red?",
+      "type": "MCQ",
+      "options": ["Base", "Acid", "Salt", "Water"],
+      "correctAnswer": "Acid",
+      "explanation": "Acids turn blue litmus paper red. Bases turn red litmus paper blue."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 73,
+      "text": "Sodium hydroxide is a base.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Sodium hydroxide (NaOH) is a strong base commonly used in soap making and drain cleaners."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 68,
+      "text": "What is a neutralization reaction?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A reaction between an acid and a base to form salt and water.",
+      "explanation": "Neutralization is the reaction where an acid reacts with a base to produce salt and water. Example: HCl + NaOH → NaCl + H₂O"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 74,
+      "text": "The pH of a neutral solution is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "7",
+      "explanation": "A neutral solution has pH = 7. Acids have pH < 7, bases have pH > 7."
+    }
+  ]
+}
