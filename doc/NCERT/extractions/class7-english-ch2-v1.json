@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 2,
+    "chapterTitle": "The Bear Story",
+    "sourceFile": "gepr102.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 28,
+      "text": "Who raised the bear cub?",
+      "type": "MCQ",
+      "options": ["A hunter", "A farmer", "A lady", "A child"],
+      "correctAnswer": "A lady",
+      "explanation": "In the story, a kind lady found and raised the bear cub as her own child."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 29,
+      "text": "The bear was tied with a chain all the time.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "False",
+      "explanation": "The bear was only tied when necessary. Otherwise, it roamed freely in the house and garden."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 25,
+      "text": "How did the bear show affection?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The bear showed affection by licking people and playing with them.",
+      "explanation": "The bear expressed love through gentle licking, playing, and following people around."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 30,
+      "text": "The bear's favorite food was ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "bread",
+      "explanation": "In the story, the bear loved eating bread and would wait for it eagerly."
+    }
+  ]
+}
