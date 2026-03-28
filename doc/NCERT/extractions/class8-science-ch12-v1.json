@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 12,
+    "chapterTitle": "Friction",
+    "sourceFile": "hecu112.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 288,
+      "text": "Friction always acts in the direction:",
+      "type": "MCQ",
+      "options": ["Of motion", "Opposite to motion", "Perpendicular to motion", "At any angle"],
+      "correctAnswer": "Opposite to motion",
+      "explanation": "Friction always opposes motion. It acts in the direction opposite to the direction of motion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 289,
+      "text": "Rolling friction is less than sliding friction.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Rolling friction is less than sliding friction. That's why wheels are used for easy movement."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 284,
+      "text": "Why do we sprinkle powder on carrom board?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To reduce friction between striker/board and make movement smoother.",
+      "explanation": "Powder fills irregularities and reduces friction, allowing smooth movement of striker and coins."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 290,
+      "text": "Friction depends on the ________ of surfaces in contact.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "nature (or roughness)",
+      "explanation": "Friction depends on the nature/roughness of surfaces. Rougher surfaces have more friction."
+    }
+  ]
+}
