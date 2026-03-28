@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 28,
+    "chapterTitle": "Transportation in Animals and Plants",
+    "sourceFile": "gecu128.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 588,
+      "text": "Blood is carried away from the heart by:",
+      "type": "MCQ",
+      "options": ["Veins", "Arteries", "Capillaries", "Nerves"],
+      "correctAnswer": "Arteries",
+      "explanation": "Arteries carry oxygenated blood away from the heart to body parts. Veins carry deoxygenated blood back to the heart."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 589,
+      "text": "Xylem transports water in plants.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Xylem is the vascular tissue that transports water and minerals from roots to other parts of the plant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 584,
+      "text": "What is the function of RBC?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Red Blood Cells carry oxygen from lungs to body tissues.",
+      "explanation": "RBCs contain hemoglobin which binds with oxygen and transports it to all body cells."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 590,
+      "text": "The liquid part of blood is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "plasma",
+      "explanation": "Plasma is the liquid component of blood that carries blood cells, nutrients, and waste products."
+    }
+  ]
+}
