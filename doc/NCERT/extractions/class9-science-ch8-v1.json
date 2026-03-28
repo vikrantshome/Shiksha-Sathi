@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 8,
+    "chapterTitle": "Motion",
+    "sourceFile": "iesc108.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 128,
+      "text": "Speed is a:",
+      "type": "MCQ",
+      "options": ["Scalar quantity", "Vector quantity", "Both", "Neither"],
+      "correctAnswer": "Scalar quantity",
+      "explanation": "Speed is a scalar quantity (has only magnitude). Velocity is a vector quantity (has both magnitude and direction)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 129,
+      "text": "Acceleration is the rate of change of velocity.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Acceleration is defined as the rate of change of velocity with time. a = (v-u)/t"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 124,
+      "text": "What is uniform motion?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Motion in which equal distances are covered in equal intervals of time.",
+      "explanation": "In uniform motion, the object moves with constant speed. The distance-time graph is a straight line."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 130,
+      "text": "The SI unit of acceleration is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "m/s²",
+      "explanation": "Acceleration is measured in meters per second squared (m/s²) in SI units."
+    }
+  ]
+}
