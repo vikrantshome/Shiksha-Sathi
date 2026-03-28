@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 25,
+    "chapterTitle": "Winds, Storms and Cyclones",
+    "sourceFile": "gecu125.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 528,
+      "text": "Winds are caused by:",
+      "type": "MCQ",
+      "options": ["Earth's rotation", "Uneven heating of Earth", "Moon's gravity", "Ocean currents"],
+      "correctAnswer": "Uneven heating of Earth",
+      "explanation": "Winds are caused by uneven heating of Earth's surface. Air moves from high pressure to low pressure areas."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 529,
+      "text": "Air expands on heating.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "When air is heated, it expands and becomes lighter. This causes it to rise, creating low pressure."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 524,
+      "text": "What is a cyclone?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A violent storm with very strong winds revolving around a low pressure center.",
+      "explanation": "Cyclones are characterized by very low pressure center, strong winds, and heavy rain."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 530,
+      "text": "The calm center of a cyclone is called the ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "eye",
+      "explanation": "The eye of a cyclone is the calm center with clear skies and light winds, surrounded by the eyewall."
+    }
+  ]
+}
