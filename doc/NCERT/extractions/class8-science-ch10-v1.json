@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 10,
+    "chapterTitle": "Sound",
+    "sourceFile": "hecu110.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 248,
+      "text": "Sound is produced by:",
+      "type": "MCQ",
+      "options": ["Still objects", "Vibrating objects", "Hot objects", "Cold objects"],
+      "correctAnswer": "Vibrating objects",
+      "explanation": "Sound is produced by vibrating objects. The vibrations create pressure waves in the medium."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 249,
+      "text": "Sound cannot travel through vacuum.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Sound requires a material medium (solid, liquid, or gas) to propagate. It cannot travel through vacuum."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 244,
+      "text": "What is frequency of sound?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The number of vibrations per second, measured in Hertz (Hz).",
+      "explanation": "Frequency determines the pitch (shrillness) of sound. Higher frequency = higher pitch."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 250,
+      "text": "The unit of frequency is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Hertz (Hz)",
+      "explanation": "Hertz (Hz) is the SI unit of frequency. 1 Hz = 1 vibration per second."
+    }
+  ]
+}
