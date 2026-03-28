@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 23,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc123.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 478,
+      "text": "Which of these is a greenhouse gas?",
+      "type": "MCQ",
+      "options": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+      "correctAnswer": "Carbon dioxide",
+      "explanation": "Carbon dioxide (CO₂) is a greenhouse gas that traps heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 479,
+      "text": "Nitrogen fixation is done by Rhizobium bacteria.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Rhizobium bacteria in root nodules of leguminous plants convert atmospheric nitrogen into nitrates."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 474,
+      "text": "What is the water cycle?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The continuous movement of water between Earth's surface and atmosphere.",
+      "explanation": "Water cycle involves evaporation, condensation, precipitation, and collection of water."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 480,
+      "text": "The layer of atmosphere that contains ozone is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "stratosphere",
+      "explanation": "The ozone layer is located in the stratosphere, about 15-35 km above Earth's surface."
+    }
+  ]
+}
