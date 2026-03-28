@@ -32,23 +32,48 @@ async function updateRegistry() {
     console.log(`Found ${chapters.length} unique chapters in database`);
     
     let updated = 0;
+    let totalPlaceholders = 0;
     
-    // Update registry with actual chapter titles
+    // Update registry with actual chapter titles - handle all structures
     for (const [className, classData] of Object.entries(registry.classes)) {
       for (const [subjectName, subjectData] of Object.entries(classData.subjects)) {
-        // Handle both array (chapters) and object (books with chapters) structures
         if (Array.isArray(subjectData.chapters)) {
-          // Direct chapters array
+          // Direct chapters array (Class 6-8)
           for (const chapter of subjectData.chapters) {
-            const match = chapters.find(c => 
-              c._id.class === className &&
-              c._id.subject.toLowerCase() === subjectName.toLowerCase() &&
-              c._id.chapterNumber === chapter.number
-            );
-            
-            if (match && chapter.title.startsWith('Chapter ')) {
-              chapter.title = match.chapterTitle;
-              updated++;
+            if (chapter.title && chapter.title.startsWith('Chapter ')) {
+              totalPlaceholders++;
+              const match = chapters.find(c => 
+                c._id.class === className &&
+                c._id.subject.toLowerCase() === subjectName.toLowerCase() &&
+                c._id.chapterNumber === chapter.number
+              );
+              
+              if (match) {
+                chapter.title = match.chapterTitle;
+                updated++;
+              }
+            }
+          }
+        } else if (subjectData.books && Array.isArray(subjectData.books)) {
+          // Nested books structure (Class 9-12)
+          for (const book of subjectData.books) {
+            if (book.chapters && Array.isArray(book.chapters)) {
+              for (const chapter of book.chapters) {
+                if (chapter.title && chapter.title.startsWith('Chapter ')) {
+                  totalPlaceholders++;
+                  const match = chapters.find(c => 
+                    c._id.class === className &&
+                    c._id.subject.toLowerCase() === subjectName.toLowerCase() &&
+                    c._id.book.toLowerCase() === book.title.toLowerCase() &&
+                    c._id.chapterNumber === chapter.number
+                  );
+                  
+                  if (match) {
+                    chapter.title = match.chapterTitle;
+                    updated++;
+                  }
+                }
+              }
             }
           }
         }
@@ -59,6 +84,8 @@ async function updateRegistry() {
     fs.writeFileSync('doc/NCERT/registry-updated.json', JSON.stringify(registry, null, 2));
     
     console.log(`✅ Updated ${updated} chapter titles in registry`);
+    console.log(`📊 Total placeholders found: ${totalPlaceholders}`);
+    console.log(`📊 Updated: ${updated}/${totalPlaceholders} (${Math.round(updated/totalPlaceholders*100)}%)`);
     console.log('Output: doc/NCERT/registry-updated.json');
     
   } catch (error) {
