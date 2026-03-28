@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 7,
+    "chapterTitle": "Weather, Climate and Adaptations",
+    "sourceFile": "gecu107.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 148,
+      "text": "Weather is measured over:",
+      "type": "MCQ",
+      "options": ["Long period", "Short period", "Years", "Decades"],
+      "correctAnswer": "Short period",
+      "explanation": "Weather is the day-to-day condition of atmosphere. Climate is the average weather over a long period (25+ years)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 149,
+      "text": "Polar bears are adapted to live in cold climates.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Polar bears have thick fur, layer of fat, and white color for camouflage in snowy polar regions."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 144,
+      "text": "What instrument measures rainfall?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Rain gauge",
+      "explanation": "A rain gauge is used to measure the amount of rainfall in a particular area."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 150,
+      "text": "The climate of a place with high temperature and high rainfall is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "tropical",
+      "explanation": "Tropical climate is characterized by high temperature and high rainfall throughout the year."
+    }
+  ]
+}
