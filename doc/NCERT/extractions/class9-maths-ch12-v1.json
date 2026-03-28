@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 12,
+    "chapterTitle": "Heron's Formula",
+    "sourceFile": "iemh112.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 308,
+      "text": "A traffic signal board is an equilateral triangle. If its perimeter is 180 cm, its area is:",
+      "type": "MCQ",
+      "options": ["900√3 cm²", "1800√3 cm²", "300√3 cm²", "600√3 cm²"],
+      "correctAnswer": "900√3 cm²",
+      "explanation": "Side = 180/3 = 60 cm. Area of equilateral triangle = (√3/4)a² = (√3/4)(60)² = 900√3 cm²"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 309,
+      "text": "For a triangle with sides 3cm, 4cm, 5cm, the area is 6 cm².",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "This is a right triangle (3-4-5). Area = (1/2) × 3 × 4 = 6 cm². Or using Heron's formula: s=6, Area=√[6(3)(2)(1)]=6 cm²"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 304,
+      "text": "When do we use Heron's formula?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "When all three sides of a triangle are known but height is not known.",
+      "explanation": "Heron's formula is useful when we know the three sides but cannot easily find the height."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 310,
+      "text": "If sides of a triangle are doubled, its area becomes ________ times.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "4",
+      "explanation": "Area is proportional to square of sides. If sides are doubled (2x), area becomes 2² = 4 times."
+    }
+  ]
+}
