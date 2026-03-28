@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 4,
+    "chapterTitle": "Coal and Petroleum",
+    "sourceFile": "hecu104.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 62,
+      "text": "Which of these is a fossil fuel?",
+      "type": "MCQ",
+      "options": ["Wood", "Coal", "Biogas", "Solar energy"],
+      "correctAnswer": "Coal",
+      "explanation": "Coal is a fossil fuel formed from the remains of ancient plants. Wood, biogas, and solar energy are not fossil fuels."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 63,
+      "text": "Petroleum is also called black gold.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Petroleum is called black gold because of its great economic importance and dark color."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 58,
+      "text": "What is carbonization?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The slow process of conversion of dead vegetation into coal.",
+      "explanation": "Carbonization is the process where dead plants get buried and over millions of years convert into coal under high pressure and temperature."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 64,
+      "text": "The process of separating petroleum into useful products is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "refining",
+      "explanation": "Refining is the process of separating crude petroleum into various useful components like petrol, diesel, kerosene, etc."
+    }
+  ]
+}
