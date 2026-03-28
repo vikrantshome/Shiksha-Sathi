@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 14,
+    "chapterTitle": "Stars and Solar System",
+    "sourceFile": "hecu114.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 328,
+      "text": "Which planet is known as the Red Planet?",
+      "type": "MCQ",
+      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+      "correctAnswer": "Mars",
+      "explanation": "Mars appears red due to iron oxide (rust) on its surface. It's called the Red Planet."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 329,
+      "text": "The Moon is a natural satellite of Earth.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The Moon is Earth's only natural satellite. It revolves around Earth."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 324,
+      "text": "What is a constellation?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A group of stars forming a recognizable pattern.",
+      "explanation": "Constellations are patterns formed by stars. Examples: Ursa Major, Orion, Cassiopeia."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 330,
+      "text": "The planet with beautiful rings around it is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Saturn",
+      "explanation": "Saturn has prominent rings made of ice and rock particles. It's the second largest planet."
+    }
+  ]
+}

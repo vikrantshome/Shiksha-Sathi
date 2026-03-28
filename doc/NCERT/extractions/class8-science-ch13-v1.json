@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 13,
+    "chapterTitle": "Light",
+    "sourceFile": "hecu113.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 308,
+      "text": "We see objects because light:",
+      "type": "MCQ",
+      "options": ["Is emitted by objects", "Reflects from objects to our eyes", "Passes through objects", "Is absorbed by objects"],
+      "correctAnswer": "Reflects from objects to our eyes",
+      "explanation": "We see objects when light reflects from them and enters our eyes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 309,
+      "text": "Angle of incidence equals angle of reflection.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Laws of reflection: Angle of incidence = Angle of reflection. Incident ray, reflected ray, and normal lie in same plane."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 304,
+      "text": "What is lateral inversion?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The left-right reversal of image in a plane mirror.",
+      "explanation": "Lateral inversion is the phenomenon where left appears right and right appears left in mirror images."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 310,
+      "text": "A ________ mirror always forms a virtual and erect image.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "plane",
+      "explanation": "Plane mirrors always form virtual, erect images of same size as object, at same distance behind mirror."
+    }
+  ]
+}
