@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 32,
+    "chapterTitle": "Management of Natural Resources",
+    "sourceFile": "jesc132.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 678,
+      "text": "Which of these is a traditional method of water harvesting?",
+      "type": "MCQ",
+      "options": ["Tube well", "Khadin", "Hand pump", "Dam"],
+      "correctAnswer": "Khadin",
+      "explanation": "Khadin is a traditional water harvesting system in Rajasthan. Tube wells, hand pumps, and dams are modern water management structures."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 679,
+      "text": "Reuse is better than recycle for conservation.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Reuse is better than recycle because it doesn't require energy for processing. Recycling requires energy to convert waste into new products."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 674,
+      "text": "What is the main aim of sustainable development?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To meet present needs without compromising future generations' ability to meet their needs.",
+      "explanation": "Sustainable development aims to balance economic growth, environmental protection, and social equity for present and future generations."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 680,
+      "text": "The Indira Gandhi Canal has brought greenery to ________ desert.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Thar (or Rajasthan)",
+      "explanation": "The Indira Gandhi Canal has brought water to the Thar desert in Rajasthan, transforming it into green agricultural land."
+    }
+  ]
+}
