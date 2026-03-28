@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 22,
+    "chapterTitle": "Sources of Energy",
+    "sourceFile": "jesc122.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 478,
+      "text": "Which of these is a non-renewable source of energy?",
+      "type": "MCQ",
+      "options": ["Solar", "Wind", "Coal", "Hydro"],
+      "correctAnswer": "Coal",
+      "explanation": "Coal is a fossil fuel and non-renewable. Solar, wind, and hydro are renewable energy sources."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 479,
+      "text": "Biogas is produced from organic waste.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Biogas is produced by anaerobic decomposition of organic matter like cow dung, plant waste, etc."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 474,
+      "text": "What is the main component of CNG?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Methane (CH₄)",
+      "explanation": "CNG (Compressed Natural Gas) mainly contains methane. It is a cleaner fuel than petrol or diesel."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 480,
+      "text": "The device used to convert solar energy into electricity is called ________ cell.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "solar (or photovoltaic)",
+      "explanation": "Solar cells (photovoltaic cells) convert sunlight directly into electricity."
+    }
+  ]
+}
