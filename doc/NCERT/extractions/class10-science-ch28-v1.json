@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 28,
+    "chapterTitle": "Our Environment",
+    "sourceFile": "jesc128.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 598,
+      "text": "Which of these is a biodegradable pollutant?",
+      "type": "MCQ",
+      "options": ["Plastic", "Glass", "Paper", "Metal"],
+      "correctAnswer": "Paper",
+      "explanation": "Paper is biodegradable as it can be decomposed by microorganisms. Plastic, glass, and metal are non-biodegradable."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 599,
+      "text": "Energy flow in an ecosystem is unidirectional.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Energy flows in one direction in an ecosystem: from sun → producers → consumers → decomposers. It does not cycle back."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 594,
+      "text": "What is biological magnification?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The increase in concentration of harmful substances at each trophic level.",
+      "explanation": "Biological magnification is the accumulation of harmful chemicals (like pesticides) in increasing concentration at each trophic level."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 600,
+      "text": "The functional unit of environment is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "ecosystem",
+      "explanation": "An ecosystem is the functional unit of environment where living organisms interact with each other and with their physical environment."
+    }
+  ]
+}
