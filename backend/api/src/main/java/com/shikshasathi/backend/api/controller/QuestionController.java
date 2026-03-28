@@ -54,8 +54,9 @@ public class QuestionController {
             @RequestParam(required = false) String chapter,
             @RequestParam(required = false) String q,
             @RequestParam(required = false, defaultValue = "ALL") String type,
-            @RequestParam(required = false, defaultValue = "false") Boolean approvedOnly) {
-        return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapter, q, type, approvedOnly));
+            @RequestParam(required = false, defaultValue = "false") Boolean approvedOnly,
+            @RequestParam(required = false, defaultValue = "false") Boolean visibleOnly) {
+        return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapter, q, type, approvedOnly, visibleOnly));
     }
 
     @PostMapping

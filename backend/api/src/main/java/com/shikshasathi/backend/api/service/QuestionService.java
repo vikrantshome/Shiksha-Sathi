@@ -59,7 +59,7 @@ public class QuestionService {
         return mongoTemplate.findDistinct(query, "chapter", Question.class, String.class);
     }
 
-    public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, String chapter, String queryText, String type, Boolean approvedOnly) {
+    public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, String chapter, String queryText, String type, Boolean approvedOnly, Boolean visibleOnly) {
         Query query = new Query();
 
         if (board != null && !board.isEmpty()) query.addCriteria(Criteria.where("provenance.board").is(board));
@@ -72,8 +72,12 @@ public class QuestionService {
             query.addCriteria(Criteria.where("chapter").is(chapter));
         }
 
-        if (approvedOnly != null && approvedOnly) {
-            query.addCriteria(Criteria.where("review_status").is("APPROVED"));
+        // visibleOnly takes precedence - only PUBLISHED content
+        if (visibleOnly != null && visibleOnly) {
+            query.addCriteria(Criteria.where("review_status").is("PUBLISHED"));
+        } else if (approvedOnly != null && approvedOnly) {
+            // approvedOnly for admin/reviewer workflows - APPROVED or PUBLISHED
+            query.addCriteria(Criteria.where("review_status").in("APPROVED", "PUBLISHED"));
         }
 
         if (type != null && !type.equalsIgnoreCase("ALL")) {
