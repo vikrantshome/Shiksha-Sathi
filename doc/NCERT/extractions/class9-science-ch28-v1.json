@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 28,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc128.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 578,
+      "text": "Which of these is a greenhouse gas?",
+      "type": "MCQ",
+      "options": ["Oxygen", "Nitrogen", "Methane", "Hydrogen"],
+      "correctAnswer": "Methane",
+      "explanation": "Methane (CH₄) is a greenhouse gas that traps heat in the atmosphere. Oxygen, nitrogen, and hydrogen are not greenhouse gases."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 579,
+      "text": "The ozone layer is depleted by CFCs.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Chlorofluorocarbons (CFCs) react with ozone in the stratosphere, causing ozone depletion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 574,
+      "text": "What is global warming?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The increase in Earth's average temperature due to greenhouse gases.",
+      "explanation": "Global warming is the gradual increase in Earth's average temperature caused by accumulation of greenhouse gases like CO₂, methane, etc."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 580,
+      "text": "The main component of biogas is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "methane",
+      "explanation": "Biogas mainly contains methane (CH₄) and carbon dioxide (CO₂). Methane is the combustible component."
+    }
+  ]
+}
