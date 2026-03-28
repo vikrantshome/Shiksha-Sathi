@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "6",
+    "subject": "English",
+    "book": "English Echoes",
+    "chapterNumber": 5,
+    "chapterTitle": "The Rainbow Fish",
+    "sourceFile": "fepr105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 62,
+      "text": "What made the Rainbow Fish special?",
+      "type": "MCQ",
+      "options": ["His size", "His shiny scales", "His speed", "His strength"],
+      "correctAnswer": "His shiny scales",
+      "explanation": "The Rainbow Fish had beautiful, shimmering scales that made him stand out from other fish."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 63,
+      "text": "The Rainbow Fish learned to share his scales with other fish.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The story teaches the value of sharing. The Rainbow Fish became happy when he shared his beautiful scales."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 58,
+      "text": "What lesson does the Rainbow Fish learn?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Sharing brings happiness and friendship.",
+      "explanation": "The Rainbow Fish learns that sharing his beautiful scales with other fish brings him true happiness and friendship."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 64,
+      "text": "The Rainbow Fish lived in the deep blue ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "ocean",
+      "explanation": "The story is set in the deep blue ocean where the Rainbow Fish lived with other sea creatures."
+    }
+  ]
+}
