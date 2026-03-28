@@ -1,9 +1,13 @@
 import fs from 'fs';
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
+
+// Load .env.local for MongoDB URI
+dotenv.config({ path: '.env.local' });
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
-  console.error("Please provide MONGODB_URI");
+  console.error("Please provide MONGODB_URI in .env.local");
   process.exit(1);
 }
 
