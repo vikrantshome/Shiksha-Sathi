@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 5,
+    "chapterTitle": "Arithmetic Progressions",
+    "sourceFile": "jemh105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 98,
+      "text": "In an AP, the common difference is denoted by:",
+      "type": "MCQ",
+      "options": ["a", "n", "d", "l"],
+      "correctAnswer": "d",
+      "explanation": "In an Arithmetic Progression (AP), 'd' represents the common difference between consecutive terms."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 99,
+      "text": "The nth term of AP is given by a + (n-1)d.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The formula for nth term of an AP is: aₙ = a + (n-1)d, where a is first term, d is common difference."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 94,
+      "text": "What is an Arithmetic Progression?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A sequence where each term differs from the previous term by a constant value.",
+      "explanation": "An AP is a sequence where the difference between consecutive terms is constant. Example: 2, 5, 8, 11, ... (d = 3)"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 100,
+      "text": "The sum of first n natural numbers is ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "n(n+1)/2",
+      "explanation": "Sum of first n natural numbers = n(n+1)/2. For example, sum of 1 to 10 = 10(11)/2 = 55."
+    }
+  ]
+}
