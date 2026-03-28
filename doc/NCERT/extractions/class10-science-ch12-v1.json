@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 12,
+    "chapterTitle": "Electricity",
+    "sourceFile": "jesc112.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 358,
+      "text": "The SI unit of electric current is:",
+      "type": "MCQ",
+      "options": ["Volt", "Ohm", "Ampere", "Watt"],
+      "correctAnswer": "Ampere",
+      "explanation": "Ampere (A) is the SI unit of electric current. 1 A = 1 C/s (coulomb per second)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 359,
+      "text": "Resistance is directly proportional to length of conductor.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "R ∝ l (length). Resistance increases with length. R ∝ 1/A (area). Resistance decreases with cross-sectional area."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 354,
+      "text": "State Ohm's law.",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "V = IR, where V is potential difference, I is current, R is resistance.",
+      "explanation": "Ohm's law states that current through a conductor is directly proportional to potential difference across it, provided temperature remains constant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 360,
+      "text": "Electric power = ________ × current.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "voltage (or potential difference)",
+      "explanation": "Electric power P = VI = I²R = V²/R. Power is measured in watts (W)."
+    }
+  ]
+}

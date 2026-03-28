@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 8,
+    "chapterTitle": "Quadrilaterals",
+    "sourceFile": "iemh108.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 168,
+      "text": "The sum of angles of a quadrilateral is:",
+      "type": "MCQ",
+      "options": ["180°", "270°", "360°", "450°"],
+      "correctAnswer": "360°",
+      "explanation": "The sum of all interior angles of any quadrilateral is 360°. This can be proved by dividing it into two triangles."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 169,
+      "text": "Diagonals of a parallelogram bisect each other.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "In a parallelogram, the diagonals bisect each other (cut each other into two equal parts)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 164,
+      "text": "What is a parallelogram?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A quadrilateral with both pairs of opposite sides parallel.",
+      "explanation": "A parallelogram has opposite sides parallel and equal. Opposite angles are also equal."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 170,
+      "text": "A quadrilateral with all sides equal is called a ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "rhombus",
+      "explanation": "A rhombus is a quadrilateral with all four sides equal. Its diagonals bisect each other at right angles."
+    }
+  ]
+}
