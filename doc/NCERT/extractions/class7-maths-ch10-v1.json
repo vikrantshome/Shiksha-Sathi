@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 10,
+    "chapterTitle": "Practical Geometry",
+    "sourceFile": "gegp110.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 198,
+      "text": "To construct a triangle, we need minimum:",
+      "type": "MCQ",
+      "options": ["2 elements", "3 elements", "4 elements", "5 elements"],
+      "correctAnswer": "3 elements",
+      "explanation": "To construct a unique triangle, we need at least 3 elements (sides and/or angles)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 199,
+      "text": "SSS criterion requires three sides to construct a triangle.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "SSS (Side-Side-Side) criterion: A triangle can be constructed when all three sides are given."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 194,
+      "text": "What is the sum of angles in a triangle?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "180°",
+      "explanation": "The angle sum property of a triangle states that the sum of all three interior angles is always 180°."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 200,
+      "text": "A triangle can be constructed if sum of any two sides is ________ than the third side.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "greater",
+      "explanation": "Triangle inequality theorem: Sum of any two sides of a triangle must be greater than the third side."
+    }
+  ]
+}
