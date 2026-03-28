@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 44,
+    "chapterTitle": "Management of Natural Resources",
+    "sourceFile": "jesc144.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 918,
+      "text": "Which of these is a renewable resource?",
+      "type": "MCQ",
+      "options": ["Petroleum", "Coal", "Solar energy", "Natural gas"],
+      "correctAnswer": "Solar energy",
+      "explanation": "Solar energy is renewable as it is continuously available. Petroleum, coal, and natural gas are non-renewable fossil fuels."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 919,
+      "text": "Reuse is better than recycle for conservation.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Reuse is better than recycle because it doesn't require energy for processing. Recycling requires energy to convert waste into new products."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 914,
+      "text": "What is the main aim of sustainable development?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "To meet present needs without compromising future generations' ability to meet their needs.",
+      "explanation": "Sustainable development aims to balance economic growth, environmental protection, and social equity for present and future generations."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 920,
+      "text": "The Indira Gandhi Canal has brought greenery to ________ desert.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Thar (or Rajasthan)",
+      "explanation": "The Indira Gandhi Canal has brought water to the Thar desert in Rajasthan, transforming it into green agricultural land."
+    }
+  ]
+}
