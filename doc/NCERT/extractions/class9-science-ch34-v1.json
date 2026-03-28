@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 34,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc134.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 698,
+      "text": "Which of these is a greenhouse gas?",
+      "type": "MCQ",
+      "options": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+      "correctAnswer": "Carbon dioxide",
+      "explanation": "Carbon dioxide (CO₂) is a greenhouse gas that traps heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 699,
+      "text": "Afforestation helps in reducing air pollution.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Afforestation (planting trees) helps reduce air pollution as trees absorb CO₂ and release oxygen."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 694,
+      "text": "What is the main cause of ozone layer depletion?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Release of CFCs (Chlorofluorocarbons) into the atmosphere.",
+      "explanation": "Ozone layer depletion is mainly caused by CFCs from refrigerators, air conditioners, and aerosol sprays."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 700,
+      "text": "The layer of atmosphere that contains ozone is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "stratosphere",
+      "explanation": "The ozone layer is located in the stratosphere, about 15-35 km above Earth's surface."
+    }
+  ]
+}
