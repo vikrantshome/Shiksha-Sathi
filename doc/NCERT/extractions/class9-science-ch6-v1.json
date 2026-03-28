@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 6,
+    "chapterTitle": "Tissues",
+    "sourceFile": "iesc106.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 88,
+      "text": "Which tissue is responsible for movement in our body?",
+      "type": "MCQ",
+      "options": ["Epithelial", "Muscular", "Connective", "Nervous"],
+      "correctAnswer": "Muscular",
+      "explanation": "Muscular tissue is responsible for movement in our body. It contains contractile proteins that enable movement."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 89,
+      "text": "Xylem conducts water in plants.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Xylem is the vascular tissue that conducts water and minerals from roots to other parts of the plant."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 84,
+      "text": "What is a tissue?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A group of cells similar in structure and function working together.",
+      "explanation": "A tissue is a group of similar cells that work together to perform a specific function. Examples: muscle tissue, nervous tissue."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 90,
+      "text": "________ tissue connects different tissues in the body.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "Connective",
+      "explanation": "Connective tissue connects, supports, and binds other tissues. Examples: blood, bone, cartilage, adipose tissue."
+    }
+  ]
+}

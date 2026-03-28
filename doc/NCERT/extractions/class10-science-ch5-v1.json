@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 5,
+    "chapterTitle": "Periodic Classification of Elements",
+    "sourceFile": "jesc105.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 92,
+      "text": "Who proposed the Modern Periodic Law?",
+      "type": "MCQ",
+      "options": ["Mendeleev", "Moseley", "Newlands", "Dobereiner"],
+      "correctAnswer": "Moseley",
+      "explanation": "Henry Moseley proposed the Modern Periodic Law in 1913, stating that properties are periodic functions of atomic number."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 93,
+      "text": "Elements in the same group have similar chemical properties.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Elements in the same group have same number of valence electrons, hence similar chemical properties."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 88,
+      "text": "What are noble gases?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Elements in Group 18 with complete outer shell, very unreactive.",
+      "explanation": "Noble gases (He, Ne, Ar, Kr, Xe, Rn) have complete valence shells, making them chemically inert or unreactive."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 94,
+      "text": "The modern periodic table has ________ groups.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "18",
+      "explanation": "The modern periodic table has 18 vertical columns called groups and 7 horizontal rows called periods."
+    }
+  ]
+}

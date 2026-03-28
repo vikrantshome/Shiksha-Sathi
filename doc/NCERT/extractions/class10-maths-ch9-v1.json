@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 9,
+    "chapterTitle": "Some Applications of Trigonometry",
+    "sourceFile": "jemh109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 218,
+      "text": "The angle of elevation is measured from:",
+      "type": "MCQ",
+      "options": ["Horizontal upward", "Horizontal downward", "Vertical upward", "Vertical downward"],
+      "correctAnswer": "Horizontal upward",
+      "explanation": "Angle of elevation is the angle formed by the line of sight with the horizontal when looking upward."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 219,
+      "text": "Angle of elevation equals angle of depression.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "When two observers look at each other, the angle of elevation for one equals the angle of depression for the other (alternate angles)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 214,
+      "text": "What is angle of depression?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The angle formed by line of sight with horizontal when looking downward.",
+      "explanation": "Angle of depression is measured from the horizontal downward to the line of sight when looking at an object below."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 220,
+      "text": "Trigonometry is used to find heights and ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "distances",
+      "explanation": "Trigonometry is used to find heights of buildings, towers, and distances of ships from shore, etc."
+    }
+  ]
+}

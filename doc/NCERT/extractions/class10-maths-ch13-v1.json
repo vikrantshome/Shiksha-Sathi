@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 13,
+    "chapterTitle": "Surface Areas and Volumes",
+    "sourceFile": "jemh113.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 398,
+      "text": "When two solids are combined, the total surface area is:",
+      "type": "MCQ",
+      "options": ["Sum of individual surface areas", "Sum minus common area", "Product of areas", "Difference of areas"],
+      "correctAnswer": "Sum minus common area",
+      "explanation": "When solids are joined, the common surface area is not exposed, so it's subtracted from the total."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 399,
+      "text": "Volume remains constant when a solid is recast into another shape.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "When a solid is melted and recast, volume remains constant but shape and surface area may change."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 394,
+      "text": "What is a frustum of a cone?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The part of a cone left when the top is cut off by a plane parallel to the base.",
+      "explanation": "A frustum is obtained when a cone is cut by a plane parallel to its base, removing the top portion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 400,
+      "text": "The volume of a hemisphere is ________ of the volume of a sphere.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "half (1/2)",
+      "explanation": "Volume of hemisphere = (2/3)πr³ = half of sphere volume (4/3)πr³."
+    }
+  ]
+}

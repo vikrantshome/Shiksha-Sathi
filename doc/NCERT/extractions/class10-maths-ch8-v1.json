@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 8,
+    "chapterTitle": "Introduction to Trigonometry",
+    "sourceFile": "jemh108.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 178,
+      "text": "In a right triangle, sin θ = ?",
+      "type": "MCQ",
+      "options": ["Opposite/Hypotenuse", "Adjacent/Hypotenuse", "Opposite/Adjacent", "Hypotenuse/Opposite"],
+      "correctAnswer": "Opposite/Hypotenuse",
+      "explanation": "sin θ = Opposite side / Hypotenuse. cos θ = Adjacent/Hypotenuse, tan θ = Opposite/Adjacent"
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 179,
+      "text": "tan θ = sin θ / cos θ.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "tan θ = sin θ / cos θ. This is a fundamental trigonometric identity."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 174,
+      "text": "What is the value of sin 90°?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "1",
+      "explanation": "sin 90° = 1, cos 90° = 0, tan 90° is undefined."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 180,
+      "text": "sin²θ + cos²θ = ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1",
+      "explanation": "This is the fundamental trigonometric identity: sin²θ + cos²θ = 1 for all values of θ."
+    }
+  ]
+}
