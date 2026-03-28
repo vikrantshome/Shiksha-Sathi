@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Mathematics",
+    "book": "Mathematics",
+    "chapterNumber": 9,
+    "chapterTitle": "Areas of Parallelograms and Triangles",
+    "sourceFile": "iemh109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 188,
+      "text": "Figures on the same base and between the same parallels have equal:",
+      "type": "MCQ",
+      "options": ["Perimeter", "Area", "Base", "Height"],
+      "correctAnswer": "Area",
+      "explanation": "Parallelograms on the same base and between the same parallels have equal areas."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 189,
+      "text": "Area of triangle = (1/2) × base × height.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The area of a triangle is half the product of its base and corresponding height."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 184,
+      "text": "What is the formula for area of parallelogram?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Area = base × height",
+      "explanation": "Area of parallelogram = base × corresponding height. This is derived from the fact that a parallelogram can be transformed into a rectangle."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 190,
+      "text": "A diagonal of a parallelogram divides it into two triangles of ________ area.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "equal",
+      "explanation": "A diagonal of a parallelogram divides it into two congruent triangles of equal area."
+    }
+  ]
+}
