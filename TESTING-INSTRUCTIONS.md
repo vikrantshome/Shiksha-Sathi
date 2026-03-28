@@ -15,9 +15,26 @@
 2. **Java** v21+ installed (for backend)
 3. **MongoDB Atlas** cluster configured
 
-### MongoDB Atlas Setup (Required)
+### MongoDB Setup
 
-**Create free MongoDB Atlas cluster:**
+**✅ Already Configured in Production!**
+
+The MongoDB cluster is already set up:
+- **Vercel:** `MONGODB_URI` environment variable (Production)
+- **Cloud Run:** Backend service configuration
+
+**For local development:**
+
+**Option A: Use Production MongoDB (Recommended)**
+```bash
+# Pull environment from Vercel
+cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
+vercel env pull .env.local
+
+# This will download all environment variables including MONGODB_URI
+```
+
+**Option B: Create Your Own (Isolated Development)**
 
 1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 2. Create free cluster (M0 - Free tier)

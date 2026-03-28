@@ -10,20 +10,31 @@
 
 - **Node.js** v18+ (Frontend)
 - **Java** v21+ (Backend - Spring Boot)
-- **MongoDB Atlas** cluster (Free tier available)
+- **MongoDB URI** (Already configured in Vercel/Cloud Run)
 
-### 1. MongoDB Atlas Setup
+### 1. MongoDB Setup
 
-**Create a free MongoDB Atlas cluster:**
+**✅ Already Configured!**
 
+The MongoDB cluster URI is already set up in:
+- **Vercel:** `MONGODB_URI` environment variable (Production)
+- **Cloud Run:** Backend service configuration
+
+**For local development, you have two options:**
+
+**Option A: Use Production MongoDB (Recommended for testing)**
+```bash
+# Copy from Vercel
+vercel env pull .env.local
+
+# Select MONGODB_URI when prompted
+```
+
+**Option B: Create your own MongoDB Atlas cluster (for isolated dev)**
 1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
-2. Create a free cluster (M0 - Free tier)
-3. Create database user (username + password)
-4. Whitelist IP: `0.0.0.0/0` (Allow access from anywhere)
-5. Get connection string (looks like):
-   ```
-   mongodb+srv://username:password@cluster.mongodb.net/shikshasathi?retryWrites=true&w=majority
-   ```
+2. Create free cluster (M0 - Free tier)
+3. Get connection string
+4. Add to `.env.local`
 
 ### 2. Environment Setup
 
