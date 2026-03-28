@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 18,
+    "chapterTitle": "How do Organisms Reproduce?",
+    "sourceFile": "jesc118.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 408,
+      "text": "Which of these is an asexual mode of reproduction?",
+      "type": "MCQ",
+      "options": ["Fission", "Fertilization", "Pollination", "All of these"],
+      "correctAnswer": "Fission",
+      "explanation": "Fission is an asexual reproduction method where a single organism divides into two. Fertilization and pollination are sexual processes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 409,
+      "text": "Human sperm is produced in testes.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Testes (testicles) are the male reproductive organs that produce sperm and testosterone."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 404,
+      "text": "What is fertilization?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The fusion of male and female gametes to form a zygote.",
+      "explanation": "Fertilization is the process where sperm and egg fuse to form a zygote, which develops into an embryo."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 410,
+      "text": "The female reproductive part of a flower is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "pistil (or carpel)",
+      "explanation": "The pistil (or carpel) is the female reproductive part of a flower. It consists of stigma, style, and ovary."
+    }
+  ]
+}
