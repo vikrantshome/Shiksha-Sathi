@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 13,
+    "chapterTitle": "Introduction to Graphs",
+    "sourceFile": "hegp113.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 248,
+      "text": "The point (0, 0) is called:",
+      "type": "MCQ",
+      "options": ["Center", "Origin", "Focus", "Vertex"],
+      "correctAnswer": "Origin",
+      "explanation": "The origin is the point where x-axis and y-axis intersect. Its coordinates are (0, 0)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 249,
+      "text": "In the point (3, 5), 3 is the x-coordinate.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "In coordinates (x, y), the first number is x-coordinate (abscissa), second is y-coordinate (ordinate)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 244,
+      "text": "What is a bar graph?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A graph that uses bars of uniform width to represent data.",
+      "explanation": "Bar graphs use rectangular bars where height/length represents the value of data."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 250,
+      "text": "The horizontal line in a graph is called ________ axis.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "x",
+      "explanation": "The horizontal line is x-axis, vertical line is y-axis."
+    }
+  ]
+}

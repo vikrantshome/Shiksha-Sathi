@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "7",
+    "subject": "Science",
+    "book": "Curiosity",
+    "chapterNumber": 14,
+    "chapterTitle": "Electric Current and its Effects",
+    "sourceFile": "gecu114.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 308,
+      "text": "Which of these is a conductor of electricity?",
+      "type": "MCQ",
+      "options": ["Rubber", "Plastic", "Copper", "Wood"],
+      "correctAnswer": "Copper",
+      "explanation": "Copper is a metal and a good conductor of electricity. Rubber, plastic, and wood are insulators."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 309,
+      "text": "An electric fuse works on the heating effect of current.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Electric fuse contains a thin wire that melts when excessive current flows, breaking the circuit."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 304,
+      "text": "What is an electromagnet?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A magnet made by passing electric current through a coil wound around a soft iron core.",
+      "explanation": "Electromagnets are temporary magnets that work only when current flows. Used in electric bells, cranes."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 310,
+      "text": "The longer line in cell symbol represents ________ terminal.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "positive",
+      "explanation": "In cell symbol, longer line is positive terminal, shorter thick line is negative terminal."
+    }
+  ]
+}
