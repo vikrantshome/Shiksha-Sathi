@@ -28,6 +28,7 @@ async function updateExistingQuestions() {
           {
             $set: {
               "provenance.extraction_run_id": extractionRunId,
+              "review_status": "PENDING", // SSA-210: Require review before publishing
               updated_at: new Date()
             }
           }
@@ -36,7 +37,7 @@ async function updateExistingQuestions() {
       }
     }
 
-    console.log(`✅ Updated ${updated} questions with proper extraction_run_id`);
+    console.log(`✅ Updated ${updated} questions with proper extraction_run_id and PENDING status`);
 
     // Verify all questions now have proper extraction_run_id
     const remaining = await collection.countDocuments({
@@ -44,7 +45,13 @@ async function updateExistingQuestions() {
     });
     
     console.log(`Remaining with generic extraction_run_id: ${remaining}`);
-    console.log('✅ SSA-200 (versioning) enforcement complete');
+    
+    // Count questions by review status
+    const pendingCount = await collection.countDocuments({ review_status: "PENDING" });
+    const approvedCount = await collection.countDocuments({ review_status: "APPROVED" });
+    
+    console.log(`Review status breakdown: PENDING=${pendingCount}, APPROVED=${approvedCount}`);
+    console.log('✅ SSA-200 (versioning) and SSA-210 (review workflow) enforcement complete');
 
   } catch (error) {
     console.error("Error:", error);
