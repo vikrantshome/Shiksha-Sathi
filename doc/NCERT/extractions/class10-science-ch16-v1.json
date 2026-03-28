@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "10",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 16,
+    "chapterTitle": "Management of Natural Resources",
+    "sourceFile": "jesc116.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 368,
+      "text": "The three R's for conservation of resources are:",
+      "type": "MCQ",
+      "options": ["Reduce, Reuse, Recycle", "Read, Register, Recall", "Random, Reduce, Recall", "Reduce, Rebuild, Reuse"],
+      "correctAnswer": "Reduce, Reuse, Recycle",
+      "explanation": "The three R's are Reduce (minimize use), Reuse (use again), and Recycle (process waste into new products)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 369,
+      "text": "Chipko Andolan was started to save trees.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Chipko Andolan was a forest conservation movement where people hugged trees to prevent cutting."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 364,
+      "text": "What is sustainable development?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Development that meets present needs without compromising future generations' ability to meet their needs.",
+      "explanation": "Sustainable development balances economic growth with environmental protection for future generations."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 370,
+      "text": "Ganga Action Plan was launched in year ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1985",
+      "explanation": "Ganga Action Plan was launched in 1985 to reduce pollution and clean the Ganga river."
+    }
+  ]
+}

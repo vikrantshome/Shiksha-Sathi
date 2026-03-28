@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 16,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc116.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 338,
+      "text": "Which gas is responsible for ozone layer depletion?",
+      "type": "MCQ",
+      "options": ["CO₂", "CFCs", "SO₂", "NO₂"],
+      "correctAnswer": "CFCs",
+      "explanation": "Chlorofluorocarbons (CFCs) react with ozone in the stratosphere, causing ozone depletion."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 339,
+      "text": "Nitrogen fixation is done by Rhizobium bacteria.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Rhizobium bacteria in root nodules of leguminous plants convert atmospheric nitrogen into nitrates."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 334,
+      "text": "What is the greenhouse effect?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The trapping of heat by greenhouse gases in the atmosphere, causing warming.",
+      "explanation": "Greenhouse effect is the warming of Earth's surface due to trapping of heat by gases like CO₂, methane, etc."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 340,
+      "text": "The process of conversion of water vapour into liquid water is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "condensation",
+      "explanation": "Condensation is the process where water vapour cools and changes back into liquid water."
+    }
+  ]
+}
