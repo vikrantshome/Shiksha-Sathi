@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 15,
+    "chapterTitle": "Introduction to Graphs",
+    "sourceFile": "hegp115.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 288,
+      "text": "A line graph is used to show:",
+      "type": "MCQ",
+      "options": ["Comparison", "Change over time", "Parts of whole", "Frequency"],
+      "correctAnswer": "Change over time",
+      "explanation": "Line graphs are used to display data that changes continuously over time."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 289,
+      "text": "The point where x-axis and y-axis meet is called origin.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The origin is the point of intersection of x-axis and y-axis. Its coordinates are (0, 0)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 284,
+      "text": "What is a pie chart?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "A circular graph divided into sectors showing parts of a whole.",
+      "explanation": "Pie charts show how a whole is divided into different parts. Each sector represents a portion of the total."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 290,
+      "text": "In coordinates (x, y), x is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "abscissa (or x-coordinate)",
+      "explanation": "In coordinates (x, y), x is the abscissa (x-coordinate), y is the ordinate (y-coordinate)."
+    }
+  ]
+}
