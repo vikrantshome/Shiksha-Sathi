@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "8",
+    "subject": "Mathematics",
+    "book": "Ganita Prakash",
+    "chapterNumber": 9,
+    "chapterTitle": "Mensuration",
+    "sourceFile": "hegp109.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 168,
+      "text": "Area of a rectangle is:",
+      "type": "MCQ",
+      "options": ["2(l + b)", "l × b", "l²", "2l + b"],
+      "correctAnswer": "l × b",
+      "explanation": "Area of rectangle = length × breadth. Perimeter = 2(l + b)."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 169,
+      "text": "Volume of a cube = side³.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "Volume of cube = side³ = a³. All sides of a cube are equal."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 164,
+      "text": "What is the formula for area of a trapezium?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "Area = (1/2) × (sum of parallel sides) × height",
+      "explanation": "Area of trapezium = (1/2) × (a + b) × h, where a and b are parallel sides, h is height."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 170,
+      "text": "1 liter = ________ cm³.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "1000",
+      "explanation": "1 liter = 1000 cm³ = 1000 mL. This is the standard conversion for volume."
+    }
+  ]
+}
