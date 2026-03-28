@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "board": "NCERT",
+    "class": "9",
+    "subject": "Science",
+    "book": "Science",
+    "chapterNumber": 22,
+    "chapterTitle": "Natural Resources",
+    "sourceFile": "iesc122.pdf"
+  },
+  "questions": [
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 458,
+      "text": "Which of these is a renewable resource?",
+      "type": "MCQ",
+      "options": ["Coal", "Petroleum", "Solar energy", "Natural gas"],
+      "correctAnswer": "Solar energy",
+      "explanation": "Solar energy is renewable as it is continuously available. Coal, petroleum, and natural gas are non-renewable fossil fuels."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 459,
+      "text": "Ozone layer protects us from harmful UV rays.",
+      "type": "TRUE_FALSE",
+      "options": ["True", "False"],
+      "correctAnswer": "True",
+      "explanation": "The ozone layer in the stratosphere absorbs harmful ultraviolet radiation from the sun."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "In-text",
+      "pageNumber": 454,
+      "text": "What is the greenhouse effect?",
+      "type": "SHORT_ANSWER",
+      "correctAnswer": "The trapping of heat by greenhouse gases in the atmosphere, causing warming.",
+      "explanation": "Greenhouse effect is the warming of Earth's surface due to trapping of heat by gases like CO₂, methane, etc."
+    },
+    {
+      "sourceKind": "CANONICAL",
+      "section": "Exercise",
+      "pageNumber": 460,
+      "text": "The process of conversion of water vapour into liquid water is called ________.",
+      "type": "FILL_IN_BLANKS",
+      "correctAnswer": "condensation",
+      "explanation": "Condensation is the process where water vapour cools and changes back into liquid water."
+    }
+  ]
+}
