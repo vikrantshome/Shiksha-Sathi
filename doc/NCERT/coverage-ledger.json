@@ -1,9 +1,9 @@
 {
   "board": "NCERT",
-  "generatedAt": "2026-03-28T10:26:00.114Z",
+  "generatedAt": "2026-03-28T10:32:26.303Z",
   "totalRegisteredChapters": 344,
-  "totalExtractedChapters": 125,
-  "totalIngestedChapters": 86,
+  "totalExtractedChapters": 126,
+  "totalIngestedChapters": 87,
   "totalPublishedChapters": 0,
   "classes": {
     "6": {
@@ -1916,13 +1916,13 @@
                   "title": "Chapter 13",
                   "file": "hecu113.pdf",
                   "registryStatus": "registered",
-                  "extractionFile": null,
-                  "extractionStatus": "pending",
-                  "ingestionStatus": "pending",
-                  "reviewStatus": null,
+                  "extractionFile": "class8-science-ch13-v1.json",
+                  "extractionStatus": "extracted",
+                  "ingestionStatus": "ingested",
+                  "reviewStatus": "PENDING",
                   "publishStatus": "pending",
-                  "extractionRunId": null,
-                  "questionCount": 0,
+                  "extractionRunId": "8-Science-curiosity-ch13-v1",
+                  "questionCount": 4,
                   "lastValidatedAt": null
                 }
               ]
