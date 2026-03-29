@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Question Bank - Review &amp; Organize</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#cf9982",
+                        "surface": "#fcf9f5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#00201e",
+                        "tertiary-fixed-dim": "#f4baa2",
+                        "on-surface-variant": "#404847",
+                        "secondary-fixed": "#d4e6e4",
+                        "inverse-primary": "#a1cfcb",
+                        "surface-container-high": "#eae8e4",
+                        "secondary-fixed-dim": "#b8cac8",
+                        "surface-container-low": "#f6f3ef",
+                        "surface-container-highest": "#e5e2de",
+                        "surface-bright": "#fcf9f5",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-tertiary-fixed": "#311305",
+                        "secondary-container": "#d1e3e1",
+                        "surface-dim": "#dcdad6",
+                        "surface-container": "#f0ede9",
+                        "primary": "#002b29",
+                        "on-surface": "#1c1c1a",
+                        "primary-fixed": "#bcece7",
+                        "secondary": "#516260",
+                        "primary-fixed-dim": "#a1cfcb",
+                        "outline-variant": "#c0c8c6",
+                        "on-background": "#1c1c1a",
+                        "surface-tint": "#396662",
+                        "on-secondary-fixed": "#0e1e1d",
+                        "inverse-on-surface": "#f3f0ec",
+                        "background": "#fcf9f5",
+                        "tertiary": "#3d1c0d",
+                        "on-secondary": "#ffffff",
+                        "outline": "#707977",
+                        "on-primary-container": "#80aeaa",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#31302e",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#394a48",
+                        "on-tertiary-fixed-variant": "#653d2b",
+                        "on-secondary-container": "#556664",
+                        "primary-container": "#12423f",
+                        "surface-variant": "#e5e2de",
+                        "on-primary-fixed-variant": "#204e4b",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#573120"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fcf9f5;
+            color: #1c1c1a;
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-nav {
+            background: rgba(252, 249, 245, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e2de;
+            border-radius: 10px;
+        }
+        .drag-handle {
+            cursor: grab;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body selection:bg-primary-fixed-dim selection:text-primary">
+<!-- Top Navigation Bar -->
+<header class="bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-md border-b border-stone-200/50 dark:border-stone-800/50 shadow-sm docked full-width top-0 sticky z-50 flex justify-between items-center w-full px-6 py-3">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-teal-900 dark:text-teal-100 font-headline tracking-tight">Question Bank</span>
+<nav class="hidden md:flex items-center gap-6 font-manrope text-sm tracking-tight">
+<a class="text-stone-500 dark:text-stone-400 hover:text-teal-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-colors" href="#">Select Questions</a>
+<a class="text-teal-900 dark:text-teal-100 font-bold border-b-2 border-teal-900 dark:border-teal-500 pb-1" href="#">Review</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-teal-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-colors" href="#">Publish</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-stone-500 hover:bg-stone-200/50 p-2 rounded-full transition-all">help</button>
+<button class="material-symbols-outlined text-stone-500 hover:bg-stone-200/50 p-2 rounded-full transition-all">notifications</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" data-alt="professional portrait of a curator in a brightly lit modern office setting with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1DrK-CuF3BMsX9BzCypZLqt1IGAMhneZrvb8R-m2EJHbvut0JvPFaZX6mqQ3pmD_r28ywVNgjrDDpXwSLXQTwT8WWazN5DHSHgjhEH1IbwuxLRCax19toAmO1jwJb7KpAeX9mjeTjZlrorucALJZGLgo5Atc90kIIkspuXrg21av29kMNTtfnVSCh0MiuS7ArToIrNWDRB4UCgGrtOaXTeDeRo9yep-_yC-nPZogIprHK_Ieg9iKP48I9N8zciaqnbsIe4EJL1-Fe"/>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left Column: Taxonomy Rail / Section Explorer -->
+<aside class="bg-stone-100 dark:bg-stone-950 h-screen w-64 fixed left-0 top-16 z-40 flex flex-col h-full p-4 gap-2 font-manrope text-sm font-medium">
+<div class="mb-6 px-2">
+<h2 class="text-lg font-bold text-teal-900 dark:text-teal-100">Assignment Sections</h2>
+<p class="text-xs text-stone-600 dark:text-stone-400">Sectioning Logic</p>
+</div>
+<nav class="space-y-1 overflow-y-auto pr-2">
+<div class="bg-white dark:bg-stone-900 text-teal-900 dark:text-teal-100 shadow-sm rounded-lg flex items-center gap-3 px-3 py-3 cursor-pointer transition-all">
+<span class="material-symbols-outlined text-teal-900">list_alt</span>
+<span>Section A: MCQ</span>
+</div>
+<div class="text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 hover:translate-x-1 transition-transform duration-200 rounded-lg flex items-center gap-3 px-3 py-3 cursor-pointer">
+<span class="material-symbols-outlined">short_text</span>
+<span>Section B: Short Answer</span>
+</div>
+<div class="text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 hover:translate-x-1 transition-transform duration-200 rounded-lg flex items-center gap-3 px-3 py-3 cursor-pointer">
+<span class="material-symbols-outlined">description</span>
+<span>Section C: Essay</span>
+</div>
+</nav>
+<div class="mt-auto border-t border-stone-200 dark:border-stone-800 pt-4 space-y-1">
+<div class="text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 hover:translate-x-1 transition-transform duration-200 rounded-lg flex items-center gap-3 px-3 py-2 cursor-pointer">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add New Section</span>
+</div>
+<div class="text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 hover:translate-x-1 transition-transform duration-200 rounded-lg flex items-center gap-3 px-3 py-2 cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</div>
+</div>
+</aside>
+<!-- Center Column: Detailed View / Reorder -->
+<main class="flex-1 ml-64 mr-80 overflow-y-auto bg-surface-container-low p-8">
+<div class="max-w-4xl mx-auto">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h1 class="text-2xl font-bold font-headline text-primary mb-1">Section A: Multiple Choice Questions</h1>
+<p class="text-on-surface-variant text-sm">Organize and set marks for your selected question pool.</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-highest hover:bg-surface-dim px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sort</span>
+                            Auto-Sort
+                        </button>
+</div>
+</div>
+<!-- Questions List -->
+<div class="space-y-4">
+<!-- Question Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl group relative border border-transparent hover:border-primary/10 transition-all duration-300">
+<div class="absolute left-[-20px] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity drag-handle">
+<span class="material-symbols-outlined text-outline">drag_indicator</span>
+</div>
+<div class="flex justify-between items-start gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold text-primary-container bg-primary-fixed px-2 py-0.5 rounded uppercase tracking-wider">Question 01</span>
+<span class="text-xs text-on-surface-variant font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 mins
+                                    </span>
+</div>
+<p class="text-on-surface leading-relaxed mb-4">Explain the concept of quantum entanglement and how it relates to the principle of superposition in a non-local system?</p>
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">A</span>
+<span>Instantaneous state correlation</span>
+</div>
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">B</span>
+<span>Traditional causal relationships</span>
+</div>
+</div>
+</div>
+<div class="w-24 shrink-0">
+<label class="block text-[10px] uppercase font-bold text-outline mb-1">Weightage</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-sm font-bold focus:ring-2 focus:ring-primary/20 py-2 px-3 text-primary" type="number" value="2"/>
+<span class="absolute right-3 top-2 text-[10px] text-outline pt-0.5 font-bold">PTS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Question Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl group relative border border-transparent hover:border-primary/10 transition-all duration-300">
+<div class="absolute left-[-20px] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity drag-handle">
+<span class="material-symbols-outlined text-outline">drag_indicator</span>
+</div>
+<div class="flex justify-between items-start gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold text-primary-container bg-primary-fixed px-2 py-0.5 rounded uppercase tracking-wider">Question 02</span>
+<span class="text-xs text-on-surface-variant font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        3 mins
+                                    </span>
+</div>
+<p class="text-on-surface leading-relaxed mb-4">Which of the following describes the thermodynamic efficiency of a Carnot cycle operating between two specific temperatures?</p>
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">A</span>
+<span>1 - (Tc / Th)</span>
+</div>
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">B</span>
+<span>Tc / Th - 1</span>
+</div>
+</div>
+</div>
+<div class="w-24 shrink-0">
+<label class="block text-[10px] uppercase font-bold text-outline mb-1">Weightage</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-sm font-bold focus:ring-2 focus:ring-primary/20 py-2 px-3 text-primary" type="number" value="5"/>
+<span class="absolute right-3 top-2 text-[10px] text-outline pt-0.5 font-bold">PTS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Question Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl group relative border border-transparent hover:border-primary/10 transition-all duration-300">
+<div class="absolute left-[-20px] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity drag-handle">
+<span class="material-symbols-outlined text-outline">drag_indicator</span>
+</div>
+<div class="flex justify-between items-start gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold text-primary-container bg-primary-fixed px-2 py-0.5 rounded uppercase tracking-wider">Question 03</span>
+<span class="text-xs text-on-surface-variant font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        1.5 mins
+                                    </span>
+</div>
+<p class="text-on-surface leading-relaxed mb-4">Identify the primary catalyst used in the Haber process for ammonia synthesis.</p>
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">A</span>
+<span>Iron (Fe)</span>
+</div>
+<div class="bg-surface p-3 rounded-lg border border-outline-variant/20 flex items-center gap-3">
+<span class="w-5 h-5 rounded-full bg-primary/5 flex items-center justify-center text-[10px] font-bold">B</span>
+<span>Platinum (Pt)</span>
+</div>
+</div>
+</div>
+<div class="w-24 shrink-0">
+<label class="block text-[10px] uppercase font-bold text-outline mb-1">Weightage</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-sm font-bold focus:ring-2 focus:ring-primary/20 py-2 px-3 text-primary" type="number" value="1"/>
+<span class="absolute right-3 top-2 text-[10px] text-outline pt-0.5 font-bold">PTS</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 border-2 border-dashed border-outline-variant/30 rounded-2xl p-8 flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-3xl mb-2">add_circle</span>
+<p class="font-medium">Insert a new question or import from CSV</p>
+</div>
+</div>
+</main>
+<!-- Right Column: Summary & Actions -->
+<aside class="w-80 bg-surface border-l border-outline-variant/10 fixed right-0 top-16 h-[calc(100vh-64px)] p-6 z-40 overflow-y-auto">
+<h3 class="text-lg font-bold text-primary mb-6">Review Summary</h3>
+<div class="space-y-6">
+<!-- Stat Grid -->
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase font-bold text-outline mb-1 tracking-widest">Total Weightage</p>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-primary">42</span>
+<span class="text-on-surface-variant font-medium">/ 50 pts</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+<p class="text-[10px] uppercase font-bold text-outline mb-1 tracking-widest">Est. Completion Time</p>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-primary">45</span>
+<span class="text-on-surface-variant font-medium">minutes</span>
+</div>
+</div>
+</div>
+<!-- Breakdown -->
+<div class="space-y-4">
+<p class="text-xs font-bold text-outline uppercase tracking-widest">Structure Breakdown</p>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm font-medium">MCQs</span>
+</div>
+<span class="text-sm font-bold">12 Items</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium">Short Ans</span>
+</div>
+<span class="text-sm font-bold">4 Items</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-container"></div>
+<span class="text-sm font-medium">Essay</span>
+</div>
+<span class="text-sm font-bold">1 Item</span>
+</div>
+</div>
+</div>
+<!-- Course Progress Style Bar -->
+<div class="pt-4">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-primary uppercase">Draft Validity</span>
+<span class="text-xs font-bold text-primary">85%</span>
+</div>
+<div class="w-full bg-secondary-container h-2 rounded-none">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 leading-relaxed italic">
+                        Missing difficulty tags on 3 questions.
+                    </p>
+</div>
+<!-- Actions -->
+<div class="pt-8 space-y-3">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-bold text-sm shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+                        Finalize &amp; Publish
+                        <span class="material-symbols-outlined text-sm">send</span>
+</button>
+<button class="w-full text-primary-fixed-variant bg-transparent py-4 rounded-xl font-bold text-sm hover:bg-surface-container-highest transition-all">
+                        Save as Draft
+                    </button>
+<button class="w-full text-error font-bold text-xs flex items-center justify-center gap-2 hover:bg-error-container/20 py-2 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xs">delete</span>
+                        Discard Assignment
+                    </button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 right-0 -z-10 w-[600px] h-[600px] bg-primary-fixed/20 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-[400px] h-[400px] bg-tertiary-fixed/30 rounded-full blur-[100px] pointer-events-none"></div>
+</body></html>
