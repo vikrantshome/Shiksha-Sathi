@@ -23,14 +23,14 @@ export default function SignupPage() {
     const password = formData.get("password") as string;
 
     try {
-      const response = await auth.signup({ 
-        name, 
-        email, 
-        phone, 
+      const response = await auth.signup({
+        name,
+        email,
+        phone,
         password,
-        role: "TEACHER" // Defaulting to TEACHER for now
+        role: "TEACHER", // Defaulting to TEACHER for now
       });
-      
+
       // Store token securely in cookies
       setCookie("auth-token", response.token, {
         maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -46,68 +46,149 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
-      <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
-          <p className="text-gray-500 mt-2">Join Shiksha Sathi for free</p>
+    <div
+      className="flex items-center justify-center min-h-screen px-4"
+      style={{ background: "var(--color-surface)" }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "24rem",
+          padding: "var(--space-8)",
+          background: "var(--color-surface-container-lowest)",
+          borderRadius: "var(--radius-md)",
+        }}
+      >
+        {/* Brand + Header */}
+        <div style={{ textAlign: "center", marginBottom: "var(--space-8)" }}>
+          <Link
+            href="/"
+            style={{
+              fontFamily:
+                "var(--font-manrope), var(--font-geist-sans), system-ui, sans-serif",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--color-primary)",
+              letterSpacing: "-0.02em",
+              textDecoration: "none",
+              display: "block",
+              marginBottom: "var(--space-4)",
+            }}
+          >
+            Shiksha Sathi
+          </Link>
+          <h1 className="text-headline-md">Create Account</h1>
+          <p
+            className="text-body-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginTop: "var(--space-1)",
+            }}
+          >
+            Join Shiksha Sathi for free
+          </p>
         </div>
 
+        {/* Error */}
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm">
+          <div
+            style={{
+              marginBottom: "var(--space-5)",
+              padding: "var(--space-3)",
+              background: "var(--color-error-container)",
+              color: "var(--color-error)",
+              borderRadius: "var(--radius-sm)",
+              fontSize: "0.8125rem",
+            }}
+          >
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-4)",
+          }}
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              className="text-label-md"
+              style={{
+                display: "block",
+                color: "var(--color-on-surface-variant)",
+                marginBottom: "var(--space-1-5)",
+              }}
+            >
               Full Name
             </label>
             <input
               type="text"
               name="name"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-              placeholder="John Doe"
+              className="input-academic"
+              placeholder="Dr. Ramesh Sharma"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              className="text-label-md"
+              style={{
+                display: "block",
+                color: "var(--color-on-surface-variant)",
+                marginBottom: "var(--space-1-5)",
+              }}
+            >
               Email Address
             </label>
             <input
               type="email"
               name="email"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              className="input-academic"
               placeholder="teacher@school.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              className="text-label-md"
+              style={{
+                display: "block",
+                color: "var(--color-on-surface-variant)",
+                marginBottom: "var(--space-1-5)",
+              }}
+            >
               Phone Number
             </label>
             <input
               type="tel"
               name="phone"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              className="input-academic"
               placeholder="+91 9876543210"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              className="text-label-md"
+              style={{
+                display: "block",
+                color: "var(--color-on-surface-variant)",
+                marginBottom: "var(--space-1-5)",
+              }}
+            >
               Password
             </label>
             <input
               type="password"
               name="password"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              className="input-academic"
               placeholder="••••••••"
             />
           </div>
@@ -115,15 +196,29 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-blue-400 mt-2"
+            className="btn-primary"
+            style={{ width: "100%", padding: "var(--space-3)", marginTop: "var(--space-2)" }}
           >
-            {isPending ? "Signing up..." : "Sign Up"}
+            {isPending ? "Creating account…" : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center mt-6 text-gray-600">
+        <p
+          className="text-body-sm"
+          style={{
+            textAlign: "center",
+            marginTop: "var(--space-6)",
+          }}
+        >
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline font-medium">
+          <Link
+            href="/login"
+            style={{
+              color: "var(--color-primary)",
+              fontWeight: 500,
+              textDecoration: "none",
+            }}
+          >
             Log in
           </Link>
         </p>

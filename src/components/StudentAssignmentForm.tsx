@@ -9,17 +9,22 @@ interface StudentAssignmentFormProps {
     id: string;
     title: string;
     totalMarks: number;
-    questions: Omit<Question, 'correctAnswer'>[];
+    questions: Omit<Question, "correctAnswer">[];
   };
 }
 
-export default function StudentAssignmentForm({ assignment }: StudentAssignmentFormProps) {
-  const [identity, setIdentity] = useState<{ name: string; rollNumber: string } | null>(null);
+export default function StudentAssignmentForm({
+  assignment,
+}: StudentAssignmentFormProps) {
+  const [identity, setIdentity] = useState<{
+    name: string;
+    rollNumber: string;
+  } | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
-  const [result, setResult] = useState<{ 
-    success: boolean; 
-    score: number; 
+  const [result, setResult] = useState<{
+    success: boolean;
+    score: number;
     totalMarks: number;
     feedback?: GradedAnswer[];
   } | null>(null);
@@ -36,113 +41,337 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
   };
 
   const handleAnswerChange = (questionId: string, answer: string) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answer }));
+    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
   const handleSubmitAssignment = () => {
     if (!identity) return;
-    
+
     // Check if all questions are answered
     if (Object.keys(answers).length < assignment.questions.length) {
       setError("Please answer all questions before submitting.");
       return;
     }
-    
+
     setError(null);
     startTransition(async () => {
       try {
-        const res = await api.assignments.submitAssignment(assignment.id, identity.name, identity.rollNumber, answers);
+        const res = await api.assignments.submitAssignment(
+          assignment.id,
+          identity.name,
+          identity.rollNumber,
+          answers
+        );
         setResult(res);
       } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : "Failed to submit assignment");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to submit assignment"
+        );
       }
     });
   };
 
+  /* ── Results View ── */
   if (result) {
     return (
-      <div className="p-8 text-center">
-        <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      <div
+        style={{
+          padding: "var(--space-8)",
+          textAlign: "center",
+        }}
+      >
+        {/* Success icon */}
+        <div
+          style={{
+            width: "4rem",
+            height: "4rem",
+            borderRadius: "50%",
+            background: "var(--color-success-container)",
+            color: "var(--color-success)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto var(--space-5)",
+          }}
+        >
+          <svg
+            style={{ width: "2rem", height: "2rem" }}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Assignment Submitted!</h2>
-        <p className="text-gray-600 mb-8">Thank you, {identity?.name}. Your responses have been recorded.</p>
-        
-        <div className="bg-white border border-gray-200 rounded-xl p-6 max-w-2xl mx-auto mb-8 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Your Score</h3>
-          <div className="text-4xl font-extrabold text-blue-600">
-            {result.score} <span className="text-xl text-gray-400">/ {result.totalMarks}</span>
-          </div>
+        <h2 className="text-display-sm" style={{ marginBottom: "var(--space-2)" }}>
+          Assignment Submitted!
+        </h2>
+        <p
+          className="text-body-md"
+          style={{
+            color: "var(--color-on-surface-variant)",
+            marginBottom: "var(--space-8)",
+          }}
+        >
+          Thank you, {identity?.name}. Your responses have been recorded.
+        </p>
+
+        {/* Score card */}
+        <div
+          className="card-static"
+          style={{
+            maxWidth: "24rem",
+            margin: "0 auto var(--space-8)",
+            textAlign: "center",
+          }}
+        >
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Your Score
+          </p>
+          <p className="text-display-lg" style={{ letterSpacing: "-0.03em" }}>
+            <span style={{ color: "var(--color-primary)" }}>
+              {result.score}
+            </span>
+            <span
+              style={{
+                fontSize: "1.25rem",
+                color: "var(--color-on-surface-variant)",
+                marginLeft: "var(--space-2)",
+              }}
+            >
+              / {result.totalMarks}
+            </span>
+          </p>
         </div>
 
+        {/* Feedback */}
         {result.feedback && result.feedback.length > 0 && (
-          <div className="max-w-2xl mx-auto text-left space-y-4">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Answer Feedback</h3>
-            {result.feedback.map((f: GradedAnswer, i: number) => (
-              <div key={f.questionId} className={`p-4 rounded-xl border ${f.isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-semibold text-gray-900">Question {i + 1}</span>
-                  {f.isCorrect ? (
-                    <span className="text-green-700 font-bold flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                      Correct ({f.marksAwarded} Marks)
+          <div
+            style={{
+              maxWidth: "36rem",
+              margin: "0 auto",
+              textAlign: "left",
+            }}
+          >
+            <h3
+              className="text-headline-md"
+              style={{ marginBottom: "var(--space-4)" }}
+            >
+              Answer Feedback
+            </h3>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-3)",
+              }}
+            >
+              {result.feedback.map((f: GradedAnswer, i: number) => (
+                <div
+                  key={f.questionId}
+                  style={{
+                    padding: "var(--space-4)",
+                    borderRadius: "var(--radius-md)",
+                    background: f.isCorrect
+                      ? "var(--color-success-container)"
+                      : "var(--color-error-container)",
+                  }}
+                >
+                  <div
+                    className="flex justify-between items-start"
+                    style={{ marginBottom: "var(--space-2)" }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        color: "var(--color-on-surface)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      Question {i + 1}
                     </span>
-                  ) : (
-                    <span className="text-red-700 font-bold flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                      Incorrect (0 Marks)
-                    </span>
-                  )}
+                    {f.isCorrect ? (
+                      <span
+                        className="flex items-center gap-1"
+                        style={{
+                          color: "var(--color-success)",
+                          fontWeight: 600,
+                          fontSize: "0.8125rem",
+                        }}
+                      >
+                        ✓ Correct ({f.marksAwarded} Marks)
+                      </span>
+                    ) : (
+                      <span
+                        className="flex items-center gap-1"
+                        style={{
+                          color: "var(--color-error)",
+                          fontWeight: 600,
+                          fontSize: "0.8125rem",
+                        }}
+                      >
+                        ✗ Incorrect (0 Marks)
+                      </span>
+                    )}
+                  </div>
+                  <p
+                    style={{
+                      color: "var(--color-on-surface)",
+                      fontSize: "0.875rem",
+                      marginBottom: "var(--space-3)",
+                    }}
+                  >
+                    {f.questionText}
+                  </p>
+                  <div
+                    style={{
+                      fontSize: "0.8125rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-1)",
+                    }}
+                  >
+                    <div>
+                      <span
+                        style={{
+                          color: "var(--color-on-surface-variant)",
+                        }}
+                      >
+                        Your Answer:
+                      </span>{" "}
+                      <span
+                        style={{
+                          fontWeight: 500,
+                          color: "var(--color-on-surface)",
+                        }}
+                      >
+                        {f.studentAnswer}
+                      </span>
+                    </div>
+                    {!f.isCorrect && (
+                      <div>
+                        <span
+                          style={{
+                            color: "var(--color-on-surface-variant)",
+                          }}
+                        >
+                          Correct Answer:
+                        </span>{" "}
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            color: "var(--color-success)",
+                          }}
+                        >
+                          {Array.isArray(f.correctAnswer)
+                            ? f.correctAnswer.join(" or ")
+                            : f.correctAnswer}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <p className="text-gray-800 mb-3">{f.questionText}</p>
-                <div className="text-sm space-y-1">
-                  <div><span className="text-gray-600">Your Answer:</span> <span className="font-medium text-gray-900">{f.studentAnswer}</span></div>
-                  {!f.isCorrect && (
-                    <div><span className="text-gray-600">Correct Answer:</span> <span className="font-medium text-green-700">{Array.isArray(f.correctAnswer) ? f.correctAnswer.join(" or ") : f.correctAnswer}</span></div>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
     );
   }
 
+  /* ── Identity Form ── */
   if (!identity) {
     return (
-      <div className="p-6 sm:p-8">
-        <div className="max-w-md mx-auto">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Enter your details to start</h2>
+      <div style={{ padding: "var(--space-6) var(--space-8)" }}>
+        <div style={{ maxWidth: "24rem", margin: "0 auto" }}>
+          <h2
+            className="text-headline-md"
+            style={{
+              textAlign: "center",
+              marginBottom: "var(--space-6)",
+            }}
+          >
+            Enter your details to start
+          </h2>
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center">
+            <div
+              style={{
+                marginBottom: "var(--space-5)",
+                padding: "var(--space-3)",
+                background: "var(--color-error-container)",
+                color: "var(--color-error)",
+                borderRadius: "var(--radius-sm)",
+                fontSize: "0.8125rem",
+                textAlign: "center",
+              }}
+            >
               {error}
             </div>
           )}
-          <form onSubmit={handleIdentitySubmit} className="space-y-5">
+          <form
+            onSubmit={handleIdentitySubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-5)",
+            }}
+          >
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <input 
-                name="name" 
-                required 
-                placeholder="e.g. John Doe" 
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              <label
+                className="text-label-md"
+                style={{
+                  display: "block",
+                  color: "var(--color-on-surface-variant)",
+                  marginBottom: "var(--space-1-5)",
+                }}
+              >
+                Full Name
+              </label>
+              <input
+                name="name"
+                required
+                placeholder="e.g. Aarav Patel"
+                className="input-academic"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Student ID / Roll Number</label>
-              <input 
-                name="rollNumber" 
-                required 
-                placeholder="e.g. 101" 
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              <label
+                className="text-label-md"
+                style={{
+                  display: "block",
+                  color: "var(--color-on-surface-variant)",
+                  marginBottom: "var(--space-1-5)",
+                }}
+              >
+                Student ID / Roll Number
+              </label>
+              <input
+                name="rollNumber"
+                required
+                placeholder="e.g. 101"
+                className="input-academic"
               />
             </div>
-            <button 
-              type="submit" 
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{
+                width: "100%",
+                padding: "var(--space-3)",
+              }}
             >
               Start Assignment
             </button>
@@ -152,55 +381,168 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
     );
   }
 
+  /* ── Question Form ── */
   return (
-    <div className="p-6 sm:p-8">
-      <div className="mb-6 pb-6 border-b border-gray-200 flex justify-between items-center">
+    <div style={{ padding: "var(--space-6) var(--space-8)" }}>
+      {/* Student info + progress bar */}
+      <div
+        className="flex justify-between items-center"
+        style={{
+          marginBottom: "var(--space-6)",
+          paddingBottom: "var(--space-4)",
+        }}
+      >
         <div>
-          <span className="text-sm text-gray-500">Student</span>
-          <p className="font-medium text-gray-900">{identity.name} ({identity.rollNumber})</p>
+          <span
+            className="text-label-sm"
+            style={{ color: "var(--color-on-surface-variant)" }}
+          >
+            Student
+          </span>
+          <p
+            style={{
+              fontWeight: 500,
+              color: "var(--color-on-surface)",
+              fontSize: "0.875rem",
+            }}
+          >
+            {identity.name} ({identity.rollNumber})
+          </p>
         </div>
-        <div className="text-right">
-          <span className="text-sm text-gray-500">Progress</span>
-          <p className="font-medium text-blue-600">{Object.keys(answers).length} / {assignment.questions.length} Answered</p>
+        <div style={{ textAlign: "right" }}>
+          <span
+            className="text-label-sm"
+            style={{ color: "var(--color-on-surface-variant)" }}
+          >
+            Progress
+          </span>
+          <p
+            style={{
+              fontWeight: 500,
+              color: "var(--color-primary)",
+              fontSize: "0.875rem",
+            }}
+          >
+            {Object.keys(answers).length} / {assignment.questions.length}{" "}
+            Answered
+          </p>
         </div>
       </div>
 
-      <div className="space-y-8">
+      {/* Progress track */}
+      <div className="progress-track" style={{ marginBottom: "var(--space-6)" }}>
+        <div
+          className="progress-indicator"
+          style={{
+            width: `${(Object.keys(answers).length / assignment.questions.length) * 100}%`,
+          }}
+        ></div>
+      </div>
+
+      {/* Questions */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--space-6)",
+        }}
+      >
         {assignment.questions.map((q, index) => (
-          <div key={q.id} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-sm font-bold text-gray-500">Question {index + 1}</span>
-              <span className="text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">{q.marks} Marks</span>
+          <div
+            key={q.id}
+            style={{
+              background: "var(--color-surface-container-low)",
+              borderRadius: "var(--radius-md)",
+              padding: "var(--space-5)",
+            }}
+          >
+            <div
+              className="flex justify-between items-start"
+              style={{ marginBottom: "var(--space-4)" }}
+            >
+              <span
+                className="text-label-sm"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              >
+                Question {index + 1}
+              </span>
+              <span className="badge">{q.marks} Marks</span>
             </div>
-            <p className="text-lg text-gray-900 font-medium mb-4">{q.text}</p>
-            
-            {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-              <div className="space-y-2">
+            <p
+              style={{
+                fontSize: "1rem",
+                fontWeight: 500,
+                color: "var(--color-on-surface)",
+                marginBottom: "var(--space-4)",
+                lineHeight: 1.6,
+              }}
+            >
+              {q.text}
+            </p>
+
+            {q.options &&
+            (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--space-2)",
+                }}
+              >
                 {q.options.map((opt, i) => (
-                  <label 
-                    key={i} 
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${answers[q.id] === opt ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                  <label
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "var(--space-3)",
+                      borderRadius: "var(--radius-sm)",
+                      cursor: "pointer",
+                      transition: "all var(--transition-fast)",
+                      background:
+                        answers[q.id] === opt
+                          ? "var(--color-primary-container)"
+                          : "var(--color-surface-container-lowest)",
+                      border:
+                        answers[q.id] === opt
+                          ? "1.5px solid var(--color-primary)"
+                          : "1px solid rgba(176, 179, 173, 0.15)",
+                    }}
                   >
-                    <input 
-                      type="radio" 
-                      name={`question-${q.id}`} 
+                    <input
+                      type="radio"
+                      name={`question-${q.id}`}
                       value={opt}
                       checked={answers[q.id] === opt}
                       onChange={() => handleAnswerChange(q.id, opt)}
-                      className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                      style={{
+                        width: "1rem",
+                        height: "1rem",
+                        accentColor: "var(--color-primary)",
+                      }}
                     />
-                    <span className="ml-3 text-gray-700">{opt}</span>
+                    <span
+                      style={{
+                        marginLeft: "var(--space-3)",
+                        color: "var(--color-on-surface)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      {opt}
+                    </span>
                   </label>
                 ))}
               </div>
             ) : (
               <div>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={answers[q.id] || ""}
-                  onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                  onChange={(e) =>
+                    handleAnswerChange(q.id, e.target.value)
+                  }
                   placeholder="Type your answer here..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                  className="input-academic"
                 />
               </div>
             )}
@@ -208,21 +550,43 @@ export default function StudentAssignmentForm({ assignment }: StudentAssignmentF
         ))}
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="mt-8 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 text-center">
+        <div
+          style={{
+            marginTop: "var(--space-6)",
+            padding: "var(--space-3)",
+            background: "var(--color-error-container)",
+            color: "var(--color-error)",
+            borderRadius: "var(--radius-sm)",
+            fontSize: "0.8125rem",
+            textAlign: "center",
+          }}
+        >
           {error}
         </div>
       )}
 
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <button 
+      {/* Submit Button */}
+      <div
+        className="flex justify-end"
+        style={{
+          marginTop: "var(--space-8)",
+          paddingTop: "var(--space-5)",
+        }}
+      >
+        <button
           onClick={handleSubmitAssignment}
           disabled={isPending}
-          className="w-full sm:w-auto sm:min-w-[200px] float-right bg-blue-600 text-white py-3 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+          className="btn-primary"
+          style={{
+            padding: "var(--space-3) var(--space-8)",
+            fontSize: "1rem",
+            fontWeight: 600,
+          }}
         >
-          {isPending ? "Submitting..." : "Submit Assignment"}
+          {isPending ? "Submitting…" : "Submit Assignment"}
         </button>
-        <div className="clear-both"></div>
       </div>
     </div>
   );
