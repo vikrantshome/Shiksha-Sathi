@@ -2,10 +2,10 @@ import { api } from "@/lib/api";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { ClassItem } from "@/lib/api/types";
+import { PlusIcon, UserGroupIcon, AcademicCapIcon, ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
-
-import { ClassItem } from "@/lib/api/types";
 
 export default async function ClassesPage() {
   let classes: ClassItem[] = [];
@@ -60,136 +60,78 @@ export default async function ClassesPage() {
   }
 
   return (
-    <div>
+    <div className="pb-8">
       {/* Page Header */}
-      <div style={{ marginBottom: "var(--space-6)" }}>
+      <div className="mb-6">
         <h1 className="text-display-sm">Classes</h1>
-        <p
-          className="text-body-md"
-          style={{
-            color: "var(--color-on-surface-variant)",
-            marginTop: "var(--space-1)",
-          }}
-        >
+        <p className="text-body-md text-on-surface-variant mt-1">
           Manage your active classes and sections
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Create Class Form */}
-        <div
-          style={{
-            background: "var(--color-surface-container-lowest)",
-            padding: "var(--space-6)",
-            borderRadius: "var(--radius-md)",
-            height: "fit-content",
-          }}
-        >
-          <h2
-            className="text-headline-sm"
-            style={{ marginBottom: "var(--space-5)" }}
-          >
-            Create New Class
-          </h2>
-          <form
-            action={handleCreateClass}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-4)",
-            }}
-          >
+        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant h-fit">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+              <PlusIcon className="w-4 h-4 text-on-primary-container" />
+            </div>
+            <h2 className="text-headline-sm">Create Class</h2>
+          </div>
+          <form action={handleCreateClass} className="flex flex-col gap-4">
             <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
+              <label className="block text-label-md text-on-surface-variant mb-1.5">
                 Class Name
               </label>
               <input
                 name="name"
                 required
                 placeholder="e.g. Grade 10 Mathematics"
-                className="input-academic"
+                className="input-academic w-full"
               />
             </div>
-            <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
-                Section
-              </label>
-              <input
-                name="section"
-                required
-                placeholder="e.g. A"
-                className="input-academic"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-label-md text-on-surface-variant mb-1.5">
+                  Section
+                </label>
+                <input
+                  name="section"
+                  required
+                  placeholder="e.g. A"
+                  className="input-academic w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-label-md text-on-surface-variant mb-1.5">
+                  Students
+                </label>
+                <input
+                  name="studentCount"
+                  type="number"
+                  min="1"
+                  required
+                  placeholder="e.g. 30"
+                  className="input-academic w-full"
+                />
+              </div>
             </div>
-            <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
-                Student Count
-              </label>
-              <input
-                name="studentCount"
-                type="number"
-                min="1"
-                required
-                placeholder="e.g. 30"
-                className="input-academic"
-              />
-            </div>
-            <button
-              type="submit"
-              className="btn-primary"
-              style={{ width: "100%", padding: "var(--space-3)" }}
-            >
+            <button type="submit" className="btn-primary w-full justify-center mt-2">
               Create Class
             </button>
           </form>
         </div>
 
         {/* Class List */}
-        <div
-          className="md:col-span-2"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-3)",
-          }}
-        >
+        <div className="md:col-span-2 flex flex-col gap-4">
           {classes.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "var(--space-12) var(--space-8)",
-                background: "var(--color-surface-container-lowest)",
-                borderRadius: "var(--radius-md)",
-                border: "1px dashed var(--color-outline-variant)",
-              }}
-            >
-              <p
-                className="text-body-md"
-                style={{ color: "var(--color-on-surface-variant)" }}
-              >
-                No active classes found. Create your first class to get
-                started.
+            <div className="text-center py-12 px-8 bg-surface-container-lowest rounded-xl border border-dashed border-outline-variant">
+              <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-surface-variant">
+                <AcademicCapIcon className="w-8 h-8" />
+              </div>
+              <p className="text-headline-sm mb-2">No active classes</p>
+              <p className="text-body-md text-on-surface-variant max-w-sm mx-auto">
+                Create your first class to start tracking attendance and assignments.
               </p>
             </div>
           ) : (
@@ -198,70 +140,49 @@ export default async function ClassesPage() {
               .map((cls) => (
                 <div
                   key={cls.id}
-                  className="flex justify-between items-center"
-                  style={{
-                    background: "var(--color-surface-container-lowest)",
-                    padding: "var(--space-5)",
-                    borderRadius: "var(--radius-md)",
-                    transition: "all var(--transition-fast)",
-                  }}
+                  className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
-                  <div>
-                    <h3
-                      style={{
-                        fontWeight: 600,
-                        color: "var(--color-on-surface)",
-                        fontSize: "0.9375rem",
-                      }}
-                    >
-                      {cls.name}
-                    </h3>
-                    <p
-                      className="text-body-sm"
-                      style={{
-                        color: "var(--color-on-surface-variant)",
-                        marginTop: "2px",
-                      }}
-                    >
-                      Section {cls.section} · {cls.studentCount} Students
-                    </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+                      <span className="text-on-secondary-container font-semibold">
+                        {cls.section}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="text-title-md font-semibold text-on-surface">
+                        {cls.name}
+                      </h3>
+                      <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
+                        <span className="flex items-center gap-1">
+                          <UserGroupIcon className="w-4 h-4" />
+                          {cls.studentCount} Students
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Link
                       href={`/teacher/classes/${cls.id}/attendance`}
-                      className="btn-ghost"
-                      style={{
-                        padding: "var(--space-1-5) var(--space-3)",
-                        fontSize: "0.8125rem",
-                        background: "var(--color-primary-container)",
-                        color: "var(--color-on-primary-container)",
-                      }}
+                      className="btn-academic bg-primary-container text-on-primary-container hover:bg-primary hover:text-white"
                     >
                       Attendance
                     </Link>
                     <form action={handleArchiveClass.bind(null, cls.id)}>
                       <button
                         type="submit"
-                        className="btn-ghost"
-                        style={{
-                          padding: "var(--space-1-5) var(--space-3)",
-                          fontSize: "0.8125rem",
-                        }}
+                        className="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-full transition-colors"
+                        title="Archive Class"
                       >
-                        Archive
+                        <ArchiveBoxIcon className="w-5 h-5" />
                       </button>
                     </form>
                     <form action={handleDeleteClass.bind(null, cls.id)}>
                       <button
                         type="submit"
-                        className="btn-ghost"
-                        style={{
-                          padding: "var(--space-1-5) var(--space-3)",
-                          fontSize: "0.8125rem",
-                          color: "var(--color-error)",
-                        }}
+                        className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded-full transition-colors"
+                        title="Delete Class"
                       >
-                        Delete
+                        <TrashIcon className="w-5 h-5" />
                       </button>
                     </form>
                   </div>
