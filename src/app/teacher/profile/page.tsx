@@ -27,25 +27,16 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div style={{ marginBottom: "var(--space-6)" }}>
-        <h1 className="text-display-sm">Teacher Profile</h1>
+    <div className="max-w-3xl mx-auto py-6">
+      <div className="mb-8">
+        <h1 className="text-display-sm font-bold text-on-surface mb-2">Teacher Profile</h1>
         {errorState ? (
-          <p
-            className="text-body-sm"
-            style={{ color: "var(--color-error)", marginTop: "var(--space-1)" }}
-          >
+          <p className="text-body-sm text-error bg-error-container/30 border border-error/20 inline-block px-3 py-1.5 rounded-md mt-2">
             Error loading profile data. Please try again.
           </p>
         ) : (
-          <p
-            className="text-body-md"
-            style={{
-              color: "var(--color-on-surface-variant)",
-              marginTop: "var(--space-1)",
-            }}
-          >
-            Manage your personal and school details.
+          <p className="text-body-md text-on-surface-variant max-w-lg">
+            Manage your personal and school details. This information will be used to personalize your experience.
           </p>
         )}
       </div>
