@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import StudentAssignmentForm from "@/components/StudentAssignmentForm";
 import { api } from "@/lib/api";
+import {
+  ClockIcon,
+  ClipboardDocumentListIcon,
+} from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
 
@@ -29,86 +33,25 @@ export default async function StudentAssignmentPage({
     }
 
     return (
-      <main
-        className="min-h-screen"
-        style={{
-          background: "var(--color-surface)",
-          padding: "var(--space-8) var(--space-4)",
-        }}
-      >
+      <main className="min-h-screen bg-surface p-4 sm:p-6 md:p-8">
         <div className="max-w-4xl mx-auto">
-          <div
-            style={{
-              background: "var(--color-surface-container-lowest)",
-              borderRadius: "var(--radius-md)",
-              overflow: "hidden",
-            }}
-          >
+          <div className="bg-surface-container-lowest rounded-md overflow-hidden">
             {/* Header */}
-            <div
-              style={{
-                background: "var(--color-primary)",
-                padding: "var(--space-6) var(--space-8)",
-                color: "var(--color-on-primary)",
-                position: "relative",
-              }}
-            >
-              <span
-                className="badge"
-                style={{
-                  background: "rgba(255,255,255,0.15)",
-                  color: "var(--color-on-primary)",
-                  marginBottom: "var(--space-3)",
-                  display: "inline-flex",
-                }}
-              >
+            <div className="bg-primary px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-8 text-on-primary relative">
+              <span className="badge inline-flex mb-3 bg-white/15 text-on-primary border-0">
                 Student Assignment
               </span>
-              <h1
-                className="text-display-sm"
-                style={{ color: "var(--color-on-primary)" }}
-              >
+              <h1 className="text-display-sm text-on-primary">
                 {assignment.title}
               </h1>
-              <div
-                className="flex flex-wrap gap-5"
-                style={{
-                  marginTop: "var(--space-4)",
-                  fontSize: "0.8125rem",
-                  opacity: 0.85,
-                }}
-              >
+              <div className="flex flex-wrap gap-4 sm:gap-5 mt-4 text-[0.8125rem] opacity-85">
                 <div className="flex items-center gap-1.5">
-                  <svg
-                    style={{ width: "1rem", height: "1rem" }}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                  <ClockIcon className="w-4 h-4" />
                   Due:{" "}
                   {new Date(assignment.dueDate).toLocaleDateString()}
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <svg
-                    style={{ width: "1rem", height: "1rem" }}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                    />
-                  </svg>
+                  <ClipboardDocumentListIcon className="w-4 h-4" />
                   {assignment.totalMarks} Marks
                 </div>
               </div>

@@ -1,4 +1,4 @@
-# Shiksha Sathi — "Sutra Academic" Design System
+# Shiksha Sathi Design System
 
 > **Creative North Star: "The Digital Atelier"**
 >
@@ -197,7 +197,30 @@ Do NOT use 1px solid borders to define sections. Use background color shifts ins
 
 ---
 
-## 9. Do's & Don'ts
+## 9. Responsive System & Breakpoints
+
+To enforce intentional behavior across devices, all layouts must explicitly consider the following 3 breakpoint tiers. Do NOT rely solely on CSS shrink/stretch behavior.
+
+### Tiers & Triggers
+| Breakpoint | Trigger Size | Primary Flow Implication |
+|------------|--------------|--------------------------|
+| **Mobile** | `< 768px` | Strict linear/progressive flow. Bottom-sheet driven tasks. Single column. |
+| **Tablet** | `768px - 1024px` | Condensed shells. Collapsed left rails. Two columns stack to one. |
+| **Desktop**| `> 1024px` | Persistent left rail, sticky side trays, multi-region lateral workspaces. |
+
+### Shell & Navigation Behavior
+- **Desktop**: Persistent side-rails and persistent header. High-density view logic.
+- **Tablet**: Side-rails collapse to iconbars or off-canvas overlay. Content spans full width or tighter max-widths.
+- **Mobile**: Top header condenses to hamburger icon. High-action areas utilize sticky bottom action bars to respect "thumb zone" interactions.
+
+### Component Density Rules
+- **Tap Targets**: Minimum 44px height for interactive elements on Mobile/Tablet. Desktop can retain compact 32-36px sizing (like `btn-primary`).
+- **Forms**: Dual-column forms on desktop switch to single-column stacking on tablet/mobile. Side-by-side selects/inputs must drop to full width.
+- **Tables**: List-card fallback patterns preferred for mobile instead of forced horizontal scroll tables where feasible.
+
+---
+
+## 10. Do's & Don'ts
 
 ### ✅ Do
 - Use `var(--color-on-surface)` (#30332f) for all primary text — NEVER pure black
