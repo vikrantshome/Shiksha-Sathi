@@ -10,43 +10,110 @@ interface StudentAssignmentPageProps {
   }>;
 }
 
-export default async function StudentAssignmentPage({ params }: StudentAssignmentPageProps) {
+export default async function StudentAssignmentPage({
+  params,
+}: StudentAssignmentPageProps) {
   const resolvedParams = await params;
-  
+
   if (!resolvedParams.linkId) {
     notFound();
   }
 
   try {
-    const assignment = await api.assignments.getByLinkId(resolvedParams.linkId);
-    
+    const assignment = await api.assignments.getByLinkId(
+      resolvedParams.linkId
+    );
+
     if (!assignment) {
       notFound();
     }
-    
+
     return (
-      <main className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="bg-blue-600 p-6 sm:p-8 text-white relative overflow-hidden">
-              <div className="relative z-10">
-                <span className="inline-block px-3 py-1 bg-blue-500 rounded-full text-sm font-medium mb-4">
-                  Student Assignment
-                </span>
-                <h1 className="text-2xl sm:text-3xl font-bold mb-2">{assignment.title}</h1>
-                <div className="text-blue-100 flex flex-wrap gap-4 text-sm mt-4">
-                  <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Due: {new Date(assignment.dueDate).toLocaleDateString()}
-                  </div>
-                  <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                    {assignment.totalMarks} Marks
-                  </div>
+      <main
+        className="min-h-screen"
+        style={{
+          background: "var(--color-surface)",
+          padding: "var(--space-8) var(--space-4)",
+        }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div
+            style={{
+              background: "var(--color-surface-container-lowest)",
+              borderRadius: "var(--radius-md)",
+              overflow: "hidden",
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                background: "var(--color-primary)",
+                padding: "var(--space-6) var(--space-8)",
+                color: "var(--color-on-primary)",
+                position: "relative",
+              }}
+            >
+              <span
+                className="badge"
+                style={{
+                  background: "rgba(255,255,255,0.15)",
+                  color: "var(--color-on-primary)",
+                  marginBottom: "var(--space-3)",
+                  display: "inline-flex",
+                }}
+              >
+                Student Assignment
+              </span>
+              <h1
+                className="text-display-sm"
+                style={{ color: "var(--color-on-primary)" }}
+              >
+                {assignment.title}
+              </h1>
+              <div
+                className="flex flex-wrap gap-5"
+                style={{
+                  marginTop: "var(--space-4)",
+                  fontSize: "0.8125rem",
+                  opacity: 0.85,
+                }}
+              >
+                <div className="flex items-center gap-1.5">
+                  <svg
+                    style={{ width: "1rem", height: "1rem" }}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  Due:{" "}
+                  {new Date(assignment.dueDate).toLocaleDateString()}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <svg
+                    style={{ width: "1rem", height: "1rem" }}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                  {assignment.totalMarks} Marks
                 </div>
               </div>
             </div>
-            
+
             <StudentAssignmentForm assignment={assignment} />
           </div>
         </div>
@@ -56,4 +123,3 @@ export default async function StudentAssignmentPage({ params }: StudentAssignmen
     notFound();
   }
 }
-

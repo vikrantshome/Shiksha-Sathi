@@ -7,72 +7,249 @@ import { useAssignment } from "./AssignmentContext";
 export default function QuestionCard({ question: q }: { question: Question }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const { toggleQuestion, isSelected } = useAssignment();
-  
+
   const selected = isSelected(q.id);
 
   return (
-    <div className={`bg-white p-5 rounded-xl shadow-sm border transition-colors ${selected ? 'border-blue-500 bg-blue-50/30' : 'border-gray-200 hover:border-blue-300'}`}>
-      <div className="flex justify-between items-start mb-2">
-        <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded">
+    <div
+      style={{
+        background: selected
+          ? "rgba(198, 232, 248, 0.15)"
+          : "var(--color-surface-container-lowest)",
+        borderRadius: "var(--radius-md)",
+        padding: "var(--space-5)",
+        border: selected
+          ? "1.5px solid var(--color-primary)"
+          : "1px solid rgba(176, 179, 173, 0.15)",
+        transition: "all var(--transition-fast)",
+      }}
+    >
+      {/* Meta row: Topic + Type */}
+      <div
+        className="flex justify-between items-center"
+        style={{ marginBottom: "var(--space-3)" }}
+      >
+        <span
+          className="text-label-sm"
+          style={{ color: "var(--color-on-surface-variant)" }}
+        >
           {q.topic}
         </span>
-        <span className="inline-block px-2 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded">
-          {q.type.replace(/_/g, ' ')}
-        </span>
+        <span className="badge">{q.type.replace(/_/g, " ")}</span>
       </div>
-      <p className="text-gray-900 font-medium">{q.text}</p>
-      
+
+      {/* Question text */}
+      <p
+        style={{
+          color: "var(--color-on-surface)",
+          fontWeight: 500,
+          fontSize: "0.875rem",
+          lineHeight: 1.6,
+        }}
+      >
+        {q.text}
+      </p>
+
+      {/* MCQ Options */}
       {q.options && (
-        <ul className="mt-3 space-y-1">
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            marginTop: "var(--space-3)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-1-5)",
+          }}
+        >
           {q.options.map((opt, i) => (
-            <li key={i} className="text-sm text-gray-600 border border-gray-100 p-2 rounded bg-white">
-              {String.fromCharCode(65 + i)}. {opt}
+            <li
+              key={i}
+              style={{
+                padding: "var(--space-2) var(--space-3)",
+                fontSize: "0.8125rem",
+                color: "var(--color-on-surface-variant)",
+                background: "var(--color-surface-container-low)",
+                borderRadius: "var(--radius-sm)",
+              }}
+            >
+              <span
+                style={{
+                  color: "var(--color-primary)",
+                  fontWeight: 500,
+                  marginRight: "var(--space-2)",
+                }}
+              >
+                {String.fromCharCode(65 + i)}.
+              </span>
+              {opt}
             </li>
           ))}
         </ul>
       )}
 
-      <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-        <button 
+      {/* Action row */}
+      <div
+        className="flex justify-between items-center"
+        style={{
+          marginTop: "var(--space-4)",
+          paddingTop: "var(--space-3)",
+        }}
+      >
+        <button
           onClick={() => setIsPreviewOpen(!isPreviewOpen)}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="btn-ghost"
+          style={{
+            padding: "var(--space-1) var(--space-2)",
+            fontSize: "0.8125rem",
+          }}
         >
-          {isPreviewOpen ? "Hide Preview" : "Preview Question"}
+          {isPreviewOpen ? "Hide Preview" : "Preview"}
         </button>
-        
-        <button 
+
+        <button
           onClick={() => toggleQuestion(q)}
-          className={`px-3 py-1 rounded text-sm font-medium transition-colors ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          className={selected ? "btn-primary" : "btn-ghost"}
+          style={{
+            padding: "var(--space-1-5) var(--space-4)",
+            fontSize: "0.8125rem",
+            ...(selected
+              ? {}
+              : {
+                  background: "var(--color-surface-container)",
+                  color: "var(--color-on-surface)",
+                }),
+          }}
         >
-          {selected ? "Added" : "Add to Assignment"}
+          {selected ? "✓ Added" : "Add to Assignment"}
         </button>
       </div>
 
       {/* Preview Area */}
       {isPreviewOpen && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Teacher Preview</h4>
-          <div className="flex flex-col gap-3 text-sm">
+        <div
+          style={{
+            marginTop: "var(--space-4)",
+            padding: "var(--space-4)",
+            background: "var(--color-surface-container-low)",
+            borderRadius: "var(--radius-md)",
+          }}
+        >
+          <h4 className="text-label-sm" style={{ color: "var(--color-primary)", marginBottom: "var(--space-3)" }}>
+            Teacher Preview
+          </h4>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-3)",
+              fontSize: "0.8125rem",
+            }}
+          >
             <div>
-              <span className="font-medium text-gray-700">Correct Answer:</span> 
-              <span className="ml-2 text-green-700 font-medium">{q.correctAnswer}</span>
+              <span
+                style={{
+                  fontWeight: 500,
+                  color: "var(--color-on-surface-variant)",
+                }}
+              >
+                Correct Answer:
+              </span>
+              <span
+                style={{
+                  marginLeft: "var(--space-2)",
+                  color: "var(--color-success)",
+                  fontWeight: 600,
+                }}
+              >
+                {q.correctAnswer}
+              </span>
             </div>
-            
+
             {q.explanation && (
               <div>
-                <span className="font-medium text-gray-700 block mb-1">Explanation:</span>
-                <p className="text-gray-600 bg-white p-2 rounded border border-gray-100">{q.explanation}</p>
+                <span
+                  style={{
+                    fontWeight: 500,
+                    color: "var(--color-on-surface-variant)",
+                    display: "block",
+                    marginBottom: "var(--space-1)",
+                  }}
+                >
+                  Explanation:
+                </span>
+                <p
+                  style={{
+                    color: "var(--color-on-surface)",
+                    background: "var(--color-surface-container-lowest)",
+                    padding: "var(--space-3)",
+                    borderRadius: "var(--radius-sm)",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {q.explanation}
+                </p>
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-gray-200">
-              <div><span className="text-gray-500">Points:</span> <span className="text-gray-700">{q.points}</span></div>
-              <div><span className="text-gray-500">Source:</span> <span className="text-gray-700">{q.sourceKind || 'LOCAL'}</span></div>
+            <div
+              className="grid grid-cols-2 gap-2"
+              style={{
+                fontSize: "0.75rem",
+                paddingTop: "var(--space-2)",
+              }}
+            >
+              <div>
+                <span style={{ color: "var(--color-on-surface-variant)" }}>
+                  Points:
+                </span>{" "}
+                <span style={{ color: "var(--color-on-surface)" }}>
+                  {q.points}
+                </span>
+              </div>
+              <div>
+                <span style={{ color: "var(--color-on-surface-variant)" }}>
+                  Source:
+                </span>{" "}
+                <span style={{ color: "var(--color-on-surface)" }}>
+                  {q.sourceKind || "LOCAL"}
+                </span>
+              </div>
               {q.provenance && (
                 <>
-                  <div className="col-span-2"><span className="text-gray-500">Book:</span> <span className="text-gray-700">{q.provenance.book} (Class {q.provenance.classLevel})</span></div>
-                  <div><span className="text-gray-500">Chapter:</span> <span className="text-gray-700">{q.provenance.chapterNumber}. {q.provenance.chapterTitle}</span></div>
-                  <div><span className="text-gray-500">Section:</span> <span className="text-gray-700">{q.provenance.section || 'N/A'}</span></div>
+                  <div className="col-span-2">
+                    <span
+                      style={{ color: "var(--color-on-surface-variant)" }}
+                    >
+                      Book:
+                    </span>{" "}
+                    <span style={{ color: "var(--color-on-surface)" }}>
+                      {q.provenance.book} (Class{" "}
+                      {q.provenance.classLevel})
+                    </span>
+                  </div>
+                  <div>
+                    <span
+                      style={{ color: "var(--color-on-surface-variant)" }}
+                    >
+                      Chapter:
+                    </span>{" "}
+                    <span style={{ color: "var(--color-on-surface)" }}>
+                      {q.provenance.chapterNumber}.{" "}
+                      {q.provenance.chapterTitle}
+                    </span>
+                  </div>
+                  <div>
+                    <span
+                      style={{ color: "var(--color-on-surface-variant)" }}
+                    >
+                      Section:
+                    </span>{" "}
+                    <span style={{ color: "var(--color-on-surface)" }}>
+                      {q.provenance.section || "N/A"}
+                    </span>
+                  </div>
                 </>
               )}
             </div>

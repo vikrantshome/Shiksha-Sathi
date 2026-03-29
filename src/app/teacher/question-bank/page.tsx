@@ -8,23 +8,43 @@ export const dynamic = "force-dynamic";
 export default async function QuestionBankPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedParams = await searchParams;
-  const board = typeof resolvedParams.board === 'string' ? resolvedParams.board : null;
-  const classLevel = typeof resolvedParams.class === 'string' ? resolvedParams.class : null;
-  const subjectId = typeof resolvedParams.subject === 'string' ? resolvedParams.subject : null;
-  const book = typeof resolvedParams.book === 'string' ? resolvedParams.book : null;
-  const chapter = typeof resolvedParams.chapter === 'string' ? resolvedParams.chapter : null;
-  const q = typeof resolvedParams.q === 'string' ? resolvedParams.q.toLowerCase() : null;
-  const type = typeof resolvedParams.type === 'string' ? resolvedParams.type : "ALL";
+  const board =
+    typeof resolvedParams.board === "string" ? resolvedParams.board : null;
+  const classLevel =
+    typeof resolvedParams.class === "string" ? resolvedParams.class : null;
+  const subjectId =
+    typeof resolvedParams.subject === "string"
+      ? resolvedParams.subject
+      : null;
+  const book =
+    typeof resolvedParams.book === "string" ? resolvedParams.book : null;
+  const chapter =
+    typeof resolvedParams.chapter === "string"
+      ? resolvedParams.chapter
+      : null;
+  const q =
+    typeof resolvedParams.q === "string"
+      ? resolvedParams.q.toLowerCase()
+      : null;
+  const type =
+    typeof resolvedParams.type === "string" ? resolvedParams.type : "ALL";
 
   // Server-side DB fetching and filtering via Spring Boot API
   const boards = await api.questions.getBoards();
   const classes = await api.questions.getClasses(board || undefined);
-  const subjects = await api.questions.getSubjects(); // Existing method
-  const books = await api.questions.getBooks({ board: board || undefined, classLevel: classLevel || undefined, subject: subjectId || undefined });
-  const chapters = await api.questions.getChapters(subjectId || undefined, book || undefined);
+  const subjects = await api.questions.getSubjects();
+  const booksData = await api.questions.getBooks({
+    board: board || undefined,
+    classLevel: classLevel || undefined,
+    subject: subjectId || undefined,
+  });
+  const chapters = await api.questions.getChapters(
+    subjectId || undefined,
+    book || undefined
+  );
 
   // Fetch only if chapter is selected, or if user is searching globally
   let displayedQuestions: Question[] = [];
@@ -37,64 +57,149 @@ export default async function QuestionBankPage({
       chapter,
       q,
       type,
-      visibleOnly: true // Production: only show PUBLISHED content
+      visibleOnly: true,
     });
   }
 
+  // Determine empty state message and icon
+  const getEmptyState = () => {
+    if (!board && !q) {
+      return {
+        title: "Start by selecting a board",
+        description:
+          "Choose NCERT/CBSE or another curriculum board to browse questions.",
+      };
+    }
+    if (!classLevel && !q) {
+      return {
+        title: "Select a class",
+        description: "Pick a class level to narrow down your curriculum.",
+      };
+    }
+    if (!subjectId && !q) {
+      return {
+        title: "Choose a subject",
+        description: "Select a subject to explore available chapters.",
+      };
+    }
+    if (!chapter && !q) {
+      return {
+        title: "Pick a chapter",
+        description: "Select a chapter to view questions.",
+      };
+    }
+    return null;
+  };
+
+  const emptyState = getEmptyState();
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Question Bank</h1>
-          <p className="text-gray-500">Browse NCERT and local questions for your assignments.</p>
-        </div>
+      {/* Page Header */}
+      <div style={{ marginBottom: "var(--space-6)" }}>
+        <h1 className="text-display-sm">Question Bank</h1>
+        <p
+          className="text-body-md"
+          style={{
+            color: "var(--color-on-surface-variant)",
+            marginTop: "var(--space-1)",
+          }}
+        >
+          Browse NCERT and local questions for your assignments.
+        </p>
       </div>
-      
-      {/* Layout Grid containing Filters and Content */}
-      <QuestionBankFilters 
-        subjects={subjects} 
-        chapters={chapters} 
+
+      {/* Filters (includes sidebar + search bar) */}
+      <QuestionBankFilters
+        subjects={subjects}
+        chapters={chapters}
         boards={boards}
         classes={classes}
-        books={books}
+        books={booksData}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-        {/* Empty col-span-1 to offset the sidebar from Filters */}
+      {/* Content Area */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6" style={{ marginTop: "var(--space-6)" }}>
+        {/* Sidebar offset */}
         <div className="hidden md:block md:col-span-1"></div>
 
-        {/* Content Area */}
+        {/* Questions Column */}
         <div className="md:col-span-3">
-          {!board && !q ? (
-            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-              <p className="text-gray-500">Select a board from the left to start browsing.</p>
-            </div>
-          ) : !classLevel && !q ? (
-            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-              <p className="text-gray-500">Select a class to continue.</p>
-            </div>
-          ) : !subjectId && !q ? (
-            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-              <p className="text-gray-500">Select a subject to view chapters.</p>
-            </div>
-          ) : !chapter && !q ? (
-            <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center border-dashed">
-              <p className="text-gray-500">Select a chapter to view questions.</p>
+          {emptyState ? (
+            /* Progressive empty state */
+            <div
+              style={{
+                background: "var(--color-surface-container-lowest)",
+                padding: "var(--space-12) var(--space-8)",
+                borderRadius: "var(--radius-md)",
+                textAlign: "center",
+                border: "1px dashed var(--color-outline-variant)",
+              }}
+            >
+              <p
+                className="text-headline-sm"
+                style={{
+                  color: "var(--color-on-surface)",
+                  marginBottom: "var(--space-2)",
+                }}
+              >
+                {emptyState.title}
+              </p>
+              <p
+                className="text-body-sm"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              >
+                {emptyState.description}
+              </p>
             </div>
           ) : (
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                {chapter || "Search"} Results ({displayedQuestions.length})
-              </h2>
-              
+            <div>
+              {/* Results header */}
+              <div
+                className="flex justify-between items-center"
+                style={{ marginBottom: "var(--space-4)" }}
+              >
+                <h2 className="text-headline-md">
+                  {chapter || "Search"} Results
+                </h2>
+                <span
+                  className="text-label-md"
+                  style={{ color: "var(--color-on-surface-variant)" }}
+                >
+                  {displayedQuestions.length} question
+                  {displayedQuestions.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+
               {displayedQuestions.length === 0 ? (
-                <div className="text-center p-8 bg-white rounded-xl border border-gray-200 border-dashed">
-                  <p className="text-gray-500">No questions found matching your criteria.</p>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "var(--space-8)",
+                    background: "var(--color-surface-container-lowest)",
+                    borderRadius: "var(--radius-md)",
+                    border: "1px dashed var(--color-outline-variant)",
+                  }}
+                >
+                  <p
+                    className="text-body-md"
+                    style={{ color: "var(--color-on-surface-variant)" }}
+                  >
+                    No questions found matching your criteria.
+                  </p>
                 </div>
               ) : (
-                displayedQuestions.map((question) => (
-                  <QuestionCard key={question.id} question={question} />
-                ))
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "var(--space-3)",
+                  }}
+                >
+                  {displayedQuestions.map((question) => (
+                    <QuestionCard key={question.id} question={question} />
+                  ))}
+                </div>
               )}
             </div>
           )}
