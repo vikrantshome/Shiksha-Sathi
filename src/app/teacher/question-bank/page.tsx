@@ -6,6 +6,14 @@ import AssignmentTray from "@/components/AssignmentTray";
 
 export const dynamic = "force-dynamic";
 
+/* ─────────────────────────────────────────────────────────
+   Question Bank Page — Stitch-Directed Redesign
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/question_bank
+   Implements: "Question Repository" layout with 3-panel workspace,
+   taxonomy left rail in sidebar, center search+results, right
+   assignment tray. All styled with Digital Atelier design tokens.
+   ───────────────────────────────────────────────────────── */
+
 export default async function QuestionBankPage({
   searchParams,
 }: {
@@ -69,27 +77,31 @@ export default async function QuestionBankPage({
   const getEmptyState = () => {
     if (!board && !q) {
       return {
-        title: "Start by selecting a board",
+        title: "Select a Board to Begin",
         description:
-          "Choose NCERT/CBSE or another curriculum board to browse questions.",
+          "Choose your board and grade from the left panel to explore curated academic content.",
+        icon: "board",
       };
     }
     if (!classLevel && !q) {
       return {
-        title: "Select a class",
+        title: "Select a Class",
         description: "Pick a class level to narrow down your curriculum.",
+        icon: "class",
       };
     }
     if (!subjectId && !q) {
       return {
-        title: "Choose a subject",
+        title: "Choose a Subject",
         description: "Select a subject to explore available chapters.",
+        icon: "subject",
       };
     }
     if (!chapter && !q) {
       return {
-        title: "Pick a chapter",
+        title: "Pick a Chapter",
         description: "Select a chapter to view questions.",
+        icon: "chapter",
       };
     }
     return null;
@@ -97,20 +109,64 @@ export default async function QuestionBankPage({
 
   const emptyState = getEmptyState();
 
+  const EmptyIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-outline-variant)" }}>
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+    </svg>
+  );
+
   return (
-    <div className="pb-24 lg:pb-8">
-      {/* Page Header */}
-      <div className="mb-6">
-        <h1 className="text-display-sm">Question Bank</h1>
-        <p className="text-body-md text-on-surface-variant mt-1">
-          Browse NCERT and local questions for your assignments.
-        </p>
+    <div style={{ paddingBottom: "6rem" }}>
+      {/* ═══ Page Header ═══ */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          marginBottom: "var(--space-6)",
+        }}
+      >
+        <h1
+          style={{
+            fontFamily: "var(--font-manrope), system-ui, sans-serif",
+            fontSize: "1.5rem",
+            fontWeight: 700,
+            letterSpacing: "-0.03em",
+            color: "var(--color-on-surface)",
+            margin: 0,
+          }}
+        >
+          Question Repository
+        </h1>
+        {!emptyState && (
+          <span
+            style={{
+              fontSize: "0.6875rem",
+              fontWeight: 700,
+              color: "var(--color-on-surface-variant)",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+            }}
+          >
+            Showing {displayedQuestions.length} result
+            {displayedQuestions.length !== 1 ? "s" : ""}
+          </span>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Rail: Taxonomy */}
-        <div className="lg:col-span-3">
-          <div className="sticky top-6">
+      {/* ═══ Search + Type Filter Bar ═══ */}
+      <QuestionBankSearch />
+
+      {/* ═══ 3-Panel Workspace Grid ═══ */}
+      <div className="qb-workspace-grid">
+        {/* Left Rail: Taxonomy Navigation */}
+        <div className="qb-taxonomy-rail">
+          <div
+            style={{
+              position: "sticky",
+              top: "var(--space-6)",
+            }}
+          >
             <QuestionBankFilters
               subjects={subjects}
               chapters={chapters}
@@ -121,44 +177,73 @@ export default async function QuestionBankPage({
           </div>
         </div>
 
-        {/* Center: Search & Results */}
-        <div className="lg:col-span-6 flex flex-col">
-          <QuestionBankSearch />
-          
+        {/* Center: Question Results */}
+        <div className="qb-results-panel">
           {emptyState ? (
-            /* Progressive empty state */
-            <div className="bg-surface-container-lowest p-12 rounded-xl text-center border-2 border-dashed border-outline-variant flex flex-col items-center justify-center min-h-[400px]">
-              <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 text-on-surface-variant">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            /* Progressive Empty State — Stitch Direction */
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "24rem",
+                textAlign: "center",
+                padding: "var(--space-12)",
+              }}
+            >
+              <div
+                style={{
+                  width: "4rem",
+                  height: "4rem",
+                  background: "var(--color-surface-container-low)",
+                  borderRadius: "var(--radius-full)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "var(--space-6)",
+                }}
+              >
+                <EmptyIcon />
               </div>
-              <p className="text-headline-sm text-on-surface mb-2">
+              <h3
+                style={{
+                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "var(--color-on-surface)",
+                  margin: "0 0 var(--space-2)",
+                }}
+              >
                 {emptyState.title}
-              </p>
-              <p className="text-body-md text-on-surface-variant max-w-sm">
+              </h3>
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  color: "var(--color-on-surface-variant)",
+                  maxWidth: "20rem",
+                  lineHeight: 1.5,
+                  margin: 0,
+                }}
+              >
                 {emptyState.description}
               </p>
             </div>
           ) : (
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-title-lg font-medium">
-                  {chapter || "Search"} Results
-                </h2>
-                <span className="text-label-md bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant">
-                  {displayedQuestions.length} question{displayedQuestions.length !== 1 ? "s" : ""}
-                </span>
-              </div>
-
               {displayedQuestions.length === 0 ? (
-                <div className="bg-surface-container-lowest p-12 rounded-xl text-center border border-dashed border-outline-variant">
-                  <p className="text-body-md text-on-surface-variant">
-                    No questions found matching your criteria.
-                  </p>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "var(--space-12)",
+                    color: "var(--color-on-surface-variant)",
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  No questions found matching your criteria.
                 </div>
               ) : (
-                <div className="flex flex-col gap-4">
+                <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
                   {displayedQuestions.map((question) => (
                     <QuestionCard key={question.id} question={question} />
                   ))}
@@ -169,10 +254,69 @@ export default async function QuestionBankPage({
         </div>
 
         {/* Right Rail: Assignment Tray */}
-        <div className="lg:col-span-3">
+        <div className="qb-assignment-rail">
           <AssignmentTray />
         </div>
       </div>
+
+      {/* ═══ Responsive Grid Styles ═══ */}
+      <style>{`
+        .qb-workspace-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: var(--space-6);
+        }
+
+        /* Taxonomy rail */
+        .qb-taxonomy-rail {
+          order: 1;
+        }
+
+        /* Results panel */
+        .qb-results-panel {
+          order: 2;
+        }
+
+        /* Assignment rail */
+        .qb-assignment-rail {
+          order: 3;
+        }
+
+        /* Tablet: 2 columns, taxonomy stacks above */
+        @media (min-width: 768px) {
+          .qb-workspace-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+          .qb-taxonomy-rail {
+            grid-column: 1 / -1;
+            order: 1;
+          }
+          .qb-results-panel {
+            order: 2;
+          }
+          .qb-assignment-rail {
+            order: 3;
+          }
+        }
+
+        /* Desktop: Full 3-panel layout */
+        @media (min-width: 1024px) {
+          .qb-workspace-grid {
+            grid-template-columns: 14rem 1fr 16rem;
+            gap: var(--space-8);
+          }
+          .qb-taxonomy-rail {
+            grid-column: auto;
+            order: 1;
+          }
+          .qb-results-panel {
+            order: 2;
+          }
+          .qb-assignment-rail {
+            order: 3;
+          }
+        }
+      `}</style>
     </div>
   );
 }

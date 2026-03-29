@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shiksha Sathi | Academic Question Bank</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d6e5ec",
+              "on-tertiary-fixed": "#344052",
+              "inverse-surface": "#0d0f0d",
+              "on-tertiary": "#f8f8ff",
+              "error": "#a83836",
+              "surface-container": "#eeeee9",
+              "inverse-on-surface": "#9d9d9a",
+              "inverse-primary": "#ccedfe",
+              "surface-dim": "#d9dbd5",
+              "error-container": "#fa746f",
+              "secondary-container": "#d6e5ec",
+              "primary-dim": "#385765",
+              "surface-bright": "#faf9f5",
+              "outline": "#797c76",
+              "on-tertiary-container": "#475265",
+              "tertiary": "#546073",
+              "tertiary-container": "#d7e3fa",
+              "on-secondary-fixed-variant": "#505e64",
+              "outline-variant": "#b0b3ad",
+              "primary": "#446371",
+              "on-background": "#30332f",
+              "tertiary-fixed": "#d7e3fa",
+              "secondary-fixed-dim": "#c8d7de",
+              "surface-container-highest": "#e1e3dd",
+              "background": "#faf9f5",
+              "surface-variant": "#e1e3dd",
+              "on-surface-variant": "#5d605b",
+              "on-primary": "#f2faff",
+              "tertiary-dim": "#485466",
+              "on-surface": "#30332f",
+              "on-primary-fixed-variant": "#40606d",
+              "surface-container-low": "#f4f4ef",
+              "on-secondary-fixed": "#344147",
+              "primary-container": "#c6e8f8",
+              "tertiary-fixed-dim": "#c9d5ec",
+              "on-secondary": "#f1faff",
+              "primary-fixed": "#c6e8f8",
+              "on-error-container": "#6e0a12",
+              "surface": "#faf9f5",
+              "error-dim": "#67040d",
+              "surface-tint": "#446371",
+              "surface-container-high": "#e8e9e3",
+              "on-error": "#fff7f6",
+              "secondary-dim": "#47555b",
+              "primary-fixed-dim": "#b8d9ea",
+              "on-secondary-container": "#46545a",
+              "on-tertiary-fixed-variant": "#505c6f",
+              "secondary": "#536167",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#365663",
+              "on-primary-fixed": "#234350"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"],
+              "geist": ["Geist"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        font-size: 20px;
+      }
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #b0b3ad33; border-radius: 10px; }
+      .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-md border-b border-[#b0b3ad]/15 shadow-sm font-['Manrope'] antialiased tracking-tight">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#30332f] tracking-tighter">Shiksha Sathi</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#5d605b] hover:text-[#446371] transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-[#5d605b] hover:text-[#446371] transition-colors duration-200" href="#">Classes</a>
+<a class="text-[#446371] border-b-2 border-[#446371] font-semibold" href="#">Question Bank</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-sm font-medium text-sm active:scale-95 transition-all duration-150 shadow-sm">Assignment Builder</button>
+<div class="flex items-center gap-2 ml-2">
+<span class="material-symbols-outlined text-primary p-2 rounded-full hover:bg-surface-container-low cursor-pointer">shopping_cart</span>
+<span class="material-symbols-outlined text-primary p-2 rounded-full hover:bg-surface-container-low cursor-pointer">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-16">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-[#f4f4ef] font-['Geist'] text-sm leading-relaxed flex flex-col gap-2 overflow-y-auto custom-scrollbar">
+<div class="px-6 mb-6">
+<h2 class="text-lg font-black text-[#30332f] uppercase tracking-widest">Shiksha Sathi</h2>
+<p class="text-xs text-on-surface-variant font-medium">Academic Question Bank</p>
+</div>
+<div class="space-y-1 px-2">
+<div class="group">
+<button class="w-full flex items-center gap-3 px-4 py-3 bg-white text-primary font-medium rounded-r-lg transition-all duration-300">
+<span class="material-symbols-outlined">domain</span>
+<span>Board Select</span>
+</button>
+</div>
+<div class="group">
+<button class="w-full flex items-center gap-3 px-4 py-3 text-[#5d605b] hover:bg-[#eeeee9] transition-all duration-300">
+<span class="material-symbols-outlined">school</span>
+<span>Class (6-12)</span>
+</button>
+</div>
+<div class="group">
+<button class="w-full flex items-center gap-3 px-4 py-3 text-[#5d605b] hover:bg-[#eeeee9] transition-all duration-300">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Subject</span>
+</button>
+</div>
+<div class="group">
+<button class="w-full flex items-center gap-3 px-4 py-3 text-[#5d605b] hover:bg-[#eeeee9] transition-all duration-300">
+<span class="material-symbols-outlined">library_books</span>
+<span>Book Series</span>
+</button>
+</div>
+<div class="group">
+<button class="w-full flex items-center gap-3 px-4 py-3 text-[#5d605b] hover:bg-[#eeeee9] transition-all duration-300">
+<span class="material-symbols-outlined">segment</span>
+<span>Chapter List</span>
+</button>
+</div>
+</div>
+<div class="mt-auto pb-8 px-4 space-y-2">
+<button class="w-full bg-primary text-on-primary py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest active:scale-95 transition-transform">Filter Questions</button>
+<div class="pt-4 border-t border-outline-variant/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-[#5d605b] hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span class="text-xs">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#5d605b] hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+<span class="text-xs">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 p-8 bg-surface">
+<!-- Filter & Search Bar Cluster -->
+<div class="max-w-5xl mx-auto mb-10">
+<div class="flex flex-col gap-6">
+<div class="flex items-baseline justify-between">
+<h1 class="font-headline text-2xl font-bold tracking-tight text-on-surface">Question Repository</h1>
+<span class="text-xs font-label text-on-surface-variant uppercase tracking-widest">Showing 1,240 results</span>
+</div>
+<div class="flex gap-4 items-center">
+<div class="flex-1 relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-b border-outline-variant/20 focus:border-primary focus:ring-0 transition-all font-body text-sm outline-none" placeholder="Search by topic, keyword or chapter..." type="text"/>
+</div>
+<div class="flex items-center bg-surface-container-low p-1 rounded-sm gap-1">
+<button class="px-4 py-1.5 text-xs font-semibold bg-white shadow-sm text-primary rounded-sm">All Types</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-primary transition-colors">MCQ</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-primary transition-colors">True/False</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-primary transition-colors">Fill Blanks</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Question Grid/List -->
+<div class="max-w-5xl mx-auto space-y-5">
+<!-- Active Question Card -->
+<div class="bg-surface-container-lowest border-l-4 border-primary shadow-sm overflow-hidden group transition-all duration-300">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">MCQ</span>
+<span class="text-xs font-medium text-on-surface-variant">Chapter 4: Cell Biology</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs font-medium text-on-surface-variant">Level: Intermediate</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-on-surface-variant">SOURCE: NCERT EXAMPLAR</span>
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+<p class="text-base font-medium leading-relaxed mb-6 text-on-surface">Which of the following cellular organelles is responsible for the synthesis of lipids and steroid hormones in animal cells?</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+<div class="flex items-center gap-3 p-3 border border-outline-variant/10 rounded-sm hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-surface-container text-xs font-bold text-on-surface-variant">A</span>
+<span class="text-sm">Rough Endoplasmic Reticulum</span>
+</div>
+<div class="flex items-center gap-3 p-3 border border-primary/20 bg-primary/5 rounded-sm transition-colors cursor-pointer">
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-xs font-bold text-white">B</span>
+<span class="text-sm font-medium">Smooth Endoplasmic Reticulum</span>
+</div>
+<div class="flex items-center gap-3 p-3 border border-outline-variant/10 rounded-sm hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-surface-container text-xs font-bold text-on-surface-variant">C</span>
+<span class="text-sm">Golgi Apparatus</span>
+</div>
+<div class="flex items-center gap-3 p-3 border border-outline-variant/10 rounded-sm hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-surface-container text-xs font-bold text-on-surface-variant">D</span>
+<span class="text-sm">Lysosomes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<button class="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest group/toggle">
+<span class="material-symbols-outlined text-sm">keyboard_arrow_up</span>
+                                Hide Explanation
+                            </button>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Expanded Explanation Area -->
+<div class="bg-surface-container-low p-6 border-t border-outline-variant/10">
+<div class="grid grid-cols-3 gap-8">
+<div class="col-span-2 space-y-4">
+<div>
+<h4 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Detailed Explanation</h4>
+<p class="text-sm text-on-surface leading-relaxed">The Smooth Endoplasmic Reticulum (SER) is the major site for synthesis of lipid. In animal cells lipid-like steroidal hormones are synthesized in SER. It lacks ribosomes on its surface, giving it a smooth appearance under the microscope.</p>
+</div>
+<div class="flex gap-4">
+<div class="px-3 py-1 bg-white rounded-sm border border-outline-variant/10">
+<p class="text-[9px] text-on-surface-variant uppercase font-bold">Weightage</p>
+<p class="text-sm font-bold text-primary">2 Points</p>
+</div>
+<div class="px-3 py-1 bg-white rounded-sm border border-outline-variant/10">
+<p class="text-[9px] text-on-surface-variant uppercase font-bold">Avg. Time</p>
+<p class="text-sm font-bold text-primary">45 Sec</p>
+</div>
+</div>
+</div>
+<div class="col-span-1">
+<div class="h-full w-full rounded-sm overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="Scientific 3D rendering of cell organelles showing smooth endoplasmic reticulum and cellular structures in soft teal lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe32NPp72SKauqGMCf3qKVpS8mN4My6Sx84kzAY5VE-cw4YactUwp4cE5f_40iUsWYQ0lwGs-mHrs1CHzeFr1F7NCqdQNz6YNtW7L-2WfLp6mog9JDsPsHQc9Oh89csheOqrlNWEqdfk_w0YEQD4hNJp0V2oeRv02OjdrbzWGWb0ORpe592mX3tnzInnPXWGaRAWZt-14siOo5lgTmERgq77eZ7BjKO_lbFG1cUcOCTdTHQ6yma1ChsIOAtxJkukqTYYzNPx9DorJy"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inactive Question Card -->
+<div class="bg-surface-container-lowest border border-transparent hover:border-outline-variant/20 transition-all duration-300">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Fill in Blanks</span>
+<span class="text-xs font-medium text-on-surface-variant">Chapter 2: Motion</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs font-medium text-on-surface-variant">Level: Easy</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-on-surface-variant">SOURCE: PREVIOUS YEAR</span>
+<div class="w-5 h-5 rounded-full border border-outline-variant/30 flex items-center justify-center cursor-pointer hover:bg-surface-container">
+<span class="material-symbols-outlined text-transparent text-sm">check</span>
+</div>
+</div>
+</div>
+<p class="text-base font-medium leading-relaxed mb-6 text-on-surface">The rate of change of momentum of an object is proportional to the ________ force applied on it.</p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<button class="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                                Preview Question
+                            </button>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Another Question Card -->
+<div class="bg-surface-container-lowest border border-transparent hover:border-outline-variant/20 transition-all duration-300">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2 items-center">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">True/False</span>
+<span class="text-xs font-medium text-on-surface-variant">Chapter 12: Sound</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-xs font-medium text-on-surface-variant">Level: Hard</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-on-surface-variant">SOURCE: NCERT</span>
+<div class="w-5 h-5 rounded-full border border-outline-variant/30 flex items-center justify-center cursor-pointer hover:bg-surface-container">
+<span class="material-symbols-outlined text-transparent text-sm">check</span>
+</div>
+</div>
+</div>
+<p class="text-base font-medium leading-relaxed mb-6 text-on-surface">Sound waves are longitudinal waves and they can travel through a vacuum.</p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<button class="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                                Preview Question
+                            </button>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Concept (Visible when filters aren't set) -->
+<div class="hidden max-w-5xl mx-auto py-20 flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-outline-variant">school</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-2">Select a Class to Begin</h3>
+<p class="text-sm text-on-surface-variant max-w-xs mx-auto">Choose your board and grade from the left panel to explore curated academic content.</p>
+</div>
+</main>
+</div>
+<!-- Floating Counter Component -->
+<div class="fixed bottom-8 right-8 z-50">
+<div class="bg-primary-dim text-on-primary p-1 rounded-xl shadow-2xl flex items-center gap-4 animate-in slide-in-from-bottom duration-500">
+<div class="bg-primary rounded-lg px-4 py-3 flex flex-col items-center">
+<span class="text-xs font-bold uppercase tracking-widest opacity-70 leading-none mb-1">Selected</span>
+<span class="text-2xl font-black leading-none">12</span>
+</div>
+<div class="pr-6 pl-2 py-3">
+<p class="text-xs font-medium mb-2">Total Points: <span class="font-bold">24</span></p>
+<div class="flex gap-3">
+<button class="bg-on-primary text-primary px-4 py-1.5 rounded-sm text-xs font-bold uppercase transition-transform active:scale-95">Generate Paper</button>
+<button class="p-1.5 hover:bg-white/10 rounded-sm transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

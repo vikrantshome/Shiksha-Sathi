@@ -7,10 +7,129 @@ import { deleteCookie } from "cookies-next";
 import CartIcon from "@/components/CartIcon";
 import { useState } from "react";
 
+/* ─────────────────────────────────────────────────────────
+   Teacher Layout Shell — Stitch-Directed
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard
+   Implements: persistent left rail (desktop), glassmorphism top bar,
+   bottom tab bar (mobile), "Digital Atelier" design tokens.
+   ───────────────────────────────────────────────────────── */
+
+/* ── SVG Icon Components ── */
+const IconDashboard = ({ active }: { active: boolean }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill={active ? "currentColor" : "none"}
+    stroke="currentColor"
+    strokeWidth={active ? 0 : 2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="7" height="7" rx="1" />
+    <rect x="14" y="3" width="7" height="7" rx="1" />
+    <rect x="3" y="14" width="7" height="7" rx="1" />
+    <rect x="14" y="14" width="7" height="7" rx="1" />
+  </svg>
+);
+
+const IconClasses = ({ active }: { active: boolean }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={active ? 2.5 : 2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+  </svg>
+);
+
+const IconQuestionBank = ({ active }: { active: boolean }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={active ? 2.5 : 2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <ellipse cx="12" cy="5" rx="9" ry="3" />
+    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+    <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+  </svg>
+);
+
+const IconAnalytics = ({ active }: { active: boolean }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={active ? 2.5 : 2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 3v18h18" />
+    <path d="m19 9-5 5-4-4-3 3" />
+  </svg>
+);
+
+const IconSettings = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="3" />
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+  </svg>
+);
+
+const IconHelp = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+    <path d="M12 17h.01" />
+  </svg>
+);
+
+const IconLogout = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <polyline points="16 17 21 12 16 7" />
+    <line x1="21" y1="12" x2="9" y2="12" />
+  </svg>
+);
+
+const IconPlus = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 5v14" /><path d="M5 12h14" />
+  </svg>
+);
+
+const IconMenu = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="4" y1="6" x2="20" y2="6" />
+    <line x1="4" y1="12" x2="20" y2="12" />
+    <line x1="4" y1="18" x2="20" y2="18" />
+  </svg>
+);
+
+const IconClose = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
 const navItems = [
-  { href: "/teacher/dashboard", label: "Dashboard" },
-  { href: "/teacher/classes", label: "Classes" },
-  { href: "/teacher/question-bank", label: "Question Bank" },
+  { href: "/teacher/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
+  { href: "/teacher/classes", label: "My Classes", icon: IconClasses, mobileLabel: "Classes" },
+  { href: "/teacher/question-bank", label: "Question Bank", icon: IconQuestionBank, mobileLabel: "Vault" },
 ];
 
 export default function TeacherLayout({
@@ -38,212 +157,582 @@ export default function TeacherLayout({
   return (
     <AssignmentProvider>
       <div
-        className="min-h-screen flex flex-col md:flex-row"
-        style={{ background: "var(--color-surface)" }}
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          background: "var(--color-surface)",
+        }}
       >
-        {/* ── Left Navigation Rail (Desktop) ── */}
-        <aside
-          className="hidden md:flex flex-col w-64 flex-shrink-0 sticky top-0 h-screen overflow-y-auto"
+        {/* ═══ Top Navigation Bar ═══ */}
+        <nav
           style={{
-            background: "var(--color-surface-container-low)",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 50,
+            background: "rgba(250, 249, 245, 0.8)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderBottom: "1px solid rgba(176, 179, 173, 0.15)",
           }}
         >
-          <div className="p-6">
-            <Link
-              href="/teacher/dashboard"
-              className="text-display-sm"
-              style={{
-                fontFamily:
-                  "var(--font-manrope), var(--font-geist-sans), system-ui, sans-serif",
-                fontSize: "1.125rem",
-                fontWeight: 700,
-                color: "var(--color-primary)",
-                letterSpacing: "-0.02em",
-                textDecoration: "none",
-              }}
-            >
-              Shiksha Sathi
-            </Link>
-          </div>
-
-          <nav className="flex-1 px-4 space-y-2 mt-4">
-            {navItems.map((item) => {
-              const active = isActive(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center gap-3 px-3 py-2"
-                  style={{
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    color: active
-                      ? "var(--color-on-primary-container)"
-                      : "var(--color-on-surface-variant)",
-                    background: active
-                      ? "var(--color-primary-container)"
-                      : "transparent",
-                    borderRadius: "var(--radius-md)",
-                    textDecoration: "none",
-                    transition: "all var(--transition-fast)",
-                  }}
-                >
-                  {/* Semantic placeholders for icons */}
-                  {item.label === "Dashboard" && (
-                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={active ? 2 : 1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
-                  )}
-                  {item.label === "Classes" && (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={active ? 2 : 1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>
-                  )}
-                  {item.label === "Question Bank" && (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={active ? 2 : 1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" /></svg>
-                  )}
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div className="p-4 mt-auto">
-            <div className="flex items-center gap-3 px-3 py-3 mb-2 rounded-md" style={{ background: "var(--color-surface-container)" }}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white" style={{ background: "var(--color-primary)" }}>
-                T
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-body-sm font-medium truncate" style={{ color: "var(--color-on-surface)" }}>Teacher</p>
-                <Link href="/teacher/profile" className="text-label-md" style={{ color: "var(--color-primary)", textDecoration: "none" }}>View Profile</Link>
-              </div>
-            </div>
-            <form onSubmit={handleLogout}>
-              <button
-                type="submit"
-                className="w-full text-left px-3 py-2 flex items-center gap-3 rounded-md transition-all"
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  color: "var(--color-on-surface-variant)",
-                }}
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
-                </svg>
-                Log out
-              </button>
-            </form>
-          </div>
-        </aside>
-
-        {/* ── Top Navigation (Tablet/Mobile Only) ── */}
-        <header
-          className="md:hidden glass sticky top-0 z-30 w-full"
-        >
-          <div className="px-4">
-            <div className="flex justify-between h-14 items-center">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 var(--space-8)",
+              height: "4rem",
+              maxWidth: "100rem",
+              margin: "0 auto",
+            }}
+          >
+            {/* Left: Brand + Desktop Nav */}
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-12)" }}>
               <Link
                 href="/teacher/dashboard"
-                className="text-display-sm"
                 style={{
-                  fontFamily: "var(--font-manrope), var(--font-geist-sans), system-ui, sans-serif",
-                  fontSize: "1.125rem",
+                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
+                  fontSize: "1.25rem",
                   fontWeight: 700,
-                  color: "var(--color-primary)",
-                  letterSpacing: "-0.02em",
+                  color: "var(--color-on-surface)",
+                  letterSpacing: "-0.03em",
                   textDecoration: "none",
                 }}
               >
                 Shiksha Sathi
               </Link>
 
-              <div className="flex items-center gap-2">
-                <CartIcon />
-                <button
-                  type="button"
-                  className="p-2"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                >
-                  {mobileMenuOpen ? (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                  )}
-                </button>
+              {/* Desktop Top Tabs */}
+              <div className="desktop-top-tabs">
+                {navItems.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      style={{
+                        height: "4rem",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "0.875rem",
+                        fontWeight: active ? 600 : 400,
+                        color: active
+                          ? "var(--color-primary)"
+                          : "var(--color-on-surface-variant)",
+                        borderBottom: active
+                          ? "2px solid var(--color-primary)"
+                          : "2px solid transparent",
+                        textDecoration: "none",
+                        transition: "color 200ms ease-out, border-color 200ms ease-out",
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
-          </div>
 
-          {/* Mobile Nav Dropdown */}
-          {mobileMenuOpen && (
-            <div
+            {/* Right: Actions */}
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
+              <Link
+                href="/teacher/question-bank"
+                className="desktop-cta-btn"
+                style={{
+                  background: "var(--color-primary)",
+                  color: "var(--color-on-primary)",
+                  padding: "var(--space-2) var(--space-4)",
+                  borderRadius: "var(--radius-sm)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  transition: "background 150ms ease-out, transform 150ms ease-out",
+                }}
+              >
+                Assignment Builder
+              </Link>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                <CartIcon />
+                <Link
+                  href="/teacher/profile"
+                  style={{
+                    padding: "var(--space-2)",
+                    color: "var(--color-on-surface-variant)",
+                    borderRadius: "var(--radius-full)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "background 120ms ease-out",
+                    textDecoration: "none",
+                  }}
+                  className="icon-btn"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="5" />
+                    <path d="M20 21a8 8 0 0 0-16 0" />
+                  </svg>
+                </Link>
+              </div>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                type="button"
+                className="mobile-menu-btn"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                style={{
+                  padding: "var(--space-2)",
+                  color: "var(--color-on-surface-variant)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <IconClose /> : <IconMenu />}
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* ═══ Mobile Dropdown Menu ═══ */}
+        {mobileMenuOpen && (
+          <div
+            className="mobile-dropdown"
+            style={{
+              position: "fixed",
+              top: "4rem",
+              left: 0,
+              right: 0,
+              zIndex: 45,
+              background: "var(--color-surface-container-lowest)",
+              borderBottom: "1px solid rgba(176, 179, 173, 0.15)",
+              padding: "var(--space-4)",
+            }}
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "var(--space-2) var(--space-3)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  color: isActive(item.href)
+                    ? "var(--color-primary)"
+                    : "var(--color-on-surface-variant)",
+                  background: isActive(item.href)
+                    ? "rgba(198, 232, 248, 0.2)"
+                    : "transparent",
+                  borderRadius: "var(--radius-md)",
+                  textDecoration: "none",
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/teacher/profile"
+              onClick={() => setMobileMenuOpen(false)}
               style={{
-                background: "var(--color-surface-container-lowest)",
-                borderBottom: "1px solid rgba(176, 179, 173, 0.15)",
+                display: "block",
+                padding: "var(--space-2) var(--space-3)",
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                color: "var(--color-on-surface-variant)",
+                textDecoration: "none",
               }}
             >
-              <div className="px-4 py-3 space-y-1">
-                {navItems.map((item) => (
+              Profile
+            </Link>
+            <form onSubmit={handleLogout}>
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "var(--space-2) var(--space-3)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  color: "var(--color-on-surface-variant)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Log out
+              </button>
+            </form>
+          </div>
+        )}
+
+        <div style={{ display: "flex", flex: 1, paddingTop: "4rem" }}>
+          {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
+          <aside className="desktop-sidebar">
+            {/* Brand Section */}
+            <div style={{ padding: "var(--space-6)" }}>
+              <p
+                style={{
+                  fontSize: "0.6875rem",
+                  fontWeight: 700,
+                  color: "var(--color-on-surface)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  margin: 0,
+                }}
+              >
+                Shiksha Sathi
+              </p>
+              <p
+                style={{
+                  fontSize: "0.625rem",
+                  color: "var(--color-on-surface-variant)",
+                  textTransform: "uppercase",
+                  letterSpacing: "-0.02em",
+                  margin: 0,
+                }}
+              >
+                Teacher Portal
+              </p>
+            </div>
+
+            {/* Nav Links */}
+            <nav style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)", paddingRight: "var(--space-4)" }}>
+              {navItems.map((item) => {
+                const active = isActive(item.href);
+                const ItemIcon = item.icon;
+                return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 px-3"
                     style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "var(--space-3)",
+                      padding: "var(--space-3) var(--space-6)",
                       fontSize: "0.875rem",
-                      fontWeight: 500,
-                      color: isActive(item.href)
+                      fontWeight: active ? 500 : 400,
+                      color: active
                         ? "var(--color-primary)"
                         : "var(--color-on-surface-variant)",
-                      borderRadius: "var(--radius-md)",
-                      background: isActive(item.href)
-                        ? "rgba(198, 232, 248, 0.2)"
+                      background: active
+                        ? "var(--color-surface-container-lowest)"
                         : "transparent",
+                      borderRadius: active ? "0 var(--radius-lg) var(--radius-lg) 0" : "0",
                       textDecoration: "none",
+                      transition: "all 200ms ease-out",
                     }}
+                    className="sidebar-link"
                   >
+                    <ItemIcon active={active} />
                     {item.label}
                   </Link>
-                ))}
+                );
+              })}
+            </nav>
+
+            {/* Bottom Actions */}
+            <div style={{ marginTop: "auto", padding: "var(--space-6)" }}>
+              {/* Create Assignment CTA */}
+              <Link
+                href="/teacher/question-bank"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  background: "var(--color-primary)",
+                  color: "var(--color-on-primary)",
+                  padding: "var(--space-3) 0",
+                  borderRadius: "var(--radius-sm)",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  textDecoration: "none",
+                  boxShadow: "0 4px 12px rgba(48, 51, 47, 0.06)",
+                  transition: "transform 150ms ease-out",
+                }}
+              >
+                Create New Assignment
+              </Link>
+
+              {/* Settings + Support */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--space-1)",
+                  borderTop: "1px solid rgba(176, 179, 173, 0.1)",
+                  paddingTop: "var(--space-4)",
+                  marginTop: "var(--space-4)",
+                }}
+              >
                 <Link
-                  href="/teacher/profile"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block py-2 px-3"
-                  style={{ fontSize: "0.875rem", fontWeight: 500, color: "var(--color-on-surface-variant)", textDecoration: "none" }}
+                  href="#"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--space-3)",
+                    color: "var(--color-on-surface-variant)",
+                    padding: "var(--space-2) 0",
+                    fontSize: "0.8125rem",
+                    textDecoration: "none",
+                    transition: "color 120ms ease-out",
+                  }}
+                  className="sidebar-secondary-link"
                 >
-                  Profile
+                  <IconSettings />
+                  Settings
                 </Link>
-                <form onSubmit={handleLogout}>
-                  <button type="submit" className="w-full text-left py-2 px-3" style={{ fontSize: "0.875rem", fontWeight: 500, color: "var(--color-on-surface-variant)" }}>
-                    Log out
-                  </button>
-                </form>
+                <Link
+                  href="#"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--space-3)",
+                    color: "var(--color-on-surface-variant)",
+                    padding: "var(--space-2) 0",
+                    fontSize: "0.8125rem",
+                    textDecoration: "none",
+                    transition: "color 120ms ease-out",
+                  }}
+                  className="sidebar-secondary-link"
+                >
+                  <IconHelp />
+                  Support
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--space-3)",
+                    color: "var(--color-on-surface-variant)",
+                    padding: "var(--space-2) 0",
+                    fontSize: "0.8125rem",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "color 120ms ease-out",
+                  }}
+                  className="sidebar-secondary-link"
+                >
+                  <IconLogout />
+                  Log out
+                </button>
               </div>
             </div>
-          )}
-        </header>
+          </aside>
 
-        {/* ── Main Content ── */}
-        <main
-          className="flex-1 w-full relative"
-          style={{
-            maxWidth: "100%",
-          }}
-        >
-          {/* Internal Desktop Max-Width wrapper if needed by child pages, but header sticky cart logic requires relative positioning */}
-          <div className="w-full h-full relative" style={{
-            maxWidth: "80rem",
-            margin: "0 auto",
-          }}>
-            {/* Display Desktop cart icon as floating action or similar, but the prompt says Cart/Right Tray should be per-page context. 
-                For Layout we just render children. */}
-            <div className="p-4 md:p-8">
+          {/* ═══ Main Content ═══ */}
+          <main
+            style={{
+              flex: 1,
+              width: "100%",
+              maxWidth: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                maxWidth: "80rem",
+                margin: "0 auto",
+                padding: "var(--space-6) var(--space-4)",
+              }}
+              className="main-content-pad"
+            >
               {children}
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+
+        {/* ═══ Bottom Tab Bar (Mobile Only) ═══ */}
+        <nav className="mobile-bottom-nav">
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            const ItemIcon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  color: active
+                    ? "var(--color-primary)"
+                    : "var(--color-on-surface-variant)",
+                  textDecoration: "none",
+                  gap: "2px",
+                }}
+              >
+                <ItemIcon active={active} />
+                <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>
+                  {item.mobileLabel}
+                </span>
+              </Link>
+            );
+          })}
+
+          {/* Floating Add Button */}
+          <Link
+            href="/teacher/question-bank"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              marginTop: "-1.5rem",
+              background: "var(--color-primary)",
+              borderRadius: "var(--radius-full)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "var(--color-on-primary)",
+              boxShadow: "0 4px 12px rgba(48, 51, 47, 0.15)",
+              textDecoration: "none",
+            }}
+          >
+            <IconPlus />
+          </Link>
+
+          {/* Analytics Tab */}
+          <Link
+            href="/teacher/dashboard"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              color: "var(--color-on-surface-variant)",
+              textDecoration: "none",
+              gap: "2px",
+            }}
+          >
+            <IconAnalytics active={false} />
+            <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>Stats</span>
+          </Link>
+        </nav>
+
+        {/* ═══ Responsive Styles ═══ */}
+        <style>{`
+          /* Desktop Sidebar */
+          .desktop-sidebar {
+            display: none;
+          }
+          @media (min-width: 1024px) {
+            .desktop-sidebar {
+              display: flex;
+              flex-direction: column;
+              width: 16rem;
+              flex-shrink: 0;
+              position: sticky;
+              top: 4rem;
+              height: calc(100vh - 4rem);
+              overflow-y: auto;
+              background: var(--color-surface-container-low);
+            }
+          }
+
+          /* Desktop Top Tabs */
+          .desktop-top-tabs {
+            display: none;
+          }
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .desktop-top-tabs {
+              display: flex;
+              align-items: center;
+              gap: var(--space-8);
+              height: 4rem;
+            }
+          }
+
+          /* Desktop CTA Button */
+          .desktop-cta-btn {
+            display: none !important;
+          }
+          @media (min-width: 768px) {
+            .desktop-cta-btn {
+              display: inline-flex !important;
+            }
+          }
+          .desktop-cta-btn:hover {
+            background: var(--color-primary-dim) !important;
+          }
+          .desktop-cta-btn:active {
+            transform: scale(0.95);
+          }
+
+          /* Mobile Menu Button */
+          .mobile-menu-btn {
+            display: block;
+          }
+          @media (min-width: 768px) {
+            .mobile-menu-btn {
+              display: none !important;
+            }
+          }
+
+          /* Mobile Dropdown */
+          .mobile-dropdown {
+            display: block;
+          }
+          @media (min-width: 768px) {
+            .mobile-dropdown {
+              display: none !important;
+            }
+          }
+
+          /* Bottom Nav (Mobile Only) */
+          .mobile-bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4rem;
+            background: var(--color-surface);
+            border-top: 1px solid rgba(176, 179, 173, 0.1);
+            z-index: 50;
+            padding: 0 var(--space-4);
+          }
+          @media (min-width: 768px) {
+            .mobile-bottom-nav {
+              display: none !important;
+            }
+          }
+
+          /* Sidebar Link Hover */
+          .sidebar-link:hover {
+            background: var(--color-surface-container) !important;
+          }
+          .sidebar-secondary-link:hover {
+            color: var(--color-primary) !important;
+          }
+
+          /* Icon Button Hover */
+          .icon-btn:hover {
+            background: var(--color-surface-container);
+          }
+
+          /* Main Content Padding */
+          .main-content-pad {
+            padding: var(--space-6) var(--space-4);
+          }
+          @media (min-width: 768px) {
+            .main-content-pad {
+              padding: var(--space-8);
+            }
+          }
+
+          /* Account for bottom nav on mobile */
+          @media (max-width: 767px) {
+            main {
+              padding-bottom: 5rem;
+            }
+          }
+        `}</style>
       </div>
     </AssignmentProvider>
   );
