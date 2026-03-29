@@ -6,6 +6,11 @@
    ================================================================ */
 
 :root {
+  /* ── Typography (Fontsource) ── */
+  --font-geist-sans: "Geist Sans";
+  --font-geist-mono: "Geist Mono";
+  --font-manrope: "Manrope";
+
   /* ── Primary Accent (Deep Teal) ── */
   --color-primary: #446371;
   --color-primary-dim: #385765;
