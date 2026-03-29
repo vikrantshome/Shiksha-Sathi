@@ -3,18 +3,18 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useTransition } from "react";
 
-export default function QuestionBankFilters({ 
-  subjects, 
+export default function QuestionBankFilters({
+  subjects,
   chapters,
   boards = [],
   classes = [],
-  books = []
-}: { 
-  subjects: string[], 
-  chapters: string[],
-  boards?: string[],
-  classes?: string[],
-  books?: string[]
+  books = [],
+}: {
+  subjects: string[];
+  chapters: string[];
+  boards?: string[];
+  classes?: string[];
+  books?: string[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -45,7 +45,7 @@ export default function QuestionBankFilters({
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString());
-      
+
       if (value && value !== "ALL") {
         params.set(name, value);
       } else {
@@ -75,34 +75,70 @@ export default function QuestionBankFilters({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {/* Sidebar Browse */}
-      <div className="md:col-span-1 space-y-6">
+      {/* ── Sidebar Filters ── */}
+      <div className="md:col-span-1 space-y-1">
         {/* Board Selection */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <h2 className="font-semibold text-gray-900 mb-3">Board</h2>
-          <select 
+        <div
+          style={{
+            background: "var(--color-surface-container-low)",
+            padding: "var(--space-4)",
+            borderRadius: "var(--radius-md)",
+          }}
+        >
+          <h2 className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", marginBottom: "var(--space-3)" }}>
+            Board
+          </h2>
+          <select
             value={currentBoard}
             onChange={(e) => handleFilterChange("board", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="select-academic"
           >
             <option value="">Select Board</option>
             <option value="NCERT">NCERT / CBSE</option>
-            {boards.filter(b => b !== "NCERT").map(board => (
-              <option key={board} value={board}>{board}</option>
-            ))}
+            {boards
+              .filter((b) => b !== "NCERT")
+              .map((board) => (
+                <option key={board} value={board}>
+                  {board}
+                </option>
+              ))}
           </select>
         </div>
 
         {/* Class Selection */}
         {(currentBoard || classes.length > 0) && (
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-            <h2 className="font-semibold text-gray-900 mb-3">Class</h2>
-            <div className="grid grid-cols-3 gap-2">
-              {["6", "7", "8", "9", "10", "11", "12"].map(cls => (
-                <button 
+          <div
+            style={{
+              background: "var(--color-surface-container-low)",
+              padding: "var(--space-4)",
+              borderRadius: "var(--radius-md)",
+            }}
+          >
+            <h2 className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", marginBottom: "var(--space-3)" }}>
+              Class
+            </h2>
+            <div className="grid grid-cols-4 gap-1.5">
+              {["6", "7", "8", "9", "10", "11", "12"].map((cls) => (
+                <button
                   key={cls}
                   onClick={() => handleFilterChange("class", cls)}
-                  className={`px-2 py-1 text-sm rounded-md border ${currentClass === cls ? 'bg-blue-50 border-blue-200 text-blue-700 font-medium' : 'border-gray-200 hover:bg-gray-50 text-gray-600'}`}
+                  style={{
+                    padding: "var(--space-1-5) var(--space-2)",
+                    fontSize: "0.8125rem",
+                    fontWeight: currentClass === cls ? 600 : 400,
+                    borderRadius: "var(--radius-sm)",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all var(--transition-fast)",
+                    background:
+                      currentClass === cls
+                        ? "var(--color-primary-container)"
+                        : "var(--color-surface-container-lowest)",
+                    color:
+                      currentClass === cls
+                        ? "var(--color-on-primary-container)"
+                        : "var(--color-on-surface-variant)",
+                  }}
                 >
                   {cls}
                 </button>
@@ -113,35 +149,94 @@ export default function QuestionBankFilters({
 
         {/* Subject Selection */}
         {currentClass && (
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-            <h2 className="font-semibold text-gray-900 mb-3">Subjects</h2>
-            <ul className="space-y-1">
-              {subjects.length > 0 ? subjects.map(subject => (
-                <li key={subject}>
-                  <button 
-                    onClick={() => handleFilterChange("subject", subject)}
-                    className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${currentSubject === subject ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
-                  >
-                    {subject}
-                  </button>
-                </li>
-              )) : (
-                <p className="text-sm text-gray-400 italic">No subjects found</p>
+          <div
+            style={{
+              background: "var(--color-surface-container-low)",
+              padding: "var(--space-4)",
+              borderRadius: "var(--radius-md)",
+            }}
+          >
+            <h2 className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", marginBottom: "var(--space-3)" }}>
+              Subjects
+            </h2>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <li key={subject}>
+                    <button
+                      onClick={() =>
+                        handleFilterChange("subject", subject)
+                      }
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "var(--space-2) var(--space-3)",
+                        fontSize: "0.8125rem",
+                        fontWeight:
+                          currentSubject === subject ? 500 : 400,
+                        borderRadius: "var(--radius-sm)",
+                        border: "none",
+                        cursor: "pointer",
+                        transition: "all var(--transition-fast)",
+                        background:
+                          currentSubject === subject
+                            ? "var(--color-primary-container)"
+                            : "transparent",
+                        color:
+                          currentSubject === subject
+                            ? "var(--color-on-primary-container)"
+                            : "var(--color-on-surface)",
+                      }}
+                    >
+                      {subject}
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <p className="text-body-sm" style={{ fontStyle: "italic" }}>
+                  No subjects found
+                </p>
               )}
             </ul>
           </div>
         )}
 
-        {/* Book Selection (if multiple books for subject) */}
+        {/* Book Selection (if multiple books) */}
         {currentSubject && books.length > 1 && (
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-            <h2 className="font-semibold text-gray-900 mb-3">Books</h2>
-            <ul className="space-y-1">
-              {books.map(book => (
+          <div
+            style={{
+              background: "var(--color-surface-container-low)",
+              padding: "var(--space-4)",
+              borderRadius: "var(--radius-md)",
+            }}
+          >
+            <h2 className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", marginBottom: "var(--space-3)" }}>
+              Books
+            </h2>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {books.map((book) => (
                 <li key={book}>
-                  <button 
+                  <button
                     onClick={() => handleFilterChange("book", book)}
-                    className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${currentBook === book ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      padding: "var(--space-2) var(--space-3)",
+                      fontSize: "0.8125rem",
+                      fontWeight: currentBook === book ? 500 : 400,
+                      borderRadius: "var(--radius-sm)",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all var(--transition-fast)",
+                      background:
+                        currentBook === book
+                          ? "var(--color-primary-container)"
+                          : "transparent",
+                      color:
+                        currentBook === book
+                          ? "var(--color-on-primary-container)"
+                          : "var(--color-on-surface)",
+                    }}
                   >
                     {book}
                   </button>
@@ -153,43 +248,92 @@ export default function QuestionBankFilters({
 
         {/* Chapter Selection */}
         {currentSubject && (
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-            <h2 className="font-semibold text-gray-900 mb-3">Chapters</h2>
-            <ul className="space-y-1 max-h-64 overflow-y-auto">
-              {chapters.length > 0 ? chapters.map(chapter => (
-                <li key={chapter}>
-                  <button 
-                    onClick={() => handleFilterChange("chapter", chapter)}
-                    className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${currentChapter === chapter ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
-                  >
-                    {chapter}
-                  </button>
-                </li>
-              )) : (
-                <p className="text-sm text-gray-400 italic">No chapters found</p>
+          <div
+            style={{
+              background: "var(--color-surface-container-low)",
+              padding: "var(--space-4)",
+              borderRadius: "var(--radius-md)",
+            }}
+          >
+            <h2 className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", marginBottom: "var(--space-3)" }}>
+              Chapters
+            </h2>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                maxHeight: "16rem",
+                overflowY: "auto",
+              }}
+            >
+              {chapters.length > 0 ? (
+                chapters.map((chapter) => (
+                  <li key={chapter}>
+                    <button
+                      onClick={() =>
+                        handleFilterChange("chapter", chapter)
+                      }
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "var(--space-2) var(--space-3)",
+                        fontSize: "0.8125rem",
+                        fontWeight:
+                          currentChapter === chapter ? 500 : 400,
+                        borderRadius: "var(--radius-sm)",
+                        border: "none",
+                        cursor: "pointer",
+                        transition: "all var(--transition-fast)",
+                        background:
+                          currentChapter === chapter
+                            ? "var(--color-primary-container)"
+                            : "transparent",
+                        color:
+                          currentChapter === chapter
+                            ? "var(--color-on-primary-container)"
+                            : "var(--color-on-surface)",
+                      }}
+                    >
+                      {chapter}
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <p className="text-body-sm" style={{ fontStyle: "italic" }}>
+                  No chapters found
+                </p>
               )}
             </ul>
           </div>
         )}
       </div>
 
-      {/* Main Filter Bar for the right column */}
+      {/* ── Search & Filter Bar (top of content column) ── */}
       <div className="md:col-span-3 -mb-2">
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row gap-4">
-          <input 
-            type="text" 
-            placeholder="Search questions or topics..." 
+        <div
+          className="flex flex-col sm:flex-row gap-3"
+          style={{
+            background: "var(--color-surface-container-lowest)",
+            padding: "var(--space-3) var(--space-4)",
+            borderRadius: "var(--radius-md)",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search questions or topics..."
             defaultValue={currentQuery}
             onChange={(e) => {
-              // Debounce search input ideally, but for now just push it
               handleFilterChange("q", e.target.value);
             }}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="input-academic"
+            style={{ flex: 1 }}
           />
-          <select 
+          <select
             value={currentType}
             onChange={(e) => handleFilterChange("type", e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white"
+            className="select-academic"
+            style={{ width: "auto", minWidth: "10rem" }}
           >
             <option value="ALL">All Types</option>
             <option value="MCQ">Multiple Choice</option>
@@ -197,7 +341,17 @@ export default function QuestionBankFilters({
             <option value="FILL_IN_BLANKS">Fill in Blanks</option>
           </select>
         </div>
-        {isPending && <p className="text-sm text-blue-500 mt-2">Loading...</p>}
+        {isPending && (
+          <p
+            className="text-body-sm"
+            style={{
+              color: "var(--color-primary)",
+              marginTop: "var(--space-2)",
+            }}
+          >
+            Loading…
+          </p>
+        )}
       </div>
     </div>
   );

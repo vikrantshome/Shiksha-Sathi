@@ -19,70 +19,232 @@ export default async function AssignmentReportPage({
 
   const { assignment, submissions, questionStats } = report;
 
-  const averageScore = submissions.length > 0
-    ? submissions.reduce((acc: number, sub: any) => acc + sub.score, 0) / submissions.length
-    : 0;
+  const averageScore =
+    submissions.length > 0
+      ? submissions.reduce((acc: number, sub: any) => acc + sub.score, 0) /
+        submissions.length
+      : 0;
 
   return (
-    <div className="space-y-8">
+    <div>
       {/* Header */}
-      <div>
-        <Link href="/teacher/dashboard" className="text-sm text-blue-600 hover:text-blue-800 mb-4 inline-block">
-          &larr; Back to Dashboard
+      <div style={{ marginBottom: "var(--space-8)" }}>
+        <Link
+          href="/teacher/dashboard"
+          className="btn-ghost"
+          style={{
+            padding: "var(--space-1) 0",
+            fontSize: "0.8125rem",
+            marginBottom: "var(--space-4)",
+            display: "inline-flex",
+          }}
+        >
+          ← Back to Dashboard
         </Link>
-        <div className="flex justify-between items-end">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{assignment.title}</h1>
-            <p className="text-gray-500 mt-1">Student Link: <code>/student/assignment/{assignment.linkId}</code></p>
+            <h1 className="text-display-sm">{assignment.title}</h1>
+            <p
+              className="text-body-sm"
+              style={{
+                color: "var(--color-on-surface-variant)",
+                marginTop: "var(--space-1)",
+              }}
+            >
+              Student Link:{" "}
+              <code
+                style={{
+                  background: "var(--color-surface-container)",
+                  padding: "2px 6px",
+                  borderRadius: "var(--radius-sm)",
+                  fontSize: "0.75rem",
+                }}
+              >
+                /student/assignment/{assignment.linkId}
+              </code>
+            </p>
           </div>
-          <div className="text-right">
-            <span className="block text-sm text-gray-500 font-medium">Total Marks</span>
-            <span className="text-2xl font-bold text-gray-900">{assignment.totalMarks}</span>
+          <div style={{ textAlign: "right" }}>
+            <span
+              className="text-label-sm"
+              style={{
+                color: "var(--color-on-surface-variant)",
+                display: "block",
+              }}
+            >
+              Total Marks
+            </span>
+            <span
+              className="text-display-sm"
+              style={{ letterSpacing: "-0.03em" }}
+            >
+              {assignment.totalMarks}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Submissions</h3>
-          <p className="text-4xl font-bold text-gray-900">{submissions.length}</p>
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        style={{ marginBottom: "var(--space-8)" }}
+      >
+        <div className="card-static">
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Total Submissions
+          </p>
+          <p
+            className="text-display-sm"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            {submissions.length}
+          </p>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Average Score</h3>
-          <p className="text-4xl font-bold text-blue-600">
-            {averageScore.toFixed(1)} <span className="text-xl text-gray-400">/ {assignment.totalMarks}</span>
+        <div className="card-static">
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Average Score
+          </p>
+          <p className="text-display-sm" style={{ letterSpacing: "-0.03em" }}>
+            <span style={{ color: "var(--color-primary)" }}>
+              {averageScore.toFixed(1)}
+            </span>
+            <span
+              style={{
+                fontSize: "1rem",
+                color: "var(--color-on-surface-variant)",
+                marginLeft: "var(--space-1)",
+              }}
+            >
+              / {assignment.totalMarks}
+            </span>
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Student Submissions */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-lg font-bold text-gray-900">Student Results</h2>
+        <div
+          style={{
+            background: "var(--color-surface-container-lowest)",
+            borderRadius: "var(--radius-md)",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              padding: "var(--space-4) var(--space-5)",
+              background: "var(--color-surface-container)",
+            }}
+          >
+            <h2 className="text-headline-sm">Student Results</h2>
           </div>
           {submissions.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No submissions yet.</div>
+            <div
+              style={{
+                padding: "var(--space-8)",
+                textAlign: "center",
+              }}
+            >
+              <p
+                className="text-body-md"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              >
+                No submissions yet.
+              </p>
+            </div>
           ) : (
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-white">
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll No</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                  <th
+                    className="text-label-sm"
+                    style={{
+                      padding: "var(--space-3) var(--space-5)",
+                      textAlign: "left",
+                      color: "var(--color-on-surface-variant)",
+                    }}
+                  >
+                    Student
+                  </th>
+                  <th
+                    className="text-label-sm"
+                    style={{
+                      padding: "var(--space-3) var(--space-5)",
+                      textAlign: "left",
+                      color: "var(--color-on-surface-variant)",
+                    }}
+                  >
+                    Roll No
+                  </th>
+                  <th
+                    className="text-label-sm"
+                    style={{
+                      padding: "var(--space-3) var(--space-5)",
+                      textAlign: "right",
+                      color: "var(--color-on-surface-variant)",
+                    }}
+                  >
+                    Score
+                  </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {submissions.map((sub) => (
-                  <tr key={sub.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <tbody>
+                {submissions.map((sub: any) => (
+                  <tr
+                    key={sub.id}
+                    style={{
+                      transition: "background var(--transition-fast)",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background =
+                        "var(--color-surface-container-high)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
+                  >
+                    <td
+                      style={{
+                        padding: "var(--space-3) var(--space-5)",
+                        whiteSpace: "nowrap",
+                        fontWeight: 500,
+                        color: "var(--color-on-surface)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
                       {sub.studentName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      className="text-body-sm"
+                      style={{
+                        padding: "var(--space-3) var(--space-5)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
                       {sub.studentRollNumber}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-blue-600">
+                    <td
+                      style={{
+                        padding: "var(--space-3) var(--space-5)",
+                        whiteSpace: "nowrap",
+                        textAlign: "right",
+                        fontWeight: 600,
+                        color: "var(--color-primary)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
                       {sub.score} / {assignment.totalMarks}
                     </td>
                   </tr>
@@ -93,28 +255,104 @@ export default async function AssignmentReportPage({
         </div>
 
         {/* Question Performance */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden h-fit">
-          <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-lg font-bold text-gray-900">Question Performance</h2>
+        <div
+          style={{
+            background: "var(--color-surface-container-lowest)",
+            borderRadius: "var(--radius-md)",
+            overflow: "hidden",
+            height: "fit-content",
+          }}
+        >
+          <div
+            style={{
+              padding: "var(--space-4) var(--space-5)",
+              background: "var(--color-surface-container)",
+            }}
+          >
+            <h2 className="text-headline-sm">Question Performance</h2>
           </div>
-          <div className="p-6 space-y-6">
-            {questionStats.map((q: { questionId: string; text: string; topic: string; marks: number; correctPercentage: number }, i: number) => (
-              <div key={q.questionId}>
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-sm font-medium text-gray-900">Q{i + 1}. {q.topic}</span>
-                  <span className={`text-xs font-bold px-2 py-1 rounded ${q.correctPercentage >= 70 ? 'bg-green-100 text-green-700' : q.correctPercentage >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                    {q.correctPercentage}% Correct
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 line-clamp-2">{q.text}</p>
-                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3">
+          <div
+            style={{
+              padding: "var(--space-5)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-5)",
+            }}
+          >
+            {questionStats.map(
+              (
+                q: {
+                  questionId: string;
+                  text: string;
+                  topic: string;
+                  marks: number;
+                  correctPercentage: number;
+                },
+                i: number
+              ) => (
+                <div key={q.questionId}>
                   <div
-                    className={`h-1.5 rounded-full ${q.correctPercentage >= 70 ? 'bg-green-500' : q.correctPercentage >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                    style={{ width: `${q.correctPercentage}%` }}
-                  ></div>
+                    className="flex justify-between items-start"
+                    style={{ marginBottom: "var(--space-2)" }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.875rem",
+                        fontWeight: 500,
+                        color: "var(--color-on-surface)",
+                      }}
+                    >
+                      Q{i + 1}. {q.topic}
+                    </span>
+                    <span
+                      className="badge"
+                      style={{
+                        background:
+                          q.correctPercentage >= 70
+                            ? "var(--color-success-container)"
+                            : q.correctPercentage >= 40
+                              ? "var(--color-warning-container)"
+                              : "var(--color-error-container)",
+                        color:
+                          q.correctPercentage >= 70
+                            ? "var(--color-success)"
+                            : q.correctPercentage >= 40
+                              ? "var(--color-warning)"
+                              : "var(--color-error)",
+                      }}
+                    >
+                      {q.correctPercentage}% Correct
+                    </span>
+                  </div>
+                  <p
+                    className="text-body-sm"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {q.text}
+                  </p>
+                  {/* Thin progress bar */}
+                  <div className="progress-track" style={{ marginTop: "var(--space-3)" }}>
+                    <div
+                      className="progress-indicator"
+                      style={{
+                        width: `${q.correctPercentage}%`,
+                        background:
+                          q.correctPercentage >= 70
+                            ? "var(--color-success)"
+                            : q.correctPercentage >= 40
+                              ? "var(--color-warning)"
+                              : "var(--color-error)",
+                      }}
+                    ></div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </div>
