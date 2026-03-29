@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assignment Results | The Academic Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Geist:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary-fixed-variant": "#505e64",
+                "on-primary-fixed-variant": "#40606d",
+                "tertiary-fixed": "#d7e3fa",
+                "primary-fixed": "#c6e8f8",
+                "error-container": "#fa746f",
+                "on-primary-container": "#365663",
+                "surface-container-highest": "#e1e3dd",
+                "on-primary": "#f2faff",
+                "surface-dim": "#d9dbd5",
+                "error-dim": "#67040d",
+                "on-surface-variant": "#5d605b",
+                "error": "#a83836",
+                "surface-container-high": "#e8e9e3",
+                "on-primary-fixed": "#234350",
+                "on-tertiary": "#f8f8ff",
+                "primary-fixed-dim": "#b8d9ea",
+                "on-surface": "#30332f",
+                "inverse-on-surface": "#9d9d9a",
+                "on-secondary": "#f1faff",
+                "surface-container": "#eeeee9",
+                "primary": "#446371",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed-dim": "#c8d7de",
+                "surface-variant": "#e1e3dd",
+                "surface-tint": "#446371",
+                "on-secondary-fixed": "#344147",
+                "surface": "#faf9f5",
+                "surface-container-low": "#f4f4ef",
+                "secondary-dim": "#47555b",
+                "tertiary-container": "#d7e3fa",
+                "inverse-primary": "#ccedfe",
+                "on-tertiary-container": "#475265",
+                "tertiary": "#546073",
+                "tertiary-dim": "#485466",
+                "secondary-fixed": "#d6e5ec",
+                "on-tertiary-fixed": "#344052",
+                "primary-dim": "#385765",
+                "primary-container": "#c6e8f8",
+                "on-secondary-container": "#46545a",
+                "on-background": "#30332f",
+                "secondary-container": "#d6e5ec",
+                "on-error-container": "#6e0a12",
+                "surface-bright": "#faf9f5",
+                "on-tertiary-fixed-variant": "#505c6f",
+                "inverse-surface": "#0d0f0d",
+                "tertiary-fixed-dim": "#c9d5ec",
+                "outline": "#797c76",
+                "outline-variant": "#b0b3ad",
+                "on-error": "#fff7f6",
+                "secondary": "#536167",
+                "background": "#faf9f5"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Geist"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Geist', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<div class="flex">
+<!-- SideNavBar (Suppressed on transactional screens - suppressed here for Results focus) -->
+<!-- TopAppBar -->
+<header class="bg-[#faf9f5]/80 dark:bg-[#30332f]/80 backdrop-blur-md fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-8 py-4 max-w-full">
+<div class="text-xl font-bold text-[#446371] dark:text-[#f2faff] tracking-tighter font-headline">
+                    The Academic Curator
+                </div>
+<div class="flex items-center space-x-6">
+<nav class="hidden md:flex space-x-8">
+<a class="text-[#5d605b] dark:text-[#b0b3ad] font-['Manrope'] font-semibold tracking-tight text-sm hover:text-[#446371] transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-[#446371] dark:text-[#f2faff] border-b-2 border-[#446371] pb-1 font-['Manrope'] font-semibold tracking-tight text-sm" href="#">Courses</a>
+<a class="text-[#5d605b] dark:text-[#b0b3ad] font-['Manrope'] font-semibold tracking-tight text-sm hover:text-[#446371] transition-colors duration-200" href="#">Library</a>
+</nav>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary cursor-pointer scale-95 active:scale-90 transition-transform">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer scale-95 active:scale-90 transition-transform">account_circle</span>
+</div>
+</div>
+</div>
+<div class="bg-[#eeeee9] dark:bg-[#444] h-[1px] w-full"></div>
+</header>
+<main class="flex-1 mt-20 px-6 py-12 md:px-24 max-w-5xl mx-auto">
+<!-- Success Confirmation -->
+<div class="flex flex-col items-center justify-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+<div class="w-16 h-16 bg-[#c6e8f8] rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'wght' 600;">check_circle</span>
+</div>
+<h2 class="font-headline text-on-surface-variant text-sm tracking-[0.05em] font-semibold mb-2">SUBMISSION CONFIRMED</h2>
+<h1 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight">Assignment Submitted Successfully</h1>
+</div>
+<!-- Score Display Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-16">
+<!-- Main Score Card -->
+<div class="md:col-span-8 bg-surface-container-lowest p-10 rounded-xl flex flex-col items-center justify-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<span class="font-label text-xs font-bold text-on-surface-variant tracking-widest mb-4">TOTAL PERFORMANCE</span>
+<div class="flex items-baseline gap-2">
+<span class="text-8xl font-headline font-extrabold text-primary tracking-tighter">8</span>
+<span class="text-4xl font-headline font-bold text-outline-variant">/ 10</span>
+</div>
+<p class="mt-6 text-on-surface-variant font-medium text-center max-w-xs">
+                        Excellent work! You've demonstrated a strong grasp of the fundamental concepts in English Literature.
+                    </p>
+</div>
+<!-- Stats Sidebar -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl flex-1">
+<span class="material-symbols-outlined text-primary mb-3">timer</span>
+<div class="text-2xl font-headline font-bold text-on-surface">14m 20s</div>
+<div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Completion Time</div>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl flex-1">
+<span class="material-symbols-outlined mb-3" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<div class="text-2xl font-headline font-bold">Top 15%</div>
+<div class="text-xs font-label opacity-80 uppercase tracking-wider">Class Percentile</div>
+</div>
+</div>
+</div>
+<!-- Detailed Feedback Section -->
+<section class="space-y-12">
+<div class="flex items-center justify-between border-b border-surface-container pb-4">
+<h3 class="font-headline text-xl font-bold text-on-surface tracking-tight">Detailed Feedback</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-emerald-500"></div> Correct
+                        </div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-error"></div> Incorrect
+                        </div>
+</div>
+</div>
+<!-- Feedback List -->
+<div class="space-y-10">
+<!-- Q1: Correct -->
+<div class="group">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0 w-8 h-8 rounded-sm bg-surface-container flex items-center justify-center font-headline font-bold text-primary">01</div>
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between gap-4">
+<h4 class="font-body text-base font-medium text-on-surface leading-relaxed">
+                                        Which literary device is prominently used in the opening lines of Dickens' "A Tale of Two Cities"?
+                                    </h4>
+<span class="inline-flex items-center px-2 py-1 bg-emerald-50 text-emerald-700 text-[0.6875rem] font-bold tracking-wider rounded-sm uppercase">Correct</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-sm border-l-2 border-emerald-500">
+<div class="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">Your Answer</div>
+<div class="text-emerald-700 font-medium">Anaphora</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Q2: Incorrect -->
+<div class="group">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0 w-8 h-8 rounded-sm bg-surface-container flex items-center justify-center font-headline font-bold text-primary">02</div>
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between gap-4">
+<h4 class="font-body text-base font-medium text-on-surface leading-relaxed">
+                                        In poetic structure, what are the horizontal rows of a periodic table often compared to in stanzaic form?
+                                    </h4>
+<span class="inline-flex items-center px-2 py-1 bg-red-50 text-error text-[0.6875rem] font-bold tracking-wider rounded-sm uppercase">Incorrect</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-sm border-l-2 border-error">
+<div class="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">Your Answer</div>
+<div class="text-error font-medium line-through">Columns</div>
+</div>
+<div class="bg-emerald-50 p-4 rounded-sm border-l-2 border-emerald-500">
+<div class="text-[0.6875rem] text-emerald-700 font-bold tracking-widest mb-1 uppercase">Correct Answer</div>
+<div class="text-emerald-700 font-medium">Periods</div>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed italic mt-2">
+                                    Note: While both are structural terms, periods refer to the horizontal sequence, analogous to a poetic line's flow.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Q3: Correct -->
+<div class="group">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0 w-8 h-8 rounded-sm bg-surface-container flex items-center justify-center font-headline font-bold text-primary">03</div>
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between gap-4">
+<h4 class="font-body text-base font-medium text-on-surface leading-relaxed">
+                                        Identify the protagonist of John Milton's "Paradise Lost" according to Romantic critics like Shelley.
+                                    </h4>
+<span class="inline-flex items-center px-2 py-1 bg-emerald-50 text-emerald-700 text-[0.6875rem] font-bold tracking-wider rounded-sm uppercase">Correct</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-sm border-l-2 border-emerald-500">
+<div class="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">Your Answer</div>
+<div class="text-emerald-700 font-medium">Satan</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Footer -->
+<div class="mt-24 pt-8 border-t border-surface-container flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="Instructor Julian Barnes" class="w-12 h-12 rounded-full object-cover grayscale opacity-80" data-alt="Professional portrait of a middle-aged male professor in a library setting with soft natural window lighting and books background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4sMqgR28eEyDQACQmAmKjLJOZZ7FAUIDodHB1nxApVZkUg6cqRmSuM2sPMxvDq3AQ7RfG3LGcq1ithNuJSBieLyB5SxacSdovRx4K6iRsT7UiVsMwJoL-SJvGEuFXwYYn7PQvvbJS_9z_MHBpqtTQxkQrY2sJjhOQieiuHeZeOqesKEOi4gOBuUrgVIe_varE6pIgLpgiELbDS_6_eF2Syas41qIDyDks38xyeDcHc0CSqnaZtGC33EPV-GHUlWmw1kGkryY-LVhI"/>
+<div>
+<div class="text-sm font-bold text-on-surface">Prof. Julian Barnes</div>
+<div class="text-xs text-on-surface-variant">English Literature Faculty</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 text-primary font-bold text-sm bg-primary-container/20 rounded-sm hover:bg-primary-container/40 transition-all duration-200">
+                        Download Report
+                    </button>
+<button class="px-8 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-sm shadow-sm hover:brightness-110 active:scale-[0.98] transition-all duration-200">
+                        Return to Dashboard
+                    </button>
+</div>
+</div>
+</main>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 right-0 -z-10 w-1/3 h-screen bg-gradient-to-l from-surface-container-low/30 to-transparent pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-1/4 h-1/2 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none"></div>
+</body></html>

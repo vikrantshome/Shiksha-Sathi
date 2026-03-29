@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shiksha Sathi - Periodic Table Basics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#505e64",
+              "on-primary-fixed-variant": "#40606d",
+              "tertiary-fixed": "#d7e3fa",
+              "primary-fixed": "#c6e8f8",
+              "error-container": "#fa746f",
+              "on-primary-container": "#365663",
+              "surface-container-highest": "#e1e3dd",
+              "on-primary": "#f2faff",
+              "surface-dim": "#d9dbd5",
+              "error-dim": "#67040d",
+              "on-surface-variant": "#5d605b",
+              "error": "#a83836",
+              "surface-container-high": "#e8e9e3",
+              "on-primary-fixed": "#234350",
+              "on-tertiary": "#f8f8ff",
+              "primary-fixed-dim": "#b8d9ea",
+              "on-surface": "#30332f",
+              "inverse-on-surface": "#9d9d9a",
+              "on-secondary": "#f1faff",
+              "surface-container": "#eeeee9",
+              "primary": "#446371",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#c8d7de",
+              "surface-variant": "#e1e3dd",
+              "surface-tint": "#446371",
+              "on-secondary-fixed": "#344147",
+              "surface": "#faf9f5",
+              "surface-container-low": "#f4f4ef",
+              "secondary-dim": "#47555b",
+              "tertiary-container": "#d7e3fa",
+              "inverse-primary": "#ccedfe",
+              "on-tertiary-container": "#475265",
+              "tertiary": "#546073",
+              "tertiary-dim": "#485466",
+              "secondary-fixed": "#d6e5ec",
+              "on-tertiary-fixed": "#344052",
+              "primary-dim": "#385765",
+              "primary-container": "#c6e8f8",
+              "on-secondary-container": "#46545a",
+              "on-background": "#30332f",
+              "secondary-container": "#d6e5ec",
+              "on-error-container": "#6e0a12",
+              "surface-bright": "#faf9f5",
+              "on-tertiary-fixed-variant": "#505c6f",
+              "inverse-surface": "#0d0f0d",
+              "tertiary-fixed-dim": "#c9d5ec",
+              "outline": "#797c76",
+              "outline-variant": "#b0b3ad",
+              "on-error": "#fff7f6",
+              "secondary": "#536167",
+              "background": "#faf9f5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Geist", "Inter"],
+              "label": ["Geist", "Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Geist', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Shell (Shared Component Mapping) -->
+<nav class="fixed top-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full">
+<div class="flex items-center gap-6">
+<span class="text-xl font-bold text-primary tracking-tighter">The Academic Curator</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-sm font-semibold tracking-tight text-primary border-b-2 border-primary pb-1 font-headline" href="#">Dashboard</a>
+<a class="text-sm font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors duration-200 font-headline" href="#">Courses</a>
+<a class="text-sm font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors duration-200 font-headline" href="#">Library</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+<span class="text-xs font-medium text-on-surface">Aarav Sharma</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 bg-[#eeeee9] h-[1px] w-full"></div>
+</nav>
+<!-- Sidebar Layout (Shared Component Mapping) -->
+<aside class="fixed left-0 top-0 hidden lg:flex flex-col h-screen w-64 bg-surface-container-low p-6 space-y-8 mt-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-sm flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="book">book</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface leading-none">English Literature</p>
+<p class="text-[0.7rem] text-on-surface-variant mt-1">Prof. Julian Barnes</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container transition-all duration-300 text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary font-bold bg-white rounded-sm shadow-sm text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="book">book</span>
+                Materials
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container transition-all duration-300 text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                Submission
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container transition-all duration-300 text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+                Feedback
+            </a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 pt-6">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container transition-all duration-300 text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container transition-all duration-300 text-[0.875rem]" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+                Help
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 pt-24 pb-32 px-4 md:px-12 lg:px-24">
+<div class="max-w-3xl mx-auto">
+<!-- Assignment Header -->
+<header class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+<div>
+<span class="text-[0.6875rem] font-medium tracking-[0.05em] text-primary uppercase mb-2 block">Ongoing Assessment</span>
+<h1 class="text-3xl font-bold font-headline text-on-surface tracking-tight">Periodic Table Basics</h1>
+<p class="text-on-surface-variant text-sm mt-1">Student: <span class="text-on-surface font-medium">Aarav Sharma</span></p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary font-headline tracking-tight uppercase">Progress</p>
+<p class="text-lg font-bold text-on-surface">3 / 10 Answered</p>
+</div>
+</div>
+<!-- Refined Progress Bar -->
+<div class="w-full h-[2px] bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[30%] transition-all duration-500 ease-in-out"></div>
+</div>
+</header>
+<!-- Question Sequence -->
+<section class="space-y-8">
+<!-- Question 1: MCQ -->
+<article class="bg-surface-container-lowest p-8 rounded-lg transition-colors duration-200">
+<div class="flex justify-between items-start mb-6">
+<div class="flex gap-4">
+<span class="text-primary font-bold text-sm">01.</span>
+<h2 class="text-base font-medium leading-relaxed text-on-surface">Which of the following elements is a noble gas?</h2>
+</div>
+<span class="text-[0.6875rem] font-bold tracking-wider text-on-surface-variant bg-surface-container px-2 py-1 rounded">2 MARKS</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pl-9">
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">A) Oxygen</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-primary/10 border-primary/20 transition-colors text-left text-sm group ring-1 ring-primary/30">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+<span class="text-primary font-semibold">B) Neon</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">C) Nitrogen</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">D) Carbon</span>
+</button>
+</div>
+</article>
+<!-- Question 2: Fill in the blanks -->
+<article class="bg-surface-container-lowest p-8 rounded-lg transition-colors duration-200">
+<div class="flex justify-between items-start mb-6">
+<div class="flex gap-4">
+<span class="text-primary font-bold text-sm">02.</span>
+<h2 class="text-base font-medium leading-relaxed text-on-surface">The horizontal rows in the periodic table are called _________.</h2>
+</div>
+<span class="text-[0.6875rem] font-bold tracking-wider text-on-surface-variant bg-surface-container px-2 py-1 rounded">2 MARKS</span>
+</div>
+<div class="pl-9">
+<div class="relative max-w-md">
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-outline-variant/20 focus:ring-0 focus:border-primary px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 transition-all font-body" placeholder="Type your answer here..." type="text"/>
+<p class="mt-2 text-[0.6875rem] text-on-surface-variant italic">Enter a single word or a short phrase.</p>
+</div>
+</div>
+</article>
+<!-- Question 3: MCQ (Unanswered) -->
+<article class="bg-surface-container-lowest p-8 rounded-lg transition-colors duration-200">
+<div class="flex justify-between items-start mb-6">
+<div class="flex gap-4">
+<span class="text-primary font-bold text-sm">03.</span>
+<h2 class="text-base font-medium leading-relaxed text-on-surface">What is the atomic number of Hydrogen?</h2>
+</div>
+<span class="text-[0.6875rem] font-bold tracking-wider text-on-surface-variant bg-surface-container px-2 py-1 rounded">2 MARKS</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pl-9">
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">A) 1</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">B) 2</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">C) 3</span>
+</button>
+<button class="flex items-center gap-3 p-4 rounded-sm bg-surface-container-low hover:bg-surface-container transition-colors text-left text-sm group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">radio_button_unchecked</span>
+<span class="text-on-surface">D) 4</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Bottom Action -->
+<div class="mt-16 pt-12 border-t border-surface-container flex flex-col items-center">
+<p class="text-on-surface-variant text-xs mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">info</span>
+                    Please review all answers before final submission.
+                </p>
+<button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary px-12 py-4 rounded-sm font-bold tracking-wide shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center gap-3">
+                    Submit Assignment
+                    <span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Contextual Information Card (Floating Right) -->
+<aside class="fixed right-8 top-32 hidden xl:block w-72">
+<div class="bg-surface-container-low p-6 rounded-lg space-y-6">
+<h3 class="text-xs font-bold tracking-[0.1em] text-primary uppercase">Assistance</h3>
+<div class="space-y-4">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary text-xl">help_center</span>
+<div>
+<p class="text-sm font-semibold text-on-surface">Periodic Law</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Remember that properties repeat periodically when elements are arranged by atomic number.</p>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant/10"></div>
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary text-xl">lightbulb</span>
+<div>
+<p class="text-sm font-semibold text-on-surface">Study Resource</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Refer to Chapter 4: Atomic Structure in your Digital Library.</p>
+</div>
+</div>
+</div>
+<button class="w-full text-xs font-bold text-primary border border-primary/20 py-2 rounded-sm hover:bg-primary/5 transition-colors">
+                Message Instructor
+            </button>
+</div>
+<div class="mt-6">
+<img class="w-full h-40 object-cover rounded-lg opacity-80 filter grayscale-[0.2]" data-alt="Modern scientific periodic table on a screen with clean minimalist laboratory aesthetic in soft teal lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7WdRjgaYsF-hG2k0OphdEyVL36_b4OeDLd7mcK7T3YjZMVA-Bz5T77DdppnEruxX33Pnyk_voqN4yqtY6hozsKsWeQonYvbKnzKbQ-WF_-Zd8VLtbb17FH9_25pw3oKe-nOndOpFrpNXZQ3mnbdipLm7-ileAYJc1tIcuLSnF8PxqAT-MJHkB3fzaPjzeegjfr-GH7wlVewZZ84bNmlzMcmyeN7H0UUddjkZw3p-ljUewBw3_BxCu8foKQTru68AGSiChFZOkXpd3"/>
+</div>
+</aside>
+<!-- Mobile Navigation Bar -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low p-4 flex justify-around items-center z-50 shadow-2xl">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[0.6rem] font-bold">DASHBOARD</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit_document</span>
+<span class="text-[0.6rem] font-bold">ASSESSMENT</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">library_books</span>
+<span class="text-[0.6rem] font-bold">LIBRARY</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[0.6rem] font-bold">PROFILE</span>
+</button>
+</div>
+</body></html>
