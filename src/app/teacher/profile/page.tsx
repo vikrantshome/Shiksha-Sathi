@@ -23,17 +23,30 @@ export default async function ProfilePage() {
   const initialData = {
     name: profile?.name || "",
     school: profile?.school || "",
-    board: profile?.board || ""
+    board: profile?.board || "",
   };
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Teacher Profile</h1>
+      <div style={{ marginBottom: "var(--space-6)" }}>
+        <h1 className="text-display-sm">Teacher Profile</h1>
         {errorState ? (
-          <p className="text-red-500">Error loading profile data. Please try again.</p>
+          <p
+            className="text-body-sm"
+            style={{ color: "var(--color-error)", marginTop: "var(--space-1)" }}
+          >
+            Error loading profile data. Please try again.
+          </p>
         ) : (
-          <p className="text-gray-500">Manage your personal and school details.</p>
+          <p
+            className="text-body-md"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginTop: "var(--space-1)",
+            }}
+          >
+            Manage your personal and school details.
+          </p>
         )}
       </div>
       <ProfileForm initialData={initialData} />

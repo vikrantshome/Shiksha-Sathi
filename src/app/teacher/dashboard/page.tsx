@@ -19,75 +19,292 @@ export default async function TeacherDashboard() {
     console.error("Failed to load assignments", error);
   }
 
+  const totalSubmissions = assignments.reduce(
+    (acc: number, a: any) => acc + a.submissionCount,
+    0
+  );
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      {/* Page Header */}
+      <div
+        className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4"
+        style={{ marginBottom: "var(--space-8)" }}
+      >
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500">Overview of your assignments and student performance.</p>
+          <p
+            className="text-label-md"
+            style={{
+              color: "var(--color-primary)",
+              marginBottom: "var(--space-1)",
+            }}
+          >
+            Welcome back
+          </p>
+          <h1 className="text-display-sm">{user.name || "Teacher"}</h1>
         </div>
-        <Link 
-          href="/teacher/question-bank" 
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-        >
+        <Link href="/teacher/question-bank" className="btn-primary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            style={{ width: "1rem", height: "1rem" }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
           Create New Assignment
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Assignments</h3>
-          <p className="text-3xl font-bold text-gray-900">{assignments.length}</p>
+      {/* Stat Cards */}
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        style={{ marginBottom: "var(--space-8)" }}
+      >
+        <div className="card-static">
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Total Assignments
+          </p>
+          <p
+            className="text-display-sm"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            {assignments.length}
+          </p>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Total Submissions</h3>
-          <p className="text-3xl font-bold text-gray-900">
-            {assignments.reduce((acc: number, a: any) => acc + a.submissionCount, 0)}
+        <div className="card-static">
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Total Submissions
+          </p>
+          <p
+            className="text-display-sm"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            {totalSubmissions}
+          </p>
+        </div>
+        <div className="card-static sm:col-span-2 lg:col-span-1">
+          <p
+            className="text-label-sm"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
+            Active Assignments
+          </p>
+          <p
+            className="text-display-sm"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            {assignments.filter((a: any) => a.submissionCount > 0).length}
           </p>
         </div>
       </div>
 
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Assignments</h2>
-      
+      {/* Recent Assignments */}
+      <h2
+        className="text-headline-md"
+        style={{ marginBottom: "var(--space-4)" }}
+      >
+        Recent Assignments
+      </h2>
+
       {assignments.length === 0 ? (
-        <div className="text-center p-12 bg-white rounded-xl border border-gray-200 border-dashed">
-          <p className="text-gray-500 mb-4">You haven&apos;t created any assignments yet.</p>
-          <Link href="/teacher/question-bank" className="text-blue-600 hover:text-blue-800 font-medium">
-            Browse the Question Bank to get started &rarr;
+        <div
+          style={{
+            textAlign: "center",
+            padding: "var(--space-12) var(--space-8)",
+            background: "var(--color-surface-container-lowest)",
+            borderRadius: "var(--radius-md)",
+            border: "1px dashed var(--color-outline-variant)",
+          }}
+        >
+          <p
+            className="text-body-md"
+            style={{
+              color: "var(--color-on-surface-variant)",
+              marginBottom: "var(--space-4)",
+            }}
+          >
+            You haven&apos;t created any assignments yet.
+          </p>
+          <Link href="/teacher/question-bank" className="btn-ghost">
+            Browse the Question Bank to get started →
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submissions</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Score</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        <div
+          style={{
+            background: "var(--color-surface-container-lowest)",
+            borderRadius: "var(--radius-md)",
+            overflow: "hidden",
+          }}
+        >
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr
+                style={{
+                  background: "var(--color-surface-container)",
+                }}
+              >
+                <th
+                  className="text-label-sm"
+                  style={{
+                    padding: "var(--space-3) var(--space-5)",
+                    textAlign: "left",
+                    color: "var(--color-on-surface-variant)",
+                  }}
+                >
+                  Assignment
+                </th>
+                <th
+                  className="text-label-sm"
+                  style={{
+                    padding: "var(--space-3) var(--space-5)",
+                    textAlign: "left",
+                    color: "var(--color-on-surface-variant)",
+                  }}
+                >
+                  Class
+                </th>
+                <th
+                  className="text-label-sm"
+                  style={{
+                    padding: "var(--space-3) var(--space-5)",
+                    textAlign: "left",
+                    color: "var(--color-on-surface-variant)",
+                  }}
+                >
+                  Submissions
+                </th>
+                <th
+                  className="text-label-sm"
+                  style={{
+                    padding: "var(--space-3) var(--space-5)",
+                    textAlign: "left",
+                    color: "var(--color-on-surface-variant)",
+                  }}
+                >
+                  Avg Score
+                </th>
+                <th
+                  className="text-label-sm"
+                  style={{
+                    padding: "var(--space-3) var(--space-5)",
+                    textAlign: "right",
+                    color: "var(--color-on-surface-variant)",
+                  }}
+                >
+                  Action
+                </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {assignments.map((assignment) => (
-                <tr key={assignment.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="font-medium text-gray-900">{assignment.title}</div>
-                    <div className="text-xs text-gray-500 truncate max-w-[200px]" title={`Link: /student/assignment/${assignment.linkId}`}>
+            <tbody>
+              {assignments.map((assignment: any) => (
+                <tr
+                  key={assignment.id}
+                  style={{
+                    transition: "background var(--transition-fast)",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.background =
+                      "var(--color-surface-container-high)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.background = "transparent")
+                  }
+                >
+                  <td
+                    style={{
+                      padding: "var(--space-4) var(--space-5)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: 500,
+                        color: "var(--color-on-surface)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      {assignment.title}
+                    </div>
+                    <div
+                      className="text-label-md"
+                      style={{
+                        color: "var(--color-on-surface-variant)",
+                        marginTop: "2px",
+                      }}
+                      title={`Link: /student/assignment/${assignment.linkId}`}
+                    >
                       ID: {assignment.linkId}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td
+                    className="text-body-sm"
+                    style={{
+                      padding: "var(--space-4) var(--space-5)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {assignment.className}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td
+                    style={{
+                      padding: "var(--space-4) var(--space-5)",
+                      whiteSpace: "nowrap",
+                      fontWeight: 500,
+                      color: "var(--color-on-surface)",
+                      fontSize: "0.875rem",
+                    }}
+                  >
                     {assignment.submissionCount}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td
+                    style={{
+                      padding: "var(--space-4) var(--space-5)",
+                      whiteSpace: "nowrap",
+                      fontWeight: 500,
+                      color: "var(--color-on-surface)",
+                      fontSize: "0.875rem",
+                    }}
+                  >
                     {assignment.averageScore} / {assignment.maxScore}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link href={`/teacher/assignments/${assignment.id}`} className="text-blue-600 hover:text-blue-900">
+                  <td
+                    style={{
+                      padding: "var(--space-4) var(--space-5)",
+                      whiteSpace: "nowrap",
+                      textAlign: "right",
+                    }}
+                  >
+                    <Link
+                      href={`/teacher/assignments/${assignment.id}`}
+                      className="btn-ghost"
+                      style={{
+                        padding: "var(--space-1) var(--space-3)",
+                        fontSize: "0.8125rem",
+                      }}
+                    >
                       View Report
                     </Link>
                   </td>
