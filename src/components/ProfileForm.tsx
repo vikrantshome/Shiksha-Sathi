@@ -2,6 +2,7 @@
 
 import { useTransition, useState } from "react";
 import { api } from "@/lib/api";
+import { UserCircleIcon, IdentificationIcon, AcademicCapIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function ProfileForm({
   initialData,
@@ -37,110 +38,88 @@ export default function ProfileForm({
   return (
     <form
       action={handleSubmit}
-      style={{
-        background: "var(--color-surface-container-lowest)",
-        padding: "var(--space-6)",
-        borderRadius: "var(--radius-md)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-5)",
-      }}
+      className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 shadow-sm flex flex-col gap-6"
     >
+      <div className="border-b border-outline-variant/20 pb-4 mb-2">
+        <h2 className="text-headline-sm font-semibold text-on-surface">Personal Information</h2>
+        <p className="text-body-sm text-on-surface-variant mt-1">Update your profile details and school affiliations.</p>
+      </div>
+
       {message && (
-        <div
-          style={{
-            padding: "var(--space-3)",
-            background: "var(--color-success-container)",
-            color: "var(--color-success)",
-            borderRadius: "var(--radius-sm)",
-            fontSize: "0.8125rem",
-          }}
-        >
-          {message}
+        <div className="p-4 bg-success-container/50 border border-success/20 text-success rounded-lg text-body-sm flex items-start gap-3">
+          <CheckCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
+          <span>{message}</span>
         </div>
       )}
       {errorHeader && (
-        <div
-          style={{
-            padding: "var(--space-3)",
-            background: "var(--color-error-container)",
-            color: "var(--color-error)",
-            borderRadius: "var(--radius-sm)",
-            fontSize: "0.8125rem",
-          }}
-        >
-          {errorHeader}
+        <div className="p-4 bg-error-container/50 border border-error/20 text-error rounded-lg text-body-sm flex items-start gap-3">
+          <ExclamationCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
+          <span>{errorHeader}</span>
         </div>
       )}
 
-      <div>
-        <label
-          className="text-label-md"
-          style={{
-            display: "block",
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-1-5)",
-          }}
-        >
-          Full Name
-        </label>
-        <input
-          name="name"
-          defaultValue={initialData?.name}
-          placeholder="e.g. Mr. Sharma"
-          className="input-academic"
-        />
+      <div className="flex flex-col gap-5">
+        <div>
+          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+            Full Name
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UserCircleIcon className="h-5 w-5 text-on-surface-variant/70" />
+            </div>
+            <input
+              name="name"
+              defaultValue={initialData?.name}
+              placeholder="e.g. Mr. Sharma"
+              className="input-academic pl-10"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+            School Name
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <AcademicCapIcon className="h-5 w-5 text-on-surface-variant/70" />
+            </div>
+            <input
+              name="school"
+              defaultValue={initialData?.school}
+              placeholder="e.g. Delhi Public School"
+              className="input-academic pl-10"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+            Board / Curriculum
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <IdentificationIcon className="h-5 w-5 text-on-surface-variant/70" />
+            </div>
+            <input
+              name="board"
+              defaultValue={initialData?.board}
+              placeholder="e.g. CBSE"
+              className="input-academic pl-10"
+            />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label
-          className="text-label-md"
-          style={{
-            display: "block",
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-1-5)",
-          }}
+      <div className="pt-4 mt-2 border-t border-outline-variant/20 flex justify-end">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="btn-primary w-full sm:w-auto px-8"
         >
-          School Name
-        </label>
-        <input
-          name="school"
-          defaultValue={initialData?.school}
-          placeholder="e.g. Delhi Public School"
-          className="input-academic"
-        />
+          {isPending ? "Saving Profile…" : "Save Changes"}
+        </button>
       </div>
-
-      <div>
-        <label
-          className="text-label-md"
-          style={{
-            display: "block",
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-1-5)",
-          }}
-        >
-          Board / Curriculum
-        </label>
-        <input
-          name="board"
-          defaultValue={initialData?.board}
-          placeholder="e.g. CBSE"
-          className="input-academic"
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={isPending}
-        className="btn-primary"
-        style={{
-          width: "fit-content",
-          padding: "var(--space-2-5) var(--space-6)",
-        }}
-      >
-        {isPending ? "Saving…" : "Save Profile"}
-      </button>
     </form>
   );
 }

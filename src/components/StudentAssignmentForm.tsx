@@ -3,6 +3,11 @@
 import { useState, useTransition } from "react";
 import { Question, GradedAnswer } from "@/lib/questions";
 import { api } from "@/lib/api";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 interface StudentAssignmentFormProps {
   assignment: {
@@ -73,85 +78,33 @@ export default function StudentAssignmentForm({
     });
   };
 
+  const answeredCount = Object.keys(answers).length;
+  const totalQuestions = assignment.questions.length;
+  const progressPercent = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
+
   /* ── Results View ── */
   if (result) {
     return (
-      <div
-        style={{
-          padding: "var(--space-8)",
-          textAlign: "center",
-        }}
-      >
+      <div className="p-4 sm:p-6 md:p-8 text-center">
         {/* Success icon */}
-        <div
-          style={{
-            width: "4rem",
-            height: "4rem",
-            borderRadius: "50%",
-            background: "var(--color-success-container)",
-            color: "var(--color-success)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto var(--space-5)",
-          }}
-        >
-          <svg
-            style={{ width: "2rem", height: "2rem" }}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+        <div className="w-16 h-16 rounded-full bg-success-container text-success flex items-center justify-center mx-auto mb-5">
+          <CheckIcon className="w-8 h-8" strokeWidth={2} />
         </div>
-        <h2 className="text-display-sm" style={{ marginBottom: "var(--space-2)" }}>
-          Assignment Submitted!
-        </h2>
-        <p
-          className="text-body-md"
-          style={{
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-8)",
-          }}
-        >
+        <h2 className="text-display-sm mb-2">Assignment Submitted!</h2>
+        <p className="text-body-md text-on-surface-variant mb-8">
           Thank you, {identity?.name}. Your responses have been recorded.
         </p>
 
         {/* Score card */}
-        <div
-          className="card-static"
-          style={{
-            maxWidth: "24rem",
-            margin: "0 auto var(--space-8)",
-            textAlign: "center",
-          }}
-        >
-          <p
-            className="text-label-sm"
-            style={{
-              color: "var(--color-on-surface-variant)",
-              marginBottom: "var(--space-2)",
-            }}
-          >
+        <div className="card-static max-w-sm mx-auto mb-8 text-center">
+          <p className="text-label-sm text-on-surface-variant mb-2">
             Your Score
           </p>
-          <p className="text-display-lg" style={{ letterSpacing: "-0.03em" }}>
-            <span style={{ color: "var(--color-primary)" }}>
+          <p className="text-display-lg tracking-tight">
+            <span className="text-primary">
               {result.score}
             </span>
-            <span
-              style={{
-                fontSize: "1.25rem",
-                color: "var(--color-on-surface-variant)",
-                marginLeft: "var(--space-2)",
-              }}
-            >
+            <span className="text-xl text-on-surface-variant ml-2">
               / {result.totalMarks}
             </span>
           </p>
@@ -159,123 +112,52 @@ export default function StudentAssignmentForm({
 
         {/* Feedback */}
         {result.feedback && result.feedback.length > 0 && (
-          <div
-            style={{
-              maxWidth: "36rem",
-              margin: "0 auto",
-              textAlign: "left",
-            }}
-          >
-            <h3
-              className="text-headline-md"
-              style={{ marginBottom: "var(--space-4)" }}
-            >
-              Answer Feedback
-            </h3>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "var(--space-3)",
-              }}
-            >
+          <div className="max-w-xl mx-auto text-left">
+            <h3 className="text-headline-md mb-4">Answer Feedback</h3>
+            <div className="flex flex-col gap-3">
               {result.feedback.map((f: GradedAnswer, i: number) => (
                 <div
                   key={f.questionId}
-                  style={{
-                    padding: "var(--space-4)",
-                    borderRadius: "var(--radius-md)",
-                    background: f.isCorrect
-                      ? "var(--color-success-container)"
-                      : "var(--color-error-container)",
-                  }}
+                  className={`p-4 rounded-md ${
+                    f.isCorrect
+                      ? "bg-success-container"
+                      : "bg-error-container"
+                  }`}
                 >
-                  <div
-                    className="flex justify-between items-start"
-                    style={{ marginBottom: "var(--space-2)" }}
-                  >
-                    <span
-                      style={{
-                        fontWeight: 600,
-                        color: "var(--color-on-surface)",
-                        fontSize: "0.875rem",
-                      }}
-                    >
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="font-semibold text-on-surface text-sm">
                       Question {i + 1}
                     </span>
                     {f.isCorrect ? (
-                      <span
-                        className="flex items-center gap-1"
-                        style={{
-                          color: "var(--color-success)",
-                          fontWeight: 600,
-                          fontSize: "0.8125rem",
-                        }}
-                      >
-                        ✓ Correct ({f.marksAwarded} Marks)
+                      <span className="flex items-center gap-1 text-success font-semibold text-[0.8125rem]">
+                        <CheckCircleIcon className="w-4 h-4" />
+                        Correct ({f.marksAwarded} Marks)
                       </span>
                     ) : (
-                      <span
-                        className="flex items-center gap-1"
-                        style={{
-                          color: "var(--color-error)",
-                          fontWeight: 600,
-                          fontSize: "0.8125rem",
-                        }}
-                      >
-                        ✗ Incorrect (0 Marks)
+                      <span className="flex items-center gap-1 text-error font-semibold text-[0.8125rem]">
+                        <XCircleIcon className="w-4 h-4" />
+                        Incorrect (0 Marks)
                       </span>
                     )}
                   </div>
-                  <p
-                    style={{
-                      color: "var(--color-on-surface)",
-                      fontSize: "0.875rem",
-                      marginBottom: "var(--space-3)",
-                    }}
-                  >
+                  <p className="text-on-surface text-sm mb-3 leading-relaxed">
                     {f.questionText}
                   </p>
-                  <div
-                    style={{
-                      fontSize: "0.8125rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "var(--space-1)",
-                    }}
-                  >
+                  <div className="text-[0.8125rem] flex flex-col gap-1">
                     <div>
-                      <span
-                        style={{
-                          color: "var(--color-on-surface-variant)",
-                        }}
-                      >
+                      <span className="text-on-surface-variant">
                         Your Answer:
                       </span>{" "}
-                      <span
-                        style={{
-                          fontWeight: 500,
-                          color: "var(--color-on-surface)",
-                        }}
-                      >
+                      <span className="font-medium text-on-surface">
                         {f.studentAnswer}
                       </span>
                     </div>
                     {!f.isCorrect && (
                       <div>
-                        <span
-                          style={{
-                            color: "var(--color-on-surface-variant)",
-                          }}
-                        >
+                        <span className="text-on-surface-variant">
                           Correct Answer:
                         </span>{" "}
-                        <span
-                          style={{
-                            fontWeight: 500,
-                            color: "var(--color-success)",
-                          }}
-                        >
+                        <span className="font-medium text-success">
                           {Array.isArray(f.correctAnswer)
                             ? f.correctAnswer.join(" or ")
                             : f.correctAnswer}
@@ -292,52 +174,25 @@ export default function StudentAssignmentForm({
     );
   }
 
-  /* ── Identity Form ── */
+  /* ── Identity Form (Welcome Stage) ── */
   if (!identity) {
     return (
-      <div style={{ padding: "var(--space-6) var(--space-8)" }}>
-        <div style={{ maxWidth: "24rem", margin: "0 auto" }}>
-          <h2
-            className="text-headline-md"
-            style={{
-              textAlign: "center",
-              marginBottom: "var(--space-6)",
-            }}
-          >
+      <div className="p-4 sm:p-6 md:px-8 md:py-6">
+        <div className="max-w-sm mx-auto">
+          <h2 className="text-headline-md text-center mb-6">
             Enter your details to start
           </h2>
           {error && (
-            <div
-              style={{
-                marginBottom: "var(--space-5)",
-                padding: "var(--space-3)",
-                background: "var(--color-error-container)",
-                color: "var(--color-error)",
-                borderRadius: "var(--radius-sm)",
-                fontSize: "0.8125rem",
-                textAlign: "center",
-              }}
-            >
+            <div className="mb-5 p-3 bg-error-container text-error rounded-sm text-[0.8125rem] text-center">
               {error}
             </div>
           )}
           <form
             onSubmit={handleIdentitySubmit}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-5)",
-            }}
+            className="flex flex-col gap-5"
           >
             <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
+              <label className="text-label-md block text-on-surface-variant mb-1.5">
                 Full Name
               </label>
               <input
@@ -348,14 +203,7 @@ export default function StudentAssignmentForm({
               />
             </div>
             <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
+              <label className="text-label-md block text-on-surface-variant mb-1.5">
                 Student ID / Roll Number
               </label>
               <input
@@ -367,11 +215,7 @@ export default function StudentAssignmentForm({
             </div>
             <button
               type="submit"
-              className="btn-primary"
-              style={{
-                width: "100%",
-                padding: "var(--space-3)",
-              }}
+              className="btn-primary w-full py-3"
             >
               Start Assignment
             </button>
@@ -381,157 +225,82 @@ export default function StudentAssignmentForm({
     );
   }
 
-  /* ── Question Form ── */
+  /* ── Question Form (Progress Stage) ── */
   return (
-    <div style={{ padding: "var(--space-6) var(--space-8)" }}>
-      {/* Student info + progress bar */}
-      <div
-        className="flex justify-between items-center"
-        style={{
-          marginBottom: "var(--space-6)",
-          paddingBottom: "var(--space-4)",
-        }}
-      >
+    <div className="p-4 sm:p-6 md:px-8 md:py-6">
+      {/* Student info + progress summary */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-6 pb-4">
         <div>
-          <span
-            className="text-label-sm"
-            style={{ color: "var(--color-on-surface-variant)" }}
-          >
+          <span className="text-label-sm text-on-surface-variant">
             Student
           </span>
-          <p
-            style={{
-              fontWeight: 500,
-              color: "var(--color-on-surface)",
-              fontSize: "0.875rem",
-            }}
-          >
+          <p className="font-medium text-on-surface text-sm">
             {identity.name} ({identity.rollNumber})
           </p>
         </div>
-        <div style={{ textAlign: "right" }}>
-          <span
-            className="text-label-sm"
-            style={{ color: "var(--color-on-surface-variant)" }}
-          >
+        <div className="sm:text-right">
+          <span className="text-label-sm text-on-surface-variant">
             Progress
           </span>
-          <p
-            style={{
-              fontWeight: 500,
-              color: "var(--color-primary)",
-              fontSize: "0.875rem",
-            }}
-          >
-            {Object.keys(answers).length} / {assignment.questions.length}{" "}
-            Answered
+          <p className="font-medium text-primary text-sm">
+            {answeredCount} / {totalQuestions} Answered
           </p>
         </div>
       </div>
 
       {/* Progress track */}
-      <div className="progress-track" style={{ marginBottom: "var(--space-6)" }}>
+      <div className="progress-track mb-6">
         <div
           className="progress-indicator"
-          style={{
-            width: `${(Object.keys(answers).length / assignment.questions.length) * 100}%`,
-          }}
-        ></div>
+          style={{ width: `${progressPercent}%` }}
+        />
       </div>
 
       {/* Questions */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-6)",
-        }}
-      >
+      <div className="flex flex-col gap-4 sm:gap-6">
         {assignment.questions.map((q, index) => (
           <div
             key={q.id}
-            style={{
-              background: "var(--color-surface-container-low)",
-              borderRadius: "var(--radius-md)",
-              padding: "var(--space-5)",
-            }}
+            className="bg-surface-container-low rounded-md p-4 sm:p-5"
           >
-            <div
-              className="flex justify-between items-start"
-              style={{ marginBottom: "var(--space-4)" }}
-            >
-              <span
-                className="text-label-sm"
-                style={{ color: "var(--color-on-surface-variant)" }}
-              >
+            <div className="flex justify-between items-start mb-4">
+              <span className="text-label-sm text-on-surface-variant">
                 Question {index + 1}
               </span>
               <span className="badge">{q.marks} Marks</span>
             </div>
-            <p
-              style={{
-                fontSize: "1rem",
-                fontWeight: 500,
-                color: "var(--color-on-surface)",
-                marginBottom: "var(--space-4)",
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="text-base font-medium text-on-surface mb-4 leading-relaxed">
               {q.text}
             </p>
 
             {q.options &&
             (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "var(--space-2)",
-                }}
-              >
-                {q.options.map((opt, i) => (
-                  <label
-                    key={i}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      padding: "var(--space-3)",
-                      borderRadius: "var(--radius-sm)",
-                      cursor: "pointer",
-                      transition: "all var(--transition-fast)",
-                      background:
-                        answers[q.id] === opt
-                          ? "var(--color-primary-container)"
-                          : "var(--color-surface-container-lowest)",
-                      border:
-                        answers[q.id] === opt
-                          ? "1.5px solid var(--color-primary)"
-                          : "1px solid rgba(176, 179, 173, 0.15)",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name={`question-${q.id}`}
-                      value={opt}
-                      checked={answers[q.id] === opt}
-                      onChange={() => handleAnswerChange(q.id, opt)}
-                      style={{
-                        width: "1rem",
-                        height: "1rem",
-                        accentColor: "var(--color-primary)",
-                      }}
-                    />
-                    <span
-                      style={{
-                        marginLeft: "var(--space-3)",
-                        color: "var(--color-on-surface)",
-                        fontSize: "0.875rem",
-                      }}
+              <div className="flex flex-col gap-2">
+                {q.options.map((opt, i) => {
+                  const isSelected = answers[q.id] === opt;
+                  return (
+                    <label
+                      key={i}
+                      className={`flex items-center p-3 rounded-sm cursor-pointer transition-all duration-100 ${
+                        isSelected
+                          ? "bg-primary-container border-[1.5px] border-primary"
+                          : "bg-surface-container-lowest border border-outline-variant/15"
+                      }`}
                     >
-                      {opt}
-                    </span>
-                  </label>
-                ))}
+                      <input
+                        type="radio"
+                        name={`question-${q.id}`}
+                        value={opt}
+                        checked={isSelected}
+                        onChange={() => handleAnswerChange(q.id, opt)}
+                        className="w-4 h-4 accent-primary"
+                      />
+                      <span className="ml-3 text-on-surface text-sm">
+                        {opt}
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
             ) : (
               <div>
@@ -552,38 +321,17 @@ export default function StudentAssignmentForm({
 
       {/* Error */}
       {error && (
-        <div
-          style={{
-            marginTop: "var(--space-6)",
-            padding: "var(--space-3)",
-            background: "var(--color-error-container)",
-            color: "var(--color-error)",
-            borderRadius: "var(--radius-sm)",
-            fontSize: "0.8125rem",
-            textAlign: "center",
-          }}
-        >
+        <div className="mt-6 p-3 bg-error-container text-error rounded-sm text-[0.8125rem] text-center">
           {error}
         </div>
       )}
 
       {/* Submit Button */}
-      <div
-        className="flex justify-end"
-        style={{
-          marginTop: "var(--space-8)",
-          paddingTop: "var(--space-5)",
-        }}
-      >
+      <div className="flex justify-end mt-8 pt-5">
         <button
           onClick={handleSubmitAssignment}
           disabled={isPending}
-          className="btn-primary"
-          style={{
-            padding: "var(--space-3) var(--space-8)",
-            fontSize: "1rem",
-            fontWeight: 600,
-          }}
+          className="btn-primary px-8 py-3 text-base font-semibold"
         >
           {isPending ? "Submitting…" : "Submit Assignment"}
         </button>

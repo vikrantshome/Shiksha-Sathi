@@ -1,6 +1,12 @@
 import { api } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { 
+  ArrowLeftIcon, 
+  ClipboardDocumentCheckIcon, 
+  ChartBarIcon, 
+  LinkIcon 
+} from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
 
@@ -26,58 +32,32 @@ export default async function AssignmentReportPage({
       : 0;
 
   return (
-    <div>
+    <div className="max-w-6xl mx-auto pb-12">
       {/* Header */}
-      <div style={{ marginBottom: "var(--space-8)" }}>
+      <div className="mb-10">
         <Link
           href="/teacher/dashboard"
-          className="btn-ghost"
-          style={{
-            padding: "var(--space-1) 0",
-            fontSize: "0.8125rem",
-            marginBottom: "var(--space-4)",
-            display: "inline-flex",
-          }}
+          className="btn-ghost text-xs py-1.5 px-3 mb-6 inline-flex items-center gap-1.5"
         >
-          ← Back to Dashboard
+          <ArrowLeftIcon className="w-3.5 h-3.5" />
+          Back to Dashboard
         </Link>
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
-          <div>
-            <h1 className="text-display-sm">{assignment.title}</h1>
-            <p
-              className="text-body-sm"
-              style={{
-                color: "var(--color-on-surface-variant)",
-                marginTop: "var(--space-1)",
-              }}
-            >
-              Student Link:{" "}
-              <code
-                style={{
-                  background: "var(--color-surface-container)",
-                  padding: "2px 6px",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.75rem",
-                }}
-              >
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6">
+          <div className="flex-1">
+            <h1 className="text-display-sm font-bold text-on-surface mb-2">{assignment.title}</h1>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-body-sm text-on-surface-variant">Student Link:</span>
+              <div className="flex items-center gap-1.5 bg-surface-container/60 px-2.5 py-1 rounded-md border border-outline-variant/30 text-xs font-mono text-on-surface-variant">
+                <LinkIcon className="w-3.5 h-3.5" />
                 /student/assignment/{assignment.linkId}
-              </code>
-            </p>
+              </div>
+            </div>
           </div>
-          <div style={{ textAlign: "right" }}>
-            <span
-              className="text-label-sm"
-              style={{
-                color: "var(--color-on-surface-variant)",
-                display: "block",
-              }}
-            >
+          <div className="sm:text-right bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-5 py-3 shadow-sm">
+            <span className="text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">
               Total Marks
             </span>
-            <span
-              className="text-display-sm"
-              style={{ letterSpacing: "-0.03em" }}
-            >
+            <span className="text-display-sm tracking-tight font-semibold text-primary">
               {assignment.totalMarks}
             </span>
           </div>
@@ -85,200 +65,97 @@ export default async function AssignmentReportPage({
       </div>
 
       {/* Summary Cards */}
-      <div
-        className="grid grid-cols-1 md:grid-cols-2 gap-4"
-        style={{ marginBottom: "var(--space-8)" }}
-      >
-        <div className="card-static">
-          <p
-            className="text-label-sm"
-            style={{
-              color: "var(--color-on-surface-variant)",
-              marginBottom: "var(--space-2)",
-            }}
-          >
-            Total Submissions
-          </p>
-          <p
-            className="text-display-sm"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            {submissions.length}
-          </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-xl">
+          <div className="p-3 bg-primary-container text-on-primary-container rounded-lg">
+            <ClipboardDocumentCheckIcon className="w-7 h-7" />
+          </div>
+          <div>
+            <p className="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
+              Total Submissions
+            </p>
+            <p className="text-display-sm tracking-tight font-semibold text-on-surface">
+              {submissions.length}
+            </p>
+          </div>
         </div>
-        <div className="card-static">
-          <p
-            className="text-label-sm"
-            style={{
-              color: "var(--color-on-surface-variant)",
-              marginBottom: "var(--space-2)",
-            }}
-          >
-            Average Score
-          </p>
-          <p className="text-display-sm" style={{ letterSpacing: "-0.03em" }}>
-            <span style={{ color: "var(--color-primary)" }}>
-              {averageScore.toFixed(1)}
-            </span>
-            <span
-              style={{
-                fontSize: "1rem",
-                color: "var(--color-on-surface-variant)",
-                marginLeft: "var(--space-1)",
-              }}
-            >
-              / {assignment.totalMarks}
-            </span>
-          </p>
+
+        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-xl">
+          <div className="p-3 bg-secondary-container text-on-surface rounded-lg">
+            <ChartBarIcon className="w-7 h-7" />
+          </div>
+          <div>
+            <p className="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
+              Average Score
+            </p>
+            <p className="text-display-sm tracking-tight font-semibold">
+              <span className="text-primary">{averageScore.toFixed(1)}</span>
+              <span className="text-body-lg text-on-surface-variant ml-2 font-normal">
+                / {assignment.totalMarks}
+              </span>
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Student Submissions */}
-        <div
-          style={{
-            background: "var(--color-surface-container-lowest)",
-            borderRadius: "var(--radius-md)",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              padding: "var(--space-4) var(--space-5)",
-              background: "var(--color-surface-container)",
-            }}
-          >
-            <h2 className="text-headline-sm">Student Results</h2>
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+          <div className="px-6 py-4 bg-surface-container/40 border-b border-outline-variant/30">
+            <h2 className="text-headline-sm font-semibold text-on-surface">Student Results</h2>
           </div>
           {submissions.length === 0 ? (
-            <div
-              style={{
-                padding: "var(--space-8)",
-                textAlign: "center",
-              }}
-            >
-              <p
-                className="text-body-md"
-                style={{ color: "var(--color-on-surface-variant)" }}
-              >
+            <div className="p-12 text-center flex-1 flex flex-col items-center justify-center">
+              <ClipboardDocumentCheckIcon className="w-10 h-10 text-outline-variant mb-3 opacity-50" />
+              <p className="text-body-md text-on-surface-variant">
                 No submissions yet.
               </p>
             </div>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr>
-                  <th
-                    className="text-label-sm"
-                    style={{
-                      padding: "var(--space-3) var(--space-5)",
-                      textAlign: "left",
-                      color: "var(--color-on-surface-variant)",
-                    }}
-                  >
-                    Student
-                  </th>
-                  <th
-                    className="text-label-sm"
-                    style={{
-                      padding: "var(--space-3) var(--space-5)",
-                      textAlign: "left",
-                      color: "var(--color-on-surface-variant)",
-                    }}
-                  >
-                    Roll No
-                  </th>
-                  <th
-                    className="text-label-sm"
-                    style={{
-                      padding: "var(--space-3) var(--space-5)",
-                      textAlign: "right",
-                      color: "var(--color-on-surface-variant)",
-                    }}
-                  >
-                    Score
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {submissions.map((sub: any) => (
-                  <tr
-                    key={sub.id}
-                    style={{
-                      transition: "background var(--transition-fast)",
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.background =
-                        "var(--color-surface-container-high)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = "transparent")
-                    }
-                  >
-                    <td
-                      style={{
-                        padding: "var(--space-3) var(--space-5)",
-                        whiteSpace: "nowrap",
-                        fontWeight: 500,
-                        color: "var(--color-on-surface)",
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      {sub.studentName}
-                    </td>
-                    <td
-                      className="text-body-sm"
-                      style={{
-                        padding: "var(--space-3) var(--space-5)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {sub.studentRollNumber}
-                    </td>
-                    <td
-                      style={{
-                        padding: "var(--space-3) var(--space-5)",
-                        whiteSpace: "nowrap",
-                        textAlign: "right",
-                        fontWeight: 600,
-                        color: "var(--color-primary)",
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      {sub.score} / {assignment.totalMarks}
-                    </td>
+            <div className="overflow-x-auto flex-1">
+              <table className="w-full border-collapse">
+                <thead className="bg-surface-container/20">
+                  <tr>
+                    <th className="text-label-sm uppercase tracking-wider text-on-surface-variant py-3 px-6 text-left font-medium border-b border-outline-variant/30">
+                      Student
+                    </th>
+                    <th className="text-label-sm uppercase tracking-wider text-on-surface-variant py-3 px-6 text-left font-medium border-b border-outline-variant/30">
+                      Roll No
+                    </th>
+                    <th className="text-label-sm uppercase tracking-wider text-on-surface-variant py-3 px-6 text-right font-medium border-b border-outline-variant/30">
+                      Score
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-outline-variant/20">
+                  {submissions.map((sub: any) => (
+                    <tr
+                      key={sub.id}
+                      className="transition-colors hover:bg-surface-container/40"
+                    >
+                      <td className="py-3.5 px-6 whitespace-nowrap font-medium text-body-md text-on-surface">
+                        {sub.studentName}
+                      </td>
+                      <td className="text-body-sm py-3.5 px-6 whitespace-nowrap text-on-surface-variant font-mono">
+                        {sub.studentRollNumber}
+                      </td>
+                      <td className="py-3.5 px-6 whitespace-nowrap text-right font-semibold text-primary text-body-md">
+                        {sub.score} <span className="text-on-surface-variant font-normal text-sm">/ {assignment.totalMarks}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 
         {/* Question Performance */}
-        <div
-          style={{
-            background: "var(--color-surface-container-lowest)",
-            borderRadius: "var(--radius-md)",
-            overflow: "hidden",
-            height: "fit-content",
-          }}
-        >
-          <div
-            style={{
-              padding: "var(--space-4) var(--space-5)",
-              background: "var(--color-surface-container)",
-            }}
-          >
-            <h2 className="text-headline-sm">Question Performance</h2>
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden h-fit">
+          <div className="px-6 py-4 bg-surface-container/40 border-b border-outline-variant/30">
+            <h2 className="text-headline-sm font-semibold text-on-surface">Question Performance</h2>
           </div>
-          <div
-            style={{
-              padding: "var(--space-5)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-5)",
-            }}
-          >
+          <div className="p-6 flex flex-col gap-6">
             {questionStats.map(
               (
                 q: {
@@ -289,69 +166,49 @@ export default async function AssignmentReportPage({
                   correctPercentage: number;
                 },
                 i: number
-              ) => (
-                <div key={q.questionId}>
-                  <div
-                    className="flex justify-between items-start"
-                    style={{ marginBottom: "var(--space-2)" }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "0.875rem",
-                        fontWeight: 500,
-                        color: "var(--color-on-surface)",
-                      }}
-                    >
-                      Q{i + 1}. {q.topic}
-                    </span>
-                    <span
-                      className="badge"
-                      style={{
-                        background:
-                          q.correctPercentage >= 70
-                            ? "var(--color-success-container)"
-                            : q.correctPercentage >= 40
-                              ? "var(--color-warning-container)"
-                              : "var(--color-error-container)",
-                        color:
-                          q.correctPercentage >= 70
-                            ? "var(--color-success)"
-                            : q.correctPercentage >= 40
-                              ? "var(--color-warning)"
-                              : "var(--color-error)",
-                      }}
-                    >
-                      {q.correctPercentage}% Correct
-                    </span>
+              ) => {
+                let statusColor = "bg-error text-on-primary";
+                let badgeClass = "bg-error-container/80 text-error border border-error/20";
+                
+                if (q.correctPercentage >= 70) {
+                  statusColor = "bg-success text-on-primary";
+                  badgeClass = "bg-success-container/80 text-success border border-success/20";
+                } else if (q.correctPercentage >= 40) {
+                  statusColor = "bg-warning text-on-primary";
+                  badgeClass = "bg-warning-container/80 text-warning border border-warning/20";
+                }
+
+                return (
+                  <div key={q.questionId} className="group">
+                    <div className="flex justify-between items-start mb-2 gap-4">
+                      <span className="text-body-md font-medium text-on-surface leading-tight">
+                        <span className="text-on-surface-variant opacity-70 mr-1">Q{i + 1}.</span> {q.topic}
+                      </span>
+                      <span className={`badge shrink-0 ${badgeClass}`}>
+                        {q.correctPercentage}% Correct
+                      </span>
+                    </div>
+                    
+                    <p className="text-body-sm text-on-surface-variant mb-3 line-clamp-2 pr-4 group-hover:line-clamp-none transition-all">
+                      {q.text}
+                    </p>
+                    
+                    {/* Thin progress bar */}
+                    <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ease-out ${statusColor}`}
+                        style={{ width: `${q.correctPercentage}%` }}
+                      ></div>
+                    </div>
                   </div>
-                  <p
-                    className="text-body-sm"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {q.text}
-                  </p>
-                  {/* Thin progress bar */}
-                  <div className="progress-track" style={{ marginTop: "var(--space-3)" }}>
-                    <div
-                      className="progress-indicator"
-                      style={{
-                        width: `${q.correctPercentage}%`,
-                        background:
-                          q.correctPercentage >= 70
-                            ? "var(--color-success)"
-                            : q.correctPercentage >= 40
-                              ? "var(--color-warning)"
-                              : "var(--color-error)",
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              )
+                );
+              }
+            )}
+            
+            {questionStats.length === 0 && (
+              <div className="text-center py-8 text-on-surface-variant text-body-md">
+                No question data available yet.
+              </div>
             )}
           </div>
         </div>

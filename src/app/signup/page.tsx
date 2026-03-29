@@ -46,82 +46,35 @@ export default function SignupPage() {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen px-4"
-      style={{ background: "var(--color-surface)" }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "24rem",
-          padding: "var(--space-8)",
-          background: "var(--color-surface-container-lowest)",
-          borderRadius: "var(--radius-md)",
-        }}
-      >
+    <div className="flex items-center justify-center min-h-screen px-4 bg-surface">
+      <div className="w-full max-w-sm p-6 sm:p-8 bg-surface-container-lowest rounded-md">
         {/* Brand + Header */}
-        <div style={{ textAlign: "center", marginBottom: "var(--space-8)" }}>
+        <div className="text-center mb-8">
           <Link
             href="/"
-            style={{
-              fontFamily:
-                "var(--font-manrope), var(--font-geist-sans), system-ui, sans-serif",
-              fontSize: "1.125rem",
-              fontWeight: 700,
-              color: "var(--color-primary)",
-              letterSpacing: "-0.02em",
-              textDecoration: "none",
-              display: "block",
-              marginBottom: "var(--space-4)",
-            }}
+            className="font-display text-lg font-bold text-primary tracking-tight no-underline block mb-4"
           >
             Shiksha Sathi
           </Link>
           <h1 className="text-headline-md">Create Account</h1>
-          <p
-            className="text-body-sm"
-            style={{
-              color: "var(--color-on-surface-variant)",
-              marginTop: "var(--space-1)",
-            }}
-          >
+          <p className="text-body-sm text-on-surface-variant mt-1">
             Join Shiksha Sathi for free
           </p>
         </div>
 
         {/* Error */}
         {error && (
-          <div
-            style={{
-              marginBottom: "var(--space-5)",
-              padding: "var(--space-3)",
-              background: "var(--color-error-container)",
-              color: "var(--color-error)",
-              borderRadius: "var(--radius-sm)",
-              fontSize: "0.8125rem",
-            }}
-          >
+          <div className="mb-5 p-3 bg-error-container text-error rounded-sm text-[0.8125rem]">
             {error}
           </div>
         )}
 
         <form
           onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-4)",
-          }}
+          className="flex flex-col gap-4"
         >
           <div>
-            <label
-              className="text-label-md"
-              style={{
-                display: "block",
-                color: "var(--color-on-surface-variant)",
-                marginBottom: "var(--space-1-5)",
-              }}
-            >
+            <label className="text-label-md block text-on-surface-variant mb-1.5">
               Full Name
             </label>
             <input
@@ -134,14 +87,7 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label
-              className="text-label-md"
-              style={{
-                display: "block",
-                color: "var(--color-on-surface-variant)",
-                marginBottom: "var(--space-1-5)",
-              }}
-            >
+            <label className="text-label-md block text-on-surface-variant mb-1.5">
               Email Address
             </label>
             <input
@@ -154,14 +100,7 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label
-              className="text-label-md"
-              style={{
-                display: "block",
-                color: "var(--color-on-surface-variant)",
-                marginBottom: "var(--space-1-5)",
-              }}
-            >
+            <label className="text-label-md block text-on-surface-variant mb-1.5">
               Phone Number
             </label>
             <input
@@ -174,14 +113,7 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label
-              className="text-label-md"
-              style={{
-                display: "block",
-                color: "var(--color-on-surface-variant)",
-                marginBottom: "var(--space-1-5)",
-              }}
-            >
+            <label className="text-label-md block text-on-surface-variant mb-1.5">
               Password
             </label>
             <input
@@ -196,28 +128,17 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={isPending}
-            className="btn-primary"
-            style={{ width: "100%", padding: "var(--space-3)", marginTop: "var(--space-2)" }}
+            className="btn-primary w-full py-3 mt-2"
           >
             {isPending ? "Creating account…" : "Sign Up"}
           </button>
         </form>
 
-        <p
-          className="text-body-sm"
-          style={{
-            textAlign: "center",
-            marginTop: "var(--space-6)",
-          }}
-        >
+        <p className="text-body-sm text-center mt-6">
           Already have an account?{" "}
           <Link
             href="/login"
-            style={{
-              color: "var(--color-primary)",
-              fontWeight: 500,
-              textDecoration: "none",
-            }}
+            className="text-primary font-medium no-underline"
           >
             Log in
           </Link>
