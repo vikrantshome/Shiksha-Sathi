@@ -426,3 +426,59 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-outline);
 }
+
+/* ================================================================
+   RESPONSIVE SPACING UTILITIES
+   For consistent mobile → tablet → desktop density scaling
+   ================================================================ */
+
+/* Section spacing: py-8 md:py-12 lg:py-16 */
+.section-spacing {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+@media (min-width: 768px) {
+  .section-spacing {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+}
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+}
+
+/* Page gutter: px-4 md:px-6 lg:px-8 */
+.page-gutter {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+@media (min-width: 768px) {
+  .page-gutter {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+@media (min-width: 1024px) {
+  .page-gutter {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+/* Card padding: p-4 md:p-5 lg:p-6 */
+.card-padding {
+  padding: var(--space-4);
+}
+@media (min-width: 768px) {
+  .card-padding {
+    padding: var(--space-5);
+  }
+}
+@media (min-width: 1024px) {
+  .card-padding {
+    padding: var(--space-6);
+  }
+}
