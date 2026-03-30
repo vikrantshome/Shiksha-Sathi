@@ -58,11 +58,28 @@ Returns: `sourceKind: null` ❌
 
 ## Solution
 
-### Option 1: Redeploy Backend (Recommended)
+### Option 1: Redeploy Backend via Cloud Console (Recommended)
 
-**Google Cloud Run Redeploy:**
+**Via Google Cloud Console:**
+
+1. **Go to Cloud Run:** https://console.cloud.google.com/run
+2. **Select project:** `vikrants-projects-9bdd0967` (Sharp Science or Naviksha project)
+3. **Select service:** `shiksha-sathi-backend`
+4. **Click "Edit & Deploy New Revision"**
+5. **Click "Deploy"** (no changes needed, just redeploy)
+6. **Wait for deployment** (takes ~2-3 minutes)
+7. **Test:** Open question bank and verify "SOURCE: CANONICAL"
+
+### Option 2: Redeploy via gcloud CLI
+
+**Prerequisites:**
+- Active gcloud account with Cloud Run admin permissions
+- Correct project selected
 
 ```bash
+# Set correct project
+gcloud config set project vikrants-projects-9bdd0967
+
 # Redeploy the backend service
 gcloud run deploy shiksha-sathi-backend \
   --platform managed \
@@ -70,11 +87,20 @@ gcloud run deploy shiksha-sathi-backend \
   --image gcr.io/vikrants-projects-9bdd0967/shiksha-sathi-backend:latest
 ```
 
-Or via Cloud Console:
-1. Go to Cloud Run: https://console.cloud.google.com/run
-2. Select `shiksha-sathi-backend`
-3. Click "Edit & Deploy New Revision"
-4. Click "Deploy"
+**If you get permission errors:**
+- Contact project owner (vikrantshome1995@gmail.com)
+- Or redeploy via Cloud Console (Option 1)
+
+### Option 3: Force Restart via Environment Variable
+
+If you can't redeploy, force a restart by updating env vars:
+
+```bash
+gcloud run services update shiksha-sathi-backend \
+  --platform managed \
+  --region asia-south1 \
+  --update-env-vars RESTART_TIMESTAMP=$(date +%s)
+```
 
 ### Option 2: Clear Backend Cache
 
