@@ -50,7 +50,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        // Local development
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:3000",
+            "https://shiksha-sathi-taupe.vercel.app",
+            "https://shiksha-sathi-vikrants-projects-9bdd0967.vercel.app",
+            "https://shiksha-sathi-git-main-vikrants-projects-9bdd0967.vercel.app"
+        ));
+        // Also allow Vercel preview deployments (pattern-based)
+        configuration.setAllowedOriginPatterns(List.of(
+            "https://*.vercel.app"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Auth-Token", "Cache-Control"));
         configuration.setAllowCredentials(true);
