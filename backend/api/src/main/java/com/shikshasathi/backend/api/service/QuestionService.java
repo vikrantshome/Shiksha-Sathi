@@ -47,7 +47,7 @@ public class QuestionService {
         return mongoTemplate.findDistinct(query, "provenance.book", Question.class, String.class);
     }
 
-    public List<String> getDistinctChapters(String subjectId, String book) {
+    public List<String> getDistinctChapters(String subjectId, String book, String classLevel) {
         Query query = new Query();
         if (subjectId != null && !subjectId.isEmpty() && !subjectId.equalsIgnoreCase("null")) {
             query.addCriteria(Criteria.where("subject_id").is(subjectId));
@@ -55,7 +55,10 @@ public class QuestionService {
         if (book != null && !book.isEmpty()) {
             query.addCriteria(Criteria.where("provenance.book").is(book));
         }
-        
+        if (classLevel != null && !classLevel.isEmpty()) {
+            query.addCriteria(Criteria.where("provenance.class").is(classLevel));
+        }
+
         return mongoTemplate.findDistinct(query, "chapter", Question.class, String.class);
     }
 

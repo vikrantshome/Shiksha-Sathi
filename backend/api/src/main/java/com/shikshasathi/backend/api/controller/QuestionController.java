@@ -41,8 +41,9 @@ public class QuestionController {
     @GetMapping("/chapters")
     public ResponseEntity<List<String>> getChapters(
             @RequestParam(required = false) String subjectId,
-            @RequestParam(required = false) String book) {
-        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId, book));
+            @RequestParam(required = false) String book,
+            @RequestParam(required = false) String classLevel) {
+        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId, book, classLevel));
     }
 
     @GetMapping("/search")
