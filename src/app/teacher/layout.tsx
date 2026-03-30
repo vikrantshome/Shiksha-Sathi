@@ -9,7 +9,7 @@ import { useState } from "react";
 
 /* ─────────────────────────────────────────────────────────
    Teacher Layout Shell — Stitch-Directed
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard
+   Design Source: doc/stitch-export-bundle (Canonical Export)
    Implements: persistent left rail (desktop), glassmorphism top bar,
    bottom tab bar (mobile), "Digital Atelier" design tokens.
    ───────────────────────────────────────────────────────── */

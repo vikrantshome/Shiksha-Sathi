@@ -116,7 +116,7 @@ export default async function ClassesPage() {
                 />
               </div>
             </div>
-            <button type="submit" className="btn-primary w-full justify-center mt-2">
+            <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center mt-2">
               Create Class
             </button>
           </form>

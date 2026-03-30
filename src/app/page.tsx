@@ -75,10 +75,7 @@ const Navbar = () => {
               </Link>
               <Link
                 href="/signup"
-                className="px-6 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-[var(--radius-md)] shadow-sm hover:opacity-90 transition-all active:scale-[0.98]"
-                style={{
-                  background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)",
-                }}
+                className="px-6 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-[var(--radius-md)] shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
               >
                 Create Free Account
               </Link>
