@@ -166,7 +166,7 @@ export default async function ClassesPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <Link
                       href={`/teacher/classes/${cls.id}/attendance`}
-                      className="btn-ghost" style={{ background: "var(--color-surface-container-high)", color: "var(--color-primary)" }}
+                      className="btn-ghost bg-surface-container-high text-primary"
                     >
                       View Attendance
                     </Link>

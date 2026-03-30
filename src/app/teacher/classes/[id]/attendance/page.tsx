@@ -6,21 +6,30 @@ import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { ClassItem, User } from "@/lib/api/types";
 
+/* ─────────────────────────────────────────────────────────
+   Attendance Register — SSA-252 Tailwind Migration
+   Canonical export: attendance_register_shiksha_sathi
+   Design System: design-system.md ("Digital Atelier")
+   ───────────────────────────────────────────────────────── */
+
 const statusMeta = {
   PRESENT: {
     label: "Present",
-    background: "rgba(45, 106, 79, 0.12)",
-    color: "var(--color-success)",
+    bg: "bg-[rgba(45,106,79,0.12)]",
+    bgActive: "bg-[#2d6a4f]",
+    text: "text-[var(--color-success)]",
   },
   ABSENT: {
     label: "Absent",
-    background: "rgba(168, 56, 54, 0.12)",
-    color: "var(--color-error)",
+    bg: "bg-[rgba(168,56,54,0.12)]",
+    bgActive: "bg-[#a83836]",
+    text: "text-[var(--color-error)]",
   },
   LATE: {
     label: "Late",
-    background: "rgba(180, 83, 9, 0.12)",
-    color: "var(--color-warning)",
+    bg: "bg-[rgba(180,83,9,0.12)]",
+    bgActive: "bg-[#b45309]",
+    text: "text-[var(--color-warning)]",
   },
 } as const;
 
@@ -93,37 +102,11 @@ export default function AttendancePage() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          minHeight: "24rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          gap: "var(--space-4)",
-        }}
-      >
-        <div
-          style={{
-            width: "3rem",
-            height: "3rem",
-            borderRadius: "50%",
-            border: "2px solid rgba(68, 99, 113, 0.18)",
-            borderTopColor: "var(--color-primary)",
-          }}
-          className="attendance-spinner"
-        />
-        <p style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+      <div className="min-h-96 flex items-center justify-center flex-col gap-4">
+        <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-on-surface-variant m-0">
           Preparing the attendance register…
         </p>
-        <style>{`
-          .attendance-spinner {
-            animation: attendance-spin 0.9s linear infinite;
-          }
-          @keyframes attendance-spin {
-            to { transform: rotate(360deg); }
-          }
-        `}</style>
       </div>
     );
   }
@@ -133,76 +116,31 @@ export default function AttendancePage() {
   }
 
   return (
-    <div style={{ paddingBottom: "var(--space-10)" }}>
-      <div style={{ marginBottom: "var(--space-8)" }}>
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--space-2)",
-            fontSize: "0.75rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-3)",
-          }}
-        >
-          <Link
-            href="/teacher/classes"
-            style={{ color: "var(--color-primary)", textDecoration: "none" }}
-          >
+    <div className="pb-10">
+      {/* ── Header ── */}
+      <div className="mb-8">
+        <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-on-surface-variant mb-3">
+          <Link href="/teacher/classes" className="text-primary no-underline">
             Classes
           </Link>
           <span>/</span>
           <span>{classData.name}</span>
         </nav>
 
-        <div className="attendance-header-grid">
+        <div className="grid gap-6 md:grid-cols-[1.5fr_minmax(15rem,18rem)] md:items-end">
           <div>
-            <h1
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "clamp(2rem, 4vw, 2.5rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.03em",
-                color: "var(--color-primary)",
-                margin: 0,
-              }}
-            >
+            <h1 className="font-manrope text-[clamp(2rem,4vw,2.5rem)] font-extrabold tracking-[-0.03em] text-primary m-0">
               Attendance Register
             </h1>
-            <p
-              style={{
-                fontSize: "0.9375rem",
-                color: "var(--color-on-surface-variant)",
-                lineHeight: 1.7,
-                margin: "var(--space-3) 0 0",
-                maxWidth: "32rem",
-              }}
-            >
+            <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-3 max-w-[32rem]">
               {classData.name} • Section {classData.section} • {students.length} students
             </p>
           </div>
 
-          <div
-            style={{
-              background: "var(--color-surface-container-lowest)",
-              borderRadius: "var(--radius-lg)",
-              padding: "var(--space-4)",
-              boxShadow: "var(--shadow-sm)",
-            }}
-          >
+          <div className="bg-surface-container-lowest rounded-lg p-4 shadow-sm">
             <label
               htmlFor="attendance-date"
-              style={{
-                display: "block",
-                fontSize: "0.6875rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                color: "var(--color-on-surface-variant)",
-                marginBottom: "var(--space-2)",
-              }}
+              className="block text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant mb-2"
             >
               Register Date
             </label>
@@ -211,149 +149,90 @@ export default function AttendancePage() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              style={{
-                width: "100%",
-                background: "var(--color-surface-container-low)",
-                border: "none",
-                borderBottom: "1px solid var(--color-outline-variant)",
-                padding: "var(--space-2) 0",
-                fontSize: "0.9375rem",
-                color: "var(--color-on-surface)",
-                outline: "none",
-              }}
+              className="w-full bg-surface-container-low border-0 border-b border-outline-variant py-2 text-[0.9375rem] text-on-surface outline-none focus:border-primary transition-colors"
             />
           </div>
         </div>
       </div>
 
-      <section
-        className="attendance-summary-grid"
-        style={{
-          display: "grid",
-          gap: "var(--space-4)",
-          marginBottom: "var(--space-8)",
-        }}
-      >
+      {/* ── Summary Cards ── */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {([
-          ["Present", summary.present, statusMeta.PRESENT],
-          ["Absent", summary.absent, statusMeta.ABSENT],
-          ["Late", summary.late, statusMeta.LATE],
-        ] as const).map(([title, value, meta]) => (
+          ["Present", summary.present, statusMeta.PRESENT] as const,
+          ["Absent", summary.absent, statusMeta.ABSENT] as const,
+          ["Late", summary.late, statusMeta.LATE] as const,
+        ]).map(([title, value, meta]) => (
           <div
             key={title}
-            style={{
-              background: "var(--color-surface-container-lowest)",
-              borderRadius: "var(--radius-lg)",
-              padding: "var(--space-5)",
-              boxShadow: "var(--shadow-sm)",
-            }}
+            className="bg-surface-container-lowest rounded-lg p-5 shadow-sm"
           >
-            <p
-              style={{
-                fontSize: "0.6875rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                color: "var(--color-on-surface-variant)",
-                margin: 0,
-              }}
-            >
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               {title}
             </p>
-            <p
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "1.75rem",
-                fontWeight: 700,
-                color: meta.color,
-                margin: "var(--space-2) 0 0",
-              }}
-            >
+            <p className={`font-manrope text-[1.75rem] font-bold mt-2 m-0 ${meta.text}`}>
               {value}
             </p>
           </div>
         ))}
       </section>
 
-      <section
-        style={{
-          background: "var(--color-surface-container-lowest)",
-          borderRadius: "var(--radius-lg)",
-          boxShadow: "var(--shadow-sm)",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "var(--space-4)",
-            padding: "var(--space-5) var(--space-6)",
-            background: "var(--color-surface-container-low)",
-          }}
-        >
+      {/* ── Student Roster ── */}
+      <section className="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
+        {/* Table Header */}
+        <div className="flex items-center justify-between gap-4 p-5 px-6 bg-surface-container-low">
           <div>
-            <p
-              style={{
-                fontSize: "0.6875rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                color: "var(--color-on-surface-variant)",
-                margin: 0,
-              }}
-            >
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               Daily Register
             </p>
-            <h2
-              style={{
-                fontSize: "1.125rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface)",
-                margin: "var(--space-1) 0 0",
-              }}
-            >
+            <h2 className="text-[1.125rem] font-bold text-on-surface mt-1">
               Student Roster
             </h2>
           </div>
-          <span
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--color-on-surface-variant)",
-            }}
-          >
+          <span className="text-xs text-on-surface-variant">
             Mark each student as present, absent, or late.
           </span>
         </div>
 
-        <div className="attendance-table-wrapper">
-          <table className="attendance-table">
+        {/* Desktop Table */}
+        <div className="hidden md:block">
+          <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th>Student</th>
-                <th>Status</th>
+                <th className="text-left p-4 px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                  Student
+                </th>
+                <th className="text-left p-4 px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody>
               {students.map((student) => {
                 const currentStatus = attendance[student.id] as AttendanceStatus | undefined;
                 return (
-                  <tr key={student.id}>
-                    <td>
-                      <div className="attendance-student-cell">
-                        <div className="attendance-avatar">{student.name.charAt(0)}</div>
-                        <div>
-                          <p className="attendance-student-name">{student.name}</p>
-                          <p className="attendance-student-meta">{student.email}</p>
+                  <tr key={student.id} className="border-t border-outline/10">
+                    <td className="p-5 px-6 align-top">
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                          {student.name.charAt(0)}
                         </div>
-                        {saving === student.id ? (
-                          <span className="attendance-saving">Saving…</span>
-                        ) : null}
+                        <div>
+                          <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
+                            {student.name}
+                          </p>
+                          <p className="m-0 mt-1 text-xs text-on-surface-variant">
+                            {student.email}
+                          </p>
+                        </div>
+                        {saving === student.id && (
+                          <span className="text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary ml-auto">
+                            Saving…
+                          </span>
+                        )}
                       </div>
                     </td>
-                    <td>
-                      <div className="attendance-actions">
+                    <td className="p-5 px-6 align-top">
+                      <div className="flex flex-wrap gap-2">
                         {(Object.keys(statusMeta) as AttendanceStatus[]).map((status) => {
                           const meta = statusMeta[status];
                           const active = currentStatus === status;
@@ -362,13 +241,11 @@ export default function AttendancePage() {
                               key={status}
                               type="button"
                               onClick={() => handleStatusChange(student.id, status)}
-                              style={{
-                                background: active
-                                  ? meta.color
-                                  : meta.background,
-                                color: active ? "var(--color-on-primary)" : meta.color,
-                              }}
-                              className="attendance-chip"
+                              className={`border-none rounded-full py-2 px-4 text-xs font-bold cursor-pointer transition-all duration-150 ease-out hover:opacity-90 hover:-translate-y-px active:scale-[0.98] ${
+                                active
+                                  ? `${meta.bgActive} text-on-primary`
+                                  : `${meta.bg} ${meta.text}`
+                              }`}
                             >
                               {meta.label}
                             </button>
@@ -383,22 +260,34 @@ export default function AttendancePage() {
           </table>
         </div>
 
-        <div className="attendance-card-list">
+        {/* Mobile Card Fallback */}
+        <div className="grid gap-4 p-5 md:hidden">
           {students.map((student) => {
             const currentStatus = attendance[student.id] as AttendanceStatus | undefined;
             return (
-              <article key={student.id} className="attendance-mobile-card">
-                <div className="attendance-student-cell">
-                  <div className="attendance-avatar">{student.name.charAt(0)}</div>
-                  <div>
-                    <p className="attendance-student-name">{student.name}</p>
-                    <p className="attendance-student-meta">{student.email}</p>
+              <article
+                key={student.id}
+                className="grid gap-4 pb-4 border-b border-outline/15 last:border-b-0 last:pb-0"
+              >
+                <div className="flex items-center gap-4 flex-wrap">
+                  <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                    {student.name.charAt(0)}
                   </div>
-                  {saving === student.id ? (
-                    <span className="attendance-saving">Saving…</span>
-                  ) : null}
+                  <div>
+                    <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
+                      {student.name}
+                    </p>
+                    <p className="m-0 mt-1 text-xs text-on-surface-variant">
+                      {student.email}
+                    </p>
+                  </div>
+                  {saving === student.id && (
+                    <span className="text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary ml-auto">
+                      Saving…
+                    </span>
+                  )}
                 </div>
-                <div className="attendance-actions">
+                <div className="flex flex-wrap gap-2">
                   {(Object.keys(statusMeta) as AttendanceStatus[]).map((status) => {
                     const meta = statusMeta[status];
                     const active = currentStatus === status;
@@ -407,11 +296,11 @@ export default function AttendancePage() {
                         key={status}
                         type="button"
                         onClick={() => handleStatusChange(student.id, status)}
-                        style={{
-                          background: active ? meta.color : meta.background,
-                          color: active ? "var(--color-on-primary)" : meta.color,
-                        }}
-                        className="attendance-chip"
+                        className={`border-none rounded-full py-2 px-4 text-xs font-bold cursor-pointer transition-all duration-150 ease-out hover:opacity-90 hover:-translate-y-px active:scale-[0.98] ${
+                          active
+                            ? `${meta.bgActive} text-on-primary`
+                            : `${meta.bg} ${meta.text}`
+                        }`}
                       >
                         {meta.label}
                       </button>
@@ -423,126 +312,6 @@ export default function AttendancePage() {
           })}
         </div>
       </section>
-
-      <style>{`
-        .attendance-header-grid {
-          display: grid;
-          gap: var(--space-6);
-        }
-        .attendance-summary-grid {
-          grid-template-columns: repeat(1, minmax(0, 1fr));
-        }
-        .attendance-table-wrapper {
-          display: none;
-        }
-        .attendance-card-list {
-          display: grid;
-          gap: var(--space-4);
-          padding: var(--space-5);
-        }
-        .attendance-mobile-card {
-          display: grid;
-          gap: var(--space-4);
-          padding-bottom: var(--space-4);
-          border-bottom: 1px solid rgba(176, 179, 173, 0.15);
-        }
-        .attendance-mobile-card:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-        .attendance-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        .attendance-table th {
-          text-align: left;
-          padding: var(--space-4) var(--space-6);
-          font-size: 0.6875rem;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--color-on-surface-variant);
-          font-weight: 700;
-          background: rgba(244, 244, 239, 0.5);
-        }
-        .attendance-table td {
-          padding: var(--space-5) var(--space-6);
-          vertical-align: top;
-          border-top: 1px solid rgba(176, 179, 173, 0.12);
-        }
-        .attendance-student-cell {
-          display: flex;
-          align-items: center;
-          gap: var(--space-4);
-          flex-wrap: wrap;
-        }
-        .attendance-avatar {
-          width: 2.5rem;
-          height: 2.5rem;
-          border-radius: 9999px;
-          background: var(--color-secondary-container);
-          color: var(--color-on-primary-container);
-          font-weight: 700;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .attendance-student-name {
-          margin: 0;
-          font-size: 0.9375rem;
-          font-weight: 600;
-          color: var(--color-on-surface);
-        }
-        .attendance-student-meta {
-          margin: var(--space-1) 0 0;
-          font-size: 0.75rem;
-          color: var(--color-on-surface-variant);
-        }
-        .attendance-saving {
-          font-size: 0.6875rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--color-primary);
-          margin-left: auto;
-        }
-        .attendance-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--space-2);
-        }
-        .attendance-chip {
-          border: none;
-          border-radius: 9999px;
-          padding: var(--space-2) var(--space-4);
-          font-size: 0.75rem;
-          font-weight: 700;
-          cursor: pointer;
-          transition: transform 120ms ease-out, opacity 120ms ease-out;
-        }
-        .attendance-chip:hover {
-          opacity: 0.92;
-          transform: translateY(-1px);
-        }
-        .attendance-chip:active {
-          transform: scale(0.98);
-        }
-        @media (min-width: 768px) {
-          .attendance-header-grid {
-            grid-template-columns: 1.5fr minmax(15rem, 18rem);
-            align-items: end;
-          }
-          .attendance-summary-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-          .attendance-table-wrapper {
-            display: block;
-          }
-          .attendance-card-list {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }
