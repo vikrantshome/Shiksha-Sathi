@@ -9,7 +9,7 @@ import { useState } from "react";
 
 /* ─────────────────────────────────────────────────────────
    Teacher Layout Shell — Stitch-Directed
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard_consolidated
    Implements: persistent left rail (desktop), glassmorphism top bar,
    bottom tab bar (mobile), "Digital Atelier" design tokens.
    ───────────────────────────────────────────────────────── */
@@ -66,7 +66,7 @@ const IconQuestionBank = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconAnalytics = ({ active }: { active: boolean }) => (
+const IconProfile = ({ active }: { active: boolean }) => (
   <svg
     width="20"
     height="20"
@@ -77,23 +77,8 @@ const IconAnalytics = ({ active }: { active: boolean }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path d="M3 3v18h18" />
-    <path d="m19 9-5 5-4-4-3 3" />
-  </svg>
-);
-
-const IconSettings = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-  </svg>
-);
-
-const IconHelp = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <path d="M12 17h.01" />
+    <circle cx="12" cy="8" r="4" />
+    <path d="M5 20a7 7 0 0 1 14 0" />
   </svg>
 );
 
@@ -130,6 +115,7 @@ const navItems = [
   { href: "/teacher/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
   { href: "/teacher/classes", label: "My Classes", icon: IconClasses, mobileLabel: "Classes" },
   { href: "/teacher/question-bank", label: "Question Bank", icon: IconQuestionBank, mobileLabel: "Vault" },
+  { href: "/teacher/profile", label: "Profile", icon: IconProfile, mobileLabel: "Profile" },
 ];
 
 export default function TeacherLayout({
@@ -252,7 +238,7 @@ export default function TeacherLayout({
                   transition: "background 150ms ease-out, transform 150ms ease-out",
                 }}
               >
-                Assignment Builder
+                Create Assignment
               </Link>
               <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                 <CartIcon />
@@ -387,17 +373,6 @@ export default function TeacherLayout({
               >
                 Shiksha Sathi
               </p>
-              <p
-                style={{
-                  fontSize: "0.625rem",
-                  color: "var(--color-on-surface-variant)",
-                  textTransform: "uppercase",
-                  letterSpacing: "-0.02em",
-                  margin: 0,
-                }}
-              >
-                Teacher Portal
-              </p>
             </div>
 
             {/* Nav Links */}
@@ -458,19 +433,19 @@ export default function TeacherLayout({
                 Create New Assignment
               </Link>
 
-              {/* Settings + Support */}
+              {/* Workspace Actions */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "var(--space-1)",
+                  gap: "var(--space-2)",
                   borderTop: "1px solid rgba(176, 179, 173, 0.1)",
                   paddingTop: "var(--space-4)",
                   marginTop: "var(--space-4)",
                 }}
               >
                 <Link
-                  href="#"
+                  href="/teacher/profile"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -483,25 +458,8 @@ export default function TeacherLayout({
                   }}
                   className="sidebar-secondary-link"
                 >
-                  <IconSettings />
-                  Settings
-                </Link>
-                <Link
-                  href="#"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    color: "var(--color-on-surface-variant)",
-                    padding: "var(--space-2) 0",
-                    fontSize: "0.8125rem",
-                    textDecoration: "none",
-                    transition: "color 120ms ease-out",
-                  }}
-                  className="sidebar-secondary-link"
-                >
-                  <IconHelp />
-                  Support
+                  <IconProfile active={pathname.startsWith("/teacher/profile")} />
+                  Profile
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -596,20 +554,22 @@ export default function TeacherLayout({
             <IconPlus />
           </Link>
 
-          {/* Analytics Tab */}
+          {/* Profile Tab */}
           <Link
-            href="/teacher/dashboard"
+            href="/teacher/profile"
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              color: "var(--color-on-surface-variant)",
+              color: pathname.startsWith("/teacher/profile")
+                ? "var(--color-primary)"
+                : "var(--color-on-surface-variant)",
               textDecoration: "none",
               gap: "2px",
             }}
           >
-            <IconAnalytics active={false} />
-            <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>Stats</span>
+            <IconProfile active={pathname.startsWith("/teacher/profile")} />
+            <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>Profile</span>
           </Link>
         </nav>
 

@@ -11,40 +11,40 @@
   --font-geist-mono: "Geist Mono";
   --font-manrope: "Manrope";
 
-  /* ── Primary Accent (Deep Teal) ── */
-  --color-primary: #446371;
-  --color-primary-dim: #385765;
-  --color-primary-container: #c6e8f8;
-  --color-on-primary: #f2faff;
-  --color-on-primary-container: #365663;
+  /* ── Primary Accent (Deep Forest Green — Stitch Export) ── */
+  --color-primary: #12423f;
+  --color-primary-dim: #204e4a;
+  --color-primary-container: #bcece6;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #a1cfca;
 
-  /* ── Surfaces (Warm Neutrals) ── */
-  --color-surface: #faf9f5;
+  /* ── Surfaces (Warm Neutrals — Stitch Export) ── */
+  --color-surface: #fcf9f5;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f4f4ef;
-  --color-surface-container: #eeeee9;
-  --color-surface-container-high: #e8e9e3;
-  --color-surface-container-highest: #e1e3dd;
+  --color-surface-container-low: #f6f3ef;
+  --color-surface-container: #f0ede9;
+  --color-surface-container-high: #ebe8e4;
+  --color-surface-container-highest: #e5e2de;
 
-  /* ── Text & Outlines ── */
-  --color-on-surface: #30332f;
-  --color-on-surface-variant: #5d605b;
-  --color-outline: #797c76;
-  --color-outline-variant: #b0b3ad;
+  /* ── Text & Outlines (Stitch Export) ── */
+  --color-on-surface: #1c1c1a;
+  --color-on-surface-variant: #404847;
+  --color-outline: #707977;
+  --color-outline-variant: #c0c8c6;
 
-  /* ── Secondary & Tertiary ── */
-  --color-secondary: #536167;
-  --color-secondary-container: #d6e5ec;
-  --color-tertiary: #546073;
-  --color-tertiary-container: #d7e3fa;
+  /* ── Secondary & Tertiary (Stitch Export) ── */
+  --color-secondary: #536255;
+  --color-secondary-container: #d3e4d3;
+  --color-tertiary: #583222;
+  --color-tertiary-container: #fcdfd3;
 
-  /* ── Semantic Status ── */
+  /* ── Semantic Status (Stitch Export) ── */
   --color-success: #2d6a4f;
   --color-success-container: #d4edda;
   --color-warning: #b45309;
   --color-warning-container: #fef3cd;
-  --color-error: #a83836;
-  --color-error-container: #fde8e8;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
 
   /* ── Shape ── */
   --radius-sm: 0.125rem;

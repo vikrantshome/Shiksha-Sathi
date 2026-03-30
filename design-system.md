@@ -1,6 +1,6 @@
 # Shiksha Sathi Design System
 
-> **Creative North Star: "The Digital Atelier"**
+> **Creative North Star: Shiksha Sathi — Built for Indian Teachers**
 >
 > A premium, quiet space for intellectual growth. Structured utility of a research lab
 > meets the warmth of a modern library. Curated, not generated.
@@ -9,32 +9,32 @@
 
 ## 1. Color Palette
 
-### Primary Accent — Deep Teal
+### Primary Accent — Deep Forest Green (Stitch Export)
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--color-primary` | `#446371` | Primary actions, active states, links |
-| `--color-primary-dim` | `#385765` | Hover states, CTA gradients |
-| `--color-primary-container` | `#c6e8f8` | Light teal backgrounds, selected states |
-| `--color-on-primary` | `#f2faff` | Text on primary backgrounds |
-| `--color-on-primary-container` | `#365663` | Text on primary-container |
+| `--color-primary` | `#12423f` | Primary actions, active states, links |
+| `--color-primary-dim` | `#204e4a` | Hover states, CTA gradients |
+| `--color-primary-container` | `#bcece6` | Light teal backgrounds, selected states |
+| `--color-on-primary` | `#ffffff` | Text on primary backgrounds |
+| `--color-on-primary-container` | `#a1cfca` | Text on primary-container |
 
 ### Surfaces — Warm Neutrals
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--color-surface` | `#faf9f5` | Page background (base layer) |
+| `--color-surface` | `#fcf9f5` | Page background (base layer) |
 | `--color-surface-container-lowest` | `#ffffff` | Cards, elevated interactive elements |
-| `--color-surface-container-low` | `#f4f4ef` | Sidebars, structural sections |
-| `--color-surface-container` | `#eeeee9` | Nested containers, table headers |
-| `--color-surface-container-high` | `#e8e9e3` | Hover backgrounds |
-| `--color-surface-container-highest` | `#e1e3dd` | Inactive states, disabled elements |
+| `--color-surface-container-low` | `#f6f3ef` | Sidebars, structural sections |
+| `--color-surface-container` | `#f0ede9` | Nested containers, table headers |
+| `--color-surface-container-high` | `#ebe8e4` | Hover backgrounds |
+| `--color-surface-container-highest` | `#e5e2de` | Inactive states, disabled elements |
 
 ### Text & Outline
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--color-on-surface` | `#30332f` | Primary text (NEVER use pure black) |
-| `--color-on-surface-variant` | `#5d605b` | Secondary text, metadata, descriptions |
-| `--color-outline` | `#797c76` | Borders when absolutely necessary |
-| `--color-outline-variant` | `#b0b3ad` | Ghost borders at 15% opacity |
+| `--color-on-surface` | `#1c1c1a` | Primary text (NEVER use pure black) |
+| `--color-on-surface-variant` | `#404847` | Secondary text, metadata, descriptions |
+| `--color-outline` | `#707977` | Borders when absolutely necessary |
+| `--color-outline-variant` | `#c0c8c6` | Ghost borders at 15% opacity |
 
 ### Semantic — Status
 | Token | Hex | Usage |
@@ -43,16 +43,16 @@
 | `--color-success-container` | `#d4edda` | Success backgrounds |
 | `--color-warning` | `#b45309` | Warnings, medium performance |
 | `--color-warning-container` | `#fef3cd` | Warning backgrounds |
-| `--color-error` | `#a83836` | Errors, incorrect answers |
-| `--color-error-container` | `#fa746f` | Error backgrounds |
+| `--color-error` | `#ba1a1a` | Errors, incorrect answers |
+| `--color-error-container` | `#ffdad6` | Error backgrounds |
 
 ### Secondary & Tertiary
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--color-secondary` | `#536167` | Secondary actions |
-| `--color-secondary-container` | `#d6e5ec` | Secondary highlights |
-| `--color-tertiary` | `#546073` | Tertiary accent |
-| `--color-tertiary-container` | `#d7e3fa` | Tertiary highlights |
+| `--color-secondary` | `#536255` | Secondary actions |
+| `--color-secondary-container` | `#d3e4d3` | Secondary highlights |
+| `--color-tertiary` | `#583222` | Tertiary accent |
+| `--color-tertiary-container` | `#fcdfd3` | Tertiary highlights |
 
 ---
 
