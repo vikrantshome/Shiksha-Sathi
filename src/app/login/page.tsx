@@ -1,18 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
+import AuthShell from "@/components/AuthShell";
 
-/* ─────────────────────────────────────────────────────────
-   Login Page — Stitch-Directed Redesign
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/identity_entry
-   Implements: centered auth card with ambient background blurs,
-   Material-style underline inputs, gradient CTA button,
-   and academic footer decoration.
-   ───────────────────────────────────────────────────────── */
+const fieldLabelStyle = {
+  display: "block",
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.05em",
+  color: "var(--color-on-surface-variant)",
+  marginBottom: "var(--space-2)",
+};
+
+const fieldStyle = {
+  width: "100%",
+  background: "var(--color-surface-container-highest)",
+  border: "none",
+  borderBottom: "1px solid var(--color-outline-variant)",
+  padding: "var(--space-3) 0",
+  color: "var(--color-on-surface)",
+  fontSize: "1rem",
+  outline: "none",
+  transition: "border-color 200ms ease-out",
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,295 +45,132 @@ export default function LoginPage() {
     try {
       const response = await auth.login({ email, password });
 
-      // Store token securely in cookies
       setCookie("auth-token", response.token, {
-        maxAge: 30 * 24 * 60 * 60, // 30 days
+        maxAge: 30 * 24 * 60 * 60,
         path: "/",
       });
 
-      // Redirect based on role
       if (response.role === "TEACHER") {
-        router.push("/teacher");
+        router.push("/teacher/dashboard");
       } else {
-        router.push("/dashboard");
+        router.push("/");
       }
     } catch (err: unknown) {
-      const error = err as { message?: string };
-      setError(error.message || "Invalid credentials");
+      const apiError = err as { message?: string };
+      setError(apiError.message || "Invalid credentials. Please try again.");
       setIsPending(false);
+      return;
     }
+
+    setIsPending(false);
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--color-surface)",
-        display: "flex",
-        flexDirection: "column",
-      }}
+    <AuthShell
+      eyebrow="Welcome Back"
+      title="Return to Your Studio"
+      description="Sign in to your Shiksha Sathi workspace to create assignments, monitor submissions, and keep your classroom rhythm on track."
+      alternatePrompt="Need a teacher account?"
+      alternateHref="/signup"
+      alternateLabel="Create one now"
+      legalNote={
+        <>
+          By continuing, you agree to Shiksha Sathi&apos;s{" "}
+          <a href="#" style={{ color: "var(--color-primary)", textDecoration: "underline" }}>
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="#" style={{ color: "var(--color-primary)", textDecoration: "underline" }}>
+            Privacy Policy
+          </a>
+          .
+        </>
+      }
     >
-      {/* Main Canvas */}
-      <main
-        style={{
-          flexGrow: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "var(--space-6)",
-          position: "relative",
-        }}
-      >
-        {/* Ambient Background Decorations */}
-        <div style={{ position: "fixed", top: "-10%", left: "-5%", width: "40%", height: "60%", background: "rgba(198, 232, 248, 0.08)", borderRadius: "50%", filter: "blur(120px)", pointerEvents: "none", zIndex: 0 }} />
-        <div style={{ position: "fixed", top: "60%", right: "-10%", width: "35%", height: "50%", background: "rgba(215, 227, 250, 0.15)", borderRadius: "50%", filter: "blur(100px)", pointerEvents: "none", zIndex: 0 }} />
-
-        <div style={{ width: "100%", maxWidth: "28rem", position: "relative", zIndex: 1 }}>
-          {/* Card Glow */}
-          <div style={{ position: "absolute", inset: "-4px", background: "linear-gradient(to top right, rgba(68, 99, 113, 0.04), transparent)", filter: "blur(16px)", opacity: 0.5 }} />
-
-          {/* Card */}
-          <div
-            style={{
-              position: "relative",
-              background: "var(--color-surface-container-lowest)",
-              border: "1px solid rgba(176, 179, 173, 0.1)",
-              padding: "var(--space-8)",
-              boxShadow: "0 12px 32px rgba(48, 51, 47, 0.04)",
-            }}
-            className="auth-card"
-          >
-            {/* Editorial Header */}
-            <div style={{ marginBottom: "var(--space-10)", textAlign: "center" }}>
-              <Link
-                href="/"
-                style={{
-                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                  fontSize: "1.125rem",
-                  fontWeight: 700,
-                  color: "var(--color-primary)",
-                  letterSpacing: "-0.03em",
-                  textDecoration: "none",
-                  display: "block",
-                  marginBottom: "var(--space-6)",
-                }}
-              >
-                Shiksha Sathi
-              </Link>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "3rem",
-                  height: "3rem",
-                  background: "rgba(198, 232, 248, 0.3)",
-                  borderRadius: "50%",
-                  marginBottom: "var(--space-6)",
-                }}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </div>
-              <h1
-                style={{
-                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                  fontSize: "1.5rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  letterSpacing: "-0.02em",
-                  marginBottom: "var(--space-2)",
-                }}
-              >
-                Welcome Back
-              </h1>
-              <p
-                style={{
-                  color: "var(--color-on-surface-variant)",
-                  fontSize: "0.875rem",
-                  lineHeight: 1.5,
-                  maxWidth: "18rem",
-                  margin: "0 auto",
-                }}
-              >
-                Log in to your teacher account to manage assignments and track student progress.
-              </p>
-            </div>
-
-            {/* Error */}
-            {error && (
-              <div
-                style={{
-                  marginBottom: "var(--space-5)",
-                  padding: "var(--space-3)",
-                  background: "rgba(168, 56, 54, 0.06)",
-                  color: "var(--color-error)",
-                  fontSize: "0.8125rem",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </div>
-            )}
-
-            <form
-              onSubmit={handleSubmit}
-              style={{ display: "flex", flexDirection: "column", gap: "var(--space-8)" }}
-            >
-              <div>
-                <label
-                  htmlFor="login-email"
-                  style={{
-                    display: "block",
-                    fontSize: "0.6875rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "var(--color-on-surface-variant)",
-                    marginBottom: "var(--space-2)",
-                  }}
-                >
-                  Email Address
-                </label>
-                <input
-                  id="login-email"
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="teacher@school.com"
-                  style={{
-                    width: "100%",
-                    background: "var(--color-surface-container-low)",
-                    border: "none",
-                    borderBottom: "1px solid rgba(176, 179, 173, 0.2)",
-                    padding: "var(--space-3) 0",
-                    color: "var(--color-on-surface)",
-                    fontSize: "1rem",
-                    outline: "none",
-                    transition: "border-color 300ms ease-out",
-                  }}
-                  className="auth-input"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="login-password"
-                  style={{
-                    display: "block",
-                    fontSize: "0.6875rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "var(--color-on-surface-variant)",
-                    marginBottom: "var(--space-2)",
-                  }}
-                >
-                  Password
-                </label>
-                <input
-                  id="login-password"
-                  type="password"
-                  name="password"
-                  required
-                  placeholder="••••••••"
-                  style={{
-                    width: "100%",
-                    background: "var(--color-surface-container-low)",
-                    border: "none",
-                    borderBottom: "1px solid rgba(176, 179, 173, 0.2)",
-                    padding: "var(--space-3) 0",
-                    color: "var(--color-on-surface)",
-                    fontSize: "1rem",
-                    outline: "none",
-                    transition: "border-color 300ms ease-out",
-                  }}
-                  className="auth-input"
-                />
-              </div>
-
-              <div style={{ paddingTop: "var(--space-4)" }}>
-                <button
-                  type="submit"
-                  disabled={isPending}
-                  style={{
-                    width: "100%",
-                    background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dim))",
-                    color: "var(--color-on-primary)",
-                    padding: "var(--space-4) var(--space-6)",
-                    border: "none",
-                    fontWeight: 700,
-                    letterSpacing: "0.05em",
-                    cursor: isPending ? "wait" : "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "var(--space-2)",
-                    transition: "all 200ms ease-out",
-                    boxShadow: "0 4px 12px rgba(68, 99, 113, 0.2)",
-                    opacity: isPending ? 0.7 : 1,
-                  }}
-                  className="auth-submit"
-                >
-                  <span>{isPending ? "Logging in…" : "Log In"}</span>
-                  {!isPending && (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </form>
-
-            <p
-              style={{
-                fontSize: "0.875rem",
-                textAlign: "center",
-                marginTop: "var(--space-8)",
-                color: "var(--color-on-surface-variant)",
-              }}
-            >
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/signup"
-                style={{
-                  color: "var(--color-primary)",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Sign up
-              </Link>
-            </p>
-          </div>
+      {error ? (
+        <div
+          style={{
+            marginBottom: "var(--space-6)",
+            padding: "var(--space-4)",
+            background: "rgba(168, 56, 54, 0.08)",
+            color: "var(--color-error)",
+            fontSize: "0.875rem",
+            borderRadius: "var(--radius-md)",
+          }}
+        >
+          {error}
         </div>
-      </main>
+      ) : null}
 
-      {/* Footer */}
-      <footer
-        style={{
-          padding: "var(--space-8)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "var(--space-4)",
-        }}
-      >
-        <div style={{ width: "3rem", height: "2px", background: "rgba(68, 99, 113, 0.2)" }} />
-        <p style={{ fontSize: "0.6875rem", color: "var(--color-on-surface-variant)", fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          Shiksha Sathi © 2025
-        </p>
-      </footer>
+      <form onSubmit={handleSubmit} style={{ display: "grid", gap: "var(--space-8)" }}>
+        <div>
+          <label htmlFor="login-email" style={fieldLabelStyle}>
+            Email Address
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            name="email"
+            required
+            placeholder="teacher@school.com"
+            style={fieldStyle}
+            className="auth-field"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="login-password" style={fieldLabelStyle}>
+            Password
+          </label>
+          <input
+            id="login-password"
+            type="password"
+            name="password"
+            required
+            placeholder="••••••••"
+            style={fieldStyle}
+            className="auth-field"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="auth-submit"
+          style={{
+            width: "100%",
+            padding: "var(--space-4) var(--space-6)",
+            background:
+              "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
+            color: "var(--color-on-primary)",
+            border: "none",
+            borderRadius: "var(--radius-lg)",
+            fontSize: "0.875rem",
+            fontWeight: 700,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            cursor: isPending ? "wait" : "pointer",
+            boxShadow: "var(--shadow-md)",
+            transition: "transform 120ms ease-out, opacity 120ms ease-out",
+            opacity: isPending ? 0.75 : 1,
+          }}
+        >
+          {isPending ? "Signing In…" : "Sign In to Workspace"}
+        </button>
+      </form>
 
       <style>{`
-        .auth-input:focus { border-bottom-color: var(--color-primary) !important; border-bottom-width: 2px; }
-        .auth-submit:hover { box-shadow: 0 8px 20px rgba(68, 99, 113, 0.3) !important; transform: scale(1.01); }
-        .auth-submit:active { transform: scale(0.98); }
-        @media (min-width: 768px) {
-          .auth-card { padding: var(--space-12) !important; }
+        .auth-field:focus {
+          border-bottom-color: var(--color-primary) !important;
+        }
+        .auth-submit:hover {
+          opacity: 0.92;
+          transform: translateY(-1px);
+        }
+        .auth-submit:active {
+          transform: scale(0.98);
         }
       `}</style>
-    </div>
+    </AuthShell>
   );
 }

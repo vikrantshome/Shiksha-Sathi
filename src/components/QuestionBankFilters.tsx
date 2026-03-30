@@ -47,6 +47,44 @@ const IconChapter = () => (
   </svg>
 );
 
+interface TaxonomyStepProps {
+  icon: React.ReactNode;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}
+
+const TaxonomyStep = ({ icon, label, active, onClick }: TaxonomyStepProps) => (
+  <button
+    type="button"
+    onClick={onClick}
+    style={{
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      gap: "var(--space-3)",
+      padding: "var(--space-3) var(--space-4)",
+      background: active
+        ? "var(--color-surface-container-lowest)"
+        : "transparent",
+      color: active
+        ? "var(--color-primary)"
+        : "var(--color-on-surface-variant)",
+      fontWeight: active ? 500 : 400,
+      fontSize: "0.875rem",
+      border: "none",
+      borderRadius: active ? "0 var(--radius-lg) var(--radius-lg) 0" : "0",
+      cursor: "pointer",
+      transition: "all 200ms ease-out",
+      textAlign: "left",
+    }}
+    className="taxonomy-step"
+  >
+    {icon}
+    <span>{label}</span>
+  </button>
+);
+
 export default function QuestionBankFilters({
   subjects,
   chapters,
@@ -101,48 +139,6 @@ export default function QuestionBankFilters({
       router.push(`${pathname}?${params.toString()}`);
     });
   };
-
-  /* ── Stitch-style taxonomy step ── */
-  const TaxonomyStep = ({
-    icon,
-    label,
-    active,
-    onClick,
-  }: {
-    icon: React.ReactNode;
-    label: string;
-    active: boolean;
-    onClick: () => void;
-  }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        gap: "var(--space-3)",
-        padding: "var(--space-3) var(--space-4)",
-        background: active
-          ? "var(--color-surface-container-lowest)"
-          : "transparent",
-        color: active
-          ? "var(--color-primary)"
-          : "var(--color-on-surface-variant)",
-        fontWeight: active ? 500 : 400,
-        fontSize: "0.875rem",
-        border: "none",
-        borderRadius: active ? "0 var(--radius-lg) var(--radius-lg) 0" : "0",
-        cursor: "pointer",
-        transition: "all 200ms ease-out",
-        textAlign: "left",
-      }}
-      className="taxonomy-step"
-    >
-      {icon}
-      <span>{label}</span>
-    </button>
-  );
 
   return (
     <div

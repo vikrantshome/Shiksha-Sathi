@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#a1cfcb",
+              "on-surface": "#1b1c1a",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#396662",
+              "error": "#ba1a1a",
+              "background": "#faf9f5",
+              "on-primary-fixed": "#002010",
+              "surface-dim": "#dbdad6",
+              "on-background": "#1b1c1a",
+              "primary": "#002b29",
+              "inverse-on-surface": "#f2f1ed",
+              "surface-container-low": "#f4f4f0",
+              "surface-container-high": "#e9e8e4",
+              "outline": "#707977",
+              "on-surface-variant": "#404847",
+              "on-secondary-container": "#4e6764",
+              "error-container": "#ffdad6",
+              "tertiary-container": "#573120",
+              "tertiary-fixed": "#ffdbcd",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#efeeea",
+              "outline-variant": "#c0c8c6",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b1ccc8",
+              "secondary-fixed": "#cde8e4",
+              "on-secondary-fixed-variant": "#334b49",
+              "on-tertiary-fixed-variant": "#653d2b",
+              "tertiary-fixed-dim": "#f4baa2",
+              "surface-container-highest": "#e3e2df",
+              "primary-fixed": "#bcece7",
+              "tertiary": "#3d1c0d",
+              "on-primary-fixed-variant": "#204e4b",
+              "inverse-primary": "#a1cfcb",
+              "secondary-container": "#cae5e1",
+              "secondary": "#4a6360",
+              "primary-container": "#12423f",
+              "on-tertiary-fixed": "#311305",
+              "surface": "#faf9f5",
+              "on-primary-container": "#80aeaa",
+              "on-error": "#ffffff",
+              "surface-bright": "#faf9f5",
+              "inverse-surface": "#2f312e",
+              "on-secondary-fixed": "#051f1d",
+              "surface-variant": "#e3e2df",
+              "on-tertiary-container": "#cf9982"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.5rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#002b29] text-2xl" data-icon="school">school</span>
+<h1 class="font-['Manrope'] font-extrabold text-xl tracking-tight text-[#002b29]">Shiksha Sathi</h1>
+</div>
+<button class="px-5 py-2 rounded-lg bg-surface-container-high text-on-surface-variant font-semibold hover:bg-[#f4f4f0] transition-colors active:scale-95 duration-200">
+            Sign In
+        </button>
+</header>
+<!-- Main Content Layout -->
+<main class="pt-24 pb-12 px-8 max-w-5xl mx-auto grid grid-cols-12 gap-8">
+<!-- Success Header Section -->
+<section class="col-span-12 mt-8 mb-4 text-center">
+<div class="inline-flex items-center justify-center w-20 h-20 bg-secondary-container text-primary-container rounded-full mb-6">
+<span class="material-symbols-outlined text-4xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-4">Assignment Published</h2>
+<p class="text-on-surface-variant text-lg max-w-2xl mx-auto font-medium">
+                Your educational materials are now live. Share the link with your students to begin the learning journey.
+            </p>
+</section>
+<!-- Main Card Section (Asymmetric Bento-ish Style) -->
+<div class="col-span-12 md:col-span-8 space-y-8">
+<!-- Share Link Card -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] transition-all">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold tracking-[0.05em] uppercase text-outline">Student Assignment Link</h3>
+<span class="material-symbols-outlined text-outline-variant" data-icon="link">link</span>
+</div>
+<div class="bg-surface-container-highest p-4 rounded-lg flex items-center gap-4 group">
+<code class="flex-1 text-primary font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+                            /student/assignment/shiksha-782k-math-3912
+                        </code>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-6 py-2.5 rounded-lg font-bold active:scale-95 transition-all shadow-md hover:shadow-lg">
+<span class="material-symbols-outlined text-sm" data-icon="content_copy">content_copy</span>
+                            Copy Link
+                        </button>
+</div>
+</div>
+</div>
+<!-- Dashboard Return CTA -->
+<div class="flex items-center justify-center md:justify-start gap-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-10 py-4 rounded-lg font-bold text-lg flex items-center gap-3 shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Return to Dashboard
+                </button>
+</div>
+</div>
+<!-- Details & Insights Column -->
+<div class="col-span-12 md:col-span-4 space-y-8">
+<!-- Details Card -->
+<div class="bg-surface-container-low p-8 rounded-xl space-y-6">
+<h4 class="text-sm font-bold tracking-[0.05em] uppercase text-outline">Assignment Details</h4>
+<div class="space-y-4">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline-variant uppercase tracking-wider">Due Date</p>
+<p class="text-on-surface font-semibold text-lg">Oct 24, 2023</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline-variant uppercase tracking-wider">Target Class</p>
+<p class="text-on-surface font-semibold text-lg">Grade 10 - Section B</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Tip Chip (Editorial Highlight) -->
+<div class="bg-tertiary-container p-6 rounded-xl border-l-4 border-on-tertiary-fixed-variant">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant text-xl" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<h5 class="text-xs font-extrabold uppercase tracking-widest text-on-tertiary-fixed-variant">Quick Tip</h5>
+</div>
+<p class="text-on-tertiary-fixed-variant leading-relaxed font-medium">
+                    You can monitor student submissions and performance directly from the Assignment Report.
+                </p>
+</div>
+</div>
+<!-- Decorative Illustration Section -->
+<div class="col-span-12 mt-12 overflow-hidden rounded-xl h-64 relative bg-surface-container-low group">
+<img alt="Educational setting" class="w-full h-full object-cover opacity-60 mix-blend-multiply grayscale hover:grayscale-0 transition-all duration-700" data-alt="Modern minimalist classroom with soft natural light filtering through large windows onto clean wooden desks and scholarly books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzgV2Oka9uAqSbpp4UhXJogxFdNLcQNxp4qT1LoqRZm_whult7333XbLewyBYFtZo-J5Hadu7b04mOm-mhJ4ZD8sa52yrV7cr1y_Bk71uTb5z1Z8EnOQvCsXqIZfKEZ4HEPln4ktjGnG6NTklT4vUu6vD7k8NzwZ_6aj6SA0zbbuDxll6V8WAT-RrktaNRbocJq_tQCsy4rBJTSitqy6PzKzE5sOi2scsG6SUUKX-daos4aEMW_S_UyH36_z8v8UTcT5I6i8CbTMw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<p class="text-primary font-headline text-2xl font-bold italic">"Empowering educators, one lesson at a time."</p>
+</div>
+</div>
+</main>
+<!-- Bottom Context (Suppressed Nav Shell as per Task-Focused Rule) -->
+<footer class="py-12 border-t-0 bg-surface-container-low/30 text-center">
+<div class="flex items-center justify-center gap-2 text-outline-variant text-sm font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="verified_user">verified_user</span>
+            Secure Educational Environment • Shiksha Sathi © 2023
+        </div>
+</footer>
+</body></html>

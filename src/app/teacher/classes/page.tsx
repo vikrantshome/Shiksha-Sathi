@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { ClassItem } from "@/lib/api/types";
-import { PlusIcon, UserGroupIcon, AcademicCapIcon, ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, AcademicCapIcon, ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
 
@@ -65,20 +65,20 @@ export default async function ClassesPage() {
       <div className="mb-6">
         <h1 className="text-display-sm">Classes</h1>
         <p className="text-body-md text-on-surface-variant mt-1">
-          Manage your active classes and sections
+          Organize your teaching workspace and keep every section attendance-ready
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Create Class Form */}
-        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant h-fit">
+        <div className="bg-surface-container-low p-6 md:p-8 rounded-xl h-fit relative overflow-hidden">
           <div className="flex items-center gap-2 mb-5">
             <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
               <PlusIcon className="w-4 h-4 text-on-primary-container" />
             </div>
-            <h2 className="text-headline-sm">Create Class</h2>
+            <h2 className="text-headline-md">Create Class</h2>
           </div>
-          <form action={handleCreateClass} className="flex flex-col gap-4">
+          <form action={handleCreateClass} className="flex flex-col gap-5 relative z-10">
             <div>
               <label className="block text-label-md text-on-surface-variant mb-1.5">
                 Class Name
@@ -98,7 +98,7 @@ export default async function ClassesPage() {
                 <input
                   name="section"
                   required
-                  placeholder="e.g. A"
+                  placeholder="e.g. Grade 12-A"
                   className="input-academic w-full"
                 />
               </div>
@@ -124,14 +124,20 @@ export default async function ClassesPage() {
 
         {/* Class List */}
         <div className="md:col-span-2 flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <div>
+              <h2 className="text-headline-md">Class Management</h2>
+              <p className="text-body-sm text-on-surface-variant mt-1">Track attendance-ready sections and archive older cohorts with care.</p>
+            </div>
+          </div>
           {classes.length === 0 ? (
             <div className="text-center py-12 px-8 bg-surface-container-lowest rounded-xl border border-dashed border-outline-variant">
               <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-surface-variant">
                 <AcademicCapIcon className="w-8 h-8" />
               </div>
-              <p className="text-headline-sm mb-2">No active classes</p>
+              <p className="text-headline-sm mb-2">No active classes yet</p>
               <p className="text-body-md text-on-surface-variant max-w-sm mx-auto">
-                Create your first class to start tracking attendance and assignments.
+                Create your first class to begin attendance, assignments, and section-level classroom operations.
               </p>
             </div>
           ) : (
@@ -140,7 +146,7 @@ export default async function ClassesPage() {
               .map((cls) => (
                 <div
                   key={cls.id}
-                  className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="bg-surface-container-low p-5 md:p-6 rounded-xl transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
@@ -153,19 +159,16 @@ export default async function ClassesPage() {
                         {cls.name}
                       </h3>
                       <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                        <span className="flex items-center gap-1">
-                          <UserGroupIcon className="w-4 h-4" />
-                          {cls.studentCount} Students
-                        </span>
+                        <span>Section {cls.section} • {cls.studentCount} Students</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     <Link
                       href={`/teacher/classes/${cls.id}/attendance`}
-                      className="btn-academic bg-primary-container text-on-primary-container hover:bg-primary hover:text-white"
+                      className="btn-ghost" style={{ background: "var(--color-surface-container-high)", color: "var(--color-primary)" }}
                     >
-                      Attendance
+                      View Attendance
                     </Link>
                     <form action={handleArchiveClass.bind(null, cls.id)}>
                       <button

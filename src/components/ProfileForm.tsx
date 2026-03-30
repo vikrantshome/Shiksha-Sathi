@@ -1,8 +1,9 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
-import { UserCircleIcon, IdentificationIcon, AcademicCapIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
+
+const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
 export default function ProfileForm({
   initialData,
@@ -12,6 +13,7 @@ export default function ProfileForm({
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [errorHeader, setErrorHeader] = useState("");
+  const [board, setBoard] = useState(initialData?.board || "CBSE");
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -19,16 +21,16 @@ export default function ProfileForm({
         await api.teachers.updateProfile({
           name: formData.get("name") as string,
           school: formData.get("school") as string,
-          board: formData.get("board") as string,
+          board,
         });
         setMessage("Profile saved successfully.");
         setErrorHeader("");
         setTimeout(() => setMessage(""), 3000);
       } catch (err: unknown) {
         console.error("Profile update failed:", err);
-        const error = err as { message?: string };
+        const apiError = err as { message?: string };
         setErrorHeader(
-          error.message || "Failed to update profile. Please try again."
+          apiError.message || "Failed to update profile. Please try again."
         );
         setMessage("");
       }
@@ -38,88 +40,218 @@ export default function ProfileForm({
   return (
     <form
       action={handleSubmit}
-      className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 shadow-sm flex flex-col gap-6"
+      style={{
+        background: "var(--color-surface-container-lowest)",
+        borderRadius: "var(--radius-lg)",
+        boxShadow: "var(--shadow-sm)",
+        padding: "var(--space-8)",
+        display: "grid",
+        gap: "var(--space-8)",
+      }}
     >
-      <div className="border-b border-outline-variant/20 pb-4 mb-2">
-        <h2 className="text-headline-sm font-semibold text-on-surface">Personal Information</h2>
-        <p className="text-body-sm text-on-surface-variant mt-1">Update your profile details and school affiliations.</p>
-      </div>
-
-      {message && (
-        <div className="p-4 bg-success-container/50 border border-success/20 text-success rounded-lg text-body-sm flex items-start gap-3">
-          <CheckCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
-          <span>{message}</span>
+      {message ? (
+        <div
+          style={{
+            padding: "var(--space-4)",
+            borderRadius: "var(--radius-md)",
+            background: "rgba(45, 106, 79, 0.1)",
+            color: "var(--color-success)",
+            fontSize: "0.875rem",
+          }}
+        >
+          {message}
         </div>
-      )}
-      {errorHeader && (
-        <div className="p-4 bg-error-container/50 border border-error/20 text-error rounded-lg text-body-sm flex items-start gap-3">
-          <ExclamationCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
-          <span>{errorHeader}</span>
-        </div>
-      )}
+      ) : null}
 
-      <div className="flex flex-col gap-5">
+      {errorHeader ? (
+        <div
+          style={{
+            padding: "var(--space-4)",
+            borderRadius: "var(--radius-md)",
+            background: "rgba(168, 56, 54, 0.1)",
+            color: "var(--color-error)",
+            fontSize: "0.875rem",
+          }}
+        >
+          {errorHeader}
+        </div>
+      ) : null}
+
+      <section style={{ display: "grid", gap: "var(--space-5)" }}>
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+            Personal Details
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-manrope), system-ui, sans-serif",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              color: "var(--color-on-surface)",
+              margin: "var(--space-1) 0 0",
+            }}
+          >
+            Your Profile
+          </h2>
+        </div>
+        <div>
+          <label className="text-label-md" style={{ display: "block", color: "var(--color-on-surface-variant)", marginBottom: "var(--space-2)" }}>
             Full Name
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <UserCircleIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="name"
-              defaultValue={initialData?.name}
-              placeholder="e.g. Mr. Sharma"
-              className="input-academic pl-10"
-            />
-          </div>
+          <input
+            name="name"
+            defaultValue={initialData?.name}
+            placeholder="e.g. Ananya Rao"
+            className="profile-input"
+          />
         </div>
+      </section>
 
+      <section style={{ display: "grid", gap: "var(--space-5)" }}>
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+            School Details
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-manrope), system-ui, sans-serif",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--color-on-surface)",
+              margin: "var(--space-1) 0 0",
+            }}
+          >
+            Teaching Context
+          </h2>
+        </div>
+        <div>
+          <label className="text-label-md" style={{ display: "block", color: "var(--color-on-surface-variant)", marginBottom: "var(--space-2)" }}>
             School Name
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <AcademicCapIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="school"
-              defaultValue={initialData?.school}
-              placeholder="e.g. Delhi Public School"
-              className="input-academic pl-10"
-            />
-          </div>
+          <input
+            name="school"
+            defaultValue={initialData?.school}
+            placeholder="e.g. Heritage International School"
+            className="profile-input"
+          />
         </div>
+      </section>
 
+      <section style={{ display: "grid", gap: "var(--space-5)" }}>
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
-            Board / Curriculum
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <IdentificationIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="board"
-              defaultValue={initialData?.board}
-              placeholder="e.g. CBSE"
-              className="input-academic pl-10"
-            />
-          </div>
+          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+            Academic Context
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-manrope), system-ui, sans-serif",
+              fontSize: "1.125rem",
+              fontWeight: 700,
+              color: "var(--color-on-surface)",
+              margin: "var(--space-1) 0 0",
+            }}
+          >
+            Board Alignment
+          </h2>
         </div>
-      </div>
 
-      <div className="pt-4 mt-2 border-t border-outline-variant/20 flex justify-end">
+        <input type="hidden" name="board" value={board} />
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)" }}>
+          {boardOptions.map((option) => {
+            const active = board === option;
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setBoard(option)}
+                style={{
+                  padding: "var(--space-3) var(--space-4)",
+                  borderRadius: "var(--radius-full)",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "0.875rem",
+                  fontWeight: active ? 700 : 500,
+                  background: active
+                    ? "var(--color-secondary-container)"
+                    : "var(--color-surface-container-low)",
+                  color: active
+                    ? "var(--color-primary)"
+                    : "var(--color-on-surface-variant)",
+                }}
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "var(--space-4)",
+          flexWrap: "wrap",
+          paddingTop: "var(--space-4)",
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            fontSize: "0.8125rem",
+            color: "var(--color-on-surface-variant)",
+            maxWidth: "26rem",
+            lineHeight: 1.7,
+          }}
+        >
+          Keeping your profile current helps Shiksha Sathi tailor class and question-bank context to your teaching environment.
+        </p>
         <button
           type="submit"
           disabled={isPending}
-          className="btn-primary w-full sm:w-auto px-8"
+          className="profile-submit"
+          style={{
+            padding: "var(--space-3) var(--space-8)",
+            border: "none",
+            borderRadius: "var(--radius-lg)",
+            background:
+              "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
+            color: "var(--color-on-primary)",
+            fontWeight: 700,
+            letterSpacing: "0.03em",
+            cursor: isPending ? "wait" : "pointer",
+            boxShadow: "var(--shadow-sm)",
+          }}
         >
-          {isPending ? "Saving Profile…" : "Save Changes"}
+          {isPending ? "Saving Profile…" : "Save Profile"}
         </button>
       </div>
+
+      <style>{`
+        .profile-input {
+          width: 100%;
+          background: var(--color-surface-container-highest);
+          border: none;
+          border-bottom: 1px solid var(--color-outline-variant);
+          padding: var(--space-3) 0;
+          font-size: 0.9375rem;
+          color: var(--color-on-surface);
+          outline: none;
+          transition: border-color 200ms ease-out;
+        }
+        .profile-input:focus {
+          border-bottom-color: var(--color-primary);
+        }
+        .profile-submit:hover {
+          opacity: 0.92;
+          transform: translateY(-1px);
+        }
+        .profile-submit:active {
+          transform: scale(0.98);
+        }
+      `}</style>
     </form>
   );
 }
