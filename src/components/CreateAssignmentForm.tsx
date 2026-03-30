@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useAssignment } from "@/components/AssignmentContext";
 import { api } from "@/lib/api";
-import Link from "next/link";
 
 interface ClassType {
   id: string;
@@ -11,27 +11,50 @@ interface ClassType {
   section: string;
 }
 
+interface PublishResult {
+  assignmentId: string;
+  classLabel: string;
+  dueDate: string;
+  linkId: string;
+  title: string;
+}
+
+const typeLabels: Record<string, string> = {
+  MCQ: "MCQ",
+  TRUE_FALSE: "True / False",
+  FILL_IN_BLANKS: "Fill in the Blank",
+  MULTIPLE_CHOICE: "Multiple Choice",
+  SHORT_ANSWER: "Short Answer",
+  ESSAY: "Essay",
+};
+
+function formatDueDate(value: string) {
+  if (!value) return "Not scheduled";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 export default function CreateAssignmentForm({
   classes,
 }: {
   classes: ClassType[];
 }) {
-  const { selectedQuestions, removeQuestion, clearSelection } =
-    useAssignment();
+  const { selectedQuestions, removeQuestion, clearSelection } = useAssignment();
   const [isPending, startTransition] = useTransition();
-  const [publishResult, setPublishResult] = useState<{
-    success: boolean;
-    linkId?: string;
-    error?: string;
-  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [publishResult, setPublishResult] = useState<PublishResult | null>(null);
 
-  const totalMarks = selectedQuestions.reduce(
-    (acc, q) => acc + q.points,
-    0
-  );
+  const totalMarks = selectedQuestions.reduce((acc, question) => acc + question.points, 0);
 
   const handlePublish = (formData: FormData) => {
     startTransition(async () => {
+      setError(null);
+
       try {
         const title = formData.get("title") as string;
         const classId = formData.get("classId") as string;
@@ -42,367 +65,613 @@ export default function CreateAssignmentForm({
           classId,
           dueDate,
           description: `Assignment for class ${classId}`,
-          questionIds: selectedQuestions.map((q) => q.id),
+          questionIds: selectedQuestions.map((question) => question.id),
           maxScore: totalMarks,
           status: "PUBLISHED",
         });
 
+        const targetClass = classes.find((item) => item.id === classId);
+
         setPublishResult({
-          success: true,
+          assignmentId: result.id,
+          classLabel: targetClass
+            ? `${targetClass.name} • Section ${targetClass.section}`
+            : "Assigned class",
+          dueDate,
           linkId: result.linkId || result.id,
+          title,
         });
         clearSelection();
-      } catch (err: unknown) {
-        setPublishResult({
-          success: false,
-          error:
-            err instanceof Error
-              ? err.message
-              : "An unexpected error occurred",
-        });
+      } catch (submissionError: unknown) {
+        setError(
+          submissionError instanceof Error
+            ? submissionError.message
+            : "We could not publish the assignment right now."
+        );
       }
     });
   };
 
-  /* ── Success View ── */
-  if (publishResult?.success) {
-    const link = `${window.location.origin}/student/assignment/${publishResult.linkId}`;
+  if (publishResult) {
+    const shareLink = `${window.location.origin}/student/assignment/${publishResult.linkId}`;
+
     return (
       <div
         style={{
+          display: "grid",
+          gap: "var(--space-8)",
+        }}
+      >
+        <section
+          style={{
+            background: "var(--color-surface-container-lowest)",
+            borderRadius: "var(--radius-lg)",
+            padding: "var(--space-10)",
+            boxShadow: "var(--shadow-sm)",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "5rem",
+              height: "5rem",
+              borderRadius: "50%",
+              background: "var(--color-primary-container)",
+              color: "var(--color-primary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto var(--space-6)",
+            }}
+          >
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="text-label-sm" style={{ color: "var(--color-primary)", margin: 0 }}>
+            Publish Complete
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-manrope), system-ui, sans-serif",
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              color: "var(--color-on-surface)",
+              margin: "var(--space-3) 0 0",
+            }}
+          >
+            Assignment Published
+          </h2>
+          <p
+            style={{
+              color: "var(--color-on-surface-variant)",
+              fontSize: "0.9375rem",
+              lineHeight: 1.7,
+              maxWidth: "34rem",
+              margin: "var(--space-4) auto 0",
+            }}
+          >
+            {publishResult.title} is now live for students. Share the unique link below to begin collecting submissions.
+          </p>
+        </section>
+
+        <div className="publish-success-grid" style={{ display: "grid", gap: "var(--space-6)" }}>
+          <section
+            style={{
+              background: "var(--color-surface-container-lowest)",
+              borderRadius: "var(--radius-lg)",
+              padding: "var(--space-8)",
+              boxShadow: "var(--shadow-sm)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)", marginBottom: "var(--space-6)" }}>
+              <div
+                style={{
+                  width: "2.75rem",
+                  height: "2.75rem",
+                  borderRadius: "var(--radius-lg)",
+                  background: "rgba(68, 99, 113, 0.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--color-primary)",
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+                  Student Assignment Link
+                </p>
+                <h3 style={{ margin: "var(--space-1) 0 0", fontSize: "1.125rem", fontWeight: 700, color: "var(--color-on-surface)" }}>
+                  Ready to share
+                </h3>
+              </div>
+            </div>
+
+            <div
+              style={{
+                background: "var(--color-surface-container-low)",
+                borderRadius: "var(--radius-lg)",
+                padding: "var(--space-5)",
+                display: "grid",
+                gap: "var(--space-4)",
+              }}
+            >
+              <div>
+                <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+                  Unique Access URL
+                </p>
+                <code
+                  style={{
+                    display: "block",
+                    marginTop: "var(--space-2)",
+                    color: "var(--color-primary)",
+                    fontSize: "0.875rem",
+                    lineHeight: 1.7,
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {shareLink}
+                </code>
+              </div>
+
+              <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard.writeText(shareLink)}
+                  className="btn-primary"
+                >
+                  Copy Link
+                </button>
+                <Link href={`/teacher/assignments/${publishResult.assignmentId}`} className="btn-ghost">
+                  View Assignment Report
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          <aside style={{ display: "grid", gap: "var(--space-6)" }}>
+            <section
+              style={{
+                background: "var(--color-primary)",
+                color: "var(--color-on-primary)",
+                borderRadius: "var(--radius-lg)",
+                padding: "var(--space-6)",
+                boxShadow: "var(--shadow-md)",
+              }}
+            >
+              <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>Assignment Snapshot</h3>
+              <div style={{ display: "grid", gap: "var(--space-4)", marginTop: "var(--space-6)" }}>
+                <div>
+                  <p className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", margin: 0 }}>
+                    Due Date
+                  </p>
+                  <p style={{ margin: "var(--space-2) 0 0", fontSize: "1rem", fontWeight: 700 }}>
+                    {formatDueDate(publishResult.dueDate)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", margin: 0 }}>
+                    Target Class
+                  </p>
+                  <p style={{ margin: "var(--space-2) 0 0", fontSize: "1rem", fontWeight: 700 }}>
+                    {publishResult.classLabel}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section
+              style={{
+                background: "var(--color-surface-container-low)",
+                borderRadius: "var(--radius-lg)",
+                padding: "var(--space-6)",
+              }}
+            >
+              <p className="text-label-sm" style={{ color: "var(--color-primary)", margin: 0 }}>
+                Quick Tip
+              </p>
+              <p
+                style={{
+                  margin: "var(--space-3) 0 0",
+                  color: "var(--color-on-surface-variant)",
+                  lineHeight: 1.7,
+                  fontSize: "0.875rem",
+                }}
+              >
+                Students can open the shared link directly. Track progress and scores from the assignment report once submissions start arriving.
+              </p>
+            </section>
+
+            <Link href="/teacher/dashboard" className="btn-ghost" style={{ justifyContent: "center" }}>
+              Return to Dashboard
+            </Link>
+          </aside>
+        </div>
+
+        <style>{`
+          .publish-success-grid {
+            grid-template-columns: 1fr;
+          }
+          @media (min-width: 1024px) {
+            .publish-success-grid {
+              grid-template-columns: minmax(0, 2fr) minmax(18rem, 22rem);
+              align-items: start;
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  if (selectedQuestions.length === 0) {
+    return (
+      <section
+        style={{
           background: "var(--color-surface-container-lowest)",
-          padding: "var(--space-8)",
-          borderRadius: "var(--radius-md)",
+          borderRadius: "var(--radius-lg)",
+          padding: "var(--space-12) var(--space-8)",
+          border: "1px dashed rgba(176, 179, 173, 0.25)",
           textAlign: "center",
-          maxWidth: "32rem",
-          margin: "0 auto",
         }}
       >
         <div
           style={{
-            width: "3.5rem",
-            height: "3.5rem",
+            width: "4rem",
+            height: "4rem",
             borderRadius: "50%",
-            background: "var(--color-success-container)",
-            color: "var(--color-success)",
+            background: "var(--color-surface-container-low)",
+            color: "var(--color-primary)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            margin: "0 auto var(--space-4)",
+            margin: "0 auto var(--space-5)",
           }}
         >
-          <svg
-            style={{ width: "1.75rem", height: "1.75rem" }}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
           </svg>
         </div>
-        <h2
-          className="text-display-sm"
-          style={{ marginBottom: "var(--space-2)" }}
-        >
-          Assignment Published!
+        <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 700, color: "var(--color-on-surface)" }}>
+          No questions in the review tray yet
         </h2>
         <p
-          className="text-body-md"
           style={{
+            margin: "var(--space-4) auto 0",
             color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-6)",
+            maxWidth: "30rem",
+            lineHeight: 1.7,
           }}
         >
-          Your assignment is ready to be shared with students.
+          Browse the curated question bank, add the questions you want, and return here to organize and publish the final assignment.
         </p>
-
-        <div
-          className="flex items-center justify-between gap-3"
-          style={{
-            background: "var(--color-surface-container-low)",
-            padding: "var(--space-3) var(--space-4)",
-            borderRadius: "var(--radius-sm)",
-            marginBottom: "var(--space-6)",
-          }}
-        >
-          <code
-            style={{
-              fontSize: "0.8125rem",
-              color: "var(--color-primary)",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {link}
-          </code>
-          <button
-            onClick={() => navigator.clipboard.writeText(link)}
-            className="btn-ghost"
-            style={{
-              padding: "var(--space-1-5) var(--space-3)",
-              fontSize: "0.8125rem",
-              background: "var(--color-primary-container)",
-              color: "var(--color-on-primary-container)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Copy Link
-          </button>
+        <div style={{ marginTop: "var(--space-6)" }}>
+          <Link href="/teacher/question-bank" className="btn-primary">
+            Browse Question Bank
+          </Link>
         </div>
-
-        <Link href="/teacher/dashboard" className="btn-ghost">
-          Return to Dashboard
-        </Link>
-      </div>
+      </section>
     );
   }
 
-  /* ── Empty Selection ── */
-  if (selectedQuestions.length === 0) {
-    return (
-      <div
-        style={{
-          background: "var(--color-surface-container-lowest)",
-          padding: "var(--space-12) var(--space-8)",
-          borderRadius: "var(--radius-md)",
-          textAlign: "center",
-          border: "1px dashed var(--color-outline-variant)",
-        }}
-      >
-        <p
-          className="text-body-md"
-          style={{
-            color: "var(--color-on-surface-variant)",
-            marginBottom: "var(--space-4)",
-          }}
-        >
-          You haven&apos;t selected any questions yet.
-        </p>
-        <Link href="/teacher/question-bank" className="btn-primary">
-          Browse Question Bank
-        </Link>
-      </div>
-    );
-  }
-
-  /* ── Main Form ── */
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Selected Questions Review */}
-      <div
-        className="lg:col-span-2"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-3)",
-        }}
-      >
-        <h2
-          className="text-headline-md"
-          style={{ marginBottom: "var(--space-2)" }}
-        >
-          Selected Questions ({selectedQuestions.length})
-        </h2>
-        {selectedQuestions.map((q, index) => (
-          <div
-            key={q.id}
-            style={{
-              background: "var(--color-surface-container-lowest)",
-              padding: "var(--space-5)",
-              borderRadius: "var(--radius-md)",
-            }}
-          >
-            <div
-              className="flex justify-between items-start"
-              style={{ marginBottom: "var(--space-2)" }}
-            >
-              <span
-                className="text-label-sm"
-                style={{ color: "var(--color-on-surface-variant)" }}
-              >
-                Question {index + 1}
-              </span>
-              <button
-                onClick={() => removeQuestion(q.id)}
-                className="btn-ghost"
-                style={{
-                  padding: "var(--space-1) var(--space-2)",
-                  fontSize: "0.75rem",
-                  color: "var(--color-error)",
-                }}
-              >
-                Remove
-              </button>
-            </div>
-            <p
+    <form action={handlePublish} className="review-grid" style={{ display: "grid", gap: "var(--space-8)" }}>
+      <section style={{ display: "grid", gap: "var(--space-5)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-4)", flexWrap: "wrap" }}>
+          <div>
+            <h2
               style={{
-                color: "var(--color-on-surface)",
-                fontWeight: 500,
-                fontSize: "0.875rem",
+                fontFamily: "var(--font-manrope), system-ui, sans-serif",
+                fontSize: "1.5rem",
+                fontWeight: 700,
+                color: "var(--color-primary)",
+                letterSpacing: "-0.03em",
+                margin: 0,
               }}
             >
-              {q.text}
+              Selected Questions ({selectedQuestions.length})
+            </h2>
+            <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-on-surface-variant)", fontSize: "0.875rem" }}>
+              Review the sequence, remove anything unnecessary, and publish once the set feels right.
             </p>
-            <div
-              className="flex gap-2"
-              style={{ marginTop: "var(--space-3)" }}
-            >
-              <span className="badge">
-                {q.type.replace(/_/g, " ")}
-              </span>
-              <span
-                className="badge"
-                style={{
-                  background: "var(--color-success-container)",
-                  color: "var(--color-success)",
-                }}
-              >
-                {q.points} Marks
-              </span>
-            </div>
           </div>
-        ))}
-      </div>
+          <Link href="/teacher/question-bank" className="btn-ghost">
+            Add More Questions
+          </Link>
+        </div>
 
-      {/* Assignment Setup Form */}
-      <div className="lg:col-span-1">
-        <div
-          className="sticky top-6"
-          style={{
-            background: "var(--color-surface-container-lowest)",
-            padding: "var(--space-6)",
-            borderRadius: "var(--radius-md)",
-          }}
-        >
-          <h2
-            className="text-headline-sm"
-            style={{ marginBottom: "var(--space-5)" }}
-          >
-            Publish Assignment
-          </h2>
-
-          <form
-            action={handlePublish}
+        {selectedQuestions.map((question, index) => (
+          <article
+            key={question.id}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-5)",
+              background: "var(--color-surface-container-lowest)",
+              borderRadius: "var(--radius-lg)",
+              padding: "var(--space-6)",
+              boxShadow: "var(--shadow-sm)",
+              display: "grid",
+              gap: "var(--space-4)",
             }}
           >
-            <div>
-              <label
-                className="text-label-md"
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "var(--space-4)", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "var(--space-3)", alignItems: "center", flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    background: "var(--color-primary-container)",
+                    color: "var(--color-on-primary-container)",
+                    borderRadius: "var(--radius-sm)",
+                    padding: "2px var(--space-2)",
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Q{index + 1}
+                </span>
+                <span className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+                  {typeLabels[question.type] || question.type.replace(/_/g, " ")}
+                </span>
+              </div>
+
+              <div style={{ display: "flex", gap: "var(--space-3)", alignItems: "center", flexWrap: "wrap" }}>
+                <span style={{ color: "var(--color-on-surface-variant)", fontSize: "0.8125rem", fontWeight: 600 }}>
+                  {question.points} {question.points === 1 ? "Mark" : "Marks"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeQuestion(question.id)}
+                  className="btn-ghost"
+                  style={{ paddingInline: "var(--space-3)", color: "var(--color-error)" }}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <p style={{ margin: 0, color: "var(--color-on-surface)", fontSize: "0.9375rem", lineHeight: 1.7 }}>
+              {question.text}
+            </p>
+
+            {question.options?.length ? (
+              <div className="review-options-grid" style={{ display: "grid", gap: "var(--space-3)" }}>
+                {question.options.map((option, optionIndex) => (
+                  <div
+                    key={`${question.id}-${optionIndex}`}
+                    style={{
+                      background: "var(--color-surface-container-low)",
+                      borderRadius: "var(--radius-md)",
+                      padding: "var(--space-4)",
+                      display: "flex",
+                      gap: "var(--space-3)",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "1.5rem",
+                        height: "1.5rem",
+                        borderRadius: "50%",
+                        background: "var(--color-surface-container)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "var(--color-on-surface-variant)",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {String.fromCharCode(65 + optionIndex)}
+                    </span>
+                    <span style={{ color: "var(--color-on-surface-variant)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+                      {option}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : question.explanation ? (
+              <div
                 style={{
-                  display: "block",
+                  background: "var(--color-surface-container-low)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "var(--space-4)",
                   color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
+                  fontSize: "0.875rem",
+                  lineHeight: 1.7,
                 }}
               >
+                {question.explanation}
+              </div>
+            ) : null}
+          </article>
+        ))}
+      </section>
+
+      <aside style={{ display: "grid", gap: "var(--space-6)", alignContent: "start" }}>
+        <section
+          style={{
+            background: "var(--color-primary)",
+            color: "var(--color-on-primary)",
+            borderRadius: "1rem",
+            padding: "var(--space-6)",
+            boxShadow: "var(--shadow-md)",
+            position: "sticky",
+            top: "var(--space-6)",
+          }}
+        >
+          <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700 }}>Assignment Summary</h3>
+
+          <div className="summary-grid" style={{ display: "grid", gap: "var(--space-4)", marginTop: "var(--space-6)" }}>
+            <div
+              style={{
+                background: "rgba(255, 255, 255, 0.12)",
+                borderRadius: "var(--radius-lg)",
+                padding: "var(--space-4)",
+              }}
+            >
+              <p className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", margin: 0 }}>
+                Total Marks
+              </p>
+              <p style={{ margin: "var(--space-2) 0 0", fontSize: "2rem", fontWeight: 800 }}>{totalMarks}</p>
+            </div>
+            <div
+              style={{
+                background: "rgba(255, 255, 255, 0.12)",
+                borderRadius: "var(--radius-lg)",
+                padding: "var(--space-4)",
+              }}
+            >
+              <p className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", margin: 0 }}>
+                Question Count
+              </p>
+              <p style={{ margin: "var(--space-2) 0 0", fontSize: "2rem", fontWeight: 800 }}>{selectedQuestions.length}</p>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gap: "var(--space-5)", marginTop: "var(--space-6)" }}>
+            <div>
+              <label htmlFor="assignment-title" className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", display: "block", marginBottom: "var(--space-2)" }}>
                 Assignment Title
               </label>
               <input
+                id="assignment-title"
                 name="title"
                 required
-                placeholder="e.g. Chapter 1 Quiz"
-                className="input-academic"
+                placeholder="e.g. Algebra & Linear Equations"
+                style={{
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "var(--space-3) var(--space-4)",
+                  color: "var(--color-on-primary)",
+                  outline: "none",
+                }}
               />
             </div>
 
             <div>
-              <label
-                className="text-label-md"
+              <label htmlFor="assignment-class" className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", display: "block", marginBottom: "var(--space-2)" }}>
+                Target Class
+              </label>
+              <select
+                id="assignment-class"
+                name="classId"
+                required
+                defaultValue=""
                 style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "var(--space-3) var(--space-4)",
+                  color: "var(--color-on-primary)",
+                  outline: "none",
                 }}
               >
-                Select Class
-              </label>
-              {classes.length === 0 ? (
-                <p
-                  className="text-body-sm"
-                  style={{ color: "var(--color-error)" }}
-                >
-                  No classes found. Please create a class first.
-                </p>
-              ) : (
-                <select
-                  name="classId"
-                  required
-                  className="select-academic"
-                >
-                  <option value="">Choose a class...</option>
-                  {classes.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name} - Section {c.section}
-                    </option>
-                  ))}
-                </select>
-              )}
+                <option value="" disabled style={{ color: "var(--color-on-surface)" }}>
+                  Select a class
+                </option>
+                {classes.map((item) => (
+                  <option key={item.id} value={item.id} style={{ color: "var(--color-on-surface)" }}>
+                    {item.name} • Section {item.section}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
-              <label
-                className="text-label-md"
-                style={{
-                  display: "block",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-1-5)",
-                }}
-              >
-                Due Date (Optional)
+              <label htmlFor="assignment-due-date" className="text-label-sm" style={{ color: "rgba(242, 250, 255, 0.72)", display: "block", marginBottom: "var(--space-2)" }}>
+                Due Date
               </label>
               <input
+                id="assignment-due-date"
                 type="date"
                 name="dueDate"
-                className="input-academic"
+                required
+                style={{
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "var(--space-3) var(--space-4)",
+                  color: "var(--color-on-primary)",
+                  outline: "none",
+                }}
               />
             </div>
+          </div>
 
+          {error ? (
             <div
-              className="flex justify-between items-center"
               style={{
-                paddingTop: "var(--space-4)",
-                fontWeight: 600,
-                color: "var(--color-on-surface)",
+                marginTop: "var(--space-5)",
+                background: "rgba(168, 56, 54, 0.18)",
+                color: "var(--color-on-primary)",
+                borderRadius: "var(--radius-md)",
+                padding: "var(--space-3) var(--space-4)",
+                fontSize: "0.8125rem",
+                lineHeight: 1.6,
               }}
             >
-              <span>Total Marks:</span>
-              <span style={{ fontSize: "1.25rem" }}>{totalMarks}</span>
+              {error}
             </div>
+          ) : null}
 
-            {publishResult?.error && (
-              <div
-                style={{
-                  padding: "var(--space-3)",
-                  background: "var(--color-error-container)",
-                  color: "var(--color-error)",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.8125rem",
-                }}
-              >
-                {publishResult.error}
-              </div>
-            )}
+          <button
+            type="submit"
+            disabled={isPending}
+            style={{
+              width: "100%",
+              marginTop: "var(--space-6)",
+              background: "var(--color-on-primary)",
+              color: "var(--color-primary)",
+              border: "none",
+              borderRadius: "var(--radius-lg)",
+              padding: "var(--space-4) var(--space-5)",
+              fontWeight: 800,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+              cursor: isPending ? "wait" : "pointer",
+            }}
+          >
+            {isPending ? "Publishing…" : "Finalize & Publish"}
+          </button>
 
-            <button
-              type="submit"
-              disabled={isPending || classes.length === 0}
-              className="btn-primary"
-              style={{ width: "100%", padding: "var(--space-3)" }}
-            >
-              {isPending ? "Publishing…" : "Publish to Students"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+          <p style={{ margin: "var(--space-4) 0 0", fontSize: "0.8125rem", lineHeight: 1.7, color: "rgba(242, 250, 255, 0.72)" }}>
+            Publishing keeps the student flow link-based and Shiksha Sathi-native. No external classroom integrations are added in this implementation wave.
+          </p>
+        </section>
+      </aside>
+
+      <style>{`
+        .review-grid {
+          grid-template-columns: 1fr;
+        }
+        .review-options-grid {
+          grid-template-columns: 1fr;
+        }
+        .summary-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        @media (min-width: 768px) {
+          .review-options-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+        @media (min-width: 1024px) {
+          .review-grid {
+            grid-template-columns: minmax(0, 2fr) minmax(20rem, 24rem);
+            align-items: start;
+          }
+        }
+      `}</style>
+    </form>
   );
 }

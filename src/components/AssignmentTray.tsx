@@ -2,17 +2,9 @@
 
 import { useAssignment } from "@/components/AssignmentContext";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function AssignmentTray() {
   const { selectedQuestions, removeQuestion } = useAssignment();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null; // Avoid hydration mismatch
 
   if (selectedQuestions.length === 0) {
     return (
@@ -43,7 +35,7 @@ export default function AssignmentTray() {
         </div>
         
         <div className="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
-          {selectedQuestions.map((q, index) => (
+          {selectedQuestions.map((q) => (
             <div key={q.id} className="p-3 bg-surface-container-low rounded-lg relative group">
               <button 
                 onClick={() => removeQuestion(q.id)}

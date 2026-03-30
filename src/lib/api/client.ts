@@ -14,7 +14,7 @@ export async function fetchApi<T>(
       const { cookies } = await import('next/headers');
       const cookieStore = await cookies();
       token = cookieStore.get('auth-token')?.value;
-    } catch (e) {
+    } catch {
       // Ignore if headers not available
     }
   } else {

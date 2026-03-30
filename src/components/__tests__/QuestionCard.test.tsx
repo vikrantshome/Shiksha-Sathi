@@ -14,8 +14,6 @@ vi.mock('../AssignmentContext', () => ({
   }),
 }));
 
-import { useAssignment } from '../AssignmentContext';
-
 describe('QuestionCard', () => {
   const mockQuestion: Question = {
     id: 'q1',
@@ -35,28 +33,27 @@ describe('QuestionCard', () => {
     
     expect(screen.getByText('Zeroes')).toBeInTheDocument();
     expect(screen.getByText('What is 2+2?')).toBeInTheDocument();
-    expect(screen.getByText('A. 3')).toBeInTheDocument();
-    expect(screen.getByText('B. 4')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('4')).toBeInTheDocument();
   });
 
   it('toggles preview', () => {
     render(<QuestionCard question={mockQuestion} />);
     
-    expect(screen.queryByText('Teacher Preview')).not.toBeInTheDocument();
+    expect(screen.queryByText('Correct Answer')).not.toBeInTheDocument();
     
     fireEvent.click(screen.getByText('Preview Question'));
     
-    expect(screen.getByText('Teacher Preview')).toBeInTheDocument();
-    expect(screen.getByText('Correct Answer:')).toBeInTheDocument();
+    expect(screen.getByText('Correct Answer')).toBeInTheDocument();
     
-    fireEvent.click(screen.getByText('Hide Preview'));
-    expect(screen.queryByText('Teacher Preview')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText('Hide Explanation'));
+    expect(screen.queryByText('Correct Answer')).not.toBeInTheDocument();
   });
 
   it('calls toggleQuestion when adding to assignment', () => {
     render(<QuestionCard question={mockQuestion} />);
     
-    fireEvent.click(screen.getByText('Add to Assignment'));
+    fireEvent.click(screen.getByLabelText('Add to assignment'));
     
     expect(mockToggleQuestion).toHaveBeenCalledWith(mockQuestion);
   });

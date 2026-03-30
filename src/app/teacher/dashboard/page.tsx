@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { AssignmentWithStats } from "@/lib/api/types";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -6,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 /* ─────────────────────────────────────────────────────────
    Stitch-Directed Teacher Dashboard
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard_consolidated
    Design System: design-system.md ("Digital Atelier")
    ───────────────────────────────────────────────────────── */
 
@@ -80,7 +81,7 @@ export default async function TeacherDashboard() {
     redirect("/login");
   }
 
-  let assignments: any[] = [];
+  let assignments: AssignmentWithStats[] = [];
   try {
     assignments = await api.assignments.getStats(user.id);
   } catch (error) {
@@ -88,11 +89,11 @@ export default async function TeacherDashboard() {
   }
 
   const totalSubmissions = assignments.reduce(
-    (acc: number, a: any) => acc + (a.submissionCount || 0),
+    (acc: number, a: AssignmentWithStats) => acc + (a.submissionCount || 0),
     0
   );
   const activeAssignments = assignments.filter(
-    (a: any) => a.submissionCount > 0
+    (a: AssignmentWithStats) => a.submissionCount > 0
   ).length;
 
   /* ── Stat Cards Configuration ── */
@@ -112,14 +113,14 @@ export default async function TeacherDashboard() {
     {
       icon: <IconTrending />,
       value: assignments.length > 0
-        ? `${Math.round(assignments.reduce((acc: number, a: any) => acc + (a.averageScore || 0), 0) / assignments.length)}%`
+        ? `${Math.round(assignments.reduce((acc: number, a: AssignmentWithStats) => acc + (a.averageScore || 0), 0) / assignments.length)}%`
         : "—",
       label: "Average Score",
       badge: "+4.2% trend",
     },
     {
       icon: <IconSchool />,
-      value: new Set(assignments.map((a: any) => a.className).filter(Boolean)).size || 0,
+      value: new Set(assignments.map((a: AssignmentWithStats) => a.className).filter(Boolean)).size || 0,
       label: "Active Classes",
       badge: "All Grades",
     },
@@ -178,9 +179,10 @@ export default async function TeacherDashboard() {
                 lineHeight: 1.6,
               }}
             >
-              Your curriculum overview is up to date. You have{" "}
-              {assignments.filter((a: any) => a.submissionCount > 0).length}{" "}
-              pending submissions to review today.
+              Your teaching studio is aligned for the day. You have{" "}
+              {activeAssignments}{" "}
+              active assignment{activeAssignments === 1 ? "" : "s"}{" "}
+              ready for review or follow-up.
             </p>
           </div>
         </div>
@@ -299,19 +301,6 @@ export default async function TeacherDashboard() {
             >
               Recent Assignments
             </h2>
-            {assignments.length > 0 && (
-              <Link
-                href="/teacher/assignments"
-                style={{
-                  fontSize: "0.6875rem",
-                  fontWeight: 600,
-                  color: "var(--color-primary)",
-                  textDecoration: "none",
-                }}
-              >
-                View All History
-              </Link>
-            )}
           </div>
 
           {assignments.length === 0 ? (
@@ -362,8 +351,8 @@ export default async function TeacherDashboard() {
                   maxWidth: "20rem",
                 }}
               >
-                Start by browsing the Question Bank to create your first
-                assignment for your class.
+                Browse the Question Bank to build your first assignment and
+                start your classroom workflow.
               </p>
               <Link
                 href="/teacher/question-bank"
@@ -431,7 +420,7 @@ export default async function TeacherDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {assignments.map((assignment: any) => {
+                      {assignments.map((assignment: AssignmentWithStats) => {
                         const submissionPct = assignment.maxScore > 0 
                           ? Math.round((assignment.submissionCount / 45) * 100)
                           : 0;
@@ -564,7 +553,7 @@ export default async function TeacherDashboard() {
 
               {/* Mobile Card Fallback */}
               <div className="table-mobile">
-                {assignments.map((assignment: any) => (
+                {assignments.map((assignment: AssignmentWithStats) => (
                   <Link
                     key={assignment.id}
                     href={`/teacher/assignments/${assignment.id}`}
@@ -622,7 +611,7 @@ export default async function TeacherDashboard() {
 
         {/* ── Right Sidebar Column ── */}
         <section className="bento-side">
-          {/* Upcoming Batches — Empty State */}
+          {/* Teaching Focus */}
           <div style={{ marginBottom: "var(--space-8)" }}>
             <h2
               style={{
@@ -634,72 +623,90 @@ export default async function TeacherDashboard() {
                 marginBottom: "var(--space-6)",
               }}
             >
-              Upcoming Batches
+              Teaching Focus
             </h2>
             <div
               style={{
                 background: "var(--color-surface-container-low)",
                 borderRadius: "var(--radius-md)",
-                border: "2px dashed rgba(176, 179, 173, 0.3)",
                 padding: "var(--space-8)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
+                display: "grid",
+                gap: "var(--space-5)",
               }}
             >
+              <div>
+                <p
+                  style={{
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    color: "var(--color-on-surface-variant)",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    margin: 0,
+                  }}
+                >
+                  Review Queue
+                </p>
+                <p
+                  style={{
+                    margin: "var(--space-2) 0 0",
+                    fontFamily: "var(--font-manrope), system-ui, sans-serif",
+                    fontSize: "1.75rem",
+                    fontWeight: 700,
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  {activeAssignments}
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.8125rem",
+                    color: "var(--color-on-surface-variant)",
+                    margin: "var(--space-2) 0 0",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Assignment{activeAssignments === 1 ? "" : "s"} currently collecting or awaiting submissions.
+                </p>
+              </div>
               <div
                 style={{
-                  width: "3rem",
-                  height: "3rem",
-                  background: "var(--color-surface-container)",
-                  borderRadius: "var(--radius-full)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "var(--space-4)",
-                  color: "var(--color-outline)",
+                  display: "grid",
+                  gap: "var(--space-3)",
+                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                 }}
               >
-                <IconPlus />
+                <Link
+                  href="/teacher/question-bank"
+                  style={{
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    color: "var(--color-on-primary)",
+                    textDecoration: "none",
+                    background: "var(--color-primary)",
+                    borderRadius: "var(--radius-sm)",
+                    padding: "var(--space-3) var(--space-4)",
+                    textAlign: "center",
+                  }}
+                >
+                  Create Assignment
+                </Link>
+                <Link
+                  href="/teacher/classes"
+                  style={{
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    color: "var(--color-primary)",
+                    textDecoration: "none",
+                    background: "var(--color-surface-container-lowest)",
+                    borderRadius: "var(--radius-sm)",
+                    padding: "var(--space-3) var(--space-4)",
+                    textAlign: "center",
+                  }}
+                >
+                  Manage Classes
+                </Link>
               </div>
-              <h4
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  margin: 0,
-                }}
-              >
-                No Upcoming Live Classes
-              </h4>
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  color: "var(--color-on-surface-variant)",
-                  marginTop: "var(--space-2)",
-                  lineHeight: 1.6,
-                }}
-              >
-                Your schedule is clear. Use this time to build your next assignment.
-              </p>
-              <Link
-                href="/teacher/question-bank"
-                style={{
-                  marginTop: "var(--space-6)",
-                  fontSize: "0.6875rem",
-                  fontWeight: 700,
-                  color: "var(--color-primary)",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--space-2)",
-                  transition: "gap 200ms ease-out",
-                }}
-              >
-                Create New Assignment
-                <IconArrow />
-              </Link>
             </div>
           </div>
 
@@ -784,7 +791,7 @@ export default async function TeacherDashboard() {
             marginBottom: "var(--space-6)",
           }}
         >
-          NCERT Curriculum Navigator
+          Curriculum Explorer
         </h2>
         <div
           style={{
