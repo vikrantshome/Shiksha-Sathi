@@ -40,124 +40,77 @@ export default function ProfileForm({
   return (
     <form
       action={handleSubmit}
-      style={{
-        background: "var(--color-surface-container-lowest)",
-        borderRadius: "var(--radius-lg)",
-        boxShadow: "var(--shadow-sm)",
-        padding: "var(--space-8)",
-        display: "grid",
-        gap: "var(--space-8)",
-      }}
+      className="bg-surface-container-lowest rounded-lg shadow-sm p-8 grid gap-8"
     >
       {message ? (
-        <div
-          style={{
-            padding: "var(--space-4)",
-            borderRadius: "var(--radius-md)",
-            background: "rgba(45, 106, 79, 0.1)",
-            color: "var(--color-success)",
-            fontSize: "0.875rem",
-          }}
-        >
+        <div className="p-4 rounded-md bg-success/10 text-success text-sm">
           {message}
         </div>
       ) : null}
 
       {errorHeader ? (
-        <div
-          style={{
-            padding: "var(--space-4)",
-            borderRadius: "var(--radius-md)",
-            background: "rgba(168, 56, 54, 0.1)",
-            color: "var(--color-error)",
-            fontSize: "0.875rem",
-          }}
-        >
+        <div className="p-4 rounded-md bg-error/10 text-error text-sm">
           {errorHeader}
         </div>
       ) : null}
 
-      <section style={{ display: "grid", gap: "var(--space-5)" }}>
+      <section className="grid gap-5">
         <div>
-          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+          <p className="text-label-sm text-on-surface-variant m-0">
             Personal Details
           </p>
-          <h2
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "1.25rem",
-              fontWeight: 700,
-              color: "var(--color-on-surface)",
-              margin: "var(--space-1) 0 0",
-            }}
-          >
+          <h2 className="font-manrope text-xl font-bold text-on-surface mt-1 mb-0">
             Your Profile
           </h2>
         </div>
         <div>
-          <label className="text-label-md" style={{ display: "block", color: "var(--color-on-surface-variant)", marginBottom: "var(--space-2)" }}>
+          <label className="text-label-md block text-on-surface-variant mb-2">
             Full Name
           </label>
           <input
             name="name"
             defaultValue={initialData?.name}
             placeholder="e.g. Ananya Rao"
-            className="profile-input"
+            className="w-full bg-surface-container-highest border-none border-b border-outline-variant py-3 text-[0.9375rem] text-on-surface outline-none transition-colors duration-200 focus:border-primary"
           />
         </div>
       </section>
 
-      <section style={{ display: "grid", gap: "var(--space-5)" }}>
+      <section className="grid gap-5">
         <div>
-          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+          <p className="text-label-sm text-on-surface-variant m-0">
             School Details
           </p>
-          <h2
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "1.125rem",
-              fontWeight: 700,
-              color: "var(--color-on-surface)",
-              margin: "var(--space-1) 0 0",
-            }}
-          >
+          <h2 className="font-manrope text-lg font-bold text-on-surface mt-1 mb-0">
             Teaching Context
           </h2>
         </div>
         <div>
-          <label className="text-label-md" style={{ display: "block", color: "var(--color-on-surface-variant)", marginBottom: "var(--space-2)" }}>
+          <label className="text-label-md block text-on-surface-variant mb-2">
             School Name
           </label>
           <input
             name="school"
             defaultValue={initialData?.school}
             placeholder="e.g. Heritage International School"
-            className="profile-input"
+            className="w-full bg-surface-container-highest border-none border-b border-outline-variant py-3 text-[0.9375rem] text-on-surface outline-none transition-colors duration-200 focus:border-primary"
           />
         </div>
       </section>
 
-      <section style={{ display: "grid", gap: "var(--space-5)" }}>
+      <section className="grid gap-5">
         <div>
-          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+          <p className="text-label-sm text-on-surface-variant m-0">
             Academic Context
           </p>
-          <h2
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "1.125rem",
-              fontWeight: 700,
-              color: "var(--color-on-surface)",
-              margin: "var(--space-1) 0 0",
-            }}
-          >
+          <h2 className="font-manrope text-lg font-bold text-on-surface mt-1 mb-0">
             Board Alignment
           </h2>
         </div>
 
         <input type="hidden" name="board" value={board} />
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)" }}>
+        <div className="flex flex-wrap gap-3">
           {boardOptions.map((option) => {
             const active = board === option;
             return (
@@ -165,20 +118,11 @@ export default function ProfileForm({
                 key={option}
                 type="button"
                 onClick={() => setBoard(option)}
-                style={{
-                  padding: "var(--space-3) var(--space-4)",
-                  borderRadius: "var(--radius-full)",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "0.875rem",
-                  fontWeight: active ? 700 : 500,
-                  background: active
-                    ? "var(--color-secondary-container)"
-                    : "var(--color-surface-container-low)",
-                  color: active
-                    ? "var(--color-primary)"
-                    : "var(--color-on-surface-variant)",
-                }}
+                className={`px-4 py-3 rounded-full border-none cursor-pointer text-sm transition-colors ${
+                  active
+                    ? "font-bold bg-secondary-container text-primary"
+                    : "font-medium bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                }`}
               >
                 {option}
               </button>
@@ -187,71 +131,18 @@ export default function ProfileForm({
         </div>
       </section>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "var(--space-4)",
-          flexWrap: "wrap",
-          paddingTop: "var(--space-4)",
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            fontSize: "0.8125rem",
-            color: "var(--color-on-surface-variant)",
-            maxWidth: "26rem",
-            lineHeight: 1.7,
-          }}
-        >
+      <div className="flex justify-between items-center gap-4 flex-wrap pt-4">
+        <p className="m-0 text-[0.8125rem] text-on-surface-variant max-w-[26rem] leading-[1.7]">
           Keeping your profile current helps Shiksha Sathi tailor class and question-bank context to your teaching environment.
         </p>
         <button
           type="submit"
           disabled={isPending}
-          className="profile-submit"
-          style={{
-            padding: "var(--space-3) var(--space-8)",
-            border: "none",
-            borderRadius: "var(--radius-lg)",
-            background:
-              "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-            color: "var(--color-on-primary)",
-            fontWeight: 700,
-            letterSpacing: "0.03em",
-            cursor: isPending ? "wait" : "pointer",
-            boxShadow: "var(--shadow-sm)",
-          }}
+          className="px-8 py-3 border-none rounded-lg bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold tracking-[0.03em] shadow-sm cursor-pointer transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] disabled:opacity-75 disabled:cursor-wait"
         >
           {isPending ? "Saving Profile…" : "Save Profile"}
         </button>
       </div>
-
-      <style>{`
-        .profile-input {
-          width: 100%;
-          background: var(--color-surface-container-highest);
-          border: none;
-          border-bottom: 1px solid var(--color-outline-variant);
-          padding: var(--space-3) 0;
-          font-size: 0.9375rem;
-          color: var(--color-on-surface);
-          outline: none;
-          transition: border-color 200ms ease-out;
-        }
-        .profile-input:focus {
-          border-bottom-color: var(--color-primary);
-        }
-        .profile-submit:hover {
-          opacity: 0.92;
-          transform: translateY(-1px);
-        }
-        .profile-submit:active {
-          transform: scale(0.98);
-        }
-      `}</style>
     </form>
   );
 }
