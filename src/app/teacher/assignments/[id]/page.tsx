@@ -1,12 +1,13 @@
 import { api } from "@/lib/api";
 import { AssignmentReport, AssignmentSubmission } from "@/lib/api/types";
+import CopyAssignmentLinkButton from "@/components/CopyAssignmentLinkButton";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { 
   ArrowLeftIcon, 
   ClipboardDocumentCheckIcon, 
   ChartBarIcon, 
-  LinkIcon 
 } from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +30,11 @@ export default async function AssignmentReportPage({
   }
 
   const { assignment, submissions, questionStats } = report;
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "";
+  const protocol = requestHeaders.get("x-forwarded-proto") ?? "https";
+  const path = `/student/assignment/${assignment.linkId}`;
+  const shareLink = host ? `${protocol}://${host}${path}` : path;
 
   const averageScore =
     submissions.length > 0
@@ -50,13 +56,7 @@ export default async function AssignmentReportPage({
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6">
           <div className="flex-1">
             <h1 className="text-display-sm font-bold text-on-surface mb-2">{assignment.title}</h1>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-body-sm text-on-surface-variant">Student Link:</span>
-              <div className="flex items-center gap-1.5 bg-surface-container/60 px-2.5 py-1 rounded-md border border-outline-variant/30 text-xs font-mono text-on-surface-variant">
-                <LinkIcon className="w-3.5 h-3.5" />
-                /student/assignment/{assignment.linkId}
-              </div>
-            </div>
+            <CopyAssignmentLinkButton shareLink={shareLink} path={path} />
           </div>
           <div className="sm:text-right bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-5 py-3 shadow-sm">
             <span className="text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">
