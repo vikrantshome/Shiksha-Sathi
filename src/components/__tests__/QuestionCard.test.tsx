@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import QuestionCard from '../QuestionCard';
-import { Question } from '@/lib/questions';
+import { Question } from '@/lib/api/types';
 
 const mockToggleQuestion = vi.fn();
 const mockIsSelected = vi.fn().mockReturnValue(false);
@@ -26,7 +26,7 @@ describe('QuestionCard', () => {
     options: ['3', '4', '5'],
     correctAnswer: '4',
     marks: 1,
-  };
+  } as unknown as Question;
 
   it('renders correctly', () => {
     render(<QuestionCard question={mockQuestion} />);

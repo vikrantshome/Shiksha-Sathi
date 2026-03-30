@@ -35,7 +35,6 @@ test("renders assignment details and form", async () => {
   vi.mocked(api.assignments.getByLinkId).mockResolvedValueOnce({
     id: "a1",
     title: "History Quiz",
-    classId: "c1",
     dueDate: "2023-11-01T00:00:00Z",
     totalMarks: 50,
     questions: [],
