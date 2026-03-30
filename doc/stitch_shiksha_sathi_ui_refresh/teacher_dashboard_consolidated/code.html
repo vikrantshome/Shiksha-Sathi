@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shiksha Sathi | Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#204e4b",
+                        "outline": "#707977",
+                        "secondary-fixed-dim": "#b1ccc8",
+                        "on-secondary-fixed": "#051f1d",
+                        "surface-container-low": "#f4f4f0",
+                        "on-tertiary-fixed-variant": "#653d2b",
+                        "outline-variant": "#c0c8c6",
+                        "surface-container-highest": "#e3e2df",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#efeeea",
+                        "secondary-container": "#cae5e1",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf9f5",
+                        "surface-container-high": "#e9e8e4",
+                        "tertiary-fixed-dim": "#f4baa2",
+                        "on-secondary-fixed-variant": "#334b49",
+                        "surface-dim": "#dbdad6",
+                        "on-primary-fixed": "#00201e",
+                        "surface-tint": "#396662",
+                        "on-secondary-container": "#4e6764",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#573120",
+                        "primary": "#002b29",
+                        "secondary-fixed": "#cde8e4",
+                        "on-tertiary-fixed": "#311305",
+                        "secondary": "#4a6360",
+                        "inverse-primary": "#a1cfcb",
+                        "surface-variant": "#e3e2df",
+                        "primary-container": "#12423f",
+                        "surface": "#faf9f5",
+                        "on-surface": "#1b1c1a",
+                        "inverse-surface": "#2f312e",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#a1cfcb",
+                        "background": "#faf9f5",
+                        "tertiary": "#3d1c0d",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "on-primary-container": "#80aeaa",
+                        "on-tertiary-container": "#cf9982",
+                        "on-surface-variant": "#404847",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#bcece7",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdbcd"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #faf9f5;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+        }
+        .primary-cta-gradient {
+            background: linear-gradient(135deg, #002b29 0%, #12423f 100%);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-[#faf9f5]/80 dark:bg-[#1b1c1a]/80 backdrop-blur-xl z-50 shadow-sm shadow-[#1b1c1a]/5">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tighter text-[#002b29] dark:text-[#bcece7]">Shiksha Sathi</span>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-manrope text-sm font-medium tracking-tight text-[#002b29] dark:text-[#bcece7] border-b-2 border-[#002b29] dark:border-[#bcece7] pb-1" href="#">Dashboard</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] dark:hover:text-[#bcece7] transition-colors duration-200" href="#">Classes</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] dark:hover:text-[#bcece7] transition-colors duration-200" href="#">Question Bank</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] dark:hover:text-[#bcece7] transition-colors duration-200" href="#">Profile</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="primary-cta-gradient text-on-primary px-6 py-2.5 rounded-lg text-sm font-semibold tracking-tight transition-all active:opacity-80 active:scale-[0.99]">
+                Create Assignment
+            </button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="portrait of a professional female educator with a warm smile in a brightly lit modern academic office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzYXVPnzNZbC7twq5Mc_9moM7xuU6dTvS5S7pWCcbZirvlP5pmM7m2wZz7ILfemqYI6aA1rJcF-aJn-U2qt4xyiQyorFmzTEUxJu5x4TcFM2HypjWwrPyIYqfFY5AKqeUqThGPCdTqoEMgphQ7RSZA1XLD-Xl14E_Xkk4u1DZUjGKCBcDFzuf3MabjxXqQs_aD2aQvjWm5yfMdeZI2dKgIxoXiqPnRXRKclHVtXrnCla2hHpWDxRXv0Zv60CEu5X41g1NvNSxHWcQF"/>
+</div>
+</div>
+</nav>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-72 bg-[#f4f4f0] dark:bg-[#252623] flex flex-col py-6 gap-2 z-40">
+<div class="px-8 mb-8">
+<h2 class="font-manrope text-xs tracking-widest uppercase font-bold text-on-surface-variant opacity-60">Library Explorer</h2>
+<p class="text-[10px] text-on-surface-variant font-medium">The Digital Atelier</p>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 bg-[#cae5e1] dark:bg-[#12423f] text-[#002b29] dark:text-[#e3e2df] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">school</span>
+                Board
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">layers</span>
+                Class
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">book</span>
+                Subject
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">library_books</span>
+                Book Series
+            </a>
+<a class="flex items-center gap-3 py-3 px-6 mx-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#404847] rounded-lg transition-all font-manrope text-sm tracking-wide uppercase font-semibold" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+                Chapter
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-72 pt-24 min-h-screen bg-surface p-8">
+<!-- Header Section -->
+<header class="mb-12">
+<h1 class="text-4xl font-extrabold tracking-tight text-primary mb-2">Good morning, Dr. Aris</h1>
+<p class="text-on-surface-variant text-lg">Your scholarly studio is prepared for today's sessions.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Metric Card 1: Assignments -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-8 rounded-xl flex flex-col justify-between h-48 group hover:shadow-sm transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl">assignment</span>
+<span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant opacity-60">Volume</span>
+</div>
+<div>
+<div class="text-5xl font-extrabold text-primary mb-1">24</div>
+<div class="text-sm font-semibold text-on-surface-variant">Active Assignments</div>
+</div>
+</div>
+<!-- Metric Card 2: Submissions -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-8 rounded-xl flex flex-col justify-between h-48 group hover:shadow-sm transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl">task_alt</span>
+<span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant opacity-60">Response</span>
+</div>
+<div>
+<div class="text-5xl font-extrabold text-primary mb-1">142</div>
+<div class="text-sm font-semibold text-on-surface-variant">Pending Submissions</div>
+</div>
+</div>
+<!-- Metric Card 3: Avg Score -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-8 rounded-xl flex flex-col justify-between h-48 group hover:shadow-sm transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl">analytics</span>
+<span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant opacity-60">Efficacy</span>
+</div>
+<div>
+<div class="text-5xl font-extrabold text-primary mb-1">86<span class="text-2xl font-semibold opacity-60">%</span></div>
+<div class="text-sm font-semibold text-on-surface-variant">Average Cohort Score</div>
+</div>
+</div>
+<!-- Recent Assignments List (The Desk) -->
+<section class="col-span-12 lg:col-span-8 space-y-6">
+<div class="flex justify-between items-end mb-4">
+<h3 class="text-xl font-bold text-on-surface">Recent Assignments</h3>
+<a class="text-sm font-bold text-primary hover:underline underline-offset-4" href="#">View All Archive</a>
+</div>
+<div class="space-y-4">
+<!-- Assignment Item 1 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-6 group hover:bg-surface-container-lowest transition-colors">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">science</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-bold text-on-surface text-lg">Chemical Bonds &amp; Valency</h4>
+<p class="text-on-surface-variant text-sm">Class 10-B • Due in 2 days</p>
+</div>
+<div class="text-right flex flex-col items-end gap-2">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Progress</span>
+<div class="w-32 bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+</div>
+<!-- Assignment Item 2 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-6 group hover:bg-surface-container-lowest transition-colors">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-bold text-on-surface text-lg">The Mughal Renaissance</h4>
+<p class="text-on-surface-variant text-sm">Class 9-A • Published 5h ago</p>
+</div>
+<div class="text-right flex flex-col items-end gap-2">
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Draft</span>
+<div class="w-32 bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[0%]"></div>
+</div>
+</div>
+</div>
+<!-- Assignment Item 3 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-6 group hover:bg-surface-container-lowest transition-colors">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">functions</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-bold text-on-surface text-lg">Vector Calculus Fundamentals</h4>
+<p class="text-on-surface-variant text-sm">Class 12-C • Graded</p>
+</div>
+<div class="text-right flex flex-col items-end gap-2">
+<span class="bg-tertiary-container text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Completed</span>
+<div class="w-32 bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[100%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Activity Feed (The Log) -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-8">
+<h3 class="text-xl font-bold text-on-surface mb-8">Recent Activity</h3>
+<div class="relative space-y-10 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant/30">
+<!-- Activity Item 1 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-white">rate_review</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Assignment Reviewed</span>
+<span class="text-xs text-on-surface-variant">You graded 12 submissions for 'Plant Anatomy'</span>
+<span class="text-[10px] uppercase tracking-tighter text-outline mt-1">14 minutes ago</span>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">New Student Enrolled</span>
+<span class="text-xs text-on-surface-variant">Aarav Sharma joined Mathematics 101</span>
+<span class="text-[10px] uppercase tracking-tighter text-outline mt-1">2 hours ago</span>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-tertiary-container text-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Missed Deadline Alert</span>
+<span class="text-xs text-on-surface-variant">5 students missed the 'History of India' deadline</span>
+<span class="text-[10px] uppercase tracking-tighter text-outline mt-1">Yesterday</span>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-white">upload_file</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Resources Updated</span>
+<span class="text-xs text-on-surface-variant">New PDFs added to the Physics Digital Library</span>
+<span class="text-[10px] uppercase tracking-tighter text-outline mt-1">2 days ago</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Academic Insight Chip (Footer Moment) -->
+<div class="mt-12 p-6 bg-tertiary-container rounded-xl flex items-center gap-4 max-w-2xl">
+<div class="p-2 bg-on-tertiary rounded-full">
+<span class="material-symbols-outlined text-tertiary-container">lightbulb</span>
+</div>
+<div>
+<h5 class="text-on-tertiary-fixed font-bold text-sm">Scholarly Insight</h5>
+<p class="text-on-tertiary-fixed-variant text-sm">Average engagement in Class 10-B is up by 15% this week. Consider assigning a peer-review workshop to maintain momentum.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container shadow-2xl flex justify-around items-center h-16 px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Classes</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">New</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Account</span>
+</a>
+</nav>
+</body></html>

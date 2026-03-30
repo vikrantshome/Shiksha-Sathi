@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assignment Report | Shiksha Sathi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#573120",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#4e6764",
+              "outline": "#707977",
+              "on-surface-variant": "#404847",
+              "surface-container-high": "#e9e8e4",
+              "surface-container-low": "#f4f4f0",
+              "inverse-on-surface": "#f2f1ed",
+              "primary": "#002b29",
+              "surface-dim": "#dbdad6",
+              "on-background": "#1b1c1a",
+              "on-primary-fixed": "#00201e",
+              "surface-tint": "#396662",
+              "error": "#ba1a1a",
+              "background": "#faf9f5",
+              "primary-fixed-dim": "#a1cfcb",
+              "on-surface": "#1b1c1a",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#cf9982",
+              "surface-variant": "#e3e2df",
+              "on-secondary-fixed": "#051f1d",
+              "inverse-surface": "#2f312e",
+              "surface-bright": "#faf9f5",
+              "surface": "#faf9f5",
+              "on-primary-container": "#80aeaa",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#311305",
+              "primary-container": "#12423f",
+              "secondary-container": "#cae5e1",
+              "secondary": "#4a6360",
+              "inverse-primary": "#a1cfcb",
+              "tertiary": "#3d1c0d",
+              "on-primary-fixed-variant": "#204e4b",
+              "surface-container-highest": "#e3e2df",
+              "primary-fixed": "#bcece7",
+              "tertiary-fixed-dim": "#f4baa2",
+              "on-tertiary-fixed-variant": "#653d2b",
+              "secondary-fixed": "#cde8e4",
+              "on-secondary-fixed-variant": "#334b49",
+              "secondary-fixed-dim": "#b1ccc8",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "outline-variant": "#c0c8c6",
+              "surface-container": "#efeeea",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            background: rgba(250, 249, 245, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-8 h-16 bg-[#faf9f5]/80 dark:bg-[#1b1c1a]/80 backdrop-blur-xl z-50 shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-[#002b29] dark:text-[#bcece7]">Shiksha Sathi</span>
+<nav class="hidden md:flex items-center gap-6 font-manrope text-sm font-medium tracking-tight">
+<a class="text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] transition-colors" href="#">Dashboard</a>
+<a class="text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] transition-colors" href="#">Classes</a>
+<a class="text-[#002b29] dark:text-[#bcece7] border-b-2 border-[#002b29] pb-1" href="#">Assignments</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#404847]">notifications</button>
+<button class="material-symbols-outlined text-[#404847]">help_outline</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img alt="Teacher Profile" class="w-full h-full object-cover" data-alt="Professional portrait of a middle-aged female educator with a kind smile and spectacles in a brightly lit office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrJyOgjIIrEHk0PjWbjDHQiPqZk0n9em3cp5MpIABzfJz1LripCsuNZk53syIgUwzUEogWdV96NIUHEpeuMXQwVBX6DKYWqb32Vupjs3s38Y1PN9W6zScCmVtQv6-E7Xujexp9F7OFN4iEZG-EE7uOgcASlBgUWLNHHpZz563u4bKFBfB_33d1O5ubiEl2hFR7Pw8ZXTBqS2CKsKKKdakgt6mERs_ErF9TOIwX3mTNyk4VN3UbKT680xPKW8vrPuvLIumZFDsvchsQ"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Suppressed on focused screens but kept as anchor per system) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-20 pb-8 border-r border-[#c0c8c6]/20 bg-[#f4f4f0] dark:bg-[#1b1c1a] w-64 hidden xl:flex">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black text-[#002b29] dark:text-[#bcece7]">The Digital Atelier</h2>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant opacity-70">Educator Portal</p>
+</div>
+<nav class="flex-1 font-manrope text-sm font-semibold uppercase tracking-widest">
+<a class="flex items-center gap-3 text-[#404847] dark:text-[#c0c8c6] px-4 py-3 mx-2 hover:bg-[#ffffff]/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 text-[#404847] dark:text-[#c0c8c6] px-4 py-3 mx-2 hover:bg-[#ffffff]/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">groups</span> Classes
+            </a>
+<a class="flex items-center gap-3 bg-[#cae5e1] dark:bg-[#12423f] text-[#002b29] dark:text-[#bcece7] rounded-lg px-4 py-3 mx-2" href="#">
+<span class="material-symbols-outlined">quiz</span> Question Bank
+            </a>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-semibold flex items-center justify-center gap-2 shadow-lg hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">add</span> New Assignment
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-8 xl:ml-64 min-h-screen">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<section class="mb-10">
+<nav class="flex items-center gap-2 text-xs font-label uppercase tracking-widest text-on-surface-variant mb-4">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Assignments</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface">Periodic Table Basics</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-4xl font-headline font-bold tracking-tight text-primary mb-2">Periodic Table Basics - Class 10C</h1>
+<p class="text-on-surface-variant">Chemistry Department • Science Block A</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold py-2 px-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Back to Dashboard
+                    </button>
+</div>
+</section>
+<!-- Metrics & Details Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Assignment Details Card -->
+<div class="lg:col-span-2 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between">
+<div>
+<h3 class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-4">Student Assignment Link</h3>
+<div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/20 mb-4">
+<span class="material-symbols-outlined text-primary/60">link</span>
+<code class="flex-1 text-sm font-mono text-on-surface-variant truncate">/student/assignment/shiksha-782k-math-3912</code>
+<button class="text-primary hover:bg-secondary-container px-3 py-1 rounded transition-colors text-sm font-semibold">Copy Link</button>
+</div>
+</div>
+<div class="flex items-center gap-12 border-t border-outline-variant/20 pt-6">
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Total Marks</p>
+<p class="text-2xl font-bold text-primary">25 Points</p>
+</div>
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Status</p>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                Active
+                            </span>
+</div>
+</div>
+</div>
+<!-- Submission Summary Stats -->
+<div class="bg-surface-container-low rounded-xl p-8 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Submissions</p>
+<p class="text-3xl font-bold text-primary">22<span class="text-lg text-outline-variant font-medium">/45</span></p>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Avg. Score</p>
+<p class="text-3xl font-bold text-primary">74%</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Due Date</p>
+<div class="flex items-center gap-2 text-on-surface font-semibold">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            Oct 24, 2023 • 11:59 PM
+                        </div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Section: Table & Question Performance -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+<!-- Student Submissions Table -->
+<div class="lg:col-span-3 bg-surface-container-lowest rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] overflow-hidden">
+<div class="px-8 py-6 border-b border-surface-container-low flex justify-between items-center">
+<h3 class="text-lg font-bold text-primary">Student Submissions</h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-sm text-outline">search</span>
+<input class="pl-10 pr-4 py-2 text-sm bg-surface-container-low border-none rounded-lg focus:ring-1 focus:ring-primary w-48" placeholder="Search student..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low/50 text-xs font-label uppercase tracking-widest text-on-surface-variant">
+<tr>
+<th class="px-8 py-4 font-semibold">Student Name</th>
+<th class="px-8 py-4 font-semibold">Score</th>
+<th class="px-8 py-4 font-semibold">Submission Time</th>
+<th class="px-8 py-4 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low text-sm">
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold text-primary">AA</div>
+<span class="font-semibold text-on-surface">Arjun Adhikari</span>
+</div>
+</td>
+<td class="px-8 py-4">
+<span class="text-on-surface font-medium">18/25</span>
+<span class="text-xs text-on-surface-variant ml-2">(72%)</span>
+</td>
+<td class="px-8 py-4 text-on-surface-variant">2 hrs ago</td>
+<td class="px-8 py-4 text-right">
+<button class="text-primary font-bold hover:underline">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-[10px] font-bold text-tertiary">SP</div>
+<span class="font-semibold text-on-surface">Sneha Patil</span>
+</div>
+</td>
+<td class="px-8 py-4">
+<span class="text-on-surface font-medium text-error">10/25</span>
+<span class="text-xs text-on-surface-variant ml-2">(40%)</span>
+</td>
+<td class="px-8 py-4 text-on-surface-variant">4 hrs ago</td>
+<td class="px-8 py-4 text-right">
+<button class="text-primary font-bold hover:underline">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary">RJ</div>
+<span class="font-semibold text-on-surface">Rohan Jha</span>
+</div>
+</td>
+<td class="px-8 py-4">
+<span class="text-on-surface font-medium">23/25</span>
+<span class="text-xs text-on-surface-variant ml-2">(92%)</span>
+</td>
+<td class="px-8 py-4 text-on-surface-variant">Oct 22, 10:15 AM</td>
+<td class="px-8 py-4 text-right">
+<button class="text-primary font-bold hover:underline">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-[10px] font-bold text-primary">MK</div>
+<span class="font-semibold text-on-surface">Meera Khan</span>
+</div>
+</td>
+<td class="px-8 py-4">
+<span class="text-on-surface font-medium">21/25</span>
+<span class="text-xs text-on-surface-variant ml-2">(84%)</span>
+</td>
+<td class="px-8 py-4 text-on-surface-variant">Oct 21, 04:30 PM</td>
+<td class="px-8 py-4 text-right">
+<button class="text-primary font-bold hover:underline">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Question Performance Section -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-surface-container-low rounded-xl p-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-primary">Question Analysis</h3>
+<span class="text-xs font-label uppercase text-on-surface-variant">Accuracy</span>
+</div>
+<div class="space-y-5">
+<!-- Q1 -->
+<div class="p-4 bg-surface-container-lowest rounded-lg">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded">Q1</span>
+<p class="text-sm font-medium text-on-surface truncate max-w-[180px]">Which element has the symbol 'Au'?</p>
+</div>
+<span class="text-sm font-bold text-primary">85%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Q2 - Needs Attention -->
+<div class="p-4 bg-error-container/30 rounded-lg border border-error/10">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-error-container bg-error-container px-2 py-0.5 rounded">Q2</span>
+<p class="text-sm font-medium text-on-surface truncate max-w-[180px]">Explain the trend of electronegativity...</p>
+</div>
+<span class="text-sm font-bold text-error">42%</span>
+</div>
+<div class="w-full bg-error-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 42%"></div>
+</div>
+<p class="text-[10px] mt-2 text-error font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+                                    NEEDS ATTENTION: High failure rate
+                                </p>
+</div>
+<!-- Q3 -->
+<div class="p-4 bg-surface-container-lowest rounded-lg">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded">Q3</span>
+<p class="text-sm font-medium text-on-surface truncate max-w-[180px]">Number of valence electrons in Group 17...</p>
+</div>
+<span class="text-sm font-bold text-primary">76%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 76%"></div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="p-4 bg-surface-container-lowest rounded-lg">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded">Q4</span>
+<p class="text-sm font-medium text-on-surface truncate max-w-[180px]">The most reactive non-metal is...</p>
+</div>
+<span class="text-sm font-bold text-primary">68%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 68%"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline-variant/30 text-primary font-bold text-xs font-label uppercase tracking-widest rounded-lg hover:bg-surface-container-high transition-colors">
+                            View Full Question Report
+                        </button>
+</div>
+<!-- Insight Chip -->
+<div class="bg-tertiary-container rounded-xl p-6 text-tertiary-fixed">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-on-tertiary-container">lightbulb</span>
+<div>
+<h4 class="text-sm font-bold text-on-tertiary-container mb-1">Teaching Insight</h4>
+<p class="text-sm leading-relaxed opacity-90">
+                                    Students are struggling with <strong>Electronegativity Trends (Q2)</strong>. Consider a 10-minute visual review session using the Interactive Periodic Table tool.
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Suppressed per task context as this is a detail report page) -->
+</body></html>

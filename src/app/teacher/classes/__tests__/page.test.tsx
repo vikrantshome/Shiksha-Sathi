@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ClassesPage from '../page';
+import { ClassItem } from '@/lib/api/types';
 
 vi.mock('@/lib/api', () => ({
   api: {
@@ -26,15 +27,15 @@ import { api } from '@/lib/api';
 describe('ClassesPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(api.classes.getClasses).mockResolvedValue([] as any);
+    vi.mocked(api.classes.getClasses).mockResolvedValue([]);
   });
 
   it('renders empty state when no classes exist', async () => {
     const Page = await ClassesPage();
     render(Page);
     
-    expect(screen.getByText('Create New Class')).toBeInTheDocument();
-    expect(screen.getByText('No active classes found. Create your first class to get started.')).toBeInTheDocument();
+    expect(screen.getAllByText('Create Class').length).toBeGreaterThan(0);
+    expect(screen.getByText('No active classes yet')).toBeInTheDocument();
   });
 
   it('renders list of classes', async () => {
@@ -49,7 +50,7 @@ describe('ClassesPage', () => {
         teacherIds: [],
         studentIds: [],
       }
-    ] as any);
+    ] as ClassItem[]);
 
     const Page = await ClassesPage();
     render(Page);
@@ -58,6 +59,3 @@ describe('ClassesPage', () => {
     expect(screen.getByText('Section A • 20 Students')).toBeInTheDocument();
   });
 });
-
-
-

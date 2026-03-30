@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { expect, test, vi, beforeEach, describe } from "vitest";
 import StudentAssignmentForm from "../StudentAssignmentForm";
 import { api } from "@/lib/api";
+import { SubmitAssignmentResponse } from "@/lib/api/types";
 
 vi.mock("@/lib/api", () => ({
   api: {
@@ -30,18 +31,23 @@ describe("StudentAssignmentForm", () => {
     render(<StudentAssignmentForm assignment={mockAssignment} />);
     
     expect(screen.getByText("Enter your details to start")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("e.g. John Doe")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("e.g. 101")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("e.g. Aarav Patel")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Enter your unique ID")).toBeInTheDocument();
   });
 
   test("filling identity form shows questions", async () => {
     render(<StudentAssignmentForm assignment={mockAssignment} />);
     
-    fireEvent.change(screen.getByPlaceholderText("e.g. John Doe"), { target: { value: "Student 1" } });
-    fireEvent.change(screen.getByPlaceholderText("e.g. 101"), { target: { value: "Roll 1" } });
+    fireEvent.change(screen.getByPlaceholderText("e.g. Aarav Patel"), {
+      target: { value: "Student 1" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Enter your unique ID"), {
+      target: { value: "Roll 1" },
+    });
     fireEvent.click(screen.getByText("Start Assignment"));
     
-    expect(screen.getByText("Student 1 (Roll 1)")).toBeInTheDocument();
+    expect(screen.getByText("Student:")).toBeInTheDocument();
+    expect(screen.getByText("Student 1")).toBeInTheDocument();
     expect(screen.getByText("Q1 Text")).toBeInTheDocument();
     expect(screen.getByText("Q2 Text")).toBeInTheDocument();
     expect(screen.getByText("0 / 2 Answered")).toBeInTheDocument();
@@ -51,8 +57,8 @@ describe("StudentAssignmentForm", () => {
     render(<StudentAssignmentForm assignment={mockAssignment} />);
     
     // Login
-    fireEvent.change(screen.getByPlaceholderText("e.g. John Doe"), { target: { value: "Student 1" } });
-    fireEvent.change(screen.getByPlaceholderText("e.g. 101"), { target: { value: "Roll 1" } });
+    fireEvent.change(screen.getByPlaceholderText("e.g. Aarav Patel"), { target: { value: "Student 1" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter your unique ID"), { target: { value: "Roll 1" } });
     fireEvent.click(screen.getByText("Start Assignment"));
     
     // Submit without answering
@@ -60,13 +66,13 @@ describe("StudentAssignmentForm", () => {
     expect(screen.getByText("Please answer all questions before submitting.")).toBeInTheDocument();
     
     // Answer one question
-    fireEvent.click(screen.getByLabelText("A"));
+    fireEvent.click(screen.getByText("A) A"));
     fireEvent.click(screen.getByText("Submit Assignment"));
     expect(screen.getByText("Please answer all questions before submitting.")).toBeInTheDocument();
   });
 
   test("submits answers and shows results", async () => {
-    vi.mocked(api.assignments.submitAssignment).mockResolvedValueOnce({
+    const submissionResult: SubmitAssignmentResponse = {
       success: true,
       score: 10,
       totalMarks: 10,
@@ -74,26 +80,27 @@ describe("StudentAssignmentForm", () => {
         { questionId: "q1", questionText: "Q1 Text", studentAnswer: "A", isCorrect: true, marksAwarded: 5, correctAnswer: "A" },
         { questionId: "q2", questionText: "Q2 Text", studentAnswer: "Test", isCorrect: true, marksAwarded: 5, correctAnswer: "Test" },
       ],
-    } as any);
+    };
+    vi.mocked(api.assignments.submitAssignment).mockResolvedValueOnce(submissionResult);
 
     render(<StudentAssignmentForm assignment={mockAssignment} />);
     
     // Login
-    fireEvent.change(screen.getByPlaceholderText("e.g. John Doe"), { target: { value: "Student" } });
-    fireEvent.change(screen.getByPlaceholderText("e.g. 101"), { target: { value: "Roll" } });
+    fireEvent.change(screen.getByPlaceholderText("e.g. Aarav Patel"), { target: { value: "Student" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter your unique ID"), { target: { value: "Roll" } });
     fireEvent.click(screen.getByText("Start Assignment"));
     
     // Answer questions
-    fireEvent.click(screen.getByLabelText("A"));
+    fireEvent.click(screen.getByText("A) A"));
     fireEvent.change(screen.getByPlaceholderText("Type your answer here..."), { target: { value: "Test" } });
     
     // Submit
     fireEvent.click(screen.getByText("Submit Assignment"));
     
     expect(api.assignments.submitAssignment).toHaveBeenCalledWith("a1", "Student", "Roll", { q1: "A", q2: "Test" });
-    
+
     await waitFor(() => {
-      expect(screen.getByText("Assignment Submitted!")).toBeInTheDocument();
+      expect(screen.getByText("Assignment Submitted Successfully")).toBeInTheDocument();
     });
     
     expect(screen.getByText("10")).toBeInTheDocument(); // Score
