@@ -6,9 +6,25 @@ import AssignmentTray from "@/components/AssignmentTray";
 
 export const dynamic = "force-dynamic";
 
+const EmptyStateIcon = () => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ color: "var(--color-outline-variant)" }}
+  >
+    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+  </svg>
+);
+
 /* ─────────────────────────────────────────────────────────
    Question Bank Page — Stitch-Directed Redesign
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/question_bank
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/question_bank_browse_select
    Implements: "Question Repository" layout with 3-panel workspace,
    taxonomy left rail in sidebar, center search+results, right
    assignment tray. All styled with Digital Atelier design tokens.
@@ -79,14 +95,14 @@ export default async function QuestionBankPage({
       return {
         title: "Select a Board to Begin",
         description:
-          "Choose your board and grade from the left panel to explore curated academic content.",
+          "Select a board from the left to start browsing.",
         icon: "board",
       };
     }
     if (!classLevel && !q) {
       return {
         title: "Select a Class",
-        description: "Pick a class level to narrow down your curriculum.",
+        description: "Select a class to continue.",
         icon: "class",
       };
     }
@@ -108,12 +124,12 @@ export default async function QuestionBankPage({
   };
 
   const emptyState = getEmptyState();
-
-  const EmptyIcon = () => (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-outline-variant)" }}>
-      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-    </svg>
-  );
+  const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, subjectId, chapter]
+    .filter(Boolean)
+    .join(" / ");
+  const heading = chapter
+    ? `${chapter} Results (${displayedQuestions.length})`
+    : "Question Repository";
 
   return (
     <div style={{ paddingBottom: "6rem" }}>
@@ -121,34 +137,58 @@ export default async function QuestionBankPage({
       <div
         style={{
           display: "flex",
-          alignItems: "baseline",
+          alignItems: "flex-end",
           justifyContent: "space-between",
+          gap: "var(--space-4)",
           marginBottom: "var(--space-6)",
+          flexWrap: "wrap",
         }}
       >
-        <h1
-          style={{
-            fontFamily: "var(--font-manrope), system-ui, sans-serif",
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
-            color: "var(--color-on-surface)",
-            margin: 0,
-          }}
-        >
-          Question Repository
-        </h1>
+        <div style={{ display: "grid", gap: "var(--space-2)" }}>
+          {breadcrumb ? (
+            <p
+              className="text-label-sm"
+              style={{ color: "var(--color-on-surface-variant)", margin: 0 }}
+            >
+              {breadcrumb}
+            </p>
+          ) : null}
+          <h1
+            style={{
+              fontFamily: "var(--font-manrope), system-ui, sans-serif",
+              fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              color: "var(--color-primary)",
+              margin: 0,
+            }}
+          >
+            {heading}
+          </h1>
+        </div>
         {!emptyState && (
           <span
             style={{
-              fontSize: "0.6875rem",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "var(--space-2)",
+              padding: "var(--space-2) var(--space-3)",
+              borderRadius: "var(--radius-full)",
+              background: "var(--color-surface-container-low)",
+              fontSize: "0.75rem",
               fontWeight: 700,
               color: "var(--color-on-surface-variant)",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
             }}
           >
-            Showing {displayedQuestions.length} result
+            <span
+              style={{
+                width: "0.5rem",
+                height: "0.5rem",
+                borderRadius: "50%",
+                background: "var(--color-success)",
+              }}
+            />
+            {displayedQuestions.length} curated result
             {displayedQuestions.length !== 1 ? "s" : ""}
           </span>
         )}
@@ -204,7 +244,7 @@ export default async function QuestionBankPage({
                   marginBottom: "var(--space-6)",
                 }}
               >
-                <EmptyIcon />
+                <EmptyStateIcon />
               </div>
               <h3
                 style={{

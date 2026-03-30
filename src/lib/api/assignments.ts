@@ -1,5 +1,12 @@
 import { fetchApi } from './client';
-import { Assignment, AssignmentSubmission, AssignmentWithStats, AssignmentReport } from './types';
+import {
+  Assignment,
+  AssignmentByLinkResponse,
+  AssignmentReport,
+  AssignmentSubmission,
+  AssignmentWithStats,
+  SubmitAssignmentResponse,
+} from './types';
 
 export const assignments = {
   getStats: (teacherId: string): Promise<AssignmentWithStats[]> => 
@@ -23,17 +30,25 @@ export const assignments = {
   publish: (assignmentId: string): Promise<Assignment> => 
     fetchApi<Assignment>(`/assignments/${assignmentId}/publish`, { method: 'POST' }),
 
-  getByLinkId: (linkId: string): Promise<any> =>
-    fetchApi<any>(`/assignments/link/${linkId}`, { method: 'GET' }),
+  getByLinkId: (linkId: string): Promise<AssignmentByLinkResponse> =>
+    fetchApi<AssignmentByLinkResponse>(`/assignments/link/${linkId}`, {
+      method: 'GET',
+    }),
 
-  submitAssignment: (assignmentId: string, studentName: string, studentRollNumber: string, answers: Record<string, string>): Promise<any> =>
-    fetchApi<any>('/submissions', {
+  submitAssignment: (
+    assignmentId: string,
+    studentName: string,
+    studentRollNumber: string,
+    answers: Record<string, string>
+  ): Promise<SubmitAssignmentResponse> =>
+    fetchApi<SubmitAssignmentResponse>('/submissions', {
       method: 'POST',
       body: JSON.stringify({
         assignmentId,
+        studentName,
         studentId: studentRollNumber, // Mapping rollNumber to studentId for temporary MVP
         answers,
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
       }),
     }),
 };

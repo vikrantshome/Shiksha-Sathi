@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { AssignmentReport, AssignmentSubmission } from "@/lib/api/types";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { 
@@ -16,10 +17,14 @@ export default async function AssignmentReportPage({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = await params;
-  let report;
+  let report: AssignmentReport | null = null;
   try {
     report = await api.assignments.getReport(resolvedParams.id);
-  } catch (error) {
+  } catch {
+    notFound();
+  }
+
+  if (!report) {
     notFound();
   }
 
@@ -27,7 +32,7 @@ export default async function AssignmentReportPage({
 
   const averageScore =
     submissions.length > 0
-      ? submissions.reduce((acc: number, sub: any) => acc + sub.score, 0) /
+      ? submissions.reduce((acc: number, sub: AssignmentSubmission) => acc + sub.score, 0) /
         submissions.length
       : 0;
 
@@ -128,7 +133,7 @@ export default async function AssignmentReportPage({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant/20">
-                  {submissions.map((sub: any) => (
+                  {submissions.map((sub: AssignmentSubmission) => (
                     <tr
                       key={sub.id}
                       className="transition-colors hover:bg-surface-container/40"

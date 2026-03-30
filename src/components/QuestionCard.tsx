@@ -15,25 +15,16 @@ import { useAssignment } from "./AssignmentContext";
    ───────────────────────────────────────────────────────── */
 
 /* ── Type Badge Color Map ── */
-const typeBadgeStyles: Record<string, { bg: string; color: string }> = {
-  MCQ: {
-    bg: "var(--color-primary-container)",
-    color: "var(--color-on-primary-container)",
-  },
-  TRUE_FALSE: {
-    bg: "var(--color-secondary-container)",
-    color: "var(--color-on-secondary-container)",
-  },
-  FILL_IN_BLANKS: {
-    bg: "var(--color-tertiary-container)",
-    color: "var(--color-on-tertiary-container)",
-  },
+const typeBadgeClasses: Record<string, string> = {
+  MCQ: "bg-primary-container text-on-primary-container",
+  TRUE_FALSE: "bg-secondary-container text-on-secondary-container",
+  FILL_IN_BLANKS: "bg-tertiary-container text-on-tertiary-container",
 };
 
 const getTypeBadge = (type: string) => {
-  const style = typeBadgeStyles[type] || typeBadgeStyles["MCQ"];
+  const className = typeBadgeClasses[type] || typeBadgeClasses["MCQ"];
   const label = type.replace(/_/g, " ");
-  return { style, label };
+  return { className, label };
 };
 
 export default function QuestionCard({ question: q }: { question: Question }) {
@@ -45,82 +36,30 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
   return (
     <div
-      style={{
-        background: "var(--color-surface-container-lowest)",
-        borderLeft: selected
-          ? "4px solid var(--color-primary)"
-          : "4px solid transparent",
-        boxShadow: selected
-          ? "0 1px 4px rgba(48, 51, 47, 0.08)"
-          : "none",
-        overflow: "hidden",
-        transition: "all 300ms ease-out",
-      }}
-      className="question-card"
+      className={`group relative overflow-hidden bg-surface-container-lowest transition-all duration-300 ease-out border-l-4 border-y border-r border-y-transparent border-r-transparent hover:border-outline-variant/20 ${
+        selected ? "border-l-primary shadow-[0_1px_4px_rgba(48,51,47,0.08)]" : "border-l-transparent shadow-none"
+      }`}
     >
       {/* ═══ Card Content ═══ */}
-      <div style={{ padding: "var(--space-6)" }}>
+      <div className="p-6">
         {/* Meta Row: Type Badge + Chapter/Level + Source + Selection */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "var(--space-4)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "var(--space-2)",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
+        <div className="mb-4 flex items-start justify-between">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Type Badge */}
             <span
-              style={{
-                background: badge.style.bg,
-                color: badge.style.color,
-                fontSize: "0.625rem",
-                fontWeight: 700,
-                padding: "2px var(--space-2)",
-                borderRadius: "var(--radius-full)",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-              }}
+              className={`rounded-full px-2 py-[2px] text-[0.625rem] font-bold tracking-[0.08em] uppercase ${badge.className}`}
             >
               {badge.label}
             </span>
             {/* Chapter/Topic */}
-            <span
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 500,
-                color: "var(--color-on-surface-variant)",
-              }}
-            >
+            <span className="text-xs font-medium text-on-surface-variant">
               {q.topic}
             </span>
             {/* Difficulty Dot */}
             {q.provenance && (
               <>
-                <span
-                  style={{
-                    width: "3px",
-                    height: "3px",
-                    borderRadius: "50%",
-                    background: "var(--color-outline-variant)",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 500,
-                    color: "var(--color-on-surface-variant)",
-                  }}
-                >
+                <span className="inline-block h-[3px] w-[3px] rounded-full bg-outline-variant" />
+                <span className="text-xs font-medium text-on-surface-variant">
                   Class {q.provenance.classLevel}
                 </span>
               </>
@@ -128,22 +67,8 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           </div>
 
           {/* Source + Selection Circle */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-3)",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "0.625rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface-variant)",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-              }}
-            >
+          <div className="flex items-center gap-3">
+            <span className="text-[0.625rem] font-bold tracking-wider text-on-surface-variant uppercase">
               SOURCE: {q.sourceKind || "LOCAL"}
             </span>
 
@@ -151,24 +76,11 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             <button
               type="button"
               onClick={() => toggleQuestion(q)}
-              style={{
-                width: "1.25rem",
-                height: "1.25rem",
-                borderRadius: "50%",
-                border: selected
-                  ? "none"
-                  : "1.5px solid rgba(176, 179, 173, 0.3)",
-                background: selected
-                  ? "var(--color-primary)"
-                  : "transparent",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                transition: "all 150ms ease-out",
-                padding: 0,
-                flexShrink: 0,
-              }}
+              className={`flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 p-0 transition-all duration-150 ease-out ${
+                selected
+                  ? "bg-primary"
+                  : "bg-transparent ring-1 ring-inset ring-outline-variant/30"
+              }`}
               aria-label={selected ? "Remove from assignment" : "Add to assignment"}
             >
               {selected && (
@@ -190,76 +102,34 @@ export default function QuestionCard({ question: q }: { question: Question }) {
         </div>
 
         {/* Question Text */}
-        <p
-          style={{
-            fontSize: "1rem",
-            fontWeight: 500,
-            lineHeight: 1.6,
-            color: "var(--color-on-surface)",
-            margin: "0 0 var(--space-6)",
-          }}
-        >
+        <p className="mb-6 text-base font-medium leading-relaxed text-on-surface">
           {q.text}
         </p>
 
         {/* MCQ Options Grid */}
         {q.options && (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(14rem, 1fr))",
-              gap: "var(--space-3)",
-              marginBottom: "var(--space-6)",
-            }}
-          >
+          <div className="mb-6 grid grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-3">
             {q.options.map((opt, i) => {
               const isCorrect = q.correctAnswer ===  opt || q.correctAnswer === String.fromCharCode(65 + i);
               return (
                 <div
                   key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    padding: "var(--space-3)",
-                    border: isCorrect && isPreviewOpen
-                      ? "1px solid rgba(68, 99, 113, 0.2)"
-                      : "1px solid rgba(176, 179, 173, 0.1)",
-                    background: isCorrect && isPreviewOpen
-                      ? "rgba(68, 99, 113, 0.05)"
-                      : "transparent",
-                    borderRadius: "var(--radius-sm)",
-                    transition: "all 200ms ease-out",
-                  }}
-                  className="option-item"
+                  className={`flex cursor-pointer items-center gap-3 rounded-md p-3 transition-all duration-200 ease-out hover:bg-surface-container-low ${
+                    isCorrect && isPreviewOpen
+                      ? "border border-primary/20 bg-primary/5 hover:bg-primary/10"
+                      : "border border-outline-variant/10 bg-transparent"
+                  }`}
                 >
                   <span
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "50%",
-                      background: isCorrect && isPreviewOpen
-                        ? "var(--color-primary)"
-                        : "var(--color-surface-container)",
-                      color: isCorrect && isPreviewOpen
-                        ? "white"
-                        : "var(--color-on-surface-variant)",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      flexShrink: 0,
-                    }}
+                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                      isCorrect && isPreviewOpen
+                        ? "bg-primary text-white"
+                        : "bg-surface-container text-on-surface-variant"
+                    }`}
                   >
                     {String.fromCharCode(65 + i)}
                   </span>
-                  <span
-                    style={{
-                      fontSize: "0.875rem",
-                      fontWeight: isCorrect && isPreviewOpen ? 500 : 400,
-                    }}
-                  >
+                  <span className={`text-sm ${isCorrect && isPreviewOpen ? "font-medium" : "font-normal"}`}>
                     {opt}
                   </span>
                 </div>
@@ -269,32 +139,11 @@ export default function QuestionCard({ question: q }: { question: Question }) {
         )}
 
         {/* Action Row: Preview Toggle + Action Buttons */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "var(--space-4)",
-            borderTop: "1px solid rgba(176, 179, 173, 0.1)",
-          }}
-        >
+        <div className="flex items-center justify-between border-t border-outline-variant/10 pt-4">
           <button
             type="button"
             onClick={() => setIsPreviewOpen(!isPreviewOpen)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-2)",
-              fontSize: "0.6875rem",
-              fontWeight: 700,
-              color: "var(--color-primary)",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-            }}
+            className="flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-[0.6875rem] font-bold tracking-widest text-primary uppercase"
           >
             <svg
               width="14"
@@ -305,36 +154,23 @@ export default function QuestionCard({ question: q }: { question: Question }) {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              style={{
-                transition: "transform 200ms ease-out",
-                transform: isPreviewOpen ? "rotate(180deg)" : "rotate(0deg)",
-              }}
+              className={`transition-transform duration-200 ease-out ${
+                isPreviewOpen ? "rotate-180" : "rotate-0"
+              }`}
             >
               <polyline points="6 9 12 15 18 9" />
             </svg>
             {isPreviewOpen ? "Hide Explanation" : "Preview Question"}
           </button>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "var(--space-4)",
-            }}
-          >
+          <div className="flex gap-4">
             {/* Add to Assignment */}
             <button
               type="button"
               onClick={() => toggleQuestion(q)}
-              style={{
-                color: selected
-                  ? "var(--color-primary)"
-                  : "var(--color-on-surface-variant)",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                transition: "color 150ms ease-out",
-              }}
+              className={`cursor-pointer border-0 bg-transparent p-0 transition-colors duration-150 ease-out ${
+                selected ? "text-primary" : "text-on-surface-variant hover:text-primary"
+              }`}
               title={selected ? "Remove from assignment" : "Add to assignment"}
             >
               <svg
@@ -354,16 +190,8 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             {/* Copy */}
             <button
               type="button"
-              style={{
-                color: "var(--color-on-surface-variant)",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                transition: "color 150ms ease-out",
-              }}
+              className="cursor-pointer border-0 bg-transparent p-0 text-on-surface-variant transition-colors hover:text-primary"
               title="Copy question"
-              className="action-icon"
             >
               <svg
                 width="18"
@@ -385,42 +213,14 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
       {/* ═══ Expanded Explanation Area ═══ */}
       {isPreviewOpen && (
-        <div
-          style={{
-            background: "var(--color-surface-container-low)",
-            padding: "var(--space-6)",
-            borderTop: "1px solid rgba(176, 179, 173, 0.1)",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr",
-              gap: "var(--space-4)",
-            }}
-          >
+        <div className="border-t border-outline-variant/10 bg-surface-container-low p-6">
+          <div className="grid grid-cols-1 gap-4">
             {/* Correct Answer */}
             <div>
-              <h4
-                style={{
-                  fontSize: "0.625rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface-variant)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  marginBottom: "var(--space-1)",
-                }}
-              >
+              <h4 className="mb-1 text-[0.625rem] font-bold tracking-widest text-on-surface-variant uppercase">
                 Correct Answer
               </h4>
-              <p
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 600,
-                  color: "var(--color-primary)",
-                  margin: 0,
-                }}
-              >
+              <p className="m-0 text-sm font-semibold text-primary">
                 {q.correctAnswer}
               </p>
             </div>
@@ -428,92 +228,32 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             {/* Detailed Explanation */}
             {q.explanation && (
               <div>
-                <h4
-                  style={{
-                    fontSize: "0.625rem",
-                    fontWeight: 700,
-                    color: "var(--color-on-surface-variant)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    marginBottom: "var(--space-1)",
-                  }}
-                >
+                <h4 className="mb-1 text-[0.625rem] font-bold tracking-widest text-on-surface-variant uppercase">
                   Detailed Explanation
                 </h4>
-                <p
-                  style={{
-                    fontSize: "0.875rem",
-                    color: "var(--color-on-surface)",
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}
-                >
+                <p className="m-0 text-sm leading-relaxed text-on-surface">
                   {q.explanation}
                 </p>
               </div>
             )}
 
             {/* Metadata Chips */}
-            <div style={{ display: "flex", gap: "var(--space-4)" }}>
-              <div
-                style={{
-                  padding: "var(--space-1) var(--space-3)",
-                  background: "var(--color-surface-container-lowest)",
-                  borderRadius: "var(--radius-sm)",
-                  border: "1px solid rgba(176, 179, 173, 0.1)",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "0.5625rem",
-                    color: "var(--color-on-surface-variant)",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    margin: 0,
-                  }}
-                >
+            <div className="flex gap-4">
+              <div className="rounded-sm border border-outline-variant/10 bg-surface-container-lowest px-3 py-1">
+                <p className="m-0 text-[0.5625rem] font-bold text-on-surface-variant uppercase">
                   Weightage
                 </p>
-                <p
-                  style={{
-                    fontSize: "0.875rem",
-                    fontWeight: 700,
-                    color: "var(--color-primary)",
-                    margin: 0,
-                  }}
-                >
+                <p className="m-0 text-sm font-bold text-primary">
                   {q.points} Point{q.points !== 1 ? "s" : ""}
                 </p>
               </div>
 
               {q.provenance && (
-                <div
-                  style={{
-                    padding: "var(--space-1) var(--space-3)",
-                    background: "var(--color-surface-container-lowest)",
-                    borderRadius: "var(--radius-sm)",
-                    border: "1px solid rgba(176, 179, 173, 0.1)",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "0.5625rem",
-                      color: "var(--color-on-surface-variant)",
-                      textTransform: "uppercase",
-                      fontWeight: 700,
-                      margin: 0,
-                    }}
-                  >
+                <div className="rounded-sm border border-outline-variant/10 bg-surface-container-lowest px-3 py-1">
+                  <p className="m-0 text-[0.5625rem] font-bold text-on-surface-variant uppercase">
                     Source
                   </p>
-                  <p
-                    style={{
-                      fontSize: "0.875rem",
-                      fontWeight: 700,
-                      color: "var(--color-primary)",
-                      margin: 0,
-                    }}
-                  >
+                  <p className="m-0 text-sm font-bold text-primary">
                     {q.provenance.book}
                   </p>
                 </div>
@@ -522,23 +262,6 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           </div>
         </div>
       )}
-
-      {/* ═══ Card Hover Styles ═══ */}
-      <style>{`
-        .question-card {
-          border: 1px solid transparent;
-        }
-        .question-card:hover {
-          border-color: rgba(176, 179, 173, 0.2);
-        }
-        .option-item:hover {
-          background: var(--color-surface-container-low) !important;
-          cursor: pointer;
-        }
-        .action-icon:hover {
-          color: var(--color-primary) !important;
-        }
-      `}</style>
     </div>
   );
 }

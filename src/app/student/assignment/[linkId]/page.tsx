@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignment Page — Stitch-Directed Redesign
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/identity_entry + answer_questions + results
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/identity_entry + assignment_taking + results
    Implements: centered assessment canvas with branded top bar,
    assignment context metadata, and decorative background.
    ───────────────────────────────────────────────────────── */
@@ -26,24 +26,26 @@ export default async function StudentAssignmentPage({
     notFound();
   }
 
+  let assignment;
   try {
-    const assignment = await api.assignments.getByLinkId(
-      resolvedParams.linkId
-    );
+    assignment = await api.assignments.getByLinkId(resolvedParams.linkId);
+  } catch {
+    notFound();
+  }
 
-    if (!assignment) {
-      notFound();
-    }
+  if (!assignment) {
+    notFound();
+  }
 
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "var(--color-surface)",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "var(--color-surface)",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
         {/* ═══ Top App Bar — Stitch "Identity Entry" pattern ═══ */}
         <header
           style={{
@@ -245,7 +247,4 @@ export default async function StudentAssignmentPage({
         `}</style>
       </div>
     );
-  } catch (error) {
-    notFound();
-  }
 }
