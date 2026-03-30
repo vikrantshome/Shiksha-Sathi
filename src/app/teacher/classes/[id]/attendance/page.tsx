@@ -116,10 +116,10 @@ export default function AttendancePage() {
   }
 
   return (
-    <div className="pb-10">
+    <div className="pb-8 md:pb-10">
       {/* ── Header ── */}
-      <div className="mb-8">
-        <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-on-surface-variant mb-3">
+      <div className="mb-6 md:mb-8">
+        <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-on-surface-variant mb-2 md:mb-3">
           <Link href="/teacher/classes" className="text-primary no-underline">
             Classes
           </Link>
@@ -127,17 +127,17 @@ export default function AttendancePage() {
           <span>{classData.name}</span>
         </nav>
 
-        <div className="grid gap-6 md:grid-cols-[1.5fr_minmax(15rem,18rem)] md:items-end">
+        <div className="grid gap-4 md:gap-6 md:grid-cols-[1.5fr_minmax(15rem,18rem)] md:items-end">
           <div>
             <h1 className="font-manrope text-[clamp(2rem,4vw,2.5rem)] font-extrabold tracking-[-0.03em] text-primary m-0">
               Attendance Register
             </h1>
-            <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-3 max-w-[32rem]">
+            <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-2 md:mt-3 max-w-[32rem]">
               {classData.name} • Section {classData.section} • {students.length} students
             </p>
           </div>
 
-          <div className="bg-surface-container-lowest rounded-lg p-4 shadow-sm">
+          <div className="bg-surface-container-lowest rounded-lg p-3 md:p-4 shadow-sm">
             <label
               htmlFor="attendance-date"
               className="block text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant mb-2"
@@ -156,7 +156,7 @@ export default function AttendancePage() {
       </div>
 
       {/* ── Summary Cards ── */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
         {([
           ["Present", summary.present, statusMeta.PRESENT] as const,
           ["Absent", summary.absent, statusMeta.ABSENT] as const,
@@ -164,12 +164,12 @@ export default function AttendancePage() {
         ]).map(([title, value, meta]) => (
           <div
             key={title}
-            className="bg-surface-container-lowest rounded-lg p-5 shadow-sm"
+            className="bg-surface-container-lowest rounded-lg p-4 md:p-5 shadow-sm"
           >
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               {title}
             </p>
-            <p className={`font-manrope text-[1.75rem] font-bold mt-2 m-0 ${meta.text}`}>
+            <p className={`font-manrope text-[1.5rem] md:text-[1.75rem] font-bold mt-1 md:mt-2 m-0 ${meta.text}`}>
               {value}
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function AttendancePage() {
       {/* ── Student Roster ── */}
       <section className="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
         {/* Table Header */}
-        <div className="flex items-center justify-between gap-4 p-5 px-6 bg-surface-container-low">
+        <div className="flex items-center justify-between gap-3 md:gap-4 p-4 px-4 md:p-5 md:px-6 bg-surface-container-low">
           <div>
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               Daily Register
@@ -188,7 +188,7 @@ export default function AttendancePage() {
               Student Roster
             </h2>
           </div>
-          <span className="text-xs text-on-surface-variant">
+          <span className="text-xs text-on-surface-variant hidden sm:block">
             Mark each student as present, absent, or late.
           </span>
         </div>
@@ -198,10 +198,10 @@ export default function AttendancePage() {
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="text-left p-4 px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                <th className="text-left p-3 md:p-4 px-4 md:px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
                   Student
                 </th>
-                <th className="text-left p-4 px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                <th className="text-left p-3 md:p-4 px-4 md:px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
                   Status
                 </th>
               </tr>
@@ -211,9 +211,9 @@ export default function AttendancePage() {
                 const currentStatus = attendance[student.id] as AttendanceStatus | undefined;
                 return (
                   <tr key={student.id} className="border-t border-outline/10">
-                    <td className="p-5 px-6 align-top">
-                      <div className="flex items-center gap-4 flex-wrap">
-                        <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                    <td className="p-4 md:p-5 px-4 md:px-6 align-top">
+                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                        <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
                           {student.name.charAt(0)}
                         </div>
                         <div>

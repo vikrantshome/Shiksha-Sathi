@@ -32,8 +32,9 @@ Refine the shipped Shiksha Sathi frontend so spacing and density feel intentiona
 ## Child Stories
 
 ### SSA-261 — Audit shared spacing and shell density
-**Status:** ✅ IN PROGRESS  
-**Branch:** `feature/SSA-261-spacing-audit`
+**Status:** ✅ COMPLETE  
+**Branch:** `feature/SSA-261-spacing-audit`  
+**PR:** https://github.com/vikrantshome/Shiksha-Sathi/pull/new/feature/SSA-261-spacing-audit
 
 **Scope:**
 - Audit `src/app/teacher/layout.tsx` (teacher shell)
@@ -42,15 +43,23 @@ Refine the shipped Shiksha Sathi frontend so spacing and density feel intentiona
 - Identify shared spacing patterns that cause mobile/tablet bloat
 - Implement shared spacing fixes in shells first
 
-**Files to change:**
-- `src/app/teacher/layout.tsx`
-- `src/components/AuthShell.tsx`
-- `src/app/globals.css`
+**Files changed:**
+- `src/app/teacher/layout.tsx` — main content padding `p-4 md:p-6 lg:p-8`, bottom padding `pb-24 md:pb-0`, sidebar padding reduced
+- `src/components/AuthShell.tsx` — card padding `p-5 md:p-8 lg:p-10`, header `h-16`, main `pt-20 pb-10 px-4 md:px-6`
+- `src/app/globals.css` — added `.section-spacing`, `.page-gutter`, `.card-padding` responsive utilities
+- `src/app/page.tsx` — navbar, hero, features, trust section, CTA, footer all use responsive spacing scales
 
 **Validation:**
-- `/teacher/dashboard` at 375px, 768px, 1440px
-- `/teacher/classes` at 375px, 768px, 1440px
-- `/login`, `/signup` at 375px, 768px, 1440px
+- `npm run lint`: ✅
+- `npm run build`: ✅
+- Browser QA: Pending manual validation at 375px, 768px, 1440px
+
+**Summary of changes:**
+- Mobile outer padding: `px-4` (16px) standard
+- Mobile card padding: `p-5` (20px) standard  
+- Mobile section rhythm: `py-10` (40px) for major sections
+- Tablet: one step up (`px-6`, `py-12`)
+- Desktop: preserved premium feel (`px-8`, `py-16`)
 
 ---
 
