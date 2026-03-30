@@ -399,8 +399,8 @@ export default function StudentAssignmentForm({
           </div>
           <div className="h-2 w-full bg-secondary-container rounded-full overflow-hidden">
             <div 
-              className="h-full bg-primary rounded-full transition-all duration-500 ease-out" 
-              style={{ width: `${progressPercent}%` }}
+              className="h-full bg-primary rounded-full transition-all duration-500 ease-out w-[var(--progress-percent)]" 
+              style={{ '--progress-percent': `${progressPercent}%` } as React.CSSProperties}
             ></div>
           </div>
         </div>
