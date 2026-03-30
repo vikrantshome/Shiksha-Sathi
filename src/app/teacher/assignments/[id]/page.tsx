@@ -201,8 +201,8 @@ export default async function AssignmentReportPage({
                     {/* Thin progress bar */}
                     <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ease-out ${statusColor}`}
-                        style={{ width: `${q.correctPercentage}%` }}
+                        className={`h-full rounded-full transition-all duration-500 ease-out w-[var(--bar-w)] ${statusColor}`}
+                        style={{ '--bar-w': `${q.correctPercentage}%` } as React.CSSProperties}
                       ></div>
                     </div>
                   </div>

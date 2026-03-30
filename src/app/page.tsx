@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Check circle SVG
@@ -60,8 +61,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-                style={{ fontFamily: 'var(--font-manrope)' }}
+                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-[family-name:var(--font-manrope)]"
               >
                 {link.name}
               </Link>
@@ -106,8 +106,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-6 py-8 md:hidden flex flex-col gap-6 shadow-xl"
-            style={{ borderBottom: "1px solid var(--color-surface-container)" }}
+            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-6 py-8 md:hidden flex flex-col gap-6 shadow-xl border-b border-[var(--color-surface-container)]"
           >
             {navLinks.map((link) => (
               <Link
@@ -127,10 +126,7 @@ const Navbar = () => {
             </Link>
             <Link
               href="/signup"
-              className="w-full py-3 text-center rounded-[var(--radius-md)] font-[700] text-[var(--color-on-primary)]"
-              style={{
-                background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dim))",
-              }}
+              className="w-full py-3 text-center rounded-[var(--radius-md)] font-[700] text-[var(--color-on-primary)] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
             >
               Create Free Account
             </Link>
@@ -187,10 +183,7 @@ export default function LandingPage() {
             >
               <Link
                 href="/signup"
-                className="px-8 py-4 text-[1rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center"
-                style={{
-                  background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)",
-                }}
+                className="px-8 py-4 text-[1rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
               >
                 Get Started for Free
               </Link>
@@ -221,10 +214,13 @@ export default function LandingPage() {
             className="relative"
           >
             <div className="aspect-[4/5] rounded-[var(--radius-xl)] overflow-hidden shadow-2xl">
-              <img 
+              <Image 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT2YwhLdWLyEwN-ipM7c5sT0UVExnhHDv6T8TVcrlCCRSTTx-jy8TsmmKqbXJGlHfUvPEa7-pjvSDaRdDbJ0NN8P7XlJoTQKOSFKba7II2PfLxwKI6heSzOi-8BQSMycCdqf5NaFUmsgbQdNrKZNdezs2vB-3sNVwB4Fl3guqxub15StajgkzFhmUqZauCsUKyFrOMqwHy3EKhZRuOjO732v61HUJTfq1OJ6upy6xTkEGVzRtDlm5FKH0AlWpJtrZTwWWmNKKOODjt" 
                 alt="Teacher working in a digital environment" 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover"
+                width={600}
+                height={750}
+                unoptimized
               />
             </div>
             
@@ -323,10 +319,13 @@ export default function LandingPage() {
         <section id="how-it-works" className="max-w-7xl mx-auto px-8 py-24">
           <div className="bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-xl)] p-12 md:p-20 border border-[var(--color-outline-variant)]/50 flex flex-col md:flex-row gap-16 items-center shadow-sm">
             <div className="md:w-1/2">
-              <img 
+              <Image 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCn-q2qwOGKCOamKJ0SrPcvhyhy4f8ZfzhJbgLYdcuBrLhhfOKzV_iiR5Bd8czw_4lP5z6PyICRxrv42IQapDRDwvGC2dQsuk-cG5RWyMhYNLLxQ8lQrAoNNUwaYom0j6vXhcz2xbLnX0rQy_CqFjplf0VNtw7M9MNKhSUGbonpz6wNUg-CSFo_l14AlgO79cGJfUIoNzPRdGEROU1gIX9m6ctHN2gOIOIJ8Jdz9VANfvKBx8s3c9eRIoXBg5NLCLjCYGAbNtptU1G" 
                 alt="Teacher assisting students" 
-                className="rounded-[var(--radius-xl)] shadow-lg" 
+                className="rounded-[var(--radius-xl)] shadow-lg w-full h-auto"
+                width={600}
+                height={450}
+                unoptimized
               />
             </div>
             <div className="md:w-1/2 space-y-6">
@@ -356,7 +355,7 @@ export default function LandingPage() {
 
         {/* CTA Banner */}
         <section className="max-w-[1024px] mx-auto px-8 py-16 text-center">
-          <div className="p-12 md:p-20 rounded-[1.5rem] text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)" }}>
+          <div className="p-12 md:p-20 rounded-[1.5rem] text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]">
             <div className="relative z-10 space-y-8">
               <h2 className="text-[2.25rem] md:text-[3.75rem] font-[800] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
                 Join Thousands of Indian Teachers
