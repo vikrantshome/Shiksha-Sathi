@@ -234,7 +234,7 @@ export default function TeacherLayout({
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
           <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
             {/* Brand Section */}
-            <div className="p-6">
+            <div className="p-5">
               <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">
                 Shiksha Sathi
               </p>
@@ -252,7 +252,7 @@ export default function TeacherLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 py-3 px-6 text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
+                    className={`flex items-center gap-3 py-2.5 px-5 text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
                       active
                         ? "font-medium text-primary bg-surface-container-lowest rounded-r-lg"
                         : "font-normal text-on-surface-variant bg-transparent rounded-none"
@@ -266,17 +266,17 @@ export default function TeacherLayout({
             </nav>
 
             {/* Bottom Actions */}
-            <div className="mt-auto p-6">
+            <div className="mt-auto p-5">
               {/* Create Assignment CTA */}
               <Link
                 href="/teacher/question-bank"
-                className="block w-full bg-primary text-on-primary py-3 rounded-sm text-xs font-semibold text-center no-underline shadow-[0_4px_12px_rgba(48,51,47,0.06)] hover:brightness-95 active:scale-95 transition-all duration-150"
+                className="block w-full bg-primary text-on-primary py-2.5 rounded-sm text-xs font-semibold text-center no-underline shadow-[0_4px_12px_rgba(48,51,47,0.06)] hover:brightness-95 active:scale-95 transition-all duration-150"
               >
                 Create New Assignment
               </Link>
 
               {/* Settings/Support removed — no shipped routes (SSA-249) */}
-              <div className="border-t border-[#B0B3AD]/10 pt-4 mt-4">
+              <div className="border-t border-[#B0B3AD]/10 pt-3 mt-3">
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-primary transition-colors duration-120 text-left"
@@ -289,8 +289,8 @@ export default function TeacherLayout({
           </aside>
 
           {/* ═══ Main Content ═══ */}
-          <main className="flex-1 w-full max-w-full overflow-hidden pb-20 md:pb-0">
-            <div className="max-w-[80rem] mx-auto p-6 px-4 md:p-8">
+          <main className="flex-1 w-full max-w-full overflow-hidden pb-24 md:pb-0">
+            <div className="max-w-[80rem] mx-auto p-4 px-4 md:p-6 lg:p-8">
               {children}
             </div>
           </main>
