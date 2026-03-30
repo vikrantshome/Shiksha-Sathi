@@ -66,36 +66,7 @@ const IconQuestionBank = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconAnalytics = ({ active }: { active: boolean }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={active ? 2.5 : 2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M3 3v18h18" />
-    <path d="m19 9-5 5-4-4-3 3" />
-  </svg>
-);
-
-const IconSettings = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-  </svg>
-);
-
-const IconHelp = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <path d="M12 17h.01" />
-  </svg>
-);
+/* IconAnalytics, IconSettings, IconHelp removed — no shipped destinations (SSA-249) */
 
 const IconLogout = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -304,22 +275,8 @@ export default function TeacherLayout({
                 Create New Assignment
               </Link>
 
-              {/* Settings + Support */}
-              <div className="flex flex-col gap-1 border-t border-[#B0B3AD]/10 pt-4 mt-4">
-                <Link
-                  href="#"
-                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] no-underline hover:text-primary transition-colors duration-120"
-                >
-                  <IconSettings />
-                  Settings
-                </Link>
-                <Link
-                  href="#"
-                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] no-underline hover:text-primary transition-colors duration-120"
-                >
-                  <IconHelp />
-                  Support
-                </Link>
+              {/* Settings/Support removed — no shipped routes (SSA-249) */}
+              <div className="border-t border-[#B0B3AD]/10 pt-4 mt-4">
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-primary transition-colors duration-120 text-left"
@@ -368,14 +325,7 @@ export default function TeacherLayout({
             <IconPlus />
           </Link>
 
-          {/* Analytics Tab */}
-          <Link
-            href="/teacher/dashboard"
-            className="flex flex-col items-center text-on-surface-variant no-underline gap-[2px]"
-          >
-            <IconAnalytics active={false} />
-            <span className="text-[0.625rem] font-medium">Stats</span>
-          </Link>
+          {/* Analytics tab removed — no analytics-only destination (SSA-249) */}
         </nav>
       </div>
     </AssignmentProvider>
