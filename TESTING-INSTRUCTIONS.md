@@ -1,10 +1,10 @@
 # Shiksha Sathi — Manual Testing Instructions
 
-**Version:** 3.0
+**Version:** 4.0 — SSA-260 Responsive Spacing Update
 **Date:** March 30, 2026
-**Build:** `main` (`f9e156a`)
+**Build:** `main` (`7d01f77`)
 **Design System:** The Digital Atelier (Stitch Export Bundle)
-**Epic:** SSA-248 (Done)
+**Epic:** SSA-260 (Responsive Spacing & Density Refinement — Complete)
 
 ---
 
@@ -12,20 +12,21 @@
 
 1. [Prerequisites & Setup](#-prerequisites--setup)
 2. [Automated Validation](#-automated-validation)
-3. [Landing Page](#1-landing-page---)
-4. [Authentication — Login & Signup](#2-authentication--login--signup)
-5. [Teacher Dashboard](#3-teacher-dashboard)
-6. [Classes Management](#4-classes-management)
-7. [Question Bank — Browse & Select](#5-question-bank--browse--select)
-8. [Assignment Creation — Review & Publish](#6-assignment-creation--review--publish)
-9. [Assignment Report](#7-assignment-report)
-10. [Teacher Profile](#8-teacher-profile)
-11. [Student Assignment Journey](#9-student-assignment-journey)
-12. [Design System & Visual Regression](#10-design-system--visual-regression)
-13. [Responsive Breakpoints](#11-responsive-breakpoints)
-14. [Cross-Browser Matrix](#12-cross-browser-matrix)
-15. [API Smoke Tests](#13-api-smoke-tests)
-16. [Production Readiness Checklist](#-production-readiness-checklist)
+3. [Test Credentials](#-test-credentials)
+4. [Landing Page](#1-landing-page---)
+5. [Authentication — Login & Signup](#2-authentication--login--signup)
+6. [Teacher Dashboard](#3-teacher-dashboard)
+7. [Classes Management](#4-classes-management)
+8. [Question Bank — Browse & Select](#5-question-bank--browse--select)
+9. [Assignment Creation — Review & Publish](#6-assignment-creation--review--publish)
+10. [Assignment Report](#7-assignment-report)
+11. [Teacher Profile](#8-teacher-profile)
+12. [Student Assignment Journey](#9-student-assignment-journey)
+13. [Design System & Visual Regression](#10-design-system--visual-regression)
+14. [Responsive Breakpoints](#11-responsive-breakpoints)
+15. [Cross-Browser Matrix](#12-cross-browser-matrix)
+16. [API Smoke Tests](#13-api-smoke-tests)
+17. [Production Readiness Checklist](#-production-readiness-checklist)
 
 ---
 
@@ -63,19 +64,26 @@ npm run dev
 
 | Service | URL |
 |---|---|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:8080 |
-| Production Frontend | https://shiksha-sathi.vercel.app |
-| Production Backend | https://shiksha-sathi-backend-eyfdit56la-el.a.run.app |
+| Frontend (Local) | http://localhost:3000 |
+| Backend API (Production) | https://shiksha-sathi-backend-eyfdit56la-el.a.run.app/api/v1 |
+| Frontend (Production) | https://shiksha-sathi.vercel.app (if deployed) |
 
-### Test Accounts
+---
 
-| Email | Password | Role |
-|---|---|---|
-| `teacher@test.com` | `password123` | Teacher |
-| `teacher2@test.com` | `password123` | Teacher |
+## 🔑 Test Credentials
 
-> **Note:** Student access is via shareable assignment links — no student login is required.
+### Teacher Accounts
+
+| Email | Password | Name | Purpose |
+|-------|----------|------|---------|
+| `qa_teacher_1@example.com` | `password123` | QA Teacher 1 | Primary QA Testing |
+| `teacher@test.com` | `password123` | Test Teacher | API Testing |
+| `testapi@test.com` | `password123` | Test API User | API Testing |
+
+> **Note:** If accounts don't exist, use the signup endpoint (see [API Smoke Tests](#13-api-smoke-tests)).
+
+### Student Access
+Student access is via shareable assignment links — no student login is required.
 
 ---
 
@@ -479,81 +487,120 @@ Test each page at these widths using Chrome DevTools device toolbar (Cmd+Opt+M):
 
 ### 13. API Smoke Tests
 
-Run from terminal against backend at http://localhost:8080:
+Run from terminal against **production backend API**:
 
 ```bash
-# 1. Health check
-curl -s http://localhost:8080/api/v1/questions/boards | python3 -m json.tool
+# Base URL
+API_URL="https://shiksha-sathi-backend-eyfdit56la-el.a.run.app/api/v1"
+
+# 1. Health check (Public - No Auth)
+curl -s $API_URL/questions/boards | python3 -m json.tool
 # Expected: ["NCERT"]
 
-# 2. Classes for NCERT
-curl -s "http://localhost:8080/api/v1/questions/classes?board=NCERT" | python3 -m json.tool
+# 2. Classes for NCERT (Public - No Auth)
+curl -s "$API_URL/questions/classes?board=NCERT" | python3 -m json.tool
 # Expected: ["6","7","8","9","10","11","12"]
 
-# 3. Subjects
-curl -s http://localhost:8080/api/v1/questions/subjects | python3 -m json.tool
+# 3. Subjects (Public - No Auth)
+curl -s $API_URL/questions/subjects | python3 -m json.tool
 # Expected: ["Biology","English","Mathematics","Physics","Science","Social Science"]
 
-# 4. Search questions
-curl -s "http://localhost:8080/api/v1/questions/search?board=NCERT&classLevel=6&visibleOnly=true" | python3 -m json.tool
+# 4. Search questions (Public - No Auth)
+curl -s "$API_URL/questions/search?board=NCERT&classLevel=6&visibleOnly=true" | python3 -m json.tool
 # Expected: JSON array of PUBLISHED question objects
 
-# 5. Teacher signup
-curl -s -X POST http://localhost:8080/api/v1/teachers/signup \
+# 5. Teacher signup (Create test account)
+curl -s -X POST $API_URL/teachers/signup \
   -H "Content-Type: application/json" \
-  -d '{"name":"Test","email":"testapi@test.com","password":"password123"}'
-# Expected: 200 or 409 (already exists)
+  -d '{"name":"QA Teacher","email":"qa_teacher_1@example.com","password":"password123","phone":"+919876543210"}'
+# Expected: 200 with JWT token OR 409 (already exists)
 
-# 6. Teacher login
-curl -s -X POST http://localhost:8080/api/v1/teachers/login \
+# 6. Teacher login (Get auth token)
+curl -s -X POST $API_URL/teachers/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"teacher@test.com","password":"password123"}'
+  -d '{"email":"qa_teacher_1@example.com","password":"password123"}'
 # Expected: 200 with JWT token
+# Response: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...","user":{...}}
+
+# 7. Get teacher profile (Authenticated)
+# Replace YOUR_TOKEN with actual token from step 6
+curl -s -X GET $API_URL/teachers/profile \
+  -H "Authorization: Bearer YOUR_TOKEN"
+# Expected: 200 with profile data
+
+# 8. Update teacher profile (Authenticated)
+curl -s -X PUT $API_URL/teachers/profile \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"school":"Test School","board":"CBSE"}'
+# Expected: 200 OK
 ```
+
+> **⚠️ IMPORTANT:** Use `/teachers/login` endpoint, NOT `/auth/login` (which doesn't exist)
 
 ---
 
 ## ✅ Production Readiness Checklist
 
 ### Automated Tests
-- [x] `npm run lint` — 0 errors
+- [x] `npm run lint` — 0 errors (1 warning in coverage, unrelated)
 - [x] `npm run test` — 47/47 tests passing
 - [x] `npm run build` — exit 0, all 13 routes compiled
 
+### SSA-260 Responsive Spacing Validation
+
+**Mobile (< 768px):**
+- [x] Outer page padding: `px-4` (16px)
+- [x] Section rhythm: `py-8` to `py-10` (32-40px)
+- [x] Card padding: `p-4` to `p-5` (16-20px)
+- [x] Grid gaps: `gap-3` to `gap-4` (12-16px)
+- [x] Tap targets ≥44px maintained
+
+**Tablet (768px-1023px):**
+- [x] Outer page padding: `px-6` (24px)
+- [x] Section rhythm: `py-12` (48px)
+- [x] Card padding: `p-5` to `p-6` (20-24px)
+- [x] Grid gaps: `gap-4` to `gap-6` (16-24px)
+
+**Desktop (≥ 1024px):**
+- [x] Premium feel preserved
+- [x] `lg:p-8`, `lg:py-16` for major surfaces
+- [x] Intentional whitespace maintained
+
 ### Functional Coverage
 
-| Journey | Route(s) | Status |
+| Journey | Route(s) | SSA-260 Status |
 |---|---|---|
-| Landing page | `/` | ✅ |
-| Teacher login | `/login` | ✅ |
-| Teacher signup | `/signup` | ✅ |
-| Dashboard overview | `/teacher/dashboard` | ✅ |
-| Class management | `/teacher/classes` | ✅ |
-| Attendance register | `/teacher/classes/[id]/attendance` | ✅ |
-| Question bank browse | `/teacher/question-bank` | ✅ |
-| Assignment creation | `/teacher/assignments/create` | ✅ |
-| Assignment report | `/teacher/assignments/[id]` | ✅ |
-| Teacher profile | `/teacher/profile` | ✅ |
-| Student assignment | `/student/assignment/[linkId]` | ✅ |
+| Landing page | `/` | ✅ Refined |
+| Teacher login | `/login` | ✅ Refined |
+| Teacher signup | `/signup` | ✅ Refined |
+| Dashboard overview | `/teacher/dashboard` | ✅ Refined |
+| Class management | `/teacher/classes` | ✅ Refined |
+| Attendance register | `/teacher/classes/[id]/attendance` | ✅ Refined |
+| Question bank browse | `/teacher/question-bank` | ✅ Refined |
+| Assignment creation | `/teacher/assignments/create` | ✅ Complete |
+| Assignment report | `/teacher/assignments/[id]` | ✅ Complete |
+| Teacher profile | `/teacher/profile` | ✅ Refined |
+| Student assignment | `/student/assignment/[linkId]` | ✅ Refined |
 
 ### Design System Compliance
 - [x] All routes aligned to canonical Stitch export bundle
-- [x] Legacy nav items removed (Settings, Support, Analytics)
+- [x] Legacy nav items removed (Settings, Support, Analytics) — SSA-249
 - [x] Custom `.btn-primary` CSS class removed
 - [x] All gradient backgrounds use Tailwind utilities
 - [x] All dynamic progress bars use CSS variable pattern
 - [x] Images use Next.js `<Image>` component
 - [x] Design source comment updated in teacher layout
+- [x] Responsive utilities added: `.section-spacing`, `.page-gutter`, `.card-padding`
 
 ### Deployment
-- [x] Vercel: `dpl_CNL1mSr4M4XaZcHL3AWzJrUErMLU` — production, READY
+- [x] Vercel: Ready for deployment
 - [x] Cloud Run: `shiksha-sathi-backend` — asia-south1, live
-- [x] Git: `main` clean at `f9e156a`, pushed to origin
+- [x] Git: `main` clean at `7d01f77`, pushed to origin
 
 ### Jira
-- [x] SSA-248 (Epic) — Done
-- [x] SSA-247 (Sprint Story) — Done
-- [x] SSA-249 through SSA-256 — All Done
+- [x] SSA-260 (Epic) — Complete
+- [x] SSA-261 through SSA-266 — All Complete
 
 ---
 
@@ -573,18 +620,61 @@ curl -s -X POST http://localhost:8080/api/v1/teachers/login \
 
 ---
 
-## 📞 Support
+## 📞 Support & Documentation
 
 | Resource | Location |
 |---|---|
-| Jira project | SSA board |
-| Design matrix | `doc/stitch-export-implementation-matrix.md` |
-| Design system doc | `design-system.md` (project root) |
-| API docs | http://localhost:8080/swagger-ui.html |
-| MongoDB | Use MCP or Compass with `.env.local` URI |
+| Test Credentials | `TEST-CREDENTIALS.md` |
+| Login Issue Fix | `LOGIN-ISSUE-FIX.md` |
+| SSA-260 Epic Summary | `doc/SSA-260-COMPLETE-SUMMARY.md` |
+| Browser Validation Guide | `doc/SSA-266-browser-validation-guide.md` |
+| Jira Closeout Guide | `doc/SSA-266-JIRA-CLOSEOUT-EXECUTION.md` |
+| Design System | `design-system.md` |
+| Stitch Implementation Matrix | `doc/stitch-export-implementation-matrix.md` |
+
+### Responsive Testing Tools
+
+**Browser DevTools:**
+- Chrome DevTools: Cmd+Shift+M (Mac) / Ctrl+Shift+M (Windows)
+- Firefox Responsive Design Mode: Cmd+Opt+M (Mac)
+- Safari Responsive Design Mode: Develop > Enter Responsive Design Mode
+
+**Recommended Test Viewports:**
+- Mobile S: 375px × 667px (iPhone SE)
+- Mobile L: 412px × 896px (iPhone 14/15 Pro Max)
+- Tablet: 768px × 1024px (iPad)
+- Tablet Pro: 1024px × 1366px (iPad Pro)
+- Desktop: 1440px × 900px (MacBook Pro 14")
+- Desktop Large: 1920px × 1080px (External Monitor)
+
+### Common Issues & Solutions
+
+**Issue:** Login returns "Invalid credentials"  
+**Solution:** Use `/teachers/login` endpoint, not `/auth/login` (see `LOGIN-ISSUE-FIX.md`)
+
+**Issue:** Mobile layout looks cramped  
+**Solution:** Clear browser cache, rebuild: `npm run build && npm run dev`
+
+**Issue:** Bottom nav overlaps content on mobile  
+**Solution:** Ensure `pb-24` class is present on main content wrapper
+
+**Issue:** Tables overflow on mobile  
+**Solution:** Tables should degrade to card view on mobile (< 768px)
 
 ---
 
-**Last Updated:** March 30, 2026
-**Build:** `main` (`f9e156a`)
-**Status:** ✅ Production Ready — Stitch UI Modernization Complete
+## 🎉 SSA-260 Responsive Spacing Refinement — Complete
+
+All routes have been refined with responsive spacing improvements:
+
+- **Mobile density improved:** ~25-50% reduction in excessive whitespace
+- **Tablet transitions:** Smoother responsive breakpoints
+- **Desktop preserved:** Premium airy feel maintained
+
+**Documentation:** See `doc/SSA-260-*` files for complete epic details.
+
+**Last Updated:** March 30, 2026  
+**Version:** 4.0 (SSA-260)  
+**Build:** `7d01f77`
+
+---
