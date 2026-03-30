@@ -134,8 +134,8 @@ export default async function TeacherDashboard() {
   return (
     <div className="max-w-full pb-12">
       {/* ═══ Welcome Banner ═══ */}
-      <header className="mb-12">
-        <div className="flex flex-col gap-6">
+      <header className="mb-6 md:mb-8 lg:mb-12">
+        <div className="flex flex-col gap-4 md:gap-6">
           <div>
             <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
               Teacher Dashboard
@@ -154,13 +154,13 @@ export default async function TeacherDashboard() {
       </header>
 
       {/* ═══ Summary Stat Cards ═══ */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="group bg-surface-container-lowest p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
+            className="group bg-surface-container-lowest p-5 md:p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
           >
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-3 md:mb-4">
               <div
                 className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[#4463710D]"
               >
@@ -181,10 +181,10 @@ export default async function TeacherDashboard() {
       </section>
 
       {/* ═══ Bento Grid: Assignments + Sidebar ═══ */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 md:gap-8">
         {/* ── Left: Recent Assignments ── */}
         <section>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
             <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em]">
               Recent Assignments
             </h2>
@@ -192,8 +192,8 @@ export default async function TeacherDashboard() {
 
           {assignments.length === 0 ? (
             /* ── Empty State ── */
-            <div className="bg-surface-container-low rounded-md border-2 border-dashed border-outline/30 p-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center mb-4 text-outline">
+            <div className="bg-surface-container-low rounded-md border-2 border-dashed border-outline/30 p-8 md:p-10 flex flex-col items-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-surface-container rounded-full flex items-center justify-center mb-3 md:mb-4 text-outline">
                 <IconPlus />
               </div>
               <h4 className="text-sm font-bold text-on-surface m-0">
@@ -205,7 +205,7 @@ export default async function TeacherDashboard() {
               </p>
               <Link
                 href="/teacher/question-bank"
-                className="mt-6 text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-2"
+                className="mt-4 md:mt-6 text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-2"
               >
                 Create New Assignment
                 <IconArrow />
@@ -224,7 +224,7 @@ export default async function TeacherDashboard() {
                           (h, idx) => (
                             <th
                               key={h}
-                              className={`p-4 px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
+                              className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
                             >
                               {h}
                             </th>
@@ -242,7 +242,7 @@ export default async function TeacherDashboard() {
                             key={assignment.id}
                             className="border-b border-outline/5 transition-colors duration-200 ease-out hover:bg-surface-container-high"
                           >
-                            <td className="p-4 px-6">
+                            <td className="p-3 md:p-4 px-4 md:px-6">
                               <p className="font-semibold text-on-surface m-0 text-sm">
                                 {assignment.title}
                               </p>
@@ -250,10 +250,10 @@ export default async function TeacherDashboard() {
                                 ID: {assignment.linkId}
                               </p>
                             </td>
-                            <td className="p-4 px-6 text-on-surface-variant text-sm">
+                            <td className="p-3 md:p-4 px-4 md:px-6 text-on-surface-variant text-sm">
                               {assignment.className || "Unassigned"}
                             </td>
-                            <td className="p-4 px-6">
+                            <td className="p-3 md:p-4 px-4 md:px-6">
                               <div className="flex items-center gap-2">
                                 <span className="font-medium text-on-surface text-sm">
                                   {assignment.submissionCount}
@@ -266,13 +266,13 @@ export default async function TeacherDashboard() {
                                 </div>
                               </div>
                             </td>
-                            <td className="p-4 px-6 font-semibold text-primary text-sm">
+                            <td className="p-3 md:p-4 px-4 md:px-6 font-semibold text-primary text-sm">
                               {assignment.averageScore}
                               <span className="font-normal text-on-surface-variant">
                                 {" "}/ {assignment.maxScore}
                               </span>
                             </td>
-                            <td className="p-4 px-6 text-right">
+                            <td className="p-3 md:p-4 px-4 md:px-6 text-right">
                               <Link
                                 href={`/teacher/assignments/${assignment.id}`}
                                 className="text-[0.6875rem] font-bold text-primary uppercase tracking-[0.05em] no-underline inline-flex items-center gap-1"
@@ -320,11 +320,11 @@ export default async function TeacherDashboard() {
         {/* ── Right Sidebar Column ── */}
         <section>
           {/* Teaching Focus */}
-          <div className="mb-8">
-            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-6">
+          <div className="mb-6 md:mb-8">
+            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4 md:mb-6">
               Teaching Focus
             </h2>
-            <div className="bg-surface-container-low rounded-md p-8 grid gap-5">
+            <div className="bg-surface-container-low rounded-md p-5 md:p-6 lg:p-8 grid gap-4 md:gap-5">
               <div>
                 <p className="text-[0.6875rem] font-bold text-on-surface-variant tracking-[0.08em] uppercase m-0">
                   Review Queue
@@ -336,16 +336,16 @@ export default async function TeacherDashboard() {
                   Assignment{activeAssignments === 1 ? "" : "s"} currently collecting or awaiting submissions.
                 </p>
               </div>
-              <div className="grid gap-3 grid-cols-2">
+              <div className="grid gap-2 md:gap-3 grid-cols-2">
                 <Link
                   href="/teacher/question-bank"
-                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm p-3 px-4 text-center"
+                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm p-2.5 md:p-3 px-3 md:px-4 text-center"
                 >
                   Create Assignment
                 </Link>
                 <Link
                   href="/teacher/classes"
-                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm p-3 px-4 text-center"
+                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm p-2.5 md:p-3 px-3 md:px-4 text-center"
                 >
                   Manage Classes
                 </Link>
@@ -355,14 +355,14 @@ export default async function TeacherDashboard() {
 
           {/* Recent Activity Timeline */}
           <div>
-            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4">
+            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-3 md:mb-4">
               Recent Activity
             </h2>
             <div className="pl-2 border-l-2 border-surface-container">
               {recentActivity.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`relative pl-6 ${idx < recentActivity.length - 1 ? "pb-6" : ""}`}
+                  className={`relative pl-6 ${idx < recentActivity.length - 1 ? "pb-4 md:pb-6" : ""}`}
                 >
                   <div
                     className={`absolute w-2 h-2 rounded-full -left-[5px] top-[4px] ${item.isNew ? "bg-primary" : "bg-outline-variant"}`}
@@ -381,11 +381,11 @@ export default async function TeacherDashboard() {
       </div>
 
       {/* ═══ NCERT Curriculum Navigator ═══ */}
-      <section className="mt-16">
-        <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-6">
+      <section className="mt-10 md:mt-12 lg:mt-16">
+        <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4 md:mb-6">
           Curriculum Explorer
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
           {curriculumTiles.map((tile, idx) => (
             <div
               key={idx}
