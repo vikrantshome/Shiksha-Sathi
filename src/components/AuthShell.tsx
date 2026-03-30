@@ -23,224 +23,70 @@ export default function AuthShell({
   legalNote,
 }: AuthShellProps) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--color-surface)",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 40,
-          background: "rgba(250, 249, 245, 0.84)",
-          backdropFilter: "blur(24px)",
-          boxShadow: "0 12px 32px rgba(48, 51, 47, 0.04)",
-        }}
-      >
-        <div
-          style={{
-            height: "5rem",
-            display: "flex",
-            alignItems: "center",
-            padding: "0 var(--space-6)",
-          }}
-        >
+    <div className="bg-background text-on-surface min-h-screen flex flex-col">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-[24px] shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+        <div className="flex justify-between items-center h-20 px-8 md:px-12 w-full max-w-full">
           <Link
             href="/"
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "1.5rem",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "var(--color-primary)",
-              textDecoration: "none",
-            }}
+            className="text-2xl font-bold tracking-[-0.02em] text-[#002b29] hover:opacity-80 transition-opacity"
           >
             Shiksha Sathi
           </Link>
         </div>
       </header>
 
-      <main
-        className="auth-shell-main"
-        style={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "var(--space-8) var(--space-6) var(--space-12)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(circle at top right, var(--color-secondary-container) 0%, transparent 40%), radial-gradient(circle at bottom left, var(--color-surface-container) 0%, transparent 30%)",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div className="auth-shell-accent">
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
-            <div style={{ width: "3rem", height: "1px", background: "var(--color-primary)" }} />
-            <p
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: "rgba(93, 96, 91, 0.72)",
-                lineHeight: 1.9,
-                margin: 0,
-              }}
-            >
-              Curating the future
-              <br />
-              of classroom craft.
-            </p>
-          </div>
-        </div>
-
-        <section
-          className="auth-shell-card"
-          style={{
-            width: "100%",
-            maxWidth: "40rem",
-            background: "var(--color-surface-container-low)",
-            padding: "var(--space-8)",
-            borderRadius: "var(--radius-lg)",
-            boxShadow: "0 12px 32px rgba(48, 51, 47, 0.04)",
-            position: "relative",
-            overflow: "hidden",
-            zIndex: 1,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              width: "8rem",
-              height: "8rem",
-              background: "rgba(214, 229, 236, 0.4)",
-              filter: "blur(36px)",
-              transform: "translate(30%, -30%)",
-              pointerEvents: "none",
-            }}
-          />
-
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ marginBottom: "var(--space-8)" }}>
-              <span
-                style={{
-                  display: "block",
-                  fontSize: "0.625rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "var(--color-on-surface-variant)",
-                  marginBottom: "var(--space-2)",
-                }}
-              >
+      <main className="flex-grow flex items-center justify-center pt-24 pb-12 px-6 bg-[radial-gradient(circle_at_top_right,#cae5e1_0%,transparent_40%),radial-gradient(circle_at_bottom_left,#efeeea_0%,transparent_30%)]">
+        <div className="w-full max-w-xl bg-surface-container-low p-8 md:p-12 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] relative overflow-hidden">
+          {/* Decorative Accent */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-container opacity-20 blur-3xl -mr-16 -mt-16"></div>
+          
+          <div className="relative z-10">
+            {/* Header Section */}
+            <div className="mb-10">
+              <span className="font-['Manrope'] text-[10px] tracking-[0.15em] uppercase font-bold text-on-surface-variant block mb-2">
                 {eyebrow}
               </span>
-              <h1
-                style={{
-                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                  fontSize: "clamp(2rem, 4vw, 2.5rem)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  color: "var(--color-primary)",
-                  margin: 0,
-                }}
-              >
+              <h1 className="font-headline text-3xl md:text-4xl font-bold tracking-tight text-primary">
                 {title}
               </h1>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  color: "var(--color-on-surface-variant)",
-                  marginTop: "var(--space-3)",
-                  lineHeight: 1.7,
-                  maxWidth: "30rem",
-                }}
-              >
+              <p className="text-on-surface-variant mt-3 text-base font-light">
                 {description}
               </p>
             </div>
 
+            {/* Form & Children content */}
             {children}
 
-            {legalNote ? (
-              <div
-                style={{
-                  marginTop: "var(--space-6)",
-                  fontSize: "0.6875rem",
-                  color: "rgba(93, 96, 91, 0.78)",
-                  lineHeight: 1.7,
-                }}
-              >
+            {legalNote && (
+              <p className="text-[11px] text-on-surface-variant leading-relaxed opacity-70 mt-6">
                 {legalNote}
-              </div>
-            ) : null}
+              </p>
+            )}
 
-            <div
-              style={{
-                marginTop: "var(--space-6)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "var(--space-2)",
-                flexWrap: "wrap",
-              }}
-            >
-              <span style={{ fontSize: "0.875rem", color: "var(--color-on-surface-variant)" }}>
-                {alternatePrompt}
-              </span>
-              <Link
-                href={alternateHref}
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
-                  color: "var(--color-primary)",
-                  textDecoration: "none",
-                }}
-              >
-                {alternateLabel}
-              </Link>
+            {/* CTA Actions */}
+            <div className="pt-4 flex flex-col gap-6 mt-8">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-sm text-on-surface-variant">{alternatePrompt}</span>
+                <Link
+                  href={alternateHref}
+                  className="text-sm font-bold text-primary hover:text-primary-container transition-colors duration-200"
+                >
+                  {alternateLabel}
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <style>{`
-          .auth-shell-accent {
-            display: none;
-          }
-          @media (min-width: 1280px) {
-            .auth-shell-main {
-              justify-content: center !important;
-            }
-            .auth-shell-accent {
-              display: block;
-              position: absolute;
-              left: 3rem;
-              bottom: 3rem;
-              opacity: 0.78;
-            }
-          }
-          @media (min-width: 768px) {
-            .auth-shell-card {
-              padding: var(--space-12) !important;
-            }
-          }
-        `}</style>
+        {/* Asymmetric Background Elements */}
+        <div className="hidden lg:block absolute left-12 bottom-12 w-64 opacity-40">
+          <div className="flex flex-col gap-4">
+            <div className="w-12 h-[1px] bg-primary"></div>
+            <p className="text-xs font-medium tracking-widest uppercase text-on-surface-variant/60 leading-loose">
+              Curating the future<br/>of educational<br/>excellence.
+            </p>
+          </div>
+        </div>
       </main>
     </div>
   );

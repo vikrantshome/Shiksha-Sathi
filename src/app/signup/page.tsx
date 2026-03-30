@@ -6,28 +6,6 @@ import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import AuthShell from "@/components/AuthShell";
 
-const labelStyle = {
-  display: "block",
-  fontSize: "0.75rem",
-  fontWeight: 600,
-  textTransform: "uppercase" as const,
-  letterSpacing: "0.05em",
-  color: "var(--color-on-surface-variant)",
-  marginBottom: "var(--space-2)",
-};
-
-const inputStyle = {
-  width: "100%",
-  background: "var(--color-surface-container-highest)",
-  border: "none",
-  borderBottom: "1px solid var(--color-outline-variant)",
-  padding: "var(--space-3) 0",
-  color: "var(--color-on-surface)",
-  fontSize: "1rem",
-  outline: "none",
-  transition: "border-color 200ms ease-out",
-};
-
 export default function SignupPage() {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
@@ -80,35 +58,26 @@ export default function SignupPage() {
       legalNote={
         <>
           By creating an account, you agree to Shiksha Sathi&apos;s{" "}
-          <a href="#" style={{ color: "var(--color-primary)", textDecoration: "underline" }}>
+          <a href="#" className="underline underline-offset-2 hover:text-primary transition-colors">
             Terms of Service
           </a>{" "}
           and{" "}
-          <a href="#" style={{ color: "var(--color-primary)", textDecoration: "underline" }}>
+          <a href="#" className="underline underline-offset-2 hover:text-primary transition-colors">
             Privacy Policy
           </a>
           .
         </>
       }
     >
-      {error ? (
-        <div
-          style={{
-            marginBottom: "var(--space-6)",
-            padding: "var(--space-4)",
-            background: "rgba(168, 56, 54, 0.08)",
-            color: "var(--color-error)",
-            fontSize: "0.875rem",
-            borderRadius: "var(--radius-md)",
-          }}
-        >
+      {error && (
+        <div className="mb-6 p-4 bg-error-container/20 text-error text-sm rounded-md border border-error/10">
           {error}
         </div>
-      ) : null}
+      )}
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: "var(--space-8)" }}>
-        <div>
-          <label htmlFor="signup-name" style={labelStyle}>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="group">
+          <label htmlFor="signup-name" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
             Full Name
           </label>
           <input
@@ -116,14 +85,13 @@ export default function SignupPage() {
             type="text"
             name="name"
             required
-            placeholder="E.g. Dr. Ananya Sharma"
-            style={inputStyle}
-            className="auth-field"
+            placeholder="E.g. Dr. Helena Richards"
+            className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
           />
         </div>
 
-        <div>
-          <label htmlFor="signup-email" style={labelStyle}>
+        <div className="group">
+          <label htmlFor="signup-email" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
             Email Address
           </label>
           <input
@@ -131,15 +99,14 @@ export default function SignupPage() {
             type="email"
             name="email"
             required
-            placeholder="teacher@school.com"
-            style={inputStyle}
-            className="auth-field"
+            placeholder="helena.richards@institution.edu"
+            className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
           />
         </div>
 
-        <div className="auth-two-column-grid" style={{ display: "grid", gap: "var(--space-8)" }}>
-          <div>
-            <label htmlFor="signup-phone" style={labelStyle}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="group">
+            <label htmlFor="signup-phone" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
               Phone Number
             </label>
             <input
@@ -147,14 +114,13 @@ export default function SignupPage() {
               type="tel"
               name="phone"
               required
-              placeholder="+91 98765 43210"
-              style={inputStyle}
-              className="auth-field"
+              placeholder="+1 (555) 000-0000"
+              className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
             />
           </div>
 
-          <div>
-            <label htmlFor="signup-password" style={labelStyle}>
+          <div className="group">
+            <label htmlFor="signup-password" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
               Password
             </label>
             <input
@@ -163,8 +129,7 @@ export default function SignupPage() {
               name="password"
               required
               placeholder="••••••••"
-              style={inputStyle}
-              className="auth-field"
+              className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
             />
           </div>
         </div>
@@ -172,46 +137,11 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="auth-submit"
-          style={{
-            width: "100%",
-            padding: "var(--space-4) var(--space-6)",
-            background:
-              "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-            color: "var(--color-on-primary)",
-            border: "none",
-            borderRadius: "var(--radius-lg)",
-            fontSize: "0.875rem",
-            fontWeight: 700,
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            cursor: isPending ? "wait" : "pointer",
-            boxShadow: "var(--shadow-md)",
-            transition: "transform 120ms ease-out, opacity 120ms ease-out",
-            opacity: isPending ? 0.75 : 1,
-          }}
+          className="w-full mt-4 py-4 px-6 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm tracking-wide rounded-lg shadow-md hover:shadow-xl active:scale-[0.98] transition-all duration-300 uppercase disabled:opacity-75 disabled:pointer-events-none"
         >
           {isPending ? "Creating Account…" : "Create Teacher Account"}
         </button>
       </form>
-
-      <style>{`
-        .auth-field:focus {
-          border-bottom-color: var(--color-primary) !important;
-        }
-        .auth-submit:hover {
-          opacity: 0.92;
-          transform: translateY(-1px);
-        }
-        .auth-submit:active {
-          transform: scale(0.98);
-        }
-        @media (min-width: 768px) {
-          .auth-two-column-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-        }
-      `}</style>
     </AuthShell>
   );
 }

@@ -9,18 +9,7 @@ export default function CartIcon() {
   return (
     <Link
       href="/teacher/assignments/create"
-      className="relative p-2 flex items-center"
-      style={{
-        color: "var(--color-on-surface-variant)",
-        transition: "color var(--transition-fast)",
-        textDecoration: "none",
-      }}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.color = "var(--color-primary)")
-      }
-      onMouseLeave={(e) =>
-        (e.currentTarget.style.color = "var(--color-on-surface-variant)")
-      }
+      className="relative flex items-center p-2 text-on-surface-variant no-underline transition-colors hover:text-primary hover:no-underline"
       aria-label={`Create Assignment${selectedQuestions.length > 0 ? ` (${selectedQuestions.length} questions selected)` : ""}`}
     >
       <svg
@@ -29,7 +18,7 @@ export default function CartIcon() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -39,22 +28,7 @@ export default function CartIcon() {
       </svg>
       {selectedQuestions.length > 0 && (
         <span
-          className="absolute flex items-center justify-center"
-          style={{
-            top: "0",
-            right: "-2px",
-            minWidth: "1.125rem",
-            height: "1.125rem",
-            padding: "0 0.25rem",
-            fontSize: "0.625rem",
-            fontWeight: 600,
-            lineHeight: 1,
-            color: "var(--color-on-primary)",
-            background:
-              "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-            borderRadius: "var(--radius-full)",
-            letterSpacing: "0.02em",
-          }}
+          className="absolute top-0 right-[-2px] flex min-w-[1.125rem] h-[1.125rem] items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dim px-1 text-[0.625rem] font-semibold tracking-wide leading-none text-on-primary"
         >
           {selectedQuestions.length}
         </span>

@@ -156,78 +156,32 @@ export default function TeacherLayout({
 
   return (
     <AssignmentProvider>
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          background: "var(--color-surface)",
-        }}
-      >
+      <div className="min-h-screen flex flex-col bg-surface">
         {/* ═══ Top Navigation Bar ═══ */}
-        <nav
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 50,
-            background: "rgba(250, 249, 245, 0.8)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderBottom: "1px solid rgba(176, 179, 173, 0.15)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0 var(--space-8)",
-              height: "4rem",
-              maxWidth: "100rem",
-              margin: "0 auto",
-            }}
-          >
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF9F5]/80 backdrop-blur-[16px] border-b border-[#B0B3AD]/15">
+          <div className="flex justify-between items-center px-8 h-16 max-w-[100rem] mx-auto">
             {/* Left: Brand + Desktop Nav */}
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-12)" }}>
+            <div className="flex items-center gap-12">
               <Link
                 href="/teacher/dashboard"
-                style={{
-                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  letterSpacing: "-0.03em",
-                  textDecoration: "none",
-                }}
+                className="font-[family-name:var(--font-manrope)] text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
               >
                 Shiksha Sathi
               </Link>
 
-              {/* Desktop Top Tabs */}
-              <div className="desktop-top-tabs">
+              {/* Desktop Top Tabs (Tablet) */}
+              <div className="hidden md:flex lg:hidden items-center gap-8 h-16">
                 {navItems.map((item) => {
                   const active = isActive(item.href);
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      style={{
-                        height: "4rem",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "0.875rem",
-                        fontWeight: active ? 600 : 400,
-                        color: active
-                          ? "var(--color-primary)"
-                          : "var(--color-on-surface-variant)",
-                        borderBottom: active
-                          ? "2px solid var(--color-primary)"
-                          : "2px solid transparent",
-                        textDecoration: "none",
-                        transition: "color 200ms ease-out, border-color 200ms ease-out",
-                      }}
+                      className={`h-16 flex items-center text-sm transition-colors duration-200 border-b-2 no-underline ${
+                        active
+                          ? "font-semibold text-primary border-primary"
+                          : "font-normal text-on-surface-variant border-transparent"
+                      }`}
                     >
                       {item.label}
                     </Link>
@@ -237,38 +191,18 @@ export default function TeacherLayout({
             </div>
 
             {/* Right: Actions */}
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
+            <div className="flex items-center gap-4">
               <Link
                 href="/teacher/question-bank"
-                className="desktop-cta-btn"
-                style={{
-                  background: "var(--color-primary)",
-                  color: "var(--color-on-primary)",
-                  padding: "var(--space-2) var(--space-4)",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  textDecoration: "none",
-                  transition: "background 150ms ease-out, transform 150ms ease-out",
-                }}
+                className="hidden md:inline-flex bg-primary text-on-primary px-4 py-2 rounded-sm text-sm font-medium no-underline hover:brightness-95 active:scale-95 transition-all duration-150"
               >
                 Assignment Builder
               </Link>
-              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+              <div className="flex items-center gap-1">
                 <CartIcon />
                 <Link
                   href="/teacher/profile"
-                  style={{
-                    padding: "var(--space-2)",
-                    color: "var(--color-on-surface-variant)",
-                    borderRadius: "var(--radius-full)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "background 120ms ease-out",
-                    textDecoration: "none",
-                  }}
-                  className="icon-btn"
+                  className="p-2 text-on-surface-variant rounded-full flex items-center justify-center transition-colors duration-120 hover:bg-surface-container no-underline"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="8" r="5" />
@@ -280,15 +214,8 @@ export default function TeacherLayout({
               {/* Mobile Menu Toggle */}
               <button
                 type="button"
-                className="mobile-menu-btn"
+                className="md:hidden block p-2 text-on-surface-variant bg-transparent border-none cursor-pointer"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                style={{
-                  padding: "var(--space-2)",
-                  color: "var(--color-on-surface-variant)",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                }}
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? <IconClose /> : <IconMenu />}
@@ -299,38 +226,17 @@ export default function TeacherLayout({
 
         {/* ═══ Mobile Dropdown Menu ═══ */}
         {mobileMenuOpen && (
-          <div
-            className="mobile-dropdown"
-            style={{
-              position: "fixed",
-              top: "4rem",
-              left: 0,
-              right: 0,
-              zIndex: 45,
-              background: "var(--color-surface-container-lowest)",
-              borderBottom: "1px solid rgba(176, 179, 173, 0.15)",
-              padding: "var(--space-4)",
-            }}
-          >
+          <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-surface-container-lowest border-b border-[#B0B3AD]/15 p-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  display: "block",
-                  padding: "var(--space-2) var(--space-3)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  color: isActive(item.href)
-                    ? "var(--color-primary)"
-                    : "var(--color-on-surface-variant)",
-                  background: isActive(item.href)
-                    ? "rgba(198, 232, 248, 0.2)"
-                    : "transparent",
-                  borderRadius: "var(--radius-md)",
-                  textDecoration: "none",
-                }}
+                className={`block p-2 px-3 text-sm font-medium rounded-md no-underline mb-1 ${
+                  isActive(item.href)
+                    ? "text-primary bg-[#C6E8F8]/20"
+                    : "text-on-surface-variant bg-transparent"
+                }`}
               >
                 {item.label}
               </Link>
@@ -338,31 +244,14 @@ export default function TeacherLayout({
             <Link
               href="/teacher/profile"
               onClick={() => setMobileMenuOpen(false)}
-              style={{
-                display: "block",
-                padding: "var(--space-2) var(--space-3)",
-                fontSize: "0.875rem",
-                fontWeight: 500,
-                color: "var(--color-on-surface-variant)",
-                textDecoration: "none",
-              }}
+              className="block p-2 px-3 text-sm font-medium text-on-surface-variant no-underline mb-1"
             >
               Profile
             </Link>
             <form onSubmit={handleLogout}>
               <button
                 type="submit"
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  padding: "var(--space-2) var(--space-3)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  color: "var(--color-on-surface-variant)",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                className="w-full text-left p-2 px-3 text-sm font-medium text-on-surface-variant bg-transparent border-none cursor-pointer"
               >
                 Log out
               </button>
@@ -370,38 +259,21 @@ export default function TeacherLayout({
           </div>
         )}
 
-        <div style={{ display: "flex", flex: 1, paddingTop: "4rem" }}>
+        <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="desktop-sidebar">
+          <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
             {/* Brand Section */}
-            <div style={{ padding: "var(--space-6)" }}>
-              <p
-                style={{
-                  fontSize: "0.6875rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  margin: 0,
-                }}
-              >
+            <div className="p-6">
+              <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">
                 Shiksha Sathi
               </p>
-              <p
-                style={{
-                  fontSize: "0.625rem",
-                  color: "var(--color-on-surface-variant)",
-                  textTransform: "uppercase",
-                  letterSpacing: "-0.02em",
-                  margin: 0,
-                }}
-              >
+              <p className="text-[0.625rem] text-on-surface-variant uppercase tracking-[-0.02em] m-0">
                 Teacher Portal
               </p>
             </div>
 
             {/* Nav Links */}
-            <nav style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)", paddingRight: "var(--space-4)" }}>
+            <nav className="flex flex-col gap-1 pr-4">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 const ItemIcon = item.icon;
@@ -409,24 +281,11 @@ export default function TeacherLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--space-3)",
-                      padding: "var(--space-3) var(--space-6)",
-                      fontSize: "0.875rem",
-                      fontWeight: active ? 500 : 400,
-                      color: active
-                        ? "var(--color-primary)"
-                        : "var(--color-on-surface-variant)",
-                      background: active
-                        ? "var(--color-surface-container-lowest)"
-                        : "transparent",
-                      borderRadius: active ? "0 var(--radius-lg) var(--radius-lg) 0" : "0",
-                      textDecoration: "none",
-                      transition: "all 200ms ease-out",
-                    }}
-                    className="sidebar-link"
+                    className={`flex items-center gap-3 py-3 px-6 text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
+                      active
+                        ? "font-medium text-primary bg-surface-container-lowest rounded-r-lg"
+                        : "font-normal text-on-surface-variant bg-transparent rounded-none"
+                    }`}
                   >
                     <ItemIcon active={active} />
                     {item.label}
@@ -436,88 +295,34 @@ export default function TeacherLayout({
             </nav>
 
             {/* Bottom Actions */}
-            <div style={{ marginTop: "auto", padding: "var(--space-6)" }}>
+            <div className="mt-auto p-6">
               {/* Create Assignment CTA */}
               <Link
                 href="/teacher/question-bank"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  background: "var(--color-primary)",
-                  color: "var(--color-on-primary)",
-                  padding: "var(--space-3) 0",
-                  borderRadius: "var(--radius-sm)",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  textDecoration: "none",
-                  boxShadow: "0 4px 12px rgba(48, 51, 47, 0.06)",
-                  transition: "transform 150ms ease-out",
-                }}
+                className="block w-full bg-primary text-on-primary py-3 rounded-sm text-xs font-semibold text-center no-underline shadow-[0_4px_12px_rgba(48,51,47,0.06)] hover:brightness-95 active:scale-95 transition-all duration-150"
               >
                 Create New Assignment
               </Link>
 
               {/* Settings + Support */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "var(--space-1)",
-                  borderTop: "1px solid rgba(176, 179, 173, 0.1)",
-                  paddingTop: "var(--space-4)",
-                  marginTop: "var(--space-4)",
-                }}
-              >
+              <div className="flex flex-col gap-1 border-t border-[#B0B3AD]/10 pt-4 mt-4">
                 <Link
                   href="#"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    color: "var(--color-on-surface-variant)",
-                    padding: "var(--space-2) 0",
-                    fontSize: "0.8125rem",
-                    textDecoration: "none",
-                    transition: "color 120ms ease-out",
-                  }}
-                  className="sidebar-secondary-link"
+                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] no-underline hover:text-primary transition-colors duration-120"
                 >
                   <IconSettings />
                   Settings
                 </Link>
                 <Link
                   href="#"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    color: "var(--color-on-surface-variant)",
-                    padding: "var(--space-2) 0",
-                    fontSize: "0.8125rem",
-                    textDecoration: "none",
-                    transition: "color 120ms ease-out",
-                  }}
-                  className="sidebar-secondary-link"
+                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] no-underline hover:text-primary transition-colors duration-120"
                 >
                   <IconHelp />
                   Support
                 </Link>
                 <button
                   onClick={handleLogout}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    color: "var(--color-on-surface-variant)",
-                    padding: "var(--space-2) 0",
-                    fontSize: "0.8125rem",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "color 120ms ease-out",
-                  }}
-                  className="sidebar-secondary-link"
+                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-primary transition-colors duration-120 text-left"
                 >
                   <IconLogout />
                   Log out
@@ -527,29 +332,15 @@ export default function TeacherLayout({
           </aside>
 
           {/* ═══ Main Content ═══ */}
-          <main
-            style={{
-              flex: 1,
-              width: "100%",
-              maxWidth: "100%",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                maxWidth: "80rem",
-                margin: "0 auto",
-                padding: "var(--space-6) var(--space-4)",
-              }}
-              className="main-content-pad"
-            >
+          <main className="flex-1 w-full max-w-full overflow-hidden pb-20 md:pb-0">
+            <div className="max-w-[80rem] mx-auto p-6 px-4 md:p-8">
               {children}
             </div>
           </main>
         </div>
 
         {/* ═══ Bottom Tab Bar (Mobile Only) ═══ */}
-        <nav className="mobile-bottom-nav">
+        <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-surface border-t border-[#B0B3AD]/10 z-50 px-4">
           {navItems.map((item) => {
             const active = isActive(item.href);
             const ItemIcon = item.icon;
@@ -557,19 +348,12 @@ export default function TeacherLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  color: active
-                    ? "var(--color-primary)"
-                    : "var(--color-on-surface-variant)",
-                  textDecoration: "none",
-                  gap: "2px",
-                }}
+                className={`flex flex-col items-center no-underline gap-[2px] ${
+                  active ? "text-primary" : "text-on-surface-variant"
+                }`}
               >
                 <ItemIcon active={active} />
-                <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>
+                <span className="text-[0.625rem] font-medium">
                   {item.mobileLabel}
                 </span>
               </Link>
@@ -579,19 +363,7 @@ export default function TeacherLayout({
           {/* Floating Add Button */}
           <Link
             href="/teacher/question-bank"
-            style={{
-              width: "3rem",
-              height: "3rem",
-              marginTop: "-1.5rem",
-              background: "var(--color-primary)",
-              borderRadius: "var(--radius-full)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "var(--color-on-primary)",
-              boxShadow: "0 4px 12px rgba(48, 51, 47, 0.15)",
-              textDecoration: "none",
-            }}
+            className="w-12 h-12 -mt-6 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-[0_4px_12px_rgba(48,51,47,0.15)] no-underline active:scale-95 transition-transform"
           >
             <IconPlus />
           </Link>
@@ -599,140 +371,12 @@ export default function TeacherLayout({
           {/* Analytics Tab */}
           <Link
             href="/teacher/dashboard"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "var(--color-on-surface-variant)",
-              textDecoration: "none",
-              gap: "2px",
-            }}
+            className="flex flex-col items-center text-on-surface-variant no-underline gap-[2px]"
           >
             <IconAnalytics active={false} />
-            <span style={{ fontSize: "0.625rem", fontWeight: 500 }}>Stats</span>
+            <span className="text-[0.625rem] font-medium">Stats</span>
           </Link>
         </nav>
-
-        {/* ═══ Responsive Styles ═══ */}
-        <style>{`
-          /* Desktop Sidebar */
-          .desktop-sidebar {
-            display: none;
-          }
-          @media (min-width: 1024px) {
-            .desktop-sidebar {
-              display: flex;
-              flex-direction: column;
-              width: 16rem;
-              flex-shrink: 0;
-              position: sticky;
-              top: 4rem;
-              height: calc(100vh - 4rem);
-              overflow-y: auto;
-              background: var(--color-surface-container-low);
-            }
-          }
-
-          /* Desktop Top Tabs */
-          .desktop-top-tabs {
-            display: none;
-          }
-          @media (min-width: 768px) and (max-width: 1023px) {
-            .desktop-top-tabs {
-              display: flex;
-              align-items: center;
-              gap: var(--space-8);
-              height: 4rem;
-            }
-          }
-
-          /* Desktop CTA Button */
-          .desktop-cta-btn {
-            display: none !important;
-          }
-          @media (min-width: 768px) {
-            .desktop-cta-btn {
-              display: inline-flex !important;
-            }
-          }
-          .desktop-cta-btn:hover {
-            background: var(--color-primary-dim) !important;
-          }
-          .desktop-cta-btn:active {
-            transform: scale(0.95);
-          }
-
-          /* Mobile Menu Button */
-          .mobile-menu-btn {
-            display: block;
-          }
-          @media (min-width: 768px) {
-            .mobile-menu-btn {
-              display: none !important;
-            }
-          }
-
-          /* Mobile Dropdown */
-          .mobile-dropdown {
-            display: block;
-          }
-          @media (min-width: 768px) {
-            .mobile-dropdown {
-              display: none !important;
-            }
-          }
-
-          /* Bottom Nav (Mobile Only) */
-          .mobile-bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4rem;
-            background: var(--color-surface);
-            border-top: 1px solid rgba(176, 179, 173, 0.1);
-            z-index: 50;
-            padding: 0 var(--space-4);
-          }
-          @media (min-width: 768px) {
-            .mobile-bottom-nav {
-              display: none !important;
-            }
-          }
-
-          /* Sidebar Link Hover */
-          .sidebar-link:hover {
-            background: var(--color-surface-container) !important;
-          }
-          .sidebar-secondary-link:hover {
-            color: var(--color-primary) !important;
-          }
-
-          /* Icon Button Hover */
-          .icon-btn:hover {
-            background: var(--color-surface-container);
-          }
-
-          /* Main Content Padding */
-          .main-content-pad {
-            padding: var(--space-6) var(--space-4);
-          }
-          @media (min-width: 768px) {
-            .main-content-pad {
-              padding: var(--space-8);
-            }
-          }
-
-          /* Account for bottom nav on mobile */
-          @media (max-width: 767px) {
-            main {
-              padding-bottom: 5rem;
-            }
-          }
-        `}</style>
       </div>
     </AssignmentProvider>
   );
