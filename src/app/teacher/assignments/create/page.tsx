@@ -14,42 +14,21 @@ export default async function CreateAssignmentPage() {
   }));
 
   return (
-    <div style={{ paddingBottom: "var(--space-12)" }}>
-      <header
-        style={{
-          display: "grid",
-          gap: "var(--space-4)",
-          marginBottom: "var(--space-8)",
-        }}
-      >
+    <div className="pb-12">
+      <header className="grid gap-4 mb-8">
         <div>
-          <p className="text-label-sm" style={{ color: "var(--color-on-surface-variant)", margin: 0 }}>
+          <p className="text-label-sm text-on-surface-variant m-0">
             Review &amp; Organize
           </p>
-          <h1
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "clamp(2rem, 4vw, 2.75rem)",
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
-              color: "var(--color-primary)",
-              margin: "var(--space-2) 0 0",
-            }}
-          >
+          <h1 className="font-headline text-[clamp(2rem,4vw,2.75rem)] font-extrabold tracking-[-0.04em] text-primary mt-2 mb-0">
             Finalize Your Assignment
           </h1>
         </div>
 
-        <p
-          style={{
-            color: "var(--color-on-surface-variant)",
-            fontSize: "0.9375rem",
-            lineHeight: 1.7,
-            maxWidth: "42rem",
-            margin: 0,
-          }}
-        >
-          Use the selected question set to build a precise student assignment. This flow stays link-based and Shiksha Sathi-native, matching the refined Stitch publish journey.
+        <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] max-w-[42rem] m-0">
+          Use the selected question set to build a precise student assignment.
+          This flow stays link-based and Shiksha Sathi-native, matching the
+          refined Stitch publish journey.
         </p>
       </header>
 

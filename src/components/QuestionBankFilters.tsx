@@ -6,9 +6,9 @@ import { useTransition } from "react";
 /* ─────────────────────────────────────────────────────────
    Question Bank Taxonomy Filters — Stitch-Directed
    Design Source: doc/stitch_shiksha_sathi_ui_refresh/question_bank
-   Implements: vertical taxonomy rail with progressive 
+   Implements: vertical taxonomy rail with progressive
    disclosure (Board → Class → Subject → Book → Chapter),
-   active state with right-rounded highlight. 
+   active state with right-rounded highlight.
    ───────────────────────────────────────────────────────── */
 
 /* ── Taxonomy Step Icons ── */
@@ -58,27 +58,11 @@ const TaxonomyStep = ({ icon, label, active, onClick }: TaxonomyStepProps) => (
   <button
     type="button"
     onClick={onClick}
-    style={{
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      gap: "var(--space-3)",
-      padding: "var(--space-3) var(--space-4)",
-      background: active
-        ? "var(--color-surface-container-lowest)"
-        : "transparent",
-      color: active
-        ? "var(--color-primary)"
-        : "var(--color-on-surface-variant)",
-      fontWeight: active ? 500 : 400,
-      fontSize: "0.875rem",
-      border: "none",
-      borderRadius: active ? "0 var(--radius-lg) var(--radius-lg) 0" : "0",
-      cursor: "pointer",
-      transition: "all 200ms ease-out",
-      textAlign: "left",
-    }}
-    className="taxonomy-step"
+    className={`w-full flex items-center gap-3 px-4 py-3 text-sm text-left border-none cursor-pointer transition-all duration-200 ${
+      active
+        ? "bg-surface-container-lowest text-primary font-medium rounded-r-lg"
+        : "bg-transparent text-on-surface-variant font-normal hover:bg-surface-container"
+    }`}
   >
     {icon}
     <span>{label}</span>
@@ -141,54 +125,27 @@ export default function QuestionBankFilters({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-1)",
-      }}
-    >
+    <div className="flex flex-col gap-1">
       {/* Loading indicator */}
       {isPending && (
-        <div
-          style={{
-            fontSize: "0.75rem",
-            color: "var(--color-primary)",
-            fontWeight: 500,
-            padding: "var(--space-2) var(--space-4)",
-          }}
-        >
+        <div className="text-xs text-primary font-medium px-4 py-2">
           Loading…
         </div>
       )}
 
       {/* ── Board Select ── */}
-      <div style={{ marginBottom: "var(--space-2)" }}>
+      <div className="mb-2">
         <TaxonomyStep
           icon={<IconBoard />}
           label={currentBoard || "Board Select"}
           active={!!currentBoard}
-          onClick={() => {
-            /* Toggle or cycle — for now, present as select */
-          }}
+          onClick={() => {}}
         />
-        {/* Board dropdown inline */}
-        <div style={{ padding: "0 var(--space-4)" }}>
+        <div className="px-4">
           <select
             value={currentBoard}
             onChange={(e) => handleFilterChange("board", e.target.value)}
-            style={{
-              width: "100%",
-              padding: "var(--space-2) var(--space-3)",
-              fontSize: "0.8125rem",
-              background: "var(--color-surface-container-low)",
-              border: "none",
-              borderBottom: "1px solid rgba(176, 179, 173, 0.2)",
-              color: "var(--color-on-surface)",
-              borderRadius: "var(--radius-sm)",
-              outline: "none",
-              cursor: "pointer",
-            }}
+            className="w-full py-2 px-3 text-[0.8125rem] bg-surface-container-low border-0 border-b border-outline-variant/20 text-on-surface rounded-sm outline-none cursor-pointer transition-colors focus:border-primary"
           >
             <option value="">Select Board</option>
             <option value="NCERT">NCERT / CBSE</option>
@@ -205,44 +162,24 @@ export default function QuestionBankFilters({
 
       {/* ── Class (6-12) ── */}
       {(currentBoard || classes.length > 0) && (
-        <div style={{ marginBottom: "var(--space-2)" }}>
+        <div className="mb-2">
           <TaxonomyStep
             icon={<IconClass />}
             label={currentClass ? `Class ${currentClass}` : "Class (6-12)"}
             active={!!currentClass}
             onClick={() => {}}
           />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "var(--space-1)",
-              padding: "var(--space-1) var(--space-4)",
-            }}
-          >
+          <div className="grid grid-cols-4 gap-1 px-4 py-1">
             {["6", "7", "8", "9", "10", "11", "12"].map((cls) => (
               <button
                 key={cls}
                 type="button"
                 onClick={() => handleFilterChange("class", cls)}
-                style={{
-                  padding: "var(--space-1-5) 0",
-                  fontSize: "0.8125rem",
-                  fontWeight: currentClass === cls ? 600 : 400,
-                  background:
-                    currentClass === cls
-                      ? "var(--color-primary-container)"
-                      : "var(--color-surface-container-lowest)",
-                  color:
-                    currentClass === cls
-                      ? "var(--color-on-primary-container)"
-                      : "var(--color-on-surface-variant)",
-                  border: "none",
-                  borderRadius: "var(--radius-sm)",
-                  cursor: "pointer",
-                  transition: "all 150ms ease-out",
-                  textAlign: "center",
-                }}
+                className={`py-1.5 text-[0.8125rem] text-center border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                  currentClass === cls
+                    ? "font-semibold bg-primary-container text-on-primary-container"
+                    : "font-normal bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high"
+                }`}
               >
                 {cls}
               </button>
@@ -253,55 +190,31 @@ export default function QuestionBankFilters({
 
       {/* ── Subject ── */}
       {currentClass && (
-        <div style={{ marginBottom: "var(--space-2)" }}>
+        <div className="mb-2">
           <TaxonomyStep
             icon={<IconSubject />}
             label={currentSubject || "Subject"}
             active={!!currentSubject}
             onClick={() => {}}
           />
-          <div style={{ padding: "0 var(--space-2)" }}>
+          <div className="px-2">
             {subjects.length > 0 ? (
               subjects.map((subject) => (
                 <button
                   key={subject}
                   type="button"
                   onClick={() => handleFilterChange("subject", subject)}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "var(--space-2) var(--space-3)",
-                    fontSize: "0.8125rem",
-                    fontWeight: currentSubject === subject ? 500 : 400,
-                    background:
-                      currentSubject === subject
-                        ? "var(--color-primary-container)"
-                        : "transparent",
-                    color:
-                      currentSubject === subject
-                        ? "var(--color-on-primary-container)"
-                        : "var(--color-on-surface)",
-                    border: "none",
-                    borderRadius: "var(--radius-sm)",
-                    cursor: "pointer",
-                    transition: "all 150ms ease-out",
-                  }}
-                  className="taxonomy-option"
+                  className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                    currentSubject === subject
+                      ? "font-medium bg-primary-container text-on-primary-container"
+                      : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                  }`}
                 >
                   {subject}
                 </button>
               ))
             ) : (
-              <p
-                style={{
-                  fontSize: "0.8125rem",
-                  fontStyle: "italic",
-                  color: "var(--color-on-surface-variant)",
-                  padding: "var(--space-2) var(--space-3)",
-                  margin: 0,
-                }}
-              >
+              <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
                 No subjects found
               </p>
             )}
@@ -311,40 +224,24 @@ export default function QuestionBankFilters({
 
       {/* ── Book Series ── */}
       {currentSubject && books.length > 1 && (
-        <div style={{ marginBottom: "var(--space-2)" }}>
+        <div className="mb-2">
           <TaxonomyStep
             icon={<IconBook />}
             label={currentBook || "Book Series"}
             active={!!currentBook}
             onClick={() => {}}
           />
-          <div style={{ padding: "0 var(--space-2)" }}>
+          <div className="px-2">
             {books.map((bookItem) => (
               <button
                 key={bookItem}
                 type="button"
                 onClick={() => handleFilterChange("book", bookItem)}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "left",
-                  padding: "var(--space-2) var(--space-3)",
-                  fontSize: "0.8125rem",
-                  fontWeight: currentBook === bookItem ? 500 : 400,
-                  background:
-                    currentBook === bookItem
-                      ? "var(--color-primary-container)"
-                      : "transparent",
-                  color:
-                    currentBook === bookItem
-                      ? "var(--color-on-primary-container)"
-                      : "var(--color-on-surface)",
-                  border: "none",
-                  borderRadius: "var(--radius-sm)",
-                  cursor: "pointer",
-                  transition: "all 150ms ease-out",
-                }}
-                className="taxonomy-option"
+                className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                  currentBook === bookItem
+                    ? "font-medium bg-primary-container text-on-primary-container"
+                    : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                }`}
               >
                 {bookItem}
               </button>
@@ -362,84 +259,37 @@ export default function QuestionBankFilters({
             active={!!currentChapter}
             onClick={() => {}}
           />
-          <div
-            style={{
-              padding: "0 var(--space-2)",
-              maxHeight: "16rem",
-              overflowY: "auto",
-            }}
-            className="custom-scrollbar"
-          >
+          <div className="px-2 max-h-64 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-outline-variant/20 [&::-webkit-scrollbar-thumb]:rounded-full">
             {chapters.length > 0 ? (
               chapters.map((ch) => (
                 <button
                   key={ch}
                   type="button"
                   onClick={() => handleFilterChange("chapter", ch)}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "var(--space-2) var(--space-3)",
-                    fontSize: "0.8125rem",
-                    fontWeight: currentChapter === ch ? 500 : 400,
-                    background:
-                      currentChapter === ch
-                        ? "var(--color-primary-container)"
-                        : "transparent",
-                    color:
-                      currentChapter === ch
-                        ? "var(--color-on-primary-container)"
-                        : "var(--color-on-surface)",
-                    border: "none",
-                    borderRadius: "var(--radius-sm)",
-                    cursor: "pointer",
-                    transition: "all 150ms ease-out",
-                  }}
-                  className="taxonomy-option"
+                  className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                    currentChapter === ch
+                      ? "font-medium bg-primary-container text-on-primary-container"
+                      : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                  }`}
                 >
                   {ch}
                 </button>
               ))
             ) : (
-              <p
-                style={{
-                  fontSize: "0.8125rem",
-                  fontStyle: "italic",
-                  color: "var(--color-on-surface-variant)",
-                  padding: "var(--space-2) var(--space-3)",
-                  margin: 0,
-                }}
-              >
+              <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
                 No chapters found
               </p>
             )}
           </div>
         </div>
       )}
-
-      {/* ═══ Responsive Styles ═══ */}
-      <style>{`
-        .taxonomy-step:hover {
-          background: var(--color-surface-container) !important;
-        }
-        .taxonomy-option:hover {
-          background: var(--color-surface-container-high) !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(176, 179, 173, 0.2);
-          border-radius: 10px;
-        }
-      `}</style>
     </div>
   );
 }
 
 /* ─────────────────────────────────────────────────────────
    Question Bank Search Bar — Stitch-Directed
-   Implements: full-width search input with icon and 
+   Implements: full-width search input with icon and
    pill-style type filter buttons (All Types | MCQ | True/False | Fill Blanks)
    ───────────────────────────────────────────────────────── */
 export function QuestionBankSearch() {
@@ -472,25 +322,10 @@ export function QuestionBankSearch() {
   ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-4)",
-        marginBottom: "var(--space-6)",
-      }}
-      className="qb-search-cluster"
-    >
-      <div
-        style={{
-          display: "flex",
-          gap: "var(--space-4)",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
+    <div className="flex flex-col gap-4 mb-6">
+      <div className="flex gap-4 items-center flex-wrap">
         {/* Search Input */}
-        <div style={{ flex: 1, position: "relative", minWidth: "12rem" }}>
+        <div className="flex-1 relative min-w-48">
           <svg
             width="18"
             height="18"
@@ -500,14 +335,7 @@ export function QuestionBankSearch() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{
-              position: "absolute",
-              left: "var(--space-4)",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "var(--color-on-surface-variant)",
-              pointerEvents: "none",
-            }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
@@ -517,62 +345,22 @@ export function QuestionBankSearch() {
             placeholder="Search by topic, keyword or chapter..."
             defaultValue={currentQuery}
             onChange={(e) => handleFilterChange("q", e.target.value)}
-            style={{
-              width: "100%",
-              paddingLeft: "var(--space-12)",
-              paddingRight: "var(--space-4)",
-              paddingTop: "var(--space-3)",
-              paddingBottom: "var(--space-3)",
-              background: "var(--color-surface-container-low)",
-              border: "none",
-              borderBottom: "1px solid rgba(176, 179, 173, 0.2)",
-              fontSize: "0.875rem",
-              color: "var(--color-on-surface)",
-              outline: "none",
-              transition: "border-color 200ms ease-out",
-            }}
-            className="qb-search-input"
+            className="w-full pl-12 pr-4 py-3 bg-surface-container-low border-0 border-b border-outline-variant/20 text-sm text-on-surface outline-none transition-colors duration-200 focus:border-b-2 focus:border-primary placeholder:text-on-surface-variant"
           />
         </div>
 
         {/* Type Filter Pills */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "var(--color-surface-container-low)",
-            padding: "var(--space-1)",
-            borderRadius: "var(--radius-sm)",
-            gap: "var(--space-1)",
-          }}
-        >
+        <div className="flex items-center bg-surface-container-low p-1 rounded-sm gap-1">
           {typeFilters.map((f) => (
             <button
               key={f.value}
               type="button"
               onClick={() => handleFilterChange("type", f.value)}
-              style={{
-                padding: "var(--space-1-5) var(--space-4)",
-                fontSize: "0.75rem",
-                fontWeight: currentType === f.value ? 600 : 400,
-                background:
-                  currentType === f.value
-                    ? "var(--color-surface-container-lowest)"
-                    : "transparent",
-                color:
-                  currentType === f.value
-                    ? "var(--color-primary)"
-                    : "var(--color-on-surface-variant)",
-                border: "none",
-                borderRadius: "var(--radius-sm)",
-                cursor: "pointer",
-                transition: "all 150ms ease-out",
-                boxShadow:
-                  currentType === f.value
-                    ? "0 1px 4px rgba(48, 51, 47, 0.06)"
-                    : "none",
-                whiteSpace: "nowrap",
-              }}
+              className={`py-1.5 px-4 text-xs border-none rounded-sm cursor-pointer transition-all duration-150 whitespace-nowrap ${
+                currentType === f.value
+                  ? "font-semibold bg-surface-container-lowest text-primary shadow-sm"
+                  : "font-normal bg-transparent text-on-surface-variant hover:text-on-surface"
+              }`}
             >
               {f.label}
             </button>
@@ -581,23 +369,9 @@ export function QuestionBankSearch() {
 
         {/* Loading */}
         {isPending && (
-          <span
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--color-primary)",
-              fontWeight: 500,
-            }}
-          >
-            Loading…
-          </span>
+          <span className="text-xs text-primary font-medium">Loading…</span>
         )}
       </div>
-
-      <style>{`
-        .qb-search-input:focus {
-          border-bottom-color: var(--color-primary) !important;
-        }
-      `}</style>
     </div>
   );
 }
