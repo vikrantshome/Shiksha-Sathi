@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { AssignmentProvider, useAssignment } from '../AssignmentContext';
-import { Question } from '@/lib/questions';
+import { Question } from '@/lib/api/types';
 import React from 'react';
 
 describe('AssignmentContext', () => {
@@ -16,7 +16,7 @@ describe('AssignmentContext', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => <AssignmentProvider>{children}</AssignmentProvider>;
     const { result } = renderHook(() => useAssignment(), { wrapper });
 
-    const q1 = { id: 'q1', text: 'Test Q1' } as Question;
+    const q1 = { id: 'q1', text: 'Test Q1' } as unknown as Question;
     
     // Initial state
     expect(result.current.selectedQuestions).toEqual([]);
