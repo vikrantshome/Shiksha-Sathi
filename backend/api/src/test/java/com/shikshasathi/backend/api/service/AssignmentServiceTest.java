@@ -1,10 +1,12 @@
 package com.shikshasathi.backend.api.service;
 
 import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
+import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
+import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
 import com.shikshasathi.backend.infrastructure.repository.school.ClassRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,9 @@ public class AssignmentServiceTest {
     
     @Mock
     private ClassRepository classRepository;
+
+    @Mock
+    private QuestionRepository questionRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -89,5 +94,18 @@ public class AssignmentServiceTest {
 
         assertThrows(AccessDeniedException.class, () -> assignmentService.publishAssignment("assign123", "hacker@fake.com"));
         verify(assignmentRepository, never()).save(any());
+    }
+
+    @Test
+    void getAssignmentByLinkId_FallsBackToInMemoryPrefixMatch() {
+        mockedAssignment.setId("69cac9883990dd64dc00dbb4");
+
+        when(assignmentRepository.findFirstByIdStartingWith("69cac988")).thenReturn(Optional.empty());
+        when(assignmentRepository.findAll()).thenReturn(List.of(mockedAssignment));
+
+        StudentAssignmentDTO result = assignmentService.getAssignmentByLinkId("69cac988");
+
+        assertNotNull(result);
+        assertEquals("69cac9883990dd64dc00dbb4", result.getId());
     }
 }
