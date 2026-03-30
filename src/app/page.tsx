@@ -43,20 +43,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "py-3" : "py-6"}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "py-2" : "py-4"}`}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div
-          className={`flex items-center justify-between px-6 py-3 rounded-[var(--radius-lg)] transition-all duration-500 ${isScrolled ? "bg-[var(--color-surface)]/90 backdrop-blur-[20px] shadow-sm border border-[var(--color-outline-variant)]/20" : "bg-transparent"}`}
+          className={`flex items-center justify-between px-4 py-2.5 rounded-[var(--radius-lg)] transition-all duration-500 ${isScrolled ? "bg-[var(--color-surface)]/90 backdrop-blur-[20px] shadow-sm border border-[var(--color-outline-variant)]/20" : "bg-transparent"}`}
         >
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-[1.25rem] font-[700] tracking-tight text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">
+            <span className="text-[1.125rem] font-[700] tracking-tight text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">
               Shiksha Sathi
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -66,16 +66,16 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Link
                 href="/login"
-                className="px-5 py-2 text-[0.875rem] font-[600] text-[var(--color-primary)] hover:bg-[var(--color-surface-container-low)] rounded-[var(--radius-md)] transition-all"
+                className="px-4 py-2 text-[0.875rem] font-[600] text-[var(--color-primary)] hover:bg-[var(--color-surface-container-low)] rounded-[var(--radius-md)] transition-all"
               >
                 Teacher Login
               </Link>
               <Link
                 href="/signup"
-                className="px-6 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-[var(--radius-md)] shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
+                className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-[var(--radius-md)] shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
               >
                 Create Free Account
               </Link>
@@ -88,7 +88,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
               {mobileMenuOpen ? (
                 <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>
               ) : (
@@ -106,7 +106,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-6 py-8 md:hidden flex flex-col gap-6 shadow-xl border-b border-[var(--color-surface-container)]"
+            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-4 py-6 md:hidden flex flex-col gap-4 shadow-xl border-b border-[var(--color-surface-container)]"
           >
             {navLinks.map((link) => (
               <Link
@@ -143,9 +143,9 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] selection:bg-[var(--color-secondary-container)] selection:text-[var(--color-on-secondary-container)] font-[family-name:var(--font-geist-sans)]">
       <Navbar />
 
-      <main className="pt-24">
+      <main className="pt-20">
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -246,64 +246,64 @@ export default function LandingPage() {
         </section>
 
         {/* Feature Bento Grid */}
-        <section id="features" className="bg-[var(--color-surface-container-low)] py-24">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-20 space-y-4">
-              <h2 className="text-[1.875rem] md:text-[3rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight">The Modern Educator&apos;s Toolkit</h2>
-              <p className="text-[var(--color-on-surface-variant)] max-w-2xl mx-auto text-[1.125rem]">Designed by educators for educators, focusing on efficiency and pedagogical excellence.</p>
+        <section id="features" className="bg-[var(--color-surface-container-low)] py-12 md:py-16 lg:py-20">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="text-center mb-12 md:mb-16 lg:mb-20 space-y-3 md:space-y-4">
+              <h2 className="text-[1.5rem] md:text-[2.5rem] lg:text-[3rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight">The Modern Educator&apos;s Toolkit</h2>
+              <p className="text-[var(--color-on-surface-variant)] max-w-2xl mx-auto text-[1rem] md:text-[1.125rem]">Designed by educators for educators, focusing on efficiency and pedagogical excellence.</p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {/* Feature 1: Main Focus */}
-              <div className="md:col-span-2 bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30 flex flex-col justify-between">
+              <div className="md:col-span-2 bg-[var(--color-surface-container-lowest)] p-6 md:p-8 lg:p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30 flex flex-col justify-between">
                 <div>
-                  <div className="w-14 h-14 rounded-full bg-[var(--color-secondary-container)] flex items-center justify-center mb-8">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-secondary-container)" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-secondary-container)] flex items-center justify-center mb-6 md:mb-8">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-secondary-container)" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
                   </div>
-                  <h3 className="text-[1.875rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Expansive Question Bank</h3>
-                  <p className="text-[var(--color-on-surface-variant)] text-[1.125rem] leading-relaxed max-w-lg">
+                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Expansive Question Bank</h3>
+                  <p className="text-[var(--color-on-surface-variant)] text-[1rem] md:text-[1.125rem] leading-relaxed max-w-lg">
                     Access thousands of curated questions aligned with the NCERT curriculum and CBSE frameworks. Create personalized worksheets and assessments in minutes, tailored to your students&apos; needs.
                   </p>
                 </div>
-                <div className="mt-12 flex flex-wrap gap-3">
+                <div className="mt-8 md:mt-12 flex flex-wrap gap-2 md:gap-3">
                   {['Mathematics', 'Science', 'Social Studies', 'English'].map(subject => (
-                    <span key={subject} className="px-4 py-2 bg-[var(--color-surface-container)] rounded-full text-[0.875rem] font-[500] text-[var(--color-primary)]">
+                    <span key={subject} className="px-3 md:px-4 py-1.5 md:py-2 bg-[var(--color-surface-container)] rounded-full text-[0.75rem] md:text-[0.875rem] font-[500] text-[var(--color-primary)]">
                       {subject}
                     </span>
                   ))}
                 </div>
               </div>
-              
+
               {/* Feature 2: Small Card */}
-              <div className="bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center mb-8">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-primary-container)" strokeWidth="2"><path d="m9 11 3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
+              <div className="bg-[var(--color-surface-container-lowest)] p-6 md:p-8 lg:p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center mb-6 md:mb-8">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-primary-container)" strokeWidth="2"><path d="m9 11 3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
                 </div>
-                <h3 className="text-[1.5rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Smart Auto-Grading</h3>
+                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Smart Auto-Grading</h3>
                 <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
                   Save hours every week with instant feedback. Our intelligent system automatically grades assignments and identifies common misconceptions.
                 </p>
               </div>
-              
+
               {/* Feature 3: Small Card */}
-              <div className="bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-tertiary-container)] flex items-center justify-center mb-8">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-tertiary)" strokeWidth="2"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
+              <div className="bg-[var(--color-surface-container-lowest)] p-6 md:p-8 lg:p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-tertiary-container)] flex items-center justify-center mb-6 md:mb-8">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-tertiary)" strokeWidth="2"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
                 </div>
-                <h3 className="text-[1.5rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Assignment Reports</h3>
+                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Assignment Reports</h3>
                 <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
                   Gain deep insights into class and individual performance. Track progress over time with visually intuitive dashboards.
                 </p>
               </div>
-              
+
               {/* Feature 4: Wide Highlight */}
-              <div className="md:col-span-2 relative overflow-hidden bg-[var(--color-primary)] text-[var(--color-on-primary)] p-10 rounded-[var(--radius-xl)] flex items-center">
+              <div className="md:col-span-2 relative overflow-hidden bg-[var(--color-primary)] text-[var(--color-on-primary)] p-6 md:p-8 lg:p-10 rounded-[var(--radius-xl)] flex items-center">
                 <div className="relative z-10 max-w-md">
-                  <h3 className="text-[1.875rem] font-[700] mb-4 font-[family-name:var(--font-manrope)]">Ready for the New Academic Cycle</h3>
-                  <p className="text-[var(--color-primary-container)] text-[1.125rem]">
+                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Ready for the New Academic Cycle</h3>
+                  <p className="text-[var(--color-primary-container)] text-[1rem] md:text-[1.125rem]">
                     All our content is updated to reflect the latest NCF and NEP 2020 recommendations for Indian schools.
                   </p>
-                  <button className="mt-8 px-6 py-3 bg-[var(--color-on-primary)] text-[var(--color-primary)] font-[700] rounded-[var(--radius-lg)] hover:bg-[var(--color-surface-container-lowest)] transition-all">
+                  <button className="mt-6 md:mt-8 px-5 md:px-6 py-2.5 md:py-3 bg-[var(--color-on-primary)] text-[var(--color-primary)] font-[700] rounded-[var(--radius-lg)] hover:bg-[var(--color-surface-container-lowest)] transition-all">
                     View Curriculum Map
                   </button>
                 </div>
@@ -316,34 +316,34 @@ export default function LandingPage() {
         </section>
 
         {/* Academic Trust Section */}
-        <section id="how-it-works" className="max-w-7xl mx-auto px-8 py-24">
-          <div className="bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-xl)] p-12 md:p-20 border border-[var(--color-outline-variant)]/50 flex flex-col md:flex-row gap-16 items-center shadow-sm">
+        <section id="how-it-works" className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16 lg:py-20">
+          <div className="bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-xl)] p-6 md:p-10 lg:p-12 border border-[var(--color-outline-variant)]/50 flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center shadow-sm">
             <div className="md:w-1/2">
-              <Image 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCn-q2qwOGKCOamKJ0SrPcvhyhy4f8ZfzhJbgLYdcuBrLhhfOKzV_iiR5Bd8czw_4lP5z6PyICRxrv42IQapDRDwvGC2dQsuk-cG5RWyMhYNLLxQ8lQrAoNNUwaYom0j6vXhcz2xbLnX0rQy_CqFjplf0VNtw7M9MNKhSUGbonpz6wNUg-CSFo_l14AlgO79cGJfUIoNzPRdGEROU1gIX9m6ctHN2gOIOIJ8Jdz9VANfvKBx8s3c9eRIoXBg5NLCLjCYGAbNtptU1G" 
-                alt="Teacher assisting students" 
+              <Image
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCn-q2qwOGKCOamKJ0SrPcvhyhy4f8ZfzhJbgLYdcuBrLhhfOKzV_iiR5Bd8czw_4lP5z6PyICRxrv42IQapDRDwvGC2dQsuk-cG5RWyMhYNLLxQ8lQrAoNNUwaYom0j6vXhcz2xbLnX0rQy_CqFjplf0VNtw7M9MNKhSUGbonpz6wNUg-CSFo_l14AlgO79cGJfUIoNzPRdGEROU1gIX9m6ctHN2gOIOIJ8Jdz9VANfvKBx8s3c9eRIoXBg5NLCLjCYGAbNtptU1G"
+                alt="Teacher assisting students"
                 className="rounded-[var(--radius-xl)] shadow-lg w-full h-auto"
                 width={600}
                 height={450}
                 unoptimized
               />
             </div>
-            <div className="md:w-1/2 space-y-6">
-              <h2 className="text-[2.25rem] md:text-[2.5rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+            <div className="md:w-1/2 space-y-4 md:space-y-6">
+              <h2 className="text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
                 Focus on Teaching, Leave the Paperwork to Us
               </h2>
-              <p className="text-[var(--color-on-surface-variant)] text-[1.125rem] leading-relaxed">
+              <p className="text-[var(--color-on-surface-variant)] text-[1rem] md:text-[1.125rem] leading-relaxed">
                 We understand that a teacher&apos;s time is precious. Shiksha Sathi was created to remove the administrative burden of teaching, allowing you to focus on what matters most: your students.
               </p>
-              <ul className="space-y-4 pt-4">
+              <ul className="space-y-3 pt-2 md:pt-4">
                 {[
                   "Zero cost for government & private schools",
                   "Secure data protection for student privacy",
                   "24/7 Academic Support for educators"
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 font-[500] text-[var(--color-primary)]">
-                    <span className="text-[var(--color-primary-container)] bg-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center shrink-0">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                  <li key={i} className="flex items-center gap-2 md:gap-3 font-[500] text-[var(--color-primary)]">
+                    <span className="text-[var(--color-primary-container)] bg-[var(--color-primary)] rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
                     </span>
                     {item}
                   </li>
@@ -354,19 +354,19 @@ export default function LandingPage() {
         </section>
 
         {/* CTA Banner */}
-        <section className="max-w-[1024px] mx-auto px-8 py-16 text-center">
-          <div className="p-12 md:p-20 rounded-[1.5rem] text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]">
-            <div className="relative z-10 space-y-8">
-              <h2 className="text-[2.25rem] md:text-[3.75rem] font-[800] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+        <section className="max-w-[1024px] mx-auto px-4 md:px-8 py-12 md:py-16">
+          <div className="p-6 md:p-10 lg:p-12 rounded-[1.5rem] text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]">
+            <div className="relative z-10 space-y-6 md:space-y-8">
+              <h2 className="text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-[800] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
                 Join Thousands of Indian Teachers
               </h2>
-              <p className="text-[var(--color-primary-container)] text-[1.25rem] max-w-2xl mx-auto">
+              <p className="text-[var(--color-primary-container)] text-[1rem] md:text-[1.125rem] max-w-2xl mx-auto">
                 Transform your classroom with data-driven insights and effortless resource planning.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-2 md:pt-4">
                 <Link
                   href="/signup"
-                  className="bg-[var(--color-surface-container-lowest)] text-[var(--color-primary)] px-10 py-5 text-[1.125rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:bg-[var(--color-surface-container-low)] transition-all inline-block hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-[var(--color-surface-container-lowest)] text-[var(--color-primary)] px-8 md:px-10 py-4 md:py-5 text-[1rem] md:text-[1.125rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:bg-[var(--color-surface-container-low)] transition-all inline-block hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Get Started Now — It&apos;s Free
                 </Link>
@@ -381,17 +381,17 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer id="resources" className="bg-[var(--color-surface-container-low)] dark:bg-slate-900 pt-16 border-t border-[var(--color-outline-variant)]/20">
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="space-y-6">
-              <div className="text-[1.125rem] font-[700] text-[var(--color-on-surface)] font-[family-name:var(--font-manrope)]">
+      <footer id="resources" className="bg-[var(--color-surface-container-low)] dark:bg-slate-900 pt-10 md:pt-12 lg:pt-16 border-t border-[var(--color-outline-variant)]/20">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            <div className="space-y-4 md:space-y-6">
+              <div className="text-[1rem] md:text-[1.125rem] font-[700] text-[var(--color-on-surface)] font-[family-name:var(--font-manrope)]">
                 Shiksha Sathi
               </div>
-              <p className="text-[var(--color-on-surface-variant)] text-[0.875rem] leading-relaxed max-w-xs">
+              <p className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] leading-relaxed max-w-xs">
                 Elevating the standard of education across India through intelligent teacher tools and curriculum-aligned resources.
               </p>
-              <div className="flex gap-4">
+              <div className="flex gap-3 md:gap-4">
                 <span className="text-[var(--color-primary)] cursor-pointer hover:opacity-70 transition-opacity">
                   <GlobeIcon />
                 </span>
@@ -403,26 +403,26 @@ export default function LandingPage() {
                 </span>
               </div>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Academic Resources</h4>
-              <ul className="space-y-3">
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NCERT Resources</Link></li>
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">CBSE Guidelines</Link></li>
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Teacher Training Hub</Link></li>
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NEP 2020 Compliance</Link></li>
+              <ul className="space-y-2 md:space-y-3">
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NCERT Resources</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">CBSE Guidelines</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Teacher Training Hub</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NEP 2020 Compliance</Link></li>
               </ul>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Platform</h4>
-              <ul className="space-y-3">
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Privacy Policy</Link></li>
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Terms of Service</Link></li>
-                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Contact Us</Link></li>
+              <ul className="space-y-2 md:space-y-3">
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Privacy Policy</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Terms of Service</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Contact Us</Link></li>
               </ul>
             </div>
           </div>
-          <div className="mt-16 pt-8 border-t border-[var(--color-outline-variant)]/30 text-center">
-            <p className="text-[var(--color-on-surface-variant)] text-[0.875rem]">
+          <div className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-[var(--color-outline-variant)]/30 text-center">
+            <p className="text-[var(--color-on-surface-variant)] text-[0.75rem] md:text-[0.875rem]">
               © {new Date().getFullYear()} Shiksha Sathi. All resources aligned with NCERT and CBSE frameworks for Indian Educators.
             </p>
           </div>
