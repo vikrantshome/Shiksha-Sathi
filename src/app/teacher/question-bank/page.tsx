@@ -131,10 +131,10 @@ export default async function QuestionBankPage({
     : "Question Repository";
 
   return (
-    <div className="pb-24">
+    <div className="pb-20 md:pb-24">
       {/* ═══ Page Header ═══ */}
-      <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
-        <div className="grid gap-2">
+      <div className="flex items-end justify-between gap-4 mb-4 md:mb-6 flex-wrap">
+        <div className="grid gap-1.5 md:gap-2">
           {breadcrumb && (
             <p className="text-label-sm text-on-surface-variant m-0">
               {breadcrumb}
@@ -157,7 +157,7 @@ export default async function QuestionBankPage({
       <QuestionBankSearch />
 
       {/* ═══ 3-Panel Workspace Grid ═══ */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
         {/* Left Rail: Taxonomy Navigation — full-width on tablet, column on desktop */}
         <div className="md:col-span-2 lg:col-span-1 order-1">
           <div className="sticky top-6">
@@ -175,8 +175,8 @@ export default async function QuestionBankPage({
         <div className="order-2">
           {emptyState ? (
             /* Progressive Empty State — Stitch Direction */
-            <div className="flex flex-col items-center justify-center min-h-96 text-center p-12">
-              <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-6">
+            <div className="flex flex-col items-center justify-center min-h-64 md:min-h-96 text-center p-8 md:p-12">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-4 md:mb-6">
                 <EmptyStateIcon />
               </div>
               <h3 className="font-headline text-lg font-bold text-on-surface mb-2">
@@ -189,11 +189,11 @@ export default async function QuestionBankPage({
           ) : (
             <div>
               {displayedQuestions.length === 0 ? (
-                <div className="text-center p-12 text-on-surface-variant text-sm">
+                <div className="text-center p-8 md:p-12 text-on-surface-variant text-sm">
                   No questions found matching your criteria.
                 </div>
               ) : (
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-4 md:gap-5">
                   {displayedQuestions.map((question) => (
                     <QuestionCard key={question.id} question={question} />
                   ))}
