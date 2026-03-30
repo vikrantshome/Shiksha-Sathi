@@ -50,6 +50,7 @@ public class AssignmentSubmissionService {
         String studentName = userRepository.findById(submission.getStudentId())
                 .map(u -> u.getName())
                 .orElse("Unknown Student");
+        int score = submission.getScore() == null ? 0 : submission.getScore();
 
         return SubmissionDTO.builder()
                 .id(submission.getId())
@@ -57,7 +58,7 @@ public class AssignmentSubmissionService {
                 .studentId(submission.getStudentId())
                 .studentName(studentName)
                 .answers(submission.getAnswers())
-                .score(submission.getScore())
+                .score(score)
                 .submittedAt(submission.getSubmittedAt())
                 .status(submission.getStatus())
                 .build();
@@ -70,6 +71,9 @@ public class AssignmentSubmissionService {
         }
         
         submission.setSubmittedAt(Instant.now());
+        if (submission.getScore() == null) {
+            submission.setScore(0);
+        }
         submission.setStatus("SUBMITTED");
         AssignmentSubmission saved = submissionRepository.save(submission);
         eventPublisher.publishEvent(new NotificationEvent(this, submission.getStudentId(), "Assignment submitted successfully!"));
