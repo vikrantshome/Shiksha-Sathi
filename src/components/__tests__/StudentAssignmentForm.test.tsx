@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { expect, test, vi, beforeEach, describe } from "vitest";
 import StudentAssignmentForm from "../StudentAssignmentForm";
 import { api } from "@/lib/api";
-import { SubmitAssignmentResponse } from "@/lib/api/types";
+import { SubmitAssignmentResponse, AssignmentByLinkResponse } from "@/lib/api/types";
 
 vi.mock("@/lib/api", () => ({
   api: {
@@ -21,7 +21,7 @@ describe("StudentAssignmentForm", () => {
       { id: "q1", text: "Q1 Text", type: "MCQ" as const, marks: 5, options: ["A", "B"], subject: "Math", grade: "10", chapter: "C1", topic: "T1" },
       { id: "q2", text: "Q2 Text", type: "FILL_IN_BLANKS" as const, marks: 5, subject: "Science", grade: "10", chapter: "C2", topic: "T2" },
     ],
-  };
+  } as unknown as AssignmentByLinkResponse;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -50,7 +50,7 @@ describe("StudentAssignmentForm", () => {
     expect(screen.getByText("Student 1")).toBeInTheDocument();
     expect(screen.getByText("Q1 Text")).toBeInTheDocument();
     expect(screen.getByText("Q2 Text")).toBeInTheDocument();
-    expect(screen.getByText("0 / 2 Answered")).toBeInTheDocument();
+    expect(screen.getByText("0 of 2 answered")).toBeInTheDocument();
   });
 
   test("validates all questions answered before submit", async () => {

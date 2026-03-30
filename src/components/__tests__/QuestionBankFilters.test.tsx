@@ -11,7 +11,7 @@ vi.mock('next/navigation', () => ({
 
 describe('QuestionBankFilters', () => {
   it('renders board selector', () => {
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams(''));
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('') as unknown as ReturnType<typeof useSearchParams>);
     vi.mocked(usePathname).mockReturnValue('/teacher/question-bank');
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math']} books={['Book1']} chapters={['Chapter 1']} />);
@@ -23,7 +23,7 @@ describe('QuestionBankFilters', () => {
   it('renders class selection buttons', () => {
     const mockPush = vi.fn();
     vi.mocked(useRouter).mockReturnValue({ push: mockPush } as unknown as ReturnType<typeof useRouter>);
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT'));
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT') as unknown as ReturnType<typeof useSearchParams>);
     vi.mocked(usePathname).mockReturnValue('/teacher/question-bank');
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math']} books={['Book1']} chapters={['Chapter 1']} />);
@@ -35,7 +35,7 @@ describe('QuestionBankFilters', () => {
   it('navigates when class is clicked', () => {
     const mockPush = vi.fn();
     vi.mocked(useRouter).mockReturnValue({ push: mockPush } as unknown as ReturnType<typeof useRouter>);
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT'));
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT') as unknown as ReturnType<typeof useSearchParams>);
     vi.mocked(usePathname).mockReturnValue('/teacher/question-bank');
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math']} books={['Book1']} chapters={['Chapter 1']} />);
@@ -48,7 +48,7 @@ describe('QuestionBankFilters', () => {
   it('renders subject selection', () => {
     const mockPush = vi.fn();
     vi.mocked(useRouter).mockReturnValue({ push: mockPush } as unknown as ReturnType<typeof useRouter>);
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT&class=6'));
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT&class=6') as unknown as ReturnType<typeof useSearchParams>);
     vi.mocked(usePathname).mockReturnValue('/teacher/question-bank');
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math', 'Science']} books={['Book1']} chapters={['Chapter 1']} />);
@@ -60,7 +60,7 @@ describe('QuestionBankFilters', () => {
   it('navigates when search input changes', () => {
     const mockPush = vi.fn();
     vi.mocked(useRouter).mockReturnValue({ push: mockPush } as unknown as ReturnType<typeof useRouter>);
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT&class=6&subject=Math'));
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams('board=NCERT&class=6&subject=Math') as unknown as ReturnType<typeof useSearchParams>);
     vi.mocked(usePathname).mockReturnValue('/teacher/question-bank');
 
     render(<QuestionBankSearch />);
