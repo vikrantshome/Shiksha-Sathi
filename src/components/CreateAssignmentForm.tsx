@@ -147,7 +147,7 @@ export default function CreateAssignmentForm({
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(shareLink)}
-                  className="btn-primary"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Copy Link
                 </button>
@@ -215,7 +215,7 @@ export default function CreateAssignmentForm({
           Browse the curated question bank, add the questions you want, and return here to organize and publish the final assignment.
         </p>
         <div className="mt-6">
-          <Link href="/teacher/question-bank" className="btn-primary">
+          <Link href="/teacher/question-bank" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
             Browse Question Bank
           </Link>
         </div>
@@ -362,8 +362,7 @@ export default function CreateAssignmentForm({
                 type="date"
                 name="dueDate"
                 required
-                className="w-full bg-white/12 border border-white/12 rounded-md px-4 py-3 text-on-primary outline-none focus:ring-2 focus:ring-on-primary/50 transition-all"
-                style={{ colorScheme: 'dark' }}
+                className="w-full bg-white/12 border border-white/12 rounded-md px-4 py-3 text-on-primary outline-none focus:ring-2 focus:ring-on-primary/50 transition-all [color-scheme:dark]"
               />
             </div>
           </div>
