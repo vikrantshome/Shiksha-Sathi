@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Classes | Shiksha Sathi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#faf9f5",
+              "error": "#ba1a1a",
+              "primary-fixed": "#bcece7",
+              "on-primary-container": "#80aeaa",
+              "inverse-surface": "#2f312e",
+              "tertiary-container": "#573120",
+              "on-primary-fixed-variant": "#204e4b",
+              "on-primary-fixed": "#00201e",
+              "background": "#faf9f5",
+              "surface": "#faf9f5",
+              "on-surface-variant": "#404847",
+              "surface-container-high": "#e9e8e4",
+              "surface-container": "#efeeea",
+              "secondary-fixed-dim": "#b1ccc8",
+              "on-secondary-container": "#4e6764",
+              "primary-fixed-dim": "#a1cfcb",
+              "outline-variant": "#c0c8c6",
+              "secondary-fixed": "#cde8e4",
+              "inverse-primary": "#a1cfcb",
+              "error-container": "#ffdad6",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#cf9982",
+              "primary-container": "#12423f",
+              "secondary-container": "#cae5e1",
+              "on-tertiary-fixed-variant": "#653d2b",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f2f1ed",
+              "outline": "#707977",
+              "on-surface": "#1b1c1a",
+              "surface-variant": "#e3e2df",
+              "primary": "#002b29",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "tertiary": "#3d1c0d",
+              "secondary": "#4a6360",
+              "tertiary-fixed-dim": "#f4baa2",
+              "surface-tint": "#396662",
+              "surface-dim": "#dbdad6",
+              "on-tertiary-fixed": "#311305",
+              "surface-container-low": "#f4f4f0",
+              "on-tertiary": "#ffffff",
+              "on-background": "#1b1c1a",
+              "on-secondary-fixed": "#051f1d",
+              "on-secondary-fixed-variant": "#334b49",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary-container selection:text-primary min-h-screen">
+<!-- Desktop Navigation Cluster (TopAppBar) -->
+<nav class="fixed top-0 w-full z-50 bg-[#faf9f5]/80 dark:bg-[#1b1c1a]/80 backdrop-blur-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex items-center justify-between px-8 py-4 max-w-full">
+<div class="flex items-center gap-12">
+<span class="text-xl font-bold text-[#002b29] dark:text-[#bcece7] tracking-tighter">Shiksha Sathi</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] font-manrope tracking-tight font-semibold transition-colors active:scale-95 duration-200" href="#">Dashboard</a>
+<a class="text-[#002b29] dark:text-[#bcece7] border-b-2 border-[#002b29] dark:border-[#bcece7] pb-1 font-manrope tracking-tight font-semibold transition-colors active:scale-95 duration-200" href="#">Classes</a>
+<a class="text-[#404847] dark:text-[#c0c8c6] hover:text-[#002b29] font-manrope tracking-tight font-semibold transition-colors active:scale-95 duration-200" href="#">Question Bank</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-2.5 rounded-lg text-sm font-semibold tracking-tight shadow-sm hover:translate-y-[-1px] transition-all active:scale-95">
+                Create Assignment
+            </button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="Teacher Profile" class="w-full h-full object-cover" data-alt="portrait of a professional female educator in a minimalist office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt8y5ascIY8xYrV3aQ5lT8uFcVsNiIq2rwmYGsXNPFaJksAyTDjSMimug5r3BHcfU8tgLtoeOtF2-ma8gpel4c7kX3Z_f5_U8L0kn_xYMFLXEHHNecNSAADnuQ-68blADDI73b91Jhsy17DwsqPjK3gctIXXmKtSKTT38XibVQpkdJ00M78JL_jPg0S1993v7vjKBN2P9kLWNtMK-30AFbrvcoKemOPvPG9oPSufqkuXBicPn7m2yHxFfwXJl7D8gB9LHA3jDp93NG"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Shell -->
+<main class="pt-32 pb-20 px-8 max-w-[1440px] mx-auto grid grid-cols-12 gap-12">
+<!-- Header Section -->
+<header class="col-span-12 mb-4">
+<h1 class="text-4xl font-extrabold text-primary tracking-tight font-headline">Classes</h1>
+<p class="text-on-surface-variant mt-2 font-body max-w-2xl text-lg">Organize your teaching workspace. Manage student rosters and curate your academic sections with precision.</p>
+</header>
+<!-- Sidebar / Create Class Form -->
+<aside class="col-span-12 lg:col-span-4 space-y-8">
+<section class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<h2 class="text-xl font-bold text-on-surface mb-6 font-headline tracking-tight">Create Class</h2>
+<form action="#" class="space-y-6">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant block">Class Name</label>
+<input class="w-full bg-transparent border-0 border-b border-outline/30 focus:border-primary focus:ring-0 px-0 py-2 text-on-surface placeholder:text-outline-variant font-medium transition-colors" placeholder="e.g., Advanced Mathematics" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant block">Section</label>
+<input class="w-full bg-transparent border-0 border-b border-outline/30 focus:border-primary focus:ring-0 px-0 py-2 text-on-surface placeholder:text-outline-variant font-medium transition-colors" placeholder="e.g., Grade 12-A" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.1em] text-on-surface-variant block">Student Count</label>
+<input class="w-full bg-transparent border-0 border-b border-outline/30 focus:border-primary focus:ring-0 px-0 py-2 text-on-surface placeholder:text-outline-variant font-medium transition-colors" placeholder="40" type="number"/>
+</div>
+<button class="w-full mt-4 bg-primary text-on-primary py-3 rounded-lg font-bold text-sm tracking-wide shadow-sm hover:shadow-md transition-all active:scale-[0.98]" type="button">
+                            Save Class
+                        </button>
+</form>
+</div>
+<!-- Decorative element -->
+<div class="absolute -bottom-8 -right-8 w-32 h-32 bg-secondary-container/30 rounded-full blur-3xl"></div>
+</section>
+<!-- Insight Chip -->
+<div class="bg-tertiary-container/10 border border-tertiary-container/20 p-5 rounded-lg">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-tertiary-fixed-variant mb-1">Curator's Tip</p>
+<p class="text-sm text-on-tertiary-fixed-variant leading-relaxed">Organizing classes by academic level ensures cleaner reporting for your Question Bank assignments later.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Management Grid -->
+<div class="col-span-12 lg:col-span-8">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-xl font-bold text-on-surface font-headline tracking-tight">Class Management</h2>
+<div class="flex gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-lg">search</span>
+<input class="bg-surface-container-low border-0 rounded-full pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary/20 w-64 placeholder:text-outline-variant" placeholder="Filter classes..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Asymmetric Bento-style Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Class Card 1 -->
+<div class="bg-surface-container-low hover:bg-surface-container-lowest p-6 rounded-xl transition-all duration-300 group hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center rounded-lg font-bold text-lg tracking-tighter">
+                            AM
+                        </div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors" title="Archive">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Advanced Mathematics</h3>
+<p class="text-sm text-on-surface-variant font-medium mt-1">Grade 12-A • 40 Students</p>
+</div>
+<div class="mt-8">
+<button class="w-full bg-surface-container-high text-on-secondary-container py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-secondary-container hover:text-primary transition-all active:scale-95">
+                            View Attendance
+                        </button>
+</div>
+</div>
+<!-- Class Card 2 -->
+<div class="bg-surface-container-low hover:bg-surface-container-lowest p-6 rounded-xl transition-all duration-300 group hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-secondary-container text-primary flex items-center justify-center rounded-lg font-bold text-lg tracking-tighter">
+                            PH
+                        </div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors" title="Archive">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Theoretical Physics</h3>
+<p class="text-sm text-on-surface-variant font-medium mt-1">Grade 11-B • 32 Students</p>
+</div>
+<div class="mt-8">
+<button class="w-full bg-surface-container-high text-on-secondary-container py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-secondary-container hover:text-primary transition-all active:scale-95">
+                            View Attendance
+                        </button>
+</div>
+</div>
+<!-- Class Card 3 -->
+<div class="bg-surface-container-low hover:bg-surface-container-lowest p-6 rounded-xl transition-all duration-300 group hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center rounded-lg font-bold text-lg tracking-tighter">
+                            LIT
+                        </div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors" title="Archive">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Modern Literature</h3>
+<p class="text-sm text-on-surface-variant font-medium mt-1">Grade 10-C • 45 Students</p>
+</div>
+<div class="mt-8">
+<button class="w-full bg-surface-container-high text-on-secondary-container py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-secondary-container hover:text-primary transition-all active:scale-95">
+                            View Attendance
+                        </button>
+</div>
+</div>
+<!-- Empty / Add State (Visual Filler) -->
+<div class="border-2 border-dashed border-outline-variant/30 p-6 rounded-xl flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary/40 transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+<p class="text-sm font-bold text-outline-variant group-hover:text-on-surface-variant transition-colors">Add New Class Unit</p>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Ghost Implementation for reference/integrity) -->
+<!-- Hidden on Desktop TopBar version as per Responsive Pivot Rule -->
+<aside class="hidden h-screen w-64 fixed left-0 top-0 bg-[#f4f4f0] dark:bg-[#1b1c1a] flex flex-col p-6 space-y-8 z-40">
+<div class="mb-4">
+<h2 class="text-lg font-black text-[#002b29] dark:text-[#bcece7]">Shiksha Sathi</h2>
+<p class="text-[10px] font-manrope font-medium uppercase tracking-widest text-on-surface-variant opacity-60">The Digital Atelier</p>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#252623] hover:translate-x-1 transition-transform duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#cae5e1] dark:bg-[#12423f] text-[#002b29] dark:text-[#bcece7] rounded-lg cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-sm font-medium uppercase tracking-widest">Classes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#e3e2df] dark:hover:bg-[#252623] hover:translate-x-1 transition-transform duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="text-sm font-medium uppercase tracking-widest">Question Bank</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg text-xs font-bold uppercase tracking-widest shadow-md">Create Assignment</button>
+</div>
+</aside>
+</body></html>

@@ -1,25 +1,20 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Question, GradedAnswer } from "@/lib/questions";
 import { api } from "@/lib/api";
+import type { AssignmentByLinkResponse, SubmitAssignmentResponse } from "@/lib/api/types";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignment Form — Stitch-Directed Redesign
    Design Source: 
      - identity_entry/code.html  → Identity stage
-     - answer_questions/code.html → Assessment stage  
+     - assignment_taking/code.html → Assessment stage  
      - results/code.html → Results stage
    All three views implement Digital Atelier tokens.
    ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentFormProps {
-  assignment: {
-    id: string;
-    title: string;
-    totalMarks: number;
-    questions: Omit<Question, "correctAnswer">[];
-  };
+  assignment: AssignmentByLinkResponse;
 }
 
 export default function StudentAssignmentForm({
@@ -31,12 +26,7 @@ export default function StudentAssignmentForm({
   } | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
-  const [result, setResult] = useState<{
-    success: boolean;
-    score: number;
-    totalMarks: number;
-    feedback?: GradedAnswer[];
-  } | null>(null);
+  const [result, setResult] = useState<SubmitAssignmentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleIdentitySubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -347,7 +337,7 @@ export default function StudentAssignmentForm({
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-10)" }}>
-              {result.feedback.map((f: GradedAnswer, i: number) => (
+              {result.feedback.map((f, i: number) => (
                 <div key={f.questionId}>
                   <div style={{ display: "flex", gap: "var(--space-6)", alignItems: "flex-start" }}>
                     <div
@@ -781,7 +771,7 @@ export default function StudentAssignmentForm({
   }
 
   /* ════════════════════════════════════════════════════════
-     STAGE 2: Answer Questions — Stitch "answer_questions" direction
+     STAGE 2: Assessment Taking — Stitch "assignment_taking" direction
      ════════════════════════════════════════════════════════ */
   return (
     <div>
@@ -943,7 +933,7 @@ export default function StudentAssignmentForm({
                   whiteSpace: "nowrap",
                 }}
               >
-                {q.marks} Marks
+                {q.points} Marks
               </span>
             </div>
 

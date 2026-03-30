@@ -47,6 +47,6 @@ test("renders assignment details and form", async () => {
 
   expect(screen.getByText("History Quiz")).toBeInTheDocument();
   expect(screen.getByText("50 Marks")).toBeInTheDocument();
-  expect(screen.getByText(/Due: /)).toBeInTheDocument();
+  expect(screen.getByText(/Due /)).toBeInTheDocument();
   expect(screen.getByTestId("mock-student-form")).toBeInTheDocument();
 });

@@ -1,8 +1,9 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
-import { UserCircleIcon, IdentificationIcon, AcademicCapIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
+
+const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
 export default function ProfileForm({
   initialData,
@@ -12,6 +13,7 @@ export default function ProfileForm({
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [errorHeader, setErrorHeader] = useState("");
+  const [board, setBoard] = useState(initialData?.board || "CBSE");
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -19,16 +21,16 @@ export default function ProfileForm({
         await api.teachers.updateProfile({
           name: formData.get("name") as string,
           school: formData.get("school") as string,
-          board: formData.get("board") as string,
+          board,
         });
         setMessage("Profile saved successfully.");
         setErrorHeader("");
         setTimeout(() => setMessage(""), 3000);
       } catch (err: unknown) {
         console.error("Profile update failed:", err);
-        const error = err as { message?: string };
+        const apiError = err as { message?: string };
         setErrorHeader(
-          error.message || "Failed to update profile. Please try again."
+          apiError.message || "Failed to update profile. Please try again."
         );
         setMessage("");
       }
@@ -38,86 +40,107 @@ export default function ProfileForm({
   return (
     <form
       action={handleSubmit}
-      className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 shadow-sm flex flex-col gap-6"
+      className="bg-surface-container-lowest rounded-lg shadow-sm p-8 grid gap-8"
     >
-      <div className="border-b border-outline-variant/20 pb-4 mb-2">
-        <h2 className="text-headline-sm font-semibold text-on-surface">Personal Information</h2>
-        <p className="text-body-sm text-on-surface-variant mt-1">Update your profile details and school affiliations.</p>
-      </div>
-
-      {message && (
-        <div className="p-4 bg-success-container/50 border border-success/20 text-success rounded-lg text-body-sm flex items-start gap-3">
-          <CheckCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
-          <span>{message}</span>
+      {message ? (
+        <div className="p-4 rounded-md bg-success/10 text-success text-sm">
+          {message}
         </div>
-      )}
-      {errorHeader && (
-        <div className="p-4 bg-error-container/50 border border-error/20 text-error rounded-lg text-body-sm flex items-start gap-3">
-          <ExclamationCircleIcon className="w-5 h-5 shrink-0 mt-0.5" />
-          <span>{errorHeader}</span>
-        </div>
-      )}
+      ) : null}
 
-      <div className="flex flex-col gap-5">
+      {errorHeader ? (
+        <div className="p-4 rounded-md bg-error/10 text-error text-sm">
+          {errorHeader}
+        </div>
+      ) : null}
+
+      <section className="grid gap-5">
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+          <p className="text-label-sm text-on-surface-variant m-0">
+            Personal Details
+          </p>
+          <h2 className="font-manrope text-xl font-bold text-on-surface mt-1 mb-0">
+            Your Profile
+          </h2>
+        </div>
+        <div>
+          <label className="text-label-md block text-on-surface-variant mb-2">
             Full Name
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <UserCircleIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="name"
-              defaultValue={initialData?.name}
-              placeholder="e.g. Mr. Sharma"
-              className="input-academic pl-10"
-            />
-          </div>
+          <input
+            name="name"
+            defaultValue={initialData?.name}
+            placeholder="e.g. Ananya Rao"
+            className="w-full bg-surface-container-highest border-none border-b border-outline-variant py-3 text-[0.9375rem] text-on-surface outline-none transition-colors duration-200 focus:border-primary"
+          />
         </div>
+      </section>
 
+      <section className="grid gap-5">
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
+          <p className="text-label-sm text-on-surface-variant m-0">
+            School Details
+          </p>
+          <h2 className="font-manrope text-lg font-bold text-on-surface mt-1 mb-0">
+            Teaching Context
+          </h2>
+        </div>
+        <div>
+          <label className="text-label-md block text-on-surface-variant mb-2">
             School Name
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <AcademicCapIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="school"
-              defaultValue={initialData?.school}
-              placeholder="e.g. Delhi Public School"
-              className="input-academic pl-10"
-            />
-          </div>
+          <input
+            name="school"
+            defaultValue={initialData?.school}
+            placeholder="e.g. Heritage International School"
+            className="w-full bg-surface-container-highest border-none border-b border-outline-variant py-3 text-[0.9375rem] text-on-surface outline-none transition-colors duration-200 focus:border-primary"
+          />
         </div>
+      </section>
 
+      <section className="grid gap-5">
         <div>
-          <label className="text-label-md block text-on-surface-variant mb-2 font-medium">
-            Board / Curriculum
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <IdentificationIcon className="h-5 w-5 text-on-surface-variant/70" />
-            </div>
-            <input
-              name="board"
-              defaultValue={initialData?.board}
-              placeholder="e.g. CBSE"
-              className="input-academic pl-10"
-            />
-          </div>
+          <p className="text-label-sm text-on-surface-variant m-0">
+            Academic Context
+          </p>
+          <h2 className="font-manrope text-lg font-bold text-on-surface mt-1 mb-0">
+            Board Alignment
+          </h2>
         </div>
-      </div>
 
-      <div className="pt-4 mt-2 border-t border-outline-variant/20 flex justify-end">
+        <input type="hidden" name="board" value={board} />
+
+        <div className="flex flex-wrap gap-3">
+          {boardOptions.map((option) => {
+            const active = board === option;
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setBoard(option)}
+                className={`px-4 py-3 rounded-full border-none cursor-pointer text-sm transition-colors ${
+                  active
+                    ? "font-bold bg-secondary-container text-primary"
+                    : "font-medium bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                }`}
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="flex justify-between items-center gap-4 flex-wrap pt-4">
+        <p className="m-0 text-[0.8125rem] text-on-surface-variant max-w-[26rem] leading-[1.7]">
+          Keeping your profile current helps Shiksha Sathi tailor class and question-bank context to your teaching environment.
+        </p>
         <button
           type="submit"
           disabled={isPending}
-          className="btn-primary w-full sm:w-auto px-8"
+          className="px-8 py-3 border-none rounded-lg bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold tracking-[0.03em] shadow-sm cursor-pointer transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] disabled:opacity-75 disabled:cursor-wait"
         >
-          {isPending ? "Saving Profile…" : "Save Changes"}
+          {isPending ? "Saving Profile…" : "Save Profile"}
         </button>
       </div>
     </form>

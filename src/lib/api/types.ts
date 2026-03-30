@@ -115,10 +115,33 @@ export interface AssignmentSubmission {
   studentId: string;
   studentName: string;
   studentRollNumber: string;
-  answers: Record<string, any>;
+  answers: Record<string, string | string[]>;
   score: number;
   submittedAt: string;
   status: 'SUBMITTED' | 'GRADED';
+}
+
+export interface AssignmentByLinkResponse {
+  id: string;
+  title: string;
+  description?: string;
+  dueDate: string;
+  totalMarks: number;
+  questions: Omit<Question, 'correctAnswer'>[];
+}
+
+export interface SubmitAssignmentResponse {
+  success: boolean;
+  score: number;
+  totalMarks: number;
+  feedback?: {
+    questionId: string;
+    questionText: string;
+    studentAnswer: string;
+    correctAnswer: string | string[];
+    isCorrect: boolean;
+    marksAwarded: number;
+  }[];
 }
 
 export interface QuestionPerformance {

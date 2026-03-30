@@ -31,9 +31,12 @@ describe('ProfileForm', () => {
     render(<ProfileForm initialData={null} />);
     
     // Fill out form
-    fireEvent.change(screen.getByPlaceholderText('e.g. Mr. Sharma'), { target: { value: 'New Name' } });
-    fireEvent.change(screen.getByPlaceholderText('e.g. Delhi Public School'), { target: { value: 'New School' } });
-    fireEvent.change(screen.getByPlaceholderText('e.g. CBSE'), { target: { value: 'New Board' } });
+    fireEvent.change(screen.getByPlaceholderText('e.g. Ananya Rao'), { target: { value: 'New Name' } });
+    fireEvent.change(
+      screen.getByPlaceholderText('e.g. Heritage International School'),
+      { target: { value: 'New School' } }
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'ICSE' }));
     
     // Submit
     fireEvent.click(screen.getByRole('button', { name: /save profile/i }));
@@ -42,7 +45,7 @@ describe('ProfileForm', () => {
       expect(api.teachers.updateProfile).toHaveBeenCalledWith({
         name: 'New Name',
         school: 'New School',
-        board: 'New Board',
+        board: 'ICSE',
       });
     });
 
