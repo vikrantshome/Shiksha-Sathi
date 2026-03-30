@@ -132,53 +132,18 @@ export default async function TeacherDashboard() {
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   return (
-    <div style={{ maxWidth: "100%", paddingBottom: "var(--space-12)" }}>
+    <div className="max-w-full pb-12">
       {/* ═══ Welcome Banner ═══ */}
-      <header style={{ marginBottom: "var(--space-12)" }}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-6)",
-          }}
-        >
+      <header className="mb-12">
+        <div className="flex flex-col gap-6">
           <div>
-            <span
-              style={{
-                display: "block",
-                fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-                fontSize: "0.6875rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                color: "var(--color-primary)",
-                marginBottom: "var(--space-2)",
-              }}
-            >
+            <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
               Teacher Dashboard
             </span>
-            <h1
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "clamp(1.5rem, 3vw, 1.875rem)",
-                fontWeight: 800,
-                color: "var(--color-on-surface)",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-                margin: 0,
-              }}
-            >
+            <h1 className="font-manrope text-[clamp(1.5rem,3vw,1.875rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
               {greeting}, {user.name || "Teacher"}.
             </h1>
-            <p
-              style={{
-                fontSize: "0.875rem",
-                color: "var(--color-on-surface-variant)",
-                marginTop: "var(--space-2)",
-                maxWidth: "28rem",
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="text-sm text-on-surface-variant mt-2 max-w-[28rem] leading-[1.6]">
               Your teaching studio is aligned for the day. You have{" "}
               {activeAssignments}{" "}
               active assignment{activeAssignments === 1 ? "" : "s"}{" "}
@@ -189,82 +154,26 @@ export default async function TeacherDashboard() {
       </header>
 
       {/* ═══ Summary Stat Cards ═══ */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(1, 1fr)",
-          gap: "var(--space-6)",
-          marginBottom: "var(--space-12)",
-        }}
-        className="stat-grid"
-      >
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {stats.map((stat, i) => (
           <div
             key={i}
-            style={{
-              background: "var(--color-surface-container-lowest)",
-              padding: "var(--space-6)",
-              borderRadius: "var(--radius-md)",
-              border: "1px solid rgba(176, 179, 173, 0.05)",
-              boxShadow: "0 4px 12px rgba(48, 51, 47, 0.03)",
-              transition: "box-shadow 200ms ease-out",
-            }}
-            className="stat-card"
+            className="group bg-surface-container-lowest p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                marginBottom: "var(--space-4)",
-              }}
-            >
+            <div className="flex justify-between items-start mb-4">
               <div
-                style={{
-                  padding: "var(--space-2)",
-                  background: "var(--color-surface-container-low)",
-                  borderRadius: "var(--radius-sm)",
-                  color: "var(--color-primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "background 120ms ease-out",
-                }}
-                className="stat-icon"
+                className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[#4463710D]"
               >
                 {stat.icon}
               </div>
-              <span
-                style={{
-                  fontSize: "0.625rem",
-                  fontWeight: 700,
-                  color: "var(--color-primary-dim)",
-                }}
-              >
+              <span className="text-[0.625rem] font-bold text-primary-dim">
                 {stat.badge}
               </span>
             </div>
-            <h3
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "1.5rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface)",
-                margin: 0,
-              }}
-            >
+            <h3 className="font-manrope text-2xl font-bold text-on-surface m-0">
               {stat.value}
             </h3>
-            <p
-              style={{
-                fontSize: "0.6875rem",
-                fontWeight: 500,
-                color: "var(--color-on-surface-variant)",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                marginTop: "var(--space-1)",
-              }}
-            >
+            <p className="text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-[0.08em] mt-1">
               {stat.label}
             </p>
           </div>
@@ -272,100 +181,31 @@ export default async function TeacherDashboard() {
       </section>
 
       {/* ═══ Bento Grid: Assignments + Sidebar ═══ */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "var(--space-8)",
-        }}
-        className="bento-grid"
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
         {/* ── Left: Recent Assignments ── */}
-        <section className="bento-main">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "var(--space-4)",
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "1.125rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface)",
-                letterSpacing: "-0.01em",
-              }}
-            >
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em]">
               Recent Assignments
             </h2>
           </div>
 
           {assignments.length === 0 ? (
             /* ── Empty State ── */
-            <div
-              style={{
-                background: "var(--color-surface-container-low)",
-                borderRadius: "var(--radius-md)",
-                border: "2px dashed rgba(176, 179, 173, 0.3)",
-                padding: "var(--space-10)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "3rem",
-                  height: "3rem",
-                  background: "var(--color-surface-container)",
-                  borderRadius: "var(--radius-full)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "var(--space-4)",
-                  color: "var(--color-outline)",
-                }}
-              >
+            <div className="bg-surface-container-low rounded-md border-2 border-dashed border-outline/30 p-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center mb-4 text-outline">
                 <IconPlus />
               </div>
-              <h4
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  margin: 0,
-                }}
-              >
+              <h4 className="text-sm font-bold text-on-surface m-0">
                 No Assignments Yet
               </h4>
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  color: "var(--color-on-surface-variant)",
-                  marginTop: "var(--space-2)",
-                  lineHeight: 1.6,
-                  maxWidth: "20rem",
-                }}
-              >
+              <p className="text-xs text-on-surface-variant mt-2 leading-[1.6] max-w-[20rem]">
                 Browse the Question Bank to build your first assignment and
                 start your classroom workflow.
               </p>
               <Link
                 href="/teacher/question-bank"
-                style={{
-                  marginTop: "var(--space-6)",
-                  fontSize: "0.6875rem",
-                  fontWeight: 700,
-                  color: "var(--color-primary)",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--space-2)",
-                }}
+                className="mt-6 text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-2"
               >
                 Create New Assignment
                 <IconArrow />
@@ -373,45 +213,18 @@ export default async function TeacherDashboard() {
             </div>
           ) : (
             /* ── Assignments Table ── */
-            <div
-              style={{
-                background: "var(--color-surface-container-lowest)",
-                borderRadius: "var(--radius-md)",
-                border: "1px solid rgba(176, 179, 173, 0.1)",
-                overflow: "hidden",
-              }}
-            >
+            <div className="bg-surface-container-lowest rounded-md border border-outline/10 overflow-hidden">
               {/* Desktop Table */}
-              <div className="table-desktop">
-                <div style={{ overflowX: "auto" }}>
-                  <table
-                    style={{
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      textAlign: "left",
-                      fontSize: "0.875rem",
-                    }}
-                  >
+              <div className="hidden md:block">
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse text-left text-sm">
                     <thead>
-                      <tr
-                        style={{
-                          background: "var(--color-surface-container-low)",
-                          borderBottom: "1px solid rgba(176, 179, 173, 0.1)",
-                        }}
-                      >
+                      <tr className="bg-surface-container-low border-b border-outline/10">
                         {["Assignment Title", "Class", "Submissions", "Avg. Score", "Action"].map(
                           (h, idx) => (
                             <th
                               key={h}
-                              style={{
-                                padding: "var(--space-4) var(--space-6)",
-                                fontSize: "0.625rem",
-                                fontWeight: 700,
-                                textTransform: "uppercase",
-                                letterSpacing: "0.1em",
-                                color: "var(--color-on-surface-variant)",
-                                textAlign: idx === 4 ? "right" : "left",
-                              }}
+                              className={`p-4 px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
                             >
                               {h}
                             </th>
@@ -420,124 +233,49 @@ export default async function TeacherDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {assignments.map((assignment: AssignmentWithStats) => {
+                      {assignments.map((assignment) => {
                         const submissionPct = assignment.maxScore > 0 
                           ? Math.round((assignment.submissionCount / 45) * 100)
                           : 0;
                         return (
                           <tr
                             key={assignment.id}
-                            style={{
-                              borderBottom: "1px solid rgba(176, 179, 173, 0.05)",
-                              transition: "background 120ms ease-out",
-                            }}
-                            className="table-row-hover"
+                            className="border-b border-outline/5 transition-colors duration-200 ease-out hover:bg-surface-container-high"
                           >
-                            <td style={{ padding: "var(--space-4) var(--space-6)" }}>
-                              <p
-                                style={{
-                                  fontWeight: 600,
-                                  color: "var(--color-on-surface)",
-                                  margin: 0,
-                                  fontSize: "0.875rem",
-                                }}
-                              >
+                            <td className="p-4 px-6">
+                              <p className="font-semibold text-on-surface m-0 text-sm">
                                 {assignment.title}
                               </p>
-                              <p
-                                style={{
-                                  fontSize: "0.625rem",
-                                  color: "var(--color-on-surface-variant)",
-                                  margin: 0,
-                                  marginTop: "2px",
-                                }}
-                              >
+                              <p className="text-[0.625rem] text-on-surface-variant m-0 mt-0.5">
                                 ID: {assignment.linkId}
                               </p>
                             </td>
-                            <td
-                              style={{
-                                padding: "var(--space-4) var(--space-6)",
-                                color: "var(--color-on-surface-variant)",
-                                fontSize: "0.875rem",
-                              }}
-                            >
+                            <td className="p-4 px-6 text-on-surface-variant text-sm">
                               {assignment.className || "Unassigned"}
                             </td>
-                            <td style={{ padding: "var(--space-4) var(--space-6)" }}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "var(--space-2)",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    fontWeight: 500,
-                                    color: "var(--color-on-surface)",
-                                    fontSize: "0.875rem",
-                                  }}
-                                >
+                            <td className="p-4 px-6">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-on-surface text-sm">
                                   {assignment.submissionCount}
                                 </span>
-                                <div
-                                  style={{
-                                    width: "4rem",
-                                    height: "2px",
-                                    background: "var(--color-surface-container)",
-                                    borderRadius: "9999px",
-                                    overflow: "hidden",
-                                  }}
-                                >
+                                <div className="w-16 h-0.5 bg-surface-container rounded-full overflow-hidden">
                                   <div
-                                    style={{
-                                      height: "100%",
-                                      background: "var(--color-primary)",
-                                      width: `${Math.min(submissionPct, 100)}%`,
-                                      borderRadius: "9999px",
-                                    }}
+                                    className="h-full bg-primary rounded-full transition-all duration-300"
+                                    style={{ width: `${Math.min(submissionPct, 100)}%` }}
                                   />
                                 </div>
                               </div>
                             </td>
-                            <td
-                              style={{
-                                padding: "var(--space-4) var(--space-6)",
-                                fontWeight: 600,
-                                color: "var(--color-primary)",
-                                fontSize: "0.875rem",
-                              }}
-                            >
+                            <td className="p-4 px-6 font-semibold text-primary text-sm">
                               {assignment.averageScore}
-                              <span
-                                style={{
-                                  fontWeight: 400,
-                                  color: "var(--color-on-surface-variant)",
-                                }}
-                              >
+                              <span className="font-normal text-on-surface-variant">
                                 {" "}/ {assignment.maxScore}
                               </span>
                             </td>
-                            <td
-                              style={{
-                                padding: "var(--space-4) var(--space-6)",
-                                textAlign: "right",
-                              }}
-                            >
+                            <td className="p-4 px-6 text-right">
                               <Link
                                 href={`/teacher/assignments/${assignment.id}`}
-                                style={{
-                                  fontSize: "0.6875rem",
-                                  fontWeight: 700,
-                                  color: "var(--color-primary)",
-                                  textTransform: "uppercase",
-                                  letterSpacing: "0.05em",
-                                  textDecoration: "none",
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  gap: "var(--space-1)",
-                                }}
+                                className="text-[0.6875rem] font-bold text-primary uppercase tracking-[0.05em] no-underline inline-flex items-center gap-1"
                               >
                                 View Report
                                 <IconChevronRight />
@@ -552,53 +290,23 @@ export default async function TeacherDashboard() {
               </div>
 
               {/* Mobile Card Fallback */}
-              <div className="table-mobile">
-                {assignments.map((assignment: AssignmentWithStats) => (
+              <div className="block md:hidden">
+                {assignments.map((assignment) => (
                   <Link
                     key={assignment.id}
                     href={`/teacher/assignments/${assignment.id}`}
-                    style={{
-                      display: "block",
-                      padding: "var(--space-4) var(--space-5)",
-                      borderBottom: "1px solid rgba(176, 179, 173, 0.05)",
-                      textDecoration: "none",
-                    }}
+                    className="block p-4 px-5 border-b border-outline/5 no-underline"
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                      }}
-                    >
+                    <div className="flex justify-between items-start">
                       <div>
-                        <p
-                          style={{
-                            fontWeight: 600,
-                            color: "var(--color-on-surface)",
-                            fontSize: "0.875rem",
-                            margin: 0,
-                          }}
-                        >
+                        <p className="font-semibold text-on-surface text-sm m-0">
                           {assignment.title}
                         </p>
-                        <p
-                          style={{
-                            fontSize: "0.6875rem",
-                            color: "var(--color-on-surface-variant)",
-                            margin: "2px 0 0",
-                          }}
-                        >
+                        <p className="text-[0.6875rem] text-on-surface-variant m-[2px_0_0]">
                           {assignment.className || "Unassigned"} • {assignment.submissionCount} submissions
                         </p>
                       </div>
-                      <span
-                        style={{
-                          fontSize: "0.875rem",
-                          fontWeight: 600,
-                          color: "var(--color-primary)",
-                        }}
-                      >
+                      <span className="text-sm font-semibold text-primary">
                         {assignment.averageScore}/{assignment.maxScore}
                       </span>
                     </div>
@@ -610,99 +318,34 @@ export default async function TeacherDashboard() {
         </section>
 
         {/* ── Right Sidebar Column ── */}
-        <section className="bento-side">
+        <section>
           {/* Teaching Focus */}
-          <div style={{ marginBottom: "var(--space-8)" }}>
-            <h2
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "1.125rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface)",
-                letterSpacing: "-0.01em",
-                marginBottom: "var(--space-6)",
-              }}
-            >
+          <div className="mb-8">
+            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-6">
               Teaching Focus
             </h2>
-            <div
-              style={{
-                background: "var(--color-surface-container-low)",
-                borderRadius: "var(--radius-md)",
-                padding: "var(--space-8)",
-                display: "grid",
-                gap: "var(--space-5)",
-              }}
-            >
+            <div className="bg-surface-container-low rounded-md p-8 grid gap-5">
               <div>
-                <p
-                  style={{
-                    fontSize: "0.6875rem",
-                    fontWeight: 700,
-                    color: "var(--color-on-surface-variant)",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    margin: 0,
-                  }}
-                >
+                <p className="text-[0.6875rem] font-bold text-on-surface-variant tracking-[0.08em] uppercase m-0">
                   Review Queue
                 </p>
-                <p
-                  style={{
-                    margin: "var(--space-2) 0 0",
-                    fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                    fontSize: "1.75rem",
-                    fontWeight: 700,
-                    color: "var(--color-primary)",
-                  }}
-                >
+                <p className="m-[8px_0_0] font-manrope text-[1.75rem] font-bold text-primary">
                   {activeAssignments}
                 </p>
-                <p
-                  style={{
-                    fontSize: "0.8125rem",
-                    color: "var(--color-on-surface-variant)",
-                    margin: "var(--space-2) 0 0",
-                    lineHeight: 1.6,
-                  }}
-                >
+                <p className="text-[0.8125rem] text-on-surface-variant m-[8px_0_0] leading-[1.6]">
                   Assignment{activeAssignments === 1 ? "" : "s"} currently collecting or awaiting submissions.
                 </p>
               </div>
-              <div
-                style={{
-                  display: "grid",
-                  gap: "var(--space-3)",
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
+              <div className="grid gap-3 grid-cols-2">
                 <Link
                   href="/teacher/question-bank"
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    color: "var(--color-on-primary)",
-                    textDecoration: "none",
-                    background: "var(--color-primary)",
-                    borderRadius: "var(--radius-sm)",
-                    padding: "var(--space-3) var(--space-4)",
-                    textAlign: "center",
-                  }}
+                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm p-3 px-4 text-center"
                 >
                   Create Assignment
                 </Link>
                 <Link
                   href="/teacher/classes"
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    color: "var(--color-primary)",
-                    textDecoration: "none",
-                    background: "var(--color-surface-container-lowest)",
-                    borderRadius: "var(--radius-sm)",
-                    padding: "var(--space-3) var(--space-4)",
-                    textAlign: "center",
-                  }}
+                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm p-3 px-4 text-center"
                 >
                   Manage Classes
                 </Link>
@@ -712,64 +355,22 @@ export default async function TeacherDashboard() {
 
           {/* Recent Activity Timeline */}
           <div>
-            <h2
-              style={{
-                fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                fontSize: "1.125rem",
-                fontWeight: 700,
-                color: "var(--color-on-surface)",
-                letterSpacing: "-0.01em",
-                marginBottom: "var(--space-4)",
-              }}
-            >
+            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4">
               Recent Activity
             </h2>
-            <div
-              style={{
-                paddingLeft: "var(--space-2)",
-                borderLeft: "2px solid var(--color-surface-container)",
-              }}
-            >
+            <div className="pl-2 border-l-2 border-surface-container">
               {recentActivity.map((item, idx) => (
                 <div
                   key={idx}
-                  style={{
-                    position: "relative",
-                    paddingLeft: "var(--space-6)",
-                    paddingBottom: idx < recentActivity.length - 1 ? "var(--space-6)" : 0,
-                  }}
+                  className={`relative pl-6 ${idx < recentActivity.length - 1 ? "pb-6" : ""}`}
                 >
                   <div
-                    style={{
-                      position: "absolute",
-                      width: "0.5rem",
-                      height: "0.5rem",
-                      borderRadius: "var(--radius-full)",
-                      background: item.isNew
-                        ? "var(--color-primary)"
-                        : "var(--color-outline-variant)",
-                      left: "-5px",
-                      top: "4px",
-                    }}
+                    className={`absolute w-2 h-2 rounded-full -left-[5px] top-[4px] ${item.isNew ? "bg-primary" : "bg-outline-variant"}`}
                   />
-                  <p
-                    style={{
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      color: "var(--color-on-surface)",
-                      margin: 0,
-                    }}
-                  >
+                  <p className="text-xs font-bold text-on-surface m-0">
                     {item.text}
                   </p>
-                  <p
-                    style={{
-                      fontSize: "0.625rem",
-                      color: "var(--color-on-surface-variant)",
-                      textTransform: "uppercase",
-                      marginTop: "var(--space-1)",
-                    }}
-                  >
+                  <p className="text-[0.625rem] text-on-surface-variant uppercase mt-1">
                     {item.time}
                   </p>
                 </div>
@@ -780,148 +381,26 @@ export default async function TeacherDashboard() {
       </div>
 
       {/* ═══ NCERT Curriculum Navigator ═══ */}
-      <section style={{ marginTop: "var(--space-16)" }}>
-        <h2
-          style={{
-            fontFamily: "var(--font-manrope), system-ui, sans-serif",
-            fontSize: "1.125rem",
-            fontWeight: 700,
-            color: "var(--color-on-surface)",
-            letterSpacing: "-0.01em",
-            marginBottom: "var(--space-6)",
-          }}
-        >
+      <section className="mt-16">
+        <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-6">
           Curriculum Explorer
         </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "var(--space-4)",
-          }}
-          className="curriculum-grid"
-        >
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {curriculumTiles.map((tile, idx) => (
             <div
               key={idx}
-              style={{
-                aspectRatio: "1",
-                background: "var(--color-surface-container-high)",
-                borderRadius: "var(--radius-sm)",
-                padding: "var(--space-4)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                cursor: "pointer",
-                transition: "background 200ms ease-out",
-              }}
-              className="curriculum-tile"
+              className="aspect-square bg-surface-container-high rounded-sm p-4 flex flex-col justify-between cursor-pointer transition-colors duration-200 ease-out hover:bg-primary-container group"
             >
-              <span
-                style={{
-                  fontSize: "0.625rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface-variant)",
-                  textTransform: "uppercase",
-                  letterSpacing: "-0.02em",
-                }}
-                className="tile-label"
-              >
+              <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-[-0.02em] group-hover:text-primary">
                 {tile.grade}
               </span>
-              <span
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                }}
-              >
+              <span className="text-sm font-bold text-on-surface">
                 {tile.subject}
               </span>
             </div>
           ))}
         </div>
       </section>
-
-      {/* ═══ Responsive Styles (CSS-in-JSX) ═══ */}
-      <style>{`
-        /* ── Stat Grid: 1→2→4 columns ── */
-        .stat-grid {
-          grid-template-columns: 1fr;
-        }
-        @media (min-width: 640px) {
-          .stat-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (min-width: 1024px) {
-          .stat-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-
-        /* ── Stat Card Hover ── */
-        .stat-card:hover {
-          box-shadow: 0 12px 32px rgba(48, 51, 47, 0.06);
-        }
-        .stat-card:hover .stat-icon {
-          background: rgba(68, 99, 113, 0.05);
-        }
-
-        /* ── Bento Grid: stack→side-by-side ── */
-        .bento-grid {
-          grid-template-columns: 1fr;
-        }
-        @media (min-width: 1024px) {
-          .bento-grid {
-            grid-template-columns: 2fr 1fr;
-          }
-        }
-
-        /* ── Table: Desktop vs Mobile ── */
-        .table-desktop {
-          display: none;
-        }
-        .table-mobile {
-          display: block;
-        }
-        @media (min-width: 768px) {
-          .table-desktop {
-            display: block;
-          }
-          .table-mobile {
-            display: none;
-          }
-        }
-
-        /* ── Table Row Hover ── */
-        .table-row-hover:hover {
-          background: var(--color-surface-container-high);
-        }
-
-        /* ── Curriculum Grid: 2→4→6 columns ── */
-        .curriculum-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        @media (min-width: 768px) {
-          .curriculum-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-        @media (min-width: 1024px) {
-          .curriculum-grid {
-            grid-template-columns: repeat(6, 1fr);
-          }
-        }
-
-        /* ── Curriculum Tile Hover ── */
-        .curriculum-tile:hover {
-          background: var(--color-primary-container) !important;
-        }
-        .curriculum-tile:hover .tile-label {
-          color: var(--color-primary) !important;
-        }
-      `}</style>
     </div>
   );
 }
