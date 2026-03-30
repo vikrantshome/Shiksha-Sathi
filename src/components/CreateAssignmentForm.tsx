@@ -39,6 +39,16 @@ function formatDueDate(value: string) {
   });
 }
 
+function toAssignmentDueDateInstant(value: string) {
+  if (!value) {
+    return value;
+  }
+
+  // The backend currently expects an Instant, while the date picker yields YYYY-MM-DD.
+  // Send a stable UTC timestamp so the selected calendar date can be parsed reliably.
+  return `${value}T00:00:00.000Z`;
+}
+
 export default function CreateAssignmentForm({
   classes,
 }: {
@@ -59,26 +69,28 @@ export default function CreateAssignmentForm({
         const title = formData.get("title") as string;
         const classId = formData.get("classId") as string;
         const dueDate = formData.get("dueDate") as string;
+        const dueDateInstant = toAssignmentDueDateInstant(dueDate);
 
-        const result = await api.assignments.create({
+        const createdAssignment = await api.assignments.create({
           title,
           classId,
-          dueDate,
+          dueDate: dueDateInstant,
           description: `Assignment for class ${classId}`,
           questionIds: selectedQuestions.map((question) => question.id),
           maxScore: totalMarks,
-          status: "PUBLISHED",
+          status: "DRAFT",
         });
+        const publishedAssignment = await api.assignments.publish(createdAssignment.id);
 
         const targetClass = classes.find((item) => item.id === classId);
 
         setPublishResult({
-          assignmentId: result.id,
+          assignmentId: publishedAssignment.id,
           classLabel: targetClass
             ? `${targetClass.name} • Section ${targetClass.section}`
             : "Assigned class",
           dueDate,
-          linkId: result.linkId || result.id,
+          linkId: publishedAssignment.linkId || publishedAssignment.id,
           title,
         });
         clearSelection();

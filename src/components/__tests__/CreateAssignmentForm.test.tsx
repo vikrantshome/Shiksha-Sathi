@@ -15,6 +15,7 @@ vi.mock('@/lib/api', () => ({
   api: {
     assignments: {
       create: vi.fn(),
+      publish: vi.fn(),
     },
   },
 }));
@@ -86,7 +87,12 @@ describe('CreateAssignmentForm', () => {
       linkId: 'test-link',
       totalMarks: 3,
     };
+    const publishedAssignment: Assignment = {
+      ...createdAssignment,
+      status: 'PUBLISHED',
+    };
     vi.mocked(api.assignments.create).mockResolvedValue(createdAssignment);
+    vi.mocked(api.assignments.publish).mockResolvedValue(publishedAssignment);
 
     render(<CreateAssignmentForm classes={[{ id: 'c1', name: 'Math', section: 'A' } as ClassItem]} />);
     
@@ -100,8 +106,12 @@ describe('CreateAssignmentForm', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Finalize & Publish' }));
 
     await waitFor(() => {
-      expect(api.assignments.create).toHaveBeenCalled();
+      expect(api.assignments.create).toHaveBeenCalledWith(expect.objectContaining({
+        dueDate: '2026-04-05T00:00:00.000Z',
+        status: 'DRAFT',
+      }));
     });
+    expect(api.assignments.publish).toHaveBeenCalledWith('a1');
 
     expect(mockClearSelection).toHaveBeenCalled();
     expect(screen.getByText('Assignment Published')).toBeInTheDocument();
@@ -122,7 +132,12 @@ describe('CreateAssignmentForm', () => {
       linkId: 'test-link',
       totalMarks: 3,
     };
+    const publishedAssignment: Assignment = {
+      ...createdAssignment,
+      status: 'PUBLISHED',
+    };
     vi.mocked(api.assignments.create).mockResolvedValue(createdAssignment);
+    vi.mocked(api.assignments.publish).mockResolvedValue(publishedAssignment);
     render(<CreateAssignmentForm classes={[{ id: 'c1', name: 'Math', section: 'A' } as ClassItem]} />);
     
     const titleInput = screen.getByPlaceholderText('e.g. Algebra & Linear Equations');
