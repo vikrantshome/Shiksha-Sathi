@@ -75,4 +75,20 @@ public class AssignmentSubmissionServiceTest {
 
         assertThrows(AccessDeniedException.class, () -> submissionService.getSubmissionsForAssignment("assign123", "hacker@fake.com"));
     }
+
+    @Test
+    void submitAssignment_DefaultsNullScoreToZero() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student1");
+        submission.setScore(null);
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student1")).thenReturn(Optional.empty());
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        AssignmentSubmission saved = submissionService.submitAssignment(submission);
+
+        assertEquals(0, saved.getScore());
+        assertEquals("SUBMITTED", saved.getStatus());
+    }
 }
