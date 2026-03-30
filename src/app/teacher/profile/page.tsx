@@ -69,8 +69,8 @@ export default async function ProfilePage() {
             </p>
             <div className="w-full h-2 bg-white/35 rounded-full overflow-hidden mt-4">
               <div
-                className="h-full bg-primary rounded-full transition-all duration-500"
-                style={{ width: `${profileStrength}%` }}
+                className="h-full bg-primary rounded-full transition-all duration-500 w-[var(--strength-w)]"
+                style={{ '--strength-w': `${profileStrength}%` } as React.CSSProperties}
               />
             </div>
             <p className="text-[0.8125rem] leading-[1.7] text-on-primary-container mt-3 mb-0">

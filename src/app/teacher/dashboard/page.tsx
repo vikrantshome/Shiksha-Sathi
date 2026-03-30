@@ -260,8 +260,8 @@ export default async function TeacherDashboard() {
                                 </span>
                                 <div className="w-16 h-0.5 bg-surface-container rounded-full overflow-hidden">
                                   <div
-                                    className="h-full bg-primary rounded-full transition-all duration-300"
-                                    style={{ width: `${Math.min(submissionPct, 100)}%` }}
+                                    className="h-full bg-primary rounded-full transition-all duration-300 w-[var(--bar-w)]"
+                                    style={{ '--bar-w': `${Math.min(submissionPct, 100)}%` } as React.CSSProperties}
                                   />
                                 </div>
                               </div>
