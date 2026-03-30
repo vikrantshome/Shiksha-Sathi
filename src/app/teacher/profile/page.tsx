@@ -33,15 +33,15 @@ export default async function ProfilePage() {
     : 33;
 
   return (
-    <div className="max-w-[72rem] mx-auto pb-12">
-      <section className="mb-10">
+    <div className="max-w-[72rem] mx-auto pb-10 md:pb-12">
+      <section className="mb-6 md:mb-8 lg:mb-10">
         <p className="text-label-sm text-on-surface-variant m-0">
           Teacher Profile
         </p>
         <h1 className="font-headline text-[clamp(2rem,4vw,2.5rem)] font-extrabold tracking-[-0.03em] text-primary mt-2 mb-0">
           Your Profile
         </h1>
-        <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-3 mb-0 max-w-[42rem]">
+        <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-2 md:mt-3 mb-0 max-w-[42rem]">
           Personalize your Shiksha Sathi workspace by keeping your school and
           board context current. This keeps classes, assignments, and
           question-bank recommendations grounded in your teaching reality.
@@ -49,21 +49,21 @@ export default async function ProfilePage() {
       </section>
 
       {errorState && (
-        <div className="mb-6 p-4 rounded-md bg-error/[0.08] text-error text-sm">
+        <div className="mb-4 md:mb-6 p-3 md:p-4 rounded-md bg-error/[0.08] text-error text-sm">
           Error loading profile data. You can still update your details below
           and try saving again.
         </div>
       )}
 
       {/* 2-column on desktop, stacked on mobile */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,24rem)] lg:items-start">
+      <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,24rem)] lg:items-start">
         <div>
           <ProfileForm initialData={initialData} />
         </div>
 
-        <aside className="grid gap-6">
+        <aside className="grid gap-4 md:gap-6">
           {/* Profile Strength Card */}
-          <section className="bg-primary-container rounded-lg p-6">
+          <section className="bg-primary-container rounded-lg p-5 md:p-6">
             <p className="text-label-sm text-on-primary-container m-0">
               Profile Strength
             </p>
@@ -73,18 +73,18 @@ export default async function ProfilePage() {
                 style={{ '--strength-w': `${profileStrength}%` } as React.CSSProperties}
               />
             </div>
-            <p className="text-[0.8125rem] leading-[1.7] text-on-primary-container mt-3 mb-0">
+            <p className="text-[0.8125rem] leading-[1.7] text-on-primary-container mt-2 md:mt-3 mb-0">
               Complete school and board context so your teaching workspace stays
               aligned with the right curriculum signals.
             </p>
           </section>
 
           {/* Teacher Insight Card */}
-          <section className="bg-tertiary-container rounded-lg p-6">
+          <section className="bg-tertiary-container rounded-lg p-5 md:p-6">
             <p className="text-label-sm text-[#311305] m-0">
               Teacher Insight
             </p>
-            <p className="text-sm leading-[1.7] text-[#311305] mt-3 mb-0">
+            <p className="text-sm leading-[1.7] text-[#311305] mt-2 md:mt-3 mb-0">
               Teachers with clear board alignment move faster from question
               selection to assignment publication because the workspace can
               narrow content sooner.
