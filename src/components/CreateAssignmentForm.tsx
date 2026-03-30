@@ -377,8 +377,7 @@ export default function CreateAssignmentForm({
           <button
             type="submit"
             disabled={isPending}
-            className="w-full mt-6 bg-on-primary text-primary border-none rounded-lg px-5 py-4 font-extrabold tracking-[0.04em] uppercase disabled:opacity-75"
-            style={{ cursor: isPending ? "wait" : "pointer" }}
+            className="w-full mt-6 bg-on-primary text-primary border-none rounded-lg px-5 py-4 font-extrabold tracking-[0.04em] uppercase disabled:opacity-75 disabled:cursor-wait cursor-pointer"
           >
             {isPending ? "Publishing…" : "Finalize & Publish"}
           </button>
