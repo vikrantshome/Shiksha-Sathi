@@ -80,7 +80,11 @@ npm run dev
 | `teacher@test.com` | `password123` | Test Teacher | API Testing |
 | `testapi@test.com` | `password123` | Test API User | API Testing |
 
-> **Note:** If accounts don't exist, use the signup endpoint (see [API Smoke Tests](#13-api-smoke-tests)).
+> **⚠️ IMPORTANT:** 
+> - Signup requires `"role": "TEACHER"` field
+> - Login may fail with "Role null" error for existing accounts
+> - **Fix:** See `BACKEND-AUTH-FIX.md` for database migration script
+> - **Workaround:** Create new account with signup including role field
 
 ### Student Access
 Student access is via shareable assignment links — no student login is required.
@@ -510,13 +514,15 @@ curl -s "$API_URL/questions/search?board=NCERT&classLevel=6&visibleOnly=true" | 
 # Expected: JSON array of PUBLISHED question objects
 
 # 5. Teacher signup (Create test account)
-curl -s -X POST $API_URL/teachers/signup \
+# ⚠️ IMPORTANT: Must include "role": "TEACHER"
+curl -s -X POST $API_URL/auth/signup \
   -H "Content-Type: application/json" \
-  -d '{"name":"QA Teacher","email":"qa_teacher_1@example.com","password":"password123","phone":"+919876543210"}'
+  -d '{"name":"QA Teacher","email":"qa_teacher_1@example.com","password":"password123","phone":"+919876543210","role":"TEACHER"}'
 # Expected: 200 with JWT token OR 409 (already exists)
 
 # 6. Teacher login (Get auth token)
-curl -s -X POST $API_URL/teachers/login \
+# ⚠️ NOTE: If login fails with Role null error, see BACKEND-AUTH-FIX.md
+curl -s -X POST $API_URL/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"qa_teacher_1@example.com","password":"password123"}'
 # Expected: 200 with JWT token
@@ -624,6 +630,7 @@ curl -s -X PUT $API_URL/teachers/profile \
 
 | Resource | Location |
 |---|---|
+| Backend Auth Fix | `BACKEND-AUTH-FIX.md` |
 | Test Credentials | `TEST-CREDENTIALS.md` |
 | Login Issue Fix | `LOGIN-ISSUE-FIX.md` |
 | SSA-260 Epic Summary | `doc/SSA-260-COMPLETE-SUMMARY.md` |
