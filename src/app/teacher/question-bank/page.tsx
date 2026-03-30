@@ -16,7 +16,7 @@ const EmptyStateIcon = () => (
     strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
-    style={{ color: "var(--color-outline-variant)" }}
+    className="text-outline-variant"
   >
     <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
   </svg>
@@ -94,8 +94,7 @@ export default async function QuestionBankPage({
     if (!board && !q) {
       return {
         title: "Select a Board to Begin",
-        description:
-          "Select a board from the left to start browsing.",
+        description: "Select a board from the left to start browsing.",
         icon: "board",
       };
     }
@@ -132,62 +131,22 @@ export default async function QuestionBankPage({
     : "Question Repository";
 
   return (
-    <div style={{ paddingBottom: "6rem" }}>
+    <div className="pb-24">
       {/* ═══ Page Header ═══ */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          gap: "var(--space-4)",
-          marginBottom: "var(--space-6)",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "grid", gap: "var(--space-2)" }}>
-          {breadcrumb ? (
-            <p
-              className="text-label-sm"
-              style={{ color: "var(--color-on-surface-variant)", margin: 0 }}
-            >
+      <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
+        <div className="grid gap-2">
+          {breadcrumb && (
+            <p className="text-label-sm text-on-surface-variant m-0">
               {breadcrumb}
             </p>
-          ) : null}
-          <h1
-            style={{
-              fontFamily: "var(--font-manrope), system-ui, sans-serif",
-              fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
-              color: "var(--color-primary)",
-              margin: 0,
-            }}
-          >
+          )}
+          <h1 className="font-headline text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold tracking-[-0.04em] text-primary m-0">
             {heading}
           </h1>
         </div>
         {!emptyState && (
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--space-2)",
-              padding: "var(--space-2) var(--space-3)",
-              borderRadius: "var(--radius-full)",
-              background: "var(--color-surface-container-low)",
-              fontSize: "0.75rem",
-              fontWeight: 700,
-              color: "var(--color-on-surface-variant)",
-            }}
-          >
-            <span
-              style={{
-                width: "0.5rem",
-                height: "0.5rem",
-                borderRadius: "50%",
-                background: "var(--color-success)",
-              }}
-            />
+          <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-container-low text-xs font-bold text-on-surface-variant">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
             {displayedQuestions.length} curated result
             {displayedQuestions.length !== 1 ? "s" : ""}
           </span>
@@ -198,15 +157,10 @@ export default async function QuestionBankPage({
       <QuestionBankSearch />
 
       {/* ═══ 3-Panel Workspace Grid ═══ */}
-      <div className="qb-workspace-grid">
-        {/* Left Rail: Taxonomy Navigation */}
-        <div className="qb-taxonomy-rail">
-          <div
-            style={{
-              position: "sticky",
-              top: "var(--space-6)",
-            }}
-          >
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
+        {/* Left Rail: Taxonomy Navigation — full-width on tablet, column on desktop */}
+        <div className="md:col-span-2 lg:col-span-1 order-1">
+          <div className="sticky top-6">
             <QuestionBankFilters
               subjects={subjects}
               chapters={chapters}
@@ -218,72 +172,28 @@ export default async function QuestionBankPage({
         </div>
 
         {/* Center: Question Results */}
-        <div className="qb-results-panel">
+        <div className="order-2">
           {emptyState ? (
             /* Progressive Empty State — Stitch Direction */
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "24rem",
-                textAlign: "center",
-                padding: "var(--space-12)",
-              }}
-            >
-              <div
-                style={{
-                  width: "4rem",
-                  height: "4rem",
-                  background: "var(--color-surface-container-low)",
-                  borderRadius: "var(--radius-full)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "var(--space-6)",
-                }}
-              >
+            <div className="flex flex-col items-center justify-center min-h-96 text-center p-12">
+              <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-6">
                 <EmptyStateIcon />
               </div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-manrope), system-ui, sans-serif",
-                  fontSize: "1.125rem",
-                  fontWeight: 700,
-                  color: "var(--color-on-surface)",
-                  margin: "0 0 var(--space-2)",
-                }}
-              >
+              <h3 className="font-headline text-lg font-bold text-on-surface mb-2">
                 {emptyState.title}
               </h3>
-              <p
-                style={{
-                  fontSize: "0.875rem",
-                  color: "var(--color-on-surface-variant)",
-                  maxWidth: "20rem",
-                  lineHeight: 1.5,
-                  margin: 0,
-                }}
-              >
+              <p className="text-sm text-on-surface-variant max-w-xs leading-relaxed">
                 {emptyState.description}
               </p>
             </div>
           ) : (
             <div>
               {displayedQuestions.length === 0 ? (
-                <div
-                  style={{
-                    textAlign: "center",
-                    padding: "var(--space-12)",
-                    color: "var(--color-on-surface-variant)",
-                    fontSize: "0.875rem",
-                  }}
-                >
+                <div className="text-center p-12 text-on-surface-variant text-sm">
                   No questions found matching your criteria.
                 </div>
               ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
+                <div className="flex flex-col gap-5">
                   {displayedQuestions.map((question) => (
                     <QuestionCard key={question.id} question={question} />
                   ))}
@@ -294,69 +204,10 @@ export default async function QuestionBankPage({
         </div>
 
         {/* Right Rail: Assignment Tray */}
-        <div className="qb-assignment-rail">
+        <div className="order-3">
           <AssignmentTray />
         </div>
       </div>
-
-      {/* ═══ Responsive Grid Styles ═══ */}
-      <style>{`
-        .qb-workspace-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: var(--space-6);
-        }
-
-        /* Taxonomy rail */
-        .qb-taxonomy-rail {
-          order: 1;
-        }
-
-        /* Results panel */
-        .qb-results-panel {
-          order: 2;
-        }
-
-        /* Assignment rail */
-        .qb-assignment-rail {
-          order: 3;
-        }
-
-        /* Tablet: 2 columns, taxonomy stacks above */
-        @media (min-width: 768px) {
-          .qb-workspace-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-          .qb-taxonomy-rail {
-            grid-column: 1 / -1;
-            order: 1;
-          }
-          .qb-results-panel {
-            order: 2;
-          }
-          .qb-assignment-rail {
-            order: 3;
-          }
-        }
-
-        /* Desktop: Full 3-panel layout */
-        @media (min-width: 1024px) {
-          .qb-workspace-grid {
-            grid-template-columns: 14rem 1fr 16rem;
-            gap: var(--space-8);
-          }
-          .qb-taxonomy-rail {
-            grid-column: auto;
-            order: 1;
-          }
-          .qb-results-panel {
-            order: 2;
-          }
-          .qb-assignment-rail {
-            order: 3;
-          }
-        }
-      `}</style>
     </div>
   );
 }
