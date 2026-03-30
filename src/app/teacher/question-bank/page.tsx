@@ -71,7 +71,8 @@ export default async function QuestionBankPage({
 
   const chapters = await api.questions.getChapters(
     subjectId || undefined,
-    book || undefined
+    book || undefined,
+    classLevel || undefined
   );
 
   // Fetch only if chapter is selected, or if user is searching globally

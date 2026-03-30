@@ -22,10 +22,11 @@ export const questions = {
     return fetchApi<string[]>(`/questions/books?${params.toString()}`, { method: 'GET' });
   },
 
-  getChapters: (subjectId?: string, book?: string): Promise<string[]> => {
+  getChapters: (subjectId?: string, book?: string, classLevel?: string): Promise<string[]> => {
     const params = new URLSearchParams();
     if (subjectId) params.append('subjectId', subjectId);
     if (book) params.append('book', book);
+    if (classLevel) params.append('classLevel', classLevel);
     return fetchApi<string[]>(`/questions/chapters?${params.toString()}`, { method: 'GET' });
   },
 
