@@ -3,6 +3,7 @@ package com.shikshasathi.backend.api.service;
 import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
+import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
@@ -107,5 +108,25 @@ public class AssignmentServiceTest {
 
         assertNotNull(result);
         assertEquals("69cac9883990dd64dc00dbb4", result.getId());
+    }
+
+    @Test
+    void getAssignmentReport_AllowsNullSubmissionScores() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setId("sub1");
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student-roll-1");
+        submission.setScore(null);
+
+        when(userRepository.findByEmail("teacher@owner.com")).thenReturn(Optional.of(teacherOwner));
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(submissionRepository.findByAssignmentId("assign123")).thenReturn(List.of(submission));
+        when(userRepository.findById("student-roll-1")).thenReturn(Optional.empty());
+
+        AssignmentReportDTO result = assignmentService.getAssignmentReport("assign123", "teacher@owner.com");
+
+        assertNotNull(result);
+        assertEquals(0.0, result.getAssignment().getAverageScore());
+        assertEquals(0, result.getSubmissions().get(0).getScore());
     }
 }

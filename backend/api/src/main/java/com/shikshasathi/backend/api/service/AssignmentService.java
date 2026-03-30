@@ -87,6 +87,7 @@ public class AssignmentService {
     }
 
     private SubmissionDTO mapSubmissionToDTO(AssignmentSubmission submission) {
+        int score = safeScore(submission);
         return userRepository.findById(submission.getStudentId())
                 .map(u -> SubmissionDTO.builder()
                         .id(submission.getId())
@@ -95,7 +96,7 @@ public class AssignmentService {
                         .studentName(u.getName())
                         .studentRollNumber(u.getRollNumber())
                         .answers(submission.getAnswers())
-                        .score(submission.getScore())
+                        .score(score)
                         .submittedAt(submission.getSubmittedAt())
                         .status(submission.getStatus())
                         .build())
@@ -106,7 +107,7 @@ public class AssignmentService {
                         .studentName("Unknown Student")
                         .studentRollNumber("N/A")
                         .answers(submission.getAnswers())
-                        .score(submission.getScore())
+                        .score(score)
                         .submittedAt(submission.getSubmittedAt())
                         .status(submission.getStatus())
                         .build());
@@ -122,7 +123,7 @@ public class AssignmentService {
 
         long completionCount = submissions.size();
         double averageScore = completionCount > 0 
-            ? submissions.stream().mapToInt(AssignmentSubmission::getScore).average().orElse(0.0)
+            ? submissions.stream().mapToInt(this::safeScore).average().orElse(0.0)
             : 0.0;
 
         return AssignmentWithStats.builder()
@@ -135,6 +136,10 @@ public class AssignmentService {
                 .submissionCount(completionCount)
                 .averageScore(Math.round(averageScore * 10.0) / 10.0)
                 .build();
+    }
+
+    private int safeScore(AssignmentSubmission submission) {
+        return submission.getScore() == null ? 0 : submission.getScore();
     }
 
     public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
