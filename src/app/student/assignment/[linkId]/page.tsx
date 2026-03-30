@@ -40,23 +40,23 @@ export default async function StudentAssignmentPage({
   return (
     <div className="min-h-screen bg-surface flex flex-col">
       {/* ═══ Top App Bar — Stitch "Identity Entry" pattern ═══ */}
-      <header className="fixed top-0 w-full z-50 bg-[rgba(250,249,245,0.85)] backdrop-blur-md flex justify-between items-center px-8 py-4">
+      <header className="fixed top-0 w-full z-50 bg-[rgba(250,249,245,0.85)] backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4">
         <div>
-          <h1 className="font-manrope text-xl font-bold text-primary tracking-[-0.03em] m-0">
+          <h1 className="font-manrope text-lg md:text-xl font-bold text-primary tracking-[-0.03em] m-0">
             Shiksha Sathi
           </h1>
-          <span className="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant font-medium">
+          <span className="text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant font-medium">
             Student Assessment
           </span>
         </div>
 
         {/* Assignment Context Cluster */}
-        <div className="hidden sm:flex items-center gap-6">
+        <div className="hidden sm:flex items-center gap-4 md:gap-6">
           <div className="text-right">
             <span className="text-xs color-on-surface-variant uppercase tracking-[0.05em] font-semibold text-on-surface-variant">
               {assignment.title}
             </span>
-            <div className="flex items-center justify-end gap-2 mt-1">
+            <div className="flex items-center justify-end gap-1 md:gap-2 mt-1">
               <span className="text-sm font-semibold text-primary">
                 {assignment.totalMarks} Marks
               </span>
@@ -70,10 +70,10 @@ export default async function StudentAssignmentPage({
       </header>
 
       {/* Top divider */}
-      <div className="fixed top-[72px] w-full h-px bg-surface-container z-40" />
+      <div className="fixed top-[64px] md:top-[72px] w-full h-px bg-surface-container z-40" />
 
       {/* ═══ Main Content Canvas ═══ */}
-      <main className="flex-grow flex flex-col items-center pt-[5.5rem] pb-16 px-6 relative">
+      <main className="flex-grow flex flex-col items-center pt-[4.5rem] md:pt-[5.5rem] pb-12 md:pb-16 px-4 md:px-6 relative">
         {/* Decorative background blurs — Stitch pattern */}
         <div className="fixed -top-[10%] -left-[5%] w-[40%] h-[60%] bg-[rgba(198,232,248,0.08)] rounded-full blur-[120px] pointer-events-none -z-10" />
         <div className="fixed top-[60%] -right-[10%] w-[35%] h-[50%] bg-[rgba(215,227,250,0.15)] rounded-full blur-[100px] pointer-events-none -z-10" />
@@ -84,9 +84,9 @@ export default async function StudentAssignmentPage({
       </main>
 
       {/* ═══ Footer ═══ */}
-      <footer className="p-8 flex flex-col items-center gap-4">
-        <div className="w-12 h-[2px] bg-[rgba(68,99,113,0.2)]" />
-        <p className="text-[0.6875rem] text-on-surface-variant font-medium tracking-[0.15em] uppercase">
+      <footer className="p-6 md:p-8 flex flex-col items-center gap-3 md:gap-4">
+        <div className="w-10 h-[2px] md:w-12 bg-[rgba(68,99,113,0.2)]" />
+        <p className="text-[0.625rem] md:text-[0.6875rem] text-on-surface-variant font-medium tracking-[0.15em] uppercase">
           Shiksha Sathi © 2025
         </p>
       </footer>
