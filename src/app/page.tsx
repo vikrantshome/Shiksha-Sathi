@@ -4,6 +4,25 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Check circle SVG
+const CheckCircleIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
+  </svg>
+);
+
+// Globe, groups, email SVG for footer
+const GlobeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+);
+const GroupsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+);
+const EmailIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+);
+
 /* ── Navbar ── */
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,17 +42,11 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "py-3" : "py-6"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "py-3" : "py-6"}`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div
-          className={`flex items-center justify-between px-6 py-3 rounded-md transition-all duration-500 ${
-            isScrolled
-              ? "bg-[rgba(250,249,245,0.8)] backdrop-blur-[20px] shadow-sm"
-              : "bg-transparent"
-          }`}
+          className={`flex items-center justify-between px-6 py-3 rounded-[var(--radius-lg)] transition-all duration-500 ${isScrolled ? "bg-[var(--color-surface)]/90 backdrop-blur-[20px] shadow-sm border border-[var(--color-outline-variant)]/20" : "bg-transparent"}`}
         >
           <Link href="/" className="flex items-center gap-2">
             <span className="text-[1.25rem] font-[700] tracking-tight text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">
@@ -47,21 +60,29 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-[0.875rem] font-[500] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
+                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
+                style={{ fontFamily: 'var(--font-manrope)' }}
               >
                 {link.name}
               </Link>
             ))}
-            <Link
-              href="/login"
-              className="px-5 py-2 text-[0.875rem] font-[600] text-[var(--color-on-primary)] rounded-[0.125rem] transition-transform active:scale-[0.98]"
-              style={{
-                background:
-                  "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-              }}
-            >
-              Start Teaching
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/login"
+                className="px-5 py-2 text-[0.875rem] font-[600] text-[var(--color-primary)] hover:bg-[var(--color-surface-container-low)] rounded-[var(--radius-md)] transition-all"
+              >
+                Teacher Login
+              </Link>
+              <Link
+                href="/signup"
+                className="px-6 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-[var(--radius-md)] shadow-sm hover:opacity-90 transition-all active:scale-[0.98]"
+                style={{
+                  background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)",
+                }}
+              >
+                Create Free Account
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Toggle */}
@@ -70,28 +91,11 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-[var(--color-primary)]"
-            >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
               {mobileMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
+                <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>
               ) : (
-                <>
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
+                <><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>
               )}
             </svg>
           </button>
@@ -105,30 +109,33 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-6 py-8 md:hidden flex flex-col gap-6"
-            style={{
-              borderBottom: "1px solid var(--color-surface-container)",
-            }}
+            className="absolute top-full left-0 right-0 bg-[var(--color-surface)] px-6 py-8 md:hidden flex flex-col gap-6 shadow-xl"
+            style={{ borderBottom: "1px solid var(--color-surface-container)" }}
           >
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[1rem] font-[500] text-[var(--color-on-surface)]"
+                className="text-[1rem] font-[600] text-[var(--color-on-surface)]"
               >
                 {link.name}
               </Link>
             ))}
             <Link
               href="/login"
-              className="w-full py-3 text-center rounded-[0.125rem] font-[600] text-[var(--color-on-primary)]"
+              className="w-full py-3 text-center rounded-[var(--radius-md)] font-[600] text-[var(--color-primary)] border border-[var(--color-primary)]"
+            >
+              Teacher Login
+            </Link>
+            <Link
+              href="/signup"
+              className="w-full py-3 text-center rounded-[var(--radius-md)] font-[700] text-[var(--color-on-primary)]"
               style={{
-                background:
-                  "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
+                background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dim))",
               }}
             >
-              Start Teaching
+              Create Free Account
             </Link>
           </motion.div>
         )}
@@ -137,363 +144,290 @@ const Navbar = () => {
   );
 };
 
-/* ── Feature Card ── */
-const FeatureCard = ({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) => (
-  <div className="p-8 bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-md)] group hover:bg-[var(--color-primary-container)] transition-colors duration-500">
-    <div className="w-10 h-10 mb-6 flex items-center justify-center text-[var(--color-primary)] group-hover:scale-110 transition-transform duration-300">
-      {icon}
-    </div>
-    <h3 className="text-[1.25rem] font-[600] text-[var(--color-on-surface)] mb-3 leading-tight">
-      {title}
-    </h3>
-    <p className="text-[0.875rem] text-[var(--color-on-surface-variant)] leading-relaxed">
-      {description}
-    </p>
-  </div>
-);
-
 /* ── Landing Page ── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] selection:bg-[var(--color-primary-container)] font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] selection:bg-[var(--color-secondary-container)] selection:text-[var(--color-on-secondary-container)] font-[family-name:var(--font-geist-sans)]">
       <Navbar />
 
-      <main>
+      <main className="pt-24">
         {/* Hero Section */}
-        <section className="relative pt-40 pb-24 md:pt-56 md:pb-40 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="max-w-3xl">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-[2.25rem] md:text-[3.5rem] font-[700] tracking-tight leading-[1.1] mb-8 font-[family-name:var(--font-manrope)]"
+        <section className="max-w-7xl mx-auto px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-secondary-container)] text-[var(--color-on-secondary-container)] text-[0.75rem] font-[700] uppercase tracking-widest"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Built for Indian Teachers
+            </motion.div>
+            
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-[3rem] md:text-[4.5rem] font-[800] text-[var(--color-primary)] leading-[1.1] tracking-tight font-[family-name:var(--font-manrope)]"
+            >
+              Empower Your Teaching with Shiksha Sathi
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-[1.125rem] md:text-[1.25rem] text-[var(--color-on-surface-variant)] max-w-xl leading-relaxed"
+            >
+              A comprehensive teacher-first platform for creating NCERT-aligned homework, auto-grading, and tracking class performance—all for free.
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+            >
+              <Link
+                href="/signup"
+                className="px-8 py-4 text-[1rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center"
+                style={{
+                  background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)",
+                }}
               >
-                Empowering Indian Educators
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-[1.125rem] md:text-[1.25rem] text-[var(--color-on-surface-variant)] mb-4 leading-relaxed max-w-2xl"
-              >
-                A comprehensive teacher-first platform for creating
-                NCERT-aligned homework, auto-grading, and tracking class
-                performance—all for free.
-              </motion.p>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] mb-12 leading-relaxed max-w-2xl italic"
-              >
-                Designed by educators for educators, focusing on efficiency and
-                pedagogical excellence.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <Link
-                  href="/login"
-                  className="px-8 py-4 rounded-[var(--radius-sm)] text-[1rem] font-[600] text-[var(--color-on-primary)] text-center transition-all hover:opacity-90 active:scale-[0.98]"
-                  style={{
-                    background:
-                      "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-                  }}
-                >
-                  Start Teaching
-                </Link>
-                <Link
-                  href="/signup"
-                  className="px-8 py-4 rounded-[var(--radius-sm)] text-[1rem] font-[600] text-[var(--color-primary)] text-center transition-colors bg-transparent hover:bg-[var(--color-surface-container)] active:scale-[0.98]"
-                >
-                  Create Account
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Subtle Decorative Element */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-[var(--color-primary-container)] opacity-20 blur-[120px] -z-10 translate-x-1/4 -translate-y-1/4" />
-        </section>
-
-        {/* Features Grid */}
-        <section
-          id="features"
-          className="py-24 bg-[var(--color-surface-container-low)]"
-        >
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="mb-16">
-              <h2 className="text-[1.75rem] font-[600] mb-4 font-[family-name:var(--font-manrope)]">
-                Built for the Academic Cycle
-              </h2>
-              <div className="w-12 h-1 bg-[var(--color-primary)] rounded-full" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <FeatureCard
-                icon={
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                  </svg>
-                }
-                title="Expansive Question Bank"
-                description="Access thousands of curated questions aligned with NCERT curriculum and CBSE frameworks. Create personalized worksheets and assessments in minutes."
-              />
-              <FeatureCard
-                icon={
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m9 11 3 3L22 4" />
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                  </svg>
-                }
-                title="Smart Auto-Grading"
-                description="Save hours every week with instant feedback. Our intelligent system automatically grades assignments and identifies common misconceptions."
-              />
-              <FeatureCard
-                icon={
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 3v18h18" />
-                    <path d="m19 9-5 5-4-4-3 3" />
-                  </svg>
-                }
-                title="Assignment Reports"
-                description="Gain deep insights into class and individual performance. Track progress over time with visually intuitive dashboards."
-              />
-              <FeatureCard
-                icon={
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7" />
-                    <path d="M3 10h18" />
-                    <path d="M16 2v6" />
-                    <path d="M8 2v6" />
-                    <path d="m16 19 2 2 4-4" />
-                  </svg>
-                }
-                title="Ready for the New Academic Cycle"
-                description="All content updated to reflect the latest NCF and NEP 2020 recommendations for Indian schools."
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* How it Works */}
-        <section id="how-it-works" className="py-24">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="mb-16">
-              <h2 className="text-[1.75rem] font-[600] mb-4 font-[family-name:var(--font-manrope)]">
-                Why Shiksha Sathi?
-              </h2>
-              <p className="text-[1rem] text-[var(--color-on-surface-variant)] max-w-xl leading-relaxed">
-                We understand that a teacher&apos;s time is precious. Shiksha
-                Sathi was created to remove the administrative burden of
-                teaching, allowing you to focus on what matters most: your
-                students.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div>
-                <ul className="space-y-6">
-                  {[
-                    "Zero cost for government & private schools",
-                    "Secure data protection for student privacy",
-                    "24/7 Academic Support for educators",
-                  ].map((text, i) => (
-                    <li key={i} className="flex items-start gap-4">
-                      <div className="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-success)] flex items-center justify-center text-white">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </div>
-                      <span className="text-[1rem] font-[500] text-[var(--color-on-surface)]">
-                        {text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                Get Started for Free
+              </Link>
+              {/* Watch demo removed per instruction */}
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="pt-4 flex items-center gap-6 text-[0.875rem] text-[var(--color-outline)] font-[500]"
+            >
+              <div className="flex items-center gap-2">
+                <CheckCircleIcon />
+                CBSE Aligned
               </div>
-              <div className="relative">
-                <div className="aspect-square bg-[var(--color-surface-container)] rounded-[var(--radius-md)] flex items-center justify-center overflow-hidden">
-                  <div className="w-3/4 h-3/4 grid grid-cols-2 gap-4">
-                    <div className="bg-[var(--color-primary)] opacity-10 rounded-sm" />
-                    <div className="bg-[var(--color-primary)] opacity-40 rounded-sm translate-y-8" />
-                    <div className="bg-[var(--color-primary)] opacity-20 rounded-sm -translate-y-4" />
-                    <div className="bg-[var(--color-primary)] opacity-60 rounded-sm" />
+              <div className="flex items-center gap-2">
+                <CheckCircleIcon />
+                NCERT Framework
+              </div>
+            </motion.div>
+          </div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="aspect-[4/5] rounded-[var(--radius-xl)] overflow-hidden shadow-2xl">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT2YwhLdWLyEwN-ipM7c5sT0UVExnhHDv6T8TVcrlCCRSTTx-jy8TsmmKqbXJGlHfUvPEa7-pjvSDaRdDbJ0NN8P7XlJoTQKOSFKba7II2PfLxwKI6heSzOi-8BQSMycCdqf5NaFUmsgbQdNrKZNdezs2vB-3sNVwB4Fl3guqxub15StajgkzFhmUqZauCsUKyFrOMqwHy3EKhZRuOjO732v61HUJTfq1OJ6upy6xTkEGVzRtDlm5FKH0AlWpJtrZTwWWmNKKOODjt" 
+                alt="Teacher working in a digital environment" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            
+            {/* Floating Card */}
+            <div className="absolute -bottom-8 -left-8 bg-[rgba(255,255,255,0.85)] backdrop-blur-[12px] p-6 rounded-[var(--radius-xl)] shadow-xl max-w-[240px] border border-[var(--color-outline-variant)]/20">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                </div>
+                <div>
+                  <div className="text-[0.75rem] text-[var(--color-outline)] font-[700]">Class Performance</div>
+                  <div className="text-[1.125rem] font-[700] text-[var(--color-primary)]">+24% Improvement</div>
+                </div>
+              </div>
+              <div className="h-12 w-full bg-[var(--color-surface-container-low)] rounded-[var(--radius-sm)] flex items-end gap-1 p-1">
+                <div className="w-full bg-[var(--color-primary)] opacity-40 h-1/2 rounded-t-[2px]"></div>
+                <div className="w-full bg-[var(--color-primary)] opacity-60 h-2/3 rounded-t-[2px]"></div>
+                <div className="w-full bg-[var(--color-primary)] opacity-30 h-1/3 rounded-t-[2px]"></div>
+                <div className="w-full bg-[var(--color-primary)] opacity-100 h-full rounded-t-[2px]"></div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Feature Bento Grid */}
+        <section id="features" className="bg-[var(--color-surface-container-low)] py-24">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-20 space-y-4">
+              <h2 className="text-[1.875rem] md:text-[3rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight">The Modern Educator&apos;s Toolkit</h2>
+              <p className="text-[var(--color-on-surface-variant)] max-w-2xl mx-auto text-[1.125rem]">Designed by educators for educators, focusing on efficiency and pedagogical excellence.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Feature 1: Main Focus */}
+              <div className="md:col-span-2 bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30 flex flex-col justify-between">
+                <div>
+                  <div className="w-14 h-14 rounded-full bg-[var(--color-secondary-container)] flex items-center justify-center mb-8">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-secondary-container)" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
                   </div>
+                  <h3 className="text-[1.875rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Expansive Question Bank</h3>
+                  <p className="text-[var(--color-on-surface-variant)] text-[1.125rem] leading-relaxed max-w-lg">
+                    Access thousands of curated questions aligned with the NCERT curriculum and CBSE frameworks. Create personalized worksheets and assessments in minutes, tailored to your students&apos; needs.
+                  </p>
+                </div>
+                <div className="mt-12 flex flex-wrap gap-3">
+                  {['Mathematics', 'Science', 'Social Studies', 'English'].map(subject => (
+                    <span key={subject} className="px-4 py-2 bg-[var(--color-surface-container)] rounded-full text-[0.875rem] font-[500] text-[var(--color-primary)]">
+                      {subject}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Feature 2: Small Card */}
+              <div className="bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
+                <div className="w-14 h-14 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center mb-8">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-primary-container)" strokeWidth="2"><path d="m9 11 3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
+                </div>
+                <h3 className="text-[1.5rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Smart Auto-Grading</h3>
+                <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
+                  Save hours every week with instant feedback. Our intelligent system automatically grades assignments and identifies common misconceptions.
+                </p>
+              </div>
+              
+              {/* Feature 3: Small Card */}
+              <div className="bg-[var(--color-surface-container-lowest)] p-10 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-outline-variant)]/30">
+                <div className="w-14 h-14 rounded-full bg-[var(--color-tertiary-container)] flex items-center justify-center mb-8">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-tertiary)" strokeWidth="2"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
+                </div>
+                <h3 className="text-[1.5rem] font-[700] text-[var(--color-primary)] mb-4 font-[family-name:var(--font-manrope)]">Assignment Reports</h3>
+                <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
+                  Gain deep insights into class and individual performance. Track progress over time with visually intuitive dashboards.
+                </p>
+              </div>
+              
+              {/* Feature 4: Wide Highlight */}
+              <div className="md:col-span-2 relative overflow-hidden bg-[var(--color-primary)] text-[var(--color-on-primary)] p-10 rounded-[var(--radius-xl)] flex items-center">
+                <div className="relative z-10 max-w-md">
+                  <h3 className="text-[1.875rem] font-[700] mb-4 font-[family-name:var(--font-manrope)]">Ready for the New Academic Cycle</h3>
+                  <p className="text-[var(--color-primary-container)] text-[1.125rem]">
+                    All our content is updated to reflect the latest NCF and NEP 2020 recommendations for Indian schools.
+                  </p>
+                  <button className="mt-8 px-6 py-3 bg-[var(--color-on-primary)] text-[var(--color-primary)] font-[700] rounded-[var(--radius-lg)] hover:bg-[var(--color-surface-container-lowest)] transition-all">
+                    View Curriculum Map
+                  </button>
+                </div>
+                <div className="absolute right-0 top-0 h-full w-1/3 opacity-20 hidden lg:block">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-[300px] h-[300px] absolute -right-10 top-1/2 -translate-y-1/2"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72l5 2.73 5-2.73v3.72z"/></svg>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* CTA Banner */}
-        <section className="py-24 px-6">
-          <div
-            className="max-w-7xl mx-auto rounded-[var(--radius-md)] p-12 md:p-20 text-center relative overflow-hidden"
-            style={{
-              background:
-                "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
-            }}
-          >
-            <h2 className="text-[1.75rem] md:text-[2.25rem] font-[700] text-[var(--color-on-primary)] mb-6 font-[family-name:var(--font-manrope)] relative z-10 leading-tight">
-              Ready to Transform Your Classroom?
-            </h2>
-            <p className="text-[1rem] text-[var(--color-on-primary)] opacity-80 mb-10 max-w-xl mx-auto relative z-10 leading-relaxed">
-              Transform your classroom with data-driven insights and effortless
-              resource planning.
-            </p>
-            <Link
-              href="/login"
-              className="inline-block px-10 py-4 bg-[var(--color-on-primary)] text-[var(--color-primary)] font-[600] rounded-[var(--radius-md)] transition-transform hover:scale-[1.02] active:scale-[0.98] relative z-10"
-            >
-              Get Started
-            </Link>
+        {/* Academic Trust Section */}
+        <section id="how-it-works" className="max-w-7xl mx-auto px-8 py-24">
+          <div className="bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-xl)] p-12 md:p-20 border border-[var(--color-outline-variant)]/50 flex flex-col md:flex-row gap-16 items-center shadow-sm">
+            <div className="md:w-1/2">
+              <img 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCn-q2qwOGKCOamKJ0SrPcvhyhy4f8ZfzhJbgLYdcuBrLhhfOKzV_iiR5Bd8czw_4lP5z6PyICRxrv42IQapDRDwvGC2dQsuk-cG5RWyMhYNLLxQ8lQrAoNNUwaYom0j6vXhcz2xbLnX0rQy_CqFjplf0VNtw7M9MNKhSUGbonpz6wNUg-CSFo_l14AlgO79cGJfUIoNzPRdGEROU1gIX9m6ctHN2gOIOIJ8Jdz9VANfvKBx8s3c9eRIoXBg5NLCLjCYGAbNtptU1G" 
+                alt="Teacher assisting students" 
+                className="rounded-[var(--radius-xl)] shadow-lg" 
+              />
+            </div>
+            <div className="md:w-1/2 space-y-6">
+              <h2 className="text-[2.25rem] md:text-[2.5rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+                Focus on Teaching, Leave the Paperwork to Us
+              </h2>
+              <p className="text-[var(--color-on-surface-variant)] text-[1.125rem] leading-relaxed">
+                We understand that a teacher&apos;s time is precious. Shiksha Sathi was created to remove the administrative burden of teaching, allowing you to focus on what matters most: your students.
+              </p>
+              <ul className="space-y-4 pt-4">
+                {[
+                  "Zero cost for government & private schools",
+                  "Secure data protection for student privacy",
+                  "24/7 Academic Support for educators"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 font-[500] text-[var(--color-primary)]">
+                    <span className="text-[var(--color-primary-container)] bg-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
-            {/* Background Texture */}
-            <div
-              className="absolute inset-0 opacity-10 pointer-events-none"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
+        {/* CTA Banner */}
+        <section className="max-w-[1024px] mx-auto px-8 py-16 text-center">
+          <div className="p-12 md:p-20 rounded-[1.5rem] text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dim) 100%)" }}>
+            <div className="relative z-10 space-y-8">
+              <h2 className="text-[2.25rem] md:text-[3.75rem] font-[800] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+                Join Thousands of Indian Teachers
+              </h2>
+              <p className="text-[var(--color-primary-container)] text-[1.25rem] max-w-2xl mx-auto">
+                Transform your classroom with data-driven insights and effortless resource planning.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Link
+                  href="/signup"
+                  className="bg-[var(--color-surface-container-lowest)] text-[var(--color-primary)] px-10 py-5 text-[1.125rem] font-[700] rounded-[var(--radius-lg)] shadow-lg hover:bg-[var(--color-surface-container-low)] transition-all inline-block hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Get Started Now — It&apos;s Free
+                </Link>
+              </div>
+            </div>
+            
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-[var(--color-surface-container-lowest)] opacity-10 rounded-full blur-[60px]"></div>
+            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-[var(--color-primary-container)] opacity-20 rounded-full blur-[60px]"></div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer
-        id="resources"
-        className="py-20 bg-[var(--color-surface-container-low)]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-            <div>
-              <span className="text-[1.25rem] font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] block mb-6">
+      <footer id="resources" className="bg-[var(--color-surface-container-low)] dark:bg-slate-900 pt-16 border-t border-[var(--color-outline-variant)]/20">
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="space-y-6">
+              <div className="text-[1.125rem] font-[700] text-[var(--color-on-surface)] font-[family-name:var(--font-manrope)]">
                 Shiksha Sathi
-              </span>
-              <p className="text-[0.875rem] text-[var(--color-on-surface-variant)] max-w-xs leading-relaxed">
-                Elevating the standard of education across India through
-                intelligent teacher tools and curriculum-aligned resources.
+              </div>
+              <p className="text-[var(--color-on-surface-variant)] text-[0.875rem] leading-relaxed max-w-xs">
+                Elevating the standard of education across India through intelligent teacher tools and curriculum-aligned resources.
               </p>
+              <div className="flex gap-4">
+                <span className="text-[var(--color-primary)] cursor-pointer hover:opacity-70 transition-opacity">
+                  <GlobeIcon />
+                </span>
+                <span className="text-[var(--color-primary)] cursor-pointer hover:opacity-70 transition-opacity">
+                  <GroupsIcon />
+                </span>
+                <span className="text-[var(--color-primary)] cursor-pointer hover:opacity-70 transition-opacity">
+                  <EmailIcon />
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[0.6875rem] font-[500] text-[var(--color-on-surface)] uppercase tracking-[0.05em]">
-                Academic Resources
-              </span>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                NCERT Resources
-              </Link>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                CBSE Guidelines
-              </Link>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                Teacher Training Hub
-              </Link>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                NEP 2020 Compliance
-              </Link>
+            <div className="space-y-6">
+              <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Academic Resources</h4>
+              <ul className="space-y-3">
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NCERT Resources</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">CBSE Guidelines</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Teacher Training Hub</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NEP 2020 Compliance</Link></li>
+              </ul>
             </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[0.6875rem] font-[500] text-[var(--color-on-surface)] uppercase tracking-[0.05em]">
-                Platform
-              </span>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                href="#"
-                className="text-[0.875rem] text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                Contact Us
-              </Link>
+            <div className="space-y-6">
+              <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Platform</h4>
+              <ul className="space-y-3">
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Privacy Policy</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Terms of Service</Link></li>
+                <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Contact Us</Link></li>
+              </ul>
             </div>
           </div>
-          <div className="pt-8 flex flex-col md:flex-row justify-between gap-4">
-            <p className="text-[0.75rem] text-[var(--color-on-surface-variant)] uppercase tracking-widest">
-              © {new Date().getFullYear()} Shiksha Sathi. All resources aligned
-              with NCERT and CBSE frameworks for Indian Educators.
+          <div className="mt-16 pt-8 border-t border-[var(--color-outline-variant)]/30 text-center">
+            <p className="text-[var(--color-on-surface-variant)] text-[0.875rem]">
+              © {new Date().getFullYear()} Shiksha Sathi. All resources aligned with NCERT and CBSE frameworks for Indian Educators.
             </p>
           </div>
         </div>

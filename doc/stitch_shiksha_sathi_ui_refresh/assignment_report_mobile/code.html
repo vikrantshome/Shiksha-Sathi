@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Assignment Report - Shiksha Sathi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed": "#cde8e4",
+                        "on-primary-container": "#80aeaa",
+                        "on-surface": "#1b1c1a",
+                        "surface-tint": "#396662",
+                        "on-secondary-fixed": "#051f1d",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e4",
+                        "background": "#faf9f5",
+                        "inverse-surface": "#2f312e",
+                        "secondary-fixed-dim": "#b1ccc8",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#cae5e1",
+                        "primary-container": "#12423f",
+                        "on-secondary-container": "#4e6764",
+                        "surface-bright": "#faf9f5",
+                        "outline-variant": "#c0c8c6",
+                        "surface-container-highest": "#e3e2df",
+                        "on-tertiary-container": "#cf9982",
+                        "on-primary-fixed-variant": "#204e4b",
+                        "tertiary-fixed-dim": "#f4baa2",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdbcd",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f5",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#002b29",
+                        "tertiary": "#3d1c0d",
+                        "tertiary-container": "#573120",
+                        "on-tertiary-fixed-variant": "#653d2b",
+                        "on-primary-fixed": "#00201e",
+                        "on-tertiary-fixed": "#311305",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efeeea",
+                        "inverse-primary": "#a1cfcb",
+                        "surface-variant": "#e3e2df",
+                        "primary-fixed-dim": "#a1cfcb",
+                        "surface-container-low": "#f4f4f0",
+                        "on-secondary-fixed-variant": "#334b49",
+                        "inverse-on-surface": "#f2f1ed",
+                        "surface-dim": "#dbdad6",
+                        "primary-fixed": "#bcece7",
+                        "outline": "#707977",
+                        "secondary": "#4a6360",
+                        "on-surface-variant": "#404847",
+                        "on-background": "#1b1c1a",
+                        "on-primary": "#ffffff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface selection:bg-secondary-container">
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex items-center px-6 h-16 w-full max-w-screen-xl mx-auto gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<h1 class="text-primary text-sm font-bold tracking-tight uppercase">Dashboard</h1>
+<p class="text-on-surface font-extrabold text-base truncate">Periodic Table Basics - Class 10C</p>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-md mx-auto space-y-8">
+<section class="space-y-4">
+<div class="bg-surface-container-low p-6 rounded-xl space-y-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="flex justify-between items-start relative z-10">
+<div>
+<span class="text-label text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant">Submissions Overview</span>
+<div class="mt-1 flex items-baseline gap-2">
+<h2 class="text-4xl font-bold text-primary tracking-tighter">22/45</h2>
+<span class="text-on-surface-variant text-sm font-medium">Completed</span>
+</div>
+</div>
+<div class="bg-secondary-container px-3 py-1 rounded-full">
+<span class="text-primary text-xs font-bold">LIVE</span>
+</div>
+</div>
+<div class="space-y-2 relative z-10">
+<div class="flex justify-between items-end">
+<p class="text-on-surface-variant text-sm font-medium">Average Class Score</p>
+<p class="text-primary text-2xl font-bold">74%</p>
+</div>
+<div class="h-2 w-full bg-primary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 74%"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-primary font-bold text-lg tracking-tight">Question Analysis</h3>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">4 Questions Total</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-low p-4 rounded-xl border-b-2 border-primary/10">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Q1 Accuracy</span>
+<p class="text-2xl font-extrabold text-primary mt-1">85%</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-on-secondary-container font-bold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                        High Performance
+                    </div>
+</div>
+<div class="bg-error-container p-4 rounded-xl border-b-2 border-error/20">
+<span class="text-[10px] font-bold text-on-error-container uppercase">Q2 Accuracy</span>
+<p class="text-2xl font-extrabold text-error mt-1">42%</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-error font-bold">
+<span class="material-symbols-outlined text-xs">priority_high</span>
+                        Needs Attention
+                    </div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl col-span-2 flex items-center justify-between">
+<div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Q3 &amp; Q4 Avg</span>
+<p class="text-xl font-bold text-primary">68%</p>
+</div>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary-fixed-dim flex items-center justify-center text-[10px] font-bold">Q3</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-secondary-fixed flex items-center justify-center text-[10px] font-bold">Q4</div>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-primary font-bold text-lg tracking-tight">Student Submissions</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                    Sort <span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+</div>
+<div class="space-y-2">
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group active:bg-surface-container transition-colors duration-200">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary font-bold">AA</div>
+<div>
+<p class="text-on-surface font-bold text-sm">Arjun Adhikari</p>
+<p class="text-on-surface-variant text-[11px] font-medium">Submitted 2h ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-primary font-extrabold">18/25</p>
+<a class="text-on-primary-container text-[11px] font-bold uppercase tracking-wider" href="#">View Details</a>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group active:bg-surface-container transition-colors duration-200">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-primary font-bold">SK</div>
+<div>
+<p class="text-on-surface font-bold text-sm">Sana Khan</p>
+<p class="text-on-surface-variant text-[11px] font-medium">Submitted 5h ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-primary font-extrabold">24/25</p>
+<a class="text-on-primary-container text-[11px] font-bold uppercase tracking-wider" href="#">View Details</a>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group active:bg-surface-container transition-colors duration-200">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary font-bold">RP</div>
+<div>
+<p class="text-on-surface font-bold text-sm">Rohan Patel</p>
+<p class="text-on-surface-variant text-[11px] font-medium">Submitted 1d ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-error font-extrabold">12/25</p>
+<a class="text-on-primary-container text-[11px] font-bold uppercase tracking-wider" href="#">View Details</a>
+</div>
+</div>
+</div>
+<button class="w-full py-4 text-on-surface-variant text-sm font-bold border-t border-outline-variant/20">
+                Show All 22 Submissions
+            </button>
+</section>
+<section class="pb-8">
+<div class="bg-tertiary-container p-6 rounded-xl border-l-4 border-tertiary">
+<div class="flex items-start gap-4">
+<div class="bg-tertiary text-on-tertiary w-10 h-10 rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div class="space-y-2">
+<h4 class="text-on-tertiary-fixed font-bold text-base tracking-tight leading-tight">Teaching Insight</h4>
+<p class="text-on-tertiary-fixed-variant text-sm leading-relaxed">
+                            65% of students struggled with Question 2 regarding "Electron Affinity." Consider a 10-minute recap session focusing on group trends before moving to the next module.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-xl border-t border-[#c0c8c6]/20 shadow-[0px_-4px_24px_rgba(27,28,26,0.03)] rounded-t-xl px-4 pb-6 pt-3 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-[#404847] px-4 py-1.5 active:translate-y-0.5 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-[11px] font-semibold uppercase tracking-wider mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#cae5e1] text-[#002b29] rounded-xl px-4 py-1.5 active:translate-y-0.5 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="quiz">quiz</span>
+<span class="font-manrope text-[11px] font-semibold uppercase tracking-wider mt-1">Questions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404847] px-4 py-1.5 active:translate-y-0.5 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-manrope text-[11px] font-semibold uppercase tracking-wider mt-1">Classes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#404847] px-4 py-1.5 active:translate-y-0.5 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span class="font-manrope text-[11px] font-semibold uppercase tracking-wider mt-1">Attendance</span>
+</a>
+</nav>
+</body></html>

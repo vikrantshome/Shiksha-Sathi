@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shiksha Sathi - Attendance Register</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#051f1d",
+                        "on-tertiary-container": "#cf9982",
+                        "surface-variant": "#e3e2df",
+                        "surface": "#faf9f5",
+                        "on-primary-container": "#80aeaa",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f312e",
+                        "surface-bright": "#faf9f5",
+                        "secondary-container": "#cae5e1",
+                        "secondary": "#4a6360",
+                        "on-tertiary-fixed": "#311305",
+                        "primary-container": "#12423f",
+                        "tertiary": "#3d1c0d",
+                        "on-primary-fixed-variant": "#204e4b",
+                        "surface-container-highest": "#e3e2df",
+                        "primary-fixed": "#bcece7",
+                        "inverse-primary": "#a1cfcb",
+                        "secondary-fixed": "#cde8e4",
+                        "on-secondary-fixed-variant": "#334b49",
+                        "tertiary-fixed-dim": "#f4baa2",
+                        "on-tertiary-fixed-variant": "#653d2b",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c0c8c6",
+                        "secondary-fixed-dim": "#b1ccc8",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#efeeea",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#573120",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#4e6764",
+                        "outline": "#707977",
+                        "on-surface-variant": "#404847",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-container-high": "#e9e8e4",
+                        "primary": "#002b29",
+                        "surface-dim": "#dbdad6",
+                        "on-background": "#1b1c1a",
+                        "inverse-on-surface": "#f2f1ed",
+                        "surface-tint": "#396662",
+                        "error": "#ba1a1a",
+                        "background": "#faf9f5",
+                        "primary-fixed-dim": "#a1cfcb",
+                        "on-surface": "#1b1c1a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00201e"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .tonal-shift-right {
+            border-right: 1px solid rgba(192, 200, 198, 0.2);
+        }
+        .no-line { border: none !important; }
+        .glass-nav {
+            background: rgba(250, 249, 245, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-surface-container-low flex flex-col p-6 space-y-8 tonal-shift-right">
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-lg font-extrabold text-primary tracking-tighter">Shiksha Sathi</h1>
+<p class="text-[10px] font-medium uppercase tracking-widest text-on-surface-variant">The Digital Atelier</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container-lowest transition-all duration-300 rounded-lg font-label text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:text-primary" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-4 py-3 bg-secondary-container text-primary rounded-lg font-label text-sm font-semibold uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="school" style="font-variation-settings: 'FILL' 1;">school</span>
+                Classes
+            </a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container-lowest transition-all duration-300 rounded-lg font-label text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:text-primary" data-icon="quiz">quiz</span>
+                Question Bank
+            </a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container-lowest transition-all duration-300 rounded-lg font-label text-sm font-medium uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:text-primary" data-icon="account_circle">account_circle</span>
+                Profile
+            </a>
+</nav>
+<div class="mt-auto space-y-1">
+<button class="w-full mb-6 bg-gradient-to-r from-primary to-primary-container text-on-primary py-3 px-4 rounded-lg font-label text-xs font-bold uppercase tracking-widest shadow-sm active:translate-x-1 transition-transform">
+                Create Assignment
+            </button>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container-lowest transition-all duration-300 rounded-lg font-label text-sm font-medium uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+                Settings
+            </a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container-lowest transition-all duration-300 rounded-lg font-label text-sm font-medium uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-30 h-16 glass-nav flex justify-between items-center px-8 shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="flex items-center space-x-2 text-on-surface-variant font-label text-sm tracking-wide">
+<span>Classes</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-semibold">Advanced Mathematics</span>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container rounded-full transition-colors" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<div class="flex items-center space-x-3 pl-4 border-l border-outline-variant/20">
+<div class="text-right hidden md:block">
+<p class="text-xs font-bold text-primary leading-none">Dr. Aris Thorne</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Senior Fellow</p>
+</div>
+<img alt="Teacher Profile Avatar" class="w-9 h-9 rounded-lg object-cover shadow-sm" data-alt="Close-up portrait of a professional male educator in a modern studio setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDskdmbtNXpzHDnZloCE5WrYbkyQMWJzYgOB-0vSGN3PQxGprBlcvIvfkhvdgBgD4CiKbkkEZMFOvVQLBsxe7GMfj7pfJTdT2F_7uAbPQzJLOoTRVuyNiDG3JiytKlvvl368Jxa2md9xTgbY_SNP_mkQkJtxcTSUKszkEiFbFogRv7x4s5MmmfxNAItrVEIozGnwRyIm__SG8BLlpu6PcDrggP_eX7eAHRhx2UmIlqVtBuzBxXiHeINeJptKQdZ5n1TIKh2LCOkXQV"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 max-w-6xl mx-auto space-y-8">
+<!-- Attendance Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-1">
+<h2 class="text-4xl font-extrabold text-primary tracking-tight font-headline">Attendance Register</h2>
+<p class="text-on-surface-variant text-lg">Section A • Room 402 • 09:00 AM - 10:30 AM</p>
+</div>
+<!-- Date Selector -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-xl shadow-sm">
+<button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="px-6 py-2 text-center">
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant leading-none mb-1">Session Date</p>
+<p class="font-bold text-primary">Monday, 24 Oct 2023</p>
+</div>
+<button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Stats Overview - Bento Style -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex flex-col justify-between h-32 border-b-2 border-primary">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">group</span>
+<div>
+<p class="text-3xl font-extrabold text-primary">32</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Total Students</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex flex-col justify-between h-32 border-b-2 border-secondary">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<p class="text-3xl font-extrabold text-secondary">28</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Marked Present</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex flex-col justify-between h-32 border-b-2 border-error">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<div>
+<p class="text-3xl font-extrabold text-error">03</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Confirmed Absent</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] flex flex-col justify-between h-32 border-b-2 border-on-tertiary-container">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div>
+<p class="text-3xl font-extrabold text-on-tertiary-container">01</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Late Entry</p>
+</div>
+</div>
+</div>
+<!-- Student Roster Section -->
+<section class="bg-surface-container-low rounded-2xl overflow-hidden p-1">
+<div class="bg-surface-container-lowest rounded-xl">
+<!-- Search & Filter Row -->
+<div class="p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-highest/30 border-none border-b-2 border-outline/20 focus:border-primary focus:ring-0 rounded-t-lg font-body text-sm transition-all" placeholder="Search student name or roll no..." type="text"/>
+</div>
+<div class="flex space-x-2">
+<button class="flex items-center space-x-2 px-4 py-2 bg-surface-container-high rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span>Filter</span>
+</button>
+<button class="flex items-center space-x-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">done_all</span>
+<span>Mark All Present</span>
+</button>
+</div>
+</div>
+<!-- Roster List -->
+<div class="px-6 pb-6 space-y-3">
+<!-- Student Item 1 (Present State) -->
+<div class="group flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-lowest hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)] transition-all duration-300 rounded-xl">
+<div class="flex items-center space-x-4">
+<img alt="Student Avatar" class="w-12 h-12 rounded-lg object-cover" data-alt="Portrait of a young male student with a thoughtful expression in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACZbbOhSZKQQw6Z2sWDMbX1upF8H30r2w5xlbl2e2EZxIPepjYH99lZeQ7mV5yzfvH6kc9rJfBYPpOn3MNGrEzJirGLCMQ4YmmjclXMPys-g1RQqumNiqsezSW5CkbWaXkpZJKQTBT-LsGhOW93OXEIGP7Z9H7lJXk-MrKk9YvOJ74Zb7el87we2Q-tetzL0lAWydTKMntl3O_2xMNRPAT0uOPVF1qq90fdy9PgQOFsXK6br4jk6kGEr9JmRNZEcE8s_2-SxAmmecH"/>
+<div>
+<p class="font-bold text-primary">Julian Sterling</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Roll: #2023-041</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-10 px-6 bg-secondary text-on-secondary rounded-lg font-label text-xs font-bold uppercase tracking-widest transition-all">Present</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-error-container hover:text-on-error-container transition-all">Absent</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Late</button>
+</div>
+</div>
+<!-- Student Item 2 (Absent State) -->
+<div class="group flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-lowest hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)] transition-all duration-300 rounded-xl">
+<div class="flex items-center space-x-4">
+<img alt="Student Avatar" class="w-12 h-12 rounded-lg object-cover" data-alt="Portrait of a young female student with glasses looking at the camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6Rk-5gm_A892TGgqS_GohzQAi9Wyz5-3j799d375FAfY_OKJqKCKVznKs_tcErE9xCWjBCc2f0OS75dGaoy2Wg6-ymMY3p1lIMdgZA84wjgsBOcxjnTk-3stsDYNmQZ2nTe0e7ctNHKd5TZ2-UIKAfCvxKLL2uWrhkB_KQYLbUfDdvLOfhFuforV7KNLg1yuEZiZkTEZjTDTzhgmIeqJJ8qWvNXuTqE9oiDtIgCWNKOQSvFixJyz4wS9GLRS_t2Pzc8fH5vdCSA04"/>
+<div>
+<p class="font-bold text-primary">Elara Vance</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Roll: #2023-018</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Present</button>
+<button class="h-10 px-6 bg-error text-on-error rounded-lg font-label text-xs font-bold uppercase tracking-widest transition-all">Absent</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Late</button>
+</div>
+</div>
+<!-- Student Item 3 (Late State) -->
+<div class="group flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-lowest hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)] transition-all duration-300 rounded-xl">
+<div class="flex items-center space-x-4">
+<img alt="Student Avatar" class="w-12 h-12 rounded-lg object-cover" data-alt="Portrait of a young male student with curly hair against a neutral library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtkL0sIOuiPdQI6CJDsnRRKFBs-PPt_YaHdaJoFQJ3AeVVRcy4FCA87vgkE4FjjFR02nrh2svmdHHY-L7W_YHgX72_R0TSE9XIeTNmDMRRCHmdImjLYo-dN8XNU38XhYCs4EvmJuUjXwc-P1XRaRInI2J1gT5KGBrTeIH8eYYERXbGLY9iyyz8vlC05SrND06v4QXN2Nc9hoF0kbjVUp-8YOU-il9Rdf47DAuH6GkOmvNnr4qs80Pv4gMqDf6zHxUvF8tkQm599yLg"/>
+<div>
+<p class="font-bold text-primary">Soren Kael</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Roll: #2023-092</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Present</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-error-container hover:text-on-error-container transition-all">Absent</button>
+<button class="h-10 px-6 bg-tertiary-container text-on-tertiary-container rounded-lg font-label text-xs font-bold uppercase tracking-widest transition-all">Late</button>
+</div>
+</div>
+<!-- Student Item 4 (Unmarked) -->
+<div class="group flex items-center justify-between p-4 bg-surface-container-low hover:bg-surface-container-lowest hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)] transition-all duration-300 rounded-xl">
+<div class="flex items-center space-x-4">
+<img alt="Student Avatar" class="w-12 h-12 rounded-lg object-cover" data-alt="Portrait of a smiling young woman with braided hair in an academic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK0yyeq9bAxwGr8IYBuvXeh43ZaVsdcTVYx-_aMPtGhxLV55kGmIMWJezETe3eW0wvMA6TGw3s0yjXW8_nJEF9oP6klTIC7d1S4Koi3kICI2qAls3WX7qD1erMSeIyIlht_hscxpO1kGSz9X6YtM_exvpV0tNEYXPVjWCLt06gnZKMUB6s5z6NH4vi6IT_mebEUgvQuAt94cKE5xnLBH7gzAB_05w_lgtwLOoianIdJkrsVzijuKlYRg0UFAnjaoD0Y9yicuCwFy4N"/>
+<div>
+<p class="font-bold text-primary">Aura Nightly</p>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Roll: #2023-012</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Present</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-error-container transition-all">Absent</button>
+<button class="h-10 px-6 bg-surface-container-high text-on-surface-variant rounded-lg font-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-container transition-all">Late</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sticky Save Footer -->
+<div class="flex justify-end pt-8">
+<div class="flex items-center space-x-4 p-2 bg-surface-container-low rounded-2xl">
+<button class="px-8 py-4 bg-surface-container-high text-primary font-label text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-surface-container-highest transition-colors">
+                        Discard Changes
+                    </button>
+<button class="px-12 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-label text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-xl active:scale-95 transition-all">
+                        Finalize Register
+                    </button>
+</div>
+</div>
+<!-- Insight Chip (Academic Specific) -->
+<div class="flex items-center space-x-4 bg-tertiary-container/10 p-4 rounded-xl border-l-4 border-tertiary-container">
+<span class="material-symbols-outlined text-tertiary-container">lightbulb</span>
+<p class="text-sm text-on-tertiary-fixed-variant leading-relaxed">
+<span class="font-bold">Pro Tip:</span> Rapid attendance mode is active. You can use your tablet's volume rocker or a Bluetooth remote to cycle through student statuses for faster marking.
+                </p>
+</div>
+</div>
+</main>
+</body></html>

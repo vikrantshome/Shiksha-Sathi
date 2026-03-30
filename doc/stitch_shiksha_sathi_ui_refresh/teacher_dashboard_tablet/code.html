@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shiksha Sathi - Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#051f1d",
+              "on-tertiary-container": "#cf9982",
+              "surface-variant": "#e3e2df",
+              "surface": "#faf9f5",
+              "on-primary-container": "#80aeaa",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2f312e",
+              "surface-bright": "#faf9f5",
+              "secondary-container": "#cae5e1",
+              "secondary": "#4a6360",
+              "on-tertiary-fixed": "#311305",
+              "primary-container": "#12423f",
+              "tertiary": "#3d1c0d",
+              "on-primary-fixed-variant": "#204e4b",
+              "surface-container-highest": "#e3e2df",
+              "primary-fixed": "#bcece7",
+              "inverse-primary": "#a1cfcb",
+              "secondary-fixed": "#cde8e4",
+              "on-secondary-fixed-variant": "#334b49",
+              "tertiary-fixed-dim": "#f4baa2",
+              "on-tertiary-fixed-variant": "#653d2b",
+              "on-primary": "#ffffff",
+              "outline-variant": "#c0c8c6",
+              "secondary-fixed-dim": "#b1ccc8",
+              "on-error-container": "#93000a",
+              "surface-container": "#efeeea",
+              "tertiary-fixed": "#ffdbcd",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "tertiary-container": "#573120",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#4e6764",
+              "outline": "#707977",
+              "on-surface-variant": "#404847",
+              "surface-container-low": "#f4f4f0",
+              "surface-container-high": "#e9e8e4",
+              "primary": "#002b29",
+              "surface-dim": "#dbdad6",
+              "on-background": "#1b1c1a",
+              "inverse-on-surface": "#f2f1ed",
+              "surface-tint": "#396662",
+              "error": "#ba1a1a",
+              "background": "#faf9f5",
+              "primary-fixed-dim": "#a1cfcb",
+              "on-surface": "#1b1c1a",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed": "#00201e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .tonal-shift-right {
+        box-shadow: 1px 0 0 0 rgba(192, 200, 198, 0.2);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-secondary-container">
+<!-- Sidebar Navigation -->
+<aside class="bg-[#f4f4f0] dark:bg-[#1b1c1a] h-screen w-64 fixed left-0 top-0 z-40 flex flex-col p-6 space-y-8 tonal-shift-right">
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h1 class="text-lg font-extrabold text-[#002b29] dark:text-[#bcece7] leading-tight">Shiksha Sathi</h1>
+<p class="font-manrope text-[10px] font-medium uppercase tracking-widest text-[#404847] dark:text-[#c0c8c6]">The Digital Atelier</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard (Active) -->
+<a class="flex items-center space-x-3 px-4 py-3 bg-[#cae5e1] dark:bg-[#12423f] text-[#002b29] dark:text-[#ffffff] rounded-lg transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-manrope text-sm font-medium uppercase tracking-widest">Dashboard</span>
+</a>
+<!-- Classes -->
+<a class="flex items-center space-x-3 px-4 py-3 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#ffffff] dark:hover:bg-[#2a2b29] transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">school</span>
+<span class="font-manrope text-sm font-medium uppercase tracking-widest">Classes</span>
+</a>
+<!-- Question Bank -->
+<a class="flex items-center space-x-3 px-4 py-3 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#ffffff] dark:hover:bg-[#2a2b29] transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">quiz</span>
+<span class="font-manrope text-sm font-medium uppercase tracking-widest">Question Bank</span>
+</a>
+<!-- Profile -->
+<a class="flex items-center space-x-3 px-4 py-3 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#ffffff] dark:hover:bg-[#2a2b29] transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+<span class="font-manrope text-sm font-medium uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+<div class="pt-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 px-4 rounded-xl font-medium text-sm flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+<span>Create Assignment</span>
+</button>
+</div>
+<div class="mt-auto space-y-2 pt-6 border-t border-outline-variant/20">
+<a class="flex items-center space-x-3 px-4 py-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#ffffff] transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-manrope text-xs font-medium uppercase tracking-widest">Settings</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-2 text-[#404847] dark:text-[#c0c8c6] hover:bg-[#ffffff] transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">logout</span>
+<span class="font-manrope text-xs font-medium uppercase tracking-widest">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen p-8 lg:p-12">
+<!-- Top Bar -->
+<header class="flex justify-between items-start mb-12">
+<div>
+<h2 class="text-4xl font-headline font-bold text-primary tracking-tight">Good morning, Dr. Aris</h2>
+<p class="text-on-surface-variant mt-2 font-medium">Your curriculum overview for today, October 24th.</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search resources..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="Teacher Profile Avatar" class="w-full h-full object-cover" data-alt="portrait of a professional male teacher in a library setting with warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3-NFSg9KYdvrGmj1F5o8-fC-t7dbFVVmLhwJclzrAMqmvPtWkYSNg6lcYtWMy4hGtyKlq1WDYvKkLwxrF6E-pcKNQUBIzblVQuJQQcBdmwI5cwS8ZIUFtyHCPA-P_jKJML9foG8Ysiy32JZxqErBzWiKG9JS5vZHOW_VutC1Fw3yBrVkFcrnELhtWGRoyJacfCBMB0W5HRK_ljsSjOgMXKw9nPV7pps-COLApcV0WmA7rr-0R0D0btVP5kMgDwrOoglOsSvyhtXgX"/>
+</div>
+</div>
+</header>
+<!-- Core Metrics - Bento Style -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-low p-8 rounded-3xl relative overflow-hidden group hover:bg-surface-container-lowest transition-all duration-500 shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-fixed/20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<p class="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">Active Assignments</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-5xl font-headline font-extrabold text-primary">12</span>
+<span class="text-secondary font-semibold">+2 this week</span>
+</div>
+</div>
+</div>
+<div class="bg-secondary-container p-8 rounded-3xl relative overflow-hidden group hover:bg-[#d6eeeb] transition-all duration-500">
+<div class="relative z-10">
+<p class="text-xs font-label font-bold uppercase tracking-widest text-on-secondary-container mb-4">Pending Submissions</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-5xl font-headline font-extrabold text-on-secondary-fixed">84</span>
+<span class="text-on-secondary-container font-medium"> across 4 classes</span>
+</div>
+</div>
+<div class="mt-6 w-full bg-white/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-3/4 rounded-full"></div>
+</div>
+</div>
+<div class="bg-tertiary-container p-8 rounded-3xl relative overflow-hidden group hover:bg-[#633a28] transition-all duration-500">
+<div class="relative z-10">
+<p class="text-xs font-label font-bold uppercase tracking-widest text-tertiary-fixed mb-4">Average Cohort Score</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-5xl font-headline font-extrabold text-tertiary-fixed">88%</span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+</div>
+<p class="mt-6 text-tertiary-fixed-dim text-sm font-medium">Top 5% in district performance</p>
+</div>
+</section>
+<!-- Main Content Split -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+<!-- Recent Assignments List -->
+<section class="lg:col-span-3">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-headline font-bold text-on-surface">Recent Assignments</h3>
+<button class="text-primary text-sm font-bold flex items-center space-x-1 hover:underline">
+<span>View All</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="space-y-4">
+<!-- Assignment Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between border border-outline-variant/10 hover:shadow-[0px_12px_32px_rgba(27,28,26,0.06)] transition-all">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Macbeth: Act III Analysis</h4>
+<p class="text-xs text-on-surface-variant mt-1">Class 12-A • Literature</p>
+</div>
+</div>
+<div class="flex items-center space-x-8">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">42/45 Submitted</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Due Oct 26</p>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider rounded-full">In Progress</span>
+</div>
+</div>
+<!-- Assignment Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between border border-outline-variant/10 hover:shadow-[0px_12px_32px_rgba(27,28,26,0.06)] transition-all">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">biotech</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Photosynthesis Lab Report</h4>
+<p class="text-xs text-on-surface-variant mt-1">Class 11-B • Biology</p>
+</div>
+</div>
+<div class="flex items-center space-x-8">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">38/38 Submitted</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Due Oct 22</p>
+</div>
+<span class="px-3 py-1 bg-tertiary-container text-tertiary-fixed text-[10px] font-bold uppercase tracking-wider rounded-full">Grading</span>
+</div>
+</div>
+<!-- Assignment Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between border border-outline-variant/10 hover:shadow-[0px_12px_32px_rgba(27,28,26,0.06)] transition-all">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Modernist Poetry Techniques</h4>
+<p class="text-xs text-on-surface-variant mt-1">Class 12-A • Literature</p>
+</div>
+</div>
+<div class="flex items-center space-x-8">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">12/45 Submitted</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Due Oct 30</p>
+</div>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-bold uppercase tracking-wider rounded-full">Draft</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="lg:col-span-2">
+<div class="bg-surface-container-low rounded-3xl p-8 h-full">
+<h3 class="text-xl font-headline font-bold text-on-surface mb-8">Recent Activity</h3>
+<div class="relative space-y-8 before:content-[''] before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/30">
+<!-- Activity Item 1 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="text-sm text-on-surface font-medium">You graded <span class="text-primary font-bold">12 submissions</span> for "Quantum Theory Quiz"</p>
+<p class="text-[11px] text-on-surface-variant mt-1 font-medium uppercase tracking-wider">10 minutes ago</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center border border-primary-container/10">
+<span class="material-symbols-outlined text-primary text-[14px]">comment</span>
+</div>
+<div>
+<p class="text-sm text-on-surface font-medium"><span class="text-primary font-bold">Maya Singh</span> asked a question in Class 12-B Forum</p>
+<p class="text-[11px] text-on-surface-variant mt-1 font-medium uppercase tracking-wider">1 hour ago</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary-fixed text-[14px]">mail</span>
+</div>
+<div>
+<p class="text-sm text-on-surface font-medium">New assignment brief shared by <span class="text-primary font-bold">Dept. Head</span></p>
+<p class="text-[11px] text-on-surface-variant mt-1 font-medium uppercase tracking-wider">3 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">update</span>
+</div>
+<div>
+<p class="text-sm text-on-surface font-medium">System Update: Improved student progress tracking is now live</p>
+<p class="text-[11px] text-on-surface-variant mt-1 font-medium uppercase tracking-wider">Yesterday</p>
+</div>
+</div>
+</div>
+<div class="mt-12 bg-white/50 p-6 rounded-2xl border border-dashed border-outline-variant">
+<div class="flex items-center space-x-3 text-tertiary">
+<span class="material-symbols-outlined">lightbulb</span>
+<p class="text-xs font-bold uppercase tracking-widest">Teacher Insight</p>
+</div>
+<p class="text-sm text-on-tertiary-fixed-variant mt-3 leading-relaxed">Students in <span class="font-bold">Class 11-B</span> showed a 15% increase in engagement after the last interactive lab session. Consider more hands-on modules.</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Suppression Logic Applied if detailed but here context is dashboard -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-2xl">edit_square</span>
+</button>
+</body></html>
