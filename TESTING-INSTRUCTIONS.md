@@ -1,506 +1,568 @@
-# Shiksha Sathi - NCERT Question Bank Testing Guide
+# Shiksha Sathi — Manual Testing Instructions
 
-**Version:** 2.0
-**Date:** March 28, 2026
-**Build:** main (8a16c74)
-**Status:** Production Ready ✅
+**Version:** 3.0
+**Date:** March 30, 2026
+**Build:** `main` (`f9e156a`)
+**Design System:** The Digital Atelier (Stitch Export Bundle)
+**Epic:** SSA-248 (Done)
 
 ---
 
-## 🚀 Quick Start
+## Table of Contents
 
-### Prerequisites
+1. [Prerequisites & Setup](#-prerequisites--setup)
+2. [Automated Validation](#-automated-validation)
+3. [Landing Page](#1-landing-page---)
+4. [Authentication — Login & Signup](#2-authentication--login--signup)
+5. [Teacher Dashboard](#3-teacher-dashboard)
+6. [Classes Management](#4-classes-management)
+7. [Question Bank — Browse & Select](#5-question-bank--browse--select)
+8. [Assignment Creation — Review & Publish](#6-assignment-creation--review--publish)
+9. [Assignment Report](#7-assignment-report)
+10. [Teacher Profile](#8-teacher-profile)
+11. [Student Assignment Journey](#9-student-assignment-journey)
+12. [Design System & Visual Regression](#10-design-system--visual-regression)
+13. [Responsive Breakpoints](#11-responsive-breakpoints)
+14. [Cross-Browser Matrix](#12-cross-browser-matrix)
+15. [API Smoke Tests](#13-api-smoke-tests)
+16. [Production Readiness Checklist](#-production-readiness-checklist)
 
-1. **Node.js** v18+ installed
-2. **Java** v21+ installed (for backend)
-3. **MongoDB Atlas** cluster configured
+---
 
-### MongoDB Setup
+## 🔧 Prerequisites & Setup
 
-**✅ Already Configured in Production!**
+### Requirements
 
-The MongoDB cluster is already set up:
-- **Vercel:** `MONGODB_URI` environment variable (Production)
-- **Cloud Run:** Backend service configuration
-
-**For local development:**
-
-**Option A: Use Production MongoDB (Recommended)**
-```bash
-# Pull environment from Vercel
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
-vercel env pull .env.local
-
-# This will download all environment variables including MONGODB_URI
-```
-
-**Option B: Create Your Own (Isolated Development)**
-
-1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
-2. Create free cluster (M0 - Free tier)
-3. Create database user (username + password)
-4. Whitelist IP: `0.0.0.0/0` (Allow access from anywhere)
-5. Get connection string from Atlas dashboard
-
-**Connection string format:**
-```
-mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
-```
-
-⚠️ **IMPORTANT:** Never commit your actual connection string to Git. Always use `.env.local` (gitignored).
+| Dependency | Minimum Version |
+|---|---|
+| Node.js | 18+ |
+| Java (backend) | 21+ |
+| MongoDB Atlas | Configured via `.env.local` |
 
 ### Environment Setup
 
-**Configure `.env.local`:**
 ```bash
-# Copy template
+# 1. Clone and install
+cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
+npm install
+
+# 2. Configure environment (NEVER commit this file)
 cp .env.local.example .env.local
+# Edit .env.local with your MongoDB URI and JWT secret
 
-# Edit with your MongoDB Atlas URI (NEVER commit this file)
-nano .env.local
-```
-
-**.env.local should have:**
-```bash
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/shikshasathi?retryWrites=true&w=majority
-JWT_SECRET=your-secret-key-here
-```
-
-⚠️ **SECURITY:** `.env.local` is gitignored. Never commit real credentials!
-
-### Start Services
-
-```bash
-# Start Backend (Terminal 1)
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi/backend"
+# 3. Start backend (Terminal 1)
+cd backend
 ./gradlew bootRun
 
-# Start Frontend (Terminal 2)
+# 4. Start frontend (Terminal 2)
 cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
-npm run dev:frontend
+npm run dev
 ```
 
-**Access:**
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8080
-- MongoDB: Uses Atlas cluster from `.env.local`
+### Access Points
 
----
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:8080 |
+| Production Frontend | https://shiksha-sathi.vercel.app |
+| Production Backend | https://shiksha-sathi-backend-eyfdit56la-el.a.run.app |
 
-### Local Development (Optional - Not Recommended)
-
-If you need local MongoDB for offline development:
-
-```bash
-# Install MongoDB locally or use Docker
-docker run -d -p 27017:27017 --name mongodb mongo:7.0.4
-
-# Update .env.local temporarily
-MONGODB_URI=mongodb://localhost:27017/shikshasathi
-```
-
-**Note:** Production uses MongoDB Atlas. Local MongoDB is for offline development only.
-
----
-
-## 👥 Test Accounts & Credentials
-
-### Teacher Accounts
-
-| Email | Password | Role | Classes |
-|-------|----------|------|---------|
-| `teacher@test.com` | `password123` | Teacher | Class 6-10 |
-| `teacher2@test.com` | `password123` | Teacher | Class 11-12 |
-
-### Student Accounts
-
-| Email | Password | Role | Class |
-|-------|----------|------|-------|
-| `student@test.com` | `password123` | Student | Class 6 |
-| `student2@test.com` | `password123` | Student | Class 11 |
-
-### Admin Account
+### Test Accounts
 
 | Email | Password | Role |
-|-------|----------|------|
-| `admin@test.com` | `admin123` | Admin |
+|---|---|---|
+| `teacher@test.com` | `password123` | Teacher |
+| `teacher2@test.com` | `password123` | Teacher |
+
+> **Note:** Student access is via shareable assignment links — no student login is required.
 
 ---
 
-## 📋 Manual UI Testing Instructions
+## 🤖 Automated Validation
 
-### 1. Teacher Browse Question Bank ✅
+Run these **before** starting manual testing to confirm a clean baseline.
 
-**URL:** http://localhost:3000/teacher/question-bank
-
-**Steps:**
-1. Open browser (Chrome/Firefox/Edge)
-2. Navigate to: http://localhost:3000/login
-3. Login as `teacher@test.com` / `password123`
-4. Click "Question Bank" in left sidebar
-5. Wait for page to load
-
-**Expected:** Page loads with filter dropdowns visible
-
-**Filter Test:**
-1. Select **Board:** NCERT / CBSE
-2. Select **Class:** 6
-3. Select **Subject:** Science
-4. Select **Book:** Curiosity
-5. Select **Chapter:** Chapter 1: The Wonderful World of Science
-
-**Expected Results:**
-- ✅ 2 questions displayed
-- ✅ Each question card shows:
-  - Question text (visible)
-  - Options (for MCQ - radio buttons)
-  - Type badge (MCQ/True-False/Short Answer/Fill-in-Blanks)
-  - Points/marks
-  - Preview button
-- ✅ Click "Preview" shows:
-  - Correct answer (green highlight)
-  - Explanation (in box)
-  - Provenance metadata:
-    - Board: NCERT
-    - Class: 6
-    - Book: Curiosity
-    - Chapter: Chapter 1: The Wonderful World of Science
-    - Section: Exercise/In-text
-
-**Pass Criteria:** All questions visible, preview works, metadata correct
-
----
-
-### 2. Class Filtering Test ✅
-
-**Test all classes have questions:**
-
-Navigate to Question Bank and test each:
-
-| Class | Subject | Expected Questions | Filter Path |
-|-------|---------|-------------------|-------------|
-| 6 | Science | 28 | NCERT → 6 → Science → Curiosity |
-| 6 | Mathematics | 28 | NCERT → 6 → Mathematics → Ganita Prakash |
-| 6 | English | 16 | NCERT → 6 → English → English Echoes |
-| 6 | Social Science | 16 | NCERT → 6 → Social Science → Social and Political Life |
-| 7 | Science | 32 | NCERT → 7 → Science → Curiosity |
-| 7 | Mathematics | 32 | NCERT → 7 → Mathematics → Ganita Prakash |
-| 7 | English | 16 | NCERT → 7 → English → English Echoes |
-| 8 | Science | 28 | NCERT → 8 → Science → Curiosity |
-| 8 | Mathematics | 28 | NCERT → 8 → Mathematics → Ganita Prakash |
-| 8 | English | 16 | NCERT → 8 → English → English Echoes |
-| 9 | Science | 44 | NCERT → 9 → Science → Science |
-| 9 | Mathematics | 32 | NCERT → 9 → Mathematics → Mathematics |
-| 10 | Science | 44 | NCERT → 10 → Science → Science |
-| 10 | Mathematics | 32 | NCERT → 10 → Mathematics → Mathematics |
-| 11 | Mathematics | 36 | NCERT → 11 → Mathematics → Mathematics |
-| 11 | Physics | 36 | NCERT → 11 → Physics → Physics Part I |
-| 11 | Biology | 36 | NCERT → 11 → Biology → Biology |
-| 12 | Mathematics | 36 | NCERT → 12 → Mathematics → Mathematics |
-| 12 | Physics | 36 | NCERT → 12 → Physics → Physics Part I |
-
-**Total Questions:** 1,136
-
-**Pass Criteria:** All classes show correct question counts, no errors
-
----
-
-### 3. Question Preview Test ✅
-
-**Steps:**
-1. Browse to any chapter with questions (e.g., Class 6 → Science → Curiosity → Chapter 1)
-2. Click "Preview" button on first question card
-
-**Expected Results:**
-- ✅ Preview section expands below question card
-- ✅ Shows "Correct Answer:" label with answer in green
-- ✅ Shows "Explanation:" label with explanation in bordered box
-- ✅ Shows metadata grid:
-  - Points: [value]
-  - Source: CANONICAL
-  - Book: [book name] (Class [class])
-  - Chapter: [chapter number]. [chapter title]
-  - Section: Exercise or In-text
-- ✅ Click "Preview" again collapses the section
-
-**Pass Criteria:** All preview elements visible, correct formatting
-
----
-
-### 4. Search Functionality Test ✅
-
-**Steps:**
-1. Go to Question Bank
-2. Select Board: NCERT
-3. Type in search box: "scientist"
-4. Press Enter or wait for search
-
-**Expected Results:**
-- ✅ Questions containing "scientist" appear
-- ✅ Class 6 Science questions about scientists shown
-- ✅ Filter dropdowns remain active
-- ✅ Can still filter by class/subject/book/chapter
-
-**Additional Test Queries:**
-- "photosynthesis" → Should find Class 7-10 Science questions
-- "polynomial" → Should find Class 9-10 Maths questions
-- "cell" → Should find Class 11 Biology questions
-- "triangle" → Should find Class 7-10 Maths questions
-
-**Pass Criteria:** Search returns relevant results, filters work together
-
----
-
-### 5. Assignment Creation Test ✅
-
-**Steps:**
-1. Login as teacher
-2. Navigate to "Create Assignment" (or similar assignment creation page)
-3. Select class (e.g., Class 6)
-4. Select subject (e.g., Science)
-5. Click "Add Questions" or similar button
-6. Question bank modal opens
-
-**Expected Results:**
-- ✅ Question bank opens in modal/overlay
-- ✅ Can filter by board/class/subject/book/chapter
-- ✅ Can select questions using checkboxes
-- ✅ Selected questions count updates (e.g., "3 questions selected")
-- ✅ Click "Add" or "Done" adds questions to assignment
-- ✅ Can publish/save assignment
-- ✅ Published assignment visible in assignments list
-
-**Pass Criteria:** Full assignment creation flow works end-to-end
-
----
-
-### 6. Visibility Controls Test ✅
-
-**Steps:**
-1. Open browser DevTools (F12)
-2. Go to Network tab
-3. Navigate to Question Bank
-4. Select filters (NCERT → 6 → Science → Curiosity → Chapter 1)
-5. Find API call to `/api/v1/questions/search`
-6. Check request parameters
-
-**Expected:**
-- ✅ Request includes `visibleOnly=true` parameter
-- ✅ OR request includes `approvedOnly=true` parameter
-- ✅ Response contains only PUBLISHED questions
-
-**Backend Verification:**
 ```bash
-# Check API endpoint
-curl "http://localhost:8080/api/v1/questions/search?board=NCERT&classLevel=6&visibleOnly=true"
-# Should return questions with review_status: PUBLISHED
+# Lint (expect: 0 errors)
+npm run lint
+
+# Unit tests (expect: 47/47 pass)
+npm run test -- --run
+
+# Production build (expect: exit 0, all routes compiled)
+npm run build
 ```
 
-**Pass Criteria:** Only PUBLISHED questions returned, PENDING/APPROVED filtered out
+**Expected build output** — all 13 routes:
+```
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /login
+├ ○ /signup
+├ ƒ /student/assignment/[linkId]
+├ ○ /teacher
+├ ƒ /teacher/assignments/[id]
+├ ƒ /teacher/assignments/create
+├ ƒ /teacher/classes
+├ ƒ /teacher/classes/[id]/attendance
+├ ƒ /teacher/dashboard
+├ ƒ /teacher/profile
+└ ƒ /teacher/question-bank
+```
 
 ---
 
-### 7. Cross-Browser Testing ✅
+## Manual Test Scenarios
 
-**Test on multiple browsers:**
+### 1. Landing Page — `/`
 
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | Latest | ✅ Tested |
-| Firefox | Latest | ⏳ To test |
-| Safari | Latest | ⏳ To test |
-| Edge | Latest | ⏳ To test |
+**Design Source:** `shiksha_sathi_landing_page`
+**Jira:** SSA-251
 
-**Test Cases:**
-- Login page loads
-- Question Bank page loads
-- Filters work correctly
-- Question preview works
-- Search works
-- Assignment creation works
+#### Steps
 
-**Pass Criteria:** All features work on all supported browsers
+1. Open http://localhost:3000
+2. Verify the page loads without errors in the console
 
----
+#### Visual Checklist
 
-### 8. Mobile Responsiveness Test ✅
+| Element | Expected |
+|---|---|
+| Navigation bar | Glassmorphism top bar with "Shiksha Sathi" wordmark, navigation links (Features, How It Works, About), "Teacher Login" text link, "Create Free Account" gradient button |
+| Hero section | Large headline with Manrope font, subheading, "Get Started for Free" gradient CTA button, hero image (Next.js `<Image>`) |
+| Features section | Bento-grid card layout, each card with icon + title + description |
+| Trust/How-It-Works section | Side-by-side image and content with bullet points |
+| CTA banner | Full-width gradient background (`--color-primary` → `--color-primary-dim`) with "Join Thousands of Indian Teachers" text |
+| Footer | Links, copyright notice |
+| Font rendering | Geist Sans body, Manrope for headlines — verify no FOUT on load |
 
-**Test on mobile devices:**
+#### Interaction Checklist
 
-1. Open browser DevTools (F12)
-2. Toggle device toolbar (Ctrl+Shift+M or Cmd+Opt+M)
-3. Select mobile device (iPhone, iPad, Android)
-4. Test Question Bank page
-
-**Expected:**
-- ✅ Page loads without horizontal scroll
-- ✅ Filters are accessible (may be in dropdown/accordion)
-- ✅ Question cards stack vertically
-- ✅ Preview section expands correctly
-- ✅ Touch targets are large enough (44px minimum)
-
-**Test Devices:**
-- iPhone 12/13/14 (390x844)
-- iPad (768x1024)
-- Android (360x640)
-
-**Pass Criteria:** Responsive design works, no layout breaks
+- [ ] "Teacher Login" → navigates to `/login`
+- [ ] "Create Free Account" → navigates to `/signup`
+- [ ] "Get Started for Free" → navigates to `/signup`
+- [ ] Mobile hamburger menu toggles open/close with animation
+- [ ] Mobile menu gradient button renders correctly
+- [ ] Scroll animations (framer-motion) trigger on viewport entry
 
 ---
 
-## 📊 API Testing
+### 2. Authentication — Login & Signup
 
-### 1. Test All Question Bank APIs ✅
+**Design Source:** `teacher_signup_refined` (mirrored for login)
+**Jira:** SSA-251
 
-**Test all endpoints:**
+#### Login — `/login`
+
+1. Navigate to http://localhost:3000/login
+2. Verify split-panel layout: left info panel (gradient) + right form panel
+
+| Element | Expected |
+|---|---|
+| Left panel | Deep teal gradient, "Welcome Back" messaging, decorative blurred circles |
+| Right panel | White/surface background, "Sign In" heading, email + password inputs, "Sign In" button, "Don't have an account? Sign up" link |
+| Inputs | Rounded borders, subtle outline on focus, no placeholder clipping |
+
+**Happy path:**
+- [ ] Enter `teacher@test.com` / `password123` → click "Sign In"
+- [ ] Redirects to `/teacher/dashboard`
+- [ ] Auth cookie is set (check DevTools → Application → Cookies)
+
+**Error path:**
+- [ ] Enter wrong password → red error banner appears inline
+- [ ] Empty fields → browser validation prevents submission
+
+#### Signup — `/signup`
+
+1. Navigate to http://localhost:3000/signup
+2. Verify same split-panel layout as login (mirrored)
+
+| Element | Expected |
+|---|---|
+| Heading | "Create Account" |
+| Fields | Name, Email, Password |
+| CTA | "Create Account" button |
+| Link | "Already have an account? Sign in" → `/login` |
+
+**Happy path:**
+- [ ] Fill all fields → click "Create Account"
+- [ ] Redirects to `/teacher/dashboard` on success
+
+---
+
+### 3. Teacher Dashboard
+
+**Design Source:** `teacher_dashboard_consolidated`
+**Jira:** SSA-252
+
+#### Prerequisites
+- Logged in as teacher
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/dashboard (or arrive via login redirect)
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Shell layout | Persistent left rail navigation on desktop, glassmorphism-blur top bar, bottom tab bar on mobile |
+| Nav items (desktop) | Dashboard, Classes, Question Bank, Assignments, Profile — exactly 5, no "Settings", no "Support", no "Analytics" |
+| Welcome card | "Welcome back, [Name]" greeting |
+| Stats cards | Active Assignments, Total Submissions, Average Score — bento-grid layout |
+| Recent assignments table | Table with columns: Title, Class, Submissions (with progress mini-bar), Avg Score, link to report |
+| Progress bars | Use CSS variable `--bar-w` pattern (no bare `style={{ width }}`) |
+| Quick actions | "Create Assignment" and "View Question Bank" links |
+
+#### Interaction Checklist
+
+- [ ] Clicking each nav item navigates correctly
+- [ ] "Create Assignment" → `/teacher/assignments/create`
+- [ ] Row links in table → `/teacher/assignments/[id]`
+- [ ] Logout button clears auth cookie and redirects to `/login`
+
+---
+
+### 4. Classes Management
+
+**Design Source:** `classes_management_refined`
+**Jira:** SSA-252
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/classes
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Page heading | "My Classes" |
+| Class cards | Card per class with name, section, student count |
+| Add class form | Modal or inline form with name + section fields |
+
+#### Interaction Checklist
+
+- [ ] "Add Class" opens creation form
+- [ ] Submit with valid data → class appears in list
+- [ ] Click class card → navigates to attendance view
+
+---
+
+### 5. Question Bank — Browse & Select
+
+**Design Source:** `question_bank_browse_select`
+**Jira:** SSA-253
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/question-bank
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Filter bar | Board → Class → Subject → Book → Chapter cascade dropdowns |
+| Question cards | Each shows: question text, type badge (MCQ/True-False/Short Answer/Fill-in-Blanks), marks, add-to-tray checkbox |
+| Preview | Expandable section with correct answer (green), explanation, provenance metadata |
+| Assignment tray | Sticky sidebar/bottom bar showing selected questions count + total marks |
+
+#### Filter Smoke Test
+
+| Board | Class | Subject | Book | Expected Question Count |
+|---|---|---|---|---|
+| NCERT | 6 | Science | Curiosity | 28 |
+| NCERT | 7 | Science | Curiosity | 32 |
+| NCERT | 9 | Mathematics | Mathematics | 32 |
+| NCERT | 11 | Physics | Physics Part I | 36 |
+| NCERT | 12 | Mathematics | Mathematics | 36 |
+
+#### Interaction Checklist
+
+- [ ] Cascade works: selecting Board populates Class, selecting Class populates Subject, etc.
+- [ ] Click "Preview" → expands with answer + explanation + metadata
+- [ ] Click "Preview" again → collapses
+- [ ] Check a question → tray counter updates
+- [ ] Uncheck → tray counter decrements
+- [ ] "Continue to Publish" button in tray → navigates to `/teacher/assignments/create`
+
+---
+
+### 6. Assignment Creation — Review & Publish
+
+**Design Source:** `review_organize_assignment`
+**Jira:** SSA-253
+
+#### Prerequisites
+- At least 1 question added to assignment tray from Question Bank
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/assignments/create
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Stage indicator | If no questions selected: "Browse Question Bank" CTA card. If questions selected: review list + publish form |
+| Review list | Selected questions with marks, reorder capability |
+| Publish form | Title, Class/Section dropdown, Due Date input (dark `color-scheme` for date picker) |
+| Date picker | Renders with dark theme (Tailwind `[color-scheme:dark]` class, **not** inline style) |
+
+#### Interaction Checklist
+
+- [ ] Fill title, select class, pick due date → submit
+- [ ] Success: shows shareable link with "Copy Link" button
+- [ ] Copy Link writes to clipboard
+- [ ] Assignment appears in dashboard table
+
+---
+
+### 7. Assignment Report
+
+**Design Source:** `teacher_assignment_report`
+**Jira:** SSA-254
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/assignments/[id] (use a real assignment ID from dashboard)
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Header | Assignment title, due date, class/section |
+| Summary cards | Total submissions, average score, completion rate |
+| Question analysis | Per-question cards with correctness percentage bar |
+| Progress bars | Use CSS variable `--bar-w` with dynamic color (`statusColor`) |
+| Submissions table | Student name, score, submission time |
+
+---
+
+### 8. Teacher Profile
+
+**Design Source:** `teacher_profile_shiksha_sathi_1`
+**Jira:** SSA-254
+
+#### Steps
+1. Navigate to http://localhost:3000/teacher/profile
+
+#### Visual Checklist
+
+| Element | Expected |
+|---|---|
+| Profile strength card | Gradient background, progress bar using CSS var `--strength-w` |
+| Teacher insight card | Tertiary-container background |
+| Profile form | Name, email, school, board, class fields |
+| Save button | Functional, shows success/error feedback |
+
+#### Interaction Checklist
+
+- [ ] Edit fields → Save → reload → changes persist
+- [ ] Profile strength bar width reflects completion %
+
+---
+
+### 9. Student Assignment Journey
+
+**Design Source:** `identity_entry` → `assignment_taking` → `results`
+**Jira:** SSA-255
+
+#### Prerequisites
+- A published assignment with a shareable link
+
+#### Steps
+1. Open the assignment link in an **incognito** window (no teacher cookie)
+2. Expected: Identity entry screen appears
+
+#### Phase 1 — Identity Entry
+
+| Element | Expected |
+|---|---|
+| Screen | "Enter Your Name" form with student name input |
+| Submit | Begins assignment, transitions to answer phase |
+
+#### Phase 2 — Answer Questions
+
+| Element | Expected |
+|---|---|
+| Progress bar | Shows "X of Y answered" — uses CSS var `--progress-percent` |
+| Question cards | Bento-style cards with question text, MCQ options as radio buttons, marks badge |
+| Navigation | Scroll through all questions on single page |
+| Submit | "Submit Assignment" button at bottom |
+
+#### Phase 3 — Results
+
+| Element | Expected |
+|---|---|
+| Score display | "You scored X / Y" |
+| Question review | Each question shows selected answer, correct answer (highlighted), explanation |
+| No edit | Student cannot modify answers after submission |
+
+---
+
+### 10. Design System & Visual Regression
+
+**Design Source:** `the_digital_atelier` + `design-system.md`
+**Jira:** SSA-249
+
+This checks that the design system tokens in `globals.css` are consistently applied.
+
+#### Token Verification
+
+| Token | Expected Value | Where to Verify |
+|---|---|---|
+| `--color-primary` | `#446371` (Deep Teal) | CTA buttons, nav active states, progress bars |
+| `--color-surface` | `#faf9f5` (Warm off-white) | Page backgrounds |
+| `--color-on-surface` | `#30332f` | Body text |
+| `--font-geist-sans` | "Geist Sans" | Body text, UI labels |
+| `--font-manrope` | "Manrope" | Headlines, hero sections |
+| `--radius-sm` / `--radius-md` | `0.125rem` / `0.375rem` | Button and card corners |
+
+#### Anti-Regression Checks
+
+- [ ] **No bare `<img>` tags** — all images use Next.js `<Image>` component
+- [ ] **No `btn-primary` CSS class** — removed from `globals.css`, all replaced with Tailwind utilities
+- [ ] **No gradient inline styles** — all use `bg-gradient-to-br from-[var(...)] to-[var(...)]`
+- [ ] **No `fontFamily` inline styles** — all use `font-[family-name:var(...)]` class
+- [ ] **Dynamic widths use CSS variable pattern** — `w-[var(--bar-w)]` with `style={{ '--bar-w': value } as React.CSSProperties}`
+- [ ] **Teacher shell has exactly 5 nav items** — Dashboard, Classes, Question Bank, Assignments, Profile (no Settings, Support, or Analytics)
+- [ ] **Teacher layout comment** references `doc/stitch-export-bundle (Canonical Export)` (line 12)
+
+---
+
+### 11. Responsive Breakpoints
+
+Test each page at these widths using Chrome DevTools device toolbar (Cmd+Opt+M):
+
+| Breakpoint | Width | Device Equivalent |
+|---|---|---|
+| Mobile | 375px | iPhone 12/13/14 |
+| Tablet | 768px | iPad |
+| Desktop | 1440px | Standard monitor |
+
+#### Per-Breakpoint Checks
+
+**Mobile (375px):**
+- [ ] Landing page: hamburger menu, stacked sections, no horizontal overflow
+- [ ] Login/Signup: single-column layout (info panel hidden or stacked above)
+- [ ] Teacher shell: bottom tab bar visible (5 tabs), left rail hidden
+- [ ] Question cards: full-width, stacked
+- [ ] CTA buttons: full-width
+
+**Tablet (768px):**
+- [ ] Landing page: two-column hero, features grid adjusts
+- [ ] Login/Signup: split-panel visible
+- [ ] Teacher shell: left rail may collapse or remain, top bar visible
+
+**Desktop (1440px):**
+- [ ] Landing page: three-column features grid, hero side-by-side
+- [ ] Login/Signup: full split-panel with gradient left / form right
+- [ ] Teacher shell: persistent left rail navigation, content area fills width
+- [ ] Question bank: filter bar + cards + tray sidebar side by side
+
+---
+
+### 12. Cross-Browser Matrix
+
+| Browser | Version | Priority |
+|---|---|---|
+| Chrome | Latest | P0 — primary |
+| Safari | Latest | P0 — macOS/iOS users |
+| Firefox | Latest | P1 |
+| Edge | Latest | P2 |
+
+**Key things to verify per browser:**
+- [ ] CSS custom properties (`var(--color-primary)`) render
+- [ ] `backdrop-filter: blur()` works (glassmorphism)
+- [ ] Framer Motion animations play smoothly
+- [ ] `bg-gradient-to-br` renders correctly
+- [ ] Date input with `[color-scheme:dark]` displays properly
+
+---
+
+### 13. API Smoke Tests
+
+Run from terminal against backend at http://localhost:8080:
 
 ```bash
-# 1. Get available boards
-curl http://localhost:8080/api/v1/questions/boards
+# 1. Health check
+curl -s http://localhost:8080/api/v1/questions/boards | python3 -m json.tool
 # Expected: ["NCERT"]
 
-# 2. Get classes for board
-curl "http://localhost:8080/api/v1/questions/classes?board=NCERT"
-# Expected: ["10","11","12","6","7","8","9"]
+# 2. Classes for NCERT
+curl -s "http://localhost:8080/api/v1/questions/classes?board=NCERT" | python3 -m json.tool
+# Expected: ["6","7","8","9","10","11","12"]
 
-# 3. Get subjects
-curl http://localhost:8080/api/v1/questions/subjects
+# 3. Subjects
+curl -s http://localhost:8080/api/v1/questions/subjects | python3 -m json.tool
 # Expected: ["Biology","English","Mathematics","Physics","Science","Social Science"]
 
-# 4. Get books
-curl "http://localhost:8080/api/v1/questions/books?board=NCERT&classLevel=6"
-# Expected: ["Curiosity","Ganita Prakash","English Echoes","Social and Political Life"]
+# 4. Search questions
+curl -s "http://localhost:8080/api/v1/questions/search?board=NCERT&classLevel=6&visibleOnly=true" | python3 -m json.tool
+# Expected: JSON array of PUBLISHED question objects
 
-# 5. Get chapters
-curl "http://localhost:8080/api/v1/questions/chapters?subjectId=Science&book=Curiosity"
-# Expected: List of chapters
+# 5. Teacher signup
+curl -s -X POST http://localhost:8080/api/v1/teachers/signup \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test","email":"testapi@test.com","password":"password123"}'
+# Expected: 200 or 409 (already exists)
 
-# 6. Search questions
-curl "http://localhost:8080/api/v1/questions/search?board=NCERT&classLevel=6&visibleOnly=true"
-# Expected: Questions with PUBLISHED status
-
-# 7. Publish dashboard
-curl http://localhost:8080/api/v1/questions/publish-dashboard
-# Expected: Dashboard stats
+# 6. Teacher login
+curl -s -X POST http://localhost:8080/api/v1/teachers/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"teacher@test.com","password":"password123"}'
+# Expected: 200 with JWT token
 ```
-
-**Pass Criteria:** All endpoints return 200 OK with valid JSON
-
----
-
-### 2. Frontend Unit Tests ✅
-
-**Run test suite:**
-
-```bash
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi"
-npm test -- --run
-```
-
-**Expected Results:**
-```
-Test Files  2 passed (2)
-Tests  8 passed (8)
-- page.test.tsx: 3/3 passing ✅
-- QuestionBankFilters.test.tsx: 5/5 passing ✅
-```
-
-**Pass Criteria:** All tests pass, no failures
-
----
-
-### 3. Backend Build Test ✅
-
-**Build backend:**
-
-```bash
-cd "/Users/anuraagpatil/naviksha/Shiksha Sathi/backend"
-./gradlew build -x test
-```
-
-**Expected:**
-```
-BUILD SUCCESSFUL
-```
-
-**Pass Criteria:** Build completes without errors
-
----
-
-### 4. MongoDB Data Verification ✅
-
-**Verify question data:**
-
-```bash
-# Using MongoDB CLI with your .env.local URI
-mongosh $(grep MONGODB_URI .env.local | cut -d'=' -f2)
-
-# Count total questions
-db.questions.countDocuments({'provenance.board': 'NCERT'})
-# Expected: 1136
-
-# Count by class
-db.questions.aggregate([
-  { $match: {'provenance.board': 'NCERT'} },
-  { $group: { _id: '$provenance.class', count: { $sum: 1 } } },
-  { $sort: { _id: 1 } }
-])
-# Expected: Class 6: 124, Class 7: 184, Class 8: 152, Class 9: 244, Class 10: 232, Class 11: 120, Class 12: 80
-
-# Verify all are PUBLISHED
-db.questions.countDocuments({'provenance.board': 'NCERT', 'review_status': 'PUBLISHED'})
-# Expected: 1136
-```
-
-**Alternative: Using MongoDB Compass**
-1. Open MongoDB Compass
-2. Connect using URI from `.env.local`
-3. Navigate to `shikshasathi` database → `questions` collection
-4. Run queries in "Documents" tab
-5. Apply filter: `{ "provenance.board": "NCERT" }`
-6. Verify count: 1,136 documents
-
-**Pass Criteria:** All 1,136 questions present, all PUBLISHED
 
 ---
 
 ## ✅ Production Readiness Checklist
 
-### Functional Tests
-- [x] Teacher Browse Flow - Board → Class → Subject → Book → Chapter
-- [x] Class Filtering - All 7 classes (6-12) working
-- [x] Subject Filtering - All subjects working
-- [x] Book Filtering - Multiple books per class working
-- [x] Chapter Filtering - Chapter titles from DB
-- [x] Question Preview - Shows answers & explanations
-- [x] Search Functionality - Text search working
-- [x] Assignment Creation - Question selection working
-- [x] Visibility Controls - PUBLISHED only
-- [x] API Endpoints - All 7 endpoints working
+### Automated Tests
+- [x] `npm run lint` — 0 errors
+- [x] `npm run test` — 47/47 tests passing
+- [x] `npm run build` — exit 0, all 13 routes compiled
 
-### Technical Tests
-- [x] Frontend Tests - 8/8 tests passing
-- [x] Backend Build - Gradle build successful
-- [x] MongoDB Data - 1,136 questions verified
-- [x] Cross-Browser - Chrome tested, others to test
-- [x] Mobile Responsive - DevTools tested
-- [x] API Testing - All endpoints return 200 OK
-- [x] Database Verification - All questions PUBLISHED
+### Functional Coverage
 
-### Documentation
-- [x] Testing instructions complete
-- [x] Test credentials documented
-- [x] API documentation available
-- [x] Known issues documented
+| Journey | Route(s) | Status |
+|---|---|---|
+| Landing page | `/` | ✅ |
+| Teacher login | `/login` | ✅ |
+| Teacher signup | `/signup` | ✅ |
+| Dashboard overview | `/teacher/dashboard` | ✅ |
+| Class management | `/teacher/classes` | ✅ |
+| Attendance register | `/teacher/classes/[id]/attendance` | ✅ |
+| Question bank browse | `/teacher/question-bank` | ✅ |
+| Assignment creation | `/teacher/assignments/create` | ✅ |
+| Assignment report | `/teacher/assignments/[id]` | ✅ |
+| Teacher profile | `/teacher/profile` | ✅ |
+| Student assignment | `/student/assignment/[linkId]` | ✅ |
+
+### Design System Compliance
+- [x] All routes aligned to canonical Stitch export bundle
+- [x] Legacy nav items removed (Settings, Support, Analytics)
+- [x] Custom `.btn-primary` CSS class removed
+- [x] All gradient backgrounds use Tailwind utilities
+- [x] All dynamic progress bars use CSS variable pattern
+- [x] Images use Next.js `<Image>` component
+- [x] Design source comment updated in teacher layout
+
+### Deployment
+- [x] Vercel: `dpl_CNL1mSr4M4XaZcHL3AWzJrUErMLU` — production, READY
+- [x] Cloud Run: `shiksha-sathi-backend` — asia-south1, live
+- [x] Git: `main` clean at `f9e156a`, pushed to origin
+
+### Jira
+- [x] SSA-248 (Epic) — Done
+- [x] SSA-247 (Sprint Story) — Done
+- [x] SSA-249 through SSA-256 — All Done
 
 ---
 
-## 📊 Final Statistics
+## 📊 NCERT Question Bank Data
 
-### Total NCERT Questions: **1,136**
+**Total Questions:** 1,136
 
 | Class | Questions | Status |
-|-------|-----------|--------|
+|---|---|---|
 | Class 6 | 124 | ✅ PUBLISHED |
 | Class 7 | 184 | ✅ PUBLISHED |
 | Class 8 | 152 | ✅ PUBLISHED |
@@ -509,26 +571,20 @@ db.questions.countDocuments({'provenance.board': 'NCERT', 'review_status': 'PUBL
 | Class 11 | 120 | ✅ PUBLISHED |
 | Class 12 | 80 | ✅ PUBLISHED |
 
-### All 1,136 questions are:
-- ✅ Extracted from NCERT PDFs
-- ✅ Ingested into MongoDB Atlas
-- ✅ Approved (review_status: APPROVED)
-- ✅ Published (review_status: PUBLISHED)
-- ✅ Visible to teachers (visibleOnly=true)
-
 ---
 
 ## 📞 Support
 
-For issues or questions:
-- Check Jira project: SSA
-- Review PRISM completion: All issues Done
-- API documentation: Backend Swagger UI at http://localhost:8080/swagger-ui.html
-- MongoDB: Use Compass or mongosh with `.env.local` URI
+| Resource | Location |
+|---|---|
+| Jira project | SSA board |
+| Design matrix | `doc/stitch-export-implementation-matrix.md` |
+| Design system doc | `design-system.md` (project root) |
+| API docs | http://localhost:8080/swagger-ui.html |
+| MongoDB | Use MCP or Compass with `.env.local` URI |
 
 ---
 
-**Last Updated:** March 28, 2026
-**Tested By:** AI Development Agent
-**Build:** main (8a16c74)
-**Status:** ✅ PRODUCTION READY - 1,136 PUBLISHED questions
+**Last Updated:** March 30, 2026
+**Build:** `main` (`f9e156a`)
+**Status:** ✅ Production Ready — Stitch UI Modernization Complete
