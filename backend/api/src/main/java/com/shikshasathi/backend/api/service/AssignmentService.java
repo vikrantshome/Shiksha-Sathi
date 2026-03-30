@@ -167,6 +167,9 @@ public class AssignmentService {
 
     public StudentAssignmentDTO getAssignmentByLinkId(String linkId) {
         Assignment assignment = assignmentRepository.findFirstByIdStartingWith(linkId)
+                .or(() -> assignmentRepository.findAll().stream()
+                        .filter(candidate -> candidate.getId() != null && candidate.getId().startsWith(linkId))
+                        .findFirst())
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
         
         List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
