@@ -22,11 +22,12 @@
 10. [Assignment Report](#7-assignment-report)
 11. [Teacher Profile](#8-teacher-profile)
 12. [Student Assignment Journey](#9-student-assignment-journey)
-13. [Design System & Visual Regression](#10-design-system--visual-regression)
-14. [Responsive Breakpoints](#11-responsive-breakpoints)
-15. [Cross-Browser Matrix](#12-cross-browser-matrix)
-16. [API Smoke Tests](#13-api-smoke-tests)
-17. [Production Readiness Checklist](#-production-readiness-checklist)
+13. [Admin Dashboard Status](#10-admin-dashboard-status)
+14. [Design System & Visual Regression](#11-design-system--visual-regression)
+15. [Responsive Breakpoints](#12-responsive-breakpoints)
+16. [Cross-Browser Matrix](#13-cross-browser-matrix)
+17. [API Smoke Tests](#14-api-smoke-tests)
+18. [Production Readiness Checklist](#-production-readiness-checklist)
 
 ---
 
@@ -62,11 +63,13 @@ npm run dev
 
 ### Access Points
 
-| Service | URL |
-|---|---|
-| Frontend (Local) | http://localhost:3000 |
-| Backend API (Production) | https://shiksha-sathi-backend-eyfdit56la-el.a.run.app/api/v1 |
-| Frontend (Production) | https://shiksha-sathi.vercel.app (if deployed) |
+| Service | URL | Status |
+|---|---|---|
+| Frontend (Local) | http://localhost:3000 | ✅ Development |
+| Frontend (Production) | https://shiksha-sathi-taupe.vercel.app | ✅ Live |
+| Backend API (Production) | https://shiksha-sathi-backend-198875791604.asia-south1.run.app/api/v1 | ✅ Live |
+
+> **⚠️ IMPORTANT:** Backend URL was updated on 2026-03-30. Old URL (`...eyfdit56la-el...`) no longer exists.
 
 ---
 
@@ -80,7 +83,7 @@ npm run dev
 | `teacher@test.com` | `password123` | Test Teacher | API Testing |
 | `testapi@test.com` | `password123` | Test API User | API Testing |
 
-> **⚠️ IMPORTANT:** 
+> **⚠️ IMPORTANT:**
 > - Signup requires `"role": "TEACHER"` field
 > - Login may fail with "Role null" error for existing accounts
 > - **Fix:** See `BACKEND-AUTH-FIX.md` for database migration script
@@ -88,6 +91,21 @@ npm run dev
 
 ### Student Access
 Student access is via shareable assignment links — no student login is required.
+
+### Admin Access
+**❌ Admin Dashboard does NOT exist in the current system.**
+
+While the codebase has `ADMIN` role defined in the database schema and backend types, there is:
+- No `/admin` route in the frontend
+- No admin-specific UI components
+- No admin dashboard implementation
+
+**Current Roles in Use:**
+- ✅ `TEACHER` - Full access to teacher features
+- ✅ `STUDENT` - Access via assignment links only
+- ⚠️ `ADMIN` - Defined but not implemented
+- ⚠️ `PARENT` - Defined but not implemented
+- ⚠️ `PARTNER` - Defined but not implemented
 
 ---
 
@@ -409,7 +427,54 @@ Route (app)
 
 ---
 
-### 10. Design System & Visual Regression
+### 10. Admin Dashboard Status
+
+**Status:** ❌ NOT IMPLEMENTED
+
+While the codebase has `ADMIN` role defined in the database schema and backend types, there is currently **no admin dashboard** implemented in the system.
+
+#### What Exists
+
+**Backend:**
+- ✅ `ADMIN` role defined in `Role.java` enum
+- ✅ Database schema supports admin users
+- ✅ Some API endpoints have admin-only logic (e.g., `approvedOnly` parameter)
+
+**Frontend:**
+- ✅ `ADMIN` role type defined in TypeScript types
+- ❌ No `/admin` route
+- ❌ No admin dashboard UI components
+- ❌ No admin login or authentication flow
+
+#### Current Roles in Use
+
+| Role | Status | Access Level |
+|------|--------|--------------|
+| `TEACHER` | ✅ Fully Implemented | Full access to teacher features |
+| `STUDENT` | ✅ Partially Implemented | Access via assignment links only |
+| `ADMIN` | ⚠️ Defined but Not Implemented | No UI, backend ready |
+| `PARENT` | ⚠️ Defined but Not Implemented | No UI, backend ready |
+| `PARTNER` | ⚠️ Defined but Not Implemented | No UI, backend ready |
+
+#### Future Admin Features (Not Yet Built)
+
+If admin dashboard is to be implemented in future sprints, it would typically include:
+- Teacher management (create, edit, deactivate)
+- Student enrollment and tracking
+- Content moderation and approval workflows
+- System-wide analytics and reporting
+- Role and permission management
+
+#### Testing Implications
+
+**No admin testing is required for current release.** All testing should focus on:
+- Teacher workflows (fully implemented)
+- Student workflows (fully implemented)
+- API endpoints (backend ready for future admin features)
+
+---
+
+### 11. Design System & Visual Regression
 
 **Design Source:** `the_digital_atelier` + `design-system.md`
 **Jira:** SSA-249
@@ -439,7 +504,7 @@ This checks that the design system tokens in `globals.css` are consistently appl
 
 ---
 
-### 11. Responsive Breakpoints
+### 12. Responsive Breakpoints
 
 Test each page at these widths using Chrome DevTools device toolbar (Cmd+Opt+M):
 
@@ -471,7 +536,7 @@ Test each page at these widths using Chrome DevTools device toolbar (Cmd+Opt+M):
 
 ---
 
-### 12. Cross-Browser Matrix
+### 13. Cross-Browser Matrix
 
 | Browser | Version | Priority |
 |---|---|---|
@@ -489,7 +554,7 @@ Test each page at these widths using Chrome DevTools device toolbar (Cmd+Opt+M):
 
 ---
 
-### 13. API Smoke Tests
+### 14. API Smoke Tests
 
 Run from terminal against **production backend API**:
 
