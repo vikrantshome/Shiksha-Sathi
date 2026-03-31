@@ -3,7 +3,10 @@ spring:
     name: shikshasathi-backend
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/shikshasathi}
+      # Reads from environment variable MONGODB_URI
+      # Set via: export MONGODB_URI="mongodb+srv://..."
+      # Or via .env file in same directory
+      uri: ${MONGODB_URI}
 server:
   port: ${PORT:8080}
 
