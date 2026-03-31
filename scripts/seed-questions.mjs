@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { resolveQuestionPoints } from './lib/question-points.mjs';
 
 const uri = process.env.MONGODB_URI;
 
@@ -109,11 +110,15 @@ async function run() {
     await client.connect();
     const db = client.db("shikshasathi");
     const collection = db.collection("questions");
+    const normalizedQuestions = questions.map((question) => ({
+      ...question,
+      points: resolveQuestionPoints(question),
+    }));
 
     // Clear existing to avoid duplicates in this seed run
     await collection.deleteMany({});
     
-    const result = await collection.insertMany(questions);
+    const result = await collection.insertMany(normalizedQuestions);
     console.log(`Successfully inserted ${result.insertedCount} questions into the database.`);
   } catch (error) {
     console.error("Error seeding details:", error);
