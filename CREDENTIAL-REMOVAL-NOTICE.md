@@ -44,7 +44,7 @@ brew install bfg
 **Create replacement file:**
 ```bash
 cat > /tmp/passwords.txt << 'EOF'
-mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha==>mongodb+srv://***REMOVED***:***REMOVED***@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
+mongodb+srv://***REMOVED***:***REMOVED***@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha==>mongodb+srv://***REMOVED***:***REMOVED***@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
 EOF
 ```
 
@@ -100,7 +100,7 @@ MONGODB_URI=mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shiksha
 MONGODB_URI=mongodb+srv://<USER>:<PASSWORD>@cluster.mongodb.net/db
 
 # ❌ BAD - Never commit real credentials
-MONGODB_URI=mongodb+srv://devteam2025:devteam2026@cluster.mongodb.net/db
+MONGODB_URI=mongodb+srv://***REMOVED***:***REMOVED***@cluster.mongodb.net/db
 ```
 
 ### Use .env.example
