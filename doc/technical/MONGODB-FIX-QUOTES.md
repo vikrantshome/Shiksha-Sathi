@@ -35,7 +35,7 @@ NOT
 
 The file `backend/api/src/main/resources/.env` has been updated to:
 ```bash
-MONGODB_URI=mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
+MONGODB_URI=mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
 # NO QUOTES!
 ```
 
@@ -90,7 +90,7 @@ cat "/Users/anuraagpatil/naviksha/Shiksha Sathi/backend/api/src/main/resources/.
 
 **Should show (NO quotes):**
 ```
-MONGODB_URI=mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
+MONGODB_URI=mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha
 ```
 
 ### If quotes still present, fix manually:
@@ -113,7 +113,7 @@ If the above doesn't work, manually export:
 cd "/Users/anuraagpatil/naviksha/Shiksha Sathi/backend"
 
 # Export without quotes
-export MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"
+export MONGODB_URI="mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"
 
 # Run backend
 ./gradlew bootRun

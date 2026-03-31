@@ -51,7 +51,7 @@ Backend will now connect to MongoDB Atlas automatically! ✅
 **Set environment variable before running:**
 ```bash
 # Export MongoDB URI
-export MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"
+export MONGODB_URI="mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"
 
 # Then run dev
 npm run dev

@@ -18,6 +18,10 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MongoTemplate mongoTemplate;
 
+    private static final int DEFAULT_OBJECTIVE_POINTS = 1;
+    private static final int DEFAULT_SHORT_ANSWER_POINTS = 2;
+    private static final int DEFAULT_LONG_ANSWER_POINTS = 5;
+
     public List<String> getDistinctSubjects() {
         return mongoTemplate.getCollection("questions")
                 .distinct("subject_id", String.class)
@@ -100,6 +104,21 @@ public class QuestionService {
     }
 
     public Question createQuestion(Question question) {
+        if (question.getPoints() == null || question.getPoints() <= 0) {
+            question.setPoints(defaultPointsForType(question.getType()));
+        }
         return questionRepository.save(question);
+    }
+
+    private int defaultPointsForType(String type) {
+        if (type == null || type.isBlank()) {
+            return DEFAULT_OBJECTIVE_POINTS;
+        }
+
+        return switch (type) {
+            case "SHORT_ANSWER" -> DEFAULT_SHORT_ANSWER_POINTS;
+            case "LONG_ANSWER", "ESSAY" -> DEFAULT_LONG_ANSWER_POINTS;
+            default -> DEFAULT_OBJECTIVE_POINTS;
+        };
     }
 }

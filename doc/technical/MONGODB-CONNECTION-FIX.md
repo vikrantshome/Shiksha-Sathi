@@ -125,7 +125,7 @@ MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs..."
 
 **If missing, recreate:**
 ```bash
-echo 'MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"' > .env.local
+echo 'MONGODB_URI="mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha"' > .env.local
 ```
 
 ### Backend starts but API returns errors?
@@ -133,7 +133,7 @@ echo 'MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongod
 **Check MongoDB connectivity:**
 ```bash
 # Test MongoDB connection
-mongosh "mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha" --eval "db.runCommand({ping:1})"
+mongosh "mongodb+srv://<USER>:<PASSWORD>@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha" --eval "db.runCommand({ping:1})"
 ```
 
 **Expected:**
