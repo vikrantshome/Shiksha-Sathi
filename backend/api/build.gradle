@@ -2,6 +2,44 @@ plugins {
     id 'org.springframework.boot'
 }
 
+def parseDotEnv(File envFile) {
+    def env = [:]
+    if (!envFile.exists()) {
+        return env
+    }
+
+    envFile.eachLine { rawLine ->
+        def line = rawLine.trim()
+        if (!line || line.startsWith('#')) {
+            return
+        }
+
+        if (line.startsWith('export ')) {
+            line = line.substring('export '.length()).trim()
+        }
+
+        def separatorIndex = line.indexOf('=')
+        if (separatorIndex <= 0) {
+            return
+        }
+
+        def key = line.substring(0, separatorIndex).trim()
+        def value = line.substring(separatorIndex + 1).trim()
+
+        if (value.length() >= 2) {
+            def wrappedInDoubleQuotes = value.startsWith('"') && value.endsWith('"')
+            def wrappedInSingleQuotes = value.startsWith("'") && value.endsWith("'")
+            if (wrappedInDoubleQuotes || wrappedInSingleQuotes) {
+                value = value.substring(1, value.length() - 1)
+            }
+        }
+
+        env[key] = value
+    }
+
+    env
+}
+
 dependencies {
     implementation project(':core')
     implementation project(':infrastructure')
@@ -13,4 +51,23 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('bootRun') {
+    def inheritedEnv = System.getenv()
+    def localEnv = [:]
+    def envFiles = [
+        new File(rootProject.projectDir.parentFile, '.env.local'),
+        new File(projectDir, 'src/main/resources/.env'),
+    ]
+
+    envFiles.each { envFile ->
+        parseDotEnv(envFile).each { key, value ->
+            if (!inheritedEnv.containsKey(key) && !localEnv.containsKey(key)) {
+                localEnv[key] = value
+            }
+        }
+    }
+
+    environment(localEnv)
 }
