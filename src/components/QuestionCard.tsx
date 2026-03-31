@@ -36,14 +36,22 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
   return (
     <div
-      className={`group relative overflow-hidden bg-surface-container-lowest transition-all duration-300 ease-out border-l-4 border-y border-r border-y-transparent border-r-transparent hover:border-outline-variant/20 ${
-        selected ? "border-l-primary shadow-[0_1px_4px_rgba(48,51,47,0.08)]" : "border-l-transparent shadow-none"
+      className={`group relative overflow-hidden rounded-lg bg-surface-container-lowest transition-all duration-300 ease-out border border-outline-variant/12 hover:border-outline-variant/25 ${
+        selected
+          ? "border-emerald-300/70 bg-[color:color-mix(in_srgb,#dcfce7_72%,white)] shadow-[0_0_0_1px_rgba(74,222,128,0.22),0_10px_26px_rgba(34,197,94,0.10)]"
+          : "shadow-[0_4px_14px_rgba(48,51,47,0.05)]"
       }`}
     >
+      <div
+        className={`absolute inset-x-0 top-0 h-1 transition-colors duration-200 ${
+          selected ? "bg-emerald-500" : "bg-surface-container-high"
+        }`}
+      />
+
       {/* ═══ Card Content ═══ */}
-      <div className="p-6">
+      <div className="p-5 md:p-6">
         {/* Meta Row: Type Badge + Chapter/Level + Source + Selection */}
-        <div className="mb-4 flex items-start justify-between">
+        <div className="mb-4 flex items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {/* Type Badge */}
             <span
@@ -51,73 +59,78 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             >
               {badge.label}
             </span>
-            {/* Chapter/Topic */}
-            <span className="text-xs font-medium text-on-surface-variant">
-              {q.topic}
-            </span>
-            {/* Difficulty Dot */}
             {q.provenance && (
-              <>
-                <span className="inline-block h-[3px] w-[3px] rounded-full bg-outline-variant" />
-                <span className="text-xs font-medium text-on-surface-variant">
-                  Class {q.provenance.classLevel}
-                </span>
-              </>
+              <span className="rounded-full bg-surface-container px-2 py-[2px] text-[0.625rem] font-bold tracking-[0.08em] uppercase text-on-surface-variant">
+                {q.sourceKind || "LOCAL"}
+              </span>
             )}
           </div>
 
-          {/* Source + Selection Circle */}
           <div className="flex items-center gap-3">
-            <span className="text-[0.625rem] font-bold tracking-wider text-on-surface-variant uppercase">
-              SOURCE: {q.sourceKind || "LOCAL"}
-            </span>
-
-            {/* Selection Checkbox Circle */}
             <button
               type="button"
               onClick={() => toggleQuestion(q)}
-              className={`flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 p-0 transition-all duration-150 ease-out ${
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-150 ease-out ${
                 selected
-                  ? "bg-primary"
-                  : "bg-transparent ring-1 ring-inset ring-outline-variant/30"
+                  ? "border-emerald-600 bg-emerald-100 text-emerald-900 shadow-[0_6px_14px_rgba(34,197,94,0.12)]"
+                  : "border-outline-variant/20 bg-surface-container-low text-on-surface hover:border-primary/30 hover:text-primary"
               }`}
               aria-label={selected ? "Remove from assignment" : "Add to assignment"}
             >
-              {selected && (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {selected ? (
                   <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
+                ) : (
+                  <>
+                    <path d="M12 5v14" />
+                    <path d="M5 12h14" />
+                  </>
+                )}
+              </svg>
+              <span>{selected ? "Added" : "Add"}</span>
             </button>
           </div>
         </div>
 
         {/* Question Text */}
-        <p className="mb-6 text-base font-medium leading-relaxed text-on-surface">
+        <p className="mb-5 text-base font-medium leading-relaxed text-on-surface">
           {q.text}
         </p>
 
+        <div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-on-surface-variant">
+          {q.topic && (
+            <span className="inline-flex items-center rounded-full bg-surface-container-low px-2.5 py-1">
+              {q.topic}
+            </span>
+          )}
+          {q.provenance && (
+            <span className="inline-flex items-center rounded-full bg-surface-container-low px-2.5 py-1">
+              Class {q.provenance.classLevel}
+            </span>
+          )}
+        </div>
+
         {/* MCQ Options Grid */}
         {q.options && (
-          <div className="mb-6 grid grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-3">
+          <div className="mb-5 grid grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-3">
             {q.options.map((opt, i) => {
               const isCorrect = q.correctAnswer ===  opt || q.correctAnswer === String.fromCharCode(65 + i);
               return (
                 <div
                   key={i}
-                  className={`flex cursor-pointer items-center gap-3 rounded-md p-3 transition-all duration-200 ease-out hover:bg-surface-container-low ${
+                  className={`flex cursor-pointer items-center gap-3 rounded-md p-3 transition-all duration-200 ease-out ${
                     isCorrect && isPreviewOpen
                       ? "border border-primary/20 bg-primary/5 hover:bg-primary/10"
-                      : "border border-outline-variant/10 bg-transparent"
+                      : "border border-outline-variant/10 bg-surface-container-lowest hover:bg-surface-container-low"
                   }`}
                 >
                   <span
@@ -164,7 +177,6 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           </button>
 
           <div className="flex gap-4">
-            {/* Add to Assignment */}
             <button
               type="button"
               onClick={() => toggleQuestion(q)}
@@ -187,33 +199,15 @@ export default function QuestionCard({ question: q }: { question: Question }) {
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
             </button>
-            {/* Copy */}
-            <button
-              type="button"
-              className="cursor-pointer border-0 bg-transparent p-0 text-on-surface-variant transition-colors hover:text-primary"
-              title="Copy question"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
 
       {/* ═══ Expanded Explanation Area ═══ */}
       {isPreviewOpen && (
-        <div className="border-t border-outline-variant/10 bg-surface-container-low p-6">
+        <div className={`border-t border-outline-variant/10 p-5 md:p-6 ${
+          selected ? "bg-[color:color-mix(in_srgb,#dcfce7_52%,white)]" : "bg-surface-container-low"
+        }`}>
           <div className="grid grid-cols-1 gap-4">
             {/* Correct Answer */}
             <div>
