@@ -1,8 +1,8 @@
 package com.shikshasathi.backend.api.controller;
 
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
+import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
 import com.shikshasathi.backend.api.service.AssignmentSubmissionService;
-import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class AssignmentSubmissionController {
     }
 
     @PostMapping
-    public ResponseEntity<AssignmentSubmission> submitAssignment(@RequestBody AssignmentSubmission submission) {
+    public ResponseEntity<SubmitAssignmentResponseDTO> submitAssignment(@RequestBody com.shikshasathi.backend.core.domain.learning.AssignmentSubmission submission) {
         return ResponseEntity.ok(submissionService.submitAssignment(submission));
     }
 }
