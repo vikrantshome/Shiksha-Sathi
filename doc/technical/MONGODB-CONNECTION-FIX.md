@@ -120,7 +120,7 @@ cat "/Users/anuraagpatil/naviksha/Shiksha Sathi/.env.local" | grep MONGODB_URI
 
 **Expected:**
 ```
-MONGODB_URI="mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs..."
+MONGODB_URI="mongodb+srv://***REMOVED***:***REMOVED***@naviksha.g77okxs..."
 ```
 
 **If missing, recreate:**
