@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev:frontend": "next dev",
-    "dev:backend": "cd backend && ./gradlew bootRun",
+    "dev:backend": "cd backend && source ../.env.local 2>/dev/null || export $(cat ../.env.local | grep -v '^#' | xargs) && ./gradlew bootRun",
     "dev": "concurrently 'npm run dev:frontend' 'npm run dev:backend'",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "questions:backfill-points": "node scripts/backfill-question-points.mjs"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.2.7",
