@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
+import { resolveQuestionPoints } from './lib/question-points.mjs';
 
 dotenv.config({ path: '.env.local' });
 
@@ -66,6 +67,8 @@ async function ingestBatch() {
       // Map questions
       const mappedQuestions = questions.map(q => ({
         ...q,
+        correct_answer: q.correctAnswer ?? q.correct_answer ?? null,
+        points: resolveQuestionPoints(q),
         subject_id: provenance.subject,
         chapter: `Chapter ${provenance.chapterNumber}: ${provenance.chapterTitle}`,
         provenance: {

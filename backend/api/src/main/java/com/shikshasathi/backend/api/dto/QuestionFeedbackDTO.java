@@ -1,5 +1,6 @@
 package com.shikshasathi.backend.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ public class QuestionFeedbackDTO {
     private String questionText;
     private String studentAnswer;
     private String correctAnswer;
+    @JsonProperty("isCorrect")
     private boolean isCorrect;
     private Integer marksAwarded;
 }
