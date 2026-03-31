@@ -37,10 +37,10 @@ export async function fetchApi<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw {
-      message: errorData.message || 'An unexpected error occurred',
-      status: response.status,
-    };
+    const message = errorData.message || errorData.error || 'An unexpected error occurred';
+    const error = new Error(message) as Error & { status?: number };
+    error.status = response.status;
+    throw error;
   }
 
   return response.json();
