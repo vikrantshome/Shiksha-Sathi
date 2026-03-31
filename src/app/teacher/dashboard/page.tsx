@@ -339,13 +339,13 @@ export default async function TeacherDashboard() {
               <div className="grid gap-2 md:gap-3 grid-cols-2">
                 <Link
                   href="/teacher/question-bank"
-                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm p-2.5 md:p-3 px-3 md:px-4 text-center"
+                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm py-2.5 md:py-3 px-2 md:px-3 text-center text-center"
                 >
                   Create Assignment
                 </Link>
                 <Link
                   href="/teacher/classes"
-                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm p-2.5 md:p-3 px-3 md:px-4 text-center"
+                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm py-2.5 md:py-3 px-2 md:px-3 text-center text-center"
                 >
                   Manage Classes
                 </Link>
