@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import AuthShell from "@/components/AuthShell";
+import AuthSessionGuard from "@/components/AuthSessionGuard";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -69,6 +70,8 @@ export default function SignupPage() {
         </>
       }
     >
+      <AuthSessionGuard />
+
       {error && (
         <div className="mb-6 p-4 bg-error-container/20 text-error text-sm rounded-md border border-error/10">
           {error}

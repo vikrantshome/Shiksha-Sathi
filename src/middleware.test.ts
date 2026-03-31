@@ -45,16 +45,16 @@ describe('Middleware', () => {
     expect(NextResponse.next).toHaveBeenCalled();
   });
 
-  it('redirects authenticated users away from /login', () => {
+  it('allows authenticated users to access /login so the client can validate the cookie', () => {
     const req = createMockRequest('/login', 'valid-session-id');
     middleware(req);
-    expect(NextResponse.redirect).toHaveBeenCalledWith(new URL('/teacher/dashboard', req.url));
+    expect(NextResponse.next).toHaveBeenCalled();
   });
 
-  it('redirects authenticated users away from /signup', () => {
+  it('allows authenticated users to access /signup so the client can validate the cookie', () => {
     const req = createMockRequest('/signup', 'valid-session-id');
     middleware(req);
-    expect(NextResponse.redirect).toHaveBeenCalledWith(new URL('/teacher/dashboard', req.url));
+    expect(NextResponse.next).toHaveBeenCalled();
   });
 
   it('allows unauthenticated users to access /login', () => {
