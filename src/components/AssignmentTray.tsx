@@ -65,16 +65,25 @@ export default function AssignmentTray() {
         </div>
       </div>
 
-      {/* Mobile/Tablet Floating Action Bar */}
-      <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm">
-        <div className="bg-surface-container-high rounded-full px-5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center justify-between border border-outline-variant">
-          <div className="flex flex-col">
-            <span className="text-label-sm text-on-surface-variant">{selectedQuestions.length} Questions</span>
-            <span className="text-body-sm font-semibold text-on-surface">{totalMarks} Marks</span>
+      {/* Mobile/Tablet Floating Action Card */}
+      <div className="lg:hidden fixed left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)]">
+        <div className="rounded-2xl border border-outline-variant/25 bg-[var(--color-surface-container-lowest)]/98 px-4 py-3 shadow-[0_14px_32px_rgba(0,0,0,0.14)] backdrop-blur-xl">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <span className="block text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+                Ready to review
+              </span>
+              <span className="block text-sm font-semibold text-on-surface">
+                {selectedQuestions.length} Questions · {totalMarks} Marks
+              </span>
+            </div>
+            <Link
+              href="/teacher/assignments/create"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-primary-dim px-4 py-3 text-center text-sm font-medium leading-[1.3] tracking-[0.02em] text-on-primary no-underline transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] sm:w-auto sm:px-5 sm:py-2.5"
+            >
+              Continue to Publish
+            </Link>
           </div>
-          <Link href="/teacher/assignments/create" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed rounded-full px-6 text-sm">
-            Publish
-          </Link>
         </div>
       </div>
     </>

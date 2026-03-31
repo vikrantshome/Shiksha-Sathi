@@ -81,6 +81,10 @@ describe('QuestionBankPage', () => {
 
     expect(screen.getByText('Select a board from the left to start browsing.')).toBeInTheDocument();
     expect(screen.getByTestId('mock-filters')).toHaveTextContent('NCERT|6,7,8,9,10,11,12|Mathematics,Science,English');
+    expect(api.questions.getSubjects).toHaveBeenCalledWith({
+      board: undefined,
+      classLevel: undefined,
+    });
   });
 
   it('renders intermediate state with board but no class', async () => {
@@ -89,6 +93,10 @@ describe('QuestionBankPage', () => {
     render(Page);
 
     expect(screen.getByText('Select a class to continue.')).toBeInTheDocument();
+    expect(api.questions.getSubjects).toHaveBeenCalledWith({
+      board: 'NCERT',
+      classLevel: undefined,
+    });
   });
 
   it('renders questions state when chapter is selected', async () => {
@@ -96,7 +104,25 @@ describe('QuestionBankPage', () => {
     const Page = await QuestionBankPage({ searchParams });
     render(Page);
 
-    expect(screen.getByText('Chapter 1: Sets Results (1)')).toBeInTheDocument();
+    expect(screen.getByText('Question Repository')).toBeInTheDocument();
+    expect(screen.getByText(/Browsing chapter-specific questions for/i)).toBeInTheDocument();
     expect(screen.getByTestId('mock-card')).toHaveTextContent('Test Math Q');
+  });
+
+  it('ignores invalid subject params that do not belong to the selected class', async () => {
+    vi.mocked(api.questions.getSubjects).mockResolvedValue(['Science', 'Mathematics']);
+
+    const searchParams = Promise.resolve({
+      board: 'NCERT',
+      class: '7',
+      subject: 'Biology',
+    });
+    const Page = await QuestionBankPage({ searchParams });
+    render(Page);
+
+    expect(screen.getByText('Choose a Subject')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-filters')).toHaveTextContent('Science,Mathematics');
+    expect(screen.queryByText(/Biology/)).not.toBeInTheDocument();
+    expect(api.questions.search).not.toHaveBeenCalled();
   });
 });

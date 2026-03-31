@@ -129,7 +129,7 @@ export default function TeacherLayout({
     <AssignmentProvider>
       <div className="min-h-screen flex flex-col bg-surface">
         {/* ═══ Top Navigation Bar ═══ */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-[16px] border-b border-[#B0B3AD]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface-container-lowest)]/95 backdrop-blur-[16px] border-b border-[#B0B3AD]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
           <div className="flex justify-between items-center px-6 h-16 max-w-[100rem] mx-auto">
             {/* Left: Brand + Desktop Nav */}
             <div className="flex items-center gap-10">
@@ -197,16 +197,16 @@ export default function TeacherLayout({
 
         {/* ═══ Mobile Dropdown Menu ═══ */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-surface-container-lowest border-b border-[#B0B3AD]/15 shadow-[0_4px_12px_rgba(27,28,26,0.08)] p-4">
+          <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-b border-[#B0B3AD]/15 shadow-[0_8px_24px_rgba(27,28,26,0.12)] p-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block p-2 px-3 text-sm font-medium rounded-md no-underline mb-1 ${
+                className={`block p-2.5 px-3 text-sm font-medium rounded-md no-underline mb-2 border ${
                   isActive(item.href)
-                    ? "text-primary bg-primary-container/20"
-                    : "text-on-surface-variant bg-transparent"
+                    ? "text-primary bg-[var(--color-primary-container)]/45 border-[var(--color-primary)]/10"
+                    : "text-on-surface-variant bg-[var(--color-surface-container-low)] border-[#B0B3AD]/10"
                 }`}
               >
                 {item.label}
@@ -215,14 +215,14 @@ export default function TeacherLayout({
             <Link
               href="/teacher/profile"
               onClick={() => setMobileMenuOpen(false)}
-              className="block p-2 px-3 text-sm font-medium text-on-surface-variant no-underline mb-1"
+              className="block p-2.5 px-3 text-sm font-medium text-on-surface-variant no-underline mb-2 rounded-md border border-[#B0B3AD]/10 bg-[var(--color-surface-container-low)]"
             >
               Profile
             </Link>
             <form onSubmit={handleLogout}>
               <button
                 type="submit"
-                className="w-full text-left p-2 px-3 text-sm font-medium text-on-surface-variant bg-transparent border-none cursor-pointer"
+                className="w-full text-left p-2.5 px-3 text-sm font-medium text-on-surface-variant rounded-md border border-[#B0B3AD]/10 bg-[var(--color-surface-container-low)] cursor-pointer"
               >
                 Log out
               </button>
@@ -232,7 +232,7 @@ export default function TeacherLayout({
 
         <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="hidden lg:flex flex-col w-56 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
+          <aside className="hidden lg:flex flex-col w-52 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
             {/* Brand Section */}
             <div className="p-5">
               <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">
@@ -297,7 +297,7 @@ export default function TeacherLayout({
         </div>
 
         {/* ═══ Bottom Tab Bar (Mobile Only) ═══ */}
-        <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest shadow-[0_-2px_8px_rgba(27,28,26,0.06)] z-50 px-4">
+        <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-t border-[#B0B3AD]/15 shadow-[0_-4px_16px_rgba(27,28,26,0.08)] z-50 px-4">
           {navItems.map((item) => {
             const active = isActive(item.href);
             const ItemIcon = item.icon;

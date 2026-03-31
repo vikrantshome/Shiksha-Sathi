@@ -9,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -72,5 +75,21 @@ public class QuestionServiceTest {
         verify(questionRepository).save(captor.capture());
         assertEquals(4, captor.getValue().getPoints());
         assertEquals(4, result.getPoints());
+    }
+
+    @Test
+    void getDistinctSubjects_FiltersByBoardAndClass() {
+        when(mongoTemplate.findDistinct(any(Query.class), eq("subject_id"), eq(Question.class), eq(String.class)))
+                .thenReturn(List.of("Science"));
+
+        List<String> result = questionService.getDistinctSubjects("NCERT", "7");
+
+        ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);
+        verify(mongoTemplate).findDistinct(queryCaptor.capture(), eq("subject_id"), eq(Question.class), eq(String.class));
+
+        Query capturedQuery = queryCaptor.getValue();
+        assertEquals("NCERT", capturedQuery.getQueryObject().get("provenance.board"));
+        assertEquals("7", capturedQuery.getQueryObject().get("provenance.class"));
+        assertEquals(List.of("Science"), result);
     }
 }

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:frontend": "next dev",
-    "dev:backend": "cd backend && export MONGODB_URI=$(grep MONGODB_URI ../.env.local | cut -d'=' -f2- | tr -d '\"') && export JWT_SECRET=$(grep JWT_SECRET ../.env.local | cut -d'=' -f2- | tr -d '\"') && ./gradlew bootRun",
+    "dev:frontend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT\" && next dev --webpack --port 4000",
+    "dev:backend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT/backend\" && ./gradlew bootRun",
     "dev": "concurrently 'npm run dev:frontend' 'npm run dev:backend'",
     "build": "next build",
     "start": "next start",
