@@ -22,10 +22,15 @@ public class QuestionService {
     private static final int DEFAULT_SHORT_ANSWER_POINTS = 2;
     private static final int DEFAULT_LONG_ANSWER_POINTS = 5;
 
-    public List<String> getDistinctSubjects() {
-        return mongoTemplate.getCollection("questions")
-                .distinct("subject_id", String.class)
-                .into(new ArrayList<>());
+    public List<String> getDistinctSubjects(String board, String classLevel) {
+        Query query = new Query();
+        if (board != null && !board.isEmpty()) {
+            query.addCriteria(Criteria.where("provenance.board").is(board));
+        }
+        if (classLevel != null && !classLevel.isEmpty()) {
+            query.addCriteria(Criteria.where("provenance.class").is(classLevel));
+        }
+        return mongoTemplate.findDistinct(query, "subject_id", Question.class, String.class);
     }
 
     public List<String> getDistinctBoards() {
