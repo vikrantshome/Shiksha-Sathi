@@ -2,8 +2,12 @@ import { fetchApi } from './client';
 import { Question } from './types';
 
 export const questions = {
-  getSubjects: (): Promise<string[]> => 
-    fetchApi<string[]>('/questions/subjects', { method: 'GET' }),
+  getSubjects: (filters?: { board?: string; classLevel?: string }): Promise<string[]> => {
+    const params = new URLSearchParams();
+    if (filters?.board) params.append('board', filters.board);
+    if (filters?.classLevel) params.append('classLevel', filters.classLevel);
+    return fetchApi<string[]>(`/questions/subjects?${params.toString()}`, { method: 'GET' });
+  },
 
   getBoards: (): Promise<string[]> =>
     fetchApi<string[]>('/questions/boards', { method: 'GET' }),

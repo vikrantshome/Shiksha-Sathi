@@ -16,8 +16,10 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/subjects")
-    public ResponseEntity<List<String>> getSubjects() {
-        return ResponseEntity.ok(questionService.getDistinctSubjects());
+    public ResponseEntity<List<String>> getSubjects(
+            @RequestParam(required = false) String board,
+            @RequestParam(required = false) String classLevel) {
+        return ResponseEntity.ok(questionService.getDistinctSubjects(board, classLevel));
     }
 
     @GetMapping("/boards")

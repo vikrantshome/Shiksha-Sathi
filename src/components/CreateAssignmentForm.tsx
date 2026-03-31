@@ -255,14 +255,15 @@ export default function CreateAssignmentForm({
         {selectedQuestions.map((question, index) => (
           <article
             key={question.id}
-            className="bg-surface-container-lowest rounded-lg p-6 shadow-sm grid gap-4"
+            className="relative overflow-hidden rounded-lg border border-outline-variant/12 bg-surface-container-lowest p-6 shadow-[0_4px_14px_rgba(48,51,47,0.05)] grid gap-4"
           >
+            <div className="absolute inset-x-0 top-0 h-1 bg-surface-container-high" />
             <div className="flex justify-between items-start gap-4 flex-wrap">
               <div className="flex gap-3 items-center flex-wrap">
-                <span className="bg-primary-container text-on-primary-container rounded-sm px-2 py-[2px] text-[0.6875rem] font-bold tracking-[0.08em] uppercase">
+                <span className="rounded-full bg-primary-container px-2.5 py-1 text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-on-primary-container">
                   Q{index + 1}
                 </span>
-                <span className="text-label-sm text-on-surface-variant m-0">
+                <span className="rounded-full bg-surface-container-low px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.06em] text-on-surface-variant">
                   {typeLabels[question.type] || question.type.replace(/_/g, " ")}
                 </span>
               </div>
@@ -290,7 +291,7 @@ export default function CreateAssignmentForm({
                 {question.options.map((option, optionIndex) => (
                   <div
                     key={`${question.id}-${optionIndex}`}
-                    className="bg-surface-container-low rounded-md p-4 flex gap-3 items-start"
+                    className="rounded-md border border-outline-variant/10 bg-surface-container-lowest p-4 flex gap-3 items-start"
                   >
                     <span className="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-xs font-bold text-on-surface-variant shrink-0">
                       {String.fromCharCode(65 + optionIndex)}
@@ -302,7 +303,7 @@ export default function CreateAssignmentForm({
                 ))}
               </div>
             ) : question.explanation ? (
-              <div className="bg-surface-container-low rounded-md p-4 text-on-surface-variant text-sm leading-[1.7]">
+              <div className="rounded-md border border-outline-variant/10 bg-surface-container-low p-4 text-on-surface-variant text-sm leading-[1.7]">
                 {question.explanation}
               </div>
             ) : null}
@@ -311,27 +312,32 @@ export default function CreateAssignmentForm({
       </section>
 
       <aside className="grid gap-6 content-start">
-        <section className="bg-primary text-on-primary rounded-lg p-6 shadow-md sticky top-6">
-          <h3 className="m-0 text-lg font-bold">Assignment Summary</h3>
+        <section className="sticky top-6 rounded-lg border border-outline-variant/12 bg-surface-container-lowest p-6 shadow-[0_8px_24px_rgba(27,28,26,0.05)]">
+          <div className="border-b border-outline-variant/10 pb-4">
+            <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+              Publish Panel
+            </p>
+            <h3 className="mt-1 mb-0 text-lg font-bold text-on-surface">Assignment Summary</h3>
+          </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-white/12 rounded-lg p-4">
-              <p className="text-label-sm text-[rgba(242,250,255,0.72)] m-0">
+            <div className="rounded-lg border border-outline-variant/10 bg-[var(--color-surface-container)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
                 Total Marks
               </p>
-              <p className="mt-2 mb-0 text-2xl font-extrabold">{totalMarks}</p>
+              <p className="mt-2 mb-0 text-2xl font-extrabold leading-none text-on-surface">{totalMarks}</p>
             </div>
-            <div className="bg-white/12 rounded-lg p-4">
-              <p className="text-label-sm text-[rgba(242,250,255,0.72)] m-0">
+            <div className="rounded-lg border border-outline-variant/10 bg-[var(--color-surface-container)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
                 Question Count
               </p>
-              <p className="mt-2 mb-0 text-2xl font-extrabold">{selectedQuestions.length}</p>
+              <p className="mt-2 mb-0 text-2xl font-extrabold leading-none text-on-surface">{selectedQuestions.length}</p>
             </div>
           </div>
 
           <div className="grid gap-5 mt-6">
             <div>
-              <label htmlFor="assignment-title" className="text-label-sm text-[rgba(242,250,255,0.72)] block mb-2">
+              <label htmlFor="assignment-title" className="text-label-sm text-on-surface-variant block mb-2">
                 Assignment Title
               </label>
               <input
@@ -339,12 +345,12 @@ export default function CreateAssignmentForm({
                 name="title"
                 required
                 placeholder="e.g. Algebra & Linear Equations"
-                className="w-full bg-white/12 border border-white/12 rounded-md px-4 py-3 text-on-primary outline-none focus:ring-2 focus:ring-on-primary/50 transition-all placeholder-on-primary/50"
+                className="w-full rounded-md border border-outline-variant/15 bg-surface-container-low px-4 py-3 text-on-surface outline-none transition-all placeholder:text-on-surface-variant/70 focus:border-primary focus:ring-2 focus:ring-primary/10"
               />
             </div>
 
             <div>
-              <label htmlFor="assignment-class" className="text-label-sm text-[rgba(242,250,255,0.72)] block mb-2">
+              <label htmlFor="assignment-class" className="text-label-sm text-on-surface-variant block mb-2">
                 Target Class
               </label>
               <select
@@ -352,7 +358,7 @@ export default function CreateAssignmentForm({
                 name="classId"
                 required
                 defaultValue=""
-                className="w-full bg-white/12 border border-white/12 rounded-md px-4 py-3 text-on-primary outline-none focus:ring-2 focus:ring-on-primary/50 transition-all [&>option]:text-on-surface"
+                className="w-full rounded-md border border-outline-variant/15 bg-surface-container-low px-4 py-3 text-on-surface outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 [&>option]:text-on-surface"
               >
                 <option value="" disabled>
                   Select a class
@@ -366,7 +372,7 @@ export default function CreateAssignmentForm({
             </div>
 
             <div>
-              <label htmlFor="assignment-due-date" className="text-label-sm text-[rgba(242,250,255,0.72)] block mb-2">
+              <label htmlFor="assignment-due-date" className="text-label-sm text-on-surface-variant block mb-2">
                 Due Date
               </label>
               <input
@@ -374,13 +380,13 @@ export default function CreateAssignmentForm({
                 type="date"
                 name="dueDate"
                 required
-                className="w-full bg-white/12 border border-white/12 rounded-md px-4 py-3 text-on-primary outline-none focus:ring-2 focus:ring-on-primary/50 transition-all [color-scheme:dark]"
+                className="w-full rounded-md border border-outline-variant/15 bg-surface-container-low px-4 py-3 text-on-surface outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10"
               />
             </div>
           </div>
 
           {error && (
-            <div className="mt-5 bg-[rgba(168,56,54,0.18)] text-on-primary rounded-md py-3 px-4 text-[0.8125rem] leading-[1.6]">
+            <div className="mt-5 rounded-md border border-error/20 bg-error-container/50 py-3 px-4 text-[0.8125rem] leading-[1.6] text-on-surface">
               {error}
             </div>
           )}
@@ -388,12 +394,12 @@ export default function CreateAssignmentForm({
           <button
             type="submit"
             disabled={isPending}
-            className="w-full mt-6 bg-on-primary text-primary border-none rounded-lg px-5 py-4 font-extrabold tracking-[0.04em] uppercase disabled:opacity-75 disabled:cursor-wait cursor-pointer"
+            className="mt-6 w-full rounded-xl border-none bg-gradient-to-br from-primary to-primary-dim px-5 py-4 font-extrabold tracking-[0.04em] uppercase text-on-primary shadow-[0_8px_18px_rgba(48,51,47,0.10)] disabled:cursor-wait disabled:opacity-75 cursor-pointer"
           >
             {isPending ? "Publishing…" : "Finalize & Publish"}
           </button>
 
-          <p className="mt-4 mb-0 text-[0.8125rem] leading-[1.7] text-[rgba(242,250,255,0.72)]">
+          <p className="mt-4 mb-0 text-[0.8125rem] leading-[1.7] text-on-surface-variant">
             Publishing keeps the student flow link-based and Shiksha Sathi-native. No external classroom integrations are added in this implementation wave.
           </p>
         </section>
