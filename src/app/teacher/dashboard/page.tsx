@@ -57,12 +57,12 @@ const IconChevronRight = () => (
 
 /* ── Curriculum Navigator Subjects ── */
 const curriculumTiles = [
-  { grade: "Grade 9", subject: "Mathematics" },
-  { grade: "Grade 9", subject: "Physics" },
-  { grade: "Grade 10", subject: "Chemistry" },
-  { grade: "Grade 10", subject: "Biology" },
-  { grade: "Grade 11", subject: "Calculus" },
-  { grade: "Grade 12", subject: "Quantum" },
+  { grade: "Grade 9", subject: "Mathematics", cover: "/ncert-covers/class9-maths.jpg" },
+  { grade: "Grade 9", subject: "ICT", cover: "/ncert-covers/class9-ict.jpg" },
+  { grade: "Grade 11", subject: "Biology", cover: "/ncert-covers/class11-biology.png" },
+  { grade: "Grade 7", subject: "Social Science", cover: "/ncert-covers/class7-social-science.jpg" },
+  { grade: "Grade 11", subject: "Chemistry", cover: "/ncert-covers/class11-chemistry.jpg" },
+  { grade: "Grade 7", subject: "Mathematics", cover: "/ncert-covers/class7-maths.png" },
 ];
 
 /* ── Activity Feed Data ── */
@@ -154,26 +154,26 @@ export default async function TeacherDashboard() {
       </header>
 
       {/* ═══ Summary Stat Cards ═══ */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8 md:mb-12">
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="group bg-surface-container-lowest p-5 md:p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
+            className="group bg-surface-container-lowest p-4 md:p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
           >
-            <div className="flex justify-between items-start mb-3 md:mb-4">
+            <div className="flex flex-col items-start gap-2 mb-3 md:mb-4 sm:flex-row sm:justify-between sm:items-start">
               <div
                 className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[#4463710D]"
               >
                 {stat.icon}
               </div>
-              <span className="text-[0.625rem] font-bold text-primary-dim">
+              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold text-primary-dim leading-[1.4]">
                 {stat.badge}
               </span>
             </div>
-            <h3 className="font-manrope text-2xl font-bold text-on-surface m-0">
+            <h3 className="font-manrope text-[1.375rem] md:text-2xl font-bold text-on-surface m-0">
               {stat.value}
             </h3>
-            <p className="text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-[0.08em] mt-1">
+            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-[0.08em] mt-1 leading-[1.4]">
               {stat.label}
             </p>
           </div>
@@ -339,14 +339,16 @@ export default async function TeacherDashboard() {
               <div className="grid gap-2 md:gap-3 grid-cols-2">
                 <Link
                   href="/teacher/question-bank"
-                  className="text-xs font-bold text-on-primary no-underline bg-primary rounded-sm py-2.5 md:py-3 px-2 md:px-3 text-center text-center"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary-dim px-3 py-3 text-center text-xs font-bold text-on-primary no-underline shadow-[0_8px_18px_rgba(48,51,47,0.12)] transition-all duration-150 hover:brightness-95 hover:shadow-[0_10px_22px_rgba(48,51,47,0.16)] active:scale-[0.98]"
                 >
+                  <IconPlus />
                   Create Assignment
                 </Link>
                 <Link
                   href="/teacher/classes"
-                  className="text-xs font-bold text-primary no-underline bg-surface-container-lowest rounded-sm py-2.5 md:py-3 px-2 md:px-3 text-center text-center"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-primary/12 bg-surface-container-lowest px-3 py-3 text-center text-xs font-bold text-primary no-underline shadow-[0_4px_12px_rgba(48,51,47,0.05)] transition-all duration-150 hover:border-primary/22 hover:bg-surface-container-high active:scale-[0.98]"
                 >
+                  <IconArrow />
                   Manage Classes
                 </Link>
               </div>
@@ -389,14 +391,40 @@ export default async function TeacherDashboard() {
           {curriculumTiles.map((tile, idx) => (
             <div
               key={idx}
-              className="aspect-square bg-surface-container-high rounded-sm p-4 flex flex-col justify-between cursor-pointer transition-colors duration-200 ease-out hover:bg-primary-container group"
+              className="group overflow-hidden rounded-xl border border-outline/8 bg-surface-container-lowest shadow-[0_10px_24px_rgba(48,51,47,0.06)] cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(48,51,47,0.12)]"
             >
-              <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-[-0.02em] group-hover:text-primary">
-                {tile.grade}
-              </span>
-              <span className="text-sm font-bold text-on-surface">
-                {tile.subject}
-              </span>
+              <div
+                className="flex aspect-[4/5] w-full items-center justify-center bg-[var(--color-surface-container)]"
+              >
+                <div
+                  className="h-full w-full bg-no-repeat shadow-[0_6px_18px_rgba(48,51,47,0.12)] transition-transform duration-200 group-hover:scale-[1.02]"
+                  style={{
+                    backgroundImage: `url(${tile.cover})`,
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                  }}
+                />
+              </div>
+
+              <div className="grid gap-1.5 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-[0.08em]">
+                    {tile.grade}
+                  </span>
+                  <span className="rounded-full bg-surface-container-low px-2 py-1 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-primary">
+                    NCERT
+                  </span>
+                </div>
+
+                <span className="block text-sm font-extrabold tracking-[-0.02em] text-on-surface leading-tight">
+                  {tile.subject}
+                </span>
+
+                <span className="inline-flex items-center gap-1 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-primary">
+                  Explore
+                  <IconChevronRight />
+                </span>
+              </div>
             </div>
           ))}
         </div>
