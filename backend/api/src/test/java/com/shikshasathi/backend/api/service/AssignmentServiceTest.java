@@ -129,4 +129,26 @@ public class AssignmentServiceTest {
         assertEquals(0.0, result.getAssignment().getAverageScore());
         assertEquals(0, result.getSubmissions().get(0).getScore());
     }
+
+    @Test
+    void getAssignmentReport_UsesStoredGuestIdentityWhenUserLookupFails() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setId("sub2");
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("1002");
+        submission.setStudentName("Anuraag Patil");
+        submission.setStudentRollNumber("1002");
+        submission.setScore(2);
+
+        when(userRepository.findByEmail("teacher@owner.com")).thenReturn(Optional.of(teacherOwner));
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(submissionRepository.findByAssignmentId("assign123")).thenReturn(List.of(submission));
+        when(userRepository.findById("1002")).thenReturn(Optional.empty());
+
+        AssignmentReportDTO result = assignmentService.getAssignmentReport("assign123", "teacher@owner.com");
+
+        assertEquals("Anuraag Patil", result.getSubmissions().get(0).getStudentName());
+        assertEquals("1002", result.getSubmissions().get(0).getStudentRollNumber());
+        assertEquals(2, result.getSubmissions().get(0).getScore());
+    }
 }
