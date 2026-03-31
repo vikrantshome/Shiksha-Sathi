@@ -28,7 +28,7 @@ export default function AuthShell({
         <div className="flex justify-between items-center h-16 px-4 md:px-8 w-full max-w-full">
           <Link
             href="/"
-            className="text-xl font-bold tracking-[-0.02em] text-[#002b29] hover:opacity-80 transition-opacity"
+            className="text-xl font-bold tracking-[-0.02em] text-primary hover:opacity-80 transition-opacity"
           >
             Shiksha Sathi
           </Link>
@@ -36,7 +36,7 @@ export default function AuthShell({
       </header>
 
       <main className="flex-grow flex items-center justify-center pt-20 pb-10 px-4 md:px-6 bg-[radial-gradient(circle_at_top_right,#cae5e1_0%,transparent_40%),radial-gradient(circle_at_bottom_left,#efeeea_0%,transparent_30%)]">
-        <div className="w-full max-w-xl bg-surface-container-low p-5 md:p-8 lg:p-10 rounded-xl shadow-[0px_12px_32px_rgba(27,28,26,0.04)] relative overflow-hidden">
+        <div className="w-full max-w-xl bg-surface-container-low p-5 md:p-8 lg:p-10 rounded-lg shadow-[0px_12px_32px_rgba(27,28,26,0.04)] relative overflow-hidden">
           {/* Decorative Accent */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-container opacity-20 blur-3xl -mr-16 -mt-16"></div>
 
