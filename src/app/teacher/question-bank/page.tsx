@@ -58,32 +58,44 @@ export default async function QuestionBankPage({
     typeof resolvedParams.type === "string" ? resolvedParams.type : "ALL";
 
   // Server-side DB fetching and filtering via Spring Boot API
-  const [boards, classes, subjects, booksData] = await Promise.all([
+  const [boards, classes, subjects] = await Promise.all([
     api.questions.getBoards(),
     api.questions.getClasses(board || undefined),
-    api.questions.getSubjects(),
-    api.questions.getBooks({
+    api.questions.getSubjects({
       board: board || undefined,
       classLevel: classLevel || undefined,
-      subject: subjectId || undefined,
     }),
   ]);
 
+  const selectedSubject =
+    subjectId && subjects.includes(subjectId) ? subjectId : null;
+
+  const booksData = await api.questions.getBooks({
+    board: board || undefined,
+    classLevel: classLevel || undefined,
+    subject: selectedSubject || undefined,
+  });
+
+  const selectedBook = book && booksData.includes(book) ? book : null;
+
   const chapters = await api.questions.getChapters(
-    subjectId || undefined,
-    book || undefined,
+    selectedSubject || undefined,
+    selectedBook || undefined,
     classLevel || undefined
   );
 
+  const selectedChapter =
+    chapter && chapters.includes(chapter) ? chapter : null;
+
   // Fetch only if chapter is selected, or if user is searching globally
   let displayedQuestions: Question[] = [];
-  if (chapter || q) {
+  if (selectedChapter || q) {
     displayedQuestions = await api.questions.search({
       board,
       classLevel,
-      subjectId,
-      book,
-      chapter,
+      subjectId: selectedSubject,
+      book: selectedBook,
+      chapter: selectedChapter,
       q,
       type,
       visibleOnly: true,
@@ -106,14 +118,14 @@ export default async function QuestionBankPage({
         icon: "class",
       };
     }
-    if (!subjectId && !q) {
+    if (!selectedSubject && !q) {
       return {
         title: "Choose a Subject",
         description: "Select a subject to explore available chapters.",
         icon: "subject",
       };
     }
-    if (!chapter && !q) {
+    if (!selectedChapter && !q) {
       return {
         title: "Pick a Chapter",
         description: "Select a chapter to view questions.",
@@ -124,13 +136,10 @@ export default async function QuestionBankPage({
   };
 
   const emptyState = getEmptyState();
-  const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, subjectId, chapter]
+  const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, selectedSubject, selectedChapter]
     .filter(Boolean)
     .join(" / ");
-  const heading = chapter
-    ? `${chapter} Results (${displayedQuestions.length})`
-    : "Question Repository";
-
+  const heading = "Question Repository";
   return (
     <div className="pb-20 md:pb-24">
       {/* ═══ Page Header ═══ */}
@@ -144,6 +153,11 @@ export default async function QuestionBankPage({
           <h1 className="font-headline text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold tracking-[-0.04em] text-primary m-0">
             {heading}
           </h1>
+          {selectedChapter && (
+            <p className="m-0 text-sm md:text-[0.9375rem] text-on-surface-variant max-w-3xl">
+              Browsing chapter-specific questions for <span className="font-medium text-on-surface">{selectedChapter}</span>.
+            </p>
+          )}
         </div>
         {!emptyState && (
           <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-container-low text-xs font-bold text-on-surface-variant">
