@@ -1,11 +1,14 @@
 package com.shikshasathi.backend.api.service;
 
+import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
+import com.shikshasathi.backend.core.domain.learning.Question;
 import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
+import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,6 +33,9 @@ public class AssignmentSubmissionServiceTest {
     
     @Mock
     private AssignmentRepository assignmentRepository;
+
+    @Mock
+    private QuestionRepository questionRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -56,6 +63,8 @@ public class AssignmentSubmissionServiceTest {
         mockedAssignment = new Assignment();
         mockedAssignment.setId("assign123");
         mockedAssignment.setTeacherId("teacherOwnedId");
+        mockedAssignment.setMaxScore(3);
+        mockedAssignment.setQuestionIds(List.of("q1", "q2"));
     }
 
     @Test
@@ -77,18 +86,42 @@ public class AssignmentSubmissionServiceTest {
     }
 
     @Test
-    void submitAssignment_DefaultsNullScoreToZero() {
+    void submitAssignment_StoresIdentityAndGradesAnswers() {
         AssignmentSubmission submission = new AssignmentSubmission();
         submission.setAssignmentId("assign123");
         submission.setStudentId("student1");
-        submission.setScore(null);
+        submission.setStudentName("Anuraag Patil");
+        submission.setAnswers(Map.of("q1", "Equal", "q2", "AAA"));
+
+        Question question1 = new Question();
+        question1.setId("q1");
+        question1.setText("Two triangles are similar if their corresponding angles are:");
+        question1.setCorrectAnswer("Equal");
+        question1.setPoints(1);
+
+        Question question2 = new Question();
+        question2.setId("q2");
+        question2.setText("What is the AAA similarity criterion?");
+        question2.setCorrectAnswer("AAA");
+        question2.setPoints(2);
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student1")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        AssignmentSubmission saved = submissionService.submitAssignment(submission);
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
 
-        assertEquals(0, saved.getScore());
-        assertEquals("SUBMITTED", saved.getStatus());
+        assertEquals(3, result.getScore());
+        assertEquals(3, result.getTotalMarks());
+        assertEquals(2, result.getFeedback().size());
+
+        verify(submissionRepository).save(argThat(saved ->
+                "Anuraag Patil".equals(saved.getStudentName()) &&
+                "student1".equals(saved.getStudentRollNumber()) &&
+                Integer.valueOf(3).equals(saved.getScore()) &&
+                "GRADED".equals(saved.getStatus())
+        ));
     }
 }

@@ -24,6 +24,12 @@ public class AssignmentSubmission extends BaseEntity {
     @Field("student_id")
     private String studentId;
 
+    @Field("student_name")
+    private String studentName;
+
+    @Field("student_roll_number")
+    private String studentRollNumber;
+
     @Field("answers") // Map of Question ID to Student Answer
     private Map<String, Object> answers;
 

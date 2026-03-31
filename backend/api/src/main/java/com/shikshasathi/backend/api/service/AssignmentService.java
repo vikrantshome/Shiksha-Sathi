@@ -88,13 +88,16 @@ public class AssignmentService {
 
     private SubmissionDTO mapSubmissionToDTO(AssignmentSubmission submission) {
         int score = safeScore(submission);
+        String fallbackRollNumber = firstNonBlank(submission.getStudentRollNumber(), submission.getStudentId());
+        String fallbackName = fallbackRollNumber == null ? "Unknown Student" : "Student " + fallbackRollNumber;
+
         return userRepository.findById(submission.getStudentId())
                 .map(u -> SubmissionDTO.builder()
                         .id(submission.getId())
                         .assignmentId(submission.getAssignmentId())
                         .studentId(submission.getStudentId())
-                        .studentName(u.getName())
-                        .studentRollNumber(u.getRollNumber())
+                        .studentName(firstNonBlank(submission.getStudentName(), u.getName(), fallbackName))
+                        .studentRollNumber(firstNonBlank(submission.getStudentRollNumber(), u.getRollNumber(), fallbackRollNumber, "N/A"))
                         .answers(submission.getAnswers())
                         .score(score)
                         .submittedAt(submission.getSubmittedAt())
@@ -104,8 +107,8 @@ public class AssignmentService {
                         .id(submission.getId())
                         .assignmentId(submission.getAssignmentId())
                         .studentId(submission.getStudentId())
-                        .studentName("Unknown Student")
-                        .studentRollNumber("N/A")
+                        .studentName(firstNonBlank(submission.getStudentName(), fallbackName))
+                        .studentRollNumber(firstNonBlank(submission.getStudentRollNumber(), fallbackRollNumber, "N/A"))
                         .answers(submission.getAnswers())
                         .score(score)
                         .submittedAt(submission.getSubmittedAt())
@@ -140,6 +143,15 @@ public class AssignmentService {
 
     private int safeScore(AssignmentSubmission submission) {
         return submission.getScore() == null ? 0 : submission.getScore();
+    }
+
+    private String firstNonBlank(String... candidates) {
+        for (String candidate : candidates) {
+            if (candidate != null && !candidate.isBlank()) {
+                return candidate;
+            }
+        }
+        return null;
     }
 
     public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
