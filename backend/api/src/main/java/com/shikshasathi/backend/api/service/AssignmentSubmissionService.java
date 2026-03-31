@@ -1,5 +1,6 @@
 package com.shikshasathi.backend.api.service;
 
+import com.shikshasathi.backend.api.exception.DuplicateSubmissionException;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
 import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
@@ -15,6 +16,7 @@ import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +87,7 @@ public class AssignmentSubmissionService {
     // Includes Duplicate Submission Prevention Logic (SSA-127)
     public SubmitAssignmentResponseDTO submitAssignment(AssignmentSubmission submission) {
         if (submissionRepository.findByAssignmentIdAndStudentId(submission.getAssignmentId(), submission.getStudentId()).isPresent()) {
-            throw new RuntimeException("Student has already submitted this assignment.");
+            throw new DuplicateSubmissionException("Student has already submitted this assignment.");
         }
 
         Assignment assignment = assignmentRepository.findById(submission.getAssignmentId())
@@ -145,7 +147,18 @@ public class AssignmentSubmissionService {
     }
 
     private String normalizeAnswer(String answer) {
-        return answer == null ? "" : answer.trim().toLowerCase();
+        if (answer == null) {
+            return "";
+        }
+
+        String normalized = Normalizer.normalize(answer, Normalizer.Form.NFKC)
+                .toLowerCase()
+                .trim()
+                .replaceAll("[\\p{Punct}\\p{S}]+", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
+
+        return normalized;
     }
 
     private String firstNonBlank(String... candidates) {
