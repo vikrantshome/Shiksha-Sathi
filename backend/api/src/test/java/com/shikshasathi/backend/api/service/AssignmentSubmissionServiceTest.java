@@ -2,6 +2,7 @@ package com.shikshasathi.backend.api.service;
 
 import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
+import com.shikshasathi.backend.api.exception.DuplicateSubmissionException;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
 import com.shikshasathi.backend.core.domain.learning.Question;
@@ -123,5 +124,58 @@ public class AssignmentSubmissionServiceTest {
                 Integer.valueOf(3).equals(saved.getScore()) &&
                 "GRADED".equals(saved.getStatus())
         ));
+    }
+
+    @Test
+    void submitAssignment_RejectsDuplicateSubmissionWithSpecificException() {
+        AssignmentSubmission existing = new AssignmentSubmission();
+        existing.setAssignmentId("assign123");
+        existing.setStudentId("student1");
+
+        AssignmentSubmission incoming = new AssignmentSubmission();
+        incoming.setAssignmentId("assign123");
+        incoming.setStudentId("student1");
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student1"))
+                .thenReturn(Optional.of(existing));
+
+        assertThrows(DuplicateSubmissionException.class, () -> submissionService.submitAssignment(incoming));
+        verify(submissionRepository, never()).save(any());
+    }
+
+    @Test
+    void submitAssignment_NormalizesUnicodeAnswersForMatching() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student2");
+        submission.setStudentName("Unicode Tester");
+        submission.setAnswers(Map.of("q1", "a1/a2 = b1/b2 = c1/c2", "q2", "AAA"));
+
+        Question question1 = new Question();
+        question1.setId("q1");
+        question1.setText("What is the condition for coincident lines?");
+        question1.setCorrectAnswer("a₁/a₂ = b₁/b₂ = c₁/c₂");
+        question1.setPoints(2);
+
+        Question question2 = new Question();
+        question2.setId("q2");
+        question2.setText("What is the AAA similarity criterion?");
+        question2.setCorrectAnswer("AAA");
+        question2.setPoints(2);
+
+        mockedAssignment.setQuestionIds(List.of("q1", "q2"));
+        mockedAssignment.setMaxScore(4);
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student2")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
+
+        assertEquals(4, result.getScore());
+        assertTrue(result.getFeedback().get(0).isCorrect());
+        assertTrue(result.getFeedback().get(1).isCorrect());
     }
 }
