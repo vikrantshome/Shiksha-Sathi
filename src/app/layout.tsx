@@ -11,6 +11,7 @@ import "@fontsource/manrope/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shiksha-sathi-taupe.vercel.app"),
   title: {
     default: "Shiksha Sathi — Create, Share & Auto-Grade Assignments",
     template: "%s | Shiksha Sathi",
@@ -28,6 +29,29 @@ export const metadata: Metadata = {
     "question bank",
     "Indian schools",
   ],
+  openGraph: {
+    title: "Shiksha Sathi — Create, Share & Auto-Grade Assignments",
+    description:
+      "A teacher-first platform for building NCERT-aligned assignments, sharing them instantly, and reviewing student performance with clarity.",
+    type: "website",
+    url: "https://shiksha-sathi-taupe.vercel.app",
+    siteName: "Shiksha Sathi",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Shiksha Sathi teacher platform preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shiksha Sathi — Create, Share & Auto-Grade Assignments",
+    description:
+      "Build NCERT-aligned homework, share student links, and review results in one teacher-first workspace.",
+    images: ["/twitter-image"],
+  },
 };
 
 export default function RootLayout({
