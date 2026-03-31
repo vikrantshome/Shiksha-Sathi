@@ -58,10 +58,10 @@ const TaxonomyStep = ({ icon, label, active, onClick }: TaxonomyStepProps) => (
   <button
     type="button"
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3 text-sm text-left border-none cursor-pointer transition-all duration-200 ${
+    className={`w-full flex items-center gap-3 px-4 py-3 text-sm text-left border border-transparent cursor-pointer transition-all duration-200 ${
       active
-        ? "bg-surface-container-lowest text-primary font-medium rounded-r-lg"
-        : "bg-transparent text-on-surface-variant font-normal hover:bg-surface-container"
+        ? "bg-[var(--color-primary-container)]/24 text-primary font-medium rounded-lg border-primary/8 shadow-[0_4px_12px_rgba(48,51,47,0.04)]"
+        : "bg-transparent text-on-surface-variant font-normal rounded-lg hover:bg-surface-container-high"
     }`}
   >
     {icon}
@@ -89,9 +89,16 @@ export default function QuestionBankFilters({
 
   const currentBoard = searchParams.get("board") || "";
   const currentClass = searchParams.get("class") || "";
-  const currentSubject = searchParams.get("subject") || "";
-  const currentBook = searchParams.get("book") || "";
-  const currentChapter = searchParams.get("chapter") || "";
+  const subjectParam = searchParams.get("subject") || "";
+  const bookParam = searchParams.get("book") || "";
+  const chapterParam = searchParams.get("chapter") || "";
+  const currentSubject = subjects.includes(subjectParam) ? subjectParam : "";
+  const currentBook = books.includes(bookParam) ? bookParam : "";
+  const currentChapter = chapters.includes(chapterParam) ? chapterParam : "";
+  const classOptions = ["6", "7", "8", "9", "10", "11", "12"];
+  const hasActiveFilters = Boolean(
+    currentBoard || currentClass || currentSubject || currentBook || currentChapter
+  );
 
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
@@ -124,165 +131,323 @@ export default function QuestionBankFilters({
     });
   };
 
+  const handleResetFilters = () => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("board");
+      params.delete("class");
+      params.delete("subject");
+      params.delete("book");
+      params.delete("chapter");
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-3">
       {/* Loading indicator */}
       {isPending && (
-        <div className="text-xs text-primary font-medium px-4 py-2">
+        <div className="px-4 py-2 text-xs font-medium text-primary">
           Loading…
         </div>
       )}
 
-      {/* ── Board Select ── */}
-      <div className="mb-2">
-        <TaxonomyStep
-          icon={<IconBoard />}
-          label={currentBoard || "Board Select"}
-          active={!!currentBoard}
-          onClick={() => {}}
-        />
-        <div className="px-4">
-          <select
-            value={currentBoard}
-            onChange={(e) => handleFilterChange("board", e.target.value)}
-            className="w-full py-2 px-3 text-[0.8125rem] bg-surface-container-low border-0 border-b border-outline-variant/20 text-on-surface rounded-sm outline-none cursor-pointer transition-colors focus:border-primary"
-          >
-            <option value="">Select Board</option>
-            <option value="NCERT">NCERT / CBSE</option>
-            {boards
-              .filter((b) => b !== "NCERT")
-              .map((board) => (
-                <option key={board} value={board}>
-                  {board}
+      <div className="md:hidden rounded-lg border border-[#B0B3AD]/12 bg-[var(--color-surface-container-lowest)] shadow-[0_8px_24px_rgba(27,28,26,0.06)] p-4">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <div>
+            <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+              Filters
+            </p>
+            <p className="m-0 text-sm text-on-surface">Choose scope</p>
+          </div>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="p-0 text-xs font-medium bg-transparent border-none cursor-pointer text-primary"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 gap-3">
+          <label className="flex flex-col gap-1">
+            <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+              Board
+            </span>
+            <select
+              value={currentBoard}
+              onChange={(e) => handleFilterChange("board", e.target.value)}
+              className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+            >
+              <option value="">Select Board</option>
+              <option value="NCERT">NCERT / CBSE</option>
+              {boards
+                .filter((b) => b !== "NCERT")
+                .map((board) => (
+                  <option key={board} value={board}>
+                    {board}
+                  </option>
+                ))}
+            </select>
+          </label>
+
+          {(currentBoard || classes.length > 0) && (
+            <label className="flex flex-col gap-1">
+              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+                Class
+              </span>
+              <select
+                value={currentClass}
+                onChange={(e) => handleFilterChange("class", e.target.value)}
+                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+              >
+                <option value="">Select Class</option>
+                {classOptions.map((cls) => (
+                  <option key={cls} value={cls}>
+                    Class {cls}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          {currentClass && (
+            <label className="flex flex-col gap-1">
+              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+                Subject
+              </span>
+              <select
+                value={currentSubject}
+                onChange={(e) => handleFilterChange("subject", e.target.value)}
+                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+              >
+                <option value="">Select Subject</option>
+                {subjects.map((subject) => (
+                  <option key={subject} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          {currentSubject && books.length > 1 && (
+            <label className="flex flex-col gap-1">
+              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+                Book
+              </span>
+              <select
+                value={currentBook}
+                onChange={(e) => handleFilterChange("book", e.target.value)}
+                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+              >
+                <option value="">Select Book</option>
+                {books.map((bookItem) => (
+                  <option key={bookItem} value={bookItem}>
+                    {bookItem}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          {currentSubject && (
+            <label className="flex flex-col gap-1">
+              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+                Chapter
+              </span>
+              <select
+                value={currentChapter}
+                onChange={(e) => handleFilterChange("chapter", e.target.value)}
+                disabled={chapters.length === 0}
+                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <option value="">
+                  {chapters.length > 0 ? "Select Chapter" : "No Chapters Available"}
                 </option>
-              ))}
-          </select>
+                {chapters.map((ch) => (
+                  <option key={ch} value={ch}>
+                    {ch}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
         </div>
       </div>
 
-      {/* ── Class (6-12) ── */}
-      {(currentBoard || classes.length > 0) && (
+      <div className="hidden md:flex md:flex-col md:gap-3 md:rounded-lg md:border md:border-[#B0B3AD]/12 md:bg-[var(--color-surface-container-lowest)] md:p-3 md:shadow-[0_8px_24px_rgba(27,28,26,0.05)]">
+        <div className="flex items-start justify-between gap-3 px-1 pb-2 border-b border-[#B0B3AD]/10">
+          <div>
+            <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+              Filters
+            </p>
+            <p className="m-0 text-sm text-on-surface">Browse by syllabus scope</p>
+          </div>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="p-0 text-xs font-medium bg-transparent border-none cursor-pointer shrink-0 text-primary"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+
+        {/* ── Board Select ── */}
         <div className="mb-2">
           <TaxonomyStep
-            icon={<IconClass />}
-            label={currentClass ? `Class ${currentClass}` : "Class (6-12)"}
-            active={!!currentClass}
+            icon={<IconBoard />}
+            label={currentBoard || "Board Select"}
+            active={!!currentBoard}
             onClick={() => {}}
           />
-          <div className="grid grid-cols-4 gap-1 px-4 py-1">
-            {["6", "7", "8", "9", "10", "11", "12"].map((cls) => (
-              <button
-                key={cls}
-                type="button"
-                onClick={() => handleFilterChange("class", cls)}
-                className={`py-1.5 text-[0.8125rem] text-center border-none rounded-sm cursor-pointer transition-all duration-150 ${
-                  currentClass === cls
-                    ? "font-semibold bg-primary-container text-on-primary-container"
-                    : "font-normal bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high"
-                }`}
-              >
-                {cls}
-              </button>
-            ))}
+          <div className="px-4">
+            <select
+              value={currentBoard}
+              onChange={(e) => handleFilterChange("board", e.target.value)}
+              className="w-full py-2 px-3 text-[0.8125rem] bg-surface-container-low border-0 border-b border-outline-variant/20 text-on-surface rounded-sm outline-none cursor-pointer transition-colors focus:border-primary"
+            >
+              <option value="">Select Board</option>
+              <option value="NCERT">NCERT / CBSE</option>
+              {boards
+                .filter((b) => b !== "NCERT")
+                .map((board) => (
+                  <option key={board} value={board}>
+                    {board}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
-      )}
 
-      {/* ── Subject ── */}
-      {currentClass && (
-        <div className="mb-2">
-          <TaxonomyStep
-            icon={<IconSubject />}
-            label={currentSubject || "Subject"}
-            active={!!currentSubject}
-            onClick={() => {}}
-          />
-          <div className="px-2">
-            {subjects.length > 0 ? (
-              subjects.map((subject) => (
+        {/* ── Class (6-12) ── */}
+        {(currentBoard || classes.length > 0) && (
+          <div className="mb-2">
+            <TaxonomyStep
+              icon={<IconClass />}
+              label={currentClass ? `Class ${currentClass}` : "Class (6-12)"}
+              active={!!currentClass}
+              onClick={() => {}}
+            />
+            <div className="grid grid-cols-5 gap-1 px-2 py-2">
+              {classOptions.map((cls) => (
                 <button
-                  key={subject}
+                  key={cls}
                   type="button"
-                  onClick={() => handleFilterChange("subject", subject)}
-                  className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
-                    currentSubject === subject
-                      ? "font-medium bg-primary-container text-on-primary-container"
-                      : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                  onClick={() => handleFilterChange("class", cls)}
+                  className={` text-[0.75rem] text-center border cursor-pointer transition-all duration-150 ${
+                    currentClass === cls
+                      ? "font-semibold rounded-md bg-[var(--color-primary-container)]/65 text-primary border-primary/8 shadow-[0_2px_6px_rgba(48,51,47,0.04)]"
+                      : "font-normal rounded-md border-transparent bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                   }`}
                 >
-                  {subject}
+                  {cls}
                 </button>
-              ))
-            ) : (
-              <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
-                No subjects found
-              </p>
-            )}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ── Book Series ── */}
-      {currentSubject && books.length > 1 && (
-        <div className="mb-2">
-          <TaxonomyStep
-            icon={<IconBook />}
-            label={currentBook || "Book Series"}
-            active={!!currentBook}
-            onClick={() => {}}
-          />
-          <div className="px-2">
-            {books.map((bookItem) => (
+        {/* ── Subject ── */}
+        {currentClass && (
+          <div className="mb-2">
+            <TaxonomyStep
+              icon={<IconSubject />}
+              label={currentSubject || "Subject"}
+              active={!!currentSubject}
+              onClick={() => {}}
+            />
+            <div className="flex flex-wrap gap-1 px-2 py-2">
+              {subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <button
+                    key={subject}
+                    type="button"
+                    onClick={() => handleFilterChange("subject", subject)}
+                    className={`inline-flex items-center justify-center px-2.5 py-1.5 text-[0.75rem] border cursor-pointer transition-all duration-150 ${
+                      currentSubject === subject
+                        ? "font-medium rounded-md bg-[var(--color-primary-container)]/65 text-primary border-primary/8 shadow-[0_2px_6px_rgba(48,51,47,0.04)]"
+                        : "font-normal rounded-md border-transparent bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
+                    }`}
+                  >
+                    {subject}
+                  </button>
+                ))
+              ) : (
+                <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
+                  No subjects found
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Book Series ── */}
+        {currentSubject && books.length > 1 && (
+          <div className="mb-2">
+            <TaxonomyStep
+              icon={<IconBook />}
+              label={currentBook || "Book Series"}
+              active={!!currentBook}
+              onClick={() => {}}
+            />
+            <div className="px-2">
+              {books.map((bookItem) => (
               <button
                 key={bookItem}
                 type="button"
                 onClick={() => handleFilterChange("book", bookItem)}
-                className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                   currentBook === bookItem
-                    ? "font-medium bg-primary-container text-on-primary-container"
-                    : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                    ? "font-medium bg-primary-container text-on-primary-container border-primary/10"
+                    : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                 }`}
               >
                 {bookItem}
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ── Chapter List ── */}
-      {currentSubject && (
-        <div>
-          <TaxonomyStep
-            icon={<IconChapter />}
-            label={currentChapter || (chapters.length > 0 ? "Select Chapter" : "Select Book First")}
-            active={!!currentChapter}
-            onClick={() => {}}
-          />
-          <div className="px-2 max-h-64 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-outline-variant/20 [&::-webkit-scrollbar-thumb]:rounded-full">
-            {chapters.length > 0 ? (
-              chapters.map((ch) => (
+        {/* ── Chapter List ── */}
+        {currentSubject && (
+          <div>
+            <TaxonomyStep
+              icon={<IconChapter />}
+              label={currentChapter || (chapters.length > 0 ? "Select Chapter" : "Select Book First")}
+              active={!!currentChapter}
+              onClick={() => {}}
+            />
+            <div className="px-2 max-h-64 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-outline-variant/20 [&::-webkit-scrollbar-thumb]:rounded-full">
+              {chapters.length > 0 ? (
+                chapters.map((ch) => (
                 <button
                   key={ch}
                   type="button"
                   onClick={() => handleFilterChange("chapter", ch)}
-                  className={`block w-full text-left px-3 py-2 text-[0.8125rem] border-none rounded-sm cursor-pointer transition-all duration-150 ${
+                  className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                     currentChapter === ch
-                      ? "font-medium bg-primary-container text-on-primary-container"
-                      : "font-normal bg-transparent text-on-surface hover:bg-surface-container-high"
+                      ? "font-medium bg-primary-container text-on-primary-container border-primary/10"
+                      : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
                   {ch}
-                </button>
-              ))
-            ) : (
-              <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
-                {currentBook ? "No chapters found" : "Select a book to see chapters"}
-              </p>
-            )}
+                  </button>
+                ))
+              ) : (
+                <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
+                  {currentBook ? "No chapters found" : "Select a book to see chapters"}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
@@ -323,9 +488,9 @@ export function QuestionBankSearch() {
 
   return (
     <div className="flex flex-col gap-4 mb-6">
-      <div className="flex gap-4 items-center flex-wrap">
+      <div className="flex flex-wrap items-center gap-4">
         {/* Search Input */}
-        <div className="flex-1 relative min-w-48">
+        <div className="relative flex-1 min-w-48">
           <svg
             width="18"
             height="18"
@@ -335,7 +500,7 @@ export function QuestionBankSearch() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+            className="absolute -translate-y-1/2 pointer-events-none left-4 top-1/2 text-on-surface-variant"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
@@ -345,12 +510,12 @@ export function QuestionBankSearch() {
             placeholder="Search by topic, keyword or chapter..."
             defaultValue={currentQuery}
             onChange={(e) => handleFilterChange("q", e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-surface-container-low border-0 border-b border-outline-variant/20 text-sm text-on-surface outline-none transition-colors duration-200 focus:border-b-2 focus:border-primary placeholder:text-on-surface-variant"
+            className="w-full py-3 pl-12 pr-4 text-sm transition-colors duration-200 border-0 border-b outline-none bg-surface-container-low border-outline-variant/20 text-on-surface focus:border-b-2 focus:border-primary placeholder:text-on-surface-variant"
           />
         </div>
 
         {/* Type Filter Pills */}
-        <div className="flex items-center bg-surface-container-low p-1 rounded-sm gap-1">
+        <div className="flex items-center gap-1 p-1 rounded-sm bg-surface-container-low">
           {typeFilters.map((f) => (
             <button
               key={f.value}
@@ -369,7 +534,7 @@ export function QuestionBankSearch() {
 
         {/* Loading */}
         {isPending && (
-          <span className="text-xs text-primary font-medium">Loading…</span>
+          <span className="text-xs font-medium text-primary">Loading…</span>
         )}
       </div>
     </div>

@@ -15,21 +15,24 @@ export default async function CreateAssignmentPage() {
 
   return (
     <div className="pb-12">
-      <header className="grid gap-4 mb-8">
-        <div>
-          <p className="text-label-sm text-on-surface-variant m-0">
+      <header className="mb-8 flex items-end justify-between gap-4 flex-wrap">
+        <div className="grid gap-2">
+          <p className="m-0 text-label-sm text-on-surface-variant">
             Review &amp; Organize
           </p>
-          <h1 className="font-headline text-[clamp(2rem,4vw,2.75rem)] font-extrabold tracking-[-0.04em] text-primary mt-2 mb-0">
+          <h1 className="m-0 font-headline text-[clamp(2rem,4vw,2.75rem)] font-extrabold tracking-[-0.04em] text-primary">
             Finalize Your Assignment
           </h1>
+          <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] max-w-[42rem] m-0">
+            Organize the selected question set, confirm the target class, and
+            publish the final assignment using the same streamlined flow as the
+            question bank.
+          </p>
         </div>
-
-        <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] max-w-[42rem] m-0">
-          Use the selected question set to build a precise student assignment.
-          This flow stays link-based and Shiksha Sathi-native, matching the
-          refined Stitch publish journey.
-        </p>
+        <span className="inline-flex items-center gap-2 rounded-full bg-surface-container-low px-3 py-2 text-xs font-bold text-on-surface-variant">
+          <span className="h-2 w-2 rounded-full bg-primary" />
+          Publish-ready review
+        </span>
       </header>
 
       <CreateAssignmentForm classes={classes} />

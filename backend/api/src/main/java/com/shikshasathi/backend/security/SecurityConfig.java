@@ -54,14 +54,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Local development
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:3000",
-            "https://shiksha-sathi-taupe.vercel.app",
-            "https://shiksha-sathi-vikrants-projects-9bdd0967.vercel.app",
-            "https://shiksha-sathi-git-main-vikrants-projects-9bdd0967.vercel.app"
-        ));
-        // Also allow Vercel preview deployments (pattern-based)
         configuration.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",
+            "http://127.0.0.1:*",
             "https://*.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
