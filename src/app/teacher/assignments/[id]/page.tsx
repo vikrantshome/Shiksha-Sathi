@@ -58,7 +58,7 @@ export default async function AssignmentReportPage({
             <h1 className="text-display-sm font-bold text-on-surface mb-2">{assignment.title}</h1>
             <CopyAssignmentLinkButton shareLink={shareLink} path={path} />
           </div>
-          <div className="sm:text-right bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-5 py-3 shadow-sm">
+          <div className="sm:text-right bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3 shadow-sm">
             <span className="text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">
               Total Marks
             </span>
@@ -71,7 +71,7 @@ export default async function AssignmentReportPage({
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-xl">
+        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-lg">
           <div className="p-3 bg-primary-container text-on-primary-container rounded-lg">
             <ClipboardDocumentCheckIcon className="w-7 h-7" />
           </div>
@@ -85,7 +85,7 @@ export default async function AssignmentReportPage({
           </div>
         </div>
 
-        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-xl">
+        <div className="card-static flex items-center gap-5 p-6 border border-outline-variant/30 shadow-sm rounded-lg">
           <div className="p-3 bg-secondary-container text-on-surface rounded-lg">
             <ChartBarIcon className="w-7 h-7" />
           </div>
@@ -105,7 +105,7 @@ export default async function AssignmentReportPage({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Student Submissions */}
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+        <div className="bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
           <div className="px-6 py-4 bg-surface-container/40 border-b border-outline-variant/30">
             <h2 className="text-headline-sm font-semibold text-on-surface">Student Results</h2>
           </div>
@@ -156,7 +156,7 @@ export default async function AssignmentReportPage({
         </div>
 
         {/* Question Performance */}
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden h-fit">
+        <div className="bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-sm overflow-hidden h-fit">
           <div className="px-6 py-4 bg-surface-container/40 border-b border-outline-variant/30">
             <h2 className="text-headline-sm font-semibold text-on-surface">Question Performance</h2>
           </div>

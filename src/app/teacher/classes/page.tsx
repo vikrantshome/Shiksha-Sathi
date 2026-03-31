@@ -71,7 +71,7 @@ export default async function ClassesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Create Class Form */}
-        <div className="bg-surface-container-low p-5 md:p-6 lg:p-8 rounded-xl h-fit relative overflow-hidden">
+        <div className="bg-surface-container-low p-5 md:p-6 lg:p-8 rounded-lg h-fit relative overflow-hidden">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5">
             <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
               <PlusIcon className="w-4 h-4 text-on-primary-container" />
@@ -131,7 +131,7 @@ export default async function ClassesPage() {
             </div>
           </div>
           {classes.length === 0 ? (
-            <div className="text-center py-10 md:py-12 px-6 md:px-8 bg-surface-container-lowest rounded-xl border border-dashed border-outline-variant">
+            <div className="text-center py-10 md:py-12 px-6 md:px-8 bg-surface-container-lowest rounded-lg border border-dashed border-outline-variant">
               <div className="w-14 h-14 md:w-16 md:h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-on-surface-variant">
                 <AcademicCapIcon className="w-7 h-7 md:w-8 md:h-8" />
               </div>
@@ -146,7 +146,7 @@ export default async function ClassesPage() {
               .map((cls) => (
                 <div
                   key={cls.id}
-                  className="bg-surface-container-low p-4 md:p-5 lg:p-6 rounded-xl transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
+                  className="bg-surface-container-low p-4 md:p-5 lg:p-6 rounded-lg transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
                 >
                   <div className="flex items-center gap-3 md:gap-4">
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">

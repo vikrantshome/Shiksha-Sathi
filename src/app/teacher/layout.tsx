@@ -130,9 +130,9 @@ export default function TeacherLayout({
       <div className="min-h-screen flex flex-col bg-surface">
         {/* ═══ Top Navigation Bar ═══ */}
         <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF9F5]/80 backdrop-blur-[16px] border-b border-[#B0B3AD]/15">
-          <div className="flex justify-between items-center px-8 h-16 max-w-[100rem] mx-auto">
+          <div className="flex justify-between items-center px-6 h-16 max-w-[100rem] mx-auto">
             {/* Left: Brand + Desktop Nav */}
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-10">
               <Link
                 href="/teacher/dashboard"
                 className="font-[family-name:var(--font-manrope)] text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
@@ -205,7 +205,7 @@ export default function TeacherLayout({
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block p-2 px-3 text-sm font-medium rounded-md no-underline mb-1 ${
                   isActive(item.href)
-                    ? "text-primary bg-[#C6E8F8]/20"
+                    ? "text-primary bg-primary-container/20"
                     : "text-on-surface-variant bg-transparent"
                 }`}
               >
@@ -232,7 +232,7 @@ export default function TeacherLayout({
 
         <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
+          <aside className="hidden lg:flex flex-col w-56 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
             {/* Brand Section */}
             <div className="p-5">
               <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">
@@ -244,7 +244,7 @@ export default function TeacherLayout({
             </div>
 
             {/* Nav Links */}
-            <nav className="flex flex-col gap-1 pr-4">
+            <nav className="flex flex-col gap-1">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 const ItemIcon = item.icon;
@@ -252,10 +252,10 @@ export default function TeacherLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 py-2.5 px-5 text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
+                    className={`flex items-center gap-3 py-2.5 px-4 mx-3 rounded-md text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
                       active
-                        ? "font-medium text-primary bg-surface-container-lowest rounded-r-lg"
-                        : "font-normal text-on-surface-variant bg-transparent rounded-none"
+                        ? "font-semibold text-primary bg-primary-container/20"
+                        : "font-normal text-on-surface-variant bg-transparent"
                     }`}
                   >
                     <ItemIcon active={active} />
@@ -290,7 +290,7 @@ export default function TeacherLayout({
 
           {/* ═══ Main Content ═══ */}
           <main className="flex-1 w-full max-w-full overflow-hidden pb-24 md:pb-0">
-            <div className="max-w-[80rem] mx-auto p-4 px-4 md:p-6 lg:p-8">
+            <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
               {children}
             </div>
           </main>
@@ -309,7 +309,11 @@ export default function TeacherLayout({
                   active ? "text-primary" : "text-on-surface-variant"
                 }`}
               >
-                <ItemIcon active={active} />
+                <div className={`px-4 py-1 rounded-full transition-colors duration-200 ${
+                  active ? "bg-primary-container/30" : "bg-transparent"
+                }`}>
+                  <ItemIcon active={active} />
+                </div>
                 <span className="text-[0.625rem] font-medium">
                   {item.mobileLabel}
                 </span>
