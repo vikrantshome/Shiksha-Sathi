@@ -255,7 +255,7 @@ export default function QuestionBankFilters({
         <div>
           <TaxonomyStep
             icon={<IconChapter />}
-            label={currentChapter || "Chapter List"}
+            label={currentChapter || (chapters.length > 0 ? "Select Chapter" : "Select Book First")}
             active={!!currentChapter}
             onClick={() => {}}
           />
@@ -277,7 +277,7 @@ export default function QuestionBankFilters({
               ))
             ) : (
               <p className="text-[0.8125rem] italic text-on-surface-variant px-3 py-2 m-0">
-                No chapters found
+                {currentBook ? "No chapters found" : "Select a book to see chapters"}
               </p>
             )}
           </div>
