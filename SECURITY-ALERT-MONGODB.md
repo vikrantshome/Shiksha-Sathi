@@ -11,7 +11,7 @@
 GitGuardian detected a MongoDB connection string exposed in the repository:
 
 ```
-mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi
+mongodb+srv://***REMOVED***:***REMOVED***@naviksha.g77okxs.mongodb.net/shikshasathi
 ```
 
 This contains:
