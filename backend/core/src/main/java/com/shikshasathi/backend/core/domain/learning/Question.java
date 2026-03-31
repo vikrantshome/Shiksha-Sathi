@@ -1,6 +1,7 @@
 package com.shikshasathi.backend.core.domain.learning;
 
 import com.shikshasathi.backend.core.domain.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -38,6 +39,10 @@ public class Question extends BaseEntity {
     @Field("correct_answer")
     private String correctAnswer;
 
+    @Getter(AccessLevel.NONE)
+    @Field("correctAnswer")
+    private String legacyCorrectAnswer;
+
     @Field("points")
     private Integer points;
 
@@ -55,4 +60,8 @@ public class Question extends BaseEntity {
 
     @Field("language")
     private String language;
+
+    public String getCorrectAnswer() {
+        return correctAnswer != null ? correctAnswer : legacyCorrectAnswer;
+    }
 }
