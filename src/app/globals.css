@@ -221,6 +221,83 @@ body {
 
 
 
+/* ── MD3 Filled Button ── */
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-5);
+  background: linear-gradient(145deg, var(--color-primary), var(--color-primary-dim));
+  color: var(--color-on-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+.btn-filled:hover {
+  opacity: 0.9;
+  box-shadow: var(--shadow-sm);
+}
+.btn-filled:active {
+  transform: scale(0.98);
+}
+.btn-filled:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── MD3 Tonal Button ── */
+.btn-tonal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-5);
+  background: var(--color-secondary-container);
+  color: var(--color-on-surface);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+.btn-tonal:hover {
+  background: var(--color-surface-container-high);
+}
+
+/* ── MD3 Outlined Button ── */
+.btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-5);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(176, 179, 173, 0.3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+.btn-outlined:hover {
+  background: rgba(198, 232, 248, 0.15);
+}
+
 /* ── Ghost / Secondary Button ── */
 .btn-ghost {
   display: inline-flex;
@@ -295,6 +372,9 @@ body {
   outline: none;
   transition: border-color var(--transition-fast);
 }
+.input-academic:hover {
+  border-bottom-color: var(--color-on-surface-variant);
+}
 .input-academic:focus {
   border-bottom: 2px solid var(--color-primary);
 }
@@ -318,6 +398,9 @@ body {
   cursor: pointer;
   appearance: none;
   transition: border-color var(--transition-fast);
+}
+.select-academic:hover {
+  border-bottom-color: var(--color-on-surface-variant);
 }
 .select-academic:focus {
   border-bottom: 2px solid var(--color-primary);

@@ -311,7 +311,7 @@ export default function CreateAssignmentForm({
       </section>
 
       <aside className="grid gap-6 content-start">
-        <section className="bg-primary text-on-primary rounded-2xl p-6 shadow-md sticky top-6">
+        <section className="bg-primary text-on-primary rounded-lg p-6 shadow-md sticky top-6">
           <h3 className="m-0 text-lg font-bold">Assignment Summary</h3>
 
           <div className="grid grid-cols-2 gap-4 mt-6">

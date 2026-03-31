@@ -106,7 +106,7 @@ export default function StudentAssignmentForm({
         {/* Score Display — Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-10 md:mb-14">
           {/* Main Score Card */}
-          <div className="md:col-span-8 bg-surface-container-lowest p-6 md:p-10 rounded-xl flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="md:col-span-8 bg-surface-container-lowest p-6 md:p-10 rounded-lg flex flex-col items-center justify-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
             <span className="font-label text-xs font-bold text-on-surface-variant tracking-widest mb-4 uppercase">
               Total Performance
@@ -130,7 +130,7 @@ export default function StudentAssignmentForm({
 
           {/* Stats Sidebar */}
           <div className="md:col-span-4 flex flex-col gap-4 md:gap-6">
-            <div className="bg-surface-container-low p-5 md:p-6 rounded-xl flex-1">
+            <div className="bg-surface-container-low p-5 md:p-6 rounded-lg flex-1">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mb-3">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
@@ -141,7 +141,7 @@ export default function StudentAssignmentForm({
                 Total Questions
               </div>
             </div>
-            <div className="bg-tertiary-container p-5 md:p-6 rounded-xl flex-1">
+            <div className="bg-tertiary-container p-5 md:p-6 rounded-lg flex-1">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
               </svg>
@@ -271,9 +271,9 @@ export default function StudentAssignmentForm({
         {/* Identity Entry Card */}
         <div className="relative w-full max-w-lg">
           {/* Subtle Card Backdrop */}
-          <div className="absolute -inset-1 bg-gradient-to-tr from-primary/5 to-transparent rounded-xl blur-lg opacity-50"></div>
+          <div className="absolute -inset-1 bg-gradient-to-tr from-primary/5 to-transparent rounded-lg blur-lg opacity-50"></div>
 
-          <div className="relative bg-surface-container-lowest border border-outline-variant/10 rounded-xl p-6 md:p-8 lg:p-12 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
+          <div className="relative bg-surface-container-lowest border border-outline-variant/10 rounded-lg p-6 md:p-8 lg:p-12 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
             {/* Editorial Header */}
             <div className="mb-8 md:mb-10 text-center">
               <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-primary-container/30 rounded-full mb-4 md:mb-6 text-primary">
@@ -410,7 +410,7 @@ export default function StudentAssignmentForm({
         {assignment.questions.map((q, index) => (
           <article
             key={q.id}
-            className="w-full bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_rgba(28,28,25,0.06)] overflow-hidden border border-outline-variant/15"
+            className="w-full bg-surface-container-lowest rounded-lg shadow-[0_8px_32px_rgba(28,28,25,0.06)] overflow-hidden border border-outline-variant/15"
           >
             {/* Card Header Strip */}
             <div className="bg-surface-container-high px-5 md:px-8 py-3 md:py-4 flex justify-between items-center">

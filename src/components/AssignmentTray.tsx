@@ -8,7 +8,7 @@ export default function AssignmentTray() {
 
   if (selectedQuestions.length === 0) {
     return (
-      <div className="sticky top-6 hidden lg:flex flex-col h-[calc(100vh-6rem)] p-4 bg-surface-container-lowest rounded-xl border border-outline-variant">
+      <div className="sticky top-6 hidden lg:flex flex-col h-[calc(100vh-6rem)] p-4 bg-surface-container-lowest rounded-lg border border-outline-variant">
         <h2 className="text-label-md text-on-surface-variant font-medium mb-4">Assignment Basket</h2>
         <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
           <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center mb-3">
@@ -28,7 +28,7 @@ export default function AssignmentTray() {
   return (
     <>
       {/* Desktop Sticky Tray */}
-      <div className="sticky top-6 hidden lg:flex flex-col h-[calc(100vh-6rem)] p-4 bg-surface-container-lowest rounded-xl border border-outline-variant">
+      <div className="sticky top-6 hidden lg:flex flex-col h-[calc(100vh-6rem)] p-4 bg-surface-container-lowest rounded-lg border border-outline-variant">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-label-md text-on-surface-variant font-medium">Assignment Basket</h2>
           <span className="badge bg-primary-container text-on-primary-container">{selectedQuestions.length} Qs</span>
