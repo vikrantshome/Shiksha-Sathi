@@ -87,10 +87,10 @@ export default function StudentAssignmentForm({
       : 0;
 
     return (
-      <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 lg:py-16">
+      <div className="w-full max-w-4xl px-4 py-8 mx-auto md:py-12 lg:py-16">
         {/* Success Confirmation */}
-        <div className="flex flex-col items-center justify-center mb-10 md:mb-14 text-center">
-          <div className="w-14 h-14 md:w-16 bg-primary-container rounded-full flex items-center justify-center mb-4 md:mb-6">
+        <div className="flex flex-col items-center justify-center mb-10 text-center md:mb-14">
+          <div className="flex items-center justify-center mb-4 rounded-full w-14 h-14 md:w-16 bg-primary-container md:mb-6">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
               <polyline points="20 6 9 17 4 12" />
             </svg>
@@ -98,28 +98,28 @@ export default function StudentAssignmentForm({
           <h2 className="font-headline text-on-surface-variant text-sm tracking-[0.05em] font-semibold mb-2 uppercase">
             Submission Confirmed
           </h2>
-          <h1 className="font-headline text-2xl md:text-3xl font-extrabold text-on-surface tracking-tight">
+          <h1 className="text-2xl font-extrabold tracking-tight font-headline md:text-3xl text-on-surface">
             Assignment Submitted Successfully
           </h1>
         </div>
 
         {/* Score Display — Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-10 md:mb-14">
+        <div className="grid grid-cols-1 gap-4 mb-10 md:grid-cols-12 md:gap-6 md:mb-14">
           {/* Main Score Card */}
-          <div className="md:col-span-8 bg-surface-container-lowest p-6 md:p-10 rounded-lg flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="relative flex flex-col items-center justify-center p-6 overflow-hidden rounded-lg md:col-span-8 bg-surface-container-lowest md:p-10">
             <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
-            <span className="font-label text-xs font-bold text-on-surface-variant tracking-widest mb-4 uppercase">
+            <span className="mb-4 text-xs font-bold tracking-widest uppercase font-label text-on-surface-variant">
               Total Performance
             </span>
             <div className="flex items-baseline gap-3">
-              <span className="text-8xl font-headline font-extrabold text-primary tracking-tighter leading-none">
+              <span className="font-extrabold leading-none tracking-tighter text-8xl font-headline text-primary">
                 {result.score}
               </span>
-              <span className="text-4xl font-headline font-bold text-outline-variant">
+              <span className="text-4xl font-bold font-headline text-outline-variant">
                 / {result.totalMarks}
               </span>
             </div>
-            <p className="mt-6 text-on-surface-variant font-medium text-center max-w-xs text-sm">
+            <p className="max-w-xs mt-6 text-sm font-medium text-center text-on-surface-variant">
               {scorePercent >= 80
                 ? `Excellent work, ${identity?.name}! You've demonstrated a strong grasp of the material.`
                 : scorePercent >= 50
@@ -129,26 +129,26 @@ export default function StudentAssignmentForm({
           </div>
 
           {/* Stats Sidebar */}
-          <div className="md:col-span-4 flex flex-col gap-4 md:gap-6">
-            <div className="bg-surface-container-low p-5 md:p-6 rounded-lg flex-1">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mb-3">
+          <div className="flex flex-col gap-4 md:col-span-4 md:gap-6">
+            <div className="flex-1 p-5 rounded-lg bg-surface-container-low md:p-6">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3 text-primary">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
-              <div className="text-2xl font-headline font-bold text-on-surface">
+              <div className="text-2xl font-bold font-headline text-on-surface">
                 {totalQuestions}
               </div>
-              <div className="text-xs font-label text-on-surface-variant uppercase tracking-wider">
+              <div className="text-xs tracking-wider uppercase font-label text-on-surface-variant">
                 Total Questions
               </div>
             </div>
-            <div className="bg-tertiary-container p-5 md:p-6 rounded-lg flex-1">
+            <div className="flex-1 p-5 rounded-lg bg-tertiary-container md:p-6">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
               </svg>
-              <div className="text-2xl font-headline font-bold">
+              <div className="text-2xl font-bold font-headline">
                 {scorePercent}%
               </div>
-              <div className="text-xs font-label opacity-80 uppercase tracking-wider">
+              <div className="text-xs tracking-wider uppercase font-label opacity-80">
                 Score Rate
               </div>
             </div>
@@ -158,15 +158,15 @@ export default function StudentAssignmentForm({
         {/* Detailed Feedback */}
         {result.feedback && result.feedback.length > 0 && (
           <section className="space-y-8 md:space-y-12">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3 md:pb-4">
-              <h3 className="font-headline text-lg md:text-xl font-bold text-on-surface tracking-tight">
+            <div className="flex items-center justify-between pb-3 border-b border-surface-container md:pb-4">
+              <h3 className="text-lg font-bold tracking-tight font-headline md:text-xl text-on-surface">
                 Detailed Feedback
               </h3>
               <div className="flex gap-2 md:gap-4">
-                <div className="flex items-center gap-1 md:gap-2 text-xs font-medium text-on-surface-variant">
+                <div className="flex items-center gap-1 text-xs font-medium md:gap-2 text-on-surface-variant">
                   <div className="w-2 h-2 rounded-full bg-emerald-500" /> Correct
                 </div>
-                <div className="flex items-center gap-1 md:gap-2 text-xs font-medium text-on-surface-variant">
+                <div className="flex items-center gap-1 text-xs font-medium md:gap-2 text-on-surface-variant">
                   <div className="w-2 h-2 rounded-full bg-error" /> Incorrect
                 </div>
               </div>
@@ -175,14 +175,14 @@ export default function StudentAssignmentForm({
             <div className="space-y-8 md:space-y-10">
               {result.feedback.map((f, i: number) => (
                 <div key={f.questionId} className="group">
-                  <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
                     {/* Question Number */}
-                    <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-sm bg-surface-container flex items-center justify-center font-headline font-bold text-primary text-sm">
+                    <div className="flex items-center justify-center flex-shrink-0 text-sm font-bold rounded-sm w-7 h-7 md:w-8 md:h-8 bg-surface-container font-headline text-primary">
                       {String(i + 1).padStart(2, "0")}
                     </div>
                     <div className="flex-1 space-y-3 md:space-y-4">
                       <div className="flex items-start justify-between gap-3 md:gap-4">
-                        <h4 className="font-body text-base font-medium text-on-surface leading-relaxed">
+                        <h4 className="text-base font-medium leading-relaxed font-body text-on-surface">
                           {f.questionText}
                         </h4>
                         <span
@@ -197,29 +197,29 @@ export default function StudentAssignmentForm({
                       </div>
 
                       {f.isCorrect ? (
-                        <div className="bg-surface-container-low p-4 rounded-sm border-l-2 border-emerald-500">
+                        <div className="p-4 border-l-2 rounded-sm bg-surface-container-low border-emerald-500">
                           <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
                             Your Answer
                           </div>
-                          <div className="text-emerald-700 font-medium">
+                          <div className="font-medium text-emerald-700">
                             {f.studentAnswer}
                           </div>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="bg-surface-container-low p-4 rounded-sm border-l-2 border-error">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div className="p-4 border-l-2 rounded-sm bg-surface-container-low border-error">
                             <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
                               Your Answer
                             </div>
-                            <div className="text-error font-medium line-through">
+                            <div className="font-medium line-through text-error">
                               {f.studentAnswer}
                             </div>
                           </div>
-                          <div className="bg-emerald-50 p-4 rounded-sm border-l-2 border-emerald-500">
+                          <div className="p-4 border-l-2 rounded-sm bg-emerald-50 border-emerald-500">
                             <div className="text-[0.6875rem] text-emerald-700 font-bold tracking-widest mb-1 uppercase">
                               Correct Answer
                             </div>
-                            <div className="text-emerald-700 font-medium">
+                            <div className="font-medium text-emerald-700">
                               {Array.isArray(f.correctAnswer)
                                 ? f.correctAnswer.join(" or ")
                                 : f.correctAnswer}
@@ -236,7 +236,7 @@ export default function StudentAssignmentForm({
         )}
 
         {/* Action Footer */}
-        <div className="mt-10 md:mt-12 lg:mt-16 pt-6 md:pt-8 border-t border-surface-container flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+        <div className="flex flex-col items-center justify-between gap-4 pt-6 mt-10 border-t md:mt-12 lg:mt-16 md:pt-8 border-surface-container md:flex-row md:gap-6">
           <div>
             <div className="text-sm font-bold text-on-surface">{identity?.name}</div>
             <div className="text-xs text-on-surface-variant">Roll No: {identity?.rollNumber}</div>
@@ -271,21 +271,21 @@ export default function StudentAssignmentForm({
         {/* Identity Entry Card */}
         <div className="relative w-full max-w-lg">
           {/* Subtle Card Backdrop */}
-          <div className="absolute -inset-1 bg-gradient-to-tr from-primary/5 to-transparent rounded-lg blur-lg opacity-50"></div>
+          <div className="absolute rounded-lg opacity-50 -inset-1 bg-gradient-to-tr from-primary/5 to-transparent blur-lg"></div>
 
-          <div className="relative bg-surface-container-lowest border border-outline-variant/10 rounded-lg p-6 md:p-8 lg:p-12 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
+          <div className="relative mt-8 bg-surface-container-lowest border border-outline-variant/10 rounded-lg p-6 md:p-8 lg:p-12 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
             {/* Editorial Header */}
-            <div className="mb-8 md:mb-10 text-center">
-              <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-primary-container/30 rounded-full mb-4 md:mb-6 text-primary">
+            <div className="mb-8 text-center md:mb-10">
+              <div className="inline-flex items-center justify-center w-10 h-10 mb-4 rounded-full md:w-12 md:h-12 bg-primary-container/30 md:mb-6 text-primary">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-on-surface font-headline tracking-tight mb-2">
+              <h2 className="mb-2 text-xl font-bold tracking-tight md:text-2xl text-on-surface font-headline">
                 Enter your details to start
               </h2>
-              <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto">
+              <p className="max-w-xs mx-auto text-sm leading-relaxed text-on-surface-variant">
                 Please provide your institutional identity to begin the assessment module.
               </p>
             </div>
@@ -298,7 +298,7 @@ export default function StudentAssignmentForm({
 
             <form onSubmit={handleIdentitySubmit} className="space-y-6 md:space-y-8">
               {/* Full Name */}
-              <div className="group relative">
+              <div className="relative group">
                 <label
                   htmlFor="student-name"
                   className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors"
@@ -311,12 +311,12 @@ export default function StudentAssignmentForm({
                   required
                   placeholder="e.g. Aarav Patel"
                   type="text"
-                  className="w-full bg-surface-container-low border-b border-outline-variant/20 border-t-0 border-l-0 border-r-0 px-0 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 transition-all duration-300 font-body text-base"
+                  className="w-full px-0 py-3 text-base transition-all duration-300 border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
                 />
               </div>
 
               {/* Roll Number */}
-              <div className="group relative">
+              <div className="relative group">
                 <label
                   htmlFor="student-roll"
                   className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors"
@@ -329,7 +329,7 @@ export default function StudentAssignmentForm({
                   required
                   placeholder="Enter your unique ID"
                   type="text"
-                  className="w-full bg-surface-container-low border-b border-outline-variant/20 border-t-0 border-l-0 border-r-0 px-0 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 transition-all duration-300 font-body text-base"
+                  className="w-full px-0 py-3 text-base transition-all duration-300 border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
                 />
               </div>
 
@@ -345,7 +345,7 @@ export default function StudentAssignmentForm({
                   </svg>
                 </button>
 
-                <div className="mt-4 md:mt-6 flex items-center justify-center space-x-3 md:space-x-4 opacity-60">
+                <div className="flex items-center justify-center mt-4 space-x-3 md:mt-6 md:space-x-4 opacity-60">
                   <div className="flex items-center space-x-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                     <span className="text-[0.6875rem] font-medium uppercase tracking-wider">
@@ -372,30 +372,30 @@ export default function StudentAssignmentForm({
      STAGE 2: Assessment Taking — Stitch "assignment_taking" direction
      ════════════════════════════════════════════════════════ */
   return (
-    <div className="flex flex-col items-center px-4 md:px-0 py-6 md:py-8 lg:py-12 w-full max-w-3xl mx-auto">
+    <div className="flex flex-col items-center w-full max-w-3xl px-4 py-6 mx-auto md:px-0 md:py-8 lg:py-12">
       {/* Header & Progress */}
-      <div className="w-full mb-6 md:mb-8 lg:mb-10 text-center">
-        <span className="text-xs font-bold tracking-widest text-primary uppercase mb-2 md:mb-3 block">
+      <div className="w-full mb-6 text-center md:mb-8 lg:mb-10">
+        <span className="block mb-2 text-xs font-bold tracking-widest uppercase text-primary md:mb-3">
           Ongoing Assessment
         </span>
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tighter text-on-surface mb-3 md:mb-4 opacity-90 font-headline">
+        <h1 className="mb-3 text-2xl font-extrabold tracking-tighter md:text-3xl lg:text-4xl text-on-surface md:mb-4 opacity-90 font-headline">
           {assignment.title}
         </h1>
         {assignment.description && (
-          <p className="text-on-surface-variant text-sm md:text-base mb-4 md:mb-6 max-w-2xl mx-auto leading-relaxed">
+          <p className="max-w-2xl mx-auto mb-4 text-sm leading-relaxed text-on-surface-variant md:text-base md:mb-6">
             {assignment.description}
           </p>
         )}
 
-        <div className="flex items-center justify-center gap-2 text-on-surface-variant text-sm bg-surface-container-low border border-outline-variant/20 py-2 px-4 rounded-full w-fit mx-auto mb-6 md:mb-8">
+        <div className="flex items-center justify-center gap-2 px-4 py-2 mx-auto mb-6 text-sm border rounded-full text-on-surface-variant bg-surface-container-low border-outline-variant/20 w-fit md:mb-8">
           <span>Student: <span className="font-bold text-on-surface">{identity.name}</span></span>
         </div>
 
         {/* Progress Bar */}
         <div className="space-y-2 md:space-y-3">
-          <div className="flex justify-between items-end mb-1">
-            <span className="font-label text-xs md:text-sm text-on-secondary-container tracking-widest uppercase font-bold">Progress</span>
-            <span className="font-label text-xs md:text-sm text-primary font-bold">{answeredCount} of {totalQuestions} answered</span>
+          <div className="flex items-end justify-between mb-1">
+            <span className="text-xs font-bold tracking-widest uppercase font-label md:text-sm text-on-secondary-container">Progress</span>
+            <span className="text-xs font-bold font-label md:text-sm text-primary">{answeredCount} of {totalQuestions} answered</span>
           </div>
           <div className="h-1.5 md:h-2 w-full bg-secondary-container rounded-full overflow-hidden">
             <div
@@ -413,22 +413,22 @@ export default function StudentAssignmentForm({
             className="w-full bg-surface-container-lowest rounded-lg shadow-[0_8px_32px_rgba(28,28,25,0.06)] overflow-hidden border border-outline-variant/15"
           >
             {/* Card Header Strip */}
-            <div className="bg-surface-container-high px-5 md:px-8 py-3 md:py-4 flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-widest text-on-secondary-container">
+            <div className="flex items-center justify-between px-5 py-3 bg-surface-container-high md:px-8 md:py-4">
+              <span className="text-xs font-bold tracking-widest uppercase text-on-secondary-container">
                 Question {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
+              <span className="px-3 py-1 text-xs font-bold tracking-widest uppercase rounded-full text-primary bg-primary/10">
                 {q.points} Marks
               </span>
             </div>
 
             <div className="p-5 md:p-6 lg:p-8">
-              <h2 className="text-lg md:text-xl lg:text-2xl font-bold leading-tight text-on-surface mb-6 md:mb-8 font-headline">
+              <h2 className="mb-6 text-lg font-bold leading-tight md:text-xl lg:text-2xl text-on-surface md:mb-8 font-headline">
                 {q.text}
               </h2>
 
               {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
                   {q.options.map((opt, i) => {
                     const isSelected = answers[q.id] === opt;
                     return (
@@ -471,7 +471,7 @@ export default function StudentAssignmentForm({
                     value={answers[q.id] || ""}
                     onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                     placeholder="Type your answer here..."
-                    className="w-full bg-surface-container-low border-b-2 border-outline-variant/30 border-t-0 border-l-0 border-r-0 px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary transition-all duration-300 font-body text-base"
+                    className="w-full px-4 py-3 text-base transition-all duration-300 border-t-0 border-b-2 border-l-0 border-r-0 bg-surface-container-low border-outline-variant/30 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary font-body"
                   />
                   <p className="mt-3 text-[0.6875rem] text-on-surface-variant italic">
                     Enter a single word or a short phrase.
@@ -484,14 +484,14 @@ export default function StudentAssignmentForm({
       </section>
 
       {error && (
-        <div className="mt-8 p-4 bg-error/10 text-error text-sm text-center rounded-md font-medium w-full">
+        <div className="w-full p-4 mt-8 text-sm font-medium text-center rounded-md bg-error/10 text-error">
           {error}
         </div>
       )}
 
       {/* Submit Section */}
-      <div className="mt-12 pt-8 w-full border-t border-outline-variant/15 flex flex-col items-center">
-        <p className="text-on-surface-variant text-xs md:text-sm mb-6 flex items-center gap-2">
+      <div className="flex flex-col items-center w-full pt-8 mt-12 border-t border-outline-variant/15">
+        <p className="flex items-center gap-2 mb-6 text-xs text-on-surface-variant md:text-sm">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary/70">
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
           </svg>
