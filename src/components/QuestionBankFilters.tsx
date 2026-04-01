@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 /* ─────────────────────────────────────────────────────────
    Question Bank Taxonomy Filters — Stitch-Directed
@@ -99,6 +99,27 @@ export default function QuestionBankFilters({
   const hasActiveFilters = Boolean(
     currentBoard || currentClass || currentSubject || currentBook || currentChapter
   );
+  const isSelectionComplete = Boolean(
+    currentBoard && currentClass && currentSubject && currentChapter
+  );
+  const [isMobileExpanded, setIsMobileExpanded] = useState(!isSelectionComplete);
+  const mobileSummary = [
+    currentBoard,
+    currentClass ? `Class ${currentClass}` : "",
+    currentSubject,
+    currentChapter,
+  ].filter(Boolean);
+
+  useEffect(() => {
+    if (isSelectionComplete) {
+      setIsMobileExpanded(false);
+      return;
+    }
+
+    if (!hasActiveFilters) {
+      setIsMobileExpanded(true);
+    }
+  }, [hasActiveFilters, isSelectionComplete]);
 
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
@@ -153,26 +174,68 @@ export default function QuestionBankFilters({
       )}
 
       <div className="md:hidden rounded-lg border border-[#B0B3AD]/12 bg-[var(--color-surface-container-lowest)] shadow-[0_8px_24px_rgba(27,28,26,0.06)] p-4">
-        <div className="flex items-center justify-between gap-3 mb-3">
-          <div>
-            <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
-              Filters
-            </p>
-            <p className="m-0 text-sm text-on-surface">Choose scope</p>
-          </div>
+        <div className="flex items-start justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => setIsMobileExpanded((current) => !current)}
+            className="flex flex-1 items-start gap-3 p-0 text-left bg-transparent border-none cursor-pointer"
+          >
+            <div>
+              <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+                Filters
+              </p>
+              <p className="m-0 text-sm text-on-surface">
+                {isSelectionComplete ? "Scope selected" : "Choose scope"}
+              </p>
+              {!isMobileExpanded && mobileSummary.length > 0 && !isSelectionComplete && (
+                <p className="m-0 mt-1 text-xs leading-5 text-on-surface-variant">
+                  {mobileSummary.join(" • ")}
+                </p>
+              )}
+            </div>
+            <span className="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform duration-200 ${isMobileExpanded ? "rotate-180" : ""}`}
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </button>
           {hasActiveFilters && (
             <button
               type="button"
               onClick={handleResetFilters}
-              className="p-0 text-xs font-medium bg-transparent border-none cursor-pointer text-primary"
+              className="p-0 text-xs font-medium bg-transparent border-none cursor-pointer text-primary shrink-0"
             >
               Reset
             </button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-3">
-          <label className="flex flex-col gap-1">
+        {!isMobileExpanded && isSelectionComplete && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {mobileSummary.map((item) => (
+              <span
+                key={item}
+                className="inline-flex items-center rounded-full bg-[#fde7f3] px-2.5 py-1 text-[0.6875rem] font-medium text-[#b42375]"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {isMobileExpanded && (
+          <div className="mt-3 grid grid-cols-1 gap-3">
+            <label className="flex flex-col gap-1">
             <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
               Board
             </span>
@@ -191,10 +254,10 @@ export default function QuestionBankFilters({
                   </option>
                 ))}
             </select>
-          </label>
+            </label>
 
-          {(currentBoard || classes.length > 0) && (
-            <label className="flex flex-col gap-1">
+            {(currentBoard || classes.length > 0) && (
+              <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Class
               </span>
@@ -210,11 +273,11 @@ export default function QuestionBankFilters({
                   </option>
                 ))}
               </select>
-            </label>
-          )}
+              </label>
+            )}
 
-          {currentClass && (
-            <label className="flex flex-col gap-1">
+            {currentClass && (
+              <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Subject
               </span>
@@ -230,11 +293,11 @@ export default function QuestionBankFilters({
                   </option>
                 ))}
               </select>
-            </label>
-          )}
+              </label>
+            )}
 
-          {currentSubject && books.length > 1 && (
-            <label className="flex flex-col gap-1">
+            {currentSubject && books.length > 1 && (
+              <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Book
               </span>
@@ -250,11 +313,11 @@ export default function QuestionBankFilters({
                   </option>
                 ))}
               </select>
-            </label>
-          )}
+              </label>
+            )}
 
-          {currentSubject && (
-            <label className="flex flex-col gap-1">
+            {currentSubject && (
+              <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Chapter
               </span>
@@ -273,9 +336,10 @@ export default function QuestionBankFilters({
                   </option>
                 ))}
               </select>
-            </label>
-          )}
-        </div>
+              </label>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="hidden md:flex md:flex-col md:gap-3 md:rounded-lg md:border md:border-[#B0B3AD]/12 md:bg-[var(--color-surface-container-lowest)] md:p-3 md:shadow-[0_8px_24px_rgba(27,28,26,0.05)]">
@@ -341,7 +405,7 @@ export default function QuestionBankFilters({
                   onClick={() => handleFilterChange("class", cls)}
                   className={` text-[0.75rem] text-center border cursor-pointer transition-all duration-150 ${
                     currentClass === cls
-                      ? "font-semibold rounded-md bg-[var(--color-primary-container)]/65 text-primary border-primary/8 shadow-[0_2px_6px_rgba(48,51,47,0.04)]"
+                      ? "font-semibold rounded-md bg-[#fde7f3] text-[#b42375] border-[#f6c4df] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
                       : "font-normal rounded-md border-transparent bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                   }`}
                 >
@@ -370,7 +434,7 @@ export default function QuestionBankFilters({
                     onClick={() => handleFilterChange("subject", subject)}
                     className={`inline-flex items-center justify-center px-2.5 py-1.5 text-[0.75rem] border cursor-pointer transition-all duration-150 ${
                       currentSubject === subject
-                        ? "font-medium rounded-md bg-[var(--color-primary-container)]/65 text-primary border-primary/8 shadow-[0_2px_6px_rgba(48,51,47,0.04)]"
+                        ? "font-medium rounded-md bg-[#fde7f3] text-[#b42375] border-[#f6c4df] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
                         : "font-normal rounded-md border-transparent bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                     }`}
                   >
@@ -403,7 +467,7 @@ export default function QuestionBankFilters({
                 onClick={() => handleFilterChange("book", bookItem)}
                 className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                   currentBook === bookItem
-                    ? "font-medium bg-primary-container text-on-primary-container border-primary/10"
+                    ? "font-medium bg-[#fde7f3] text-[#9d174d] border-[#f6c4df]"
                     : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                 }`}
               >
@@ -432,7 +496,7 @@ export default function QuestionBankFilters({
                   onClick={() => handleFilterChange("chapter", ch)}
                   className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                     currentChapter === ch
-                      ? "font-medium bg-primary-container text-on-primary-container border-primary/10"
+                      ? "font-medium bg-[#fde7f3] text-[#9d174d] border-[#f6c4df]"
                       : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
@@ -523,7 +587,7 @@ export function QuestionBankSearch() {
               onClick={() => handleFilterChange("type", f.value)}
               className={`py-1.5 px-4 text-xs border-none rounded-sm cursor-pointer transition-all duration-150 whitespace-nowrap ${
                 currentType === f.value
-                  ? "font-semibold bg-surface-container-lowest text-primary shadow-sm"
+                  ? "font-semibold bg-[#fde7f3] text-[#b42375] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
                   : "font-normal bg-transparent text-on-surface-variant hover:text-on-surface"
               }`}
             >
