@@ -87,7 +87,7 @@ export default async function StudentAssignmentPage({
       <footer className="p-6 md:p-8 flex flex-col items-center gap-3 md:gap-4">
         <div className="w-10 h-[2px] md:w-12 bg-[rgba(68,99,113,0.2)]" />
         <p className="text-[0.625rem] md:text-[0.6875rem] text-on-surface-variant font-medium tracking-[0.15em] uppercase">
-          Shiksha Sathi © 2025
+          Shiksha Sathi © 2026
         </p>
       </footer>
     </div>
