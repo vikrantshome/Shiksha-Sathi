@@ -92,4 +92,24 @@ public class QuestionServiceTest {
         assertEquals("7", capturedQuery.getQueryObject().get("provenance.class"));
         assertEquals(List.of("Science"), result);
     }
+
+    @Test
+    void getDistinctChapters_SortsChaptersInNaturalOrder() {
+        when(mongoTemplate.findDistinct(any(Query.class), eq("chapter"), eq(Question.class), eq(String.class)))
+                .thenReturn(List.of(
+                        "Chapter 11: Constructions",
+                        "Chapter 2: Polynomials",
+                        "Chapter 9: Areas of Parallelograms and Triangles",
+                        "Chapter 1: Number Systems"
+                ));
+
+        List<String> result = questionService.getDistinctChapters("Mathematics", null, "9");
+
+        assertEquals(List.of(
+                "Chapter 1: Number Systems",
+                "Chapter 2: Polynomials",
+                "Chapter 9: Areas of Parallelograms and Triangles",
+                "Chapter 11: Constructions"
+        ), result);
+    }
 }
