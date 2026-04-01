@@ -232,7 +232,7 @@ export default function TeacherLayout({
 
         <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="hidden lg:flex flex-col w-52 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
+          <aside className="hidden lg:flex flex-col w-48 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
             {/* Brand Section */}
             <div className="p-5">
               <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">

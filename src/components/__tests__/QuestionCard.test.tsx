@@ -42,7 +42,7 @@ describe('QuestionCard', () => {
     
     expect(screen.queryByText('Correct Answer')).not.toBeInTheDocument();
     
-    fireEvent.click(screen.getByText('Preview Question'));
+    fireEvent.click(screen.getByText('View Answer & Explanation'));
     
     expect(screen.getByText('Correct Answer')).toBeInTheDocument();
     
