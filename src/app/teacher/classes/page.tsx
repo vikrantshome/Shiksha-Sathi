@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { ClassItem } from "@/lib/api/types";
-import { PlusIcon, AcademicCapIcon, ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline";
+import ClassActionButtons from "@/components/ClassActionButtons";
+import { PlusIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,9 @@ export default async function ClassesPage() {
     }
     console.error("Failed to load classes:", err);
   }
+
+  const activeClasses = classes.filter((cls) => cls.active);
+  const archivedClasses = classes.filter((cls) => !cls.active);
 
   // Handle class creation
   async function handleCreateClass(formData: FormData) {
@@ -141,56 +145,108 @@ export default async function ClassesPage() {
               </p>
             </div>
           ) : (
-            classes
-              .filter((cls) => cls.active)
-              .map((cls) => (
-                <div
-                  key={cls.id}
-                  className="bg-surface-container-low p-4 md:p-5 lg:p-6 rounded-lg transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
-                >
-                  <div className="flex items-center gap-3 md:gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
-                      <span className="text-on-secondary-container font-semibold">
-                        {cls.section}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="text-title-md font-semibold text-on-surface">
-                        {cls.name}
-                      </h3>
-                      <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                        <span>Section {cls.section} • {cls.studentCount} Students</span>
-                      </div>
-                    </div>
+            <div className="grid gap-6">
+              <div className="grid gap-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-title-md font-semibold text-on-surface m-0">
+                      Active Classes
+                    </h3>
+                    <p className="text-body-sm text-on-surface-variant mt-1 m-0">
+                      Attendance-ready sections currently in use.
+                    </p>
                   </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Link
-                      href={`/teacher/classes/${cls.id}/attendance`}
-                      className="btn-ghost bg-surface-container-high text-primary"
-                    >
-                      View Attendance
-                    </Link>
-                    <form action={handleArchiveClass.bind(null, cls.id)}>
-                      <button
-                        type="submit"
-                        className="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-full transition-colors"
-                        title="Archive Class"
-                      >
-                        <ArchiveBoxIcon className="w-5 h-5" />
-                      </button>
-                    </form>
-                    <form action={handleDeleteClass.bind(null, cls.id)}>
-                      <button
-                        type="submit"
-                        className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded-full transition-colors"
-                        title="Delete Class"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    </form>
-                  </div>
+                  <span className="text-label-sm text-on-surface-variant">
+                    {activeClasses.length}
+                  </span>
                 </div>
-              ))
+
+                {activeClasses.length === 0 ? (
+                  <div className="rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest px-5 py-6 text-sm text-on-surface-variant">
+                    No active classes right now. Archived sections are shown below.
+                  </div>
+                ) : (
+                  activeClasses.map((cls) => (
+                    <div
+                      key={cls.id}
+                      className="bg-surface-container-low p-4 md:p-5 lg:p-6 rounded-lg transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
+                    >
+                      <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+                          <span className="text-on-secondary-container font-semibold">
+                            {cls.section}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-title-md font-semibold text-on-surface">
+                            {cls.name}
+                          </h3>
+                          <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
+                            <span>Section {cls.section} • {cls.studentCount} Students</span>
+                          </div>
+                        </div>
+                      </div>
+                      <ClassActionButtons
+                        attendanceHref={`/teacher/classes/${cls.id}/attendance`}
+                        archiveAction={handleArchiveClass.bind(null, cls.id)}
+                        deleteAction={handleDeleteClass.bind(null, cls.id)}
+                        className={cls.name}
+                      />
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {archivedClasses.length > 0 && (
+                <div className="grid gap-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-title-md font-semibold text-on-surface m-0">
+                        Archived Classes
+                      </h3>
+                      <p className="text-body-sm text-on-surface-variant mt-1 m-0">
+                        Previously used sections that are no longer active.
+                      </p>
+                    </div>
+                    <span className="text-label-sm text-on-surface-variant">
+                      {archivedClasses.length}
+                    </span>
+                  </div>
+
+                  {archivedClasses.map((cls) => (
+                    <div
+                      key={cls.id}
+                      className="bg-surface-container-lowest p-4 md:p-5 lg:p-6 rounded-lg border border-outline-variant/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
+                    >
+                      <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+                          <span className="text-on-surface-variant font-semibold">
+                            {cls.section}
+                          </span>
+                        </div>
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-title-md font-semibold text-on-surface m-0">
+                              {cls.name}
+                            </h3>
+                            <span className="rounded-full bg-surface-container px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant">
+                              Archived
+                            </span>
+                          </div>
+                          <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
+                            <span>Section {cls.section} • {cls.studentCount} Students</span>
+                          </div>
+                        </div>
+                      </div>
+                      <ClassActionButtons
+                        deleteAction={handleDeleteClass.bind(null, cls.id)}
+                        className={cls.name}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

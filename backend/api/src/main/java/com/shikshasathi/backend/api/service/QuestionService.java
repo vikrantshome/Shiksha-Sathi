@@ -9,11 +9,16 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
+
+    private static final Pattern CHAPTER_NUMBER_PATTERN = Pattern.compile("(?i)chapter\\s*(\\d+)");
 
     private final QuestionRepository questionRepository;
     private final MongoTemplate mongoTemplate;
@@ -68,7 +73,11 @@ public class QuestionService {
             query.addCriteria(Criteria.where("provenance.class").is(classLevel));
         }
 
-        return mongoTemplate.findDistinct(query, "chapter", Question.class, String.class);
+        List<String> chapters = new ArrayList<>(
+                mongoTemplate.findDistinct(query, "chapter", Question.class, String.class)
+        );
+        chapters.sort(chapterTitleComparator());
+        return chapters;
     }
 
     public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, String chapter, String queryText, String type, Boolean approvedOnly, Boolean visibleOnly) {
@@ -125,5 +134,24 @@ public class QuestionService {
             case "LONG_ANSWER", "ESSAY" -> DEFAULT_LONG_ANSWER_POINTS;
             default -> DEFAULT_OBJECTIVE_POINTS;
         };
+    }
+
+    private Comparator<String> chapterTitleComparator() {
+        return Comparator
+                .comparingInt(this::extractChapterNumber)
+                .thenComparing(title -> title == null ? "" : title, String.CASE_INSENSITIVE_ORDER);
+    }
+
+    private int extractChapterNumber(String chapterTitle) {
+        if (chapterTitle == null || chapterTitle.isBlank()) {
+            return Integer.MAX_VALUE;
+        }
+
+        Matcher matcher = CHAPTER_NUMBER_PATTERN.matcher(chapterTitle);
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
+        }
+
+        return Integer.MAX_VALUE;
     }
 }
