@@ -436,7 +436,7 @@ export default function StudentAssignmentForm({
                         key={i} 
                         className={`group relative flex items-center p-4 md:p-5 rounded-lg border transition-all cursor-pointer ${
                           isSelected 
-                            ? 'border-primary bg-primary/5' 
+                            ? 'border-primary/60 bg-primary/10 shadow-[0_10px_24px_rgba(68,99,113,0.10)]' 
                             : 'border-outline-variant/20 bg-surface hover:bg-surface-container-low'
                         }`}
                       >
@@ -448,15 +448,11 @@ export default function StudentAssignmentForm({
                           onChange={() => handleAnswerChange(q.id, opt)}
                           className="sr-only peer"
                         />
-                        <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center mr-4 transition-colors shrink-0 ${
+                        <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center mr-4 transition-all shrink-0 ${
                           isSelected 
-                            ? 'border-primary bg-primary' 
-                            : 'border-outline-variant'
-                        }`}>
-                          <div className={`w-2 h-2 bg-white rounded-full transition-opacity ${
-                            isSelected ? 'opacity-100' : 'opacity-0'
-                          }`}></div>
-                        </div>
+                            ? 'border-black bg-black' 
+                            : 'border-outline-variant bg-surface'
+                        }`} />
                         <span className={`text-base md:text-lg transition-colors ${
                           isSelected 
                             ? 'font-bold text-primary' 
