@@ -21,11 +21,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AssignmentSubmissionService {
+
+    private static final Pattern PARENTHETICAL_OR_PATTERN = Pattern.compile("^(.+?)\\s*\\((?:or\\s+)?(.+?)\\)$", Pattern.CASE_INSENSITIVE);
 
     private final AssignmentSubmissionRepository submissionRepository;
     private final UserRepository userRepository;
@@ -139,7 +143,15 @@ public class AssignmentSubmissionService {
         if (studentAnswer == null || correctAnswer == null) {
             return false;
         }
-        return normalizeAnswer(studentAnswer).equals(normalizeAnswer(correctAnswer));
+
+        String normalizedStudentAnswer = normalizeAnswer(studentAnswer);
+        for (String acceptedAnswer : acceptedAnswers(correctAnswer)) {
+            if (normalizedStudentAnswer.equals(normalizeAnswer(acceptedAnswer))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private String stringifyAnswer(Object answer) {
@@ -159,6 +171,19 @@ public class AssignmentSubmissionService {
                 .trim();
 
         return normalized;
+    }
+
+    private List<String> acceptedAnswers(String correctAnswer) {
+        List<String> acceptedAnswers = new ArrayList<>();
+        acceptedAnswers.add(correctAnswer);
+
+        Matcher matcher = PARENTHETICAL_OR_PATTERN.matcher(correctAnswer.trim());
+        if (matcher.matches()) {
+            acceptedAnswers.add(matcher.group(1).trim());
+            acceptedAnswers.add(matcher.group(2).trim());
+        }
+
+        return acceptedAnswers;
     }
 
     private String firstNonBlank(String... candidates) {

@@ -178,4 +178,40 @@ public class AssignmentSubmissionServiceTest {
         assertTrue(result.getFeedback().get(0).isCorrect());
         assertTrue(result.getFeedback().get(1).isCorrect());
     }
+
+    @Test
+    void submitAssignment_AcceptsAlternateParentheticalAnswers() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student3");
+        submission.setStudentName("Alternate Answer Tester");
+        submission.setAnswers(Map.of("q1", "testicles", "q2", "AAA"));
+
+        Question question1 = new Question();
+        question1.setId("q1");
+        question1.setText("The male reproductive organ in humans is called ________.");
+        question1.setCorrectAnswer("testes (or testicles)");
+        question1.setPoints(1);
+
+        Question question2 = new Question();
+        question2.setId("q2");
+        question2.setText("What is the AAA similarity criterion?");
+        question2.setCorrectAnswer("AAA");
+        question2.setPoints(2);
+
+        mockedAssignment.setQuestionIds(List.of("q1", "q2"));
+        mockedAssignment.setMaxScore(3);
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student3")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
+
+        assertEquals(3, result.getScore());
+        assertTrue(result.getFeedback().get(0).isCorrect());
+        assertEquals(1, result.getFeedback().get(0).getMarksAwarded());
+    }
 }
