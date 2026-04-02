@@ -81,9 +81,14 @@ export interface Question {
   points: number;
   explanation?: string;
   sourceKind?: 'CANONICAL' | 'DERIVED';
-  reviewStatus?: 'DRAFT' | 'APPROVED' | 'REJECTED';
+  reviewStatus?: 'DRAFT' | 'APPROVED' | 'REJECTED' | 'PUBLISHED';
   provenance?: Provenance;
   language?: string;
+  generationRunId?: string;
+  sourceCanonicalQuestionIds?: string[];
+  derivedFromChapterId?: string;
+  generationRationale?: string;
+  reviewerNotes?: string;
 }
 
 export interface Assignment {

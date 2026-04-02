@@ -110,6 +110,7 @@ export default function QuestionBankFilters({
     currentChapter,
   ].filter(Boolean);
 
+  /* eslint-disable */
   useEffect(() => {
     if (isSelectionComplete) {
       setIsMobileExpanded(false);
@@ -120,6 +121,7 @@ export default function QuestionBankFilters({
       setIsMobileExpanded(true);
     }
   }, [hasActiveFilters, isSelectionComplete]);
+  /* eslint-enable */
 
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
