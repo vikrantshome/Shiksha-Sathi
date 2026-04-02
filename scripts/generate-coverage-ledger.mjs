@@ -12,40 +12,39 @@ async function generateCoverageLedger() {
   const extractionFiles = fs.readdirSync('doc/NCERT/extractions/')
     .filter(f => f.endsWith('.json'))
     .map(f => {
-      const match = f.match(/class(\d+)-([^-]+)-ch(\d+)-v(\d+)\.json/);
-      if (match) {
-        return {
-          file: f,
-          class: match[1],
-          subject: match[2],
-          chapter: parseInt(match[3]),
-          version: parseInt(match[4])
-        };
+      try {
+        const d = JSON.parse(fs.readFileSync('doc/NCERT/extractions/' + f, 'utf8'));
+        return { file: f, sourceFile: d.provenance.sourceFile };
+      } catch (e) {
+        return null;
       }
-      return null;
     })
-    .filter(f => f !== null);
+    .filter(f => f !== null && f.sourceFile);
   
   // Connect to MongoDB to check ingestion status
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
   const db = client.db('shikshasathi');
   
-  // Get ingested chapters
+  // Get ingested chapters grouped by sourceFile
   const ingestedChapters = await db.collection('questions').aggregate([
-    { $match: { 'provenance.board': 'NCERT' } },
+    { $match: { 'provenance.board': 'NCERT', 'provenance.sourceFile': { $ne: null } } },
     { $group: { 
-      _id: { 
-        class: '$provenance.class',
-        subject: '$provenance.subject',
-        book: '$provenance.book',
-        chapterNumber: '$provenance.chapterNumber'
-      },
+      _id: '$provenance.sourceFile',
       count: { $sum: 1 },
       extractionRunId: { $first: '$provenance.extraction_run_id' },
-      reviewStatus: { $first: '$review_status' }
+      reviewStatus: { $first: '$review_status' },
+      className: { $first: '$provenance.class' },
+      subject: { $first: '$provenance.subject' },
+      book: { $first: '$provenance.book' },
+      chapterTitle: { $first: '$provenance.chapterTitle' }
     }}
   ]).toArray();
+
+  const ingestedMap = new Map();
+  for (const item of ingestedChapters) {
+    ingestedMap.set(item._id, item);
+  }
   
   // Build coverage ledger
   const ledger = {
@@ -57,6 +56,34 @@ async function generateCoverageLedger() {
     totalPublishedChapters: 0,
     classes: {}
   };
+
+  function processChapter(chapter, bookTitle) {
+    ledger.totalRegisteredChapters++;
+    const sourceFile = chapter.file;
+    const extraction = extractionFiles.find(e => e.sourceFile === sourceFile);
+    const ingested = ingestedMap.get(sourceFile);
+    
+    const chapterLedger = {
+      number: chapter.number,
+      title: ingested && ingested.chapterTitle ? ingested.chapterTitle : (chapter.title || `Chapter ${chapter.number}`),
+      file: sourceFile,
+      registryStatus: 'registered',
+      extractionFile: extraction ? extraction.file : null,
+      extractionStatus: extraction ? 'extracted' : 'pending',
+      ingestionStatus: ingested ? 'ingested' : 'pending',
+      reviewStatus: ingested ? ingested.reviewStatus || 'PENDING' : null,
+      publishStatus: ingested && ingested.reviewStatus === 'PUBLISHED' ? 'published' : 'pending',
+      extractionRunId: ingested ? ingested.extractionRunId : null,
+      questionCount: ingested ? ingested.count : 0,
+      lastValidatedAt: new Date().toISOString()
+    };
+    
+    if (extraction) ledger.totalExtractedChapters++;
+    if (ingested) ledger.totalIngestedChapters++;
+    if (ingested && ingested.reviewStatus === 'PUBLISHED') ledger.totalPublishedChapters++;
+    
+    return chapterLedger;
+  }
   
   // Process registry
   for (const [className, classData] of Object.entries(registry.classes)) {
@@ -66,53 +93,26 @@ async function generateCoverageLedger() {
       ledger.classes[className].subjects[subjectName] = { books: [] };
       
       if (Array.isArray(subjectData.chapters)) {
-        // Direct chapters (Class 6-8)
         const bookTitle = `${subjectName} ${className}`;
         const bookLedger = {
           title: bookTitle,
           chapters: []
         };
-        
         for (const chapter of subjectData.chapters) {
-          ledger.totalRegisteredChapters++;
-          
-          // Check if extraction file exists
-          const extraction = extractionFiles.find(e => 
-            e.class === className && 
-            e.subject === subjectName && 
-            e.chapter === chapter.number
-          );
-          
-          // Check if ingested
-          const ingested = ingestedChapters.find(i =>
-            i._id.class === className &&
-            i._id.subject.toLowerCase() === subjectName.toLowerCase() &&
-            i._id.chapterNumber === chapter.number
-          );
-          
-          const chapterLedger = {
-            number: chapter.number,
-            title: chapter.title || `Chapter ${chapter.number}`,
-            file: chapter.file,
-            registryStatus: 'registered',
-            extractionFile: extraction ? extraction.file : null,
-            extractionStatus: extraction ? 'extracted' : 'pending',
-            ingestionStatus: ingested ? 'ingested' : 'pending',
-            reviewStatus: ingested ? ingested.reviewStatus || 'PENDING' : null,
-            publishStatus: ingested && ingested.reviewStatus === 'PUBLISHED' ? 'published' : 'pending',
-            extractionRunId: ingested ? ingested.extractionRunId : null,
-            questionCount: ingested ? ingested.count : 0,
-            lastValidatedAt: null
-          };
-          
-          if (extraction) ledger.totalExtractedChapters++;
-          if (ingested) ledger.totalIngestedChapters++;
-          if (ingested && ingested.reviewStatus === 'PUBLISHED') ledger.totalPublishedChapters++;
-          
-          bookLedger.chapters.push(chapterLedger);
+          bookLedger.chapters.push(processChapter(chapter, bookTitle));
         }
-        
         ledger.classes[className].subjects[subjectName].books.push(bookLedger);
+      } else if (subjectData.books && Array.isArray(subjectData.books)) {
+        for (const book of subjectData.books) {
+          const bookLedger = {
+            title: book.title || `${subjectName} ${className}`,
+            chapters: []
+          };
+          for (const chapter of book.chapters || []) {
+            bookLedger.chapters.push(processChapter(chapter, bookLedger.title));
+          }
+          ledger.classes[className].subjects[subjectName].books.push(bookLedger);
+        }
       }
     }
   }
