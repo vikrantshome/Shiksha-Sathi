@@ -52,7 +52,7 @@ public class Question extends BaseEntity {
     @Field("source_kind") // CANONICAL, DERIVED
     private String sourceKind;
 
-    @Field("review_status") // DRAFT, APPROVED, REJECTED
+    @Field("review_status") // DRAFT, APPROVED, REJECTED, PUBLISHED
     private String reviewStatus;
 
     @Field("provenance")
@@ -60,6 +60,22 @@ public class Question extends BaseEntity {
 
     @Field("language")
     private String language;
+
+    // Derived question metadata
+    @Field("source_canonical_question_ids")
+    private List<String> sourceCanonicalQuestionIds;
+
+    @Field("derived_from_chapter_id")
+    private String derivedFromChapterId;
+
+    @Field("generation_run_id")
+    private String generationRunId;
+
+    @Field("generation_rationale")
+    private String generationRationale;
+
+    @Field("reviewer_notes")
+    private String reviewerNotes;
 
     public String getCorrectAnswer() {
         return correctAnswer != null ? correctAnswer : legacyCorrectAnswer;

@@ -65,7 +65,11 @@ next-env.d.ts
 
 # accidental commits
 doc/temporary stuck chat/
-# Allow the NCERT registry file
-!doc/NCERT/registry.json
-doc/NCERT
+# Ignore NCERT content artifacts by default but allow selected policy files
+doc/NCERT/**
+!doc/NCERT/
+!doc/NCERT/coverage-ledger.json
+!doc/NCERT/derived-question-workflow.md
+!doc/NCERT/publish-workflow.md
+!doc/NCERT/derived-reference-allowlist.md
 .env*.local
