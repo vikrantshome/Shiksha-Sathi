@@ -27,16 +27,16 @@ public class Provenance {
     @Field("book")
     private String book;
 
-    @Field("chapter_number")
+    @Field("chapterNumber")
     private Integer chapterNumber;
 
-    @Field("chapter_title")
+    @Field("chapterTitle")
     private String chapterTitle;
 
-    @Field("source_file")
+    @Field("sourceFile")
     private String sourceFile;
 
-    @Field("page_numbers")
+    @Field("pageNumbers")
     private String pageNumbers; // e.g., "12-15"
 
     @Field("section")
