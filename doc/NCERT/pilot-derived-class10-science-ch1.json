@@ -1,0 +1,140 @@
+[
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "derivedFromChapterId": "Chapter 1: Chemical Reactions and Equations",
+    "generationRunId": "pilot-offline-gen-1",
+    "generationRationale": "Changed the application context from the canonical lead oxide reaction to an industrial iron extraction reaction, requiring the student to apply the definition of reduction to a new equation.",
+    "sourceCanonicalQuestionIds": ["69c7789d6bfcc2d1f3968d86"],
+    "type": "MCQ",
+    "text": "In the industrial extraction of iron, the reaction Fe2O3 + 3CO → 2Fe + 3CO2 occurs. Identify the substance getting reduced.",
+    "options": [
+      "Iron oxide (Fe2O3)",
+      "Carbon monoxide (CO)",
+      "Iron (Fe)",
+      "Carbon dioxide (CO2)"
+    ],
+    "correctAnswer": "Iron oxide (Fe2O3)",
+    "explanation": "In this reaction, oxygen is removed from iron oxide (Fe2O3) to form iron (Fe). The loss of oxygen is defined as reduction, so iron oxide is the substance getting reduced.",
+    "points": 1,
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Chemical Reactions and Equations",
+    "provenance": {
+      "board": "NCERT",
+      "class": "10",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Chemical Reactions and Equations",
+      "sourceFile": "jesc101.pdf",
+      "extraction_run_id": "10-Science-science-ch1-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "derivedFromChapterId": "Chapter 1: Chemical Reactions and Equations",
+    "generationRunId": "pilot-offline-gen-1",
+    "generationRationale": "Increased difficulty by moving from a factual recall of the definition of a balanced equation to evaluating why a specific unbalanced skeletal equation violates the underlying physical law.",
+    "sourceCanonicalQuestionIds": ["69c7789d6bfcc2d1f3968d87", "69c7789d6bfcc2d1f3968d88"],
+    "type": "SHORT_ANSWER",
+    "text": "Why is the skeletal equation 'Mg + O2 → MgO' considered incorrect from the perspective of mass conservation?",
+    "correctAnswer": "It is incorrect because the number of oxygen atoms is not equal on both sides (2 on the reactant side, 1 on the product side), violating the law of conservation of mass.",
+    "explanation": "According to the law of conservation of mass, mass can neither be created nor destroyed. The skeletal equation Mg + O2 → MgO shows two oxygen atoms reacting but only one appearing in the product, which implies a loss of mass. It must be balanced as 2Mg + O2 → 2MgO.",
+    "points": 2,
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Chemical Reactions and Equations",
+    "provenance": {
+      "board": "NCERT",
+      "class": "10",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Chemical Reactions and Equations",
+      "sourceFile": "jesc101.pdf",
+      "extraction_run_id": "10-Science-science-ch1-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "derivedFromChapterId": "Chapter 1: Chemical Reactions and Equations",
+    "generationRunId": "pilot-offline-gen-1",
+    "generationRationale": "Changed question type from fill-in-the-blanks to true/false, and changed the context from the thermite reaction to an observational aqueous displacement reaction.",
+    "sourceCanonicalQuestionIds": ["69c7789d6bfcc2d1f3968d89"],
+    "type": "TRUE_FALSE",
+    "text": "When zinc granules are added to a solution of copper sulphate, the blue color of the solution fades and a reddish-brown deposit forms. This is because zinc undergoes a displacement reaction.",
+    "options": ["True", "False"],
+    "correctAnswer": "True",
+    "explanation": "Zinc is more reactive than copper, so it displaces copper from copper sulphate solution, forming colorless zinc sulphate and solid copper (the reddish-brown deposit). This is a classic displacement reaction.",
+    "points": 1,
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Chemical Reactions and Equations",
+    "provenance": {
+      "board": "NCERT",
+      "class": "10",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Chemical Reactions and Equations",
+      "sourceFile": "jesc101.pdf",
+      "extraction_run_id": "10-Science-science-ch1-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "derivedFromChapterId": "Chapter 1: Chemical Reactions and Equations",
+    "generationRunId": "pilot-offline-gen-1",
+    "generationRationale": "Shifted reasoning from identifying what is reduced to identifying the reducing agent in a different standard NCERT redox example.",
+    "sourceCanonicalQuestionIds": ["69c7789d6bfcc2d1f3968d86"],
+    "type": "FILL_IN_BLANKS",
+    "text": "In a reaction where hydrogen gas is passed over heated copper oxide (CuO + H2 → Cu + H2O), the substance acting as the reducing agent is ________.",
+    "correctAnswer": "hydrogen",
+    "explanation": "Hydrogen gains oxygen to form water, meaning it undergoes oxidation. The substance that gets oxidized acts as the reducing agent. Therefore, hydrogen is the reducing agent.",
+    "points": 1,
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Chemical Reactions and Equations",
+    "provenance": {
+      "board": "NCERT",
+      "class": "10",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Chemical Reactions and Equations",
+      "sourceFile": "jesc101.pdf",
+      "extraction_run_id": "10-Science-science-ch1-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "derivedFromChapterId": "Chapter 1: Chemical Reactions and Equations",
+    "generationRunId": "pilot-offline-gen-1",
+    "generationRationale": "Added an observational context to test the understanding of exothermic reactions combined with combination reactions.",
+    "sourceCanonicalQuestionIds": ["69c7789d6bfcc2d1f3968d89", "69c7789d6bfcc2d1f3968d86"],
+    "type": "MCQ",
+    "text": "A student observes that when water is added to quicklime (calcium oxide), a large amount of heat is produced and the mixture boils. This process is a combination reaction and is also classified as ________.",
+    "options": [
+      "an endothermic reaction",
+      "an exothermic reaction",
+      "a decomposition reaction",
+      "a displacement reaction"
+    ],
+    "correctAnswer": "an exothermic reaction",
+    "explanation": "The reaction between quicklime and water to form slaked lime releases a significant amount of heat, making it an exothermic reaction.",
+    "points": 1,
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Chemical Reactions and Equations",
+    "provenance": {
+      "board": "NCERT",
+      "class": "10",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Chemical Reactions and Equations",
+      "sourceFile": "jesc101.pdf",
+      "extraction_run_id": "10-Science-science-ch1-v1"
+    }
+  }
+]
