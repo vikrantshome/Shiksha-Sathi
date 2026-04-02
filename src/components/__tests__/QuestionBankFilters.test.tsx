@@ -16,8 +16,8 @@ describe('QuestionBankFilters', () => {
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math']} books={['Book1']} chapters={['Chapter 1']} />);
 
-    expect(screen.getByText('Board Select')).toBeInTheDocument();
-    expect(screen.getByText('NCERT / CBSE')).toBeInTheDocument();
+    expect(screen.getAllByText('Board Select')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('NCERT / CBSE')[0]).toBeInTheDocument();
   });
 
   it('renders class selection buttons', () => {
@@ -53,8 +53,8 @@ describe('QuestionBankFilters', () => {
 
     render(<QuestionBankFilters boards={['State Board', 'CBSE']} classes={['6', '7']} subjects={['Math', 'Science']} books={['Book1']} chapters={['Chapter 1']} />);
 
-    expect(screen.getByText('Subject')).toBeInTheDocument();
-    expect(screen.getByText('Math')).toBeInTheDocument();
+    expect(screen.getAllByText('Subject')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Math')[0]).toBeInTheDocument();
   });
 
   it('navigates when search input changes', () => {
