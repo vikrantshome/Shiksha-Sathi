@@ -18,6 +18,7 @@
     "@fontsource/geist-mono": "^5.2.7",
     "@fontsource/geist-sans": "^5.2.5",
     "@fontsource/manrope": "^5.2.8",
+    "@google/generative-ai": "^0.24.1",
     "@heroicons/react": "^2.2.0",
     "cookies-next": "^6.1.1",
     "framer-motion": "^12.38.0",
