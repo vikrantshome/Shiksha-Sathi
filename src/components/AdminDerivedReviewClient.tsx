@@ -40,7 +40,6 @@ export default function AdminDerivedReviewClient({
   const searchParams = useSearchParams();
 
   const [questions, setQuestions] = useState<Question[]>(initialQuestions);
-  const [generating, setGenerating] = useState(false);
   const [publishing, setPublishing] = useState(false);
 
   const updateFilters = (key: string, value: string) => {
@@ -50,35 +49,25 @@ export default function AdminDerivedReviewClient({
     } else {
       params.delete(key);
     }
-    
-    if (key !== "chapter" && key !== "status") {
-      params.delete("chapter");
-      if (key !== "book") params.delete("book");
-      if (key !== "subject") params.delete("subject");
-      if (key !== "class") params.delete("class");
-    }
-    
-    router.push(`${pathname}?${params.toString()}`);
-  };
 
-  const handleGenerate = async () => {
-    if (!initialBoard || !initialClassLevel || !initialSubjectId || !initialBook || !initialChapter) return;
-    setGenerating(true);
-    try {
-      await api.derived.generateChapterBatch({
-        board: initialBoard,
-        classLevel: initialClassLevel,
-        subjectId: initialSubjectId,
-        book: initialBook,
-        chapter: initialChapter,
-        questionsPerChapter: 5
-      });
-      router.refresh();
-    } catch (err) {
-      console.error("Failed to generate", err);
-    } finally {
-      setGenerating(false);
+    // Cascade: clear downstream filters when an upstream filter changes
+    if (key === "board") {
+      params.delete("class");
+      params.delete("subject");
+      params.delete("book");
+      params.delete("chapter");
+    } else if (key === "class") {
+      params.delete("subject");
+      params.delete("book");
+      params.delete("chapter");
+    } else if (key === "subject") {
+      params.delete("book");
+      params.delete("chapter");
+    } else if (key === "book") {
+      params.delete("chapter");
     }
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const handleApprove = async (id: string) => {
@@ -188,20 +177,6 @@ export default function AdminDerivedReviewClient({
             </div>
           </div>
         </div>
-
-        {initialChapter && (
-          <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
-            <h3 className="font-bold text-indigo-900 mb-2">Generation</h3>
-            <p className="text-sm text-indigo-700 mb-4">Generate new derived questions for this chapter.</p>
-            <button 
-              onClick={handleGenerate}
-              disabled={generating}
-              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md font-medium hover:bg-indigo-700 disabled:opacity-50"
-            >
-              {generating ? "Generating..." : "Generate Batch"}
-            </button>
-          </div>
-        )}
       </div>
 
       <div className="lg:col-span-3">
@@ -233,9 +208,9 @@ export default function AdminDerivedReviewClient({
           </div>
         )}
 
-        {!initialChapter ? (
+        {!initialChapter && questions.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-white rounded-xl border border-gray-200 border-dashed">
-            Select a chapter to view or generate derived questions.
+            No derived questions found for status: {initialStatus}. Select a chapter or try a different status.
           </div>
         ) : questions.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-white rounded-xl border border-gray-200 border-dashed">
