@@ -2,12 +2,6 @@ import { fetchApi } from './client';
 import { Question } from './types';
 
 export const derived = {
-  generateChapterBatch: (params: { board: string; classLevel: string; subjectId: string; book: string; chapter: string; questionsPerChapter?: number }): Promise<Question[]> =>
-    fetchApi<Question[]>('/derived-questions/generate', {
-      method: 'POST',
-      body: JSON.stringify(params),
-    }),
-
   getDerivedQuestions: (status?: string, chapter?: string): Promise<Question[]> => {
     const params = new URLSearchParams();
     if (status) params.append('status', status);
