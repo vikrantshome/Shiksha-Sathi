@@ -1,304 +1,712 @@
 [
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 9: Force and Laws of Motion", "derivedFromChapterId": "Chapter 9: Force and Laws of Motion",
-    "generationRationale": "Applied Newton's first law to a practical scenario.",
-    "sourceCanonicalQuestionIds": ["69c78bed39258c1d044d538a"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 1: Number Systems",
+    "derivedFromChapterId": "Chapter 1: Number Systems",
+    "generationRationale": "Tests understanding of number sets rather than a simple definition of zero.",
+    "sourceCanonicalQuestionIds": [
+      "69c778a46bfcc2d1f3968ed6"
+    ],
     "type": "MCQ",
-    "text": "When a moving bus suddenly stops, the passengers tend to fall forward. This is primarily due to:",
-    "options": ["Newton's second law", "Law of conservation of momentum", "Inertia of motion", "Inertia of rest"],
-    "correctAnswer": "Inertia of motion",
-    "explanation": "According to Newton's first law (law of inertia), the passengers' bodies tend to remain in their state of motion even when the bus stops, causing them to fall forward.",
+    "text": "Which of the following sets of numbers includes zero but does not include negative numbers?",
+    "options": [
+      "Natural numbers",
+      "Whole numbers",
+      "Integers",
+      "Rational numbers"
+    ],
+    "correctAnswer": "Whole numbers",
+    "explanation": "Whole numbers consist of all natural numbers along with zero. Integers and rational numbers include negatives.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 9, "chapterTitle": "Force and Laws of Motion", "sourceFile": "iesc109.pdf", "extraction_run_id": "9-Science-science-ch9-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 1,
+      "chapterTitle": "Number Systems",
+      "sourceFile": "iemh101.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch1-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 10: Circles", "derivedFromChapterId": "Chapter 10: Circles",
-    "generationRationale": "Shifted to identifying a chord passing through the center.",
-    "sourceCanonicalQuestionIds": ["69c78c50541201cdfd1d5530"],
-    "type": "TRUE_FALSE",
-    "text": "Every diameter of a circle is also a chord of the circle.",
-    "options": ["True", "False"],
-    "correctAnswer": "True",
-    "explanation": "A chord is any line segment connecting two points on a circle. A diameter connects two points and passes through the center, making it the longest chord.",
-    "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 10, "chapterTitle": "Circles", "sourceFile": "iemh110.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch10-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 6: Lines and Angles", "derivedFromChapterId": "Chapter 6: Lines and Angles",
-    "generationRationale": "Tested calculation of a supplementary angle.",
-    "sourceCanonicalQuestionIds": ["69c78a01b9df28859c4121b2"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 8: Quadrilaterals",
+    "derivedFromChapterId": "Chapter 8: Quadrilaterals",
+    "generationRationale": "Applies the angle sum property of quadrilaterals.",
+    "sourceCanonicalQuestionIds": [
+      "69c78b6ea3a8f4091660e43b"
+    ],
     "type": "SHORT_ANSWER",
-    "text": "If two angles form a linear pair and one of them measures 110°, what is the measure of the other angle?",
-    "correctAnswer": "70°",
-    "explanation": "Angles forming a linear pair are supplementary, meaning their sum is 180°. So, 180° - 110° = 70°.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 6, "chapterTitle": "Lines and Angles", "sourceFile": "iemh106.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch6-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 12: Sound", "derivedFromChapterId": "Chapter 12: Sound",
-    "generationRationale": "Shifted from sound in vacuum to identifying its nature in liquids/solids.",
-    "sourceCanonicalQuestionIds": ["69c7a762cf0955f01f932eff", "69c7a762cf0955f01f932f01"],
-    "type": "MCQ",
-    "text": "Which of the following media does sound travel through the fastest?",
-    "options": ["Air", "Water", "Steel", "Vacuum"],
-    "correctAnswer": "Steel",
-    "explanation": "Sound travels fastest in solids because the particles are closest together, followed by liquids, and slowest in gases. It cannot travel in a vacuum.",
+    "text": "If three angles of a quadrilateral are each 90°, what is the measure of the fourth angle?",
+    "correctAnswer": "90°",
+    "explanation": "The sum of all four angles in a quadrilateral is 360°. Since 3 × 90° = 270°, the fourth angle is 360° - 270° = 90°.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 12, "chapterTitle": "Sound", "sourceFile": "iesc112.pdf", "extraction_run_id": "9-Science-science-ch12-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 8,
+      "chapterTitle": "Quadrilaterals",
+      "sourceFile": "iemh108.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch8-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 2: Is Matter Around Us Pure?", "derivedFromChapterId": "Chapter 2: Is Matter Around Us Pure?",
-    "generationRationale": "Applied the concept of homogeneous mixtures to everyday items.",
-    "sourceCanonicalQuestionIds": ["69c778a46bfcc2d1f3968ee3"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 7: Diversity in Living Organisms",
+    "derivedFromChapterId": "Chapter 7: Diversity in Living Organisms",
+    "generationRationale": "Compares two kingdoms instead of simply identifying one.",
+    "sourceCanonicalQuestionIds": [
+      "69c78b04a63be629579372dc"
+    ],
+    "type": "TRUE_FALSE",
+    "text": "Unlike organisms in the kingdom Monera, organisms in the kingdom Protista are primarily characterized as being eukaryotic.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "True",
+    "explanation": "The kingdom Monera consists of prokaryotic organisms (like bacteria), while Protista includes unicellular eukaryotic organisms.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 7,
+      "chapterTitle": "Diversity in Living Organisms",
+      "sourceFile": "iesc107.pdf",
+      "extraction_run_id": "9-Science-science-ch7-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 2: Is Matter Around Us Pure?",
+    "derivedFromChapterId": "Chapter 2: Is Matter Around Us Pure?",
+    "generationRationale": "Applies the definition of a compound to a chemical reaction scenario.",
+    "sourceCanonicalQuestionIds": [
+      "69c778a46bfcc2d1f3968ee2"
+    ],
+    "type": "MCQ",
+    "text": "When iron and sulfur are heated together to form iron sulfide, the new substance has entirely different properties from its constituents. Iron sulfide is an example of a:",
+    "options": [
+      "Element",
+      "Mixture",
+      "Compound",
+      "Solution"
+    ],
+    "correctAnswer": "Compound",
+    "explanation": "A compound is a substance formed when two or more elements are chemically bonded together in a fixed ratio, resulting in new properties.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 2,
+      "chapterTitle": "Is Matter Around Us Pure?",
+      "sourceFile": "iesc102.pdf",
+      "extraction_run_id": "9-Science-science-ch2-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 4: Structure of the Atom",
+    "derivedFromChapterId": "Chapter 4: Structure of the Atom",
+    "generationRationale": "Explores the historical model of the atom associated with the electron's discovery.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892ebc3701a20c813e1b"
+    ],
     "type": "FILL_IN_BLANKS",
-    "text": "A mixture of salt completely dissolved in water is an example of a ________ mixture.",
-    "correctAnswer": "homogeneous",
-    "explanation": "A salt solution has a uniform composition throughout, making it a homogeneous mixture (or solution).",
+    "text": "J.J. Thomson's 'plum pudding' model proposed that the atom is a positively charged sphere with ________ embedded in it.",
+    "correctAnswer": "electrons",
+    "explanation": "Thomson discovered the electron and proposed that they were embedded in a uniform sphere of positive charge, like plums in a pudding.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 2, "chapterTitle": "Is Matter Around Us Pure?", "sourceFile": "iesc102.pdf", "extraction_run_id": "9-Science-science-ch2-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 4,
+      "chapterTitle": "Structure of the Atom",
+      "sourceFile": "iesc104.pdf",
+      "extraction_run_id": "9-Science-science-ch4-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 4: Structure of the Atom", "derivedFromChapterId": "Chapter 4: Structure of the Atom",
-    "generationRationale": "Tests the concept of isotopes using practical examples.",
-    "sourceCanonicalQuestionIds": ["69c7892ebc3701a20c813e1d"],
-    "type": "TRUE_FALSE",
-    "text": "Carbon-12 and Carbon-14 are examples of isotopes because they have the same atomic number but different mass numbers.",
-    "options": ["True", "False"],
-    "correctAnswer": "True",
-    "explanation": "Isotopes are atoms of the same element (same number of protons/atomic number) with different numbers of neutrons (different mass numbers).",
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 6: Lines and Angles",
+    "derivedFromChapterId": "Chapter 6: Lines and Angles",
+    "generationRationale": "Tests the supplementary property of linear pairs through angle classification.",
+    "sourceCanonicalQuestionIds": [
+      "69c78a01b9df28859c4121b2"
+    ],
+    "type": "MCQ",
+    "text": "If one angle of a linear pair is an acute angle, the other angle must be:",
+    "options": [
+      "Acute",
+      "Obtuse",
+      "Right",
+      "Straight"
+    ],
+    "correctAnswer": "Obtuse",
+    "explanation": "A linear pair adds up to 180° (supplementary). If one angle is less than 90° (acute), the other must be greater than 90° (obtuse) to reach 180°.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 4, "chapterTitle": "Structure of the Atom", "sourceFile": "iesc104.pdf", "extraction_run_id": "9-Science-science-ch4-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 6,
+      "chapterTitle": "Lines and Angles",
+      "sourceFile": "iemh106.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch6-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 7: Diversity in Living Organisms", "derivedFromChapterId": "Chapter 7: Diversity in Living Organisms",
-    "generationRationale": "Shifted to applying binomial nomenclature to a known organism.",
-    "sourceCanonicalQuestionIds": ["69c78b04a63be629579372de"],
-    "type": "SHORT_ANSWER",
-    "text": "In the scientific name for humans, 'Homo sapiens', what taxonomic category does 'Homo' represent?",
-    "correctAnswer": "Genus",
-    "explanation": "In binomial nomenclature, the first word represents the genus and the second word represents the species.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 7, "chapterTitle": "Diversity in Living Organisms", "sourceFile": "iesc107.pdf", "extraction_run_id": "9-Science-science-ch7-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 8: Quadrilaterals", "derivedFromChapterId": "Chapter 8: Quadrilaterals",
-    "generationRationale": "Tested a specific property of a parallelogram.",
-    "sourceCanonicalQuestionIds": ["69c78b6ea3a8f4091660e43c", "69c78b6ea3a8f4091660e43d"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 8: Motion",
+    "derivedFromChapterId": "Chapter 8: Motion",
+    "generationRationale": "Contrasts scalar (speed) and vector (velocity) quantities.",
+    "sourceCanonicalQuestionIds": [
+      "69c78b6fa3a8f4091660e43f"
+    ],
     "type": "FILL_IN_BLANKS",
-    "text": "If a quadrilateral is a parallelogram, its opposite angles are ________.",
-    "correctAnswer": "equal",
-    "explanation": "A key property of parallelograms is that both pairs of opposite angles are equal in measure.",
+    "text": "Unlike speed, which only describes how fast an object is moving, velocity also describes the object's ________.",
+    "correctAnswer": "direction",
+    "explanation": "Velocity is a vector quantity, meaning it has both magnitude (speed) and a specific direction.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 8, "chapterTitle": "Quadrilaterals", "sourceFile": "iemh108.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch8-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 8,
+      "chapterTitle": "Motion",
+      "sourceFile": "iesc108.pdf",
+      "extraction_run_id": "9-Science-science-ch8-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 8: Motion", "derivedFromChapterId": "Chapter 8: Motion",
-    "generationRationale": "Contrasted scalar vs vector quantities.",
-    "sourceCanonicalQuestionIds": ["69c78b6fa3a8f4091660e43f"],
-    "type": "MCQ",
-    "text": "While speed is a scalar quantity, velocity is a vector quantity because it includes:",
-    "options": ["Mass", "Direction", "Time", "Distance"],
-    "correctAnswer": "Direction",
-    "explanation": "Velocity is defined as speed in a given direction, making it a vector quantity.",
-    "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 8, "chapterTitle": "Motion", "sourceFile": "iesc108.pdf", "extraction_run_id": "9-Science-science-ch8-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 3: Coordinate Geometry", "derivedFromChapterId": "Chapter 3: Coordinate Geometry",
-    "generationRationale": "Shifted to identifying quadrant signs.",
-    "sourceCanonicalQuestionIds": ["69c7892dbc3701a20c813e0d"],
-    "type": "TRUE_FALSE",
-    "text": "The point (-3, -4) lies in the third quadrant of the Cartesian plane.",
-    "options": ["True", "False"],
-    "correctAnswer": "True",
-    "explanation": "In the third quadrant, both the x-coordinate (abscissa) and y-coordinate (ordinate) are negative.",
-    "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 3, "chapterTitle": "Coordinate Geometry", "sourceFile": "iemh103.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch3-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 9: Areas of Parallelograms and Triangles", "derivedFromChapterId": "Chapter 9: Areas of Parallelograms and Triangles",
-    "generationRationale": "Applied the diagonal area division property.",
-    "sourceCanonicalQuestionIds": ["69c78bec39258c1d044d5389"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 9: Areas of Parallelograms and Triangles",
+    "derivedFromChapterId": "Chapter 9: Areas of Parallelograms and Triangles",
+    "generationRationale": "Applies the area theorem directly to a numerical problem.",
+    "sourceCanonicalQuestionIds": [
+      "69c78bec39258c1d044d5386"
+    ],
     "type": "SHORT_ANSWER",
-    "text": "If the area of a parallelogram is 40 cm², what is the area of one of the triangles formed by drawing a diagonal?",
-    "correctAnswer": "20 cm²",
-    "explanation": "A diagonal divides a parallelogram into two congruent triangles of equal area. Half of 40 is 20.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 9, "chapterTitle": "Areas of Parallelograms and Triangles", "sourceFile": "iemh109.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch9-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 7: Heron's Formula", "derivedFromChapterId": "Chapter 7: Heron's Formula",
-    "generationRationale": "Tested the semi-perimeter calculation directly.",
-    "sourceCanonicalQuestionIds": ["69c78b03a63be629579372d9"],
-    "type": "MCQ",
-    "text": "What is the value of the semi-perimeter 's' for a triangle with sides measuring 6 cm, 8 cm, and 10 cm?",
-    "options": ["24 cm", "12 cm", "10 cm", "14 cm"],
-    "correctAnswer": "12 cm",
-    "explanation": "The semi-perimeter s is (a+b+c)/2. Here, (6+8+10)/2 = 24/2 = 12 cm.",
+    "text": "A parallelogram and a triangle stand on the same base and between the same parallels. If the area of the parallelogram is 50 cm², what is the area of the triangle?",
+    "correctAnswer": "25 cm²",
+    "explanation": "If a triangle and a parallelogram are on the same base and between the same parallels, the area of the triangle is exactly half the area of the parallelogram.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 7, "chapterTitle": "Heron's Formula", "sourceFile": "iemh107.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch7-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 9,
+      "chapterTitle": "Areas of Parallelograms and Triangles",
+      "sourceFile": "iemh109.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch9-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 5: Introduction to Euclid's Geometry", "derivedFromChapterId": "Chapter 5: Introduction to Euclid's Geometry",
-    "generationRationale": "Shifted to understanding an axiom.",
-    "sourceCanonicalQuestionIds": ["69c7892ebc3701a20c813e16"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 9: Force and Laws of Motion",
+    "derivedFromChapterId": "Chapter 9: Force and Laws of Motion",
+    "generationRationale": "Tests the definition of the concept underlying Newton's First Law.",
+    "sourceCanonicalQuestionIds": [
+      "69c78bed39258c1d044d538a"
+    ],
     "type": "FILL_IN_BLANKS",
-    "text": "According to Euclid's axiom, if A = B and B = C, then A must be ________ to C.",
-    "correctAnswer": "equal",
-    "explanation": "Things which are equal to the same thing are equal to one another.",
+    "text": "The tendency of an undisturbed object to stay at rest or to keep moving with the same velocity is called ________.",
+    "correctAnswer": "inertia",
+    "explanation": "Inertia is the inherent property of matter that resists any change in its state of rest or uniform motion, directly linked to Newton's First Law.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 5, "chapterTitle": "Introduction to Euclid's Geometry", "sourceFile": "iemh105.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch5-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 9,
+      "chapterTitle": "Force and Laws of Motion",
+      "sourceFile": "iesc109.pdf",
+      "extraction_run_id": "9-Science-science-ch9-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 6: Tissues", "derivedFromChapterId": "Chapter 6: Tissues",
-    "generationRationale": "Shifted from xylem function to phloem function.",
-    "sourceCanonicalQuestionIds": ["69c78a01b9df28859c4121b7"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 3: Atoms and Molecules",
+    "derivedFromChapterId": "Chapter 3: Atoms and Molecules",
+    "generationRationale": "Tests the definition of the law rather than its discoverer.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892ebc3701a20c813e17"
+    ],
     "type": "TRUE_FALSE",
-    "text": "While xylem transports water, the phloem tissue is responsible for transporting food in plants.",
-    "options": ["True", "False"],
+    "text": "According to the law of conservation of mass, the total mass of the reactants in a chemical reaction must be equal to the total mass of the products.",
+    "options": [
+      "True",
+      "False"
+    ],
     "correctAnswer": "True",
-    "explanation": "Xylem and phloem are complex tissues in plants. Xylem conducts water and minerals, whereas phloem conducts food (sugars) from leaves to other parts.",
+    "explanation": "Lavoisier's law of conservation of mass states that mass can neither be created nor destroyed in a chemical reaction.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 6, "chapterTitle": "Tissues", "sourceFile": "iesc106.pdf", "extraction_run_id": "9-Science-science-ch6-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 3,
+      "chapterTitle": "Atoms and Molecules",
+      "sourceFile": "iesc103.pdf",
+      "extraction_run_id": "9-Science-science-ch3-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 3: Atoms and Molecules", "derivedFromChapterId": "Chapter 3: Atoms and Molecules",
-    "generationRationale": "Tested identifying a chemical formula based on the molecule definition.",
-    "sourceCanonicalQuestionIds": ["69c7892ebc3701a20c813e19", "69c7892ebc3701a20c813e1a"],
-    "type": "SHORT_ANSWER",
-    "text": "How many atoms in total are present in one molecule of water (H₂O)?",
-    "correctAnswer": "3",
-    "explanation": "A molecule of water (H₂O) contains 2 hydrogen atoms and 1 oxygen atom, making a total of 3 atoms.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 3, "chapterTitle": "Atoms and Molecules", "sourceFile": "iesc103.pdf", "extraction_run_id": "9-Science-science-ch3-v1" }
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 10: Circles",
+    "derivedFromChapterId": "Chapter 10: Circles",
+    "generationRationale": "Connects the concept of the longest chord to its relationship with the radius.",
+    "sourceCanonicalQuestionIds": [
+      "69c78c50541201cdfd1d5530"
+    ],
+    "type": "FILL_IN_BLANKS",
+    "text": "A line segment that passes through the center of a circle and has its endpoints on the circle is known as the ________, and it is twice the length of the radius.",
+    "correctAnswer": "diameter",
+    "explanation": "The diameter is the longest chord of a circle because it passes through the center.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 10,
+      "chapterTitle": "Circles",
+      "sourceFile": "iemh110.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch10-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 11: Work and Energy", "derivedFromChapterId": "Chapter 11: Work and Energy",
-    "generationRationale": "Applied the concept of zero work to a physical example.",
-    "sourceCanonicalQuestionIds": ["69c7a6fe7c960267f1795940"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 5: Introduction to Euclid's Geometry",
+    "derivedFromChapterId": "Chapter 5: Introduction to Euclid's Geometry",
+    "generationRationale": "Provides historical context to Euclid's contributions.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892ebc3701a20c813e13"
+    ],
     "type": "MCQ",
-    "text": "A person carries a heavy suitcase and walks horizontally at a constant speed. The work done by the force of gravity on the suitcase is:",
-    "options": ["Positive", "Negative", "Zero", "Maximum"],
+    "text": "In his famous work 'Elements', Euclid compiled the mathematical knowledge of his time. 'Elements' is primarily a foundational text in the field of:",
+    "options": [
+      "Algebra",
+      "Geometry",
+      "Calculus",
+      "Trigonometry"
+    ],
+    "correctAnswer": "Geometry",
+    "explanation": "Euclid is known as the 'father of geometry', and his elements defined the axioms and postulates of Euclidean geometry.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 5,
+      "chapterTitle": "Introduction to Euclid's Geometry",
+      "sourceFile": "iemh105.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch5-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 6: Tissues",
+    "derivedFromChapterId": "Chapter 6: Tissues",
+    "generationRationale": "Differentiates between types of muscular tissue.",
+    "sourceCanonicalQuestionIds": [
+      "69c78a01b9df28859c4121b6"
+    ],
+    "type": "MCQ",
+    "text": "Which type of muscular tissue is attached to bones and helps in voluntary body movements?",
+    "options": [
+      "Cardiac muscle",
+      "Smooth muscle",
+      "Skeletal muscle",
+      "Nervous tissue"
+    ],
+    "correctAnswer": "Skeletal muscle",
+    "explanation": "Skeletal muscles are voluntary muscles attached to the skeleton, allowing for conscious movement.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 6,
+      "chapterTitle": "Tissues",
+      "sourceFile": "iesc106.pdf",
+      "extraction_run_id": "9-Science-science-ch6-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 7: Heron's Formula",
+    "derivedFromChapterId": "Chapter 7: Heron's Formula",
+    "generationRationale": "Focuses on the procedural application of the formula.",
+    "sourceCanonicalQuestionIds": [
+      "69c78b03a63be629579372d8"
+    ],
+    "type": "FILL_IN_BLANKS",
+    "text": "When using Heron's formula to calculate the area of a triangle, the first step is to calculate the semi-perimeter, which is represented by the letter ________.",
+    "correctAnswer": "s",
+    "explanation": "The variable 's' in Heron's formula stands for the semi-perimeter of the triangle.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 7,
+      "chapterTitle": "Heron's Formula",
+      "sourceFile": "iemh107.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch7-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 3: Coordinate Geometry",
+    "derivedFromChapterId": "Chapter 3: Coordinate Geometry",
+    "generationRationale": "Tests fundamental vocabulary of the coordinate plane.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892dbc3701a20c813e0b"
+    ],
+    "type": "FILL_IN_BLANKS",
+    "text": "In the Cartesian coordinate system, the point where the x-axis and y-axis intersect is called the ________.",
+    "correctAnswer": "origin",
+    "explanation": "The origin is the reference point (0,0) where the horizontal x-axis and vertical y-axis meet.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 3,
+      "chapterTitle": "Coordinate Geometry",
+      "sourceFile": "iemh103.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch3-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 11: Work and Energy",
+    "derivedFromChapterId": "Chapter 11: Work and Energy",
+    "generationRationale": "Applies the definition of work to a real-world scenario where effort does not equal physics work.",
+    "sourceCanonicalQuestionIds": [
+      "69c7a6fe7c960267f1795940"
+    ],
+    "type": "MCQ",
+    "text": "If a student pushes against a solid wall for an hour but the wall does not move, the physical work done by the student is:",
+    "options": [
+      "Positive",
+      "Negative",
+      "Zero",
+      "Maximum"
+    ],
     "correctAnswer": "Zero",
-    "explanation": "Gravity acts vertically downwards while the displacement is horizontal. Since the force and displacement are perpendicular (90°), the work done by gravity is zero.",
+    "explanation": "Work is defined as force multiplied by displacement. If there is no displacement (the wall doesn't move), the work done is zero.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 11, "chapterTitle": "Work and Energy", "sourceFile": "iesc111.pdf", "extraction_run_id": "9-Science-science-ch11-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 11,
+      "chapterTitle": "Work and Energy",
+      "sourceFile": "iesc111.pdf",
+      "extraction_run_id": "9-Science-science-ch11-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 4: Linear Equations in Two Variables", "derivedFromChapterId": "Chapter 4: Linear Equations in Two Variables",
-    "generationRationale": "Tested the standard form by requiring an extraction of coefficients.",
-    "sourceCanonicalQuestionIds": ["69c7892ebc3701a20c813e11"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 12: Sound",
+    "derivedFromChapterId": "Chapter 12: Sound",
+    "generationRationale": "Contrasts the propagation of sound waves with light waves.",
+    "sourceCanonicalQuestionIds": [
+      "69c7a762cf0955f01f932efe"
+    ],
     "type": "FILL_IN_BLANKS",
-    "text": "When the equation 3x = 2y + 5 is written in the standard form ax + by + c = 0, the value of 'b' is ________.",
-    "correctAnswer": "-2",
-    "explanation": "Rearranging 3x = 2y + 5 gives 3x - 2y - 5 = 0. Comparing to ax + by + c = 0, we find b = -2.",
+    "text": "Unlike light waves, sound waves require a material medium to travel. This means sound cannot travel through a ________.",
+    "correctAnswer": "vacuum",
+    "explanation": "Sound is a mechanical wave that needs particles (in a solid, liquid, or gas) to vibrate and transfer energy.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 4, "chapterTitle": "Linear Equations in Two Variables", "sourceFile": "iemh104.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch4-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 12,
+      "chapterTitle": "Sound",
+      "sourceFile": "iesc112.pdf",
+      "extraction_run_id": "9-Science-science-ch12-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 2: Polynomials", "derivedFromChapterId": "Chapter 2: Polynomials",
-    "generationRationale": "Shifted to identifying a cubic polynomial instead of a quadratic.",
-    "sourceCanonicalQuestionIds": ["69c778a46bfcc2d1f3968edc"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 2: Polynomials",
+    "derivedFromChapterId": "Chapter 2: Polynomials",
+    "generationRationale": "Tests the definition of a polynomial through a counter-example.",
+    "sourceCanonicalQuestionIds": [
+      "69c778a46bfcc2d1f3968eda"
+    ],
     "type": "TRUE_FALSE",
-    "text": "A polynomial of degree 3 is called a cubic polynomial.",
-    "options": ["True", "False"],
-    "correctAnswer": "True",
-    "explanation": "Polynomials of degree 1 are linear, degree 2 are quadratic, and degree 3 are called cubic polynomials.",
+    "text": "The algebraic expression x^(-2) + 3x + 5 is considered a polynomial.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "False",
+    "explanation": "A polynomial must have non-negative integer exponents for all its variables. The term x^(-2) has a negative exponent.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 2, "chapterTitle": "Polynomials", "sourceFile": "iemh102.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch2-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 2,
+      "chapterTitle": "Polynomials",
+      "sourceFile": "iemh102.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch2-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 5: The Fundamental Unit of Life", "derivedFromChapterId": "Chapter 5: The Fundamental Unit of Life",
-    "generationRationale": "Applied the nucleus concept to its role in the cell.",
-    "sourceCanonicalQuestionIds": ["69c7892ebc3701a20c813e22"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 4: Linear Equations in Two Variables",
+    "derivedFromChapterId": "Chapter 4: Linear Equations in Two Variables",
+    "generationRationale": "Tests understanding of the coordinate axes.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892ebc3701a20c813e0f"
+    ],
     "type": "SHORT_ANSWER",
-    "text": "Why is the nucleus often referred to as the 'control center' of the cell?",
-    "correctAnswer": "Because it contains the cell's genetic material (DNA) and directs all cellular activities.",
-    "explanation": "The nucleus acts as the brain of the cell, coordinating reproduction, growth, and metabolism through DNA.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 5, "chapterTitle": "The Fundamental Unit of Life", "sourceFile": "iesc105.pdf", "extraction_run_id": "9-Science-science-ch5-v1" }
+    "text": "Any point lying strictly on the y-axis has an x-coordinate of:",
+    "correctAnswer": "0",
+    "explanation": "The y-axis is the vertical line where the horizontal distance (x-coordinate) from the origin is zero.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 4,
+      "chapterTitle": "Linear Equations in Two Variables",
+      "sourceFile": "iemh104.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch4-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 1: Matter in Our Surroundings", "derivedFromChapterId": "Chapter 1: Matter in Our Surroundings",
-    "generationRationale": "Tested the relationship between temperature and kinetic energy of particles.",
-    "sourceCanonicalQuestionIds": ["69c778a46bfcc2d1f3968edf", "69c778a46bfcc2d1f3968ee0"],
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 5: The Fundamental Unit of Life",
+    "derivedFromChapterId": "Chapter 5: The Fundamental Unit of Life",
+    "generationRationale": "Provides historical context for the terminology of the cell.",
+    "sourceCanonicalQuestionIds": [
+      "69c7892ebc3701a20c813e1f"
+    ],
     "type": "MCQ",
-    "text": "When water is heated to boiling, what happens to the kinetic energy of its particles?",
-    "options": ["It decreases.", "It remains constant.", "It increases.", "It drops to zero."],
-    "correctAnswer": "It increases.",
-    "explanation": "As temperature increases, the particles gain heat energy, which is converted to kinetic energy, causing them to move much faster.",
+    "text": "While observing a thin slice of cork under a microscope, Robert Hooke coined the term 'cell' because the structure reminded him of:",
+    "options": [
+      "Honeycombs",
+      "Little rooms",
+      "Tiny bubbles",
+      "Woven fabric"
+    ],
+    "correctAnswer": "Little rooms",
+    "explanation": "The Latin word 'cellula' means a small room, which described the box-like structures Hooke saw in the cork.",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 1, "chapterTitle": "Matter in Our Surroundings", "sourceFile": "iesc101.pdf", "extraction_run_id": "9-Science-science-ch1-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 5,
+      "chapterTitle": "The Fundamental Unit of Life",
+      "sourceFile": "iesc105.pdf",
+      "extraction_run_id": "9-Science-science-ch5-v1"
+    }
   },
   {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 1: Number Systems", "derivedFromChapterId": "Chapter 1: Number Systems",
-    "generationRationale": "Shifted to categorizing a non-terminating non-repeating decimal.",
-    "sourceCanonicalQuestionIds": ["69c778a46bfcc2d1f3968ed9"],
-    "type": "FILL_IN_BLANKS",
-    "text": "A decimal expansion that is non-terminating and non-recurring is an ________ number.",
-    "correctAnswer": "irrational",
-    "explanation": "Rational numbers have decimal expansions that either terminate or recur. If it does neither, it cannot be written as a fraction, so it is irrational.",
-    "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 1, "chapterTitle": "Number Systems", "sourceFile": "iemh101.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch1-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Science", "chapter": "Chapter 10: Gravitation", "derivedFromChapterId": "Chapter 10: Gravitation",
-    "generationRationale": "Differentiated between mass and weight based on the canonical facts.",
-    "sourceCanonicalQuestionIds": ["69c78c50541201cdfd1d5534", "69c78c50541201cdfd1d5535"],
-    "type": "TRUE_FALSE",
-    "text": "While an object's mass remains the same on Earth and the Moon, its weight will be different.",
-    "options": ["True", "False"],
-    "correctAnswer": "True",
-    "explanation": "Mass is the amount of matter and is constant everywhere. Weight is the force of gravity on that mass, which varies depending on the celestial body's gravitational pull.",
-    "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Science", "book": "Science", "chapterNumber": 10, "chapterTitle": "Gravitation", "sourceFile": "iesc110.pdf", "extraction_run_id": "9-Science-science-ch10-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 11: Constructions", "derivedFromChapterId": "Chapter 11: Constructions",
-    "generationRationale": "Applied the concept of bisection to an angle.",
-    "sourceCanonicalQuestionIds": ["69c7a6fe7c960267f179593c", "69c7a6fe7c960267f179593d"],
-    "type": "SHORT_ANSWER",
-    "text": "If you construct an angle of 90° and then construct its angle bisector, what will be the measure of each resulting angle?",
-    "correctAnswer": "45°",
-    "explanation": "An angle bisector divides an angle perfectly in half. 90° divided by 2 is 45°.",
-    "points": 2,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 11, "chapterTitle": "Constructions", "sourceFile": "iemh111.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch11-v1" }
-  },
-  {
-    "sourceKind": "DERIVED", "reviewStatus": "DRAFT", "generationRunId": "class9-offline-gen-1",
-    "subjectId": "Mathematics", "chapter": "Chapter 12: Heron's Formula",
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 12: Heron's Formula",
     "derivedFromChapterId": "Chapter 12: Heron's Formula",
-    "generationRationale": "Tested the semi-perimeter formula directly.",
-    "sourceCanonicalQuestionIds": ["69c7a762cf0955f01f932efc", "69c7a762cf0955f01f932efa"],
-    "type": "MCQ",
-    "text": "In Heron's formula, the letter 's' stands for the semi-perimeter. How is 's' calculated for a triangle with sides a, b, and c?",
-    "options": ["s = a + b + c", "s = (a × b × c)/2", "s = (a + b + c)/2", "s = (a + b)/c"],
-    "correctAnswer": "s = (a + b + c)/2",
-    "explanation": "The semi-perimeter is exactly half of the total perimeter. The perimeter is the sum of the sides (a + b + c).",
+    "generationRationale": "Connects a specific geometric formula to the general Heron's formula.",
+    "sourceCanonicalQuestionIds": [
+      "69c7a762cf0955f01f932efa"
+    ],
+    "type": "FILL_IN_BLANKS",
+    "text": "The area of an equilateral triangle with side length 'a' can be directly calculated using the formula ________, which is derived from Heron's formula.",
+    "correctAnswer": "(√3/4)a²",
+    "explanation": "By applying Heron's formula to a triangle where all three sides are 'a', the expression simplifies to (√3/4)a².",
     "points": 1,
-    "provenance": { "board": "NCERT", "class": "9", "subject": "Mathematics", "book": "Mathematics", "chapterNumber": 12, "chapterTitle": "Heron's Formula", "sourceFile": "iemh112.pdf", "extraction_run_id": "9-Mathematics-mathematics-ch12-v1" }
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 12,
+      "chapterTitle": "Heron's Formula",
+      "sourceFile": "iemh112.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch12-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Mathematics",
+    "chapter": "Chapter 11: Constructions",
+    "derivedFromChapterId": "Chapter 11: Constructions",
+    "generationRationale": "Tests the practical requirement for a geometric construction.",
+    "sourceCanonicalQuestionIds": [
+      "69c7a6fe7c960267f179593c"
+    ],
+    "type": "TRUE_FALSE",
+    "text": "When constructing the perpendicular bisector of a line segment, the arcs drawn from both endpoints must have a radius that is strictly less than half of the segment's length.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "False",
+    "explanation": "The radius of the arcs must be GREATER than half the length of the segment, otherwise the arcs will not intersect.",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Mathematics",
+      "book": "Mathematics",
+      "chapterNumber": 11,
+      "chapterTitle": "Constructions",
+      "sourceFile": "iemh111.pdf",
+      "extraction_run_id": "9-Mathematics-mathematics-ch11-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 10: Gravitation",
+    "derivedFromChapterId": "Chapter 10: Gravitation",
+    "generationRationale": "Addresses a common misconception about gravity and mass.",
+    "sourceCanonicalQuestionIds": [
+      "69c78c50541201cdfd1d5534"
+    ],
+    "type": "TRUE_FALSE",
+    "text": "The acceleration due to gravity ('g') acting on a falling object depends directly on the mass of that falling object.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "False",
+    "explanation": "The acceleration due to gravity 'g' on Earth is approximately 9.8 m/s² for all objects, regardless of their mass (ignoring air resistance).",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 10,
+      "chapterTitle": "Gravitation",
+      "sourceFile": "iesc110.pdf",
+      "extraction_run_id": "9-Science-science-ch10-v1"
+    }
+  },
+  {
+    "sourceKind": "DERIVED",
+    "reviewStatus": "DRAFT",
+    "generationRunId": "class9-offline-gen-real-2",
+    "subjectId": "Science",
+    "chapter": "Chapter 1: Matter in Our Surroundings",
+    "derivedFromChapterId": "Chapter 1: Matter in Our Surroundings",
+    "generationRationale": "Tests the foundational definition of matter.",
+    "sourceCanonicalQuestionIds": [
+      "69c778a46bfcc2d1f3968ede"
+    ],
+    "type": "FILL_IN_BLANKS",
+    "text": "Matter is defined as anything that occupies space and has ________.",
+    "correctAnswer": "mass",
+    "explanation": "The fundamental definition of matter is any physical substance that has mass and takes up volume (space).",
+    "points": 1,
+    "provenance": {
+      "board": "NCERT",
+      "class": "9",
+      "subject": "Science",
+      "book": "Science",
+      "chapterNumber": 1,
+      "chapterTitle": "Matter in Our Surroundings",
+      "sourceFile": "iesc101.pdf",
+      "extraction_run_id": "9-Science-science-ch1-v1"
+    }
   }
 ]
