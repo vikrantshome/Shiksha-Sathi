@@ -36,9 +36,13 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-lg bg-surface-container-lowest transition-all duration-300 ease-out border border-outline-variant/12 hover:border-outline-variant/25 ${
+      role="button"
+      tabIndex={0}
+      onClick={() => toggleQuestion(q)}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleQuestion(q); } }}
+      className={`group relative overflow-hidden rounded-lg bg-surface-container-lowest transition-all duration-300 ease-out border border-outline-variant/12 cursor-pointer hover:border-outline-variant/30 hover:shadow-[0_6px_20px_rgba(48,51,47,0.08)] ${
         selected
-          ? "border-emerald-300/70 bg-[color:color-mix(in_srgb,#dcfce7_72%,white)] shadow-[0_0_0_1px_rgba(74,222,128,0.22),0_10px_26px_rgba(34,197,94,0.10)]"
+          ? "border-emerald-500/50 bg-emerald-50/50 shadow-[0_0_0_1px_rgba(34,197,94,0.22),0_10px_26px_rgba(34,197,94,0.10)]"
           : "shadow-[0_4px_14px_rgba(48,51,47,0.05)]"
       }`}
     >
@@ -50,7 +54,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
       {/* ═══ Card Content ═══ */}
       <div className="p-5 md:p-6">
-        {/* Meta Row: Type Badge + Chapter/Level + Source + Selection */}
+        {/* Meta Row: Type Badge + Source + Checkbox */}
         <div className="mb-4 flex items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {/* Type Badge */}
@@ -66,39 +70,31 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             )}
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => toggleQuestion(q)}
-              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-150 ease-out ${
-                selected
-                  ? "border-emerald-600 bg-emerald-100 text-emerald-900 shadow-[0_6px_14px_rgba(34,197,94,0.12)]"
-                  : "border-outline-variant/20 bg-surface-container-low text-on-surface hover:border-primary/30 hover:text-primary"
-              }`}
+          <label
+            className="inline-flex items-center gap-2 cursor-pointer group/checkbox"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={() => toggleQuestion(q)}
+              className="sr-only"
               aria-label={selected ? "Remove from assignment" : "Add to assignment"}
+            />
+            <span
+              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-all duration-150 ease-out ${
+                selected
+                  ? "border-emerald-600 bg-emerald-600"
+                  : "border-outline-variant/40 bg-transparent group-hover/checkbox:border-emerald-400"
+              }`}
             >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {selected ? (
+              {selected && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
-                ) : (
-                  <>
-                    <path d="M12 5v14" />
-                    <path d="M5 12h14" />
-                  </>
-                )}
-              </svg>
-              <span>{selected ? "Added" : "Add"}</span>
-            </button>
-          </div>
+                </svg>
+              )}
+            </span>
+          </label>
         </div>
 
         {/* Question Text */}
@@ -112,11 +108,6 @@ export default function QuestionCard({ question: q }: { question: Question }) {
               {q.topic}
             </span>
           )}
-          {q.provenance && (
-            <span className="inline-flex items-center rounded-full bg-surface-container-low px-2.5 py-1">
-              Class {q.provenance.classLevel}
-            </span>
-          )}
         </div>
 
         {/* MCQ Options Grid */}
@@ -127,16 +118,16 @@ export default function QuestionCard({ question: q }: { question: Question }) {
               return (
                 <div
                   key={i}
-                  className={`flex cursor-pointer items-center gap-3 rounded-md p-3 transition-all duration-200 ease-out ${
+                  className={`flex items-center gap-3 rounded-md p-3 transition-all duration-200 ease-out ${
                     isCorrect && isPreviewOpen
-                      ? "border border-primary/20 bg-primary/5 hover:bg-primary/10"
-                      : "border border-outline-variant/10 bg-surface-container-lowest hover:bg-surface-container-low"
+                      ? "border border-emerald-500/50 bg-emerald-50/80"
+                      : "border border-outline-variant/10 bg-surface-container-lowest hover:bg-surface-container hover:border-outline-variant/20"
                   }`}
                 >
                   <span
                     className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                       isCorrect && isPreviewOpen
-                        ? "bg-primary text-white"
+                        ? "bg-emerald-600 text-white"
                         : "bg-surface-container text-on-surface-variant"
                     }`}
                   >
@@ -151,12 +142,12 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           </div>
         )}
 
-        {/* Action Row: Preview Toggle + Action Buttons */}
-        <div className="flex items-center justify-between border-t border-outline-variant/10 pt-4">
+        {/* Action Row: Preview Toggle + Add to Assignment */}
+        <div className="flex items-center justify-between gap-3 border-t border-outline-variant/10 pt-4">
           <button
             type="button"
-            onClick={() => setIsPreviewOpen(!isPreviewOpen)}
-            className="flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-[0.6875rem] font-bold tracking-widest text-primary uppercase"
+            onClick={(e) => { e.stopPropagation(); setIsPreviewOpen(!isPreviewOpen); }}
+            className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 border-0 bg-transparent text-[0.6875rem] font-bold tracking-widest text-primary uppercase transition-colors duration-150 ease-out hover:bg-primary/5"
           >
             <svg
               width="14"
@@ -176,37 +167,34 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             {isPreviewOpen ? "Hide Explanation" : "View Answer & Explanation"}
           </button>
 
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => toggleQuestion(q)}
-              className={`cursor-pointer border-0 bg-transparent p-0 transition-colors duration-150 ease-out ${
-                selected ? "text-primary" : "text-on-surface-variant hover:text-primary"
-              }`}
-              title={selected ? "Remove from assignment" : "Add to assignment"}
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill={selected ? "currentColor" : "none"}
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); toggleQuestion(q); }}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold border-0 transition-all duration-150 ease-out active:scale-[0.97] ${
+              selected
+                ? "bg-emerald-600 text-white shadow-[0_4px_12px_rgba(34,197,94,0.25)]"
+                : "bg-primary text-on-primary hover:bg-primary-dim hover:shadow-[0_4px_12px_rgba(34,197,94,0.15)]"
+            }`}
+          >
+            {selected ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
               </svg>
-            </button>
-          </div>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
+            )}
+            <span>{selected ? "Added" : "Add to Assignment"}</span>
+          </button>
         </div>
       </div>
 
       {/* ═══ Expanded Explanation Area ═══ */}
       {isPreviewOpen && (
         <div className={`border-t border-outline-variant/10 p-5 md:p-6 ${
-          selected ? "bg-[color:color-mix(in_srgb,#dcfce7_52%,white)]" : "bg-surface-container-low"
+          selected ? "bg-emerald-50/40" : "bg-surface-container-low"
         }`}>
           <div className="grid grid-cols-1 gap-4">
             {/* Correct Answer */}
