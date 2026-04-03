@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Question } from "@/lib/api/types";
 import { api } from "@/lib/api";
+import { AssignmentProvider } from "./AssignmentContext";
 import QuestionCard from "./QuestionCard";
 
 interface Props {
@@ -217,10 +218,11 @@ export default function AdminDerivedReviewClient({
             No derived questions found for status: {initialStatus}
           </div>
         ) : (
-          <div className="space-y-6">
-            {questions.map(q => (
-              <div key={q.id} className="relative">
-                <QuestionCard question={q} />
+          <AssignmentProvider>
+            <div className="space-y-6">
+              {questions.map(q => (
+                <div key={q.id} className="relative">
+                  <QuestionCard question={q} />
                 
                 {initialStatus === "DRAFT" && (
                   <div className="absolute top-4 right-4 flex space-x-2">
@@ -246,6 +248,7 @@ export default function AdminDerivedReviewClient({
               </div>
             ))}
           </div>
+          </AssignmentProvider>
         )}
       </div>
     </div>
