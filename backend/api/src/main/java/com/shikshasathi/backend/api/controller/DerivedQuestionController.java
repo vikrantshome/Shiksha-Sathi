@@ -11,40 +11,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/derived-questions")
-@CrossOrigin(origins = "*")
 public class DerivedQuestionController {
 
     @Autowired
     private DerivedQuestionService derivedQuestionService;
-
-    /**
-     * Generate derived practice questions for an entire chapter.
-     */
-    @PostMapping("/generate")
-    public ResponseEntity<List<Question>> generateChapterBatch(
-            @RequestBody Map<String, Object> request) {
-        
-        String board = (String) request.get("board");
-        String classLevel = (String) request.get("classLevel");
-        String subjectId = (String) request.get("subjectId");
-        String book = (String) request.get("book");
-        String chapter = (String) request.get("chapter");
-        
-        Integer count = request.get("questionsPerChapter") != null ? 
-            ((Number) request.get("questionsPerChapter")).intValue() : 5;
-        
-        if (chapter == null || chapter.isEmpty() || board == null || classLevel == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        
-        try {
-            List<Question> derivedQuestions = 
-                derivedQuestionService.generateChapterBatch(board, classLevel, subjectId, book, chapter, count);
-            return ResponseEntity.ok(derivedQuestions);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     /**
      * Approve a derived question.
