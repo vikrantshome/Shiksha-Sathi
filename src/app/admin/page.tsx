@@ -1,7 +1,6 @@
 import { api } from "@/lib/api";
 import { Question } from "@/lib/api/types";
 import AdminDerivedReviewClient from "@/components/AdminDerivedReviewClient";
-import AdminDerivedProvider from "@/components/AdminDerivedProvider";
 
 export const dynamic = "force-dynamic";
 
@@ -81,22 +80,20 @@ export default async function AdminDerivedDashboard({
         </div>
       </div>
 
-      <AdminDerivedProvider>
-        <AdminDerivedReviewClient
-          boards={boards}
-          classes={classes}
-          subjects={subjects}
-          books={booksData}
-          chapters={chapters}
-          initialBoard={board}
-          initialClassLevel={classLevel}
-          initialSubjectId={subjectId}
-          initialBook={book}
-          initialChapter={chapter}
-          initialStatus={status}
-          initialQuestions={derivedQuestions}
-        />
-      </AdminDerivedProvider>
+      <AdminDerivedReviewClient
+        boards={boards}
+        classes={classes}
+        subjects={subjects}
+        books={booksData}
+        chapters={chapters}
+        initialBoard={board}
+        initialClassLevel={classLevel}
+        initialSubjectId={subjectId}
+        initialBook={book}
+        initialChapter={chapter}
+        initialStatus={status}
+        initialQuestions={derivedQuestions}
+      />
     </div>
   );
 }
