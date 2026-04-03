@@ -19,28 +19,56 @@ export default async function AdminDerivedDashboard({
   const status = typeof resolvedParams.status === "string" ? resolvedParams.status : "DRAFT";
 
   // Taxonomy
-  const [boards, classes, subjects] = await Promise.all([
-    api.questions.getBoards(),
-    api.questions.getClasses(board || undefined),
-    api.questions.getSubjects({ board: board || undefined, classLevel: classLevel || undefined }),
-  ]);
+  let boards: string[] = [];
+  let classes: string[] = [];
+  let subjects: string[] = [];
 
-  const booksData = await api.questions.getBooks({
-    board: board || undefined,
-    classLevel: classLevel || undefined,
-    subject: subjectId || undefined,
-  });
+  try {
+    boards = await api.questions.getBoards().catch(() => []);
+  } catch {
+    boards = [];
+  }
 
-  const chapters = await api.questions.getChapters(
-    subjectId || undefined,
-    book || undefined,
-    classLevel || undefined
-  );
+  try {
+    classes = await api.questions.getClasses(board || undefined).catch(() => []);
+  } catch {
+    classes = [];
+  }
 
-  // Derived Questions List
+  try {
+    subjects = await api.questions.getSubjects({ board: board || undefined, classLevel: classLevel || undefined }).catch(() => []);
+  } catch {
+    subjects = [];
+  }
+
+  let booksData: string[] = [];
+  try {
+    booksData = await api.questions.getBooks({
+      board: board || undefined,
+      classLevel: classLevel || undefined,
+      subject: subjectId || undefined,
+    }).catch(() => []);
+  } catch {
+    booksData = [];
+  }
+
+  let chapters: string[] = [];
+  try {
+    chapters = await api.questions.getChapters(
+      subjectId || undefined,
+      book || undefined,
+      classLevel || undefined
+    ).catch(() => []);
+  } catch {
+    chapters = [];
+  }
+
+  // Derived Questions List — always fetch, optionally filtered by chapter
   let derivedQuestions: Question[] = [];
-  if (chapter) {
-    derivedQuestions = await api.derived.getDerivedQuestions(status, chapter);
+  try {
+    derivedQuestions = await api.derived.getDerivedQuestions(status, chapter || undefined).catch(() => []);
+  } catch {
+    derivedQuestions = [];
   }
 
   return (
@@ -48,11 +76,11 @@ export default async function AdminDerivedDashboard({
       <div className="flex items-end justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard: Derived Content</h1>
-          <p className="text-gray-500 mt-2">Generate, review, and publish derived practice questions.</p>
+          <p className="text-gray-500 mt-2">Review, and publish derived practice questions.</p>
         </div>
       </div>
-      
-      <AdminDerivedReviewClient 
+
+      <AdminDerivedReviewClient
         boards={boards}
         classes={classes}
         subjects={subjects}

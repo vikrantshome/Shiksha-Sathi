@@ -1,5 +1,22 @@
 {
   "general": {
     "gitCoAuthor": false
+  },
+  "$version": 3,
+  "permissions": {
+    "allow": [
+      "Bash(grep *)",
+      "Bash(do *)",
+      "Bash(done)",
+      "Bash(rm *)",
+      "Bash(node *)",
+      "Bash(curl *)",
+      "Bash(./gradlew *)",
+      "Bash(sleep *)",
+      "Bash(git checkout *)",
+      "Bash(true)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
   }
 }
