@@ -68,6 +68,12 @@ const Navbar = () => {
             ))}
             <div className="flex items-center gap-3">
               <Link
+                href="/student/dashboard"
+                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-[family-name:var(--font-manrope)]"
+              >
+                Student Portal
+              </Link>
+              <Link
                 href="/login"
                 className="px-4 py-2 text-[0.875rem] font-[600] text-[var(--color-primary)] hover:bg-[var(--color-surface-container-low)] rounded-md transition-all"
               >
@@ -119,7 +125,15 @@ const Navbar = () => {
               </Link>
             ))}
             <Link
+              href="/student/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3 text-center rounded-md font-[600] text-[var(--color-primary)] border border-[var(--color-primary)]"
+            >
+              Student Portal
+            </Link>
+            <Link
               href="/login"
+              onClick={() => setMobileMenuOpen(false)}
               className="w-full py-3 text-center rounded-md font-[600] text-[var(--color-primary)] border border-[var(--color-primary)]"
             >
               Teacher Login

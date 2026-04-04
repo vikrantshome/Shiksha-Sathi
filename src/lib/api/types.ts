@@ -162,3 +162,50 @@ export interface AssignmentReport {
   submissions: AssignmentSubmission[];
   questionStats: QuestionPerformance[];
 }
+
+/* ── Backend DTO (maps to /submissions/student/{studentId}) ── */
+
+export interface SubmissionDTO {
+  id: string;
+  assignmentId: string;
+  assignmentTitle?: string;
+  assignmentLinkId?: string;
+  studentId: string;
+  studentName: string;
+  studentRollNumber: string;
+  answers: Record<string, string | string[]>;
+  score: number;
+  totalMarks?: number;
+  submittedAt: string;
+  status: string;
+}
+
+/* ── Student Dashboard Types ── */
+
+export interface StudentSubmissionSummary {
+  id: string;
+  assignmentId: string;
+  assignmentTitle: string;
+  assignmentLinkId: string;
+  studentName: string;
+  studentRollNumber: string;
+  score: number;
+  totalMarks: number;
+  submittedAt: string;
+  status: "SUBMITTED" | "GRADED";
+}
+
+export interface StudentDashboardStats {
+  totalAssignments: number;
+  submittedCount: number;
+  gradedCount: number;
+  averageScorePercent: number;
+  bestScorePercent: number;
+  recentSubmissions: StudentSubmissionSummary[];
+}
+
+export interface StudentIdentity {
+  studentId: string;
+  studentName: string;
+  storedAt: string;
+}
