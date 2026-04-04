@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
-import type { AssignmentByLinkResponse, SubmitAssignmentResponse } from "@/lib/api/types";
+import { saveStudentIdentity } from "@/lib/api/students";
+import type { AssignmentByLinkResponse, SubmitAssignmentResponse, StudentIdentity } from "@/lib/api/types";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignment Form — Stitch-Directed Redesign
@@ -32,10 +33,19 @@ export default function StudentAssignmentForm({
   const handleIdentitySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    setIdentity({
-      name: formData.get("name") as string,
-      rollNumber: formData.get("rollNumber") as string,
-    });
+    const name = formData.get("name") as string;
+    const rollNumber = formData.get("rollNumber") as string;
+    const identityData = { name, rollNumber };
+    setIdentity(identityData);
+
+    // Persist identity for dashboard access
+    const studentIdentity: StudentIdentity = {
+      studentId: rollNumber,
+      studentName: name,
+      storedAt: new Date().toISOString(),
+    };
+    saveStudentIdentity(studentIdentity);
+
     setError(null);
   };
 
@@ -251,10 +261,10 @@ export default function StudentAssignmentForm({
             </button>
             <button
               type="button"
-              onClick={() => (window.location.href = "/")}
+              onClick={() => (window.location.href = "/student/dashboard")}
               className="px-6 md:px-8 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-sm shadow-sm hover:brightness-110 active:scale-[0.98] transition-all duration-200"
             >
-              Return to Dashboard
+              Go to Dashboard
             </button>
           </div>
         </div>
