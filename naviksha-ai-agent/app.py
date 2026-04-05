@@ -1,28 +1,15 @@
 from llama_cpp import Llama
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import json
-import re
-import ast
-import logging
+import json, re, ast, logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Naviksha AI Agent")
 
-logger.info("Loading Qwen2.5-3B-Instruct GGUF Q4_K_M model...")
-llm = Llama.from_pretrained(
-    repo_id="bartowski/Qwen2.5-3B-Instruct-GGUF",
-    filename="*Q4_K_M.gguf",
-    n_ctx=4096,
-    verbose=False,
-    n_threads=2,
-)
-logger.info("Model loaded successfully.")
-
 NO_ATTEMPT_PATTERNS = [
-    r'^i\s+don\'?t\s+know',
+    r'^i\s+don\x27?t\s+know',
     r'^i\s+have\s+no\s+idea',
     r'^no\s+answer',
     r'^skip(ped)?\s+',
@@ -32,6 +19,14 @@ NO_ATTEMPT_PATTERNS = [
     r'^no\s+response',
 ]
 
+logger.info("Loading Qwen3.5-4B GGUF Q4_K_M...")
+llm = Llama.from_pretrained(
+    repo_id="bartowski/Qwen_Qwen3.5-4B-GGUF",
+    filename="*Q4_K_M.gguf",
+    n_ctx=4096, n_threads=2, mlock=True, n_batch=512, verbose=False,
+)
+logger.info("Model loaded successfully.")
+
 
 class GradingRequest(BaseModel):
     question: str
@@ -40,151 +35,127 @@ class GradingRequest(BaseModel):
     max_marks: int
 
 
-def is_blank(answer):
-    return not answer or not answer.strip()
+def is_blank(a):
+    return not a or not a.strip()
 
 
-def is_no_attempt(answer):
-    if not answer or not answer.strip():
-        return False
-    text = answer.strip().lower()
-    for pattern in NO_ATTEMPT_PATTERNS:
-        if re.match(pattern, text):
-            return True
+def is_no_attempt(a):
+    if not a or not a.strip(): return False
+    t = a.strip().lower()
+    for p in NO_ATTEMPT_PATTERNS:
+        if re.match(p, t): return True
     return False
 
 
 def build_messages(req):
     sa = req.student_answer.strip()
+    display = sa if sa else '(blank)'
+    max_m = req.max_marks
     system_msg = (
         "You are an expert teacher grading student answers. "
-        "Grade based on conceptual correctness, not keyword matching. "
-        "Grade ONLY what the student wrote, not the reference answer."
+        "Grade based on conceptual correctness, not keyword matching."
     )
-    json_format = (
-        '{"marks_awarded": NUMBER, "max_marks": ' + str(req.max_marks) +
-        ', "is_correct": BOOLEAN, "reasoning": "STRING", "confidence": NUMBER}'
+    user_msg = (
+        "Question: " + req.question + "\n"
+        "Expected Answer: " + req.expected_answer + "\n"
+        "Student's Answer: " + display + "\n"
+        "Maximum Marks: " + str(max_m) + "\n\n"
+        "Grade this answer. Respond with ONLY a JSON object.\n\n"
+        "Grading Rules:\n"
+        "- Full marks: conceptually correct (exact wording not required)\n"
+        "- Partial marks: mentions relevant concepts or partial understanding\n"
+        "- Zero marks: irrelevant, incorrect, or blank\n"
+        "- Accept synonyms, paraphrases, equivalent expressions\n"
+        "- Be generous with minor spelling errors if concept is clear\n"
+        "- If student answer is blank, award 0 marks\n\n"
+        "Return JSON only:\n"
+        "{"
+        '"marks_awarded": <0-' + str(max_m) + '>,'
+        '"max_marks": ' + str(max_m) + ','
+        '"is_correct": <true/false>,'
+        '"reasoning": "<sentence>",'
+        '"confidence": <0.0-1.0>'
+        "}"
     )
-    user_msg = "\n".join([
-        "Question: " + req.question,
-        "Reference Answer: " + req.expected_answer,
-        "Student's Answer: " + sa,
-        "Maximum Marks: " + str(req.max_marks),
-        "",
-        "Instructions:",
-        "- Compare the student's answer to the reference for conceptual understanding.",
-        "- Do NOT grade based on keyword matching or exact wording.",
-        "- Grade ONLY what the student wrote.",
-        "- Full marks: student demonstrates conceptual understanding.",
-        "- Partial marks: student mentions relevant concepts but lacks completeness.",
-        "- Zero marks: student's answer is irrelevant, incorrect, contradictory, or shows misunderstanding.",
-        "- Accept synonyms, paraphrases, and equivalent expressions.",
-        "- Be generous with minor spelling errors if the concept is clear.",
-        "",
-        "Respond ONLY with a JSON object, nothing else:",
-        "Format: " + json_format,
-    ])
     return [
         {"role": "system", "content": system_msg},
         {"role": "user", "content": user_msg},
     ]
 
 
-def extract_first_json_object(text):
-    """Find the first complete JSON object in text, handling trailing garbage."""
-    text = text.strip()
-    m = re.search(r'```json\s*([\s\S]*?)```', text)
-    if m:
-        text = m.group(1).strip()
-    start = text.find('{')
-    if start < 0:
-        raise ValueError(f"No JSON object found in: {text[:200]}")
-    depth = 0
-    in_string = False
-    escape_next = False
-    for i in range(start, len(text)):
-        ch = text[i]
-        if escape_next:
-            escape_next = False
-            continue
-        if ch == '\\':
-            escape_next = True
-            continue
-        if ch == '"' and not escape_next:
-            in_string = not in_string
-            continue
-        if in_string:
-            continue
-        if ch == '{':
-            depth += 1
-        elif ch == '}':
-            depth -= 1
-            if depth == 0:
-                return text[start:i + 1]
-    raise ValueError(f"Incomplete JSON object in: {text[:200]}")
-
-
 def parse_json_response(text):
-    """Parse JSON with multiple fallback strategies."""
-    json_str = extract_first_json_object(text)
-    # Strategy 1: standard JSON
-    try:
-        return json.loads(json_str)
-    except json.JSONDecodeError:
-        pass
-    # Strategy 2: Python dict literal (handles single quotes)
-    try:
-        result = ast.literal_eval(json_str)
-        if isinstance(result, dict):
-            return result
-    except (ValueError, SyntaxError):
-        pass
-    # Strategy 3: Replace single quotes with double quotes
-    try:
-        fixed = json_str.replace("'", '"')
-        return json.loads(fixed)
-    except json.JSONDecodeError:
-        raise ValueError(f"Could not parse AI response as JSON: {json_str[:300]}")
+    text = text.strip()
+    # Strip everything before the LAST occurrence of any JSON-like content
+    # Qwen3.5 outputs CoT thinking then the actual JSON response
+    # The actual response JSON is the LAST { ... } block in the output
+    # Find ALL potential JSON objects and try them in reverse order
+    candidates = []
+    depth = 0
+    start = -1
+    in_str = False
+    esc = False
+    for i, ch in enumerate(text):
+        if esc:
+            esc = False
+            continue
+        if ch == chr(92):
+            esc = True
+            continue
+        if ch == chr(34):
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if ch == chr(123):
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == chr(125):
+            depth -= 1
+            if depth == 0 and start >= 0:
+                candidates.append(text[start:i+1])
+    # Try candidates in reverse order (last one is most likely the actual response)
+    for cand in reversed(candidates):
+        try:
+            return json.loads(cand)
+        except json.JSONDecodeError:
+            pass
+        try:
+            result = ast.literal_eval(cand)
+            if isinstance(result, dict):
+                return result
+        except (ValueError, SyntaxError):
+            pass
+        try:
+            return json.loads(cand.replace(chr(39), chr(34)))
+        except json.JSONDecodeError:
+            pass
+    raise ValueError('Could not parse response: ' + text[:200])
 
 
-@app.post("/grade")
+@app.post('/grade')
 def grade(req: GradingRequest):
     try:
-        # Guard: blank answers get 0 marks immediately (no model call)
         if is_blank(req.student_answer):
-            return {
-                "marks_awarded": 0,
-                "max_marks": req.max_marks,
-                "is_correct": False,
-                "reasoning": "No answer provided",
-                "confidence": 1.0,
-            }
-
-        # Guard: "I don't know" type answers get 0 marks
+            return {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'No answer provided', 'confidence': 1.0}
         if is_no_attempt(req.student_answer):
-            return {
-                "marks_awarded": 0,
-                "max_marks": req.max_marks,
-                "is_correct": False,
-                "reasoning": "Student indicated they do not know the answer",
-                "confidence": 1.0,
-            }
-
+            return {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'Student indicated they do not know', 'confidence': 1.0}
         messages = build_messages(req)
         result = llm.create_chat_completion(
             messages=messages,
-            max_tokens=256,
+            max_tokens=768,
             temperature=0.1,
         )
-        raw = result["choices"][0]["message"]["content"]
-        logger.info("Raw AI response: %s", raw[:300])
-        parsed = parse_json_response(raw)
-        return parsed
+        raw = result['choices'][0]['message']['content']
+        logger.info('Raw response: %s', raw[:500])
+        if not raw.strip():
+            raise ValueError('Model returned empty response')
+        return parse_json_response(raw)
     except Exception as e:
-        logger.exception("Grading error")
+        logger.exception('Grading error')
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/health")
+@app.get('/health')
 def health():
-    return {"status": "ok", "model": "Qwen2.5-3B-Instruct-Q4_K_M"}
+    return {'status': 'ok', 'model': 'qwen3.5-4b'}
