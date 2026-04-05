@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="Shiksha Sathi Grading Agent")
+app = FastAPI(title="Naviksha AI Agent")
 
 logger.info("Loading Qwen3.5-4B GGUF Q4_K_M model...")
 llm = Llama.from_pretrained(
