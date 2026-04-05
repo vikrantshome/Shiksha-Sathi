@@ -15,16 +15,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * AI-powered grading service that calls a self-hosted LLM on Hugging Face Spaces.
- * Falls back to string matching when AI is unavailable or disabled.
+ *
+ * <p>When AI grading fails or is unavailable, subjective questions are marked as
+ * {@code aiGradingFailed} with 0 marks. String matching is NOT used as a fallback
+ * for subjective questions because it produces incorrect grades by design.
+ * If configured, string-match fallback can be enabled explicitly.
  */
 @Slf4j
 @Service
@@ -44,33 +47,44 @@ public class AIGradingService {
      * @param expectedAnswer the canonical correct answer
      * @param studentAnswer  the student's submitted answer
      * @param maxMarks       maximum marks for this question
-     * @return QuestionFeedbackDTO with AI-graded results, or string-match fallback
+     * @return QuestionFeedbackDTO with AI-graded results, or marked as pending review
      */
     public QuestionFeedbackDTO gradeAnswer(Question question, String expectedAnswer,
                                            String studentAnswer, int maxMarks) {
         if (!aiGradingProperties.isEnabled()) {
-            log.debug("AI grading disabled, using string match fallback for question {}", question.getId());
-            return stringMatchFallback(question, expectedAnswer, studentAnswer, maxMarks);
+            log.info("AI grading disabled — question {} marked pending review", question.getId());
+            return buildPendingReviewFeedback(question, expectedAnswer, studentAnswer, maxMarks,
+                    "AI grading is disabled");
         }
 
         try {
             AIGradingResponse response = callAIGradingAgent(question.getText(), expectedAnswer, studentAnswer, maxMarks);
             return buildFeedbackFromAI(question, expectedAnswer, studentAnswer, response);
+        } catch (RestClientException e) {
+            // Network-level failures: timeout, connection refused, 5xx
+            log.warn("AI grading service unreachable for question {}: {}", question.getId(), e.getMessage());
+            return handleAIFailure(question, expectedAnswer, studentAnswer, maxMarks);
         } catch (Exception e) {
-            if (aiGradingProperties.isFallbackToStringMatch()) {
-                log.warn("AI grading failed for question {}, falling back to string match: {}",
-                        question.getId(), e.getMessage());
-                return stringMatchFallback(question, expectedAnswer, studentAnswer, maxMarks);
-            }
-            log.error("AI grading failed for question {} and fallback is disabled: {}",
-                    question.getId(), e.getMessage());
-            return buildErrorFeedback(question, expectedAnswer, studentAnswer, maxMarks);
+            // Parse errors, malformed responses
+            log.warn("AI grading response error for question {}: {}", question.getId(), e.getMessage());
+            return handleAIFailure(question, expectedAnswer, studentAnswer, maxMarks);
         }
     }
 
     /**
-     * Calls the HF Space grading endpoint and parses the JSON response.
+     * Called when AI grading fails. Defaults to marking the question as pending review.
+     * If explicitly configured, falls back to string matching.
      */
+    private QuestionFeedbackDTO handleAIFailure(Question question, String expectedAnswer,
+                                                 String studentAnswer, int maxMarks) {
+        if (aiGradingProperties.isFallbackToStringMatch()) {
+            log.warn("Using string-match fallback for question {} (explicitly configured)", question.getId());
+            return stringMatchFallback(question, expectedAnswer, studentAnswer, maxMarks);
+        }
+        return buildPendingReviewFeedback(question, expectedAnswer, studentAnswer, maxMarks,
+                "AI grading service unavailable — answer pending review");
+    }
+
     private AIGradingResponse callAIGradingAgent(String questionText, String expectedAnswer,
                                                   String studentAnswer, int maxMarks) {
         AIGradingRequest request = AIGradingRequest.builder()
@@ -92,13 +106,13 @@ public class AIGradingService {
         if (response.getBody() == null) {
             throw new IllegalStateException("AI grading endpoint returned empty body");
         }
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new IllegalStateException("AI grading endpoint returned " + response.getStatusCode());
+        }
 
         return parseAIGradingResponse(response.getBody());
     }
 
-    /**
-     * Parses the AI response JSON, handling both raw JSON and markdown-wrapped JSON.
-     */
     private AIGradingResponse parseAIGradingResponse(String rawResponse) {
         String jsonContent = extractJsonFromResponse(rawResponse);
 
@@ -123,19 +137,14 @@ public class AIGradingService {
         }
     }
 
-    /**
-     * Extracts JSON content from the response, handling markdown code blocks.
-     */
     private String extractJsonFromResponse(String response) {
         String trimmed = response.trim();
 
-        // Try to find JSON in markdown code block
         Matcher matcher = JSON_BLOCK_PATTERN.matcher(trimmed);
         if (matcher.find()) {
             return matcher.group(1).trim();
         }
 
-        // Try to find first { ... } block
         int start = trimmed.indexOf('{');
         int end = trimmed.lastIndexOf('}');
         if (start >= 0 && end > start) {
@@ -176,11 +185,34 @@ public class AIGradingService {
                 .marksAwarded((int) Math.round(response.getMarksAwarded()))
                 .reasoning(response.getReasoning())
                 .confidence(response.getConfidence())
+                .aiGradingFailed(false)
                 .build();
     }
 
     /**
-     * Fallback: grade using exact string matching when AI is unavailable.
+     * Marks a subjective question as pending review when AI grading is unavailable.
+     * Awards 0 marks with a clear explanation so the student knows their answer
+     * was received but not yet graded.
+     */
+    private QuestionFeedbackDTO buildPendingReviewFeedback(Question question, String expectedAnswer,
+                                                            String studentAnswer, int maxMarks,
+                                                            String reason) {
+        return QuestionFeedbackDTO.builder()
+                .questionId(question.getId())
+                .questionText(question.getText())
+                .studentAnswer(studentAnswer)
+                .correctAnswer(expectedAnswer)
+                .isCorrect(false)
+                .marksAwarded(0)
+                .reasoning(reason)
+                .confidence(0.0)
+                .aiGradingFailed(true)
+                .build();
+    }
+
+    /**
+     * Fallback: grade using exact string matching. Only used when explicitly configured.
+     * Not recommended for subjective questions.
      */
     QuestionFeedbackDTO stringMatchFallback(Question question, String expectedAnswer,
                                              String studentAnswer, int maxMarks) {
@@ -196,20 +228,7 @@ public class AIGradingService {
                 .marksAwarded(marksAwarded)
                 .reasoning(null)
                 .confidence(null)
-                .build();
-    }
-
-    private QuestionFeedbackDTO buildErrorFeedback(Question question, String expectedAnswer,
-                                                    String studentAnswer, int maxMarks) {
-        return QuestionFeedbackDTO.builder()
-                .questionId(question.getId())
-                .questionText(question.getText())
-                .studentAnswer(studentAnswer)
-                .correctAnswer(expectedAnswer)
-                .isCorrect(false)
-                .marksAwarded(0)
-                .reasoning("Grading service error")
-                .confidence(0.0)
+                .aiGradingFailed(false)
                 .build();
     }
 

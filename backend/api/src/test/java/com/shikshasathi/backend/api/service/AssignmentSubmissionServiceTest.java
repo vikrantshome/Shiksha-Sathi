@@ -369,4 +369,103 @@ public class AssignmentSubmissionServiceTest {
         assertTrue(result.getFeedback().get(0).isCorrect());
         verify(aiGradingService).gradeAnswer(any(), anyString(), anyString(), anyInt());
     }
+
+    @Test
+    void submitAssignment_AIFailure_SetsPartiallyGradedStatus() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student8");
+        submission.setStudentName("AI Failure Tester");
+        submission.setAnswers(Map.of("q1", "Some answer"));
+
+        Question question1 = new Question();
+        question1.setId("q1");
+        question1.setText("What is photosynthesis?");
+        question1.setType("SHORT_ANSWER");
+        question1.setCorrectAnswer("Process of converting sunlight to energy");
+        question1.setPoints(5);
+
+        mockedAssignment.setQuestionIds(List.of("q1"));
+        mockedAssignment.setMaxScore(5);
+
+        QuestionFeedbackDTO failedFeedback = QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("What is photosynthesis?")
+                .studentAnswer("Some answer")
+                .correctAnswer("Process of converting sunlight to energy")
+                .isCorrect(false)
+                .marksAwarded(0)
+                .reasoning("AI grading service unavailable — answer pending review")
+                .confidence(0.0)
+                .aiGradingFailed(true)
+                .build();
+        when(aiGradingService.gradeAnswer(any(), anyString(), anyString(), anyInt()))
+                .thenReturn(failedFeedback);
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student8")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
+
+        assertEquals(0, result.getScore());
+        assertTrue(result.getFeedback().get(0).isAiGradingFailed());
+        verify(submissionRepository).save(argThat(saved ->
+                "PARTIALLY_GRADED".equals(saved.getStatus())
+        ));
+    }
+
+    @Test
+    void submitAssignment_MixedQuestions_AIGradedAndExactMatch() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student9");
+        submission.setStudentName("Mixed Tester");
+        submission.setAnswers(Map.of("q1", "Correct MCQ answer", "q2", "conceptual explanation"));
+
+        Question q1 = new Question();
+        q1.setId("q1");
+        q1.setText("MCQ question");
+        q1.setType("MULTIPLE_CHOICE");
+        q1.setCorrectAnswer("Correct MCQ answer");
+        q1.setPoints(2);
+
+        Question q2 = new Question();
+        q2.setId("q2");
+        q2.setText("Explain concept");
+        q2.setType("SHORT_ANSWER");
+        q2.setCorrectAnswer("The right concept");
+        q2.setPoints(3);
+
+        mockedAssignment.setQuestionIds(List.of("q1", "q2"));
+        mockedAssignment.setMaxScore(5);
+
+        QuestionFeedbackDTO aiFeedback = QuestionFeedbackDTO.builder()
+                .questionId("q2")
+                .questionText("Explain concept")
+                .studentAnswer("conceptual explanation")
+                .correctAnswer("The right concept")
+                .isCorrect(true)
+                .marksAwarded(3)
+                .reasoning("Good conceptual understanding")
+                .confidence(0.85)
+                .build();
+        when(aiGradingService.gradeAnswer(any(), anyString(), anyString(), anyInt()))
+                .thenReturn(aiFeedback);
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student9")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(q1));
+        when(questionRepository.findById("q2")).thenReturn(Optional.of(q2));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
+
+        assertEquals(5, result.getScore());
+        // Q1: exact match (MCQ), Q2: AI graded
+        assertFalse(result.getFeedback().get(0).isAiGradingFailed());
+        assertFalse(result.getFeedback().get(1).isAiGradingFailed());
+        assertEquals(2, result.getFeedback().size());
+    }
 }

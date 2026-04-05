@@ -105,6 +105,7 @@ public class AssignmentSubmissionService {
 
         List<QuestionFeedbackDTO> feedback = new ArrayList<>();
         int score = 0;
+        boolean hasAIFailure = false;
         Map<String, Object> answers = submission.getAnswers();
 
         for (String questionId : assignment.getQuestionIds()) {
@@ -120,6 +121,9 @@ public class AssignmentSubmissionService {
             QuestionFeedbackDTO questionFeedback;
             if (shouldUseAIGrading(question.getType())) {
                 questionFeedback = aiGradingService.gradeAnswer(question, correctAnswer, studentAnswer, marks);
+                if (questionFeedback.isAiGradingFailed()) {
+                    hasAIFailure = true;
+                }
             } else {
                 boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
                 int marksAwarded = isCorrect ? marks : 0;
@@ -140,7 +144,7 @@ public class AssignmentSubmissionService {
         submission.setSubmittedAt(Instant.now());
         submission.setStudentRollNumber(firstNonBlank(submission.getStudentRollNumber(), submission.getStudentId()));
         submission.setScore(score);
-        submission.setStatus("GRADED");
+        submission.setStatus(hasAIFailure ? "PARTIALLY_GRADED" : "GRADED");
         AssignmentSubmission saved = submissionRepository.save(submission);
         eventPublisher.publishEvent(new NotificationEvent(this, submission.getStudentId(), "Assignment submitted successfully!"));
 

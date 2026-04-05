@@ -27,4 +27,4 @@ ai-grading:
   endpoint-url: ${AI_GRADING_URL:https://huggingface.co/spaces/shiksha-sathi/shiksha-sathi-grading-agent}
   timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
   temperature: ${AI_GRADING_TEMPERATURE:0.1}
-  fallback-to-string-match: ${AI_GRADING_FALLBACK:true}
+  fallback-to-string-match: ${AI_GRADING_FALLBACK:false}
