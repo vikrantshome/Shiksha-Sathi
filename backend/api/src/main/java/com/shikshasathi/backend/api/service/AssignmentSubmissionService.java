@@ -31,11 +31,17 @@ public class AssignmentSubmissionService {
 
     private static final Pattern PARENTHETICAL_OR_PATTERN = Pattern.compile("^(.+?)\\s*\\((?:or\\s+)?(.+?)\\)$", Pattern.CASE_INSENSITIVE);
 
+    /** Question types that require AI-based conceptual grading. */
+    private static final java.util.Set<String> AI_GRADED_TYPES = java.util.Set.of(
+            "SHORT_ANSWER", "FILL_IN_BLANKS", "ESSAY"
+    );
+
     private final AssignmentSubmissionRepository submissionRepository;
     private final UserRepository userRepository;
     private final AssignmentRepository assignmentRepository;
     private final QuestionRepository questionRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
+    private final AIGradingService aiGradingService;
 
     public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
@@ -99,6 +105,7 @@ public class AssignmentSubmissionService {
 
         List<QuestionFeedbackDTO> feedback = new ArrayList<>();
         int score = 0;
+        boolean hasAIFailure = false;
         Map<String, Object> answers = submission.getAnswers();
 
         for (String questionId : assignment.getQuestionIds()) {
@@ -109,25 +116,35 @@ public class AssignmentSubmissionService {
 
             String studentAnswer = stringifyAnswer(answers == null ? null : answers.get(questionId));
             String correctAnswer = stringifyAnswer(question.getCorrectAnswer());
-            boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
             int marks = question.getPoints() == null ? 0 : question.getPoints();
-            int marksAwarded = isCorrect ? marks : 0;
-            score += marksAwarded;
 
-            feedback.add(QuestionFeedbackDTO.builder()
-                    .questionId(question.getId())
-                    .questionText(question.getText())
-                    .studentAnswer(studentAnswer)
-                    .correctAnswer(correctAnswer)
-                    .isCorrect(isCorrect)
-                    .marksAwarded(marksAwarded)
-                    .build());
+            QuestionFeedbackDTO questionFeedback;
+            if (shouldUseAIGrading(question.getType())) {
+                questionFeedback = aiGradingService.gradeAnswer(question, correctAnswer, studentAnswer, marks);
+                if (questionFeedback.isAiGradingFailed()) {
+                    hasAIFailure = true;
+                }
+            } else {
+                boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
+                int marksAwarded = isCorrect ? marks : 0;
+                questionFeedback = QuestionFeedbackDTO.builder()
+                        .questionId(question.getId())
+                        .questionText(question.getText())
+                        .studentAnswer(studentAnswer)
+                        .correctAnswer(correctAnswer)
+                        .isCorrect(isCorrect)
+                        .marksAwarded(marksAwarded)
+                        .build();
+            }
+
+            feedback.add(questionFeedback);
+            score += questionFeedback.getMarksAwarded() == null ? 0 : questionFeedback.getMarksAwarded();
         }
 
         submission.setSubmittedAt(Instant.now());
         submission.setStudentRollNumber(firstNonBlank(submission.getStudentRollNumber(), submission.getStudentId()));
         submission.setScore(score);
-        submission.setStatus("GRADED");
+        submission.setStatus(hasAIFailure ? "PARTIALLY_GRADED" : "GRADED");
         AssignmentSubmission saved = submissionRepository.save(submission);
         eventPublisher.publishEvent(new NotificationEvent(this, submission.getStudentId(), "Assignment submitted successfully!"));
 
@@ -193,5 +210,14 @@ public class AssignmentSubmissionService {
             }
         }
         return null;
+    }
+
+    /**
+     * Determines whether a question type should be graded by AI or exact matching.
+     * AI grading: SHORT_ANSWER, FILL_IN_BLANKS, ESSAY
+     * Exact match: MCQ, TRUE_FALSE, MULTIPLE_CHOICE, and any other type
+     */
+    private boolean shouldUseAIGrading(String questionType) {
+        return questionType != null && AI_GRADED_TYPES.contains(questionType);
     }
 }
