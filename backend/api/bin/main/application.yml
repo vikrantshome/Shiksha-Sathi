@@ -21,3 +21,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+ai-grading:
+  enabled: ${AI_GRADING_ENABLED:true}
+  endpoint-url: ${AI_GRADING_URL:https://huggingface.co/spaces/shiksha-sathi/shiksha-sathi-grading-agent}
+  timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
+  temperature: ${AI_GRADING_TEMPERATURE:0.1}
+  fallback-to-string-match: ${AI_GRADING_FALLBACK:true}
