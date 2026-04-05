@@ -18,4 +18,7 @@ public class QuestionFeedbackDTO {
     private String reasoning;
     /** AI confidence score from 0.0 to 1.0 (null for exact-match grading). */
     private Double confidence;
+    /** True when AI grading failed and this question awaits manual/AI review. */
+    @JsonProperty("aiGradingFailed")
+    private boolean aiGradingFailed;
 }
