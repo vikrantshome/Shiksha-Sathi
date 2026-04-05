@@ -28,6 +28,6 @@ public class AIGradingProperties {
     /** Temperature for the AI model (lower = more deterministic). */
     private double temperature = 0.1;
 
-    /** Whether to fall back to string matching when AI grading fails. */
-    private boolean fallbackToStringMatch = true;
+    /** Whether to fall back to string matching when AI grading fails. Default false — string matching gives incorrect results for subjective questions. */
+    private boolean fallbackToStringMatch = false;
 }
