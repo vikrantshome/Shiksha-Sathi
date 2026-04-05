@@ -20,7 +20,7 @@ public class AIGradingProperties {
     private boolean enabled = true;
 
     /** URL of the HF Space grading endpoint. */
-    private String endpointUrl = "https://huggingface.co/spaces/shiksha-sathi/shiksha-sathi-grading-agent";
+    private String endpointUrl = "https://huggingface.co/spaces/shiksha-sathi/naviksha-ai-agent";
 
     /** HTTP timeout in milliseconds for the grading request. */
     private long timeoutMs = 30000;
@@ -28,6 +28,6 @@ public class AIGradingProperties {
     /** Temperature for the AI model (lower = more deterministic). */
     private double temperature = 0.1;
 
-    /** Whether to fall back to string matching when AI grading fails. */
-    private boolean fallbackToStringMatch = true;
+    /** Whether to fall back to string matching when AI grading fails. Default false — string matching gives incorrect results for subjective questions. */
+    private boolean fallbackToStringMatch = false;
 }

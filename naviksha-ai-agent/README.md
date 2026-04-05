@@ -1,5 +1,5 @@
 ---
-title: Shiksha Sathi Grading Agent
+title: Naviksha AI Agent
 emoji: 📝
 colorFrom: blue
 colorTo: indigo
@@ -9,9 +9,9 @@ pinned: false
 license: apache-2.0
 ---
 
-# Shiksha Sathi AI Grading Agent
+# Naviksha AI Agent
 
-Self-hosted AI grading agent using Qwen3.5-4B (GGUF Q4_K_M quantization) for conceptual evaluation of student answers.
+Self-hosted AI agent using Qwen3.5-4B (GGUF Q4_K_M quantization) for conceptual evaluation of student answers.
 
 ## Endpoints
 
