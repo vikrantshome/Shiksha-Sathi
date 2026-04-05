@@ -20,7 +20,7 @@ public class AIGradingProperties {
     private boolean enabled = true;
 
     /** URL of the HF Space grading endpoint. */
-    private String endpointUrl = "https://huggingface.co/spaces/shiksha-sathi/shiksha-sathi-grading-agent";
+    private String endpointUrl = "https://huggingface.co/spaces/shiksha-sathi/naviksha-ai-agent";
 
     /** HTTP timeout in milliseconds for the grading request. */
     private long timeoutMs = 30000;
