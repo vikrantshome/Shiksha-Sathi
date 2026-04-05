@@ -14,4 +14,8 @@ public class QuestionFeedbackDTO {
     @JsonProperty("isCorrect")
     private boolean isCorrect;
     private Integer marksAwarded;
+    /** AI-provided reasoning for the grade (null for exact-match grading). */
+    private String reasoning;
+    /** AI confidence score from 0.0 to 1.0 (null for exact-match grading). */
+    private Double confidence;
 }
