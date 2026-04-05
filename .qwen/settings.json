@@ -16,7 +16,10 @@
       "Bash(git checkout *)",
       "Bash(true)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(gh *)",
+      "mcp__mcp-atlassian__jira_transition_issue",
+      "Bash(npx *)"
     ]
   }
 }
