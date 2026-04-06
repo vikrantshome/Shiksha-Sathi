@@ -19,9 +19,9 @@ NO_ATTEMPT_PATTERNS = [
     r'^no\s+response',
 ]
 
-logger.info("Loading Qwen3.5-4B GGUF Q4_K_M...")
+logger.info("Loading Qwen3.5-2B GGUF Q4_K_M...")
 llm = Llama.from_pretrained(
-    repo_id="bartowski/Qwen_Qwen3.5-4B-GGUF",
+    repo_id="bartowski/Qwen_Qwen3.5-2B-GGUF",
     filename="*Q4_K_M.gguf",
     n_ctx=8192, n_threads=2, mlock=True, n_batch=512, verbose=False,
 )
@@ -135,27 +135,53 @@ def parse_json_response(text):
 
 @app.post('/grade')
 def grade(req: GradingRequest):
-    try:
-        if is_blank(req.student_answer):
-            return {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'No answer provided', 'confidence': 1.0}
-        if is_no_attempt(req.student_answer):
-            return {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'Student indicated they do not know', 'confidence': 1.0}
-        messages = build_messages(req)
-        result = llm.create_chat_completion(
-            messages=messages,
-            max_tokens=1536,
-            temperature=0.1,
-        )
-        raw = result['choices'][0]['message']['content']
-        logger.info('Raw response: %s', raw[:500])
-        if not raw.strip():
-            raise ValueError('Model returned empty response')
-        return parse_json_response(raw)
-    except Exception as e:
-        logger.exception('Grading error')
-        raise HTTPException(status_code=500, detail=str(e))
+    req_log = {
+        'question': req.question,
+        'expected_answer': req.expected_answer,
+        'student_answer': req.student_answer if req.student_answer and req.student_answer.strip() else '(blank)',
+        'max_marks': req.max_marks,
+    }
+    logger.info('=== INCOMING REQUEST ===')
+    logger.info('Question: %s', req.question)
+    logger.info('Expected: %s', req.expected_answer)
+    logger.info('Student: %s', req_log['student_answer'])
+    logger.info('Max marks: %d', req.max_marks)
+
+    if is_blank(req.student_answer):
+        result = {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'No answer provided', 'confidence': 1.0}
+        logger.info('=== INSTANT GUARD: blank answer ===')
+        logger.info('Result: %s', json.dumps(result))
+        return result
+    if is_no_attempt(req.student_answer):
+        result = {'marks_awarded': 0, 'max_marks': req.max_marks, 'is_correct': False, 'reasoning': 'Student indicated they do not know', 'confidence': 1.0}
+        logger.info('=== INSTANT GUARD: no attempt ===')
+        logger.info('Result: %s', json.dumps(result))
+        return result
+
+    messages = build_messages(req)
+    result = llm.create_chat_completion(
+        messages=messages,
+        max_tokens=1536,
+        temperature=0.1,
+    )
+    raw = result['choices'][0]['message']['content']
+    logger.info('=== MODEL RAW RESPONSE (first 1000 chars) ===')
+    logger.info(raw[:1000])
+    if not raw.strip():
+        logger.error('Model returned empty response')
+        raise ValueError('Model returned empty response')
+
+    parsed = parse_json_response(raw)
+    logger.info('=== PARSED JSON RESPONSE ===')
+    logger.info('marks_awarded: %s', parsed.get('marks_awarded'))
+    logger.info('max_marks: %s', parsed.get('max_marks'))
+    logger.info('is_correct: %s', parsed.get('is_correct'))
+    logger.info('confidence: %s', parsed.get('confidence'))
+    logger.info('reasoning: %s', parsed.get('reasoning'))
+    logger.info('============================')
+    return parsed
 
 
 @app.get('/health')
 def health():
-    return {'status': 'ok', 'model': 'qwen3.5-4b'}
+    return {'status': 'ok', 'model': 'qwen3.5-2b'}
