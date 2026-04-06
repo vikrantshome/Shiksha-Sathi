@@ -8,8 +8,10 @@ import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
 import com.shikshasathi.backend.core.domain.learning.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,9 +22,13 @@ import java.util.regex.Pattern;
 /**
  * AI-powered grading service supporting both NVIDIA API (primary) and HF Space (fallback).
  *
- * <p>When AI grading fails or is unavailable, subjective questions are marked as
- * {@code aiGradingFailed} with 0 marks. String matching is NOT used as a fallback
- * for subjective questions because it produces incorrect grades by design.
+ * <p>Features:
+ * <ul>
+ *   <li>Retry with exponential backoff (max 3 attempts, 1s-4s delays)</li>
+ *   <li>Response caching (24h TTL, 10k max entries via Caffeine)</li>
+ *   <li>Fallback to HF Space on persistent API failure</li>
+ *   <li>Smart JSON extraction from verbose model output</li>
+ * </ul>
  */
 @Slf4j
 @Service
@@ -31,13 +37,18 @@ public class AIGradingService {
 
     private static final Pattern JSON_BLOCK_PATTERN = Pattern.compile("```json\\s*([\\s\\S]*?)```");
 
+    private static final int MAX_RETRIES = 3;
+    private static final long INITIAL_BACKOFF_MS = 1000;
+
     private final AIGradingProperties aiGradingProperties;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
     /**
      * Grade a single subjective answer using the AI grading service.
+     * Results are cached by cache key to avoid redundant API calls.
      */
+    @Cacheable(value = "grading", key = "#questionText + '|' + #expectedAnswer + '|' + #studentAnswer + '|' + #maxMarks")
     public QuestionFeedbackDTO gradeAnswer(Question question, String expectedAnswer,
                                            String studentAnswer, int maxMarks) {
         if (!aiGradingProperties.isEnabled()) {
@@ -88,7 +99,8 @@ public class AIGradingService {
     }
 
     /**
-     * Call NVIDIA API (OpenAI-compatible format).
+     * Call NVIDIA API (OpenAI-compatible format) with retry and exponential backoff.
+     * Handles 429 (rate limit) and 5xx errors with up to 3 retries.
      */
     private AIGradingResponse callNvidiaApi(String questionText, String expectedAnswer,
                                              String studentAnswer, int maxMarks) {
@@ -110,20 +122,58 @@ public class AIGradingService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        log.info("Calling NVIDIA API: model={}, endpoint={}", aiGradingProperties.getModel(),
-                aiGradingProperties.getEndpointUrl());
+        String url = aiGradingProperties.getEndpointUrl();
+        log.info("Calling NVIDIA API: model={}, endpoint={}", aiGradingProperties.getModel(), url);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                aiGradingProperties.getEndpointUrl(), entity, String.class);
+        Exception lastException = null;
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-        if (response.getBody() == null) {
-            throw new IllegalStateException("NVIDIA API returned empty body");
+                if (response.getBody() == null) {
+                    throw new IllegalStateException("NVIDIA API returned empty body");
+                }
+                if (!response.getStatusCode().is2xxSuccessful()) {
+                    throw new IllegalStateException("NVIDIA API returned " + response.getStatusCode());
+                }
+
+                if (attempt > 1) {
+                    log.info("NVIDIA API succeeded on attempt {}", attempt);
+                }
+                return parseNvidiaResponse(response.getBody());
+
+            } catch (HttpServerErrorException e) {
+                // 5xx errors — retryable
+                lastException = e;
+                if (attempt < MAX_RETRIES) {
+                    long backoff = INITIAL_BACKOFF_MS * (1L << (attempt - 1));
+                    log.warn("NVIDIA API {} error (attempt {}/{}), retrying in {}ms: {}",
+                            e.getStatusCode().value(), attempt, MAX_RETRIES, backoff, e.getMessage());
+                    try {
+                        Thread.sleep(backoff);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Retry interrupted", ie);
+                    }
+                }
+            } catch (RestClientException e) {
+                // Network errors — retryable
+                lastException = e;
+                if (attempt < MAX_RETRIES) {
+                    long backoff = INITIAL_BACKOFF_MS * (1L << (attempt - 1));
+                    log.warn("NVIDIA API network error (attempt {}/{}), retrying in {}ms: {}",
+                            attempt, MAX_RETRIES, backoff, e.getMessage());
+                    try {
+                        Thread.sleep(backoff);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Retry interrupted", ie);
+                    }
+                }
+            }
         }
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new IllegalStateException("NVIDIA API returned " + response.getStatusCode() + ": " + response.getBody());
-        }
 
-        return parseNvidiaResponse(response.getBody());
+        throw new RuntimeException("NVIDIA API failed after " + MAX_RETRIES + " attempts", lastException);
     }
 
     /**
