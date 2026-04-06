@@ -23,7 +23,7 @@ logger.info("Loading Qwen3.5-4B GGUF Q4_K_M...")
 llm = Llama.from_pretrained(
     repo_id="bartowski/Qwen_Qwen3.5-4B-GGUF",
     filename="*Q4_K_M.gguf",
-    n_ctx=4096, n_threads=2, mlock=True, n_batch=512, verbose=False,
+    n_ctx=8192, n_threads=2, mlock=True, n_batch=512, verbose=False,
 )
 logger.info("Model loaded successfully.")
 
