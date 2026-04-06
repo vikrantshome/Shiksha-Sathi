@@ -24,8 +24,8 @@ public class AIGradingProperties {
     /** API key for the provider (NVIDIA API key or HF token). */
     private String apiKey = "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";
 
-    /** Model name to use (e.g., "moonshotai/kimi-k2-thinking"). */
-    private String model = "moonshotai/kimi-k2-thinking";
+    /** Model name to use (e.g., "qwen/qwen3.5-397b-a17b"). */
+    private String model = "qwen/qwen3.5-397b-a17b";
 
     /** URL of the primary API endpoint (NVIDIA API). */
     private String endpointUrl = "https://integrate.api.nvidia.com/v1/chat/completions";
