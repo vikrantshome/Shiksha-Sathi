@@ -24,7 +24,11 @@ management:
 
 ai-grading:
   enabled: ${AI_GRADING_ENABLED:true}
-  endpoint-url: ${AI_GRADING_URL:https://huggingface.co/spaces/shiksha-sathi/naviksha-ai-agent}
+  provider: ${AI_GRADING_PROVIDER:nvidia}
+  api-key: ${NVIDIA_API_KEY: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}
+  model: ${AI_GRADING_MODEL:moonshotai/kimi-k2-thinking}
+  endpoint-url: ${AI_GRADING_URL:https://integrate.api.nvidia.com/v1/chat/completions}
+  hf-space-url: ${AI_GRADING_HF_URL:https://ainaviksha-naviksha-ai-agent.hf.space/grade}
   timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
   temperature: ${AI_GRADING_TEMPERATURE:0.1}
   fallback-to-string-match: ${AI_GRADING_FALLBACK:false}
