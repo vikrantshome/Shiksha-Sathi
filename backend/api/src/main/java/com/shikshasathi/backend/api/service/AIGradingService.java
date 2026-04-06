@@ -98,7 +98,6 @@ public class AIGradingService {
         Map<String, Object> requestBody = new LinkedHashMap<>();
         requestBody.put("model", aiGradingProperties.getModel());
         requestBody.put("temperature", aiGradingProperties.getTemperature());
-        requestBody.put("max_tokens", 2048);
 
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", systemMsg));
@@ -287,10 +286,46 @@ public class AIGradingService {
             return matcher.group(1).trim();
         }
 
-        // Find first { ... } block
+        // Find the FIRST complete JSON object by tracking brace depth
         int start = trimmed.indexOf('{');
+        if (start < 0) {
+            return trimmed;
+        }
+
+        int depth = 0;
+        boolean inString = false;
+        boolean escapeNext = false;
+
+        for (int i = start; i < trimmed.length(); i++) {
+            char ch = trimmed.charAt(i);
+            if (escapeNext) {
+                escapeNext = false;
+                continue;
+            }
+            if (ch == '\\') {
+                escapeNext = true;
+                continue;
+            }
+            if (ch == '"' && !escapeNext) {
+                inString = !inString;
+                continue;
+            }
+            if (inString) {
+                continue;
+            }
+            if (ch == '{') {
+                depth++;
+            } else if (ch == '}') {
+                depth--;
+                if (depth == 0) {
+                    return trimmed.substring(start, i + 1);
+                }
+            }
+        }
+
+        // Fallback: grab everything between first { and last }
         int end = trimmed.lastIndexOf('}');
-        if (start >= 0 && end > start) {
+        if (end > start) {
             return trimmed.substring(start, end + 1);
         }
 
