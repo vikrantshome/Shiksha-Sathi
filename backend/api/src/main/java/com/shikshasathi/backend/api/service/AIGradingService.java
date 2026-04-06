@@ -1,33 +1,28 @@
 package com.shikshasathi.backend.api.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shikshasathi.backend.api.config.AIGradingProperties;
-import com.shikshasathi.backend.api.dto.AIGradingRequest;
 import com.shikshasathi.backend.api.dto.AIGradingResponse;
 import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
 import com.shikshasathi.backend.core.domain.learning.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * AI-powered grading service that calls a self-hosted LLM on Hugging Face Spaces.
+ * AI-powered grading service supporting both NVIDIA API (primary) and HF Space (fallback).
  *
  * <p>When AI grading fails or is unavailable, subjective questions are marked as
  * {@code aiGradingFailed} with 0 marks. String matching is NOT used as a fallback
  * for subjective questions because it produces incorrect grades by design.
- * If configured, string-match fallback can be enabled explicitly.
  */
 @Slf4j
 @Service
@@ -41,13 +36,7 @@ public class AIGradingService {
     private final ObjectMapper objectMapper;
 
     /**
-     * Grade a single subjective answer using the AI grading agent.
-     *
-     * @param question       the question being graded
-     * @param expectedAnswer the canonical correct answer
-     * @param studentAnswer  the student's submitted answer
-     * @param maxMarks       maximum marks for this question
-     * @return QuestionFeedbackDTO with AI-graded results, or marked as pending review
+     * Grade a single subjective answer using the AI grading service.
      */
     public QuestionFeedbackDTO gradeAnswer(Question question, String expectedAnswer,
                                            String studentAnswer, int maxMarks) {
@@ -61,11 +50,9 @@ public class AIGradingService {
             AIGradingResponse response = callAIGradingAgent(question.getText(), expectedAnswer, studentAnswer, maxMarks);
             return buildFeedbackFromAI(question, expectedAnswer, studentAnswer, response);
         } catch (RestClientException e) {
-            // Network-level failures: timeout, connection refused, 5xx
             log.warn("AI grading service unreachable for question {}: {}", question.getId(), e.getMessage());
             return handleAIFailure(question, expectedAnswer, studentAnswer, maxMarks);
         } catch (Exception e) {
-            // Parse errors, malformed responses
             log.warn("AI grading response error for question {}: {}", question.getId(), e.getMessage());
             return handleAIFailure(question, expectedAnswer, studentAnswer, maxMarks);
         }
@@ -85,39 +72,168 @@ public class AIGradingService {
                 "AI grading service unavailable — answer pending review");
     }
 
+    /**
+     * Call the AI grading agent. Supports NVIDIA API and HF Space.
+     */
     private AIGradingResponse callAIGradingAgent(String questionText, String expectedAnswer,
                                                   String studentAnswer, int maxMarks) {
-        AIGradingRequest request = AIGradingRequest.builder()
-                .question(questionText)
-                .expectedAnswer(expectedAnswer)
-                .studentAnswer(studentAnswer)
-                .maxMarks(maxMarks)
-                .build();
+        String provider = aiGradingProperties.getProvider();
 
-        String url = aiGradingProperties.getEndpointUrl() + "/grade";
-        log.info("Calling AI grading endpoint: {}", url);
+        if ("nvidia".equalsIgnoreCase(provider)) {
+            return callNvidiaApi(questionText, expectedAnswer, studentAnswer, maxMarks);
+        } else {
+            // Default to HF Space
+            return callHfSpace(questionText, expectedAnswer, studentAnswer, maxMarks);
+        }
+    }
+
+    /**
+     * Call NVIDIA API (OpenAI-compatible format).
+     */
+    private AIGradingResponse callNvidiaApi(String questionText, String expectedAnswer,
+                                             String studentAnswer, int maxMarks) {
+        String systemMsg = buildSystemPrompt();
+        String userMsg = buildUserPrompt(questionText, expectedAnswer, studentAnswer, maxMarks);
+
+        Map<String, Object> requestBody = new LinkedHashMap<>();
+        requestBody.put("model", aiGradingProperties.getModel());
+        requestBody.put("temperature", aiGradingProperties.getTemperature());
+        requestBody.put("max_tokens", 512);
+
+        List<Map<String, String>> messages = new ArrayList<>();
+        messages.add(Map.of("role", "system", "content", systemMsg));
+        messages.add(Map.of("role", "user", "content", userMsg));
+        requestBody.put("messages", messages);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<AIGradingRequest> entity = new HttpEntity<>(request, headers);
+        headers.set("Authorization", "Bearer " + aiGradingProperties.getApiKey());
 
-        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        log.info("Calling NVIDIA API: model={}, endpoint={}", aiGradingProperties.getModel(),
+                aiGradingProperties.getEndpointUrl());
+
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                aiGradingProperties.getEndpointUrl(), entity, String.class);
 
         if (response.getBody() == null) {
-            throw new IllegalStateException("AI grading endpoint returned empty body");
+            throw new IllegalStateException("NVIDIA API returned empty body");
         }
         if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new IllegalStateException("AI grading endpoint returned " + response.getStatusCode());
+            throw new IllegalStateException("NVIDIA API returned " + response.getStatusCode() + ": " + response.getBody());
+        }
+
+        return parseNvidiaResponse(response.getBody());
+    }
+
+    /**
+     * Call HF Space grading endpoint (fallback).
+     */
+    private AIGradingResponse callHfSpace(String questionText, String expectedAnswer,
+                                           String studentAnswer, int maxMarks) {
+        Map<String, Object> requestBody = new LinkedHashMap<>();
+        requestBody.put("question", questionText);
+        requestBody.put("expected_answer", expectedAnswer);
+        requestBody.put("student_answer", studentAnswer);
+        requestBody.put("max_marks", maxMarks);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        log.info("Calling HF Space: {}", aiGradingProperties.getHfSpaceUrl());
+
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                aiGradingProperties.getHfSpaceUrl(), entity, String.class);
+
+        if (response.getBody() == null) {
+            throw new IllegalStateException("HF Space returned empty body");
+        }
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new IllegalStateException("HF Space returned " + response.getStatusCode());
         }
 
         return parseAIGradingResponse(response.getBody());
     }
 
+    // --- Prompt Building ---
+
+    private String buildSystemPrompt() {
+        return "You are a STRICT expert teacher grading student answers. "
+                + "Grade based on conceptual correctness, not keyword matching. "
+                + "Be strict with factual accuracy.";
+    }
+
+    private String buildUserPrompt(String question, String expectedAnswer, String studentAnswer, int maxMarks) {
+        String display = studentAnswer != null && !studentAnswer.trim().isEmpty() ? studentAnswer : "(blank)";
+        return String.format(
+                "Question: %s\n"
+                + "Expected Answer: %s\n"
+                + "Student's Answer: %s\n"
+                + "Maximum Marks: %d\n\n"
+                + "STRICT GRADING RULES (follow exactly):\n"
+                + "1. If the student's answer is BLANK, award 0 marks.\n"
+                + "2. If the student's answer CONTRADICTS or is FACTUALLY INCORRECT compared to the expected answer, award EXACTLY 0 marks. DO NOT give partial credit for wrong answers.\n"
+                + "3. If the student's answer is CONCEPTUALLY CORRECT but uses different words, award full marks.\n"
+                + "4. If the student's answer shows PARTIAL UNDERSTANDING (mentions relevant concepts but incomplete), award partial marks (between 1 and %d-1).\n"
+                + "5. Accept synonyms, paraphrases, and equivalent expressions.\n"
+                + "6. If the answer has MINOR SPELLING ERRORS but the concept is clearly correct (e.g., Jupitar for Jupiter), award full marks. Do not penalize phonetic misspellings of correct answers.\n"
+                + "7. If the student gives a WRONG answer with correct-sounding reasoning, still award 0 marks.\n\n"
+                + "IMPORTANT: The is_correct field must be true only if marks_awarded is more than half of max_marks. Otherwise it must be false.\n\n"
+                + "Respond with ONLY a valid JSON object, nothing else:\n"
+                + "{\n"
+                + "  \"marks_awarded\": <number 0-%d>,\n"
+                + "  \"max_marks\": %d,\n"
+                + "  \"is_correct\": <true if marks > half of %d else false>,\n"
+                + "  \"reasoning\": \"<one sentence explaining why this grade was given>\",\n"
+                + "  \"confidence\": <number between 0.0 and 1.0>\n"
+                + "}",
+                question, expectedAnswer, display, maxMarks,
+                maxMarks, maxMarks, maxMarks, maxMarks
+        );
+    }
+
+    // --- Response Parsing ---
+
+    /**
+     * Parse NVIDIA API response (OpenAI-compatible format).
+     */
+    private AIGradingResponse parseNvidiaResponse(String rawResponse) {
+        try {
+            JsonNode root = objectMapper.readTree(rawResponse);
+            JsonNode choices = root.get("choices");
+            if (choices == null || !choices.isArray() || choices.isEmpty()) {
+                throw new IllegalStateException("NVIDIA API returned no choices: " + rawResponse);
+            }
+            String content = choices.get(0).get("message").get("content").asText();
+            log.info("NVIDIA API raw response: {}", content.length() > 500 ? content.substring(0, 500) : content);
+            return parseJsonContent(content);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to parse NVIDIA API response: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Parse HF Space response.
+     */
     private AIGradingResponse parseAIGradingResponse(String rawResponse) {
         String jsonContent = extractJsonFromResponse(rawResponse);
+        return parseJsonContentDirect(jsonContent);
+    }
 
+    /**
+     * Parse JSON content from the model response.
+     */
+    private AIGradingResponse parseJsonContent(String text) {
+        String jsonStr = extractJsonFromResponse(text);
+        return parseJsonContentDirect(jsonStr);
+    }
+
+    private AIGradingResponse parseJsonContentDirect(String text) {
         try {
-            JsonNode root = objectMapper.readTree(jsonContent);
+            JsonNode root = objectMapper.readTree(text);
 
             double marksAwarded = getDoubleField(root, "marks_awarded", 0);
             int maxMarks = getIntField(root, "max_marks", 0);
@@ -132,19 +248,34 @@ public class AIGradingService {
                     .reasoning(reasoning)
                     .confidence(confidence)
                     .build();
-        } catch (JsonProcessingException e) {
-            throw new IllegalStateException("Failed to parse AI grading response: " + e.getMessage(), e);
+        } catch (Exception e) {
+            // Try alternate parsing with single quotes
+            try {
+                String fixed = text.replace("'", "\"");
+                JsonNode root = objectMapper.readTree(fixed);
+                return AIGradingResponse.builder()
+                        .marksAwarded(getDoubleField(root, "marks_awarded", 0))
+                        .maxMarks(getIntField(root, "max_marks", 0))
+                        .isCorrect(getBooleanField(root, "is_correct", false))
+                        .reasoning(getStringField(root, "reasoning", ""))
+                        .confidence(getDoubleField(root, "confidence", 0.5))
+                        .build();
+            } catch (Exception e2) {
+                throw new IllegalStateException("Failed to parse JSON response: " + text.substring(0, Math.min(text.length(), 300)), e);
+            }
         }
     }
 
     private String extractJsonFromResponse(String response) {
         String trimmed = response.trim();
 
+        // Try markdown code block first
         Matcher matcher = JSON_BLOCK_PATTERN.matcher(trimmed);
         if (matcher.find()) {
             return matcher.group(1).trim();
         }
 
+        // Find first { ... } block
         int start = trimmed.indexOf('{');
         int end = trimmed.lastIndexOf('}');
         if (start >= 0 && end > start) {
@@ -174,6 +305,8 @@ public class AIGradingService {
         return value != null && value.isTextual() ? value.asText() : defaultValue;
     }
 
+    // --- Feedback Building ---
+
     private QuestionFeedbackDTO buildFeedbackFromAI(Question question, String expectedAnswer,
                                                      String studentAnswer, AIGradingResponse response) {
         return QuestionFeedbackDTO.builder()
@@ -189,11 +322,6 @@ public class AIGradingService {
                 .build();
     }
 
-    /**
-     * Marks a subjective question as pending review when AI grading is unavailable.
-     * Awards 0 marks with a clear explanation so the student knows their answer
-     * was received but not yet graded.
-     */
     private QuestionFeedbackDTO buildPendingReviewFeedback(Question question, String expectedAnswer,
                                                             String studentAnswer, int maxMarks,
                                                             String reason) {
@@ -212,7 +340,6 @@ public class AIGradingService {
 
     /**
      * Fallback: grade using exact string matching. Only used when explicitly configured.
-     * Not recommended for subjective questions.
      */
     QuestionFeedbackDTO stringMatchFallback(Question question, String expectedAnswer,
                                              String studentAnswer, int maxMarks) {
@@ -232,7 +359,7 @@ public class AIGradingService {
                 .build();
     }
 
-    // --- String matching logic (extracted from AssignmentSubmissionService for reuse) ---
+    // --- String matching logic ---
 
     private boolean answersMatch(String studentAnswer, String correctAnswer) {
         if (studentAnswer == null || correctAnswer == null) {

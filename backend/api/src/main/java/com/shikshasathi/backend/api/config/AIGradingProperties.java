@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Configuration properties for the AI grading service.
- * Allows enabling/disabling AI grading, setting the endpoint URL,
- * timeout, and fallback behavior.
+ * Supports both NVIDIA API (primary) and HF Space (fallback).
  */
 @Configuration
 @ConfigurationProperties(prefix = "ai-grading")
@@ -19,8 +18,20 @@ public class AIGradingProperties {
     /** Whether AI grading is enabled. When false, falls back to string matching. */
     private boolean enabled = true;
 
-    /** URL of the HF Space grading endpoint. */
-    private String endpointUrl = "https://huggingface.co/spaces/shiksha-sathi/naviksha-ai-agent";
+    /** API provider: "nvidia" or "hf-space". */
+    private String provider = "nvidia";
+
+    /** API key for the provider (NVIDIA API key or HF token). */
+    private String apiKey = "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";
+
+    /** Model name to use (e.g., "moonshotai/kimi-k2-thinking"). */
+    private String model = "moonshotai/kimi-k2-thinking";
+
+    /** URL of the primary API endpoint (NVIDIA API). */
+    private String endpointUrl = "https://integrate.api.nvidia.com/v1/chat/completions";
+
+    /** URL of the HF Space grading endpoint (fallback). */
+    private String hfSpaceUrl = "https://ainaviksha-naviksha-ai-agent.hf.space/grade";
 
     /** HTTP timeout in milliseconds for the grading request. */
     private long timeoutMs = 30000;

@@ -22,9 +22,6 @@ import static org.mockito.Mockito.*;
 
 /**
  * Tests for AIGradingService.
- *
- * Key principle: AI grading failures must NOT fall back to string matching
- * by default, because string matching produces incorrect grades for subjective questions.
  */
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +54,9 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIEnabled_ReturnsAIGradedResult() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
         when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
@@ -87,7 +86,6 @@ public class AIGradingServiceTest {
                 question, "The process by which plants convert sunlight into energy",
                 "Plants use sunlight", 5);
 
-        // NOT graded by string match — marked as pending review
         assertFalse(result.isCorrect());
         assertEquals(0, result.getMarksAwarded());
         assertTrue(result.isAiGradingFailed());
@@ -97,7 +95,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AITimeout_MarksAsPendingReview_NoStringFallback() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -107,7 +106,6 @@ public class AIGradingServiceTest {
         QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
                 question, "Photosynthesis", "Plants make food", 5);
 
-        // Must NOT fall back to string match — marked as pending review
         assertFalse(result.isCorrect());
         assertEquals(0, result.getMarksAwarded());
         assertTrue(result.isAiGradingFailed());
@@ -117,7 +115,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIHttp500_MarksAsPendingReview() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -135,7 +134,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIMalformedJson_MarksAsPendingReview() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -145,7 +145,6 @@ public class AIGradingServiceTest {
         QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
                 question, "Equal", "Equal", 5);
 
-        // NOT falling back to string match
         assertFalse(result.isCorrect());
         assertEquals(0, result.getMarksAwarded());
         assertTrue(result.isAiGradingFailed());
@@ -154,7 +153,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIFailure_ExplicitFallbackEnabled_UsesStringMatch() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(true);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -162,14 +162,12 @@ public class AIGradingServiceTest {
 
         Question question = sampleQuestion();
 
-        // Exact string match — should succeed with fallback
         QuestionFeedbackDTO exact = aiGradingService.gradeAnswer(
                 question, "Equal", "Equal", 5);
         assertTrue(exact.isCorrect());
         assertEquals(5, exact.getMarksAwarded());
         assertFalse(exact.isAiGradingFailed());
 
-        // Non-match — should fail (no keyword match)
         QuestionFeedbackDTO wrong = aiGradingService.gradeAnswer(
                 question, "Equal", "Wrong", 5);
         assertFalse(wrong.isCorrect());
@@ -179,7 +177,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_BlankStudentAnswer_AIGrading() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
@@ -194,13 +193,14 @@ public class AIGradingServiceTest {
 
         assertFalse(result.isCorrect());
         assertEquals(0, result.getMarksAwarded());
-        assertFalse(result.isAiGradingFailed()); // AI graded successfully, just 0 marks
+        assertFalse(result.isAiGradingFailed());
     }
 
     @Test
     void gradeAnswer_AIPartialCredit() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
@@ -213,10 +213,38 @@ public class AIGradingServiceTest {
         QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
                 question, "Photosynthesis uses sunlight", "sunlight helps plants", 5);
 
-        assertEquals(3, result.getMarksAwarded()); // rounds 2.5 → 3
+        assertEquals(3, result.getMarksAwarded());
         assertTrue(result.isCorrect());
         assertEquals("Partial understanding shown", result.getReasoning());
         assertEquals(0.7, result.getConfidence());
+        assertFalse(result.isAiGradingFailed());
+    }
+
+    @Test
+    void gradeAnswer_NvidiaApi_ReturnsAIGradedResult() {
+        when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("https://integrate.api.nvidia.com/v1/chat/completions");
+        when(aiGradingProperties.getModel()).thenReturn("moonshotai/kimi-k2-thinking");
+        when(aiGradingProperties.getTemperature()).thenReturn(0.1);
+        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+
+        // NVIDIA API response format
+        String nvidiaResponse = """
+            {"choices":[{"index":0,"message":{"role":"assistant","content":"{\\"marks_awarded\\": 4.0, \\"max_marks\\": 5, \\"is_correct\\": true, \\"reasoning\\": \\"Correct concept\\", \\"confidence\\": 0.9}"}}],"usage":{"total_tokens":50}}
+            """;
+        when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(nvidiaResponse, HttpStatus.OK));
+
+        Question question = sampleQuestion();
+        QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
+                question, "The process by which plants convert sunlight into energy",
+                "Plants use sunlight to make food", 5);
+
+        assertTrue(result.isCorrect());
+        assertEquals(4, result.getMarksAwarded());
+        assertEquals("Correct concept", result.getReasoning());
+        assertEquals(0.9, result.getConfidence());
         assertFalse(result.isAiGradingFailed());
     }
 }
