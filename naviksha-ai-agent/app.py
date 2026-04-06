@@ -143,7 +143,7 @@ def grade(req: GradingRequest):
         messages = build_messages(req)
         result = llm.create_chat_completion(
             messages=messages,
-            max_tokens=768,
+            max_tokens=1536,
             temperature=0.1,
         )
         raw = result['choices'][0]['message']['content']
