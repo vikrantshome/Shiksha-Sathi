@@ -26,7 +26,7 @@ ai-grading:
   enabled: ${AI_GRADING_ENABLED:true}
   provider: ${AI_GRADING_PROVIDER:nvidia}
   api-key: ${NVIDIA_API_KEY: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}
-  model: ${AI_GRADING_MODEL:qwen/qwen3.5-397b-a17b}
+  model: ${AI_GRADING_MODEL:nvidia/nemotron-3-super-120b-a12b}
   endpoint-url: ${AI_GRADING_URL:https://integrate.api.nvidia.com/v1/chat/completions}
   hf-space-url: ${AI_GRADING_HF_URL:https://ainaviksha-naviksha-ai-agent.hf.space/grade}
   timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
