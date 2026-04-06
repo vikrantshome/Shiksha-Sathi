@@ -49,39 +49,40 @@ def is_no_attempt(a):
 
 def build_messages(req):
     sa = req.student_answer.strip()
-    display = sa if sa else '(blank)'
+    display = sa if sa else "(blank)"
     max_m = req.max_marks
     system_msg = (
-        "You are an expert teacher grading student answers. "
-        "Grade based on conceptual correctness, not keyword matching."
+        "You are a STRICT expert teacher grading student answers. "
+        "Grade based on conceptual correctness, not keyword matching. "
+        "Be strict with factual accuracy."
     )
     user_msg = (
         "Question: " + req.question + "\n"
         "Expected Answer: " + req.expected_answer + "\n"
         "Student's Answer: " + display + "\n"
         "Maximum Marks: " + str(max_m) + "\n\n"
-        "Grade this answer. Respond with ONLY a JSON object.\n\n"
-        "Grading Rules:\n"
-        "- Full marks: conceptually correct (exact wording not required)\n"
-        "- Partial marks: mentions relevant concepts or partial understanding\n"
-        "- Zero marks: irrelevant, incorrect, or blank\n"
-        "- Accept synonyms, paraphrases, equivalent expressions\n"
-        "- Be generous with minor spelling errors if concept is clear\n"
-        "- If student answer is blank, award 0 marks\n\n"
-        "Return JSON only:\n"
-        "{"
-        '"marks_awarded": <0-' + str(max_m) + '>,'
-        '"max_marks": ' + str(max_m) + ','
-        '"is_correct": <true/false>,'
-        '"reasoning": "<sentence>",'
-        '"confidence": <0.0-1.0>'
+        "STRICT GRADING RULES (follow exactly):\n"
+        "1. If the student's answer is BLANK, award 0 marks.\n"
+        "2. If the student's answer CONTRADICTS or is FACTUALLY INCORRECT compared to the expected answer, award EXACTLY 0 marks. DO NOT give partial credit for wrong answers.\n"
+        "3. If the student's answer is CONCEPTUALLY CORRECT but uses different words, award full marks.\n"
+        "4. If the student's answer shows PARTIAL UNDERSTANDING (mentions relevant concepts but incomplete), award partial marks (between 1 and max_marks-1).\n"
+        "5. Accept synonyms, paraphrases, and equivalent expressions.\n"
+        "6. If the answer has MINOR SPELLING ERRORS but the concept is clearly correct (e.g., Jupitar for Jupiter), award full marks. Do not penalize phonetic misspellings of correct answers.\n"
+        "7. If the student gives a WRONG answer with correct-sounding reasoning, still award 0 marks.\n\n"
+        "IMPORTANT: The is_correct field must be TRUE only if marks_awarded is more than half of max_marks. Otherwise it must be FALSE.\n\n"
+        "Respond with ONLY a valid JSON object, nothing else:\n"
+        "{\n"
+        "  \"marks_awarded\": <number 0-" + str(max_m) + ">,\n"
+        "  \"max_marks\": " + str(max_m) + ",\n"
+        "  \"is_correct\": <true if marks > half of " + str(max_m) + " else false>,\n"
+        "  \"reasoning\": \"<one sentence explaining why this grade was given>\",\n"
+        "  \"confidence\": <number between 0.0 and 1.0>\n"
         "}"
     )
     return [
         {"role": "system", "content": system_msg},
         {"role": "user", "content": user_msg},
     ]
-
 
 def parse_json_response(text):
     text = text.strip()
