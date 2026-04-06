@@ -98,7 +98,7 @@ public class AIGradingService {
         Map<String, Object> requestBody = new LinkedHashMap<>();
         requestBody.put("model", aiGradingProperties.getModel());
         requestBody.put("temperature", aiGradingProperties.getTemperature());
-        requestBody.put("max_tokens", 512);
+        requestBody.put("max_tokens", 2048);
 
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", systemMsg));
@@ -199,6 +199,7 @@ public class AIGradingService {
 
     /**
      * Parse NVIDIA API response (OpenAI-compatible format).
+     * Kimi K2 Thinking returns response in "reasoning" field instead of "content".
      */
     private AIGradingResponse parseNvidiaResponse(String rawResponse) {
         try {
@@ -207,7 +208,18 @@ public class AIGradingService {
             if (choices == null || !choices.isArray() || choices.isEmpty()) {
                 throw new IllegalStateException("NVIDIA API returned no choices: " + rawResponse);
             }
-            String content = choices.get(0).get("message").get("content").asText();
+            JsonNode message = choices.get(0).get("message");
+
+            // Kimi K2 Thinking returns content in "reasoning" field
+            JsonNode contentNode = message.get("content");
+            String content = (contentNode != null && !contentNode.isNull())
+                    ? contentNode.asText()
+                    : message.get("reasoning").asText("");
+
+            if (content.isEmpty()) {
+                throw new IllegalStateException("NVIDIA API returned empty content: " + rawResponse);
+            }
+
             log.info("NVIDIA API raw response: {}", content.length() > 500 ? content.substring(0, 500) : content);
             return parseJsonContent(content);
         } catch (Exception e) {
