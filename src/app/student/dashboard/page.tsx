@@ -8,10 +8,11 @@ import {
   students,
 } from "@/lib/api/students";
 import type { StudentDashboardStats, StudentIdentity } from "@/lib/api/types";
+import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 
 /* ─────────────────────────────────────────────────────────
    Student Dashboard
-   Design System: "The Digital Atelier" (design-system.md)
+   Design System: Material 3 (M3) Color System
    Mirrors teacher dashboard patterns but student-scoped.
    ───────────────────────────────────────────────────────── */
 
@@ -60,15 +61,23 @@ const IconCode = () => (
 
 /* ── Identity Entry Modal ── */
 function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => void }) {
+  const [studentSchool, setStudentSchool] = useState("");
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const rollNumber = formData.get("rollNumber") as string;
-    if (name && rollNumber) {
+    const school = formData.get("school") as string || studentSchool;
+    const studentClass = formData.get("studentClass") as string;
+    const section = formData.get("section") as string;
+    if (name && rollNumber && school && studentClass && section) {
       const identity: StudentIdentity = {
         studentId: rollNumber,
         studentName: name,
+        school,
+        class: studentClass,
+        section,
         storedAt: new Date().toISOString(),
       };
       saveStudentIdentity(identity);
@@ -79,23 +88,69 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
   return (
     <div className="flex items-center justify-center min-h-[60vh] px-4">
       <div className="relative w-full max-w-md">
-        <div className="absolute rounded-lg opacity-50 -inset-1 bg-gradient-to-tr from-primary/5 to-transparent blur-lg" />
-        <div className="relative mt-8 bg-surface-container-lowest border border-outline-variant/10 rounded-lg p-6 md:p-8 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-primary-container/30 text-primary">
+        <div className="relative mt-8 rounded-2xl p-6 md:p-8" style={{ background: "var(--color-m3-surface-container-lowest)" }}>
+          <div className="mb-6 text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full" style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}>
               <IconAssignment />
             </div>
-            <h2 className="mb-2 text-xl font-bold tracking-tight text-on-surface font-headline">
+            <h2 className="mb-2 text-xl font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
               Welcome to Shiksha Sathi
             </h2>
-            <p className="max-w-xs mx-auto text-sm leading-relaxed text-on-surface-variant">
-              Enter your name and roll number to view your assignments and progress.
+            <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+              Enter your details to view your assignments and progress.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* School/Institute — Searchable Dropdown */}
+            <SearchableSchoolDropdown value={studentSchool} onChange={setStudentSchool} />
+            <input type="hidden" name="school" value={studentSchool} />
+
+            {/* Class and Section Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="relative group">
+                <label htmlFor="dashboard-class" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                  Class / Grade
+                </label>
+                <select
+                  id="dashboard-class"
+                  name="studentClass"
+                  required
+                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
+                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                >
+                  <option value="">Select</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1)}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="relative group">
+                <label htmlFor="dashboard-section" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                  Section
+                </label>
+                <input
+                  id="dashboard-section"
+                  name="section"
+                  required
+                  placeholder="e.g. A"
+                  type="text"
+                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                />
+              </div>
+            </div>
+
+            {/* Name */}
             <div className="relative group">
-              <label htmlFor="student-name" className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors">
+              <label htmlFor="student-name" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                 Full Name
               </label>
               <input
@@ -104,11 +159,15 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                 required
                 placeholder="e.g. Aarav Patel"
                 type="text"
-                className="w-full px-0 py-3 text-base border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
+                className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
               />
             </div>
+            {/* Roll Number */}
             <div className="relative group">
-              <label htmlFor="student-roll" className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors">
+              <label htmlFor="student-roll" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                 Roll Number
               </label>
               <input
@@ -117,12 +176,16 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                 required
                 placeholder="Enter your unique ID"
                 type="text"
-                className="w-full px-0 py-3 text-base border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
+                className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-gradient-to-br from-primary to-primary-dim text-on-primary py-3.5 px-6 rounded-lg font-bold tracking-wide shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200"
+              className="w-full py-4 px-6 rounded-full font-semibold transition-all duration-200"
+              style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}
             >
               View My Dashboard
             </button>
@@ -242,13 +305,13 @@ export default function StudentDashboardPage() {
     <div className="max-w-full pb-12">
       {/* ═══ Welcome Banner ═══ */}
       <header className="mb-6 md:mb-8 lg:mb-12">
-        <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
+        <span className="block font-sans text-[0.875rem] font-medium uppercase tracking-[0.05em] mb-2" style={{ color: "var(--color-m3-primary)" }}>
           Student Portal
         </span>
-        <h1 className="font-manrope text-[clamp(1.5rem,3vw,1.875rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
+        <h1 className="text-[clamp(1.5rem,3vw,1.875rem)] font-semibold tracking-tight leading-[1.2] m-0" style={{ color: "var(--color-m3-on-surface)" }}>
           {greeting}, {currentIdentity.studentName}.
         </h1>
-        <p className="text-sm text-on-surface-variant mt-2 max-w-[28rem] leading-[1.6]">
+        <p className="text-sm mt-2 max-w-[28rem] leading-[1.6]" style={{ color: "var(--color-m3-on-surface-variant)" }}>
           {loading
             ? "Loading your assignments..."
             : stats && stats.totalAssignments > 0
@@ -259,39 +322,41 @@ export default function StudentDashboardPage() {
 
       {/* ═══ Error State ═══ */}
       {error && (
-        <div className="mb-6 p-4 bg-error/10 text-error text-sm rounded-md">
+        <div className="mb-6 p-4 text-sm rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
           {error}
           <button
             onClick={() => {
               setIdentity(null);
               localStorage.removeItem("shiksha-sathi-student-identity");
             }}
-            className="ml-2 underline font-semibold"
+            className="ml-2 underline font-semibold cursor-pointer bg-transparent border-none"
+            style={{ color: "var(--color-m3-error)" }}
           >
-            Switch student
+            Logout
           </button>
         </div>
       )}
 
       {/* ═══ Summary Stat Cards ═══ */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8 md:mb-12">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12">
         {statCards.map((stat, i) => (
           <div
             key={i}
-            className="group bg-surface-container-lowest p-4 md:p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
+            className="group p-4 md:p-6 rounded-xl transition-all duration-200 hover:shadow-lg"
+            style={{ background: "var(--color-m3-surface-container-low)", border: "1px solid var(--color-m3-outline-variant)" }}
           >
             <div className="flex flex-col items-start gap-2 mb-3 md:mb-4 sm:flex-row sm:justify-between sm:items-start">
-              <div className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[#4463710D]">
+              <div className="p-2 rounded-lg flex items-center justify-center transition-colors duration-200" style={{ background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }}>
                 {stat.icon}
               </div>
-              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold text-primary-dim leading-[1.4]">
+              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold leading-[1.4]" style={{ color: "var(--color-m3-primary)" }}>
                 {stat.badge}
               </span>
             </div>
-            <h3 className="font-manrope text-[1.375rem] md:text-2xl font-bold text-on-surface m-0">
+            <h3 className="text-[1.375rem] md:text-2xl font-bold m-0" style={{ color: "var(--color-m3-on-surface)" }}>
               {loading ? "—" : stat.value}
             </h3>
-            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-[0.08em] mt-1 leading-[1.4]">
+            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium uppercase tracking-[0.08em] mt-1 leading-[1.4]" style={{ color: "var(--color-m3-on-surface-variant)" }}>
               {stat.label}
             </p>
           </div>
@@ -302,7 +367,8 @@ export default function StudentDashboardPage() {
       <div className="mb-8 md:mb-12">
         <button
           onClick={handleEnterCode}
-          className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-br from-primary to-primary-dim px-5 py-3 text-sm font-bold text-on-primary shadow-[0_8px_18px_rgba(48,51,47,0.12)] transition-all duration-150 hover:brightness-95 hover:shadow-[0_10px_22px_rgba(48,51,47,0.16)] active:scale-[0.98] cursor-pointer"
+          className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold cursor-pointer transition-all duration-200"
+          style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}
         >
           <IconCode />
           Enter Assignment Code
@@ -312,11 +378,11 @@ export default function StudentDashboardPage() {
       {/* ═══ Recent Assignments ═══ */}
       <section>
         <div className="flex items-center justify-between mb-3 md:mb-4">
-          <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em]">
+          <h2 className="text-lg font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
             Recent Assignments
           </h2>
           {stats && stats.recentSubmissions.length > 0 && (
-            <Link href="/student/assignments" className="text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-1">
+            <Link href="/student/assignments" className="text-[0.6875rem] font-bold no-underline flex items-center gap-1" style={{ color: "var(--color-m3-primary)" }}>
               View All
               <IconChevronRight />
             </Link>
@@ -324,23 +390,24 @@ export default function StudentDashboardPage() {
         </div>
 
         {!stats || loading ? (
-          <div className="bg-surface-container-low rounded-md border border-outline/10 p-8 text-center">
-            <p className="text-sm text-on-surface-variant">Loading...</p>
+          <div className="rounded-xl p-8 text-center" style={{ background: "var(--color-m3-surface-container-low)", border: "1px solid var(--color-m3-outline-variant)" }}>
+            <p className="text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>Loading...</p>
           </div>
         ) : stats.recentSubmissions.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="bg-surface-container-lowest rounded-md border border-outline/10 overflow-hidden">
+          <div className="rounded-xl overflow-hidden" style={{ background: "var(--color-m3-surface-container-lowest)", border: "1px solid var(--color-m3-outline-variant)" }}>
             {/* Desktop Table */}
             <div className="hidden md:block">
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-left text-sm">
                   <thead>
-                    <tr className="bg-surface-container-low border-b border-outline/10">
+                    <tr style={{ borderBottom: "1px solid var(--color-m3-outline-variant)" }}>
                       {["Assignment", "Score", "Status", "Submitted", ""].map((h, idx) => (
                         <th
                           key={h}
-                          className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
+                          className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] ${idx === 4 ? "text-right" : "text-left"}`}
+                          style={{ color: "var(--color-m3-on-surface-variant)" }}
                         >
                           {h}
                         </th>
@@ -354,32 +421,32 @@ export default function StudentDashboardPage() {
                       return (
                         <tr
                           key={sub.id}
-                          className="border-b border-outline/5 transition-colors duration-200 ease-out hover:bg-surface-container-high"
+                          className="transition-colors duration-200 ease-out"
+                          style={{ borderBottom: "1px solid var(--color-m3-outline-variant)" }}
                         >
                           <td className="p-3 md:p-4 px-4 md:px-6">
-                            <p className="font-semibold text-on-surface m-0 text-sm">
+                            <p className="font-semibold m-0 text-sm" style={{ color: "var(--color-m3-on-surface)" }}>
                               {sub.assignmentTitle}
                             </p>
                           </td>
                           <td className="p-3 md:p-4 px-4 md:px-6">
                             {isGraded && scorePct !== null ? (
-                              <span className={`font-semibold text-sm ${scorePct >= 70 ? "text-primary" : scorePct >= 50 ? "text-warning" : "text-error"}`}>
+                              <span className="font-semibold text-sm" style={{ color: scorePct >= 70 ? "var(--color-m3-primary)" : scorePct >= 50 ? "var(--color-m3-tertiary)" : "var(--color-m3-error)" }}>
                                 {sub.score}/{sub.totalMarks} ({scorePct}%)
                               </span>
                             ) : (
-                              <span className="text-sm text-on-surface-variant">—</span>
+                              <span className="text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>—</span>
                             )}
                           </td>
                           <td className="p-3 md:p-4 px-4 md:px-6">
-                            <span className={`inline-flex items-center px-2 py-1 text-[0.625rem] font-bold tracking-wider rounded-sm uppercase ${
-                              isGraded
-                                ? "bg-emerald-50 text-emerald-700"
-                                : "bg-surface-container text-on-surface-variant"
-                            }`}>
+                            <span className="inline-flex items-center px-3 py-1 text-[0.625rem] font-bold tracking-wider rounded-full uppercase" style={{
+                              background: isGraded ? "var(--color-m3-secondary-container)" : "var(--color-m3-surface-container)",
+                              color: isGraded ? "var(--color-m3-on-secondary-container)" : "var(--color-m3-on-surface-variant)",
+                            }}>
                               {isGraded ? "Graded" : "Pending"}
                             </span>
                           </td>
-                          <td className="p-3 md:p-4 px-4 md:px-6 text-on-surface-variant text-sm">
+                          <td className="p-3 md:p-4 px-4 md:px-6 text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                             {new Date(sub.submittedAt).toLocaleDateString("en-IN", {
                               day: "numeric",
                               month: "short",
@@ -388,7 +455,8 @@ export default function StudentDashboardPage() {
                           <td className="p-3 md:p-4 px-4 md:px-6 text-right">
                             <Link
                               href={`/student/results/${sub.id}`}
-                              className="text-[0.6875rem] font-bold text-primary uppercase tracking-[0.05em] no-underline inline-flex items-center gap-1"
+                              className="text-[0.6875rem] font-bold uppercase tracking-[0.05em] no-underline inline-flex items-center gap-1"
+                              style={{ color: "var(--color-m3-primary)" }}
                             >
                               {isGraded ? "View" : "Details"}
                               <IconChevronRight />

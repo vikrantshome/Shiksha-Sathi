@@ -93,38 +93,43 @@ export default function StudentLayout({
     return pathname.startsWith(hrefPath);
   };
 
-  const handleClearIdentity = () => {
+  const handleLogout = () => {
     clearStudentIdentity();
-    window.location.href = "/";
+    window.location.href = "/student/dashboard";
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface">
-      {/* ═══ Top Navigation Bar ═══ */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface-container-lowest)]/95 backdrop-blur-[16px] border-b border-[#B0B3AD]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
-        <div className="flex justify-between items-center px-4 md:px-6 h-16 max-w-[100rem] mx-auto">
-          {/* Left: Brand */}
-          <div className="flex items-center gap-6">
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--color-m3-surface)" }}>
+      {/* ═══ M3 Top App Bar (Medium Variant) ═══ */}
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "var(--color-m3-surface-container-low)", height: "64px" }}>
+        <div className="flex justify-between items-center px-2 md:px-4 h-full max-w-[100rem] mx-auto">
+          {/* Left: Brand + Nav */}
+          <div className="flex items-center gap-1 md:gap-2">
             <Link
               href="/student/dashboard"
-              className="font-[family-name:var(--font-manrope)] text-lg md:text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
+              className="font-[family-name:var(--font-manrope)] text-lg font-bold no-underline flex-shrink-0"
+              style={{ color: "var(--color-m3-on-surface)" }}
             >
               Shiksha Sathi
             </Link>
 
-            {/* Desktop Nav Tabs */}
-            <div className="hidden md:flex items-center gap-6 h-16">
+            {/* M3 Navigation Tabs */}
+            <div className="hidden md:flex items-center gap-1 h-full">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
                   <Link
                     key={item.key}
                     href={item.href}
-                    className={`h-16 flex items-center text-sm transition-colors duration-200 border-b-2 no-underline ${
+                    className={`h-10 flex items-center text-[0.875rem] no-underline transition-all duration-200 rounded-full px-4 ${
                       active
-                        ? "font-semibold text-primary border-primary"
-                        : "font-normal text-on-surface-variant border-transparent"
+                        ? "font-semibold"
+                        : "font-medium hover:opacity-70"
                     }`}
+                    style={active
+                      ? { background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }
+                      : { color: "var(--color-m3-on-surface-variant)" }
+                    }
                   >
                     {item.label}
                   </Link>
@@ -134,16 +139,25 @@ export default function StudentLayout({
           </div>
 
           {/* Right: Student Identity + Menu Toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {studentName && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-full">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: "var(--color-m3-surface-container)" }}>
                 <IconStudent />
-                <span className="text-xs font-semibold text-on-surface">{studentName}</span>
+                <span className="text-xs font-medium" style={{ color: "var(--color-m3-on-surface)" }}>{studentName}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="ml-1 text-[0.625rem] font-bold uppercase tracking-wider cursor-pointer bg-transparent border-none transition-colors"
+                  style={{ color: "var(--color-m3-primary)" }}
+                >
+                  Logout
+                </button>
               </div>
             )}
             <Link
               href="/student/assignment/"
-              className="hidden md:inline-flex bg-primary text-on-primary px-3 py-1.5 rounded-sm text-xs font-semibold no-underline hover:brightness-95 active:scale-95 transition-all"
+              className="hidden md:inline-flex no-underline text-[0.875rem] font-medium px-4 py-2 rounded-full transition-all active:scale-95"
+              style={{ background: "var(--color-m3-primary)", color: "var(--color-m3-on-primary)" }}
               onClick={(e) => {
                 e.preventDefault();
                 const code = prompt("Enter your assignment code:");
@@ -156,9 +170,10 @@ export default function StudentLayout({
             {/* Mobile Menu Toggle */}
             <button
               type="button"
-              className="md:hidden p-2 text-on-surface-variant bg-transparent border-none cursor-pointer"
+              className="md:hidden p-2 bg-transparent border-none cursor-pointer"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
+              style={{ color: "var(--color-m3-on-surface-variant)" }}
             >
               {mobileMenuOpen ? <IconClose /> : <IconMenu />}
             </button>
@@ -168,17 +183,21 @@ export default function StudentLayout({
 
       {/* ═══ Mobile Dropdown Menu ═══ */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-b border-[#B0B3AD]/15 shadow-[0_8px_24px_rgba(27,28,26,0.12)] p-4">
+        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] p-3" style={{ background: "var(--color-m3-surface-container-low)" }}>
           {navItems.map((item) => (
             <Link
               key={item.key}
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
-              className={`block p-2.5 px-3 text-sm font-medium rounded-md no-underline mb-2 border ${
+              className={`block p-3 px-4 text-sm font-medium rounded-full no-underline mb-1 ${
                 isActive(item.href)
-                  ? "text-primary bg-[var(--color-primary-container)]/45 border-[var(--color-primary)]/10"
-                  : "text-on-surface-variant bg-[var(--color-surface-container-low)] border-[#B0B3AD]/10"
+                  ? "font-semibold"
+                  : "font-medium"
               }`}
+              style={isActive(item.href)
+                ? { background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }
+                : { color: "var(--color-m3-on-surface-variant)" }
+              }
             >
               {item.label}
             </Link>
@@ -189,7 +208,8 @@ export default function StudentLayout({
               const code = prompt("Enter your assignment code:");
               if (code) window.location.href = `/student/assignment/${code}`;
             }}
-            className="w-full text-left p-2.5 px-3 text-sm font-medium text-primary rounded-md border border-[var(--color-primary)]/10 bg-[var(--color-primary-container)]/20 cursor-pointer"
+            className="w-full text-left p-3 px-4 text-sm font-medium rounded-full cursor-pointer mb-1"
+            style={{ color: "var(--color-m3-primary)", background: "var(--color-m3-primary-container)" }}
           >
             Enter Assignment Code
           </button>
@@ -197,25 +217,26 @@ export default function StudentLayout({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                handleClearIdentity();
+                handleLogout();
               }}
-              className="w-full text-left p-2.5 px-3 text-sm font-medium text-on-surface-variant rounded-md border border-[#B0B3AD]/10 bg-[var(--color-surface-container-low)] cursor-pointer"
+              className="w-full text-left p-3 px-4 text-sm font-medium rounded-full cursor-pointer"
+              style={{ color: "var(--color-m3-on-surface-variant)", background: "var(--color-m3-surface-container)" }}
             >
-              Switch Student
+              Logout
             </button>
           )}
         </div>
       )}
 
       {/* ═══ Main Content ═══ */}
-      <main className="flex-1 w-full pt-16 pb-24 md:pb-8">
+      <main className="flex-1 w-full pt-16 pb-20 md:pb-8" style={{ background: "var(--color-m3-surface)" }}>
         <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
           {children}
         </div>
       </main>
 
-      {/* ═══ Bottom Tab Bar (Mobile Only) ═══ */}
-      <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-t border-[#B0B3AD]/15 shadow-[0_-4px_16px_rgba(27,28,26,0.08)] z-50 px-4">
+      {/* ═══ M3 Bottom Navigation Bar (Mobile) ═══ */}
+      <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 z-50 px-1" style={{ background: "var(--color-m3-surface-container)", height: "80px" }}>
         {navItems.map((item) => {
           const active = isActive(item.href);
           const ItemIcon = item.icon;
@@ -223,16 +244,22 @@ export default function StudentLayout({
             <Link
               key={item.key}
               href={item.href}
-              className={`flex flex-col items-center no-underline gap-[2px] ${
-                active ? "text-primary" : "text-on-surface-variant"
-              }`}
+              className="flex flex-col items-center justify-center no-underline w-16"
             >
-              <div className={`px-3 py-1 rounded-full transition-colors duration-200 ${
-                active ? "bg-primary-container/30" : "bg-transparent"
-              }`}>
+              <div
+                className="flex items-center justify-center transition-all duration-200 mb-1"
+                style={{
+                  width: "56px",
+                  height: "32px",
+                  borderRadius: "16px",
+                  background: active ? "var(--color-m3-secondary-container)" : "transparent",
+                }}
+              >
                 <ItemIcon active={active} />
               </div>
-              <span className="text-[0.625rem] font-medium">
+              <span className="text-[0.75rem] font-medium" style={{
+                color: active ? "var(--color-m3-on-surface)" : "var(--color-m3-on-surface-variant)",
+              }}>
                 {item.mobileLabel}
               </span>
             </Link>

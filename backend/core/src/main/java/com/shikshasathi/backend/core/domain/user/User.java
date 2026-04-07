@@ -33,6 +33,9 @@ public class User extends BaseEntity {
     @Field("school_id")
     private String schoolId;
 
+    @Field("school")
+    private String school; // School/Institute name
+
     @Field("roll_number")
     private String rollNumber;
 

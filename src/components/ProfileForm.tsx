@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
+import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 
 const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
@@ -14,6 +15,7 @@ export default function ProfileForm({
   const [message, setMessage] = useState("");
   const [errorHeader, setErrorHeader] = useState("");
   const [board, setBoard] = useState(initialData?.board || "CBSE");
+  const [school, setSchool] = useState(initialData?.school || "");
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -89,12 +91,8 @@ export default function ProfileForm({
           <label className="text-label-md block text-on-surface-variant mb-2">
             School Name
           </label>
-          <input
-            name="school"
-            defaultValue={initialData?.school}
-            placeholder="e.g. Heritage International School"
-            className="w-full bg-surface-container-highest border-none border-b border-outline-variant py-3 text-[0.9375rem] text-on-surface outline-none transition-colors duration-200 focus:border-primary"
-          />
+          <SearchableSchoolDropdown value={school} onChange={setSchool} />
+          <input type="hidden" name="school" value={school} />
         </div>
       </section>
 

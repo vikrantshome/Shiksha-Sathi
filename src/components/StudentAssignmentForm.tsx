@@ -1,53 +1,124 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { api } from "@/lib/api";
-import { saveStudentIdentity } from "@/lib/api/students";
+import { saveStudentIdentity, getStudentIdentity } from "@/lib/api/students";
 import type { AssignmentByLinkResponse, SubmitAssignmentResponse, StudentIdentity } from "@/lib/api/types";
+import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignment Form — Stitch-Directed Redesign
-   Design Source: 
+   Design Source:
      - identity_entry/code.html  → Identity stage
-     - assignment_taking/code.html → Assessment stage  
+     - assignment_taking/code.html → Assessment stage
      - results/code.html → Results stage
    All three views implement Digital Atelier tokens.
+
+   Phase: "answer_questions" design alignment.
    ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentFormProps {
   assignment: AssignmentByLinkResponse;
+  onProgressChange?: (answered: number) => void;
 }
 
 export default function StudentAssignmentForm({
   assignment,
+  onProgressChange,
 }: StudentAssignmentFormProps) {
+  // Check localStorage for existing identity on mount
+  const existingIdentity = getStudentIdentity();
+  const existingStudentId = existingIdentity?.studentId || null;
   const [identity, setIdentity] = useState<{
     name: string;
     rollNumber: string;
+    school?: string;
+    studentClass?: string;
+    section?: string;
   } | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<SubmitAssignmentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [existingSubmission, setExistingSubmission] = useState<SubmitAssignmentResponse | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Sync identity from localStorage after mount (prevents hydration mismatch)
+  useEffect(() => {
+    setMounted(true);
+    if (existingStudentId && existingIdentity) {
+      setIdentity({ name: existingIdentity.studentName, rollNumber: existingStudentId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existingStudentId]);
+
+  // Check for existing submission on mount
+  const [hasCheckedSubmission, setHasCheckedSubmission] = useState(false);
+
+  useEffect(() => {
+    if (!existingStudentId) return;
+    const sid = existingStudentId;
+    let cancelled = false;
+    async function check() {
+      try {
+        const submissions = await api.students.getSubmissions(sid);
+        const existing = submissions.find((s) => s.assignmentId === assignment.id);
+        if (existing && !cancelled) {
+          setExistingSubmission({
+            success: true,
+            score: existing.score,
+            totalMarks: existing.totalMarks,
+            feedback: [],
+          });
+        }
+      } catch {
+        // Silently ignore — no existing submission
+      } finally {
+        if (!cancelled) setHasCheckedSubmission(true);
+      }
+    }
+    check();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existingStudentId, assignment.id]);
+
+  // Notify parent of progress changes
+  const prevCountRef = useRef(0);
+  useEffect(() => {
+    const count = Object.keys(answers).length;
+    if (onProgressChange && count !== prevCountRef.current) {
+      prevCountRef.current = count;
+      onProgressChange(count);
+    }
+  }, [answers, onProgressChange]);
 
   const handleIdentitySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const rollNumber = formData.get("rollNumber") as string;
-    const identityData = { name, rollNumber };
+    const school = formData.get("school") as string;
+    const studentClass = formData.get("studentClass") as string;
+    const section = formData.get("section") as string;
+    const identityData = { name, rollNumber, school, studentClass, section };
     setIdentity(identityData);
 
     // Persist identity for dashboard access
     const studentIdentity: StudentIdentity = {
       studentId: rollNumber,
       studentName: name,
+      school,
+      class: studentClass,
+      section,
       storedAt: new Date().toISOString(),
     };
     saveStudentIdentity(studentIdentity);
 
     setError(null);
   };
+
+  // Controlled state for school dropdown
+  const [studentSchool, setStudentSchool] = useState("");
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
@@ -69,6 +140,9 @@ export default function StudentAssignmentForm({
           assignment.id,
           identity.name,
           identity.rollNumber,
+          identity.school || "",
+          identity.studentClass || "",
+          identity.section || "",
           answers
         );
         setResult(res);
@@ -82,10 +156,37 @@ export default function StudentAssignmentForm({
     });
   };
 
-  const answeredCount = Object.keys(answers).length;
   const totalQuestions = assignment.questions.length;
-  const progressPercent =
-    totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
+
+  /* ════════════════════════════════════════════════════════
+     ALREADY SUBMITTED — show results link
+     ════════════════════════════════════════════════════════ */
+  if (mounted && hasCheckedSubmission && existingSubmission) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
+        <div className="w-16 h-16 rounded-full bg-primary-container/30 flex items-center justify-center mb-6 text-primary">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold tracking-tight text-on-surface font-headline mb-2">
+          Already Submitted
+        </h2>
+        <p className="text-sm text-on-surface-variant max-w-sm leading-relaxed mb-6">
+          You have already submitted this assignment. Check your student dashboard for results.
+        </p>
+        <a
+          href="/student/dashboard"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg text-sm font-bold no-underline hover:brightness-110 transition-all"
+        >
+          Go to Dashboard
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    );
+  }
 
   /* ════════════════════════════════════════════════════════
      STAGE 3: Results View — Stitch "results" direction
@@ -278,40 +379,91 @@ export default function StudentAssignmentForm({
   if (!identity) {
     return (
       <div className="flex items-center justify-center min-h-[50vh] md:min-h-[60vh] px-4">
-        {/* Identity Entry Card */}
         <div className="relative w-full max-w-lg">
-          {/* Subtle Card Backdrop */}
-          <div className="absolute rounded-lg opacity-50 -inset-1 bg-gradient-to-tr from-primary/5 to-transparent blur-lg"></div>
-
-          <div className="relative mt-8 bg-surface-container-lowest border border-outline-variant/10 rounded-lg p-6 md:p-8 lg:p-12 shadow-[0px_12px_32px_rgba(48,51,47,0.04)]">
-            {/* Editorial Header */}
+          <div className="relative rounded-2xl p-6 md:p-8 lg:p-12" style={{ background: "var(--color-m3-surface-container-lowest)" }}>
             <div className="mb-8 text-center md:mb-10">
-              <div className="inline-flex items-center justify-center w-10 h-10 mb-4 rounded-full md:w-12 md:h-12 bg-primary-container/30 md:mb-6 text-primary">
+              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full md:mb-6" style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
-              <h2 className="mb-2 text-xl font-bold tracking-tight md:text-2xl text-on-surface font-headline">
+              <h2 className="mb-2 text-xl font-semibold tracking-tight md:text-2xl" style={{ color: "var(--color-m3-on-surface)" }}>
                 Enter your details to start
               </h2>
-              <p className="max-w-xs mx-auto text-sm leading-relaxed text-on-surface-variant">
+              <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                 Please provide your institutional identity to begin the assessment module.
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 md:mb-5 p-3 bg-error/10 text-error text-[0.8125rem] text-center rounded-md">
+              <div className="mb-4 md:mb-5 p-3 text-[0.8125rem] text-center rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleIdentitySubmit} className="space-y-6 md:space-y-8">
-              {/* Full Name */}
+            <form onSubmit={handleIdentitySubmit} className="space-y-5 md:space-y-6">
+              {/* School/Institute — Searchable Dropdown */}
+              <SearchableSchoolDropdown value={studentSchool} onChange={(v) => { setStudentSchool(v); }} />
+              {/* Hidden input to carry school value in FormData */}
+              <input type="hidden" name="school" value={studentSchool} />
+
+              {/* Class and Section Row */}
+              <div className="grid grid-cols-2 gap-4 md:gap-6">
+                <div className="relative group">
+                  <label
+                    htmlFor="student-class"
+                    className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
+                    style={{ color: "var(--color-m3-on-surface-variant)" }}
+                  >
+                    Class / Grade
+                  </label>
+                  <select
+                    id="student-class"
+                    name="studentClass"
+                    required
+                    className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
+                    style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                    onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  >
+                    <option value="">Select</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i + 1} value={String(i + 1)}>
+                        Class {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="relative group">
+                  <label
+                    htmlFor="student-section"
+                    className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
+                    style={{ color: "var(--color-m3-on-surface-variant)" }}
+                  >
+                    Section
+                  </label>
+                  <input
+                    id="student-section"
+                    name="section"
+                    required
+                    placeholder="e.g. A"
+                    type="text"
+                    className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                    style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                    onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  />
+                </div>
+              </div>
+
+              {/* Name */}
               <div className="relative group">
                 <label
                   htmlFor="student-name"
-                  className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors"
+                  className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
+                  style={{ color: "var(--color-m3-on-surface-variant)" }}
                 >
                   Full Name
                 </label>
@@ -321,7 +473,10 @@ export default function StudentAssignmentForm({
                   required
                   placeholder="e.g. Aarav Patel"
                   type="text"
-                  className="w-full px-0 py-3 text-base transition-all duration-300 border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
+                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
                 />
               </div>
 
@@ -329,7 +484,8 @@ export default function StudentAssignmentForm({
               <div className="relative group">
                 <label
                   htmlFor="student-roll"
-                  className="block text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors"
+                  className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
+                  style={{ color: "var(--color-m3-on-surface-variant)" }}
                 >
                   Roll Number
                 </label>
@@ -339,15 +495,21 @@ export default function StudentAssignmentForm({
                   required
                   placeholder="Enter your unique ID"
                   type="text"
-                  className="w-full px-0 py-3 text-base transition-all duration-300 border-t-0 border-b border-l-0 border-r-0 bg-surface-container-low border-outline-variant/20 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary focus:border-b-2 font-body"
+                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
+                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
                 />
               </div>
 
-              {/* Submit */}
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-br from-primary to-primary-dim text-on-primary py-3.5 md:py-4 px-6 rounded-lg font-bold tracking-wide shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 flex items-center justify-center space-x-2"
+                  className="w-full py-4 px-6 rounded-full font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2"
+                  style={{
+                    background: "var(--color-m3-primary-container)",
+                    color: "var(--color-m3-on-primary-container)",
+                  }}
                 >
                   <span>Start Assignment</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -358,14 +520,14 @@ export default function StudentAssignmentForm({
                 <div className="flex items-center justify-center mt-4 space-x-3 md:mt-6 md:space-x-4 opacity-60">
                   <div className="flex items-center space-x-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider">
+                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                       Assessment
                     </span>
                   </div>
-                  <div className="w-1 h-1 rounded-full bg-outline-variant" />
+                  <div className="w-1 h-1 rounded-full" style={{ background: "var(--color-m3-outline-variant)" }} />
                   <div className="flex items-center space-x-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider">
+                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-m3-on-surface-variant)" }}>
                       {totalQuestions} Questions
                     </span>
                   </div>
@@ -379,139 +541,112 @@ export default function StudentAssignmentForm({
   }
 
   /* ════════════════════════════════════════════════════════
-     STAGE 2: Assessment Taking — Stitch "assignment_taking" direction
+     STAGE 2: Assessment Taking — M3 Design
      ════════════════════════════════════════════════════════ */
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl px-4 py-6 mx-auto md:px-0 md:py-8 lg:py-12">
-      {/* Header & Progress */}
-      <div className="w-full mb-6 text-center md:mb-8 lg:mb-10">
-        <span className="block mb-2 text-xs font-bold tracking-widest uppercase text-primary md:mb-3">
-          Ongoing Assessment
-        </span>
-        <h1 className="mb-3 text-2xl font-extrabold tracking-tighter md:text-3xl lg:text-4xl text-on-surface md:mb-4 opacity-90 font-headline">
-          {assignment.title}
-        </h1>
-        {assignment.description && (
-          <p className="max-w-2xl mx-auto mb-4 text-sm leading-relaxed text-on-surface-variant md:text-base md:mb-6">
-            {assignment.description}
-          </p>
-        )}
-
-        <div className="flex items-center justify-center gap-2 px-4 py-2 mx-auto mb-6 text-sm border rounded-full text-on-surface-variant bg-surface-container-low border-outline-variant/20 w-fit md:mb-8">
-          <span>Student: <span className="font-bold text-on-surface">{identity.name}</span></span>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="space-y-2 md:space-y-3">
-          <div className="flex items-end justify-between mb-1">
-            <span className="text-xs font-bold tracking-widest uppercase font-label md:text-sm text-on-secondary-container">Progress</span>
-            <span className="text-xs font-bold font-label md:text-sm text-primary">{answeredCount} of {totalQuestions} answered</span>
-          </div>
-          <div className="h-1.5 md:h-2 w-full bg-secondary-container rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary rounded-full transition-all duration-500 ease-out w-[var(--progress-percent)]"
-              style={{ '--progress-percent': `${progressPercent}%` } as React.CSSProperties}
-            ></div>
-          </div>
-        </div>
-      </div>
-
-      <section className="w-full space-y-6 md:space-y-8">
-        {assignment.questions.map((q, index) => (
-          <article
-            key={q.id}
-            className="w-full bg-surface-container-lowest rounded-lg shadow-[0_8px_32px_rgba(28,28,25,0.06)] overflow-hidden border border-outline-variant/15"
-          >
-            {/* Card Header Strip */}
-            <div className="flex items-center justify-between px-5 py-3 bg-surface-container-high md:px-8 md:py-4">
-              <span className="text-xs font-bold tracking-widest uppercase text-on-secondary-container">
-                Question {String(index + 1).padStart(2, "0")}
+    <section className="space-y-6">
+      {assignment.questions.map((q, index) => (
+        <article
+          key={q.id}
+          className="p-5 md:p-6 rounded-xl transition-colors duration-200"
+          style={{ background: "var(--color-m3-surface-container-lowest)" }}
+        >
+          <div className="flex justify-between items-start mb-5">
+            <div className="flex gap-4 items-start">
+              <span className="text-sm font-semibold shrink-0" style={{ color: "var(--color-m3-primary)" }}>
+                {String(index + 1).padStart(2, "0")}.
               </span>
-              <span className="px-3 py-1 text-xs font-bold tracking-widest uppercase rounded-full text-primary bg-primary/10">
-                {q.points} Marks
-              </span>
-            </div>
-
-            <div className="p-5 md:p-6 lg:p-8">
-              <h2 className="mb-6 text-lg font-bold leading-tight md:text-xl lg:text-2xl text-on-surface md:mb-8 font-headline">
+              <h2 className="text-base font-medium leading-relaxed" style={{ color: "var(--color-m3-on-surface)" }}>
                 {q.text}
               </h2>
-
-              {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
-                  {q.options.map((opt, i) => {
-                    const isSelected = answers[q.id] === opt;
-                    return (
-                      <label 
-                        key={i} 
-                        className={`group relative flex items-center p-4 md:p-5 rounded-lg border transition-all cursor-pointer ${
-                          isSelected 
-                            ? 'border-primary/60 bg-primary/10 shadow-[0_10px_24px_rgba(68,99,113,0.10)]' 
-                            : 'border-outline-variant/20 bg-surface hover:bg-surface-container-low'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name={`question-${q.id}`}
-                          value={opt}
-                          checked={isSelected}
-                          onChange={() => handleAnswerChange(q.id, opt)}
-                          className="sr-only peer"
-                        />
-                        <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center mr-4 transition-all shrink-0 ${
-                          isSelected 
-                            ? 'border-black bg-black' 
-                            : 'border-outline-variant bg-surface'
-                        }`} />
-                        <span className={`text-base md:text-lg transition-colors ${
-                          isSelected 
-                            ? 'font-bold text-primary' 
-                            : 'font-medium text-on-surface-variant group-hover:text-on-surface'
-                        }`}>
-                          {String.fromCharCode(65 + i)}) {opt}
-                        </span>
-                      </label>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="w-full md:max-w-xl">
-                  <input
-                    type="text"
-                    value={answers[q.id] || ""}
-                    onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                    placeholder="Type your answer here..."
-                    className="w-full px-4 py-3 text-base transition-all duration-300 border-t-0 border-b-2 border-l-0 border-r-0 bg-surface-container-low border-outline-variant/30 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:border-primary font-body"
-                  />
-                  <p className="mt-3 text-[0.6875rem] text-on-surface-variant italic">
-                    Enter a single word or a short phrase.
-                  </p>
-                </div>
-              )}
             </div>
-          </article>
-        ))}
-      </section>
+            <span className="text-[0.75rem] font-bold tracking-wider px-3 py-1 rounded-full shrink-0 ml-4" style={{ background: "var(--color-m3-surface-container)", color: "var(--color-m3-on-surface-variant)" }}>
+              {q.points || 1} MARKS
+            </span>
+          </div>
 
+          {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-10">
+              {q.options.map((opt, i) => {
+                const isSelected = answers[q.id] === opt;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => handleAnswerChange(q.id, opt)}
+                    className="flex items-center gap-3 p-4 rounded-xl transition-all text-left text-sm group"
+                    style={{
+                      background: isSelected ? "var(--color-m3-primary-container)" : "var(--color-m3-surface-container-low)",
+                      border: isSelected ? "1px solid var(--color-m3-primary)" : "1px solid transparent",
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" className="shrink-0" style={{
+                      fill: isSelected ? "var(--color-m3-primary)" : "none",
+                      stroke: isSelected ? "var(--color-m3-primary)" : "var(--color-m3-outline)",
+                      strokeWidth: 2,
+                    }}>
+                      <circle cx="12" cy="12" r="8" />
+                      {isSelected && <circle cx="12" cy="12" r="4" fill="var(--color-m3-on-primary-container)" />}
+                    </svg>
+                    <span className="text-sm" style={{
+                      color: isSelected ? "var(--color-m3-on-primary-container)" : "var(--color-m3-on-surface)",
+                      fontWeight: isSelected ? 600 : 400,
+                    }}>
+                      {String.fromCharCode(65 + i)}) {opt}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="pl-10">
+              <div className="relative max-w-md">
+                <input
+                  type="text"
+                  value={answers[q.id] || ""}
+                  onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                  placeholder="Type your answer here..."
+                  className="w-full border-0 border-b-2 focus:ring-0 px-0 py-3 text-sm transition-all font-body bg-transparent"
+                  style={{
+                    borderColor: "var(--color-m3-outline-variant)",
+                    color: "var(--color-m3-on-surface)",
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                />
+                <p className="mt-2 text-[0.75rem] italic" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                  Enter a single word or a short phrase.
+                </p>
+              </div>
+            </div>
+          )}
+        </article>
+      ))}
+
+      {/* Error */}
       {error && (
-        <div className="w-full p-4 mt-8 text-sm font-medium text-center rounded-md bg-error/10 text-error">
+        <div className="p-4 text-sm font-medium text-center rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
           {error}
         </div>
       )}
 
-      {/* Submit Section */}
-      <div className="flex flex-col items-center w-full pt-8 mt-12 border-t border-outline-variant/15">
-        <p className="flex items-center gap-2 mb-6 text-xs text-on-surface-variant md:text-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary/70">
+      {/* M3 FAB Submit */}
+      <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-m3-outline-variant)" }}>
+        <p className="text-xs mb-6 flex items-center gap-2" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-m3-primary)" }}>
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
           </svg>
-          <span className="font-medium">Please review all answers before final submission.</span>
+          Please review all answers before final submission.
         </p>
         <button
           type="button"
           onClick={handleSubmitAssignment}
           disabled={isPending}
-          className="bg-gradient-to-tr from-primary to-primary-dim text-on-primary px-10 md:px-14 py-4 rounded-lg font-bold tracking-[0.05em] text-sm md:text-base flex items-center gap-3 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-wait"
+          className="px-8 py-4 rounded-full font-semibold text-sm flex items-center gap-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            background: "var(--color-m3-primary-container)",
+            color: "var(--color-m3-on-primary-container)",
+          }}
         >
           {isPending ? "Submitting…" : "Submit Assignment"}
           {!isPending && (
@@ -521,6 +656,6 @@ export default function StudentAssignmentForm({
           )}
         </button>
       </div>
-    </div>
+    </section>
   );
 }

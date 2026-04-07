@@ -41,6 +41,8 @@ public class SecurityConfig {
                 // Allow question APIs for NCERT question bank (public read access)
                 .requestMatchers(HttpMethod.GET, "/api/v1/questions/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/derived-questions/**").permitAll()
+                // Allow school search (public for signup and student identity forms)
+                .requestMatchers(HttpMethod.GET, "/api/v1/schools/**").permitAll()
                 // Allow admin derived question management (approve/reject/publish/generate)
                 .requestMatchers(HttpMethod.POST, "/api/v1/derived-questions/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/questions/**").permitAll()

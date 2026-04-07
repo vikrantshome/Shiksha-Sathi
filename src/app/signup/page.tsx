@@ -6,16 +6,29 @@ import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import AuthShell from "@/components/AuthShell";
 import AuthSessionGuard from "@/components/AuthSessionGuard";
+import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 
 export default function SignupPage() {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [school, setSchool] = useState("");
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const validatePhone = (phone: string): boolean => {
+    const digits = phone.replace(/\D/g, "");
+    if (digits.length !== 10) {
+      setPhoneError("Phone number must be exactly 10 digits");
+      return false;
+    }
+    setPhoneError(null);
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPending(true);
     setError(null);
+    setPhoneError(null);
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
@@ -23,12 +36,24 @@ export default function SignupPage() {
     const phone = formData.get("phone") as string;
     const password = formData.get("password") as string;
 
+    // Validate phone
+    if (!validatePhone(phone)) return;
+
+    // Validate school
+    if (!school.trim()) {
+      setError("Please select or enter a school name");
+      return;
+    }
+
+    setIsPending(true);
+
     try {
       const response = await auth.signup({
         name,
-        email,
-        phone,
+        email: email || undefined,
+        phone: phone.replace(/\D/g, ""), // Store digits only
         password,
+        school,
         role: "TEACHER",
       });
 
@@ -78,10 +103,11 @@ export default function SignupPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Full Name — required */}
         <div className="group">
           <label htmlFor="signup-name" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
-            Full Name
+            Full Name <span className="text-error">*</span>
           </label>
           <input
             id="signup-name"
@@ -93,48 +119,58 @@ export default function SignupPage() {
           />
         </div>
 
+        {/* School — Searchable Dropdown (required) */}
+        <SearchableSchoolDropdown value={school} onChange={setSchool} />
+
+        {/* Phone — 10 digits only (required) */}
+        <div className="group">
+          <label htmlFor="signup-phone" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
+            Phone Number <span className="text-error">*</span>
+          </label>
+          <input
+            id="signup-phone"
+            type="tel"
+            name="phone"
+            required
+            placeholder="9876543210"
+            maxLength={10}
+            pattern="\d{10}"
+            className={`w-full bg-surface-container-highest border-0 border-b px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300 ${
+              phoneError ? "border-error focus:border-error" : "border-outline-variant focus:border-primary"
+            }`}
+          />
+          {phoneError && (
+            <p className="mt-1 text-xs text-error">{phoneError}</p>
+          )}
+        </div>
+
+        {/* Email — optional */}
         <div className="group">
           <label htmlFor="signup-email" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
-            Email Address
+            Email Address <span className="text-on-surface-variant/50">(optional)</span>
           </label>
           <input
             id="signup-email"
             type="email"
             name="email"
-            required
             placeholder="helena.richards@institution.edu"
             className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="group">
-            <label htmlFor="signup-phone" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
-              Phone Number
-            </label>
-            <input
-              id="signup-phone"
-              type="tel"
-              name="phone"
-              required
-              placeholder="+1 (555) 000-0000"
-              className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
-            />
-          </div>
-
-          <div className="group">
-            <label htmlFor="signup-password" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
-              Password
-            </label>
-            <input
-              id="signup-password"
-              type="password"
-              name="password"
-              required
-              placeholder="••••••••"
-              className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
-            />
-          </div>
+        {/* Password */}
+        <div className="group">
+          <label htmlFor="signup-password" className="block font-label text-xs tracking-[0.05em] uppercase font-semibold text-on-surface-variant mb-2">
+            Password <span className="text-error">*</span>
+          </label>
+          <input
+            id="signup-password"
+            type="password"
+            name="password"
+            required
+            placeholder="••••••••"
+            className="w-full bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
+          />
         </div>
 
         <button
