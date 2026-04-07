@@ -181,7 +181,7 @@ export default function SearchableSchoolDropdown({
       />
 
       {/* Dropdown */}
-      {(query.length >= 2 || isLoading) && (
+      {isOpen && (query.length >= 2 || isLoading) && (
         <div
           className="absolute z-50 w-full mt-1 rounded-xl overflow-hidden shadow-lg"
           style={{ background: "var(--color-m3-surface-container-lowest)", border: "1px solid var(--color-m3-outline-variant)" }}
