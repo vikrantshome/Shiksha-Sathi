@@ -39,11 +39,13 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(loginIdentity, user.getRole().name(), user.getId());
 
-        return new AuthResponse(token, user.getId(), user.getName(), user.getRole());
+        return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole());
     }
 
     public AuthResponse register(SignupRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        // Check for duplicate email only if provided
+        if (request.getEmail() != null && !request.getEmail().isBlank()
+                && userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists with this email");
         }
 
@@ -53,14 +55,18 @@ public class AuthService {
         user.setPhone(request.getPhone());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
+        user.setSchool(request.getSchool());
         user.setActive(true);
         user.setCreatedAt(Instant.now());
 
         user = userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name(), user.getId());
+        // Use phone as login identity if email is not provided
+        String loginIdentity = (user.getEmail() != null && !user.getEmail().isBlank())
+                ? user.getEmail() : user.getPhone();
+        String token = jwtUtil.generateToken(loginIdentity, user.getRole().name(), user.getId());
 
-        return new AuthResponse(token, user.getId(), user.getName(), user.getRole());
+        return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole());
     }
 
     public UserResponse getCurrentUser(String username) {
