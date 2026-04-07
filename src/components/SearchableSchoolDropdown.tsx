@@ -33,6 +33,7 @@ export default function SearchableSchoolDropdown({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const justSelectedRef = useRef(false); // Skip search after selection
 
   // Debounced search
   const searchSchools = useCallback(async (q: string) => {
@@ -55,6 +56,7 @@ export default function SearchableSchoolDropdown({
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     if (isAdding) return;
+    if (justSelectedRef.current) { justSelectedRef.current = false; return; }
 
     debounceRef.current = setTimeout(() => {
       searchSchools(query);
@@ -82,10 +84,11 @@ export default function SearchableSchoolDropdown({
   }, []);
 
   const handleSelectSchool = (school: School) => {
-    setQuery(school.name);
+    justSelectedRef.current = true;
     onChange(school.name);
     setIsOpen(false);
     setIsAdding(false);
+    setQuery(school.name); // Set last so effect fires after state updates
   };
 
   const handleAddNewClick = () => {
