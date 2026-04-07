@@ -7,12 +7,14 @@ export interface User {
   phone?: string;
   role: Role | string;
   schoolId?: string;
+  school?: string; // School/Institute name
 }
 
 export interface AuthResponse {
   token: string;
   userId: string;
   name: string;
+  school?: string;
   role: Role;
 }
 
@@ -173,6 +175,9 @@ export interface SubmissionDTO {
   studentId: string;
   studentName: string;
   studentRollNumber: string;
+  school?: string;
+  studentClass?: string;
+  section?: string;
   answers: Record<string, string | string[]>;
   score: number;
   totalMarks?: number;
@@ -207,5 +212,8 @@ export interface StudentDashboardStats {
 export interface StudentIdentity {
   studentId: string;
   studentName: string;
+  school: string;    // School/Institute name
+  class: string;     // Class/Grade (e.g., "10")
+  section: string;   // Section/Division (e.g., "A")
   storedAt: string;
 }

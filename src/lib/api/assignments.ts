@@ -39,6 +39,9 @@ export const assignments = {
     assignmentId: string,
     studentName: string,
     studentRollNumber: string,
+    school: string,
+    studentClass: string,
+    section: string,
     answers: Record<string, string>
   ): Promise<SubmitAssignmentResponse> =>
     fetchApi<SubmitAssignmentResponse>('/submissions', {
@@ -46,7 +49,10 @@ export const assignments = {
       body: JSON.stringify({
         assignmentId,
         studentName,
-        studentId: studentRollNumber, // Mapping rollNumber to studentId for temporary MVP
+        studentId: studentRollNumber,
+        school,
+        studentClass,
+        section,
         answers,
         submittedAt: new Date().toISOString(),
       }),

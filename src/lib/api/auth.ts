@@ -9,9 +9,10 @@ export interface LoginRequest {
 
 export interface SignupRequest {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   password?: string;
+  school: string; // School/Institute name (required)
   role: Role;
 }
 

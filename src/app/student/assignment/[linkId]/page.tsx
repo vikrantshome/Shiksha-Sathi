@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
-import StudentAssignmentForm from "@/components/StudentAssignmentForm";
+import AssignmentProgress from "@/components/AssignmentProgress";
 import { api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
 /* ─────────────────────────────────────────────────────────
-   Student Assignment Page — Stitch-Directed Redesign
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/identity_entry + assignment_taking + results
-   Implements: centered assessment canvas with branded top bar,
-   assignment context metadata, and decorative background.
+   Student Assignment Page — Stitch "answer_questions" Design
+   Design Source: doc/stitch_shiksha_sathi_ui_refresh/answer_questions
+   NOTE: Inherits student layout nav (top + mobile bottom tabs).
+   Only renders the assignment header + question sequence here.
    ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentPageProps {
@@ -38,58 +38,82 @@ export default async function StudentAssignmentPage({
   }
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col">
-      {/* ═══ Top App Bar — Stitch "Identity Entry" pattern ═══ */}
-      <header className="fixed top-0 w-full z-50 bg-[rgba(250,249,245,0.85)] backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4">
-        <div>
-          <h1 className="font-manrope text-lg md:text-xl font-bold text-primary tracking-[-0.03em] m-0">
-            Shiksha Sathi
-          </h1>
-          <span className="text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant font-medium">
-            Student Assessment
-          </span>
-        </div>
-
-        {/* Assignment Context Cluster */}
-        <div className="hidden sm:flex items-center gap-4 md:gap-6">
-          <div className="text-right">
-            <span className="text-xs color-on-surface-variant uppercase tracking-[0.05em] font-semibold text-on-surface-variant">
-              {assignment.title}
-            </span>
-            <div className="flex items-center justify-end gap-1 md:gap-2 mt-1">
-              <span className="text-sm font-semibold text-primary">
-                {assignment.totalMarks} Marks
-              </span>
-              <span className="w-[3px] h-[3px] rounded-full bg-outline-variant inline-block" />
-              <span className="text-sm text-on-surface-variant">
-                Due {new Date(assignment.dueDate).toLocaleDateString()}
-              </span>
+    <div className="min-h-screen" style={{ background: "var(--color-m3-surface)" }}>
+      {/* ═══ Main Content Area (no left margin — student has no sidebar) ═══ */}
+      <main className="pt-2 pb-24 px-4 md:px-8 lg:px-16">
+        <div className="max-w-3xl mx-auto relative">
+          {/* M3 Assignment Header */}
+          <header className="mb-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+              <div>
+                <span className="text-[0.875rem] font-medium tracking-wide uppercase mb-1 block" style={{ color: "var(--color-m3-primary)" }}>
+                  Ongoing Assessment
+                </span>
+                <h1 className="text-[2rem] font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
+                  {assignment.title}
+                </h1>
+                {assignment.description && (
+                  <p className="text-sm mt-1" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                    {assignment.description}
+                  </p>
+                )}
+              </div>
+              <div className="text-right">
+                <p className="text-xs font-bold tracking-tight uppercase" style={{ color: "var(--color-m3-primary)" }}>
+                  Progress
+                </p>
+                <p className="text-lg font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>
+                  0 / {assignment.questions.length} Answered
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
-      </header>
+            {/* M3 Linear Progress Bar */}
+            <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--color-m3-surface-variant)" }}>
+              <div
+                className="h-full rounded-full transition-all duration-500 ease-in-out"
+                style={{ width: "0%", background: "var(--color-m3-primary)" }}
+              />
+            </div>
+          </header>
 
-      {/* Top divider */}
-      <div className="fixed top-[64px] md:top-[72px] w-full h-px bg-surface-container z-40" />
-
-      {/* ═══ Main Content Canvas ═══ */}
-      <main className="flex-grow flex flex-col items-center pt-[4.5rem] md:pt-[5.5rem] pb-12 md:pb-16 px-4 md:px-6 relative">
-        {/* Decorative background blurs — Stitch pattern */}
-        <div className="fixed -top-[10%] -left-[5%] w-[40%] h-[60%] bg-[rgba(198,232,248,0.08)] rounded-full blur-[120px] pointer-events-none -z-10" />
-        <div className="fixed top-[60%] -right-[10%] w-[35%] h-[50%] bg-[rgba(215,227,250,0.15)] rounded-full blur-[100px] pointer-events-none -z-10" />
-
-        <div className="w-full max-w-[48rem]">
-          <StudentAssignmentForm assignment={assignment} />
+          {/* Question Sequence */}
+          <AssignmentProgress assignment={assignment} />
         </div>
       </main>
 
-      {/* ═══ Footer ═══ */}
-      <footer className="p-6 md:p-8 flex flex-col items-center gap-3 md:gap-4">
-        <div className="w-10 h-[2px] md:w-12 bg-[rgba(68,99,113,0.2)]" />
-        <p className="text-[0.625rem] md:text-[0.6875rem] text-on-surface-variant font-medium tracking-[0.15em] uppercase">
-          Shiksha Sathi © 2026
-        </p>
-      </footer>
+      {/* ═══ M3 Assistance Card (Floating Right — Desktop xl) ═══ */}
+      <aside className="fixed right-4 xl:right-12 top-40 xl:top-48 hidden xl:block w-72 z-10">
+        <div className="rounded-xl p-6 space-y-5" style={{ background: "var(--color-m3-surface-container-low)" }}>
+          <h3 className="text-[0.75rem] font-bold tracking-widest uppercase" style={{ color: "var(--color-m3-primary)" }}>
+            Assistance
+          </h3>
+          <div className="space-y-4">
+            <div className="flex gap-3 items-start">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-m3-primary)" }}>
+                <circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" />
+              </svg>
+              <div>
+                <p className="text-sm font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>Need Help?</p>
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                  Review the chapter content in your NCERT textbook before submitting.
+                </p>
+              </div>
+            </div>
+            <div className="h-px" style={{ background: "var(--color-m3-outline-variant)" }} />
+            <div className="flex gap-3 items-start">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-m3-primary)" }}>
+                <path d="M12 2a10 10 0 1 0 10 10H12V2z" /><path d="M20.66 9A10 10 0 0 0 14 2.05V9h6.66z" />
+              </svg>
+              <div>
+                <p className="text-sm font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>Study Resource</p>
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                  Refer to your class notes and NCERT examples for guidance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }
