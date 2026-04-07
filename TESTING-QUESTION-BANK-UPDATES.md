@@ -18,7 +18,7 @@
 ## 1. Question Card — Visual Changes
 
 **What to check:**
-- [ ] Each question card has a **left border** — transparent when unselected, **teal (primary)** when selected
+- [] Each question card has a **left border** — transparent when unselected, **teal (primary)** when selected
 - [ ] Each card shows **3 badges** in the meta row: **Type** (MCQ/True False/etc), **Difficulty** (Easy/Medium/Hard), and **SOURCE: NCERT** (or NCERT Exemplar / Practice)
 - [ ] The **checkbox** on the right is a **circle** (not square) — fills teal when checked
 - [ ] **MCQ questions** show A/B/C/D options inline in a 2-column grid
