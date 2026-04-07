@@ -67,9 +67,11 @@ export default function SearchableSchoolDropdown({
     };
   }, [query, isAdding, searchSchools]);
 
-  // Sync value prop to query
+  // Sync value prop to query (but skip when we just selected from dropdown)
   useEffect(() => {
-    if (!isAdding) setQuery(value);
+    if (isAdding) return;
+    if (justSelectedRef.current) { justSelectedRef.current = false; return; }
+    setQuery(value);
   }, [value, isAdding]);
 
   // Close dropdown on outside click
