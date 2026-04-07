@@ -5,6 +5,7 @@ import { questions } from './questions';
 import { teachers } from './teachers';
 import { derived } from './derived';
 import { students } from './students';
+import { schools } from './schools';
 
 export const api = {
   auth,
@@ -14,6 +15,7 @@ export const api = {
   teachers,
   derived,
   students,
+  schools,
 };
 
 export default api;
