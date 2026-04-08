@@ -36,6 +36,15 @@ public class AssignmentService {
     private final UserRepository userRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
+    /**
+     * Get assignment by ID — public access, no auth check.
+     * Used by student dashboard to enrich submissions with assignment metadata.
+     */
+    public Assignment getAssignmentById(String assignmentId) {
+        return assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+    }
+
     public AssignmentReportDTO getAssignmentReport(String assignmentId, String teacherEmail) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
@@ -136,6 +145,7 @@ public class AssignmentService {
                 .dueDate(assignment.getDueDate())
                 .totalMarks(assignment.getMaxScore())
                 .linkId(assignment.getId().substring(0, 8))
+                .code(assignment.getCode())
                 .submissionCount(completionCount)
                 .averageScore(Math.round(averageScore * 10.0) / 10.0)
                 .build();
@@ -187,8 +197,50 @@ public class AssignmentService {
                 .or(() -> assignmentRepository.findAll().stream()
                         .filter(candidate -> candidate.getId() != null && candidate.getId().startsWith(linkId))
                         .findFirst())
+                .or(() -> assignmentRepository.findByCode(linkId)) // Also try short code lookup
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
         
+        List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
+                .map(qId -> {
+                    Question q = questionRepository.findById(qId).orElse(null);
+                    if (q == null) return null;
+                    return StudentQuestionDTO.builder()
+                            .id(q.getId())
+                            .subject(q.getSubjectId())
+                            .grade(null)
+                            .chapter(q.getChapter())
+                            .topic(q.getTopic())
+                            .type(q.getType())
+                            .text(q.getText())
+                            .options(q.getOptions())
+                            .marks(q.getPoints())
+                            .build();
+                })
+                .filter(q -> q != null)
+                .collect(Collectors.toList());
+
+        return StudentAssignmentDTO.builder()
+                .id(assignment.getId())
+                .title(assignment.getTitle())
+                .classId(assignment.getClassId())
+                .dueDate(assignment.getDueDate())
+                .totalMarks(assignment.getMaxScore())
+                .questions(questions)
+                .build();
+    }
+
+    /**
+     * Get assignment by short code (e.g. "A3K9X7").
+     * Public access — used by students to look up assignments.
+     */
+    public StudentAssignmentDTO getAssignmentByCode(String code) {
+        Assignment assignment = assignmentRepository.findByCode(code)
+                .orElseThrow(() -> new RuntimeException("Assignment not found for code: " + code));
+
+        if (!"PUBLISHED".equals(assignment.getStatus())) {
+            throw new RuntimeException("Assignment is not yet available.");
+        }
+
         List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
                 .map(qId -> {
                     Question q = questionRepository.findById(qId).orElse(null);
@@ -229,17 +281,40 @@ public class AssignmentService {
     public Assignment createAssignment(Assignment assignment, String teacherEmail) {
         User teacher = userRepository.findByEmail(teacherEmail)
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
-            
+
         if (assignment.getQuestionIds() == null || assignment.getQuestionIds().isEmpty()) {
             throw new IllegalArgumentException("Assignment must have at least one question.");
         }
         if (assignment.getMaxScore() == null || assignment.getMaxScore() <= 0) {
             throw new IllegalArgumentException("Assignment must have a valid max score.");
         }
-        
+
         assignment.setTeacherId(teacher.getId());
         assignment.setStatus("DRAFT");
+        assignment.setCode(generateUniqueCode());
         return assignmentRepository.save(assignment);
+    }
+
+    /**
+     * Generate a unique 6-character alphanumeric code for assignment lookup.
+     * Retries up to 10 times if collision occurs.
+     */
+    private String generateUniqueCode() {
+        String chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Excludes I, O, 0, 1 for readability
+        java.util.Random random = new java.util.Random();
+        for (int attempt = 0; attempt < 10; attempt++) {
+            StringBuilder sb = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) {
+                sb.append(chars.charAt(random.nextInt(chars.length())));
+            }
+            String code = sb.toString();
+            // Check for collision
+            if (assignmentRepository.findByCode(code).isEmpty()) {
+                return code;
+            }
+        }
+        // Fallback: use timestamp-based code if all retries fail
+        return "A" + System.currentTimeMillis() % 100000;
     }
 
     public Assignment publishAssignment(String assignmentId, String teacherEmail) {

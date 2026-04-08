@@ -73,10 +73,10 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
   return (
     <div
-      className={`group bg-white/90 rounded-lg p-6 transition-all duration-300 relative ${
+      className={`group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 relative border border-outline-variant ${
         selected
-          ? "border-l-4 border-l-[#12423f] shadow-xl shadow-primary/5"
-          : "border-l-4 border-l-transparent hover:shadow-[0_6px_20px_rgba(48,51,47,0.08)]"
+          ? "border-primary shadow-md shadow-primary/10"
+          : "hover:shadow-md hover:border-outline"
       }`}
     >
       {/* ═══ Card Content ═══ */}
@@ -111,8 +111,8 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             onClick={(e) => { e.stopPropagation(); toggleQuestion(q); }}
             className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all active:scale-95 group/btn ${
               selected
-                ? "bg-[#12423f] text-white border-[#12423f]"
-                : "border-outline/10 text-outline hover:bg-[#12423f] hover:text-white hover:border-[#12423f]"
+                ? "bg-primary text-on-primary border-primary"
+                : "border-outline-variant text-outline hover:bg-primary hover:text-on-primary hover:border-primary"
             }`}
             title={selected ? "Remove from assignment" : "Add to assignment"}
           >
@@ -150,8 +150,8 @@ export default function QuestionCard({ question: q }: { question: Question }) {
                   <span
                     className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                       isCorrect
-                        ? "bg-[#12423f] text-white"
-                        : "bg-white border border-outline/20 text-outline"
+                        ? "bg-primary text-on-primary"
+                        : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"
                     }`}
                   >
                     {String.fromCharCode(65 + i)}

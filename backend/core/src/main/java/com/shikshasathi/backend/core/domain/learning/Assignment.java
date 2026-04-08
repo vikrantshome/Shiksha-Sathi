@@ -44,4 +44,7 @@ public class Assignment extends BaseEntity {
 
     @Field("status") // DRAFT, PUBLISHED, CLOSED
     private String status;
+
+    @Field("code")
+    private String code; // Short 6-char alphanumeric code for student entry (e.g. "A3K9X7")
 }
