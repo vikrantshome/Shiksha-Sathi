@@ -16,6 +16,7 @@ interface PublishResult {
   classLabel: string;
   dueDate: string;
   linkId: string;
+  code: string;
   title: string;
 }
 
@@ -91,6 +92,7 @@ export default function CreateAssignmentForm({
             : "Assigned class",
           dueDate,
           linkId: publishedAssignment.linkId || publishedAssignment.id,
+          code: publishedAssignment.code || "—",
           title,
         });
         clearSelection();
@@ -106,6 +108,7 @@ export default function CreateAssignmentForm({
 
   if (publishResult) {
     const shareLink = `${window.location.origin}/student/assignment/${publishResult.linkId}`;
+    const [copiedCode, setCopiedCode] = useState(false);
 
     return (
       <div className="grid gap-8">
@@ -121,9 +124,49 @@ export default function CreateAssignmentForm({
           <h2 className="font-manrope text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-[-0.04em] text-on-surface mt-3 mb-0">
             Assignment Published
           </h2>
-          <p className="text-on-surface-variant text-[0.9375rem] leading-[1.7] max-w-[34rem] mx-auto mt-4 mb-0">
-            {publishResult.title} is now live for students. Share the unique link below to begin collecting submissions.
+          <p className="text-on-surface-variant text-[0.9375rem] leading-[1.7] max-w-[34rem] mx-auto mt-4 mb-6">
+            {publishResult.title} is now live for students. Share the code or link below to begin collecting submissions.
           </p>
+
+          {/* Short Code Display */}
+          <div className="inline-flex flex-col items-center gap-3 bg-primary-container/30 rounded-xl px-8 py-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-on-primary-container m-0">
+              Assignment Code
+            </p>
+            <div className="flex items-center gap-3">
+              <code className="text-3xl font-extrabold tracking-[0.15em] text-primary font-mono">
+                {publishResult.code}
+              </code>
+              <button
+                type="button"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(publishResult.code);
+                  setCopiedCode(true);
+                  setTimeout(() => setCopiedCode(false), 2000);
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-on-primary text-xs font-bold rounded-full hover:opacity-90 active:scale-95 transition-all"
+              >
+                {copiedCode ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+            <p className="text-xs text-on-primary-container/70 m-0">
+              Students can enter this code at <span className="font-semibold">Student Portal → Enter Code</span>
+            </p>
+          </div>
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,22rem)] lg:items-start gap-6">

@@ -4,13 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getStudentIdentity, clearStudentIdentity } from "@/lib/api/students";
 import { useState, useSyncExternalStore } from "react";
+import { deleteCookie } from "cookies-next";
 
 /* ─────────────────────────────────────────────────────────
    Student Layout Shell
    Patterned after teacher layout but simplified for student needs.
    Top nav + mobile bottom tabs. No left sidebar rail.
-   Design System: "The Digital Atelier" (design-system.md)
+   Design System: "The Digital Atelier" — Heritage Palette + M3
    ───────────────────────────────────────────────────────── */
+
+const IconBook = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </svg>
+);
 
 const IconDashboard = ({ active }: { active: boolean }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth={active ? 0 : 2} strokeLinecap="round" strokeLinejoin="round">
@@ -94,43 +102,62 @@ export default function StudentLayout({
   };
 
   const handleLogout = () => {
-    clearStudentIdentity();
-    window.location.href = "/student/dashboard";
+    deleteCookie("auth-token", { path: "/" });
+    window.location.href = "/";
   };
 
+  // Login page uses its own AuthShell — skip student layout chrome
+  if (pathname === "/student/login") {
+    return <>{children}</>;
+  }
+
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--color-m3-surface)" }}>
-      {/* ═══ M3 Top App Bar (Medium Variant) ═══ */}
-      <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "var(--color-m3-surface-container-low)", height: "64px" }}>
-        <div className="flex justify-between items-center px-2 md:px-4 h-full max-w-[100rem] mx-auto">
+    <div className="min-h-screen flex flex-col bg-surface">
+      {/* ═══ Top App Bar (M3 Enhanced) ═══ */}
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{ 
+        height: "64px", 
+        background: "var(--color-surface-container-low)",
+        borderBottom: "1px solid var(--color-outline-variant)",
+        boxShadow: "0 1px 3px rgba(27, 28, 30, 0.04)"
+      }}>
+        <div className="flex justify-between items-center px-3 md:px-4 h-full max-w-[100rem] mx-auto">
           {/* Left: Brand + Nav */}
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-2 md:gap-3">
             <Link
               href="/student/dashboard"
-              className="font-[family-name:var(--font-manrope)] text-lg font-bold no-underline flex-shrink-0"
-              style={{ color: "var(--color-m3-on-surface)" }}
+              className="flex items-center gap-2 no-underline flex-shrink-0"
             >
-              Shiksha Sathi
+              <div className="w-8 h-8 rounded-sm flex items-center justify-center" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
+                <IconBook />
+              </div>
+              <span className="font-[family-name:var(--font-manrope)] text-lg font-bold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+                Shiksha Sathi
+              </span>
             </Link>
 
-            {/* M3 Navigation Tabs */}
-            <div className="hidden md:flex items-center gap-1 h-full">
+            {/* Navigation Tabs — Refined Academic Style */}
+            <div className="hidden md:flex items-center gap-1 h-full" role="tablist">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
                   <Link
                     key={item.key}
                     href={item.href}
-                    className={`h-10 flex items-center text-[0.875rem] no-underline transition-all duration-200 rounded-full px-4 ${
+                    role="tab"
+                    aria-selected={active}
+                    className={`h-10 flex items-center gap-2 text-[0.875rem] no-underline transition-all duration-200 px-4 ${
                       active
-                        ? "font-semibold"
-                        : "font-medium hover:opacity-70"
+                        ? "font-semibold rounded-full"
+                        : "font-medium hover:bg-surface-container rounded-md"
                     }`}
-                    style={active
-                      ? { background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }
-                      : { color: "var(--color-m3-on-surface-variant)" }
-                    }
+                    style={active ? {
+                      background: "var(--color-primary-container)",
+                      color: "var(--color-on-primary-container)"
+                    } : {
+                      color: "var(--color-on-surface-variant)"
+                    }}
                   >
+                    <item.icon active={active} />
                     {item.label}
                   </Link>
                 );
@@ -138,17 +165,19 @@ export default function StudentLayout({
             </div>
           </div>
 
-          {/* Right: Student Identity + Menu Toggle */}
+          {/* Right: Student Identity + Actions */}
           <div className="flex items-center gap-2">
             {studentName && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: "var(--color-m3-surface-container)" }}>
-                <IconStudent />
-                <span className="text-xs font-medium" style={{ color: "var(--color-m3-on-surface)" }}>{studentName}</span>
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ background: "var(--color-surface-container)" }}>
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-[0.625rem] font-bold" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
+                  {studentName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+                </div>
+                <span className="text-xs font-medium" style={{ color: "var(--color-on-surface)" }}>{studentName}</span>
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="ml-1 text-[0.625rem] font-bold uppercase tracking-wider cursor-pointer bg-transparent border-none transition-colors"
-                  style={{ color: "var(--color-m3-primary)" }}
+                  className="ml-1 text-[0.625rem] font-bold uppercase tracking-wider transition-colors cursor-pointer bg-transparent border-none"
+                  style={{ color: "var(--color-primary)" }}
                 >
                   Logout
                 </button>
@@ -156,24 +185,31 @@ export default function StudentLayout({
             )}
             <Link
               href="/student/assignment/"
-              className="hidden md:inline-flex no-underline text-[0.875rem] font-medium px-4 py-2 rounded-full transition-all active:scale-95"
-              style={{ background: "var(--color-m3-primary)", color: "var(--color-m3-on-primary)" }}
+              className="hidden md:inline-flex items-center gap-2 no-underline text-[0.875rem] font-medium px-5 py-2.5 rounded-sm transition-all active:scale-95"
+              style={{
+                background: "var(--color-primary)",
+                color: "var(--color-on-primary)",
+                boxShadow: "var(--shadow-sm)"
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 const code = prompt("Enter your assignment code:");
                 if (code) window.location.href = `/student/assignment/${code}`;
               }}
             >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+              </svg>
               Enter Code
             </Link>
 
             {/* Mobile Menu Toggle */}
             <button
               type="button"
-              className="md:hidden p-2 bg-transparent border-none cursor-pointer"
+              className="md:hidden p-2 rounded-md transition-colors cursor-pointer bg-transparent border-none"
+              style={{ color: "var(--color-on-surface-variant)" }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
-              style={{ color: "var(--color-m3-on-surface-variant)" }}
             >
               {mobileMenuOpen ? <IconClose /> : <IconMenu />}
             </button>
@@ -181,36 +217,51 @@ export default function StudentLayout({
         </div>
       </nav>
 
-      {/* ═══ Mobile Dropdown Menu ═══ */}
+      {/* ═══ Mobile Dropdown Menu (M3 Enhanced) ═══ */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] p-3" style={{ background: "var(--color-m3-surface-container-low)" }}>
-          {navItems.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block p-3 px-4 text-sm font-medium rounded-full no-underline mb-1 ${
-                isActive(item.href)
-                  ? "font-semibold"
-                  : "font-medium"
-              }`}
-              style={isActive(item.href)
-                ? { background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }
-                : { color: "var(--color-m3-on-surface-variant)" }
-              }
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] p-3" style={{ 
+          background: "var(--color-surface-container-low)",
+          boxShadow: "var(--shadow-lg)",
+          borderBottom: "1px solid var(--color-outline-variant)"
+        }}>
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm no-underline mb-2 transition-all ${
+                  active ? "font-semibold" : "font-medium"
+                }`}
+                style={active ? {
+                  background: "var(--color-primary-container)",
+                  color: "var(--color-on-primary-container)"
+                } : {
+                  color: "var(--color-on-surface-variant)",
+                  background: "var(--color-surface-container)"
+                }}
+              >
+                <item.icon active={active} />
+                {item.label}
+              </Link>
+            );
+          })}
           <button
             onClick={() => {
               setMobileMenuOpen(false);
               const code = prompt("Enter your assignment code:");
               if (code) window.location.href = `/student/assignment/${code}`;
             }}
-            className="w-full text-left p-3 px-4 text-sm font-medium rounded-full cursor-pointer mb-1"
-            style={{ color: "var(--color-m3-primary)", background: "var(--color-m3-primary-container)" }}
+            className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer mb-2 transition-all bg-transparent border-none"
+            style={{ 
+              background: "var(--color-secondary-container)", 
+              color: "var(--color-on-secondary-container)" 
+            }}
           >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+            </svg>
             Enter Assignment Code
           </button>
           {studentName && (
@@ -219,9 +270,17 @@ export default function StudentLayout({
                 setMobileMenuOpen(false);
                 handleLogout();
               }}
-              className="w-full text-left p-3 px-4 text-sm font-medium rounded-full cursor-pointer"
-              style={{ color: "var(--color-m3-on-surface-variant)", background: "var(--color-m3-surface-container)" }}
+              className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer transition-all bg-transparent border-none"
+              style={{ 
+                color: "var(--color-error)",
+                background: "var(--color-error-container)"
+              }}
             >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
               Logout
             </button>
           )}
@@ -229,14 +288,20 @@ export default function StudentLayout({
       )}
 
       {/* ═══ Main Content ═══ */}
-      <main className="flex-1 w-full pt-16 pb-20 md:pb-8" style={{ background: "var(--color-m3-surface)" }}>
+      <main className="flex-1 w-full pt-16 pb-20 md:pb-8 bg-surface">
         <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
           {children}
         </div>
       </main>
 
-      {/* ═══ M3 Bottom Navigation Bar (Mobile) ═══ */}
-      <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 z-50 px-1" style={{ background: "var(--color-m3-surface-container)", height: "80px" }}>
+      {/* ═══ Bottom Navigation Bar (Refined M3 Pattern) ═══ */}
+      <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 z-50 px-1" style={{
+        height: "76px",
+        background: "var(--color-surface-container)",
+        borderTop: "1px solid var(--color-outline-variant)",
+        boxShadow: "0 -1px 2px rgba(27, 28, 30, 0.06)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)"
+      }}>
         {navItems.map((item) => {
           const active = isActive(item.href);
           const ItemIcon = item.icon;
@@ -244,22 +309,30 @@ export default function StudentLayout({
             <Link
               key={item.key}
               href={item.href}
-              className="flex flex-col items-center justify-center no-underline w-16"
+              className="flex flex-col items-center justify-center no-underline w-16 transition-all duration-200"
             >
               <div
-                className="flex items-center justify-center transition-all duration-200 mb-1"
-                style={{
-                  width: "56px",
-                  height: "32px",
-                  borderRadius: "16px",
-                  background: active ? "var(--color-m3-secondary-container)" : "transparent",
+                className={`flex items-center justify-center transition-all duration-200 mb-1 w-14 h-7 rounded-full ${
+                  active ? "" : "bg-transparent"
+                }`}
+                style={active ? {
+                  background: "var(--color-secondary-container)",
+                  color: "var(--color-on-secondary-container)"
+                } : {
+                  color: "var(--color-on-surface-variant)"
                 }}
               >
                 <ItemIcon active={active} />
               </div>
-              <span className="text-[0.75rem] font-medium" style={{
-                color: active ? "var(--color-m3-on-surface)" : "var(--color-m3-on-surface-variant)",
-              }}>
+              <span
+                className={`text-[0.6875rem] transition-colors duration-200 ${
+                  active ? "font-medium" : "font-normal"
+                }`}
+                style={{
+                  color: active ? "var(--color-on-surface)" : "var(--color-on-surface-variant)",
+                  letterSpacing: active ? "0.01em" : "0.02em"
+                }}
+              >
                 {item.mobileLabel}
               </span>
             </Link>

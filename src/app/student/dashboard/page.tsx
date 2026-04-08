@@ -88,15 +88,15 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
   return (
     <div className="flex items-center justify-center min-h-[60vh] px-4">
       <div className="relative w-full max-w-md">
-        <div className="relative mt-8 rounded-2xl p-6 md:p-8" style={{ background: "var(--color-m3-surface-container-lowest)" }}>
+        <div className="relative mt-8 rounded-2xl p-6 md:p-8" style={{ background: "var(--color-surface-container-lowest)" }}>
           <div className="mb-6 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full" style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}>
+            <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
               <IconAssignment />
             </div>
-            <h2 className="mb-2 text-xl font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
               Welcome to Shiksha Sathi
             </h2>
-            <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+            <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
               Enter your details to view your assignments and progress.
             </p>
           </div>
@@ -109,7 +109,7 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
             {/* Class and Section Row */}
             <div className="grid grid-cols-2 gap-4">
               <div className="relative group">
-                <label htmlFor="dashboard-class" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <label htmlFor="dashboard-class" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
                   Class / Grade
                 </label>
                 <select
@@ -117,9 +117,9 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                   name="studentClass"
                   required
                   className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
-                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                 >
                   <option value="">Select</option>
                   {Array.from({ length: 12 }, (_, i) => (
@@ -131,7 +131,7 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
               </div>
 
               <div className="relative group">
-                <label htmlFor="dashboard-section" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <label htmlFor="dashboard-section" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
                   Section
                 </label>
                 <input
@@ -141,16 +141,16 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                   placeholder="e.g. A"
                   type="text"
                   className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                 />
               </div>
             </div>
 
             {/* Name */}
             <div className="relative group">
-              <label htmlFor="student-name" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+              <label htmlFor="student-name" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
                 Full Name
               </label>
               <input
@@ -160,14 +160,14 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                 placeholder="e.g. Aarav Patel"
                 type="text"
                 className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
               />
             </div>
             {/* Roll Number */}
             <div className="relative group">
-              <label htmlFor="student-roll" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+              <label htmlFor="student-roll" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
                 Roll Number
               </label>
               <input
@@ -177,15 +177,15 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
                 placeholder="Enter your unique ID"
                 type="text"
                 className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
               />
             </div>
             <button
               type="submit"
               className="w-full py-4 px-6 rounded-full font-semibold transition-all duration-200"
-              style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}
+              style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}
             >
               View My Dashboard
             </button>
@@ -303,26 +303,34 @@ export default function StudentDashboardPage() {
 
   return (
     <div className="max-w-full pb-12">
-      {/* ═══ Welcome Banner ═══ */}
-      <header className="mb-6 md:mb-8 lg:mb-12">
-        <span className="block font-sans text-[0.875rem] font-medium uppercase tracking-[0.05em] mb-2" style={{ color: "var(--color-m3-primary)" }}>
-          Student Portal
-        </span>
-        <h1 className="text-[clamp(1.5rem,3vw,1.875rem)] font-semibold tracking-tight leading-[1.2] m-0" style={{ color: "var(--color-m3-on-surface)" }}>
-          {greeting}, {currentIdentity.studentName}.
-        </h1>
-        <p className="text-sm mt-2 max-w-[28rem] leading-[1.6]" style={{ color: "var(--color-m3-on-surface-variant)" }}>
-          {loading
-            ? "Loading your assignments..."
-            : stats && stats.totalAssignments > 0
-              ? `You have completed ${stats.totalAssignments} assignment${stats.totalAssignments === 1 ? "" : "s"}.${stats.gradedCount < stats.totalAssignments ? ` ${stats.totalAssignments - stats.gradedCount} still pending grading.` : ""}`
-              : "Enter an assignment code from your teacher to get started."}
-        </p>
+      {/* ═══ Welcome Banner (Refined Premium) ═══ */}
+      <header className="mb-6 md:mb-8 lg:mb-10 p-5 md:p-6 rounded-lg" style={{ 
+        background: "var(--color-primary-container)",
+        border: "1px solid var(--color-outline-variant)",
+        borderLeft: "4px solid var(--color-primary)",
+        position: "relative",
+        overflow: "hidden"
+      }}>
+        <div className="relative z-10">
+          <span className="block font-sans text-[0.8125rem] font-medium uppercase tracking-[0.06em] mb-2" style={{ color: "var(--color-on-primary-container)" }}>
+            Student Portal
+          </span>
+          <h1 className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold tracking-tight leading-[1.2] m-0" style={{ color: "var(--color-on-primary-container)" }}>
+            {greeting}, {currentIdentity.studentName}.
+          </h1>
+          <p className="text-sm mt-2 max-w-[28rem] leading-[1.6]" style={{ color: "var(--color-on-primary-container)", opacity: 0.85 }}>
+            {loading
+              ? "Loading your assignments..."
+              : stats && stats.totalAssignments > 0
+                ? `You have completed ${stats.totalAssignments} assignment${stats.totalAssignments === 1 ? "" : "s"}.${stats.gradedCount < stats.totalAssignments ? ` ${stats.totalAssignments - stats.gradedCount} still pending grading.` : ""}`
+                : "Enter an assignment code from your teacher to get started."}
+          </p>
+        </div>
       </header>
 
       {/* ═══ Error State ═══ */}
       {error && (
-        <div className="mb-6 p-4 text-sm rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
+        <div className="mb-6 p-4 text-sm rounded-xl" style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}>
           {error}
           <button
             onClick={() => {
@@ -330,59 +338,81 @@ export default function StudentDashboardPage() {
               localStorage.removeItem("shiksha-sathi-student-identity");
             }}
             className="ml-2 underline font-semibold cursor-pointer bg-transparent border-none"
-            style={{ color: "var(--color-m3-error)" }}
+            style={{ color: "var(--color-error)" }}
           >
             Logout
           </button>
         </div>
       )}
 
-      {/* ═══ Summary Stat Cards ═══ */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12">
+      {/* ═══ Summary Stat Cards (Refined Premium) ═══ */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-10">
         {statCards.map((stat, i) => (
           <div
             key={i}
-            className="group p-4 md:p-6 rounded-xl transition-all duration-200 hover:shadow-lg"
-            style={{ background: "var(--color-m3-surface-container-low)", border: "1px solid var(--color-m3-outline-variant)" }}
+            className="group p-4 md:p-5 rounded-md transition-all duration-200 hover:shadow-md cursor-default"
+            style={{ 
+              background: "var(--color-surface-container-lowest)", 
+              border: "1px solid var(--color-outline-variant)",
+              boxShadow: "var(--shadow-sm)"
+            }}
           >
             <div className="flex flex-col items-start gap-2 mb-3 md:mb-4 sm:flex-row sm:justify-between sm:items-start">
-              <div className="p-2 rounded-lg flex items-center justify-center transition-colors duration-200" style={{ background: "var(--color-m3-secondary-container)", color: "var(--color-m3-on-secondary-container)" }}>
+              <div className="p-2 rounded-sm flex items-center justify-center transition-colors duration-200" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
                 {stat.icon}
               </div>
-              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold leading-[1.4]" style={{ color: "var(--color-m3-primary)" }}>
+              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold leading-[1.4] px-2 py-0.5 rounded-full" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                 {stat.badge}
               </span>
             </div>
-            <h3 className="text-[1.375rem] md:text-2xl font-bold m-0" style={{ color: "var(--color-m3-on-surface)" }}>
+            <h3 className="text-[1.375rem] md:text-2xl font-semibold m-0" style={{ color: "var(--color-on-surface)" }}>
               {loading ? "—" : stat.value}
             </h3>
-            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium uppercase tracking-[0.08em] mt-1 leading-[1.4]" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium uppercase tracking-[0.08em] mt-1 leading-[1.4]" style={{ color: "var(--color-on-surface-variant)" }}>
               {stat.label}
             </p>
           </div>
         ))}
       </section>
 
-      {/* ═══ Quick Action ═══ */}
-      <div className="mb-8 md:mb-12">
+      {/* ═══ Quick Action (Premium Flat Button) ═══ */}
+      <div className="mb-6 md:mb-10">
         <button
           onClick={handleEnterCode}
-          className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold cursor-pointer transition-all duration-200"
-          style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}
+          className="inline-flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium cursor-pointer transition-all duration-200 rounded-sm"
+          style={{ 
+            background: "var(--color-primary)", 
+            color: "var(--color-on-primary)",
+            boxShadow: "var(--shadow-sm)"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "var(--shadow-md)";
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "var(--shadow-sm)";
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = "translateY(0) scale(0.98)";
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
         >
           <IconCode />
           Enter Assignment Code
         </button>
       </div>
 
-      {/* ═══ Recent Assignments ═══ */}
+      {/* ═══ Recent Assignments (Refined Premium) ═══ */}
       <section>
         <div className="flex items-center justify-between mb-3 md:mb-4">
-          <h2 className="text-lg font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
+          <h2 className="text-base font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
             Recent Assignments
           </h2>
           {stats && stats.recentSubmissions.length > 0 && (
-            <Link href="/student/assignments" className="text-[0.6875rem] font-bold no-underline flex items-center gap-1" style={{ color: "var(--color-m3-primary)" }}>
+            <Link href="/student/assignments" className="text-[0.6875rem] font-medium no-underline flex items-center gap-1 px-2.5 py-1 rounded-xs transition-colors" style={{ color: "var(--color-primary)", background: "var(--color-primary-container)" }}>
               View All
               <IconChevronRight />
             </Link>
@@ -390,24 +420,24 @@ export default function StudentDashboardPage() {
         </div>
 
         {!stats || loading ? (
-          <div className="rounded-xl p-8 text-center" style={{ background: "var(--color-m3-surface-container-low)", border: "1px solid var(--color-m3-outline-variant)" }}>
-            <p className="text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>Loading...</p>
+          <div className="rounded-md p-8 text-center" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
+            <p className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>Loading...</p>
           </div>
         ) : stats.recentSubmissions.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="rounded-xl overflow-hidden" style={{ background: "var(--color-m3-surface-container-lowest)", border: "1px solid var(--color-m3-outline-variant)" }}>
+          <div className="rounded-md overflow-hidden" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
             {/* Desktop Table */}
             <div className="hidden md:block">
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-left text-sm">
                   <thead>
-                    <tr style={{ borderBottom: "1px solid var(--color-m3-outline-variant)" }}>
+                    <tr style={{ borderBottom: "1px solid var(--color-outline-variant)" }}>
                       {["Assignment", "Score", "Status", "Submitted", ""].map((h, idx) => (
                         <th
                           key={h}
-                          className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] ${idx === 4 ? "text-right" : "text-left"}`}
-                          style={{ color: "var(--color-m3-on-surface-variant)" }}
+                          className={`p-3 md:p-3.5 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.08em] ${idx === 4 ? "text-right" : "text-left"}`}
+                          style={{ color: "var(--color-on-surface-variant)" }}
                         >
                           {h}
                         </th>
@@ -422,41 +452,46 @@ export default function StudentDashboardPage() {
                         <tr
                           key={sub.id}
                           className="transition-colors duration-200 ease-out"
-                          style={{ borderBottom: "1px solid var(--color-m3-outline-variant)" }}
+                          style={{ 
+                            borderBottom: "1px solid var(--color-outline-variant)",
+                            background: "transparent"
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-surface-container)"}
+                          onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
                         >
-                          <td className="p-3 md:p-4 px-4 md:px-6">
-                            <p className="font-semibold m-0 text-sm" style={{ color: "var(--color-m3-on-surface)" }}>
+                          <td className="p-3 md:p-3.5 px-4 md:px-6">
+                            <p className="font-medium m-0 text-sm" style={{ color: "var(--color-on-surface)" }}>
                               {sub.assignmentTitle}
                             </p>
                           </td>
-                          <td className="p-3 md:p-4 px-4 md:px-6">
+                          <td className="p-3 md:p-3.5 px-4 md:px-6">
                             {isGraded && scorePct !== null ? (
-                              <span className="font-semibold text-sm" style={{ color: scorePct >= 70 ? "var(--color-m3-primary)" : scorePct >= 50 ? "var(--color-m3-tertiary)" : "var(--color-m3-error)" }}>
+                              <span className="font-semibold text-sm" style={{ color: scorePct >= 70 ? "var(--color-success)" : scorePct >= 50 ? "var(--color-warning)" : "var(--color-error)" }}>
                                 {sub.score}/{sub.totalMarks} ({scorePct}%)
                               </span>
                             ) : (
-                              <span className="text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>—</span>
+                              <span className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>—</span>
                             )}
                           </td>
-                          <td className="p-3 md:p-4 px-4 md:px-6">
-                            <span className="inline-flex items-center px-3 py-1 text-[0.625rem] font-bold tracking-wider rounded-full uppercase" style={{
-                              background: isGraded ? "var(--color-m3-secondary-container)" : "var(--color-m3-surface-container)",
-                              color: isGraded ? "var(--color-m3-on-secondary-container)" : "var(--color-m3-on-surface-variant)",
+                          <td className="p-3 md:p-3.5 px-4 md:px-6">
+                            <span className="inline-flex items-center px-2.5 py-1 text-[0.625rem] font-bold tracking-wider rounded-xs uppercase" style={{
+                              background: isGraded ? "var(--color-success-container)" : "var(--color-surface-container)",
+                              color: isGraded ? "var(--color-on-success-container)" : "var(--color-on-surface-variant)",
                             }}>
                               {isGraded ? "Graded" : "Pending"}
                             </span>
                           </td>
-                          <td className="p-3 md:p-4 px-4 md:px-6 text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                          <td className="p-3 md:p-3.5 px-4 md:px-6 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
                             {new Date(sub.submittedAt).toLocaleDateString("en-IN", {
                               day: "numeric",
                               month: "short",
                             })}
                           </td>
-                          <td className="p-3 md:p-4 px-4 md:px-6 text-right">
+                          <td className="p-3 md:p-3.5 px-4 md:px-6 text-right">
                             <Link
                               href={`/student/results/${sub.id}`}
-                              className="text-[0.6875rem] font-bold uppercase tracking-[0.05em] no-underline inline-flex items-center gap-1"
-                              style={{ color: "var(--color-m3-primary)" }}
+                              className="text-[0.6875rem] font-medium uppercase tracking-[0.04em] no-underline inline-flex items-center gap-1"
+                              style={{ color: "var(--color-primary)" }}
                             >
                               {isGraded ? "View" : "Details"}
                               <IconChevronRight />
@@ -513,12 +548,12 @@ export default function StudentDashboardPage() {
 
       {/* ═══ Performance Tip ═══ */}
       {stats && stats.totalAssignments > 0 && (
-        <section className="mt-10 md:mt-12">
-          <div className="bg-surface-container-low rounded-md p-5 md:p-6">
-            <h2 className="font-manrope text-base font-bold text-on-surface tracking-[-0.01em] mb-3">
+        <section className="mt-6 md:mt-8">
+          <div className="rounded-md p-4 md:p-5" style={{ background: "var(--color-surface-container-low)", border: "1px solid var(--color-outline-variant)" }}>
+            <h2 className="font-manrope text-sm font-semibold tracking-tight mb-2" style={{ color: "var(--color-on-surface)" }}>
               Study Tip
             </h2>
-            <p className="text-sm text-on-surface-variant leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
               {stats.averageScorePercent >= 80
                 ? "You're doing great! Review any questions you got wrong to aim for perfection."
                 : stats.averageScorePercent >= 50
