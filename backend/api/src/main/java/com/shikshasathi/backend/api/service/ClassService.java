@@ -33,13 +33,13 @@ public class ClassService {
         ClassEntity entity = new ClassEntity();
         entity.setName(request.getName());
         entity.setSection(request.getSection());
-        entity.setStudentCount(request.getStudentCount());
+        entity.setGrade(request.getGrade());
         entity.setSchoolId(teacher.getSchoolId());
-        
+
         List<String> teacherIds = new ArrayList<>();
         teacherIds.add(teacher.getId());
         entity.setTeacherIds(teacherIds);
-        
+
         entity.setActive(true);
         return classRepository.save(entity);
     }

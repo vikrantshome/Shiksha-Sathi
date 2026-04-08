@@ -127,12 +127,6 @@ export default function StudentAssignmentForm({
   const handleSubmitAssignment = () => {
     if (!identity) return;
 
-    // Check if all questions are answered
-    if (Object.keys(answers).length < assignment.questions.length) {
-      setError("Please answer all questions before submitting.");
-      return;
-    }
-
     setError(null);
     startTransition(async () => {
       try {
@@ -380,24 +374,24 @@ export default function StudentAssignmentForm({
     return (
       <div className="flex items-center justify-center min-h-[50vh] md:min-h-[60vh] px-4">
         <div className="relative w-full max-w-lg">
-          <div className="relative rounded-2xl p-6 md:p-8 lg:p-12" style={{ background: "var(--color-m3-surface-container-lowest)" }}>
+          <div className="relative rounded-2xl p-6 md:p-8 lg:p-12" style={{ background: "var(--color-surface-container-lowest)" }}>
             <div className="mb-8 text-center md:mb-10">
-              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full md:mb-6" style={{ background: "var(--color-m3-primary-container)", color: "var(--color-m3-on-primary-container)" }}>
+              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full md:mb-6" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
-              <h2 className="mb-2 text-xl font-semibold tracking-tight md:text-2xl" style={{ color: "var(--color-m3-on-surface)" }}>
+              <h2 className="mb-2 text-xl font-semibold tracking-tight md:text-2xl" style={{ color: "var(--color-on-surface)" }}>
                 Enter your details to start
               </h2>
-              <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+              <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
                 Please provide your institutional identity to begin the assessment module.
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 md:mb-5 p-3 text-[0.8125rem] text-center rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
+              <div className="mb-4 md:mb-5 p-3 text-[0.8125rem] text-center rounded-xl" style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}>
                 {error}
               </div>
             )}
@@ -414,7 +408,7 @@ export default function StudentAssignmentForm({
                   <label
                     htmlFor="student-class"
                     className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                    style={{ color: "var(--color-m3-on-surface-variant)" }}
+                    style={{ color: "var(--color-on-surface-variant)" }}
                   >
                     Class / Grade
                   </label>
@@ -423,9 +417,9 @@ export default function StudentAssignmentForm({
                     name="studentClass"
                     required
                     className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
-                    style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                    onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                    onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                    style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                    onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                   >
                     <option value="">Select</option>
                     {Array.from({ length: 12 }, (_, i) => (
@@ -440,7 +434,7 @@ export default function StudentAssignmentForm({
                   <label
                     htmlFor="student-section"
                     className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                    style={{ color: "var(--color-m3-on-surface-variant)" }}
+                    style={{ color: "var(--color-on-surface-variant)" }}
                   >
                     Section
                   </label>
@@ -451,9 +445,9 @@ export default function StudentAssignmentForm({
                     placeholder="e.g. A"
                     type="text"
                     className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                    style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                    onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                    onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                    style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                    onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                   />
                 </div>
               </div>
@@ -463,7 +457,7 @@ export default function StudentAssignmentForm({
                 <label
                   htmlFor="student-name"
                   className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                  style={{ color: "var(--color-m3-on-surface-variant)" }}
+                  style={{ color: "var(--color-on-surface-variant)" }}
                 >
                   Full Name
                 </label>
@@ -474,9 +468,9 @@ export default function StudentAssignmentForm({
                   placeholder="e.g. Aarav Patel"
                   type="text"
                   className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                 />
               </div>
 
@@ -485,7 +479,7 @@ export default function StudentAssignmentForm({
                 <label
                   htmlFor="student-roll"
                   className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                  style={{ color: "var(--color-m3-on-surface-variant)" }}
+                  style={{ color: "var(--color-on-surface-variant)" }}
                 >
                   Roll Number
                 </label>
@@ -496,9 +490,9 @@ export default function StudentAssignmentForm({
                   placeholder="Enter your unique ID"
                   type="text"
                   className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                 />
               </div>
 
@@ -507,8 +501,8 @@ export default function StudentAssignmentForm({
                   type="submit"
                   className="w-full py-4 px-6 rounded-full font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2"
                   style={{
-                    background: "var(--color-m3-primary-container)",
-                    color: "var(--color-m3-on-primary-container)",
+                    background: "var(--color-primary-container)",
+                    color: "var(--color-on-primary-container)",
                   }}
                 >
                   <span>Start Assignment</span>
@@ -520,14 +514,14 @@ export default function StudentAssignmentForm({
                 <div className="flex items-center justify-center mt-4 space-x-3 md:mt-6 md:space-x-4 opacity-60">
                   <div className="flex items-center space-x-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-on-surface-variant)" }}>
                       Assessment
                     </span>
                   </div>
-                  <div className="w-1 h-1 rounded-full" style={{ background: "var(--color-m3-outline-variant)" }} />
+                  <div className="w-1 h-1 rounded-full" style={{ background: "var(--color-outline-variant)" }} />
                   <div className="flex items-center space-x-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-on-surface-variant)" }}>
                       {totalQuestions} Questions
                     </span>
                   </div>
@@ -549,18 +543,18 @@ export default function StudentAssignmentForm({
         <article
           key={q.id}
           className="p-5 md:p-6 rounded-xl transition-colors duration-200"
-          style={{ background: "var(--color-m3-surface-container-lowest)" }}
+          style={{ background: "var(--color-surface-container-lowest)" }}
         >
           <div className="flex justify-between items-start mb-5">
             <div className="flex gap-4 items-start">
-              <span className="text-sm font-semibold shrink-0" style={{ color: "var(--color-m3-primary)" }}>
+              <span className="text-sm font-semibold shrink-0" style={{ color: "var(--color-primary)" }}>
                 {String(index + 1).padStart(2, "0")}.
               </span>
-              <h2 className="text-base font-medium leading-relaxed" style={{ color: "var(--color-m3-on-surface)" }}>
+              <h2 className="text-base font-medium leading-relaxed" style={{ color: "var(--color-on-surface)" }}>
                 {q.text}
               </h2>
             </div>
-            <span className="text-[0.75rem] font-bold tracking-wider px-3 py-1 rounded-full shrink-0 ml-4" style={{ background: "var(--color-m3-surface-container)", color: "var(--color-m3-on-surface-variant)" }}>
+            <span className="text-[0.75rem] font-bold tracking-wider px-3 py-1 rounded-full shrink-0 ml-4" style={{ background: "var(--color-surface-container)", color: "var(--color-on-surface-variant)" }}>
               {q.points || 1} MARKS
             </span>
           </div>
@@ -576,20 +570,20 @@ export default function StudentAssignmentForm({
                     onClick={() => handleAnswerChange(q.id, opt)}
                     className="flex items-center gap-3 p-4 rounded-xl transition-all text-left text-sm group"
                     style={{
-                      background: isSelected ? "var(--color-m3-primary-container)" : "var(--color-m3-surface-container-low)",
-                      border: isSelected ? "1px solid var(--color-m3-primary)" : "1px solid transparent",
+                      background: isSelected ? "var(--color-primary-container)" : "var(--color-surface-container-low)",
+                      border: isSelected ? "1px solid var(--color-primary)" : "1px solid transparent",
                     }}
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" className="shrink-0" style={{
-                      fill: isSelected ? "var(--color-m3-primary)" : "none",
-                      stroke: isSelected ? "var(--color-m3-primary)" : "var(--color-m3-outline)",
+                      fill: isSelected ? "var(--color-primary)" : "none",
+                      stroke: isSelected ? "var(--color-primary)" : "var(--color-outline)",
                       strokeWidth: 2,
                     }}>
                       <circle cx="12" cy="12" r="8" />
-                      {isSelected && <circle cx="12" cy="12" r="4" fill="var(--color-m3-on-primary-container)" />}
+                      {isSelected && <circle cx="12" cy="12" r="4" fill="var(--color-on-primary-container)" />}
                     </svg>
                     <span className="text-sm" style={{
-                      color: isSelected ? "var(--color-m3-on-primary-container)" : "var(--color-m3-on-surface)",
+                      color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
                       fontWeight: isSelected ? 600 : 400,
                     }}>
                       {String.fromCharCode(65 + i)}) {opt}
@@ -608,13 +602,13 @@ export default function StudentAssignmentForm({
                   placeholder="Type your answer here..."
                   className="w-full border-0 border-b-2 focus:ring-0 px-0 py-3 text-sm transition-all font-body bg-transparent"
                   style={{
-                    borderColor: "var(--color-m3-outline-variant)",
-                    color: "var(--color-m3-on-surface)",
+                    borderColor: "var(--color-outline-variant)",
+                    color: "var(--color-on-surface)",
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
                 />
-                <p className="mt-2 text-[0.75rem] italic" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <p className="mt-2 text-[0.75rem] italic" style={{ color: "var(--color-on-surface-variant)" }}>
                   Enter a single word or a short phrase.
                 </p>
               </div>
@@ -625,15 +619,15 @@ export default function StudentAssignmentForm({
 
       {/* Error */}
       {error && (
-        <div className="p-4 text-sm font-medium text-center rounded-xl" style={{ background: "var(--color-m3-error-container)", color: "var(--color-m3-error)" }}>
+        <div className="p-4 text-sm font-medium text-center rounded-xl" style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}>
           {error}
         </div>
       )}
 
       {/* M3 FAB Submit */}
-      <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-m3-outline-variant)" }}>
-        <p className="text-xs mb-6 flex items-center gap-2" style={{ color: "var(--color-m3-on-surface-variant)" }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-m3-primary)" }}>
+      <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-outline-variant)" }}>
+        <p className="text-xs mb-6 flex items-center gap-2" style={{ color: "var(--color-on-surface-variant)" }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-primary)" }}>
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
           </svg>
           Please review all answers before final submission.
@@ -644,8 +638,8 @@ export default function StudentAssignmentForm({
           disabled={isPending}
           className="px-8 py-4 rounded-full font-semibold text-sm flex items-center gap-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{
-            background: "var(--color-m3-primary-container)",
-            color: "var(--color-m3-on-primary-container)",
+            background: "var(--color-primary-container)",
+            color: "var(--color-on-primary-container)",
           }}
         >
           {isPending ? "Submitting…" : "Submit Assignment"}

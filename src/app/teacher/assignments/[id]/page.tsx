@@ -56,7 +56,7 @@ export default async function AssignmentReportPage({
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6">
           <div className="flex-1">
             <h1 className="text-display-sm font-bold text-on-surface mb-2">{assignment.title}</h1>
-            <CopyAssignmentLinkButton shareLink={shareLink} path={path} />
+            <CopyAssignmentLinkButton shareLink={shareLink} path={path} code={assignment.code} />
           </div>
           <div className="sm:text-right bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3 shadow-sm">
             <span className="text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">

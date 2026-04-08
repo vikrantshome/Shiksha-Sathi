@@ -19,9 +19,23 @@ public class AssignmentController {
 
     private final AssignmentService assignmentService;
 
+    @GetMapping("/{assignmentId}")
+    public ResponseEntity<Assignment> getById(@PathVariable String assignmentId) {
+        return ResponseEntity.ok(assignmentService.getAssignmentById(assignmentId));
+    }
+
     @GetMapping("/link/{linkId}")
     public ResponseEntity<StudentAssignmentDTO> getByLinkId(@PathVariable String linkId) {
         return ResponseEntity.ok(assignmentService.getAssignmentByLinkId(linkId));
+    }
+
+    /**
+     * Get assignment by short code (e.g. /api/v1/assignments/code/A3K9X7).
+     * Used by students to look up assignments by the code shown to teachers.
+     */
+    @GetMapping("/code/{code}")
+    public ResponseEntity<StudentAssignmentDTO> getByCode(@PathVariable String code) {
+        return ResponseEntity.ok(assignmentService.getAssignmentByCode(code));
     }
 
     @GetMapping("/class/{classId}")

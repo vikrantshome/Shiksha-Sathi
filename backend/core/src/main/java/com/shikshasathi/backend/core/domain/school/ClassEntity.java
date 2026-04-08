@@ -26,8 +26,8 @@ public class ClassEntity extends BaseEntity {
     @Field("section")
     private String section;
 
-    @Field("student_count")
-    private int studentCount;
+    @Field("grade")
+    private String grade; // Grade/Class level (e.g., "10", "11")
 
     @Field("teacher_ids")
     private List<String> teacherIds;

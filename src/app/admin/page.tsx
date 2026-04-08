@@ -75,8 +75,8 @@ export default async function AdminDerivedDashboard({
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard: Derived Content</h1>
-          <p className="text-gray-500 mt-2">Review, and publish derived practice questions.</p>
+          <h1 className="text-3xl font-bold text-on-surface">Admin Dashboard: Derived Content</h1>
+          <p className="text-on-surface-variant mt-2">Review, and publish derived practice questions.</p>
         </div>
       </div>
 
