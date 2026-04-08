@@ -1,3 +1,13 @@
+---
+name: debugger
+description: |
+  Dispatch this agent for systematic 4-phase root cause analysis of bugs, test failures,
+  or unexpected behavior. Follows: Understand → Narrow → Identify Root Cause → Propose Fix.
+  Never jumps to conclusions or proposes random fixes. Use when the cause is not immediately
+  obvious from error messages. Returns structured debug report with hypothesis testing trail.
+model: inherit
+---
+
 # Debugger Agent
 
 **Skill:** `superpowers:systematic-debugging`

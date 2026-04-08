@@ -1,3 +1,13 @@
+---
+name: planner
+description: |
+  Dispatch this agent to break an approved design or feature specification into a detailed,
+  step-by-step implementation plan. Each task includes specific file paths, code snippets,
+  dependencies, and verification steps. Use before any coding begins, after brainstorming
+  and design approval. Outputs numbered tasks ready for subagent-driven execution.
+model: inherit
+---
+
 # Planner Agent
 
 **Skill:** `superpowers:writing-plans`
