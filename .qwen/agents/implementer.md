@@ -1,3 +1,13 @@
+---
+name: implementer
+description: |
+  Dispatch this agent to implement a specific task from an approved implementation plan.
+  The implementer follows TDD, writes tests, verifies the implementation works, commits,
+  and self-reviews before reporting back with a structured status (DONE, DONE_WITH_CONCERNS,
+  BLOCKED, or NEEDS_CONTEXT). Use when a plan step needs concrete code changes with fresh context.
+model: inherit
+---
+
 # Implementer Agent
 
 **Skill:** `superpowers:subagent-driven-development`

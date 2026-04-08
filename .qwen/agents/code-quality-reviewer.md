@@ -1,3 +1,13 @@
+---
+name: code-quality-reviewer
+description: |
+  Dispatch this agent for senior-level code quality review covering architecture, testing,
+  security, SOLID principles, and maintainability. This is the SECOND stage of the two-stage
+  review process — only dispatch AFTER spec compliance review passes. Also used as a final
+  review after ALL plan tasks are complete. Returns categorized issues (Critical/Important/Minor).
+model: inherit
+---
+
 # Code Quality Reviewer Agent
 
 **Skill:** `superpowers:requesting-code-review` / `superpowers:subagent-driven-development`
