@@ -38,75 +38,41 @@ export default async function StudentAssignmentPage({
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-m3-surface)" }}>
+    <div className="min-h-screen" style={{ background: "var(--color-surface)" }}>
       {/* ═══ Main Content Area (no left margin — student has no sidebar) ═══ */}
       <main className="pt-2 pb-24 px-4 md:px-8 lg:px-16">
         <div className="max-w-3xl mx-auto relative">
-          {/* M3 Assignment Header */}
-          <header className="mb-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
-              <div>
-                <span className="text-[0.875rem] font-medium tracking-wide uppercase mb-1 block" style={{ color: "var(--color-m3-primary)" }}>
-                  Ongoing Assessment
-                </span>
-                <h1 className="text-[2rem] font-semibold tracking-tight" style={{ color: "var(--color-m3-on-surface)" }}>
-                  {assignment.title}
-                </h1>
-                {assignment.description && (
-                  <p className="text-sm mt-1" style={{ color: "var(--color-m3-on-surface-variant)" }}>
-                    {assignment.description}
-                  </p>
-                )}
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-bold tracking-tight uppercase" style={{ color: "var(--color-m3-primary)" }}>
-                  Progress
-                </p>
-                <p className="text-lg font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>
-                  0 / {assignment.questions.length} Answered
-                </p>
-              </div>
-            </div>
-            {/* M3 Linear Progress Bar */}
-            <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--color-m3-surface-variant)" }}>
-              <div
-                className="h-full rounded-full transition-all duration-500 ease-in-out"
-                style={{ width: "0%", background: "var(--color-m3-primary)" }}
-              />
-            </div>
-          </header>
-
-          {/* Question Sequence */}
+          {/* Question Sequence with Live Header */}
           <AssignmentProgress assignment={assignment} />
         </div>
       </main>
 
       {/* ═══ M3 Assistance Card (Floating Right — Desktop xl) ═══ */}
       <aside className="fixed right-4 xl:right-12 top-40 xl:top-48 hidden xl:block w-72 z-10">
-        <div className="rounded-xl p-6 space-y-5" style={{ background: "var(--color-m3-surface-container-low)" }}>
-          <h3 className="text-[0.75rem] font-bold tracking-widest uppercase" style={{ color: "var(--color-m3-primary)" }}>
+        <div className="rounded-xl p-6 space-y-5" style={{ background: "var(--color-surface-container-low)" }}>
+          <h3 className="text-[0.75rem] font-bold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
             Assistance
           </h3>
           <div className="space-y-4">
             <div className="flex gap-3 items-start">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-m3-primary)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-primary)" }}>
                 <circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" />
               </svg>
               <div>
-                <p className="text-sm font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>Need Help?</p>
-                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <p className="text-sm font-semibold" style={{ color: "var(--color-on-surface)" }}>Need Help?</p>
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
                   Review the chapter content in your NCERT textbook before submitting.
                 </p>
               </div>
             </div>
-            <div className="h-px" style={{ background: "var(--color-m3-outline-variant)" }} />
+            <div className="h-px" style={{ background: "var(--color-outline-variant)" }} />
             <div className="flex gap-3 items-start">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-m3-primary)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: "var(--color-primary)" }}>
                 <path d="M12 2a10 10 0 1 0 10 10H12V2z" /><path d="M20.66 9A10 10 0 0 0 14 2.05V9h6.66z" />
               </svg>
               <div>
-                <p className="text-sm font-semibold" style={{ color: "var(--color-m3-on-surface)" }}>Study Resource</p>
-                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <p className="text-sm font-semibold" style={{ color: "var(--color-on-surface)" }}>Study Resource</p>
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
                   Refer to your class notes and NCERT examples for guidance.
                 </p>
               </div>
