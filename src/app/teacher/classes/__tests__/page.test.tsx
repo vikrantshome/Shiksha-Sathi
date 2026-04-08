@@ -42,9 +42,9 @@ describe('ClassesPage', () => {
     vi.mocked(api.classes.getClasses).mockResolvedValue([
       {
         id: 'class-1',
-        name: 'React 101',
+        name: 'Mathematics',
         section: 'A',
-        studentCount: 20,
+        grade: '10',
         active: true,
         schoolId: 'school-1',
         teacherIds: [],
@@ -55,7 +55,7 @@ describe('ClassesPage', () => {
     const Page = await ClassesPage();
     render(Page);
 
-    expect(screen.getByText('React 101')).toBeInTheDocument();
-    expect(screen.getByText('Section A • 20 Students')).toBeInTheDocument();
+    expect(screen.getByText('Mathematics')).toBeInTheDocument();
+    expect(screen.getByText('Class 10 • Section A')).toBeInTheDocument();
   });
 });

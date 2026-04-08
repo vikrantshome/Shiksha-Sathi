@@ -28,13 +28,10 @@ export default async function ClassesPage() {
     "use server";
     const name = formData.get("name") as string;
     const section = formData.get("section") as string;
-    const studentCount = parseInt(
-      formData.get("studentCount") as string,
-      10
-    );
+    const grade = formData.get("grade") as string;
 
     try {
-      await api.classes.createClass({ name, section, studentCount });
+      await api.classes.createClass({ name, section, grade });
       revalidatePath("/teacher/classes");
     } catch (error) {
       console.error("Failed to create class:", error);
@@ -97,25 +94,29 @@ export default async function ClassesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-label-md text-on-surface-variant mb-1.5">
+                  Grade
+                </label>
+                <select
+                  name="grade"
+                  required
+                  className="input-academic w-full cursor-pointer"
+                >
+                  <option value="">Select</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1)}>
+                      Class {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-label-md text-on-surface-variant mb-1.5">
                   Section
                 </label>
                 <input
                   name="section"
                   required
-                  placeholder="e.g. Grade 12-A"
-                  className="input-academic w-full"
-                />
-              </div>
-              <div>
-                <label className="block text-label-md text-on-surface-variant mb-1.5">
-                  Students
-                </label>
-                <input
-                  name="studentCount"
-                  type="number"
-                  min="1"
-                  required
-                  placeholder="e.g. 30"
+                  placeholder="e.g. A"
                   className="input-academic w-full"
                 />
               </div>
@@ -182,7 +183,7 @@ export default async function ClassesPage() {
                             {cls.name}
                           </h3>
                           <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                            <span>Section {cls.section} • {cls.studentCount} Students</span>
+                            <span>Class {cls.grade} • Section {cls.section}</span>
                           </div>
                         </div>
                       </div>
@@ -234,7 +235,7 @@ export default async function ClassesPage() {
                             </span>
                           </div>
                           <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                            <span>Section {cls.section} • {cls.studentCount} Students</span>
+                            <span>Class {cls.grade} • Section {cls.section}</span>
                           </div>
                         </div>
                       </div>
