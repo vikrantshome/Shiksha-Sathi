@@ -6,5 +6,5 @@ import lombok.Data;
 public class ClassRequest {
     private String name;
     private String section;
-    private int studentCount;
+    private String grade; // Grade/Class level (e.g., "10", "11")
 }

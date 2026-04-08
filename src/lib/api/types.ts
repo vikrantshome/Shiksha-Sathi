@@ -37,7 +37,7 @@ export interface ClassItem {
   id: string;
   name: string;
   section: string;
-  studentCount: number;
+  grade?: string; // Grade/Class level (e.g., "10", "11")
   active: boolean;
   schoolId: string;
   teacherIds: string[];
@@ -47,7 +47,7 @@ export interface ClassItem {
 export interface ClassRequest {
   name: string;
   section: string;
-  studentCount: number;
+  grade: string; // Grade/Class level (e.g., "10", "11")
 }
 
 export interface AttendanceRecord {
@@ -105,6 +105,7 @@ export interface Assignment {
   maxScore: number;
   status: 'DRAFT' | 'PUBLISHED' | 'CLOSED';
   linkId: string;
+  code: string; // Short 6-char code for student entry
   totalMarks: number;
 }
 
@@ -113,6 +114,7 @@ export interface AssignmentWithStats extends Assignment {
   submissionCount: number;
   averageScore: number;
   linkId: string;
+  code: string;
   totalMarks: number;
 }
 

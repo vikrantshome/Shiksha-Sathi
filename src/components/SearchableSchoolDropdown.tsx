@@ -45,7 +45,7 @@ export default function SearchableSchoolDropdown({
     try {
       const found = await schools.search(q);
       setResults(found);
-      setIsOpen(found.length > 0);
+      setIsOpen(true); // Keep dropdown open — "Add new" option handles zero results
     } catch {
       setResults([]);
     } finally {
@@ -96,6 +96,8 @@ export default function SearchableSchoolDropdown({
   const handleAddNewClick = () => {
     setIsAdding(true);
     setIsOpen(false);
+    setQuery("");
+    onChange("");
     inputRef.current?.focus();
   };
 
@@ -126,7 +128,7 @@ export default function SearchableSchoolDropdown({
   if (isAdding) {
     return (
       <div className="relative group">
-        <label className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+        <label className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
           School / Institute Name
         </label>
         <div className="flex items-center gap-2">
@@ -137,9 +139,9 @@ export default function SearchableSchoolDropdown({
             onChange={handleInputChange}
             placeholder="Enter school name"
             className="flex-1 px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-            style={{ borderColor: "var(--color-m3-outline-variant)", color: "var(--color-m3-on-surface)" }}
-            onFocus={(e) => e.target.style.borderColor = "var(--color-m3-primary)"}
-            onBlur={(e) => e.target.style.borderColor = "var(--color-m3-outline-variant)"}
+            style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
+            onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
+            onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
           />
           <button
             type="button"
@@ -149,7 +151,7 @@ export default function SearchableSchoolDropdown({
               onChange("");
             }}
             className="shrink-0 text-[0.6875rem] font-bold uppercase tracking-wider cursor-pointer bg-transparent border-none transition-colors"
-            style={{ color: "var(--color-m3-primary)" }}
+            style={{ color: "var(--color-primary)" }}
           >
             ✕
           </button>
@@ -161,7 +163,7 @@ export default function SearchableSchoolDropdown({
   // ── Normal autocomplete mode ──
   return (
     <div ref={containerRef} className="relative group">
-      <label className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+      <label className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
         School / Institute Name
       </label>
       <input
@@ -175,8 +177,8 @@ export default function SearchableSchoolDropdown({
         autoComplete="off"
         className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
         style={{
-          borderColor: isOpen ? "var(--color-m3-primary)" : "var(--color-m3-outline-variant)",
-          color: "var(--color-m3-on-surface)",
+          borderColor: isOpen ? "var(--color-primary)" : "var(--color-outline-variant)",
+          color: "var(--color-on-surface)",
         }}
       />
 
@@ -184,10 +186,10 @@ export default function SearchableSchoolDropdown({
       {isOpen && (query.length >= 2 || isLoading) && (
         <div
           className="absolute z-50 w-full mt-1 rounded-xl overflow-hidden shadow-lg"
-          style={{ background: "var(--color-m3-surface-container-lowest)", border: "1px solid var(--color-m3-outline-variant)" }}
+          style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)" }}
         >
           {isLoading && (
-            <div className="px-4 py-3 text-sm" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+            <div className="px-4 py-3 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
               Searching...
             </div>
           )}
@@ -198,13 +200,13 @@ export default function SearchableSchoolDropdown({
               type="button"
               onMouseDown={(e) => { e.preventDefault(); handleSelectSchool(school); }}
               className="w-full text-left px-4 py-3 text-sm transition-colors"
-              style={{ color: "var(--color-m3-on-surface)" }}
-              onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-m3-primary-container)"}
+              style={{ color: "var(--color-on-surface)" }}
+              onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-primary-container)"}
               onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
             >
               {school.name}
               {(school.city || school.state) && (
-                <span className="block text-xs" style={{ color: "var(--color-m3-on-surface-variant)" }}>
+                <span className="block text-xs" style={{ color: "var(--color-on-surface-variant)" }}>
                   {[school.city, school.state].filter(Boolean).join(", ")}
                 </span>
               )}
@@ -217,10 +219,10 @@ export default function SearchableSchoolDropdown({
             onMouseDown={(e) => { e.preventDefault(); handleAddNewClick(); }}
             className="w-full text-left px-4 py-3 text-sm transition-colors flex items-center gap-2 border-t"
             style={{
-              color: "var(--color-m3-primary)",
-              borderTopColor: "var(--color-m3-outline-variant)",
+              color: "var(--color-primary)",
+              borderTopColor: "var(--color-outline-variant)",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-m3-primary-container)"}
+            onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-primary-container)"}
             onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
