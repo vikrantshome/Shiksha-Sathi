@@ -1,6 +1,8 @@
 spring:
   application:
     name: shikshasathi-backend
+  jackson:
+    time-zone: Asia/Kolkata
   data:
     mongodb:
       # Reads from environment variable MONGODB_URI
