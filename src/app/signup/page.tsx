@@ -80,7 +80,6 @@ export default function SignupPage() {
       });
 
       trackEvent("user_signed_up", { role, school });
-
       if (role === "STUDENT") {
         saveStudentIdentity({
           studentId: rollNumber,
