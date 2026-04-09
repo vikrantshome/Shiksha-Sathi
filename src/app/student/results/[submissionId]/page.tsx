@@ -130,7 +130,7 @@ export default function StudentResultsPage({
           {isGraded ? "Results" : "Submission Details"}
         </span>
         <h1 className="font-manrope text-[clamp(1.25rem,3vw,1.75rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
-          {result.assignment?.title ?? "Assignment"}
+          {result.submission.assignmentTitle ?? "Assignment Results"}
         </h1>
         <p className="text-sm text-on-surface-variant mt-2">
           Submitted on {new Date(result.submission.submittedAt).toLocaleDateString("en-IN", {
