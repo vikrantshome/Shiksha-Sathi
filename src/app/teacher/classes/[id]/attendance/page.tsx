@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { ClassItem, User } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    Attendance Register — SSA-252 Tailwind Migration
@@ -114,10 +115,7 @@ export default function AttendancePage() {
   if (loading) {
     return (
       <div className="min-h-96 flex items-center justify-center flex-col gap-4">
-        <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-        <p className="text-on-surface-variant m-0">
-          Preparing the attendance register…
-        </p>
+        <Loader size="lg" label="Preparing the attendance register…" />
       </div>
     );
   }

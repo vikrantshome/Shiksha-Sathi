@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { ClassItem, AttendanceRecord } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
 const statusLabels: Record<string, string> = {
   PRESENT: "Present",

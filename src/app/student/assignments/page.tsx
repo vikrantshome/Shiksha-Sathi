@@ -4,6 +4,7 @@ import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { getStudentIdentity, students } from "@/lib/api/students";
 import type { StudentSubmissionSummary, StudentIdentity } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignments List Page
@@ -129,8 +130,8 @@ export default function StudentAssignmentsPage({
 
       {/* ═══ Loading ═══ */}
       {loading && (
-        <div className="bg-surface-container-low rounded-md border border-outline/10 p-8 text-center">
-          <p className="text-sm text-on-surface-variant">Loading assignments...</p>
+        <div className="bg-surface-container-low rounded-md border border-outline/10 p-8 flex justify-center text-center">
+          <Loader size="lg" label="Loading assignments..." />
         </div>
       )}
 
