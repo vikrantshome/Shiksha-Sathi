@@ -34,15 +34,27 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
 
   async function handleEnrollStudent(formData: FormData) {
     "use server";
+    const studentPhone = formData.get("studentPhone") as string;
+    if (!studentPhone) return;
+
+    try {
+      await api.classes.enrollStudent(id, studentPhone.trim());
+      revalidatePath(`/teacher/classes/${id}/students`);
+    } catch (error) {
+      console.error("Failed to enroll student:", error);
+    }
+  }
+
+  async function handleRemoveStudent(formData: FormData) {
+    "use server";
     const studentId = formData.get("studentId") as string;
     if (!studentId) return;
 
     try {
-      // Backend expects an array of student IDs
-      await api.classes.addStudents(id, [studentId.trim()]);
+      await api.classes.removeStudent(id, studentId);
       revalidatePath(`/teacher/classes/${id}/students`);
     } catch (error) {
-      console.error("Failed to enroll student:", error);
+      console.error("Failed to remove student:", error);
     }
   }
 
@@ -78,16 +90,17 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
           <form action={handleEnrollStudent} className="flex flex-col gap-4 md:gap-5 relative z-10">
             <div>
               <label className="block text-label-md text-on-surface-variant mb-1.5">
-                Student ID / Roll Number
+                Student Phone Number
               </label>
               <input
-                name="studentId"
+                name="studentPhone"
                 required
-                placeholder="e.g. 1045"
+                pattern="[0-9]{10}"
+                placeholder="e.g. 9876543210"
                 className="input-academic w-full"
               />
               <p className="text-xs text-on-surface-variant mt-2">
-                Enter the unique Student ID or Roll Number to add them to this class.
+                Enter the student&apos;s 10-digit phone number to add them to this class.
               </p>
             </div>
             <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center mt-2">
@@ -128,7 +141,7 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
                         Student
                       </th>
                       <th className="text-right p-3 md:p-4 px-4 md:px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
-                        Roll Number / ID
+                        Actions
                       </th>
                     </tr>
                   </thead>
@@ -145,15 +158,18 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
                                 {student.name}
                               </p>
                               <p className="m-0 mt-1 text-xs text-on-surface-variant">
-                                {student.email}
+                                {student.phone || student.email}
                               </p>
                             </div>
                           </div>
                         </td>
                         <td className="p-4 md:p-5 px-4 md:px-6 align-middle text-right">
-                          <span className="text-[0.9375rem] font-medium text-on-surface-variant font-mono">
-                            {student.id}
-                          </span>
+                          <form action={handleRemoveStudent} className="inline">
+                            <input type="hidden" name="studentId" value={student.id} />
+                            <button type="submit" className="text-xs text-error hover:text-error-dim font-medium">
+                              Remove
+                            </button>
+                          </form>
                         </td>
                       </tr>
                     ))}
@@ -168,21 +184,26 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
                     key={student.id}
                     className="grid gap-4 pb-4 border-b border-outline/15 last:border-b-0 last:pb-0"
                   >
-                    <div className="flex items-center gap-4 flex-wrap">
-                      <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
-                        {student.name.charAt(0)}
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                          {student.name.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
+                            {student.name}
+                          </p>
+                          <p className="m-0 mt-1 text-xs text-on-surface-variant">
+                            {student.phone || student.email}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
-                          {student.name}
-                        </p>
-                        <p className="m-0 mt-1 text-xs text-on-surface-variant">
-                          {student.email}
-                        </p>
-                        <p className="m-0 mt-1 text-xs font-mono text-primary">
-                          ID: {student.id}
-                        </p>
-                      </div>
+                      <form action={handleRemoveStudent}>
+                        <input type="hidden" name="studentId" value={student.id} />
+                        <button type="submit" className="text-xs text-error font-medium">
+                          Remove
+                        </button>
+                      </form>
                     </div>
                   </article>
                 ))}

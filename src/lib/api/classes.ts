@@ -37,4 +37,31 @@ export const classes = {
       method: 'POST',
       body: JSON.stringify({ studentId, date, status }),
     }),
+
+  enrollStudent: (classId: string, studentPhone: string): Promise<ClassItem> =>
+    fetchApi<ClassItem>(`/classes/${classId}/enroll`, {
+      method: 'POST',
+      body: JSON.stringify({ studentPhone }),
+    }),
+
+  removeStudent: (classId: string, studentId: string): Promise<ClassItem> =>
+    fetchApi<ClassItem>(`/classes/${classId}/students/${studentId}`, {
+      method: 'DELETE',
+    }),
+
+  markBulkAttendance: (classId: string, date: string, status: string): Promise<AttendanceRecord[]> =>
+    fetchApi<AttendanceRecord[]>(`/classes/${classId}/attendance/bulk`, {
+      method: 'POST',
+      body: JSON.stringify({ date, status }),
+    }),
+
+  getAttendanceHistory: (classId: string, startDate: string, endDate: string): Promise<AttendanceRecord[]> =>
+    fetchApi<AttendanceRecord[]>(`/classes/${classId}/attendance/history?startDate=${startDate}&endDate=${endDate}`, {
+      method: 'GET',
+    }),
+
+  getStudentAttendance: (studentId: string, startDate: string, endDate: string): Promise<AttendanceRecord[]> =>
+    fetchApi<AttendanceRecord[]>(`/classes/student/${studentId}/attendance?startDate=${startDate}&endDate=${endDate}`, {
+      method: 'GET',
+    }),
 };
