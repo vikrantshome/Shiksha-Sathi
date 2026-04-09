@@ -5,6 +5,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Question } from "@/lib/api/types";
 import { api } from "@/lib/api";
 import QuestionCard from "./QuestionCard";
+import Loader from "@/components/Loader";
 
 interface Props {
   boards: string[];

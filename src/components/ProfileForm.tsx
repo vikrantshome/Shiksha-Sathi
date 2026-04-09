@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { api } from "@/lib/api";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
+import Loader from "@/components/Loader";
 
 const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
@@ -138,7 +139,11 @@ export default function ProfileForm({
           disabled={isPending}
           className="px-8 py-3 border-none rounded-lg bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold tracking-[0.03em] shadow-sm cursor-pointer transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] disabled:opacity-75 disabled:cursor-wait"
         >
-          {isPending ? "Saving Profile…" : "Save Profile"}
+          {isPending ? (
+            <Loader size="sm" color="currentColor" label="Saving Profile…" />
+          ) : (
+            "Save Profile"
+          )}
         </button>
       </div>
     </form>

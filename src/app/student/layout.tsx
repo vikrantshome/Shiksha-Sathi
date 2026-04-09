@@ -130,7 +130,7 @@ export default function StudentLayout({
               <div className="w-8 h-8 rounded-sm flex items-center justify-center" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                 <IconBook />
               </div>
-              <span className="font-[family-name:var(--font-manrope)] text-lg font-bold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+              <span className="font-manrope text-lg font-bold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
                 Shiksha Sathi
               </span>
             </Link>
