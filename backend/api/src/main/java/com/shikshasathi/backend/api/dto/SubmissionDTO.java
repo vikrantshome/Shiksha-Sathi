@@ -11,6 +11,7 @@ import java.util.Map;
 public class SubmissionDTO {
     private String id;
     private String assignmentId;
+    private String assignmentTitle;
     private String studentId;
     private String studentName;
     private String studentRollNumber;
