@@ -188,6 +188,7 @@ export default async function ClassesPage() {
                         </div>
                       </div>
                       <ClassActionButtons
+                        enrollHref={`/teacher/classes/${cls.id}/students`}
                         attendanceHref={`/teacher/classes/${cls.id}/attendance`}
                         archiveAction={handleArchiveClass.bind(null, cls.id)}
                         deleteAction={handleDeleteClass.bind(null, cls.id)}

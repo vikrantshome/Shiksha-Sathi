@@ -24,42 +24,50 @@ public class ClassController {
     private final ClassService classService;
     private final UserRepository userRepository;
 
+    /**
+     * Resolve user from JWT subject (could be email or phone).
+     */
+    private User resolveUser(String loginIdentity) {
+        return userRepository.findByEmail(loginIdentity)
+                .or(() -> userRepository.findByPhone(loginIdentity))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
     @GetMapping("/{classId}")
     public ResponseEntity<ClassEntity> getClass(@PathVariable String classId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(classService.getClassById(classId, email));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getClassById(classId, loginIdentity));
     }
 
     @GetMapping("/{classId}/students")
     public ResponseEntity<List<User>> getStudents(@PathVariable String classId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(classService.getStudentsInClass(classId, email));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getStudentsInClass(classId, loginIdentity));
     }
 
     @GetMapping("/me")
     public ResponseEntity<List<ClassEntity>> getMyClasses() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User teacher = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        User teacher = resolveUser(loginIdentity);
         return ResponseEntity.ok(classService.getClassesForTeacher(teacher.getId()));
     }
 
     @PostMapping
     public ResponseEntity<ClassEntity> createClass(@RequestBody ClassRequest request) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(classService.createClass(request, email));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.createClass(request, loginIdentity));
     }
 
     @PatchMapping("/{classId}/archive")
     public ResponseEntity<ClassEntity> archiveClass(@PathVariable String classId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(classService.archiveClass(classId, email));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.archiveClass(classId, loginIdentity));
     }
 
     @DeleteMapping("/{classId}")
     public ResponseEntity<Void> deleteClass(@PathVariable String classId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        classService.deleteClass(classId, email);
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        classService.deleteClass(classId, loginIdentity);
         return ResponseEntity.noContent().build();
     }
 
@@ -67,18 +75,18 @@ public class ClassController {
     public ResponseEntity<List<AttendanceRecord>> getAttendance(
             @PathVariable String classId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(classService.getClassAttendance(classId, date, email));
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getClassAttendance(classId, date, loginIdentity));
     }
 
     @PostMapping("/{classId}/attendance")
     public ResponseEntity<AttendanceRecord> markAttendance(
             @PathVariable String classId,
             @RequestBody Map<String, String> request) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
         String studentId = request.get("studentId");
         LocalDate date = LocalDate.parse(request.get("date"));
         String status = request.get("status");
-        return ResponseEntity.ok(classService.markAttendance(classId, studentId, date, status, email));
+        return ResponseEntity.ok(classService.markAttendance(classId, studentId, date, status, loginIdentity));
     }
 }

@@ -1,14 +1,13 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import AssignmentProgress from "@/components/AssignmentProgress";
 import { api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
 /* ─────────────────────────────────────────────────────────
-   Student Assignment Page — Stitch "answer_questions" Design
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/answer_questions
-   NOTE: Inherits student layout nav (top + mobile bottom tabs).
-   Only renders the assignment header + question sequence here.
+   Student Assignment Page — Requires Authentication
+   Students must be logged in to access assignments.
    ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentPageProps {
@@ -20,6 +19,13 @@ interface StudentAssignmentPageProps {
 export default async function StudentAssignmentPage({
   params,
 }: StudentAssignmentPageProps) {
+  // Check for auth token — redirect to login if missing
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get("auth-token")?.value;
+  if (!authToken) {
+    redirect("/student/login");
+  }
+
   const resolvedParams = await params;
 
   if (!resolvedParams.linkId) {

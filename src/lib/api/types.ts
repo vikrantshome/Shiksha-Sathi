@@ -7,7 +7,11 @@ export interface User {
   phone?: string;
   role: Role | string;
   schoolId?: string;
-  school?: string; // School/Institute name
+  school?: string;
+  // Student-specific fields
+  rollNumber?: string;
+  studentClass?: string;
+  section?: string;
 }
 
 export interface AuthResponse {
@@ -101,6 +105,7 @@ export interface Assignment {
   classId: string;
   teacherId: string;
   questionIds: string[];
+  questionPointsMap?: Record<string, number>;
   dueDate: string;
   maxScore: number;
   status: 'DRAFT' | 'PUBLISHED' | 'CLOSED';
@@ -139,18 +144,23 @@ export interface AssignmentByLinkResponse {
   questions: Omit<Question, 'correctAnswer'>[];
 }
 
+export interface QuestionFeedbackDTO {
+  questionId: string;
+  questionText: string;
+  studentAnswer: string;
+  correctAnswer: string | string[];
+  isCorrect: boolean;
+  marksAwarded: number;
+  reasoning?: string;
+  confidence?: number;
+  aiGradingFailed?: boolean;
+}
+
 export interface SubmitAssignmentResponse {
   success: boolean;
   score: number;
   totalMarks: number;
-  feedback?: {
-    questionId: string;
-    questionText: string;
-    studentAnswer: string;
-    correctAnswer: string | string[];
-    isCorrect: boolean;
-    marksAwarded: number;
-  }[];
+  feedback?: QuestionFeedbackDTO[];
 }
 
 export interface QuestionPerformance {
@@ -185,6 +195,8 @@ export interface SubmissionDTO {
   totalMarks?: number;
   submittedAt: string;
   status: string;
+  /** AI-graded feedback per question (populated when fetching single submission for results). */
+  feedback?: QuestionFeedbackDTO[];
 }
 
 /* ── Student Dashboard Types ── */
