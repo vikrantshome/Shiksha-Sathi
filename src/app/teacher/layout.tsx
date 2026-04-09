@@ -135,7 +135,7 @@ export default function TeacherLayout({
             <div className="flex items-center gap-10">
               <Link
                 href="/teacher/dashboard"
-                className="font-[family-name:var(--font-manrope)] text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
+                className="font-manrope text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
               >
                 Shiksha Sathi
               </Link>
