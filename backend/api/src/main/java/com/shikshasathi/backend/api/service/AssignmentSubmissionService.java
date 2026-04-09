@@ -123,10 +123,11 @@ public class AssignmentSubmissionService {
         SubmissionDTO dto = mapToDTO(submission);
         dto.setFeedback(feedback);
 
-        // Fetch totalMarks from assignment
+        // Fetch assignment details for title and totalMarks
         try {
             Assignment assignment = assignmentRepository.findById(submission.getAssignmentId()).orElse(null);
             if (assignment != null) {
+                dto.setAssignmentTitle(assignment.getTitle());
                 dto.setTotalMarks(assignment.getMaxScore());
             }
         } catch (Exception e) {
