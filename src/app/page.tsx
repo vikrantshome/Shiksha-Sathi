@@ -50,7 +50,7 @@ const Navbar = () => {
           className={`flex items-center justify-between px-4 py-2.5 rounded-lg transition-all duration-500 ${isScrolled ? "bg-[var(--color-surface)]/90 backdrop-blur-[20px] shadow-sm border border-[var(--color-outline-variant)]/20" : "bg-transparent"}`}
         >
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-[1.125rem] font-[700] tracking-tight text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">
+            <span className="text-[1.125rem] font-[700] tracking-tight text-[var(--color-primary)] font-manrope">
               Shiksha Sathi
             </span>
           </Link>
@@ -61,7 +61,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-[family-name:var(--font-manrope)]"
+                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-manrope"
               >
                 {link.name}
               </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="flex items-center gap-3">
               <Link
                 href="/student/dashboard"
-                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-[family-name:var(--font-manrope)]"
+                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-manrope"
               >
                 Student Portal
               </Link>
@@ -81,7 +81,7 @@ const Navbar = () => {
               </Link>
               <Link
                 href="/signup"
-                className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-md shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
+                className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-md shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-primary to-primary-dim"
               >
                 Create Free Account
               </Link>
@@ -140,7 +140,7 @@ const Navbar = () => {
             </Link>
             <Link
               href="/signup"
-              className="w-full py-3 text-center rounded-md font-[700] text-[var(--color-on-primary)] bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
+              className="w-full py-3 text-center rounded-md font-[700] text-[var(--color-on-primary)] bg-gradient-to-br from-primary to-primary-dim"
             >
               Create Free Account
             </Link>
@@ -154,7 +154,7 @@ const Navbar = () => {
 /* ── Landing Page ── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] selection:bg-[var(--color-secondary-container)] selection:text-[var(--color-on-secondary-container)] font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] selection:bg-[var(--color-secondary-container)] selection:text-[var(--color-on-secondary-container)] font-geist-sans">
       <Navbar />
 
       <main className="pt-20">
@@ -175,7 +175,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-[3rem] md:text-[4.5rem] font-[800] text-[var(--color-primary)] leading-[1.1] tracking-tight font-[family-name:var(--font-manrope)]"
+              className="text-[3rem] md:text-[4.5rem] font-[800] text-[var(--color-primary)] leading-[1.1] tracking-tight font-manrope"
             >
               Empower Your Teaching with Shiksha Sathi
             </motion.h1>
@@ -197,7 +197,7 @@ export default function LandingPage() {
             >
               <Link
                 href="/signup"
-                className="px-8 py-4 text-[1rem] font-[700] rounded-lg shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]"
+                className="px-8 py-4 text-[1rem] font-[700] rounded-lg shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center bg-gradient-to-br from-primary to-primary-dim"
               >
                 Get Started for Free
               </Link>
@@ -263,7 +263,7 @@ export default function LandingPage() {
         <section id="features" className="bg-[var(--color-surface-container-low)] py-12 md:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <div className="text-center mb-12 md:mb-16 lg:mb-20 space-y-3 md:space-y-4">
-              <h2 className="text-[1.5rem] md:text-[2.5rem] lg:text-[3rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight">The Modern Educator&apos;s Toolkit</h2>
+              <h2 className="text-[1.5rem] md:text-[2.5rem] lg:text-[3rem] font-[800] text-[var(--color-primary)] font-manrope tracking-tight">The Modern Educator&apos;s Toolkit</h2>
               <p className="text-[var(--color-on-surface-variant)] max-w-2xl mx-auto text-[1rem] md:text-[1.125rem]">Designed by educators for educators, focusing on efficiency and pedagogical excellence.</p>
             </div>
 
@@ -274,7 +274,7 @@ export default function LandingPage() {
                   <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-secondary-container)] flex items-center justify-center mb-6 md:mb-8">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-secondary-container)" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
                   </div>
-                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Expansive Question Bank</h3>
+                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-manrope">Expansive Question Bank</h3>
                   <p className="text-[var(--color-on-surface-variant)] text-[1rem] md:text-[1.125rem] leading-relaxed max-w-lg">
                     Access thousands of curated questions aligned with the NCERT curriculum and CBSE frameworks. Create personalized worksheets and assessments in minutes, tailored to your students&apos; needs.
                   </p>
@@ -293,7 +293,7 @@ export default function LandingPage() {
                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center mb-6 md:mb-8">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-on-primary-container)" strokeWidth="2"><path d="m9 11 3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
                 </div>
-                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Smart Auto-Grading</h3>
+                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-manrope">Smart Auto-Grading</h3>
                 <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
                   Save hours every week with instant feedback. Our intelligent system automatically grades assignments and identifies common misconceptions.
                 </p>
@@ -304,7 +304,7 @@ export default function LandingPage() {
                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--color-tertiary-container)] flex items-center justify-center mb-6 md:mb-8">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-tertiary)" strokeWidth="2"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
                 </div>
-                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Assignment Reports</h3>
+                <h3 className="text-[1.25rem] md:text-[1.5rem] font-[700] text-[var(--color-primary)] mb-3 md:mb-4 font-manrope">Assignment Reports</h3>
                 <p className="text-[var(--color-on-surface-variant)] leading-relaxed">
                   Gain deep insights into class and individual performance. Track progress over time with visually intuitive dashboards.
                 </p>
@@ -313,7 +313,7 @@ export default function LandingPage() {
               {/* Feature 4: Wide Highlight */}
               <div className="md:col-span-2 relative overflow-hidden bg-[var(--color-primary)] text-[var(--color-on-primary)] p-6 md:p-8 lg:p-10 rounded-lg flex items-center">
                 <div className="relative z-10 max-w-md">
-                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] mb-3 md:mb-4 font-[family-name:var(--font-manrope)]">Ready for the New Academic Cycle</h3>
+                  <h3 className="text-[1.5rem] md:text-[1.875rem] font-[700] mb-3 md:mb-4 font-manrope">Ready for the New Academic Cycle</h3>
                   <p className="text-[var(--color-primary-container)] text-[1rem] md:text-[1.125rem]">
                     All our content is updated to reflect the latest NCF and NEP 2020 recommendations for Indian schools.
                   </p>
@@ -343,7 +343,7 @@ export default function LandingPage() {
               />
             </div>
             <div className="md:w-1/2 space-y-4 md:space-y-6">
-              <h2 className="text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-[800] text-[var(--color-primary)] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+              <h2 className="text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-[800] text-[var(--color-primary)] font-manrope tracking-tight leading-tight">
                 Focus on Teaching, Leave the Paperwork to Us
               </h2>
               <p className="text-[var(--color-on-surface-variant)] text-[1rem] md:text-[1.125rem] leading-relaxed">
@@ -369,9 +369,9 @@ export default function LandingPage() {
 
         {/* CTA Banner */}
         <section className="max-w-[1024px] mx-auto px-4 md:px-8 py-12 md:py-16">
-          <div className="p-6 md:p-10 lg:p-12 rounded-lg text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dim)]">
+          <div className="p-6 md:p-10 lg:p-12 rounded-lg text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-primary to-primary-dim">
             <div className="relative z-10 space-y-6 md:space-y-8">
-              <h2 className="text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-[800] font-[family-name:var(--font-manrope)] tracking-tight leading-tight">
+              <h2 className="text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-[800] font-manrope tracking-tight leading-tight">
                 Join Thousands of Indian Teachers
               </h2>
               <p className="text-[var(--color-primary-container)] text-[1rem] md:text-[1.125rem] max-w-2xl mx-auto">
@@ -399,7 +399,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             <div className="space-y-4 md:space-y-6">
-              <div className="text-[1rem] md:text-[1.125rem] font-[700] text-[var(--color-on-surface)] font-[family-name:var(--font-manrope)]">
+              <div className="text-[1rem] md:text-[1.125rem] font-[700] text-[var(--color-on-surface)] font-manrope">
                 Shiksha Sathi
               </div>
               <p className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] leading-relaxed max-w-xs">
@@ -418,7 +418,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="space-y-4 md:space-y-6">
-              <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Academic Resources</h4>
+              <h4 className="font-[700] text-[var(--color-primary)] font-manrope">Academic Resources</h4>
               <ul className="space-y-2 md:space-y-3">
                 <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">NCERT Resources</Link></li>
                 <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">CBSE Guidelines</Link></li>
@@ -427,7 +427,7 @@ export default function LandingPage() {
               </ul>
             </div>
             <div className="space-y-4 md:space-y-6">
-              <h4 className="font-[700] text-[var(--color-primary)] font-[family-name:var(--font-manrope)]">Platform</h4>
+              <h4 className="font-[700] text-[var(--color-primary)] font-manrope">Platform</h4>
               <ul className="space-y-2 md:space-y-3">
                 <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Privacy Policy</Link></li>
                 <li><Link href="#" className="text-[var(--color-on-surface-variant)] text-[0.8125rem] md:text-[0.875rem] hover:text-[var(--color-primary)] hover:underline transition-colors opacity-80 hover:opacity-100">Terms of Service</Link></li>
