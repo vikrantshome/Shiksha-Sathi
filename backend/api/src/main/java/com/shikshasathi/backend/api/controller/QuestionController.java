@@ -62,6 +62,14 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapter, q, type, approvedOnly, visibleOnly));
     }
 
+    /**
+     * Get a single question by ID — used by results page to display question details.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Question> getQuestionById(@PathVariable String id) {
+        return ResponseEntity.ok(questionService.getQuestionById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
         return ResponseEntity.ok(questionService.createQuestion(question));

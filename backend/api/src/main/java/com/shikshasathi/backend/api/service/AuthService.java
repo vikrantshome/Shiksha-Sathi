@@ -56,6 +56,10 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
         user.setSchool(request.getSchool());
+        // Student-specific fields
+        user.setRollNumber(request.getRollNumber());
+        user.setStudentClass(request.getStudentClass());
+        user.setSection(request.getSection());
         user.setActive(true);
         user.setCreatedAt(Instant.now());
 
@@ -79,7 +83,11 @@ public class AuthService {
                 user.getName(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getRole()
+                user.getRole(),
+                user.getRollNumber(),
+                user.getStudentClass(),
+                user.getSection(),
+                user.getSchool()
         );
     }
 }

@@ -6,6 +6,7 @@ import { teachers } from './teachers';
 import { derived } from './derived';
 import { students } from './students';
 import { schools } from './schools';
+import { analytics } from './analytics';
 
 export const api = {
   auth,
@@ -16,6 +17,7 @@ export const api = {
   derived,
   students,
   schools,
+  analytics,
 };
 
 export default api;
