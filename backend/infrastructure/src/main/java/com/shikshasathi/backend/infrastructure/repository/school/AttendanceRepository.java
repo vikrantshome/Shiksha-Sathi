@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface AttendanceRepository extends MongoRepository<AttendanceRecord, String> {
     List<AttendanceRecord> findByClassIdAndDate(String classId, LocalDate date);
     Optional<AttendanceRecord> findByClassIdAndStudentIdAndDate(String classId, String studentId, LocalDate date);
+    List<AttendanceRecord> findByClassIdAndDateBetween(String classId, LocalDate startDate, LocalDate endDate);
+    List<AttendanceRecord> findByStudentIdAndDateBetween(String studentId, LocalDate startDate, LocalDate endDate);
 }

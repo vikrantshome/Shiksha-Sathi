@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/assignments/code/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/submissions/student/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/submissions").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/classes/student/*/attendance").permitAll()
                 // Allow question APIs for NCERT question bank (public read access)
                 .requestMatchers(HttpMethod.GET, "/api/v1/questions/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/derived-questions/**").permitAll()
