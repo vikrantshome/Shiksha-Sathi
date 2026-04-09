@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useAssignment } from "@/components/AssignmentContext";
 import { api } from "@/lib/api";
+import { trackEvent } from "@/lib/analytics";
 
 interface ClassType {
   id: string;
@@ -55,7 +56,7 @@ export default function CreateAssignmentForm({
 }: {
   classes: ClassType[];
 }) {
-  const { selectedQuestions, removeQuestion, clearSelection } = useAssignment();
+  const { selectedQuestions, removeQuestion, clearSelection, updateQuestionPoints } = useAssignment();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [publishResult, setPublishResult] = useState<PublishResult | null>(null);
@@ -78,10 +79,21 @@ export default function CreateAssignmentForm({
           dueDate: dueDateInstant,
           description: `Assignment for class ${classId}`,
           questionIds: selectedQuestions.map((question) => question.id),
+          questionPointsMap: selectedQuestions.reduce((acc, question) => {
+            acc[question.id] = question.points;
+            return acc;
+          }, {} as Record<string, number>),
           maxScore: totalMarks,
           status: "DRAFT",
         });
         const publishedAssignment = await api.assignments.publish(createdAssignment.id);
+
+        trackEvent("assignment_published", {
+          assignmentId: publishedAssignment.id,
+          classId,
+          totalQuestions: selectedQuestions.length,
+          totalMarks,
+        });
 
         const targetClass = classes.find((item) => item.id === classId);
 
@@ -312,9 +324,24 @@ export default function CreateAssignmentForm({
               </div>
 
               <div className="flex gap-3 items-center flex-wrap">
-                <span className="text-on-surface-variant text-[0.8125rem] font-semibold">
-                  {question.points} {question.points === 1 ? "Mark" : "Marks"}
-                </span>
+                <div className="flex items-center gap-1.5 bg-surface-container-lowest border border-outline-variant/60 rounded-md px-2 py-1">
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={question.points}
+                    onChange={(e) => {
+                      const newPoints = parseInt(e.target.value, 10);
+                      if (!isNaN(newPoints) && newPoints > 0) {
+                        updateQuestionPoints(question.id, newPoints);
+                      }
+                    }}
+                    className="w-10 text-center text-on-surface text-[0.8125rem] font-semibold bg-transparent border-none outline-none focus:ring-1 focus:ring-primary rounded-sm"
+                  />
+                  <span className="text-on-surface-variant text-[0.75rem] font-medium pr-1 select-none">
+                    {question.points === 1 ? "Mark" : "Marks"}
+                  </span>
+                </div>
                 <button
                   type="button"
                   onClick={() => removeQuestion(question.id)}

@@ -11,6 +11,12 @@ export const classes = {
   getStudents: (classId: string): Promise<User[]> => 
     fetchApi<User[]>(`/classes/${classId}/students`, { method: 'GET' }),
 
+  addStudents: (classId: string, studentIds: string[]): Promise<void> => 
+    fetchApi<void>(`/classes/${classId}/students`, {
+      method: 'POST',
+      body: JSON.stringify({ studentIds }),
+    }),
+
   createClass: (data: ClassRequest): Promise<ClassItem> => 
     fetchApi<ClassItem>('/classes', {
       method: 'POST',

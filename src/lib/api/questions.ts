@@ -64,4 +64,10 @@ export const questions = {
       method: 'POST',
       body: JSON.stringify(question),
     }),
+
+  unpublish: (questionIds: string[]): Promise<{ publishedCount: number; status: string }> =>
+    fetchApi<{ publishedCount: number; status: string }>('/questions/unpublish', {
+      method: 'POST',
+      body: JSON.stringify({ questionIds }),
+    }),
 };

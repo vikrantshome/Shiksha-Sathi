@@ -26,8 +26,9 @@ public class ClassService {
         return classRepository.findByTeacherIdsContaining(teacherId);
     }
 
-    public ClassEntity createClass(ClassRequest request, String email) {
-        User teacher = userRepository.findByEmail(email)
+    public ClassEntity createClass(ClassRequest request, String loginIdentity) {
+        User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> userRepository.findByPhone(loginIdentity))
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
 
         ClassEntity entity = new ClassEntity();

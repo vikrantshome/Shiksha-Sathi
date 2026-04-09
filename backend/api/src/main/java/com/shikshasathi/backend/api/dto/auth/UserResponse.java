@@ -14,4 +14,9 @@ public class UserResponse {
     private String email;
     private String phone;
     private Role role;
+    // Student-specific fields
+    private String rollNumber;
+    private String studentClass; // Class/Grade (e.g., "8")
+    private String section;      // Section/Division (e.g., "A")
+    private String school;
 }

@@ -9,6 +9,7 @@ interface AssignmentContextType {
   removeQuestion: (questionId: string) => void;
   clearSelection: () => void;
   isSelected: (questionId: string) => boolean;
+  updateQuestionPoints: (questionId: string, newPoints: number) => void;
 }
 
 const AssignmentContext = createContext<AssignmentContextType | undefined>(undefined);
@@ -38,8 +39,14 @@ export function AssignmentProvider({ children }: { children: ReactNode }) {
     return selectedQuestions.some((q) => q.id === questionId);
   };
 
+  const updateQuestionPoints = (questionId: string, newPoints: number) => {
+    setSelectedQuestions((prev) =>
+      prev.map((q) => (q.id === questionId ? { ...q, points: newPoints } : q))
+    );
+  };
+
   return (
-    <AssignmentContext.Provider value={{ selectedQuestions, toggleQuestion, removeQuestion, clearSelection, isSelected }}>
+    <AssignmentContext.Provider value={{ selectedQuestions, toggleQuestion, removeQuestion, clearSelection, isSelected, updateQuestionPoints }}>
       {children}
     </AssignmentContext.Provider>
   );

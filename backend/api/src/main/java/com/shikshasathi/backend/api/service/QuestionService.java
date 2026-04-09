@@ -23,6 +23,14 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MongoTemplate mongoTemplate;
 
+    /**
+     * Fetch a single question by its MongoDB ID.
+     */
+    public Question getQuestionById(String id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+    }
+
     private static final int DEFAULT_OBJECTIVE_POINTS = 1;
     private static final int DEFAULT_SHORT_ANSWER_POINTS = 2;
     private static final int DEFAULT_LONG_ANSWER_POINTS = 5;

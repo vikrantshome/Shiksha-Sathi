@@ -1,31 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getStudentIdentity, students } from "@/lib/api/students";
 import { fetchApi } from "@/lib/api/client";
-import type { StudentIdentity, SubmissionDTO, Assignment } from "@/lib/api/types";
+import type { SubmissionDTO, QuestionFeedbackDTO } from "@/lib/api/types";
 
 /* ─────────────────────────────────────────────────────────
-   Student Results Page
-   Shows detailed feedback for a single submission.
+   Student Results Page — Uses AI-Graded Feedback from DB
+   Displays the feedback that was computed by AIGradingService
+   at submission time and stored in the submission entity.
    ───────────────────────────────────────────────────────── */
-
-interface QuestionFeedback {
-  questionId: string;
-  questionText: string;
-  studentAnswer: string;
-  correctAnswer: string | string[];
-  isCorrect: boolean;
-  marksAwarded: number;
-  totalMarks: number;
-}
 
 interface ResultData {
   submission: SubmissionDTO;
-  assignment: Assignment | null;
-  feedback: QuestionFeedback[];
+  feedback: QuestionFeedbackDTO[];
   score: number;
   totalMarks: number;
   scorePercent: number;
@@ -39,75 +28,47 @@ export default function StudentResultsPage({
   params: Promise<{ submissionId: string }>;
 }) {
   const router = useRouter();
-  const [identity, setIdentity] = useState<StudentIdentity | null>(null);
   const [result, setResult] = useState<ResultData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load identity synchronously on mount
+  // Load result data from backend (includes AI-graded feedback)
   useEffect(() => {
-    const existing = getStudentIdentity();
-    if (existing) {
-      setIdentity(existing);
-    } else {
-      // No identity — redirect to login
-      router.replace("/student/login");
-    }
-  }, [router]);
-
-  // Load result data when identity is available
-  useEffect(() => {
-    if (!identity) return;
-
     let cancelled = false;
 
     async function load() {
       const resolvedParams = await params;
-      if (!identity) return;
 
       setLoading(true);
       setError(null);
 
       try {
-        // Fetch all submissions for this student
-        const submissions = await fetchApi<SubmissionDTO[]>(
-          `/submissions/student/${identity!.studentId}`,
+        // Fetch submission with feedback
+        const submission = await fetchApi<SubmissionDTO>(
+          `/submissions/${resolvedParams.submissionId}`,
           { method: "GET" }
         );
 
         if (cancelled) return;
 
-        const rawSub = submissions.find((s) => s.id === resolvedParams.submissionId);
-        if (!rawSub) {
+        if (!submission) {
           setError("Submission not found.");
           setLoading(false);
           return;
         }
 
-        // Fetch assignment details
-        let assignment: Assignment | null = null;
-        try {
-          assignment = await fetchApi<Assignment>(`/assignments/${rawSub.assignmentId}`, { method: "GET" });
-        } catch {
-          // ignore — we can still show basic results
-        }
-
-        if (cancelled) return;
-
-        // Compute feedback
-        const feedback = computeFeedback(rawSub, assignment);
-        const totalMarks = assignment?.maxScore ?? assignment?.totalMarks ?? 0;
-        const scorePercent = totalMarks > 0 ? Math.round((rawSub.score / totalMarks) * 100) : 0;
+        const feedback = submission.feedback || [];
+        const totalMarks = submission.totalMarks ?? 0;
+        const scorePercent = totalMarks > 0 ? Math.round((submission.score / totalMarks) * 100) : 0;
 
         setResult({
-          submission: rawSub,
-          assignment,
+          submission,
           feedback,
-          score: rawSub.score,
+          score: submission.score,
           totalMarks,
           scorePercent,
-          studentName: rawSub.studentName || identity.studentName,
-          studentRoll: rawSub.studentRollNumber || identity.studentId,
+          studentName: submission.studentName || "Student",
+          studentRoll: submission.studentRollNumber || "N/A",
         });
       } catch (err: unknown) {
         if (cancelled) return;
@@ -124,7 +85,7 @@ export default function StudentResultsPage({
 
     load();
     return () => { cancelled = true; };
-  }, [identity, params, router]);
+  }, [params, router]);
 
   // Render loading state
   if (loading) {
@@ -169,7 +130,7 @@ export default function StudentResultsPage({
           {isGraded ? "Results" : "Submission Details"}
         </span>
         <h1 className="font-manrope text-[clamp(1.25rem,3vw,1.75rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
-          {result.assignment?.title ?? "Assignment"}
+          {result.submission.assignmentTitle ?? "Assignment Results"}
         </h1>
         <p className="text-sm text-on-surface-variant mt-2">
           Submitted on {new Date(result.submission.submittedAt).toLocaleDateString("en-IN", {
@@ -295,6 +256,16 @@ export default function StudentResultsPage({
                         <div className="font-medium text-emerald-700">
                           {f.studentAnswer}
                         </div>
+                        {f.reasoning && (
+                          <div className="mt-3 pt-3 border-t border-emerald-200">
+                            <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
+                              AI Reasoning
+                            </div>
+                            <div className="text-sm text-emerald-700 italic">
+                              {f.reasoning}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -315,6 +286,16 @@ export default function StudentResultsPage({
                               ? f.correctAnswer.join(" or ")
                               : f.correctAnswer}
                           </div>
+                        </div>
+                      </div>
+                    )}
+                    {f.reasoning && !f.isCorrect && (
+                      <div className="mt-2 p-3 rounded-sm bg-surface-container-low">
+                        <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
+                          AI Reasoning
+                        </div>
+                        <div className="text-sm text-on-surface-variant italic">
+                          {f.reasoning}
                         </div>
                       </div>
                     )}
@@ -343,29 +324,4 @@ export default function StudentResultsPage({
       </div>
     </div>
   );
-}
-
-/* ── Helpers ── */
-
-function computeFeedback(submission: SubmissionDTO, assignment: Assignment | null): QuestionFeedback[] {
-  if (!assignment) return [];
-
-  return assignment.questionIds.map((qId) => {
-    const studentAnswer = stringifyAnswer(submission.answers?.[qId]);
-    return {
-      questionId: qId,
-      questionText: `Question`,
-      studentAnswer,
-      correctAnswer: "",
-      isCorrect: false,
-      marksAwarded: 0,
-      totalMarks: 0,
-    };
-  });
-}
-
-function stringifyAnswer(answer: unknown): string {
-  if (answer == null) return "";
-  if (Array.isArray(answer)) return answer.join(", ");
-  return String(answer);
 }

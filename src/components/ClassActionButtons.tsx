@@ -7,6 +7,7 @@ interface ClassActionButtonsProps {
   archiveAction?: () => Promise<void>;
   deleteAction: () => Promise<void>;
   attendanceHref?: string;
+  enrollHref?: string;
   className: string;
 }
 
@@ -14,6 +15,7 @@ export default function ClassActionButtons({
   archiveAction,
   deleteAction,
   attendanceHref,
+  enrollHref,
   className,
 }: ClassActionButtonsProps) {
   const confirmArchive = (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +40,15 @@ export default function ClassActionButtons({
 
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {enrollHref && (
+        <Link
+          href={enrollHref}
+          className="btn-ghost bg-surface-container-high text-primary"
+        >
+          Enroll Students
+        </Link>
+      )}
+
       {attendanceHref && (
         <Link
           href={attendanceHref}
