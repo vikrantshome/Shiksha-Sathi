@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchApi } from "@/lib/api/client";
 import type { SubmissionDTO, QuestionFeedbackDTO } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    Student Results Page — Uses AI-Graded Feedback from DB
@@ -91,7 +92,7 @@ export default function StudentResultsPage({
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <p className="text-sm text-on-surface-variant">Loading your results...</p>
+        <Loader size="lg" label="Loading your results..." />
       </div>
     );
   }

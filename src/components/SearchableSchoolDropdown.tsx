@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { schools } from "@/lib/api/schools";
 import type { School } from "@/lib/api/schools";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    SearchableSchoolDropdown — M3 Autocomplete School Picker
@@ -189,8 +190,8 @@ export default function SearchableSchoolDropdown({
           style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)" }}
         >
           {isLoading && (
-            <div className="px-4 py-3 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
-              Searching...
+            <div className="px-4 py-4 text-sm flex items-center gap-3">
+              <Loader size="sm" label="Searching..." />
             </div>
           )}
 

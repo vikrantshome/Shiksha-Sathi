@@ -5,6 +5,7 @@ import { useState, useTransition } from "react";
 import { useAssignment } from "@/components/AssignmentContext";
 import { api } from "@/lib/api";
 import { trackEvent } from "@/lib/analytics";
+import Loader from "@/components/Loader";
 
 interface ClassType {
   id: string;
@@ -466,7 +467,11 @@ export default function CreateAssignmentForm({
             disabled={isPending}
             className="mt-6 w-full rounded-xl border-none bg-gradient-to-br from-primary to-primary-dim px-5 py-4 font-extrabold tracking-[0.04em] uppercase text-on-primary shadow-[0_8px_18px_rgba(48,51,47,0.10)] disabled:cursor-wait disabled:opacity-75 cursor-pointer"
           >
-            {isPending ? "Publishing…" : "Finalize & Publish"}
+            {isPending ? (
+              <Loader size="sm" color="currentColor" label="Publishing…" />
+            ) : (
+              "Finalize & Publish"
+            )}
           </button>
 
           <p className="mt-4 mb-0 text-[0.8125rem] leading-[1.7] text-on-surface-variant">

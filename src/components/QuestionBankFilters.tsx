@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    Question Bank Taxonomy Filters — Stitch-Directed
@@ -170,8 +171,8 @@ export default function QuestionBankFilters({
     <div className="flex flex-col gap-3">
       {/* Loading indicator */}
       {isPending && (
-        <div className="px-4 py-2 text-xs font-medium text-primary">
-          Loading…
+        <div className="px-4 py-2">
+          <Loader size="sm" label="Applying filters..." />
         </div>
       )}
 
@@ -600,7 +601,9 @@ export function QuestionBankSearch() {
 
         {/* Loading */}
         {isPending && (
-          <span className="text-xs font-medium text-primary">Loading…</span>
+          <div className="flex items-center gap-2">
+            <Loader size="sm" label="Loading…" />
+          </div>
         )}
       </div>
     </div>

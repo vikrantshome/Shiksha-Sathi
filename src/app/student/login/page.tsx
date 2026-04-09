@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import AuthShell from "@/components/AuthShell";
+import Loader from "@/components/Loader";
 
 export default function StudentLoginPage() {
   const router = useRouter();
@@ -114,7 +115,11 @@ export default function StudentLoginPage() {
           disabled={isPending}
           className="w-full rounded-lg bg-gradient-to-br from-primary to-primary-dim px-6 py-4 text-sm font-bold tracking-wider text-on-primary uppercase shadow-md transition-all ease-out hover:-translate-y-px hover:opacity-95 active:scale-95 disabled:cursor-wait disabled:opacity-75 disabled:hover:translate-y-0 disabled:active:scale-100"
         >
-          {isPending ? "Signing In…" : "Sign In"}
+          {isPending ? (
+            <Loader size="sm" color="currentColor" label="Signing In…" />
+          ) : (
+            "Sign In"
+          )}
         </button>
       </form>
     </AuthShell>
