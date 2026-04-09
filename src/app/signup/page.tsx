@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import { saveStudentIdentity } from "@/lib/api/students";
+import { trackEvent } from "@/lib/analytics";
 import AuthShell from "@/components/AuthShell";
 import AuthSessionGuard from "@/components/AuthSessionGuard";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
@@ -67,6 +68,9 @@ export default function SignupPage() {
         phone: phone.replace(/\D/g, ""),
         password,
         school,
+        rollNumber: role === "STUDENT" ? rollNumber : undefined,
+        studentClass: role === "STUDENT" ? studentClass : undefined,
+        section: role === "STUDENT" ? section : undefined,
         role,
       });
 
@@ -75,6 +79,7 @@ export default function SignupPage() {
         path: "/",
       });
 
+      trackEvent("user_signed_up", { role, school });
       if (role === "STUDENT") {
         saveStudentIdentity({
           studentId: rollNumber,

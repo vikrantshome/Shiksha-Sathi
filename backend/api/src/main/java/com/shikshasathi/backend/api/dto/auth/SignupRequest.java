@@ -21,5 +21,10 @@ public class SignupRequest {
     @NotBlank(message = "School is required")
     private String school; // School/Institute name (required)
 
+    // Student-specific fields (required when role = STUDENT)
+    private String rollNumber;
+    private String studentClass; // Class/Grade (e.g., "8")
+    private String section;      // Section/Division (e.g., "A")
+
     private Role role;
 }

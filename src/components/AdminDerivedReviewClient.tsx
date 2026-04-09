@@ -101,6 +101,17 @@ export default function AdminDerivedReviewClient({
     }
   };
 
+  const handleUnpublish = async (id: string) => {
+    if (!window.confirm("Are you sure? This will hide this question from teachers.")) return;
+    try {
+      await api.questions.unpublish([id]);
+      setQuestions(prev => prev.filter(q => q.id !== id));
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     setQuestions(initialQuestions);
   }, [initialQuestions]);
@@ -224,13 +235,13 @@ export default function AdminDerivedReviewClient({
                 
                 {initialStatus === "DRAFT" && (
                   <div className="absolute top-4 right-4 flex space-x-2">
-                    <button 
+                    <button
                       onClick={() => handleReject(q.id)}
                       className="px-3 py-1 bg-red-100 text-red-700 rounded text-sm font-medium hover:bg-red-200"
                     >
                       Reject
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleApprove(q.id)}
                       className="px-3 py-1 bg-green-100 text-green-700 rounded text-sm font-medium hover:bg-green-200"
                     >
@@ -238,7 +249,17 @@ export default function AdminDerivedReviewClient({
                     </button>
                   </div>
                 )}
-                
+
+                {initialStatus === "PUBLISHED" && (
+                  <div className="absolute top-4 right-4 flex space-x-2">
+                    <button
+                      onClick={() => handleUnpublish(q.id)}
+                      className="px-3 py-1 bg-orange-100 text-orange-800 rounded text-sm font-medium hover:bg-orange-200"
+                    >
+                      Unpublish
+                    </button>
+                  </div>
+                )}                
                 <div className="mt-2 text-xs text-gray-500 flex gap-4">
                   <span><strong>Run ID:</strong> {q.generationRunId || "N/A"}</span>
                   <span><strong>Source:</strong> {q.sourceCanonicalQuestionIds?.join(", ") || "N/A"}</span>
