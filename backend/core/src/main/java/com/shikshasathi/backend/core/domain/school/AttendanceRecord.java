@@ -23,9 +23,27 @@ public class AttendanceRecord extends BaseEntity {
     @Field("student_id")
     private String studentId;
 
+    /**
+     * Date stored as ISO string "YYYY-MM-DD" in IST timezone.
+     * Use getLocalDate() / setDate(LocalDate) for type-safe access.
+     */
     @Field("date")
-    private LocalDate date;
+    private String date;
 
     @Field("status") // PRESENT, ABSENT, LATE, EXCUSED
     private String status;
+
+    /**
+     * Get date as LocalDate for type-safe operations.
+     */
+    public LocalDate getLocalDate() {
+        return date != null ? LocalDate.parse(date) : null;
+    }
+
+    /**
+     * Set date from LocalDate, stored as ISO string.
+     */
+    public void setDate(LocalDate localDate) {
+        this.date = localDate != null ? localDate.toString() : null;
+    }
 }

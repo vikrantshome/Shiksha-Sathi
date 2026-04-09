@@ -100,6 +100,17 @@ export default function AttendancePage() {
     }
   };
 
+  const handleBulkAttendance = async (status: AttendanceStatus) => {
+    try {
+      await api.classes.markBulkAttendance(id, date, status);
+      const next: Record<string, string> = {};
+      students.forEach(s => { next[s.id] = status; });
+      setAttendance(next);
+    } catch (error) {
+      console.error("Failed to mark bulk attendance:", error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-96 flex items-center justify-center flex-col gap-4">
@@ -137,20 +148,28 @@ export default function AttendancePage() {
             </p>
           </div>
 
-          <div className="bg-surface-container-lowest rounded-lg p-3 md:p-4 shadow-sm">
-            <label
-              htmlFor="attendance-date"
-              className="block text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant mb-2"
+          <div className="flex flex-col gap-3">
+            <div className="bg-surface-container-lowest rounded-lg p-3 md:p-4 shadow-sm">
+              <label
+                htmlFor="attendance-date"
+                className="block text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant mb-2"
+              >
+                Register Date
+              </label>
+              <input
+                id="attendance-date"
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full bg-surface-container-low border-0 border-b border-outline-variant py-2 text-[0.9375rem] text-on-surface outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <Link
+              href={`/teacher/classes/${id}/attendance/history`}
+              className="text-center text-xs font-medium text-primary hover:text-primary-dim no-underline"
             >
-              Register Date
-            </label>
-            <input
-              id="attendance-date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-surface-container-low border-0 border-b border-outline-variant py-2 text-[0.9375rem] text-on-surface outline-none focus:border-primary transition-colors"
-            />
+              View History →
+            </Link>
           </div>
         </div>
       </div>
