@@ -30,8 +30,8 @@ public class AIGradingProperties {
     /** URL of the primary API endpoint (NVIDIA API). */
     private String endpointUrl = "https://integrate.api.nvidia.com/v1/chat/completions";
 
-    /** URL of the HF Space grading endpoint (fallback). */
-    private String hfSpaceUrl = "https://ainaviksha-naviksha-ai-agent.hf.space/grade";
+    /** URL of the HF Space grading endpoint (fallback). Disabled — Naviksha AI agent (Qwen3.5-2B) has low accuracy. */
+    private String hfSpaceUrl;
 
     /** HTTP timeout in milliseconds for the grading request. */
     private long timeoutMs = 30000;
@@ -39,6 +39,6 @@ public class AIGradingProperties {
     /** Temperature for the AI model (lower = more deterministic). */
     private double temperature = 0.1;
 
-    /** Whether to fall back to string matching when AI grading fails. Default false — string matching gives incorrect results for subjective questions. */
+    /** Whether to fall back to string matching when AI grading fails. Default false. */
     private boolean fallbackToStringMatch = false;
 }

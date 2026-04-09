@@ -1,5 +1,7 @@
 package com.shikshasathi.backend.api.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shikshasathi.backend.api.exception.DuplicateSubmissionException;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
@@ -14,6 +16,7 @@ import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSub
 import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
@@ -25,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AssignmentSubmissionService {
@@ -42,6 +46,7 @@ public class AssignmentSubmissionService {
     private final QuestionRepository questionRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
     private final AIGradingService aiGradingService;
+    private final ObjectMapper objectMapper;
 
     public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
@@ -97,6 +102,40 @@ public class AssignmentSubmissionService {
                 .build();
     }
 
+    /**
+     * Get a single submission with full AI-graded feedback for results display.
+     */
+    public SubmissionDTO getSubmissionWithFeedback(String submissionId) {
+        AssignmentSubmission submission = submissionRepository.findById(submissionId)
+                .orElseThrow(() -> new RuntimeException("Submission not found"));
+
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        String feedbackJson = submission.getFeedbackJson();
+        if (feedbackJson != null && !feedbackJson.isBlank()) {
+            try {
+                feedback = objectMapper.readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {});
+            } catch (Exception e) {
+                log.warn("Failed to deserialize feedback JSON for submission {}: {}", submissionId, e.getMessage());
+            }
+        }
+
+        // Build DTO with feedback
+        SubmissionDTO dto = mapToDTO(submission);
+        dto.setFeedback(feedback);
+
+        // Fetch totalMarks from assignment
+        try {
+            Assignment assignment = assignmentRepository.findById(submission.getAssignmentId()).orElse(null);
+            if (assignment != null) {
+                dto.setTotalMarks(assignment.getMaxScore());
+            }
+        } catch (Exception e) {
+            log.warn("Failed to fetch assignment for submission {}: {}", submissionId, e.getMessage());
+        }
+
+        return dto;
+    }
+
     // Includes Duplicate Submission Prevention Logic (SSA-127)
     public SubmitAssignmentResponseDTO submitAssignment(AssignmentSubmission submission) {
         if (submissionRepository.findByAssignmentIdAndStudentId(submission.getAssignmentId(), submission.getStudentId()).isPresent()) {
@@ -148,6 +187,14 @@ public class AssignmentSubmissionService {
         submission.setStudentRollNumber(firstNonBlank(submission.getStudentRollNumber(), submission.getStudentId()));
         submission.setScore(score);
         submission.setStatus(hasAIFailure ? "PARTIALLY_GRADED" : "GRADED");
+
+        // Persist AI-graded feedback as JSON for results page display
+        try {
+            submission.setFeedbackJson(objectMapper.writeValueAsString(feedback));
+        } catch (Exception e) {
+            log.warn("Failed to serialize feedback JSON for submission: {}", e.getMessage());
+        }
+
         AssignmentSubmission saved = submissionRepository.save(submission);
         eventPublisher.publishEvent(new NotificationEvent(this, submission.getStudentId(), "Assignment submitted successfully!"));
 

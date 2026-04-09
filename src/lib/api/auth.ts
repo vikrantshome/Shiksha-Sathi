@@ -12,7 +12,11 @@ export interface SignupRequest {
   email?: string;
   phone: string;
   password?: string;
-  school: string; // School/Institute name (required)
+  school: string;
+  // Student-specific fields
+  rollNumber?: string;
+  studentClass?: string;
+  section?: string;
   role: Role;
 }
 

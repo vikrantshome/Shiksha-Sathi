@@ -45,12 +45,11 @@ public class AssignmentService {
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
     }
 
-    public AssignmentReportDTO getAssignmentReport(String assignmentId, String teacherEmail) {
+    public AssignmentReportDTO getAssignmentReport(String assignmentId, String loginIdentity) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
-                
-        User teacher = userRepository.findByEmail(teacherEmail)
-                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+        User teacher = resolveTeacher(loginIdentity);
 
         if (!teacher.getId().equals(assignment.getTeacherId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized to view this assignment's report");
@@ -270,17 +269,25 @@ public class AssignmentService {
                 .build();
     }
 
-    public List<Assignment> getAssignmentsByTeacher(String teacherId, String email) {
-        User teacher = userRepository.findByEmail(email).orElse(null);
-        if (teacher == null || !teacher.getId().equals(teacherId)) {
+    public List<Assignment> getAssignmentsByTeacher(String teacherId, String loginIdentity) {
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(teacherId)) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
         return assignmentRepository.findByTeacherId(teacherId);
     }
 
-    public Assignment createAssignment(Assignment assignment, String teacherEmail) {
-        User teacher = userRepository.findByEmail(teacherEmail)
+    /**
+     * Resolve teacher from JWT subject (could be email or phone).
+     */
+    private User resolveTeacher(String loginIdentity) {
+        return userRepository.findByEmail(loginIdentity)
+            .or(() -> userRepository.findByPhone(loginIdentity))
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
+    }
+
+    public Assignment createAssignment(Assignment assignment, String loginIdentity) {
+        User teacher = resolveTeacher(loginIdentity);
 
         if (assignment.getQuestionIds() == null || assignment.getQuestionIds().isEmpty()) {
             throw new IllegalArgumentException("Assignment must have at least one question.");
@@ -317,12 +324,11 @@ public class AssignmentService {
         return "A" + System.currentTimeMillis() % 100000;
     }
 
-    public Assignment publishAssignment(String assignmentId, String teacherEmail) {
+    public Assignment publishAssignment(String assignmentId, String loginIdentity) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
-                
-        User teacher = userRepository.findByEmail(teacherEmail)
-            .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+        User teacher = resolveTeacher(loginIdentity);
             
         if (!teacher.getId().equals(assignment.getTeacherId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized to publish this assignment");

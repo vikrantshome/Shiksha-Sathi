@@ -71,6 +71,7 @@ public class AIGradingService {
 
     /**
      * Called when AI grading fails. Defaults to marking the question as pending review.
+     * Naviksha AI agent (Qwen3.5-2B) fallback is DISABLED — low accuracy model.
      * If explicitly configured, falls back to string matching.
      */
     private QuestionFeedbackDTO handleAIFailure(Question question, String expectedAnswer,
@@ -84,18 +85,12 @@ public class AIGradingService {
     }
 
     /**
-     * Call the AI grading agent. Supports NVIDIA API and HF Space.
+     * Call the AI grading agent via NVIDIA API only.
+     * Naviksha AI agent (HF Space) fallback is disabled.
      */
     private AIGradingResponse callAIGradingAgent(String questionText, String expectedAnswer,
                                                   String studentAnswer, int maxMarks) {
-        String provider = aiGradingProperties.getProvider();
-
-        if ("nvidia".equalsIgnoreCase(provider)) {
-            return callNvidiaApi(questionText, expectedAnswer, studentAnswer, maxMarks);
-        } else {
-            // Default to HF Space
-            return callHfSpace(questionText, expectedAnswer, studentAnswer, maxMarks);
-        }
+        return callNvidiaApi(questionText, expectedAnswer, studentAnswer, maxMarks);
     }
 
     /**
@@ -140,7 +135,7 @@ public class AIGradingService {
                 if (attempt > 1) {
                     log.info("NVIDIA API succeeded on attempt {}", attempt);
                 }
-                return parseNvidiaResponse(response.getBody());
+                return parseJsonContent(response.getBody());
 
             } catch (HttpServerErrorException e) {
                 // 5xx errors — retryable
@@ -174,37 +169,6 @@ public class AIGradingService {
         }
 
         throw new RuntimeException("NVIDIA API failed after " + MAX_RETRIES + " attempts", lastException);
-    }
-
-    /**
-     * Call HF Space grading endpoint (fallback).
-     */
-    private AIGradingResponse callHfSpace(String questionText, String expectedAnswer,
-                                           String studentAnswer, int maxMarks) {
-        Map<String, Object> requestBody = new LinkedHashMap<>();
-        requestBody.put("question", questionText);
-        requestBody.put("expected_answer", expectedAnswer);
-        requestBody.put("student_answer", studentAnswer);
-        requestBody.put("max_marks", maxMarks);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
-
-        log.info("Calling HF Space: {}", aiGradingProperties.getHfSpaceUrl());
-
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                aiGradingProperties.getHfSpaceUrl(), entity, String.class);
-
-        if (response.getBody() == null) {
-            throw new IllegalStateException("HF Space returned empty body");
-        }
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new IllegalStateException("HF Space returned " + response.getStatusCode());
-        }
-
-        return parseAIGradingResponse(response.getBody());
     }
 
     // --- Prompt Building ---
@@ -247,45 +211,7 @@ public class AIGradingService {
     // --- Response Parsing ---
 
     /**
-     * Parse NVIDIA API response (OpenAI-compatible format).
-     * Kimi K2 Thinking returns response in "reasoning" field instead of "content".
-     */
-    private AIGradingResponse parseNvidiaResponse(String rawResponse) {
-        try {
-            JsonNode root = objectMapper.readTree(rawResponse);
-            JsonNode choices = root.get("choices");
-            if (choices == null || !choices.isArray() || choices.isEmpty()) {
-                throw new IllegalStateException("NVIDIA API returned no choices: " + rawResponse);
-            }
-            JsonNode message = choices.get(0).get("message");
-
-            // Kimi K2 Thinking returns content in "reasoning" field
-            JsonNode contentNode = message.get("content");
-            String content = (contentNode != null && !contentNode.isNull())
-                    ? contentNode.asText()
-                    : message.get("reasoning").asText("");
-
-            if (content.isEmpty()) {
-                throw new IllegalStateException("NVIDIA API returned empty content: " + rawResponse);
-            }
-
-            log.info("NVIDIA API raw response: {}", content.length() > 500 ? content.substring(0, 500) : content);
-            return parseJsonContent(content);
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to parse NVIDIA API response: " + e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Parse HF Space response.
-     */
-    private AIGradingResponse parseAIGradingResponse(String rawResponse) {
-        String jsonContent = extractJsonFromResponse(rawResponse);
-        return parseJsonContentDirect(jsonContent);
-    }
-
-    /**
-     * Parse JSON content from the model response.
+     * Parse JSON content from the NVIDIA model response.
      */
     private AIGradingResponse parseJsonContent(String text) {
         String jsonStr = extractJsonFromResponse(text);

@@ -50,4 +50,7 @@ public class AssignmentSubmission extends BaseEntity {
 
     @Field("status") // SUBMITTED, GRADED
     private String status;
+
+    @Field("feedback") // AI-graded feedback per question (JSON stored as string for MongoDB compatibility)
+    private String feedbackJson;
 }
