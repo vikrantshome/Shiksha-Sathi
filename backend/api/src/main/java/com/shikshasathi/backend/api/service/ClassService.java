@@ -56,8 +56,9 @@ public class ClassService {
         return classRepository.save(entity);
     }
 
-    public ClassEntity getClassById(String id, String email) {
-        User teacher = userRepository.findByEmail(email)
+    public ClassEntity getClassById(String id, String loginIdentity) {
+        User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> userRepository.findByPhone(loginIdentity))
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
         ClassEntity classEntity = classRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found"));
@@ -68,28 +69,29 @@ public class ClassService {
         return classEntity;
     }
 
-    public List<User> getStudentsInClass(String classId, String email) {
-        ClassEntity entity = getClassById(classId, email);
+    public List<User> getStudentsInClass(String classId, String loginIdentity) {
+        ClassEntity entity = getClassById(classId, loginIdentity);
         if (entity.getStudentIds() == null || entity.getStudentIds().isEmpty()) {
             return new ArrayList<>();
         }
         return userRepository.findAllById(entity.getStudentIds());
     }
 
-    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date, String email) {
-        getClassById(classId, email);
-        return attendanceRepository.findByClassIdAndDate(classId, date);
+    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date, String loginIdentity) {
+        getClassById(classId, loginIdentity);
+        return attendanceRepository.findByClassIdAndDate(classId, date.toString());
     }
 
-    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status, String email) {
-        getClassById(classId, email);
+    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status, String loginIdentity) {
+        getClassById(classId, loginIdentity);
+        String dateStr = date.toString();
 
-        AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, date)
+        AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, dateStr)
                 .orElse(new AttendanceRecord());
 
         record.setClassId(classId);
         record.setStudentId(studentId);
-        record.setDate(date);
+        record.setDate(LocalDate.parse(dateStr));
         record.setStatus(status);
 
         return attendanceRepository.save(record);
@@ -126,13 +128,14 @@ public class ClassService {
             return new ArrayList<>();
         }
 
+        String dateStr = date.toString();
         List<AttendanceRecord> records = new ArrayList<>();
         for (String studentId : entity.getStudentIds()) {
-            AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, date)
+            AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, dateStr)
                     .orElse(new AttendanceRecord());
             record.setClassId(classId);
             record.setStudentId(studentId);
-            record.setDate(date);
+            record.setDate(LocalDate.parse(dateStr));
             record.setStatus(status);
             records.add(attendanceRepository.save(record));
         }
@@ -141,10 +144,10 @@ public class ClassService {
 
     public List<AttendanceRecord> getAttendanceHistory(String classId, LocalDate startDate, LocalDate endDate, String loginIdentity) {
         getClassById(classId, loginIdentity);
-        return attendanceRepository.findByClassIdAndDateBetween(classId, startDate, endDate);
+        return attendanceRepository.findByClassIdAndDateBetween(classId, startDate.toString(), endDate.toString());
     }
 
     public List<AttendanceRecord> getStudentAttendance(String studentId, LocalDate startDate, LocalDate endDate) {
-        return attendanceRepository.findByStudentIdAndDateBetween(studentId, startDate, endDate);
+        return attendanceRepository.findByStudentIdAndDateBetween(studentId, startDate.toString(), endDate.toString());
     }
 }

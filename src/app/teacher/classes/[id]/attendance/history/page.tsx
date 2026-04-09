@@ -185,7 +185,7 @@ export default function AttendanceHistoryPage() {
                 </th>
                 {dates.map(date => (
                   <th key={date} className="p-3 text-center text-[0.6875rem] text-on-surface-variant font-bold bg-surface-container-low whitespace-nowrap">
-                    {new Date(date + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                    {new Date(date + "T00:00:00+05:30").toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" })}
                   </th>
                 ))}
               </tr>
