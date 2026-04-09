@@ -9,6 +9,7 @@ import {
 } from "@/lib/api/students";
 import type { StudentDashboardStats, StudentIdentity } from "@/lib/api/types";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
+import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
    Student Dashboard
@@ -420,8 +421,8 @@ export default function StudentDashboardPage() {
         </div>
 
         {!stats || loading ? (
-          <div className="rounded-md p-8 text-center" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
-            <p className="text-sm" style={{ color: "var(--color-on-surface-variant)" }}>Loading...</p>
+          <div className="rounded-md p-8 flex justify-center text-center" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
+            <Loader size="md" label="Loading..." />
           </div>
         ) : stats.recentSubmissions.length === 0 ? (
           <EmptyState />

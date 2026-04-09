@@ -9,6 +9,7 @@ import { trackEvent } from "@/lib/analytics";
 import AuthShell from "@/components/AuthShell";
 import AuthSessionGuard from "@/components/AuthSessionGuard";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
+import Loader from "@/components/Loader";
 
 type Role = "TEACHER" | "STUDENT";
 
@@ -300,7 +301,11 @@ export default function SignupPage() {
           disabled={isPending}
           className="w-full mt-4 py-4 px-6 bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold text-sm tracking-wide rounded-lg shadow-md hover:shadow-xl active:scale-[0.98] transition-all duration-300 uppercase disabled:opacity-75 disabled:pointer-events-none"
         >
-          {isPending ? "Creating Account…" : `Create ${role === "TEACHER" ? "Teacher" : "Student"} Account`}
+          {isPending ? (
+            <Loader size="sm" color="currentColor" label="Creating Account…" />
+          ) : (
+            `Create ${role === "TEACHER" ? "Teacher" : "Student"} Account`
+          )}
         </button>
       </form>
     </AuthShell>
