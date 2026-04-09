@@ -35,9 +35,12 @@ public class AssignmentSubmissionService {
 
     private static final Pattern PARENTHETICAL_OR_PATTERN = Pattern.compile("^(.+?)\\s*\\((?:or\\s+)?(.+?)\\)$", Pattern.CASE_INSENSITIVE);
 
-    /** Question types that require AI-based conceptual grading. */
+    /** Question types that require AI-based conceptual grading.
+     * FILL_IN_BLANKS removed — uses exact matching (case-insensitive, normalized).
+     * Only SHORT_ANSWER and ESSAY need conceptual AI evaluation.
+     */
     private static final java.util.Set<String> AI_GRADED_TYPES = java.util.Set.of(
-            "SHORT_ANSWER", "FILL_IN_BLANKS", "ESSAY"
+            "SHORT_ANSWER", "ESSAY"
     );
 
     private final AssignmentSubmissionRepository submissionRepository;
