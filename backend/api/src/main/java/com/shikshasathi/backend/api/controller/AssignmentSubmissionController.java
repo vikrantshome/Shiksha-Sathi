@@ -27,6 +27,14 @@ public class AssignmentSubmissionController {
         return ResponseEntity.ok(submissionService.getSubmissionsForStudent(studentId));
     }
 
+    /**
+     * Get a single submission with full AI-graded feedback for results display.
+     */
+    @GetMapping("/{submissionId}")
+    public ResponseEntity<SubmissionDTO> getById(@PathVariable String submissionId) {
+        return ResponseEntity.ok(submissionService.getSubmissionWithFeedback(submissionId));
+    }
+
     @PostMapping
     public ResponseEntity<SubmitAssignmentResponseDTO> submitAssignment(@RequestBody com.shikshasathi.backend.core.domain.learning.AssignmentSubmission submission) {
         return ResponseEntity.ok(submissionService.submitAssignment(submission));

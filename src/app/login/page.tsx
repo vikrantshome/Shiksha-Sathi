@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
+import { setCookie } from "cookies-next";
 import AuthShell from "@/components/AuthShell";
-import AuthSessionGuard from "@/components/AuthSessionGuard";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -72,8 +72,6 @@ export default function LoginPage() {
         </>
       }
     >
-      <AuthSessionGuard />
-
       {error ? (
         <div className="mb-6 rounded-md bg-error/10 p-4 text-sm text-error">
           {error}

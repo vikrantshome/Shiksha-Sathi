@@ -39,6 +39,20 @@ public class User extends BaseEntity {
     @Field("roll_number")
     private String rollNumber;
 
+    @Field("student_class")
+    private String studentClass; // Class/Grade (e.g., "8")
+
+    @Field("section")
+    private String section;      // Section/Division (e.g., "A")
+
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
+    }
+
+    public String getStudentClass() {
+        return studentClass;
+    }
+
     @Field("is_active")
     private boolean active = true;
 

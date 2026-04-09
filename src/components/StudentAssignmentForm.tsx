@@ -2,19 +2,13 @@
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { api } from "@/lib/api";
-import { saveStudentIdentity, getStudentIdentity } from "@/lib/api/students";
-import type { AssignmentByLinkResponse, SubmitAssignmentResponse, StudentIdentity } from "@/lib/api/types";
-import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
+import { trackEvent } from "@/lib/analytics";
+import type { AssignmentByLinkResponse, SubmitAssignmentResponse, User } from "@/lib/api/types";
 
 /* ─────────────────────────────────────────────────────────
-   Student Assignment Form — Stitch-Directed Redesign
-   Design Source:
-     - identity_entry/code.html  → Identity stage
-     - assignment_taking/code.html → Assessment stage
-     - results/code.html → Results stage
-   All three views implement Digital Atelier tokens.
-
-   Phase: "answer_questions" design alignment.
+   Student Assignment Form — Authenticated Users Only
+   Students must be logged in to access assignments.
+   Identity is fetched from the authenticated user profile.
    ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentFormProps {
@@ -26,42 +20,38 @@ export default function StudentAssignmentForm({
   assignment,
   onProgressChange,
 }: StudentAssignmentFormProps) {
-  // Check localStorage for existing identity on mount
-  const existingIdentity = getStudentIdentity();
-  const existingStudentId = existingIdentity?.studentId || null;
-  const [identity, setIdentity] = useState<{
-    name: string;
-    rollNumber: string;
-    school?: string;
-    studentClass?: string;
-    section?: string;
-  } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<SubmitAssignmentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [existingSubmission, setExistingSubmission] = useState<SubmitAssignmentResponse | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Sync identity from localStorage after mount (prevents hydration mismatch)
+  // Fetch authenticated user profile
   useEffect(() => {
-    setMounted(true);
-    if (existingStudentId && existingIdentity) {
-      setIdentity({ name: existingIdentity.studentName, rollNumber: existingStudentId });
+    let cancelled = false;
+    async function loadUser() {
+      try {
+        const userData = await api.auth.getMe();
+        if (!cancelled) setUser(userData);
+      } catch {
+        if (!cancelled) setError("Failed to load your profile. Please log in again.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existingStudentId]);
+    loadUser();
+    return () => { cancelled = true; };
+  }, []);
 
-  // Check for existing submission on mount
-  const [hasCheckedSubmission, setHasCheckedSubmission] = useState(false);
-
+  // Check for existing submission
   useEffect(() => {
-    if (!existingStudentId) return;
-    const sid = existingStudentId;
+    if (!user) return;
     let cancelled = false;
     async function check() {
       try {
-        const submissions = await api.students.getSubmissions(sid);
+        const submissions = await api.students.getSubmissions(user!.rollNumber || user!.id);
         const existing = submissions.find((s) => s.assignmentId === assignment.id);
         if (existing && !cancelled) {
           setExistingSubmission({
@@ -72,15 +62,12 @@ export default function StudentAssignmentForm({
           });
         }
       } catch {
-        // Silently ignore — no existing submission
-      } finally {
-        if (!cancelled) setHasCheckedSubmission(true);
+        // Silently ignore
       }
     }
     check();
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existingStudentId, assignment.id]);
+  }, [user, assignment.id]);
 
   // Notify parent of progress changes
   const prevCountRef = useRef(0);
@@ -92,53 +79,30 @@ export default function StudentAssignmentForm({
     }
   }, [answers, onProgressChange]);
 
-  const handleIdentitySubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const rollNumber = formData.get("rollNumber") as string;
-    const school = formData.get("school") as string;
-    const studentClass = formData.get("studentClass") as string;
-    const section = formData.get("section") as string;
-    const identityData = { name, rollNumber, school, studentClass, section };
-    setIdentity(identityData);
-
-    // Persist identity for dashboard access
-    const studentIdentity: StudentIdentity = {
-      studentId: rollNumber,
-      studentName: name,
-      school,
-      class: studentClass,
-      section,
-      storedAt: new Date().toISOString(),
-    };
-    saveStudentIdentity(studentIdentity);
-
-    setError(null);
-  };
-
-  // Controlled state for school dropdown
-  const [studentSchool, setStudentSchool] = useState("");
-
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
   const handleSubmitAssignment = () => {
-    if (!identity) return;
+    if (!user) return;
 
     setError(null);
     startTransition(async () => {
       try {
         const res = await api.assignments.submitAssignment(
           assignment.id,
-          identity.name,
-          identity.rollNumber,
-          identity.school || "",
-          identity.studentClass || "",
-          identity.section || "",
+          user.name,
+          user.rollNumber || user.id,
+          user.school || "",
+          user.studentClass || "",
+          user.section || "",
           answers
         );
+        trackEvent("assignment_submitted", {
+          assignmentId: assignment.id,
+          studentId: user.rollNumber || user.id,
+          totalQuestions: Object.keys(answers).length,
+        });
         setResult(res);
       } catch (err: unknown) {
         setError(
@@ -152,10 +116,19 @@ export default function StudentAssignmentForm({
 
   const totalQuestions = assignment.questions.length;
 
+  /* ── Loading State ── */
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-on-surface-variant">Loading assignment...</p>
+      </div>
+    );
+  }
+
   /* ════════════════════════════════════════════════════════
      ALREADY SUBMITTED — show results link
      ════════════════════════════════════════════════════════ */
-  if (mounted && hasCheckedSubmission && existingSubmission) {
+  if (existingSubmission) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
         <div className="w-16 h-16 rounded-full bg-primary-container/30 flex items-center justify-center mb-6 text-primary">
@@ -183,8 +156,7 @@ export default function StudentAssignmentForm({
   }
 
   /* ════════════════════════════════════════════════════════
-     STAGE 3: Results View — Stitch "results" direction
-     Digital Atelier design tokens via Tailwind CSS
+     STAGE 3: Results View
      ════════════════════════════════════════════════════════ */
   if (result) {
     const scorePercent = result.totalMarks > 0
@@ -208,9 +180,8 @@ export default function StudentAssignmentForm({
           </h1>
         </div>
 
-        {/* Score Display — Bento Grid */}
+        {/* Score Display */}
         <div className="grid grid-cols-1 gap-4 mb-10 md:grid-cols-12 md:gap-6 md:mb-14">
-          {/* Main Score Card */}
           <div className="relative flex flex-col items-center justify-center p-6 overflow-hidden rounded-lg md:col-span-8 bg-surface-container-lowest md:p-10">
             <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
             <span className="mb-4 text-xs font-bold tracking-widest uppercase font-label text-on-surface-variant">
@@ -226,316 +197,28 @@ export default function StudentAssignmentForm({
             </div>
             <p className="max-w-xs mt-6 text-sm font-medium text-center text-on-surface-variant">
               {scorePercent >= 80
-                ? `Excellent work, ${identity?.name}! You've demonstrated a strong grasp of the material.`
+                ? `Excellent work, ${user?.name}! You've demonstrated a strong grasp of the material.`
                 : scorePercent >= 50
-                ? `Good effort, ${identity?.name}. Review the feedback below to improve.`
-                : `Keep studying, ${identity?.name}. Review the detailed feedback for guidance.`}
+                ? `Good effort, ${user?.name}. Review the feedback below to improve.`
+                : `Keep studying, ${user?.name}. Review the detailed feedback for guidance.`}
             </p>
           </div>
-
-          {/* Stats Sidebar */}
-          <div className="flex flex-col gap-4 md:col-span-4 md:gap-6">
-            <div className="flex-1 p-5 rounded-lg bg-surface-container-low md:p-6">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3 text-primary">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-              </svg>
-              <div className="text-2xl font-bold font-headline text-on-surface">
-                {totalQuestions}
-              </div>
-              <div className="text-xs tracking-wider uppercase font-label text-on-surface-variant">
-                Total Questions
-              </div>
-            </div>
-            <div className="flex-1 p-5 rounded-lg bg-tertiary-container md:p-6">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
-              </svg>
-              <div className="text-2xl font-bold font-headline">
-                {scorePercent}%
-              </div>
-              <div className="text-xs tracking-wider uppercase font-label opacity-80">
-                Score Rate
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Detailed Feedback */}
-        {result.feedback && result.feedback.length > 0 && (
-          <section className="space-y-8 md:space-y-12">
-            <div className="flex items-center justify-between pb-3 border-b border-surface-container md:pb-4">
-              <h3 className="text-lg font-bold tracking-tight font-headline md:text-xl text-on-surface">
-                Detailed Feedback
-              </h3>
-              <div className="flex gap-2 md:gap-4">
-                <div className="flex items-center gap-1 text-xs font-medium md:gap-2 text-on-surface-variant">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500" /> Correct
-                </div>
-                <div className="flex items-center gap-1 text-xs font-medium md:gap-2 text-on-surface-variant">
-                  <div className="w-2 h-2 rounded-full bg-error" /> Incorrect
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-8 md:space-y-10">
-              {result.feedback.map((f, i: number) => (
-                <div key={f.questionId} className="group">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
-                    {/* Question Number */}
-                    <div className="flex items-center justify-center flex-shrink-0 text-sm font-bold rounded-sm w-7 h-7 md:w-8 md:h-8 bg-surface-container font-headline text-primary">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <div className="flex-1 space-y-3 md:space-y-4">
-                      <div className="flex items-start justify-between gap-3 md:gap-4">
-                        <h4 className="text-base font-medium leading-relaxed font-body text-on-surface">
-                          {f.questionText}
-                        </h4>
-                        <span
-                          className={`inline-flex items-center px-2 py-1 text-[0.6875rem] font-bold tracking-wider rounded-sm uppercase whitespace-nowrap ${
-                            f.isCorrect
-                              ? "bg-emerald-50 text-emerald-700"
-                              : "bg-red-50 text-error"
-                          }`}
-                        >
-                          {f.isCorrect ? `Correct (+${f.marksAwarded})` : "Incorrect"}
-                        </span>
-                      </div>
-
-                      {f.isCorrect ? (
-                        <div className="p-4 border-l-2 rounded-sm bg-surface-container-low border-emerald-500">
-                          <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
-                            Your Answer
-                          </div>
-                          <div className="font-medium text-emerald-700">
-                            {f.studentAnswer}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          <div className="p-4 border-l-2 rounded-sm bg-surface-container-low border-error">
-                            <div className="text-[0.6875rem] text-on-surface-variant font-bold tracking-widest mb-1 uppercase">
-                              Your Answer
-                            </div>
-                            <div className="font-medium line-through text-error">
-                              {f.studentAnswer}
-                            </div>
-                          </div>
-                          <div className="p-4 border-l-2 rounded-sm bg-emerald-50 border-emerald-500">
-                            <div className="text-[0.6875rem] text-emerald-700 font-bold tracking-widest mb-1 uppercase">
-                              Correct Answer
-                            </div>
-                            <div className="font-medium text-emerald-700">
-                              {Array.isArray(f.correctAnswer)
-                                ? f.correctAnswer.join(" or ")
-                                : f.correctAnswer}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Action Footer */}
-        <div className="flex flex-col items-center justify-between gap-4 pt-6 mt-10 border-t md:mt-12 lg:mt-16 md:pt-8 border-surface-container md:flex-row md:gap-6">
-          <div>
-            <div className="text-sm font-bold text-on-surface">{identity?.name}</div>
-            <div className="text-xs text-on-surface-variant">Roll No: {identity?.rollNumber}</div>
-          </div>
-          <div className="flex gap-3 md:gap-4">
-            <button
-              type="button"
-              onClick={() => window.location.reload()}
-              className="px-5 md:px-6 py-2.5 text-primary font-bold text-sm bg-primary-container/20 rounded-sm hover:bg-primary-container/40 transition-all duration-200"
-            >
-              Retake
-            </button>
-            <button
-              type="button"
-              onClick={() => (window.location.href = "/student/dashboard")}
-              className="px-6 md:px-8 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-sm shadow-sm hover:brightness-110 active:scale-[0.98] transition-all duration-200"
-            >
-              Go to Dashboard
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-    /* ════════════════════════════════════════════════════════
-     STAGE 1: Identity Entry — Stitch "identity_entry" direction
-     ════════════════════════════════════════════════════════ */
-  if (!identity) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh] md:min-h-[60vh] px-4">
-        <div className="relative w-full max-w-lg">
-          <div className="relative rounded-2xl p-6 md:p-8 lg:p-12" style={{ background: "var(--color-surface-container-lowest)" }}>
-            <div className="mb-8 text-center md:mb-10">
-              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full md:mb-6" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </div>
-              <h2 className="mb-2 text-xl font-semibold tracking-tight md:text-2xl" style={{ color: "var(--color-on-surface)" }}>
-                Enter your details to start
-              </h2>
-              <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
-                Please provide your institutional identity to begin the assessment module.
-              </p>
-            </div>
-
-            {error && (
-              <div className="mb-4 md:mb-5 p-3 text-[0.8125rem] text-center rounded-xl" style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}>
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleIdentitySubmit} className="space-y-5 md:space-y-6">
-              {/* School/Institute — Searchable Dropdown */}
-              <SearchableSchoolDropdown value={studentSchool} onChange={(v) => { setStudentSchool(v); }} />
-              {/* Hidden input to carry school value in FormData */}
-              <input type="hidden" name="school" value={studentSchool} />
-
-              {/* Class and Section Row */}
-              <div className="grid grid-cols-2 gap-4 md:gap-6">
-                <div className="relative group">
-                  <label
-                    htmlFor="student-class"
-                    className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                    style={{ color: "var(--color-on-surface-variant)" }}
-                  >
-                    Class / Grade
-                  </label>
-                  <select
-                    id="student-class"
-                    name="studentClass"
-                    required
-                    className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
-                    style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                    onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                    onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                  >
-                    <option value="">Select</option>
-                    {Array.from({ length: 12 }, (_, i) => (
-                      <option key={i + 1} value={String(i + 1)}>
-                        Class {i + 1}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="relative group">
-                  <label
-                    htmlFor="student-section"
-                    className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                    style={{ color: "var(--color-on-surface-variant)" }}
-                  >
-                    Section
-                  </label>
-                  <input
-                    id="student-section"
-                    name="section"
-                    required
-                    placeholder="e.g. A"
-                    type="text"
-                    className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                    style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                    onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                    onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                  />
-                </div>
-              </div>
-
-              {/* Name */}
-              <div className="relative group">
-                <label
-                  htmlFor="student-name"
-                  className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                >
-                  Full Name
-                </label>
-                <input
-                  id="student-name"
-                  name="name"
-                  required
-                  placeholder="e.g. Aarav Patel"
-                  type="text"
-                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                />
-              </div>
-
-              {/* Roll Number */}
-              <div className="relative group">
-                <label
-                  htmlFor="student-roll"
-                  className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                >
-                  Roll Number
-                </label>
-                <input
-                  id="student-roll"
-                  name="rollNumber"
-                  required
-                  placeholder="Enter your unique ID"
-                  type="text"
-                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                />
-              </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="w-full py-4 px-6 rounded-full font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2"
-                  style={{
-                    background: "var(--color-primary-container)",
-                    color: "var(--color-on-primary-container)",
-                  }}
-                >
-                  <span>Start Assignment</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </button>
-
-                <div className="flex items-center justify-center mt-4 space-x-3 md:mt-6 md:space-x-4 opacity-60">
-                  <div className="flex items-center space-x-1">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-on-surface-variant)" }}>
-                      Assessment
-                    </span>
-                  </div>
-                  <div className="w-1 h-1 rounded-full" style={{ background: "var(--color-outline-variant)" }} />
-                  <div className="flex items-center space-x-1">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /></svg>
-                    <span className="text-[0.6875rem] font-medium uppercase tracking-wider" style={{ color: "var(--color-on-surface-variant)" }}>
-                      {totalQuestions} Questions
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
+        <div className="flex justify-center">
+          <a
+            href="/student/dashboard"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-lg text-sm font-bold no-underline hover:brightness-110 transition-all"
+          >
+            Go to Dashboard
+          </a>
         </div>
       </div>
     );
   }
 
   /* ════════════════════════════════════════════════════════
-     STAGE 2: Assessment Taking — M3 Design
+     STAGE 2: Assessment Taking
      ════════════════════════════════════════════════════════ */
   return (
     <section className="space-y-6">
@@ -624,7 +307,7 @@ export default function StudentAssignmentForm({
         </div>
       )}
 
-      {/* M3 FAB Submit */}
+      {/* Submit */}
       <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-outline-variant)" }}>
         <p className="text-xs mb-6 flex items-center gap-2" style={{ color: "var(--color-on-surface-variant)" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-primary)" }}>
