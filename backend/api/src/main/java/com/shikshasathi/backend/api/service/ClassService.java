@@ -46,7 +46,6 @@ public class ClassService {
     }
 
     public void deleteClass(String classId, String email) {
-        // Enforce ownership
         getClassById(classId, email);
         classRepository.deleteById(classId);
     }
@@ -57,44 +56,98 @@ public class ClassService {
         return classRepository.save(entity);
     }
 
-    public ClassEntity getClassById(String id, String email) {
-        User teacher = userRepository.findByEmail(email)
+    public ClassEntity getClassById(String id, String loginIdentity) {
+        User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> userRepository.findByPhone(loginIdentity))
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
         ClassEntity classEntity = classRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found"));
-        
+
         if (classEntity.getTeacherIds() == null || !classEntity.getTeacherIds().contains(teacher.getId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized: You do not have access to this class");
         }
         return classEntity;
     }
 
-    public List<User> getStudentsInClass(String classId, String email) {
-        ClassEntity entity = getClassById(classId, email);
+    public List<User> getStudentsInClass(String classId, String loginIdentity) {
+        ClassEntity entity = getClassById(classId, loginIdentity);
         if (entity.getStudentIds() == null || entity.getStudentIds().isEmpty()) {
             return new ArrayList<>();
         }
         return userRepository.findAllById(entity.getStudentIds());
     }
 
-    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date, String email) {
-        // Enforce ownership
-        getClassById(classId, email);
-        return attendanceRepository.findByClassIdAndDate(classId, date);
+    public List<AttendanceRecord> getClassAttendance(String classId, LocalDate date, String loginIdentity) {
+        getClassById(classId, loginIdentity);
+        return attendanceRepository.findByClassIdAndDate(classId, date.toString());
     }
 
-    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status, String email) {
-        // Enforce ownership
-        getClassById(classId, email);
+    public AttendanceRecord markAttendance(String classId, String studentId, LocalDate date, String status, String loginIdentity) {
+        getClassById(classId, loginIdentity);
+        String dateStr = date.toString();
 
-        AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, date)
+        AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, dateStr)
                 .orElse(new AttendanceRecord());
-        
+
         record.setClassId(classId);
         record.setStudentId(studentId);
-        record.setDate(date);
+        record.setDate(LocalDate.parse(dateStr));
         record.setStatus(status);
-        
+
         return attendanceRepository.save(record);
+    }
+
+    public ClassEntity enrollStudent(String classId, String studentPhone, String loginIdentity) {
+        ClassEntity entity = getClassById(classId, loginIdentity);
+        User student = userRepository.findByPhone(studentPhone)
+                .orElseThrow(() -> new RuntimeException("Student not found with phone: " + studentPhone));
+
+        if (entity.getStudentIds() == null) {
+            entity.setStudentIds(new ArrayList<>());
+        }
+        if (entity.getStudentIds().contains(student.getId())) {
+            throw new RuntimeException("Student is already enrolled in this class");
+        }
+
+        entity.getStudentIds().add(student.getId());
+        return classRepository.save(entity);
+    }
+
+    public ClassEntity removeStudent(String classId, String studentId, String loginIdentity) {
+        ClassEntity entity = getClassById(classId, loginIdentity);
+        if (entity.getStudentIds() != null) {
+            entity.getStudentIds().remove(studentId);
+            return classRepository.save(entity);
+        }
+        return entity;
+    }
+
+    public List<AttendanceRecord> markBulkAttendance(String classId, LocalDate date, String status, String loginIdentity) {
+        ClassEntity entity = getClassById(classId, loginIdentity);
+        if (entity.getStudentIds() == null || entity.getStudentIds().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        String dateStr = date.toString();
+        List<AttendanceRecord> records = new ArrayList<>();
+        for (String studentId : entity.getStudentIds()) {
+            AttendanceRecord record = attendanceRepository.findByClassIdAndStudentIdAndDate(classId, studentId, dateStr)
+                    .orElse(new AttendanceRecord());
+            record.setClassId(classId);
+            record.setStudentId(studentId);
+            record.setDate(LocalDate.parse(dateStr));
+            record.setStatus(status);
+            records.add(attendanceRepository.save(record));
+        }
+        return records;
+    }
+
+    public List<AttendanceRecord> getAttendanceHistory(String classId, LocalDate startDate, LocalDate endDate, String loginIdentity) {
+        getClassById(classId, loginIdentity);
+        return attendanceRepository.findByClassIdAndDateBetween(classId, startDate.toString(), endDate.toString());
+    }
+
+    public List<AttendanceRecord> getStudentAttendance(String studentId, LocalDate startDate, LocalDate endDate) {
+        return attendanceRepository.findByStudentIdAndDateBetween(studentId, startDate.toString(), endDate.toString());
     }
 }

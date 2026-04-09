@@ -89,4 +89,48 @@ public class ClassController {
         String status = request.get("status");
         return ResponseEntity.ok(classService.markAttendance(classId, studentId, date, status, loginIdentity));
     }
+
+    @PostMapping("/{classId}/enroll")
+    public ResponseEntity<ClassEntity> enrollStudent(
+            @PathVariable String classId,
+            @RequestBody Map<String, String> request) {
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        String studentPhone = request.get("studentPhone");
+        return ResponseEntity.ok(classService.enrollStudent(classId, studentPhone, loginIdentity));
+    }
+
+    @DeleteMapping("/{classId}/students/{studentId}")
+    public ResponseEntity<ClassEntity> removeStudent(
+            @PathVariable String classId,
+            @PathVariable String studentId) {
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.removeStudent(classId, studentId, loginIdentity));
+    }
+
+    @PostMapping("/{classId}/attendance/bulk")
+    public ResponseEntity<List<AttendanceRecord>> markBulkAttendance(
+            @PathVariable String classId,
+            @RequestBody Map<String, String> request) {
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        LocalDate date = LocalDate.parse(request.get("date"));
+        String status = request.get("status");
+        return ResponseEntity.ok(classService.markBulkAttendance(classId, date, status, loginIdentity));
+    }
+
+    @GetMapping("/{classId}/attendance/history")
+    public ResponseEntity<List<AttendanceRecord>> getAttendanceHistory(
+            @PathVariable String classId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(classService.getAttendanceHistory(classId, startDate, endDate, loginIdentity));
+    }
+
+    @GetMapping("/student/{studentId}/attendance")
+    public ResponseEntity<List<AttendanceRecord>> getStudentAttendance(
+            @PathVariable String studentId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return ResponseEntity.ok(classService.getStudentAttendance(studentId, startDate, endDate));
+    }
 }
