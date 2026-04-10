@@ -299,7 +299,8 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full mt-4 py-4 px-6 bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold text-sm tracking-wide rounded-lg shadow-md hover:shadow-xl active:scale-[0.98] transition-all duration-300 uppercase disabled:opacity-75 disabled:pointer-events-none"
+          className="w-full mt-4 py-4 px-6 font-bold text-sm tracking-wide rounded-lg shadow-md hover:shadow-xl active:scale-[0.98] transition-all duration-300 uppercase disabled:opacity-75 disabled:pointer-events-none"
+          style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
         >
           {isPending ? (
             <Loader size="sm" color="currentColor" label="Creating Account…" />

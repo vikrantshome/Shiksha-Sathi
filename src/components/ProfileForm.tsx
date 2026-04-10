@@ -137,7 +137,8 @@ export default function ProfileForm({
         <button
           type="submit"
           disabled={isPending}
-          className="px-8 py-3 border-none rounded-lg bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold tracking-[0.03em] shadow-sm cursor-pointer transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] disabled:opacity-75 disabled:cursor-wait"
+          className="px-8 py-3 border-none rounded-lg font-bold tracking-[0.03em] shadow-sm cursor-pointer transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] disabled:opacity-75 disabled:cursor-wait"
+          style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
         >
           {isPending ? (
             <Loader size="sm" color="currentColor" label="Saving Profile…" />

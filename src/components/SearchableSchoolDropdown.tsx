@@ -195,9 +195,9 @@ export default function SearchableSchoolDropdown({
             </div>
           )}
 
-          {results.map((school) => (
+          {results.map((school, index) => (
             <button
-              key={school.id}
+              key={school.id || `school-${index}-${school.name}`}
               type="button"
               onMouseDown={(e) => { e.preventDefault(); handleSelectSchool(school); }}
               className="w-full text-left px-4 py-3 text-sm transition-colors"

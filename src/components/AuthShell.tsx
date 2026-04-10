@@ -24,7 +24,7 @@ export default function AuthShell({
 }: AuthShellProps) {
   return (
   <div className="flex flex-col min-h-screen bg-background text-on-surface">
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#faf9f5]/80 backdrop-blur-[24px] shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[var(--color-surface)]/80 backdrop-blur-[24px] shadow-[0px_12px_32px_rgba(27,28,26,0.04)]">
         <div className="flex items-center justify-between w-full h-16 max-w-full px-4 md:px-8">
           <Link
             href="/"

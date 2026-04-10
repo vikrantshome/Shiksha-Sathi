@@ -16,20 +16,20 @@ import Loader from "@/components/Loader";
 const statusMeta = {
   PRESENT: {
     label: "Present",
-    bg: "bg-[rgba(45,106,79,0.12)]",
-    bgActive: "bg-[#2d6a4f]",
+    bg: "bg-[var(--color-success)]/15",
+    bgActive: "bg-[var(--color-success)]",
     text: "text-[var(--color-success)]",
   },
   ABSENT: {
     label: "Absent",
-    bg: "bg-[rgba(168,56,54,0.12)]",
-    bgActive: "bg-[#a83836]",
+    bg: "bg-[var(--color-error)]/15",
+    bgActive: "bg-[var(--color-error)]",
     text: "text-[var(--color-error)]",
   },
   LATE: {
     label: "Late",
-    bg: "bg-[rgba(180,83,9,0.12)]",
-    bgActive: "bg-[#b45309]",
+    bg: "bg-[var(--color-warning)]/15",
+    bgActive: "bg-[var(--color-warning)]",
     text: "text-[var(--color-warning)]",
   },
 } as const;
