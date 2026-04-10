@@ -105,7 +105,8 @@ export default function AssignmentTray() {
           </div>
           <Link
             href="/teacher/assignments/create"
-            className="w-full py-3 px-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-lg text-xs font-bold tracking-tight shadow-[0_10px_20px_-5px_rgba(68,99,113,0.25)] hover:translate-y-[-1px] active:translate-y-[0px] transition-all flex items-center justify-center gap-2 no-underline"
+            className="w-full py-3 px-4 rounded-lg text-xs font-bold tracking-tight shadow-[0_10px_20px_-5px_rgba(68,99,113,0.25)] hover:translate-y-[-1px] active:translate-y-[0px] transition-all flex items-center justify-center gap-2 no-underline"
+            style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
           >
             Review Assignment
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">

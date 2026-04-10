@@ -15,10 +15,10 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  PRESENT: "bg-[#2d6a4f] text-white",
-  ABSENT: "bg-[#a83836] text-white",
-  LATE: "bg-[#b45309] text-white",
-  EXCUSED: "bg-gray-500 text-white",
+  PRESENT: "bg-[var(--color-success)] text-white",
+  ABSENT: "bg-[var(--color-error)] text-white",
+  LATE: "bg-[var(--color-warning)] text-white",
+  EXCUSED: "bg-[var(--color-outline)] text-white",
 };
 
 export default function AttendanceHistoryPage() {
