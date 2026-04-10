@@ -113,7 +113,8 @@ export default function StudentLoginPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-lg bg-gradient-to-br from-primary to-primary-dim px-6 py-4 text-sm font-bold tracking-wider text-on-primary uppercase shadow-md transition-all ease-out hover:-translate-y-px hover:opacity-95 active:scale-95 disabled:cursor-wait disabled:opacity-75 disabled:hover:translate-y-0 disabled:active:scale-100"
+          className="w-full rounded-lg px-6 py-4 text-sm font-bold tracking-wider uppercase shadow-md transition-all ease-out hover:-translate-y-px hover:opacity-95 active:scale-95 disabled:cursor-wait disabled:opacity-75 disabled:hover:translate-y-0 disabled:active:scale-100"
+          style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
         >
           {isPending ? (
             <Loader size="sm" color="currentColor" label="Signing In…" />
