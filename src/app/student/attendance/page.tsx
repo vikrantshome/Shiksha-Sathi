@@ -6,10 +6,10 @@ import { AttendanceRecord } from "@/lib/api/types";
 import { getStudentIdentity } from "@/lib/api/students";
 
 const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
-  PRESENT: { label: "Present", color: "text-[#2d6a4f]", bg: "bg-[rgba(45,106,79,0.12)]" },
-  ABSENT: { label: "Absent", color: "text-[#a83836]", bg: "bg-[rgba(168,56,54,0.12)]" },
-  LATE: { label: "Late", color: "text-[#b45309]", bg: "bg-[rgba(180,83,9,0.12)]" },
-  EXCUSED: { label: "Excused", color: "text-gray-500", bg: "bg-gray-100" },
+  PRESENT: { label: "Present", color: "text-[var(--color-success)]", bg: "bg-[var(--color-success)]/15" },
+  ABSENT: { label: "Absent", color: "text-[var(--color-error)]", bg: "bg-[var(--color-error)]/15" },
+  LATE: { label: "Late", color: "text-[var(--color-warning)]", bg: "bg-[var(--color-warning)]/15" },
+  EXCUSED: { label: "Excused", color: "text-[var(--color-outline)]", bg: "bg-[var(--color-surface-container)]" },
 };
 
 export default function StudentAttendancePage() {
@@ -86,15 +86,15 @@ export default function StudentAttendancePage() {
           <p className="text-xs text-on-surface-variant mt-1">Attendance Rate</p>
         </div>
         <div className="bg-surface-container-lowest rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-[#2d6a4f]">{presentCount}</p>
+          <p className="text-2xl font-bold text-[var(--color-success)]">{presentCount}</p>
           <p className="text-xs text-on-surface-variant mt-1">Present</p>
         </div>
         <div className="bg-surface-container-lowest rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-[#a83836]">{absentCount}</p>
+          <p className="text-2xl font-bold text-[var(--color-error)]">{absentCount}</p>
           <p className="text-xs text-on-surface-variant mt-1">Absent</p>
         </div>
         <div className="bg-surface-container-lowest rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-[#b45309]">{lateCount}</p>
+          <p className="text-2xl font-bold text-[var(--color-warning)]">{lateCount}</p>
           <p className="text-xs text-on-surface-variant mt-1">Late</p>
         </div>
       </div>

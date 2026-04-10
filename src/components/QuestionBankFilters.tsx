@@ -176,7 +176,7 @@ export default function QuestionBankFilters({
         </div>
       )}
 
-      <div className="md:hidden rounded-lg border border-[#B0B3AD]/12 bg-[var(--color-surface-container-lowest)] shadow-[0_8px_24px_rgba(27,28,26,0.06)] p-4">
+      <div className="md:hidden rounded-lg border border-[var(--color-outline-variant)]/12 bg-[var(--color-surface-container-lowest)] shadow-[0_8px_24px_rgba(27,28,26,0.06)] p-4">
         <div className="flex items-start justify-between gap-3">
           <button
             type="button"
@@ -228,7 +228,7 @@ export default function QuestionBankFilters({
             {mobileSummary.map((item) => (
               <span
                 key={item}
-                className="inline-flex items-center rounded-full bg-[#fde7f3] px-2.5 py-1 text-[0.6875rem] font-medium text-[#b42375]"
+                className="inline-flex items-center rounded-full bg-[var(--color-primary-container)] px-2.5 py-1 text-[0.6875rem] font-medium text-[var(--color-on-primary-container)]"
               >
                 {item}
               </span>
@@ -245,7 +245,7 @@ export default function QuestionBankFilters({
             <select
               value={currentBoard}
               onChange={(e) => handleFilterChange("board", e.target.value)}
-              className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+              className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
             >
               <option value="">Select Board</option>
               <option value="NCERT">NCERT / CBSE</option>
@@ -267,7 +267,7 @@ export default function QuestionBankFilters({
               <select
                 value={currentClass}
                 onChange={(e) => handleFilterChange("class", e.target.value)}
-                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+                className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
               >
                 <option value="">Select Class</option>
                 {classOptions.map((cls) => (
@@ -287,7 +287,7 @@ export default function QuestionBankFilters({
               <select
                 value={currentSubject}
                 onChange={(e) => handleFilterChange("subject", e.target.value)}
-                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+                className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
               >
                 <option value="">Select Subject</option>
                 {subjects.map((subject) => (
@@ -307,7 +307,7 @@ export default function QuestionBankFilters({
               <select
                 value={currentBook}
                 onChange={(e) => handleFilterChange("book", e.target.value)}
-                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
+                className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
               >
                 <option value="">Select Book</option>
                 {books.map((bookItem) => (
@@ -328,7 +328,7 @@ export default function QuestionBankFilters({
                 value={currentChapter}
                 onChange={(e) => handleFilterChange("chapter", e.target.value)}
                 disabled={chapters.length === 0}
-                className="w-full min-h-11 rounded-md border border-[#B0B3AD]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <option value="">
                   {chapters.length > 0 ? "Select Chapter" : "No Chapters Available"}
@@ -345,8 +345,8 @@ export default function QuestionBankFilters({
         )}
       </div>
 
-      <div className="hidden md:flex md:flex-col md:gap-3 md:rounded-lg md:border md:border-[#B0B3AD]/12 md:bg-[var(--color-surface-container-lowest)] md:p-3 md:shadow-[0_8px_24px_rgba(27,28,26,0.05)]">
-        <div className="flex items-start justify-between gap-3 px-1 pb-2 border-b border-[#B0B3AD]/10">
+      <div className="hidden md:flex md:flex-col md:gap-3 md:rounded-lg md:border md:border-[var(--color-outline-variant)]/12 md:bg-[var(--color-surface-container-lowest)] md:p-3 md:shadow-[0_8px_24px_rgba(27,28,26,0.05)]">
+        <div className="flex items-start justify-between gap-3 px-1 pb-2 border-b border-[var(--color-outline-variant)]/10">
           <div>
             <p className="m-0 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
               Filters
@@ -376,7 +376,7 @@ export default function QuestionBankFilters({
             <select
               value={currentBoard}
               onChange={(e) => handleFilterChange("board", e.target.value)}
-              className="w-full py-2 px-3 text-[0.8125rem] bg-surface-container-low border-0 border-b border-outline-variant/20 text-on-surface rounded-sm outline-none cursor-pointer transition-colors focus:border-primary"
+              className="w-full py-2 px-3 text-[0.8125rem] bg-surface-container-low border-0 border-b border-[var(--color-outline-variant)]/20 text-on-surface rounded-sm outline-none cursor-pointer transition-colors focus:border-primary"
             >
               <option value="">Select Board</option>
               <option value="NCERT">NCERT / CBSE</option>
@@ -408,7 +408,7 @@ export default function QuestionBankFilters({
                   onClick={() => handleFilterChange("class", cls)}
                   className={` text-[0.75rem] text-center border cursor-pointer transition-all duration-150 ${
                     currentClass === cls
-                      ? "font-semibold rounded-md bg-[#fde7f3] text-[#b42375] border-[#f6c4df] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
+                      ? "font-semibold rounded-md bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20 shadow-[0_2px_6px_rgba(44,95,110,0.06)]"
                       : "font-normal rounded-md border-transparent bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                   }`}
                 >
@@ -437,7 +437,7 @@ export default function QuestionBankFilters({
                     onClick={() => handleFilterChange("subject", subject)}
                     className={`inline-flex items-center justify-center px-2.5 py-1.5 text-[0.75rem] border cursor-pointer transition-all duration-150 ${
                       currentSubject === subject
-                        ? "font-medium rounded-md bg-[#fde7f3] text-[#b42375] border-[#f6c4df] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
+                        ? "font-medium rounded-md bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20 shadow-[0_2px_6px_rgba(44,95,110,0.06)]"
                         : "font-normal rounded-md border-transparent bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                     }`}
                   >
@@ -470,7 +470,7 @@ export default function QuestionBankFilters({
                 onClick={() => handleFilterChange("book", bookItem)}
                 className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                   currentBook === bookItem
-                    ? "font-medium bg-[#fde7f3] text-[#9d174d] border-[#f6c4df]"
+                    ? "font-medium bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20"
                     : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                 }`}
               >
@@ -499,7 +499,7 @@ export default function QuestionBankFilters({
                   onClick={() => handleFilterChange("chapter", ch)}
                   className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
                     currentChapter === ch
-                      ? "font-medium bg-[#fde7f3] text-[#9d174d] border-[#f6c4df]"
+                      ? "font-medium bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20"
                       : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
@@ -590,7 +590,7 @@ export function QuestionBankSearch() {
               onClick={() => handleFilterChange("type", f.value)}
               className={`py-1.5 px-4 text-xs border-none rounded-sm cursor-pointer transition-all duration-150 whitespace-nowrap ${
                 currentType === f.value
-                  ? "font-semibold bg-[#fde7f3] text-[#b42375] shadow-[0_2px_6px_rgba(180,35,117,0.06)]"
+                  ? "font-semibold bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] shadow-[0_2px_6px_rgba(44,95,110,0.06)]"
                   : "font-normal bg-transparent text-on-surface-variant hover:text-on-surface"
               }`}
             >

@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Question } from "@/lib/api/types";
+
+const STORAGE_KEY = "shiksha-sathi-assignment-questions";
 
 interface AssignmentContextType {
   selectedQuestions: Question[];
@@ -14,8 +16,42 @@ interface AssignmentContextType {
 
 const AssignmentContext = createContext<AssignmentContextType | undefined>(undefined);
 
+function loadQuestions(): Question[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveQuestions(questions: Question[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
+  } catch {
+    // Storage full or unavailable — degrade gracefully
+  }
+}
+
 export function AssignmentProvider({ children }: { children: ReactNode }) {
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const [initialized, setInitialized] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = loadQuestions();
+    setSelectedQuestions(saved);
+    setInitialized(true);
+  }, []);
+
+  // Save to localStorage whenever questions change
+  useEffect(() => {
+    if (initialized) {
+      saveQuestions(selectedQuestions);
+    }
+  }, [selectedQuestions, initialized]);
 
   const toggleQuestion = (question: Question) => {
     setSelectedQuestions((prev) => {

@@ -81,7 +81,8 @@ const Navbar = () => {
               </Link>
               <Link
                 href="/signup"
-                className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-md shadow-sm hover:opacity-90 transition-all active:scale-[0.98] bg-gradient-to-br from-primary to-primary-dim"
+                className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-md shadow-sm hover:opacity-90 transition-all active:scale-[0.98]"
+                style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
               >
                 Create Free Account
               </Link>
@@ -140,7 +141,8 @@ const Navbar = () => {
             </Link>
             <Link
               href="/signup"
-              className="w-full py-3 text-center rounded-md font-[700] text-[var(--color-on-primary)] bg-gradient-to-br from-primary to-primary-dim"
+              className="w-full py-3 text-center rounded-md font-[700] text-[var(--color-on-primary)]"
+              style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
             >
               Create Free Account
             </Link>
@@ -197,7 +199,8 @@ export default function LandingPage() {
             >
               <Link
                 href="/signup"
-                className="px-8 py-4 text-[1rem] font-[700] rounded-lg shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center bg-gradient-to-br from-primary to-primary-dim"
+                className="px-8 py-4 text-[1rem] font-[700] rounded-lg shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
               >
                 Get Started for Free
               </Link>
@@ -369,7 +372,7 @@ export default function LandingPage() {
 
         {/* CTA Banner */}
         <section className="max-w-[1024px] mx-auto px-4 md:px-8 py-12 md:py-16">
-          <div className="p-6 md:p-10 lg:p-12 rounded-lg text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden bg-gradient-to-br from-primary to-primary-dim">
+          <div className="p-6 md:p-10 lg:p-12 rounded-lg text-[var(--color-on-primary)] shadow-2xl relative overflow-hidden" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}>
             <div className="relative z-10 space-y-6 md:space-y-8">
               <h2 className="text-[1.75rem] md:text-[2.5rem] lg:text-[3rem] font-[800] font-manrope tracking-tight leading-tight">
                 Join Thousands of Indian Teachers

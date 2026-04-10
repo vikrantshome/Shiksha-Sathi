@@ -53,7 +53,7 @@ function toAssignmentDueDateInstant(value: string) {
 }
 
 export default function CreateAssignmentForm({
-  classes,
+  classes: initialClasses,
 }: {
   classes: ClassType[];
 }) {
@@ -61,8 +61,52 @@ export default function CreateAssignmentForm({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [publishResult, setPublishResult] = useState<PublishResult | null>(null);
+  const [showCreateClassModal, setShowCreateClassModal] = useState(false);
+  const [classes, setClasses] = useState<ClassType[]>(initialClasses);
+  const [selectedClassId, setSelectedClassId] = useState<string>("");
+  const [isCreatingClass, setIsCreatingClass] = useState(false);
+  const [createClassError, setCreateClassError] = useState<string | null>(null);
+  const [newClassName, setNewClassName] = useState("");
+  const [newClassGrade, setNewClassGrade] = useState("");
+  const [newClassSection, setNewClassSection] = useState("");
+  const [copiedCode, setCopiedCode] = useState(false);
 
   const totalMarks = selectedQuestions.reduce((acc, question) => acc + question.points, 0);
+
+  const handleCreateClass = async () => {
+    if (!newClassName || !newClassGrade || !newClassSection) {
+      setCreateClassError("Please fill in all fields.");
+      return;
+    }
+
+    setIsCreatingClass(true);
+    setCreateClassError(null);
+
+    try {
+      const newClass = await api.classes.createClass({ name: newClassName, grade: newClassGrade, section: newClassSection });
+
+      setClasses((prev) => [...prev, newClass]);
+      setSelectedClassId(newClass.id);
+      setShowCreateClassModal(false);
+      setNewClassName("");
+      setNewClassGrade("");
+      setNewClassSection("");
+    } catch (err: unknown) {
+      setCreateClassError(
+        err instanceof Error ? err.message : "Failed to create class. Please try again."
+      );
+    } finally {
+      setIsCreatingClass(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateClassModal(false);
+    setNewClassName("");
+    setNewClassGrade("");
+    setNewClassSection("");
+    setCreateClassError(null);
+  };
 
   const handlePublish = (formData: FormData) => {
     startTransition(async () => {
@@ -70,8 +114,14 @@ export default function CreateAssignmentForm({
 
       try {
         const title = formData.get("title") as string;
-        const classId = formData.get("classId") as string;
+        const classId = selectedClassId;
         const dueDate = formData.get("dueDate") as string;
+
+        if (!classId) {
+          setError("Please select or create a class before publishing.");
+          return;
+        }
+
         const dueDateInstant = toAssignmentDueDateInstant(dueDate);
 
         const createdAssignment = await api.assignments.create({
@@ -121,7 +171,6 @@ export default function CreateAssignmentForm({
 
   if (publishResult) {
     const shareLink = `${window.location.origin}/student/assignment/${publishResult.linkId}`;
-    const [copiedCode, setCopiedCode] = useState(false);
 
     return (
       <div className="grid gap-8">
@@ -185,7 +234,7 @@ export default function CreateAssignmentForm({
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,22rem)] lg:items-start gap-6">
           <section className="bg-surface-container-lowest rounded-lg p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-11 h-11 rounded-lg flex items-center justify-center text-primary bg-[#44637114]">
+              <div className="w-11 h-11 rounded-lg flex items-center justify-center text-primary bg-[var(--color-primary-container)]">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
@@ -215,7 +264,8 @@ export default function CreateAssignmentForm({
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(shareLink)}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
                 >
                   Copy Link
                 </button>
@@ -283,7 +333,7 @@ export default function CreateAssignmentForm({
           Browse the curated question bank, add the questions you want, and return here to organize and publish the final assignment.
         </p>
         <div className="mt-6">
-          <Link href="/teacher/question-bank" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          <Link href="/teacher/question-bank" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}>
             Browse Question Bank
           </Link>
         </div>
@@ -426,13 +476,12 @@ export default function CreateAssignmentForm({
               </label>
               <select
                 id="assignment-class"
-                name="classId"
-                required
-                defaultValue=""
+                value={selectedClassId}
+                onChange={(e) => setSelectedClassId(e.target.value)}
                 className="w-full rounded-md border border-outline-variant/15 bg-surface-container-low px-4 py-3 text-on-surface outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 [&>option]:text-on-surface"
               >
                 <option value="" disabled>
-                  Select a class
+                  {classes.length === 0 ? "No classes yet — create one below" : "Select a class"}
                 </option>
                 {classes.map((item) => (
                   <option key={item.id} value={item.id}>
@@ -440,6 +489,16 @@ export default function CreateAssignmentForm({
                   </option>
                 ))}
               </select>
+              <button
+                type="button"
+                onClick={() => setShowCreateClassModal(true)}
+                className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-dim transition-colors"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" /><path d="M12 8v8" /><path d="M8 12h8" />
+                </svg>
+                Create New Class
+              </button>
             </div>
 
             <div>
@@ -465,7 +524,8 @@ export default function CreateAssignmentForm({
           <button
             type="submit"
             disabled={isPending}
-            className="mt-6 w-full rounded-xl border-none bg-gradient-to-br from-primary to-primary-dim px-5 py-4 font-extrabold tracking-[0.04em] uppercase text-on-primary shadow-[0_8px_18px_rgba(48,51,47,0.10)] disabled:cursor-wait disabled:opacity-75 cursor-pointer"
+            className="mt-6 w-full rounded-xl border-none px-5 py-4 font-extrabold tracking-[0.04em] uppercase text-on-primary shadow-[0_8px_18px_rgba(48,51,47,0.10)] disabled:cursor-wait disabled:opacity-75 cursor-pointer"
+            style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
           >
             {isPending ? (
               <Loader size="sm" color="currentColor" label="Publishing…" />
@@ -479,6 +539,155 @@ export default function CreateAssignmentForm({
           </p>
         </section>
       </aside>
+
+      {/* ═══ Create New Class Modal ═══ */}
+      {showCreateClassModal && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          onClick={() => !isCreatingClass && handleCloseModal()}
+          style={{ background: "rgba(26, 27, 30, 0.5)", backdropFilter: "blur(8px)" }}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl shadow-2xl overflow-hidden"
+            style={{ background: "var(--color-surface-container-lowest)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b" style={{ borderColor: "var(--color-outline-variant)" }}>
+              <div>
+                <h3 className="text-lg font-bold text-on-surface m-0">Create New Class</h3>
+                <p className="text-xs text-on-surface-variant mt-1 mb-0">Add a class to assign this to</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleCloseModal}
+                className="p-2 rounded-full hover:bg-surface-container transition-colors cursor-pointer"
+                style={{ color: "var(--color-on-surface-variant)" }}
+                disabled={isCreatingClass}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6L6 18" /><path d="M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="px-6 py-5 space-y-5">
+              {createClassError && (
+                <div className="rounded-md border border-error/20 bg-error-container/30 py-3 px-4 text-sm text-error">
+                  {createClassError}
+                </div>
+              )}
+
+              <div>
+                <label htmlFor="modal-class-name" className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+                  Class Name <span className="text-error">*</span>
+                </label>
+                <input
+                  id="modal-class-name"
+                  value={newClassName}
+                  onChange={(e) => setNewClassName(e.target.value)}
+                  required
+                  placeholder="e.g. Grade 10 Mathematics"
+                  disabled={isCreatingClass}
+                  className="w-full rounded-md border px-4 py-3 text-on-surface outline-none transition-all focus:ring-2"
+                  style={{
+                    borderColor: "var(--color-outline-variant)",
+                    background: "var(--color-surface-container-low)",
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = "var(--color-primary)"; e.target.style.boxShadow = "0 0 0 2px rgba(44, 95, 110, 0.1)"; }}
+                  onBlur={(e) => { e.target.style.borderColor = "var(--color-outline-variant)"; e.target.style.boxShadow = "none"; }}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="modal-class-grade" className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+                    Grade <span className="text-error">*</span>
+                  </label>
+                  <select
+                    id="modal-class-grade"
+                    value={newClassGrade}
+                    onChange={(e) => setNewClassGrade(e.target.value)}
+                    required
+                    disabled={isCreatingClass}
+                    className="w-full rounded-md border px-4 py-3 text-on-surface outline-none transition-all focus:ring-2 cursor-pointer"
+                    style={{
+                      borderColor: "var(--color-outline-variant)",
+                      background: "var(--color-surface-container-low)",
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = "var(--color-primary)"; e.target.style.boxShadow = "0 0 0 2px rgba(44, 95, 110, 0.1)"; }}
+                    onBlur={(e) => { e.target.style.borderColor = "var(--color-outline-variant)"; e.target.style.boxShadow = "none"; }}
+                  >
+                    <option value="">Select</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i + 1} value={String(i + 1)}>
+                        Class {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="modal-class-section" className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+                    Section <span className="text-error">*</span>
+                  </label>
+                  <input
+                    id="modal-class-section"
+                    value={newClassSection}
+                    onChange={(e) => setNewClassSection(e.target.value)}
+                    required
+                    placeholder="e.g. A"
+                    maxLength={4}
+                    disabled={isCreatingClass}
+                    className="w-full rounded-md border px-4 py-3 text-on-surface outline-none transition-all focus:ring-2"
+                    style={{
+                      borderColor: "var(--color-outline-variant)",
+                      background: "var(--color-surface-container-low)",
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = "var(--color-primary)"; e.target.style.boxShadow = "0 0 0 2px rgba(44, 95, 110, 0.1)"; }}
+                    onBlur={(e) => { e.target.style.borderColor = "var(--color-outline-variant)"; e.target.style.boxShadow = "none"; }}
+                  />
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  disabled={isCreatingClass}
+                  className="flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all cursor-pointer"
+                  style={{
+                    background: "var(--color-surface-container)",
+                    color: "var(--color-on-surface)",
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCreateClass}
+                  disabled={isCreatingClass}
+                  className="flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all cursor-pointer disabled:opacity-75 disabled:cursor-wait"
+                  style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
+                >
+                  {isCreatingClass ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Creating…
+                    </span>
+                  ) : (
+                    "Create & Select"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
