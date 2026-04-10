@@ -97,7 +97,8 @@ export default function StudentAssignmentsPage({
       <div className="mb-6">
         <button
           onClick={handleEnterCode}
-          className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary-dim px-4 py-2.5 text-xs font-bold text-on-primary shadow-[0_4px_12px_rgba(48,51,47,0.08)] transition-all duration-150 hover:brightness-95 active:scale-[0.98] cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold shadow-[0_4px_12px_rgba(48,51,47,0.08)] transition-all duration-150 hover:brightness-95 active:scale-[0.98] cursor-pointer"
+          style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />

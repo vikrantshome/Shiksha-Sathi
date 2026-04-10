@@ -28,7 +28,8 @@ export default function CartIcon() {
       </svg>
       {selectedQuestions.length > 0 && (
         <span
-          className="absolute top-0 right-[-2px] flex min-w-[1.125rem] h-[1.125rem] items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dim px-1 text-[0.625rem] font-semibold tracking-wide leading-none text-on-primary"
+          className="absolute top-0 right-[-2px] flex min-w-[1.125rem] h-[1.125rem] items-center justify-center rounded-full px-1 text-[0.625rem] font-semibold tracking-wide leading-none"
+          style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
         >
           {selectedQuestions.length}
         </span>

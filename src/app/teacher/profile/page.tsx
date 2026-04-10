@@ -81,10 +81,10 @@ export default async function ProfilePage() {
 
           {/* Teacher Insight Card */}
           <section className="bg-tertiary-container rounded-lg p-5 md:p-6">
-            <p className="text-label-sm text-[#311305] m-0">
+            <p className="text-label-sm text-[var(--color-on-tertiary-container)] m-0">
               Teacher Insight
             </p>
-            <p className="text-sm leading-[1.7] text-[#311305] mt-2 md:mt-3 mb-0">
+            <p className="text-sm leading-[1.7] text-[var(--color-on-tertiary-container)] mt-2 md:mt-3 mb-0">
               Teachers with clear board alignment move faster from question
               selection to assignment publication because the workspace can
               narrow content sooner.

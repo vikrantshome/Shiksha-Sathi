@@ -49,7 +49,8 @@ export default function CopyAssignmentLinkButton({ shareLink, path, code }: Copy
           await navigator.clipboard.writeText(shareLink);
           setCopiedLink(true);
         }}
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm bg-gradient-to-br from-primary to-primary-dim px-4 py-2.5 text-sm font-medium text-on-primary transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
+        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
+        style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
       >
         {copiedLink ? <CheckIcon className="h-4 w-4" /> : <ClipboardDocumentIcon className="h-4 w-4" />}
         {copiedLink ? "Copied" : "Copy Link"}
@@ -73,7 +74,8 @@ export default function CopyAssignmentLinkButton({ shareLink, path, code }: Copy
               await navigator.clipboard.writeText(code);
               setCopiedCode(true);
             }}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm bg-gradient-to-br from-primary to-primary-dim px-4 py-2.5 text-sm font-medium text-on-primary transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm px-4 py-2.5 text-sm font-medium text-on-primary transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
+            style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
           >
             {copiedCode ? <CheckIcon className="h-4 w-4" /> : <ClipboardDocumentIcon className="h-4 w-4" />}
             {copiedCode ? "Copied" : "Copy Code"}

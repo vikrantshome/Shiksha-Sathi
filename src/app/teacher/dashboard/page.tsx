@@ -49,28 +49,6 @@ const IconArrow = () => (
     <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
   </svg>
 );
-const IconChevronRight = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m9 18 6-6-6-6" />
-  </svg>
-);
-
-/* ── Curriculum Navigator Subjects ── */
-const curriculumTiles = [
-  { grade: "Grade 9", subject: "Mathematics", cover: "/ncert-covers/class9-maths.jpg" },
-  { grade: "Grade 9", subject: "ICT", cover: "/ncert-covers/class9-ict.jpg" },
-  { grade: "Grade 11", subject: "Biology", cover: "/ncert-covers/class11-biology.png" },
-  { grade: "Grade 7", subject: "Social Science", cover: "/ncert-covers/class7-social-science.jpg" },
-  { grade: "Grade 11", subject: "Chemistry", cover: "/ncert-covers/class11-chemistry.jpg" },
-  { grade: "Grade 7", subject: "Mathematics", cover: "/ncert-covers/class7-maths.png" },
-];
-
-/* ── Activity Feed Data ── */
-const recentActivity = [
-  { text: "New submission in Class 9A", time: "12 minutes ago", isNew: true },
-  { text: "Assignment 'Periodic Table' scheduled", time: "2 hours ago", isNew: false },
-  { text: "Question Bank updated: Biology", time: "Yesterday", isNew: false },
-];
 
 export default async function TeacherDashboard() {
   /* ── Data Fetching (Server Component) ── */
@@ -96,6 +74,41 @@ export default async function TeacherDashboard() {
     (a: AssignmentWithStats) => a.submissionCount > 0
   ).length;
 
+  /* ── Build Real Activity Feed from Assignments ── */
+  const recentActivity = assignments
+    .filter((a: AssignmentWithStats) => a.title)
+    .slice(0, 5)
+    .map((a: AssignmentWithStats) => {
+      const hasSubmissions = (a.submissionCount || 0) > 0;
+      return {
+        text: hasSubmissions
+          ? `${a.submissionCount} submission${a.submissionCount! > 1 ? "s" : ""} in ${a.className || "your class"}`
+          : `Assignment "${a.title}" created`,
+        time: a.updatedAt ? timeAgo(new Date(a.updatedAt)) : "Recently",
+        isNew: hasSubmissions,
+      };
+    });
+
+  if (recentActivity.length === 0) {
+    recentActivity.push({
+      text: "No activity yet — create your first assignment to get started",
+      time: "",
+      isNew: false,
+    });
+  }
+
+  function timeAgo(date: Date): string {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    if (seconds < 60) return "Just now";
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    const days = Math.floor(hours / 24);
+    if (days === 1) return "Yesterday";
+    return `${days} days ago`;
+  }
+
   /* ── Stat Cards Configuration ── */
   const stats = [
     {
@@ -116,7 +129,7 @@ export default async function TeacherDashboard() {
         ? `${Math.round(assignments.reduce((acc: number, a: AssignmentWithStats) => acc + (a.averageScore || 0), 0) / assignments.length)}%`
         : "—",
       label: "Average Score",
-      badge: "+4.2% trend",
+      badge: assignments.length > 0 ? `${assignments.length} active` : "No data yet",
     },
     {
       icon: <IconSchool />,
@@ -162,7 +175,7 @@ export default async function TeacherDashboard() {
           >
             <div className="flex flex-col items-start gap-2 mb-3 md:mb-4 sm:flex-row sm:justify-between sm:items-start">
               <div
-                className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[#4463710D]"
+                className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[var(--color-primary-container)]"
               >
                 {stat.icon}
               </div>
@@ -339,7 +352,8 @@ export default async function TeacherDashboard() {
               <div className="grid gap-2 md:gap-3 grid-cols-2">
                 <Link
                   href="/teacher/question-bank"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary-dim px-3 py-3 text-center text-xs font-bold text-on-primary no-underline shadow-[0_8px_18px_rgba(48,51,47,0.12)] transition-all duration-150 hover:brightness-95 hover:shadow-[0_10px_22px_rgba(48,51,47,0.16)] active:scale-[0.98]"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-3 py-3 text-center text-xs font-bold text-on-primary no-underline shadow-[0_8px_18px_rgba(48,51,47,0.12)] transition-all duration-150 hover:brightness-95 hover:shadow-[0_10px_22px_rgba(48,51,47,0.16)] active:scale-[0.98]"
+                  style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
                 >
                   <IconPlus />
                   Create Assignment
@@ -382,51 +396,78 @@ export default async function TeacherDashboard() {
         </section>
       </div>
 
-      {/* ═══ NCERT Curriculum Navigator ═══ */}
+      {/* ═══ Quick Actions ═══ */}
       <section className="mt-10 md:mt-12 lg:mt-16">
         <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4 md:mb-6">
-          Curriculum Explorer
+          Quick Actions
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
-          {curriculumTiles.map((tile, idx) => (
-            <div
-              key={idx}
-              className="group overflow-hidden rounded-xl border border-outline/8 bg-surface-container-lowest shadow-[0_10px_24px_rgba(48,51,47,0.06)] cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(48,51,47,0.12)]"
-            >
-              <div
-                className="flex aspect-[4/5] w-full items-center justify-center bg-[var(--color-surface-container)]"
-              >
-                <div
-                  className="h-full w-full bg-no-repeat shadow-[0_6px_18px_rgba(48,51,47,0.12)] transition-transform duration-200 group-hover:scale-[1.02]"
-                  style={{
-                    backgroundImage: `url(${tile.cover})`,
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                  }}
-                />
-              </div>
-
-              <div className="grid gap-1.5 p-3">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-[0.08em]">
-                    {tile.grade}
-                  </span>
-                  <span className="rounded-full bg-surface-container-low px-2 py-1 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-primary">
-                    NCERT
-                  </span>
-                </div>
-
-                <span className="block text-sm font-extrabold tracking-[-0.02em] text-on-surface leading-tight">
-                  {tile.subject}
-                </span>
-
-                <span className="inline-flex items-center gap-1 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-primary">
-                  Explore
-                  <IconChevronRight />
-                </span>
-              </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          <Link
+            href="/teacher/question-bank"
+            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[var(--color-primary-container)] flex items-center justify-center text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-[var(--color-on-primary)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                <rect x="9" y="3" width="6" height="4" rx="1" />
+                <path d="M9 12h6" /><path d="M9 16h6" />
+              </svg>
             </div>
-          ))}
+            <div>
+              <p className="text-sm font-bold text-on-surface">Create Assignment</p>
+              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Build from question bank</p>
+            </div>
+          </Link>
+
+          <Link
+            href="/teacher/question-bank"
+            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[var(--color-secondary-container)] flex items-center justify-center text-[var(--color-on-secondary-container)] transition-colors group-hover:bg-[var(--color-secondary)] group-hover:text-[var(--color-on-secondary)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-on-surface">Question Bank</p>
+              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Browse NCERT questions</p>
+            </div>
+          </Link>
+
+          <Link
+            href="/teacher/classes"
+            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[var(--color-tertiary-container)] flex items-center justify-center text-[var(--color-on-tertiary-container)] transition-colors group-hover:bg-[var(--color-tertiary)] group-hover:text-[var(--color-on-tertiary)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-on-surface">Manage Classes</p>
+              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Add students & sections</p>
+            </div>
+          </Link>
+
+          <Link
+            href="/teacher/classes"
+            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[var(--color-success-container)] flex items-center justify-center text-[var(--color-on-success-container)] transition-colors group-hover:bg-[var(--color-success)] group-hover:text-[var(--color-on-success)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-on-surface">View Reports</p>
+              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Track class performance</p>
+            </div>
+          </Link>
         </div>
       </section>
     </div>

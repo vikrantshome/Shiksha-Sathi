@@ -129,7 +129,7 @@ export default function TeacherLayout({
     <AssignmentProvider>
       <div className="min-h-screen flex flex-col bg-surface">
         {/* ═══ Top Navigation Bar ═══ */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface-container-lowest)]/95 backdrop-blur-[16px] border-b border-[#B0B3AD]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface-container-lowest)]/95 backdrop-blur-[16px] border-b border-[var(--color-outline-variant)]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
           <div className="flex justify-between items-center px-6 h-16 max-w-[100rem] mx-auto">
             {/* Left: Brand + Desktop Nav */}
             <div className="flex items-center gap-10">
@@ -197,7 +197,7 @@ export default function TeacherLayout({
 
         {/* ═══ Mobile Dropdown Menu ═══ */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-b border-[#B0B3AD]/15 shadow-[0_8px_24px_rgba(27,28,26,0.12)] p-4">
+          <div className="md:hidden fixed top-16 left-0 right-0 z-[45] bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-b border-[var(--color-outline-variant)]/15 shadow-[0_8px_24px_rgba(27,28,26,0.12)] p-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -206,7 +206,7 @@ export default function TeacherLayout({
                 className={`block p-2.5 px-3 text-sm font-medium rounded-md no-underline mb-2 border ${
                   isActive(item.href)
                     ? "text-primary bg-[var(--color-primary-container)]/45 border-[var(--color-primary)]/10"
-                    : "text-on-surface-variant bg-[var(--color-surface-container-low)] border-[#B0B3AD]/10"
+                    : "text-on-surface-variant bg-[var(--color-surface-container-low)] border-[var(--color-outline-variant)]/10"
                 }`}
               >
                 {item.label}
@@ -215,14 +215,14 @@ export default function TeacherLayout({
             <Link
               href="/teacher/profile"
               onClick={() => setMobileMenuOpen(false)}
-              className="block p-2.5 px-3 text-sm font-medium text-on-surface-variant no-underline mb-2 rounded-md border border-[#B0B3AD]/10 bg-[var(--color-surface-container-low)]"
+              className="block p-2.5 px-3 text-sm font-medium text-on-surface-variant no-underline mb-2 rounded-md border border-[var(--color-outline-variant)]/10 bg-[var(--color-surface-container-low)]"
             >
               Profile
             </Link>
             <form onSubmit={handleLogout}>
               <button
                 type="submit"
-                className="w-full text-left p-2.5 px-3 text-sm font-medium text-on-surface-variant rounded-md border border-[#B0B3AD]/10 bg-[var(--color-surface-container-low)] cursor-pointer"
+                className="w-full text-left p-2.5 px-3 text-sm font-medium text-on-surface-variant rounded-md border border-[var(--color-outline-variant)]/10 bg-[var(--color-surface-container-low)] cursor-pointer"
               >
                 Log out
               </button>
@@ -276,7 +276,7 @@ export default function TeacherLayout({
               </Link>
 
               {/* Settings/Support removed — no shipped routes (SSA-249) */}
-              <div className="border-t border-[#B0B3AD]/10 pt-3 mt-3">
+              <div className="border-t border-[var(--color-outline-variant)]/10 pt-3 mt-3">
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-primary transition-colors duration-120 text-left"
@@ -297,7 +297,7 @@ export default function TeacherLayout({
         </div>
 
         {/* ═══ Bottom Tab Bar (Mobile Only) ═══ */}
-        <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-t border-[#B0B3AD]/15 shadow-[0_-4px_16px_rgba(27,28,26,0.08)] z-50 px-4">
+        <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-[var(--color-surface-container-lowest)]/98 backdrop-blur-xl border-t border-[var(--color-outline-variant)]/15 shadow-[0_-4px_16px_rgba(27,28,26,0.08)] z-50 px-4">
           {navItems.map((item) => {
             const active = isActive(item.href);
             const ItemIcon = item.icon;
