@@ -49,7 +49,7 @@ public class Question extends BaseEntity {
     @Field("explanation")
     private String explanation;
 
-    @Field("source_kind") // CANONICAL, DERIVED
+    @Field("source_kind") // CANONICAL, DERIVED, EXEMPLAR
     private String sourceKind;
 
     @Field("review_status") // DRAFT, APPROVED, REJECTED, PUBLISHED
@@ -60,6 +60,25 @@ public class Question extends BaseEntity {
 
     @Field("language")
     private String language;
+
+    // Exemplar-specific fields
+    @Field("question_id")
+    private String questionId;
+
+    @Field("difficulty") // easy, medium, hard
+    private String difficulty;
+
+    @Field("blooms_level") // remember, understand, apply, analyze, evaluate, create
+    private String bloomsLevel;
+
+    @Field("qa_flags")
+    private List<String> qaFlags;
+
+    @Field("review_state") // source review state: approved, rejected
+    private String reviewState;
+
+    @Field("source_pages")
+    private List<Integer> sourcePages;
 
     // Derived question metadata
     @Field("source_canonical_question_ids")

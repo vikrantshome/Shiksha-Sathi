@@ -17,6 +17,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Deployed on Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://vercel.com/)
 [![Backend on Cloud Run](https://img.shields.io/badge/Backend-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
+[![NCERT Exemplar](https://img.shields.io/badge/NCERT%20Exemplar-6,568-blueviolet?logo=google-scholar&logoColor=white)](https://ncert.nic.in/exemplar-problems.php)
 
 <br />
 
@@ -36,7 +37,7 @@
 
 | Category | Features |
 |---|---|
-| 📖 **Question Bank** | 1,011+ NCERT-aligned questions across Classes 6–12, browsable by Board → Class → Subject → Chapter |
+| 📖 **Question Bank** | 7,579+ NCERT-aligned questions across Classes 6–12 (Canonical + Derived + Exemplar), browsable by Board → Class → Subject → Chapter |
 | 📝 **Assignment Engine** | Create, share via link, and manage assignments with per-question point allocation |
 | 🤖 **AI Auto-Grading** | NVIDIA-powered intelligent grading with per-answer feedback for students |
 | 📊 **Analytics Dashboard** | Class-level and student-level performance tracking with visual reports |
@@ -135,14 +136,22 @@ Shiksha-Sathi/
 │   │   └── ...
 │   └── lib/api/                        # Typed API client
 │
-├── 📂 doc/NCERT/
-│   ├── extractions/                    # Source question JSON files
-│   └── registry.json                   # Chapter-level content registry
+├── 📂 doc/
+│   ├── NCERT/
+│   │   ├── extractions/                    # Canonical source question JSON files
+│   │   └── registry.json                   # Chapter-level content registry
+│   └── Exemplar/
+│       ├── images/                         # Figure images for exemplar questions
+│       ├── json_backup/                    # Backup of all exemplar JSON data
+│       └── *.json                          # Per-chapter exemplar question data
 │
 ├── 📂 scripts/                         # Data pipeline utilities
-│   ├── ingest-ncert-extraction.mjs
-│   ├── update-registry-titles.mjs
-│   └── backfill-question-points.mjs
+│   ├── ingest-ncert-extraction.mjs     # Canonical question ingestion
+│   ├── ingest-exemplar.mjs             # Exemplar question ingestion
+│   ├── update-registry-titles.mjs      # Chapter title sync
+│   ├── backfill-question-points.mjs    # Point recalculation
+│   ├── review-exemplar-images.py       # Vision-based image review
+│   └── reextract-exemplar-figures.py   # Figure re-extraction
 │
 ├── Dockerfile                          # Frontend container
 ├── backend/Dockerfile                  # Backend container
@@ -156,9 +165,9 @@ Shiksha-Sathi/
 
 > **Live data** — sourced directly from the production MongoDB Atlas cluster.
 
-Shiksha Sathi maintains two tiers of questions: **Canonical** (directly extracted from NCERT source PDFs, live & available to teachers) and **Derived** (AI-generated practice variants in Admin review pipeline).
+Shiksha Sathi maintains three tiers of questions: **Canonical** (directly extracted from NCERT source PDFs), **Derived** (AI-generated practice variants in Admin review pipeline), and **Exemplar** (exam-level questions from NCERT Exemplar Problems textbooks).
 
-### 📖 Canonical Questions — 668 Published & Live
+### 📖 Canonical Questions — 644 Published & Live
 
 | Class | Science | Maths | English | Physics | Biology | Total |
 |-------|:-------:|:-----:|:-------:|:-------:|:-------:|:-----:|
@@ -171,7 +180,7 @@ Shiksha Sathi maintains two tiers of questions: **Canonical** (directly extracte
 | Class 12 | —  | 24 | —  | 32 | —  | **56**  |
 | **Total** | | | | | | **🎯 644** |
 
-> *Class 11 & 12 cover Biology, Physics, and Maths (Ch 1–10). Chemistry and remaining subjects are in the extraction queue.*
+> *Chemistry and remaining chapters are covered via Exemplar questions (see below).*
 
 ---
 
@@ -192,7 +201,33 @@ AI-generated variants, reviewed through the Admin pipeline and **published** —
 
 ---
 
-### 📈 Total Published: **1,011 Questions** across Classes 6–12
+### 📝 NCERT Exemplar Questions — 6,568 Published
+
+Exam-style questions sourced from **NCERT Exemplar Problems** textbooks — higher-difficulty practice questions for competitive exam preparation. All ingested as `PUBLISHED` and available to teachers.
+
+| Class | Mathematics | Science | Biology | Chemistry | Physics | Total |
+|-------|:-----------:|:-------:|:-------:|:---------:|:-------:|:-----:|
+| Class 6  | 842 | 336 | —   | —   | —   | **1,178** |
+| Class 7  | 562 | 353 | —   | —   | —   | **915**   |
+| Class 8  | 325 | 450 | —   | —   | —   | **775**   |
+| Class 9  | 280 | 280 | —   | —   | —   | **560**   |
+| Class 10 | 260 | 300 | —   | —   | —   | **560**   |
+| Class 11 | 320 | —   | 460 | 260 | 300 | **1,340** |
+| Class 12 | 260 | —   | 340 | 340 | 300 | **1,240** |
+| **Total** | **2,849** | **1,719** | **800** | **600** | **600** | **🎯 6,568** |
+
+> 104 exemplar questions requiring figures are excluded from ingestion and will be added after image re-extraction.
+
+---
+
+### 📈 Total Published: **7,579 Questions** across Classes 6–12
+
+| Tier | Count | Description |
+|------|------:|-------------|
+| 🔵 Canonical | 644 | Direct NCERT textbook extraction |
+| 🟢 Derived | 343 | AI-generated practice variants |
+| 🟣 Exemplar | 6,568 | NCERT Exemplar Problems (exam-level) |
+| **Grand Total** | **7,579** | |
 
 > Contributions via the extraction workflow are welcome — see [Content Pipeline](#-content-pipeline).
 
@@ -353,6 +388,8 @@ curl http://localhost:8080/api/v1/questions/boards
 
 ## 📦 Content Pipeline
 
+### Canonical Questions (NCERT Textbooks)
+
 To add new NCERT questions to the database:
 
 **Step 1 — Create extraction file** in `doc/NCERT/extractions/`:
@@ -390,6 +427,33 @@ node scripts/ingest-ncert-extraction.mjs doc/NCERT/extractions/class9-maths-ch3-
 ```bash
 node scripts/update-registry-titles.mjs
 ```
+
+---
+
+### NCERT Exemplar Questions
+
+Exemplar questions are pre-processed and stored in `doc/Exemplar/` as per-chapter JSON files.
+
+**Ingest all image-free exemplar questions:**
+
+```bash
+# Dry run first
+npm run ingest:exemplar:dry
+
+# Actual ingestion
+npm run ingest:exemplar -- --force
+
+# Verify results
+npm run ingest:exemplar:verify
+```
+
+**Filter by class or subject:**
+
+```bash
+npm run ingest:exemplar -- --class=7 --subject=science
+```
+
+> 104 exemplar questions requiring figure images are excluded from ingestion. These will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
 
 ---
 
@@ -468,7 +532,8 @@ docker run -p 8080:8080 --env-file .env.local shiksha-sathi-backend
 
 ## 🛣️ Roadmap
 
-- [ ] **Expanded content** — Classes 7–10 full chapter coverage
+- [x] **Expanded content** — Full chapter coverage for Classes 6–12 (Canonical + Derived + Exemplar = 7,579 questions)
+- [ ] **Figure re-extraction** — 104 exemplar questions pending image crop for full coverage
 - [ ] **Offline support** — PWA / service worker for low-bandwidth classrooms
 - [ ] **Vernacular language support** — Hindi & regional language question sets
 - [ ] **Parent dashboard** — Progress reports for guardians

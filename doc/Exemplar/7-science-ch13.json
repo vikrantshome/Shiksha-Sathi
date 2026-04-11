@@ -1,0 +1,622 @@
+[
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q1",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Which of the following cannot be used for measurement of time?",
+    "options": [
+      "A leaking tap.",
+      "Simple pendulum.",
+      "Shadow of an object during the day.",
+      "Blinking of eyes."
+    ],
+    "answer_key": "Blinking of eyes.",
+    "answer_explanation": "The blinking of eyes is not a regular periodic event with a constant time interval, so it cannot be used as a reliable standard for measuring time.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      67
+    ],
+    "provenance_excerpt": "Which of the following cannot be used for measurement of time?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q2",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Two clocks A and B are shown in Figure 13.1. Clock A has an hour and a minute hand, whereas clock B has an hour hand, minute hand as well as a second hand. Which of the following statement is correct for these clocks?",
+    "options": [
+      "A time interval of 30 seconds can be measured by clock A.",
+      "A time interval of 30 seconds cannot be measured by clock B.",
+      "Time interval of 5 minutes can be measured by both A and B.",
+      "Time interval of 4 minutes 10 seconds can be measured by clock A."
+    ],
+    "answer_key": "Time interval of 5 minutes can be measured by both A and B.",
+    "answer_explanation": "Clock A doesn't have a second hand, so it cannot measure 30 seconds or 4 mins 10 seconds accurately. Both clocks have minute hands, so both can measure 5 minutes.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      67
+    ],
+    "provenance_excerpt": "Two clocks A and B are shown in Figure 13.1. Clock A has an hour and a minute hand, whereas clock B has an hour hand, mi",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q2-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q3",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Two students were asked to plot a distance-time graph for the motion described by Table A and Table B.\nThe graph given in Figure 13.2 is true for",
+    "options": [
+      "both A and B.",
+      "A only.",
+      "B only.",
+      "neither A nor B."
+    ],
+    "answer_key": "A only.",
+    "answer_explanation": "The graph shows a straight line starting from the origin and reaching 50m in 10 minutes. This corresponds to the uniform motion described in Table A, where the object covers 10m every 2 minutes.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      68
+    ],
+    "provenance_excerpt": "Two students were asked to plot a distance-time graph for the motion described by Table A and Table B.\nThe graph given i",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q3-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q4",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "A bus travels 54 km in 90 minutes. The speed of the bus is",
+    "options": [
+      "0.6 m/s",
+      "10 m/s",
+      "5.4 m/s",
+      "3.6 m/s"
+    ],
+    "answer_key": "10 m/s",
+    "answer_explanation": "Distance = 54 km = 54000 m. Time = 90 mins = 90 x 60 = 5400 s. Speed = Distance/Time = 54000/5400 = 10 m/s.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      69
+    ],
+    "provenance_excerpt": "A bus travels 54 km in 90 minutes. The speed of the bus is",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q5",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "If we denote speed by S, distance by D and time by T, the relationship between these quantities is",
+    "options": [
+      "S = D × T",
+      "T = S / D",
+      "S = 1 / T × D",
+      "S = D / T"
+    ],
+    "answer_key": "S = D / T",
+    "answer_explanation": "The basic formula for speed is distance divided by time.",
+    "difficulty": "easy",
+    "blooms_level": "remember",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      69
+    ],
+    "provenance_excerpt": "If we denote speed by S, distance by D and time by T, the relationship between these quantities is",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q6",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Observe Figure 13.3. The time period of a simple pendulum is the time taken by it to travel from",
+    "options": [
+      "A to B and back to A.",
+      "O to A, A to B and B to A.",
+      "B to A, A to B and B to O.",
+      "A to B."
+    ],
+    "answer_key": "A to B and back to A.",
+    "answer_explanation": "The time period is defined as the time taken to complete one full oscillation, e.g., starting from extreme position A, going to B, and returning to A.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      69
+    ],
+    "provenance_excerpt": "Observe Figure 13.3. The time period of a simple pendulum is the time taken by it to travel from",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q7",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Fig. 13.4 shows an oscillating pendulum. Time taken by the bob to move from A to C is t1 and from C to O is t2. The time period of this simple pendulum is",
+    "options": [
+      "(t1 + t2)",
+      "2 (t1 + t2)",
+      "3 (t1 + t2)",
+      "4 (t1 + t2)"
+    ],
+    "answer_key": "4 (t1 + t2)",
+    "answer_explanation": "The time to move from A to O is t1+t2, which represents 1/4th of a full oscillation. Therefore, the total time period is 4(t1+t2).",
+    "difficulty": "hard",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      70
+    ],
+    "provenance_excerpt": "Fig. 13.4 shows an oscillating pendulum. Time taken by the bob to move from A to C is t1 and from C to O is t2. The time",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q7-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q8",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "The correct symbol to represent the speed of an object is",
+    "options": [
+      "5 m/s",
+      "5 mp",
+      "5 m/s-1",
+      "5 s/m"
+    ],
+    "answer_key": "5 m/s",
+    "answer_explanation": "The standard unit of speed is meters per second, written as m/s.",
+    "difficulty": "easy",
+    "blooms_level": "remember",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      70
+    ],
+    "provenance_excerpt": "The correct symbol to represent the speed of an object is",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q9",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Boojho walks to his school which is at a distance of 3 km from his home in 30 minutes. On reaching he finds that the school is closed and comes back by a bicycle with his friend and reaches home in 20 minutes. His average speed in km/h is",
+    "options": [
+      "8.3",
+      "7.2",
+      "5",
+      "3.6"
+    ],
+    "answer_key": "7.2",
+    "answer_explanation": "Total distance = 3 + 3 = 6 km. Total time = 30 + 20 = 50 minutes = 50/60 hours = 5/6 hours. Average speed = Total Distance / Total time = 6 / (5/6) = 36/5 = 7.2 km/h.",
+    "difficulty": "hard",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      70
+    ],
+    "provenance_excerpt": "Boojho walks to his school which is at a distance of 3 km from his home in 30 minutes. On reaching he finds that the sch",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q10",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A simple pendulum is oscillating between two points A and B as shown in Figure 13.5. Is the motion of the bob uniform or non-uniform?",
+    "options": [],
+    "answer_key": "Non-uniform. The speed of the pendulum bob is zero at the extreme positions (A and B) and maximum at the mean position (O), meaning its speed continuously changes.",
+    "answer_explanation": "Identifying non-uniform motion in pendulums.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      71
+    ],
+    "provenance_excerpt": "A simple pendulum is oscillating between two points A and B as shown in Figure 13.5. Is the motion of the bob uniform or",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q10-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q11",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Paheli and Boojho have to cover different distances to reach their school but they take the same time to reach the school. What can you say about their speed?",
+    "options": [],
+    "answer_key": "Their speeds are different. Since Speed = Distance / Time, and their distances are different while the time is the same, the one who covers a larger distance has a higher speed.",
+    "answer_explanation": "Relating speed intuitively.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      71
+    ],
+    "provenance_excerpt": "Paheli and Boojho have to cover different distances to reach their school but they take the same time to reach the schoo",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q12",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "If Boojho covers a certain distance in one hour and Paheli covers the same distance in two hours, who travels in a higher speed?",
+    "options": [],
+    "answer_key": "Boojho travels at a higher speed because he covers the same distance in less time.",
+    "answer_explanation": "Relating speed intuitively.",
+    "difficulty": "easy",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      71
+    ],
+    "provenance_excerpt": "If Boojho covers a certain distance in one hour and Paheli covers the same distance in two hours, who travels in a highe",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q13",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Complete the data of the table given below with the help of the distance-time graph given in Figure 13.6.",
+    "options": [],
+    "answer_key": "From the graph, Distance = 2x Time. So at 2s, distance is 4m. At 4s, distance is 8m. At 6s, 12m. At 8s, 16m. At 10s, 20m.",
+    "answer_explanation": "Reading distance-time graphs.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      71,
+      72
+    ],
+    "provenance_excerpt": "Complete the data of the table given below with the help of the distance-time graph given in Figure 13.6.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q13-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q14",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "The average age of children of Class VII is 12 years and 3 months. Express this age in seconds.",
+    "options": [],
+    "answer_key": "12 years = 12 x 365 = 4380 days. 3 months = approx 90 days. Total days = 4470 days. Total hours = 4470 x 24 = 107280 hours. Total seconds = 107280 x 3600 = 386208000 seconds. (Exact calculation depends on month/leap year conventions, but generally replacing 1 yr with 365 days and 1 month with 30 days is acceptable: 147 months = 147 * 30 * 24 * 3600 = 381,024,000s or using 365.25 etc).",
+    "answer_explanation": "Unit conversion of time.",
+    "difficulty": "hard",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      72
+    ],
+    "provenance_excerpt": "The average age of children of Class VII is 12 years and 3 months. Express this age in seconds.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q15",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A spaceship travels 36,000 km in one hour. Express its speed in km/s.",
+    "options": [],
+    "answer_key": "Speed = 36000 km / 1 hr. 1 hr = 3600 seconds. Speed = 36000 / 3600 = 10 km/s.",
+    "answer_explanation": "Unit conversion of speed.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      72
+    ],
+    "provenance_excerpt": "A spaceship travels 36,000 km in one hour. Express its speed in km/s.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q16",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Starting from A, Paheli moves along a rectangular path ABCD as shown in Figure 13.7. She takes 2 minutes to travel each side. Plot a distance-time graph and explain whether the motion is uniform or non-uniform.",
+    "options": [],
+    "answer_key": "The motion is non-uniform. The sides of the rectangle are of different lengths (e.g., AB != BC), but she takes the same 2 minutes to cover each. Thus, her speed changes depending on which side she is on.",
+    "answer_explanation": "Graphing and evaluating motion type.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      72
+    ],
+    "provenance_excerpt": "Starting from A, Paheli moves along a rectangular path ABCD as shown in Figure 13.7. She takes 2 minutes to travel each",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q16-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q17",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Plot a distance-time graph of the tip of the second hand of a clock by selecting 4 points on x-axis and y-axis respectively. The circumference of the circle traced by the second hand is 64 cm.",
+    "options": [],
+    "answer_key": "The second hand takes 60 seconds to complete one revolution (64 cm). Its speed is uniform (64/60 cm/s). Plotting distance (y-axis) vs time (x-axis) will yield a straight line passing through origin.",
+    "answer_explanation": "Graphing uniform motion from a real-world clock.",
+    "difficulty": "hard",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      73
+    ],
+    "provenance_excerpt": "Plot a distance-time graph of the tip of the second hand of a clock by selecting 4 points on x-axis and y-axis respectiv",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q17-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q18",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Given below as Figure 13.8 is the distance-time graph of the motion an object.\n(i) What will be the position of the object at 20s?\n(ii) What will be the distance travelled by the object in 12s?\n(iii) What is the average speed of the object?",
+    "options": [],
+    "answer_key": "(i) At 20s, the position is 8 m from origin.\n(ii) At 12s, the distance travelled is roughly 6 m (depending on exact graph reading).\n(iii) Average speed = Total distance / Total time. E.g., if at 20s distance is 8m, speed = 8/20 = 0.4 m/s.",
+    "answer_explanation": "Interpreting complex distance-time graphs.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      73
+    ],
+    "provenance_excerpt": "Given below as Figure 13.8 is the distance-time graph of the motion an object.\n(i) What will be the position of the obje",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q18-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q19",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Distance between Bholu’s and Golu’s house is 9 km. Bholu has to attend Golu’s birthday party at 7 o’clock. He started from his home at 6 o’clock on his bicycle and covered a distance of 6 km in 40 minutes. At that point he met Chintu and he spoke to him for 5 minutes and reached Golu’s birthday party at 7 o’clock. With what speed did he cover the second part of the journey? Calculate his average speed for the entire journey.",
+    "options": [],
+    "answer_key": "Total distance to cover remaining = 9 - 6 = 3 km. Time remaining = 60 mins - (40+5) mins = 15 mins. Speed for second part = 3 km / 15 mins = 3 / (15/60) hr = 12 km/h. Average speed = Total Distance / Total Time = 9 km / 1 hour = 9 km/h.",
+    "answer_explanation": "Complex multi-stage speed calculation.",
+    "difficulty": "hard",
+    "blooms_level": "apply",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      73
+    ],
+    "provenance_excerpt": "Distance between Bholu’s and Golu’s house is 9 km. Bholu has to attend Golu’s birthday party at 7 o’clock. He started fr",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S7-CH13-Q20",
+    "board": "NCERT",
+    "class_level": 7,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 13,
+    "chapter_title": "Motion and Time",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Boojho goes to the football ground to play football. The distance-time graph of his journey from his home to the ground is given as Figure 13.9.\n(a) What does the graph between point B and C indicate about the motion of Boojho?\n(b) Is the motion between 0 to 4 minutes uniform or non-uniform?\n(c) What is his speed between 8 and 12 minutes of his journey?",
+    "options": [],
+    "answer_key": "(a) The graph is a horizontal line parallel to the time axis between B and C. This indicates that distance is not changing with time; hence, Boojho is at rest.\n(b) Uniform. The graph is a straight line.\n(c) Distance travelled between 8 to 12 mins = 225m - 150m = 75m. Time taken = 12 - 8 = 4 mins = 240 seconds. Speed = 75/240 m/s = 0.3125 m/s (or 75m/4min = 18.75 m/min).",
+    "answer_explanation": "Detailed analysis of a multi-stage distance-time graph.",
+    "difficulty": "hard",
+    "blooms_level": "analyze",
+    "source_file": "geep113.pdf",
+    "source_pages": [
+      74
+    ],
+    "provenance_excerpt": "Boojho goes to the football ground to play football. The distance-time graph of his journey from his home to the ground",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S7-CH13-Q20-fig.png"
+    ]
+  }
+]
