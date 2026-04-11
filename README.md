@@ -17,6 +17,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Deployed on Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://vercel.com/)
 [![Backend on Cloud Run](https://img.shields.io/badge/Backend-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
+[![NCERT Exemplar](https://img.shields.io/badge/NCERT%20Exemplar-6,568-blueviolet?logo=google-scholar&logoColor=white)](https://ncert.nic.in/exemplar-problems.php)
 
 <br />
 
@@ -140,9 +141,12 @@ Shiksha-Sathi/
 │   └── registry.json                   # Chapter-level content registry
 │
 ├── 📂 scripts/                         # Data pipeline utilities
-│   ├── ingest-ncert-extraction.mjs
-│   ├── update-registry-titles.mjs
-│   └── backfill-question-points.mjs
+│   ├── ingest-ncert-extraction.mjs     # Canonical question ingestion
+│   ├── ingest-exemplar.mjs             # Exemplar question ingestion
+│   ├── update-registry-titles.mjs      # Chapter title sync
+│   ├── backfill-question-points.mjs    # Point recalculation
+│   ├── review-exemplar-images.py       # Vision-based image review
+│   └── reextract-exemplar-figures.py   # Figure re-extraction
 │
 ├── Dockerfile                          # Frontend container
 ├── backend/Dockerfile                  # Backend container
@@ -192,7 +196,33 @@ AI-generated variants, reviewed through the Admin pipeline and **published** —
 
 ---
 
-### 📈 Total Published: **1,011 Questions** across Classes 6–12
+### 📝 NCERT Exemplar Questions — 6,568 Published
+
+Exam-style questions sourced from **NCERT Exemplar Problems** textbooks — higher-difficulty practice questions for competitive exam preparation. All ingested as `PUBLISHED` and available to teachers.
+
+| Class | Mathematics | Science | Biology | Chemistry | Physics | Total |
+|-------|:-----------:|:-------:|:-------:|:---------:|:-------:|:-----:|
+| Class 6  | 842 | 336 | —   | —   | —   | **1,178** |
+| Class 7  | 562 | 353 | —   | —   | —   | **915**   |
+| Class 8  | 325 | 450 | —   | —   | —   | **775**   |
+| Class 9  | 280 | 280 | —   | —   | —   | **560**   |
+| Class 10 | 260 | 300 | —   | —   | —   | **560**   |
+| Class 11 | 320 | —   | 460 | 260 | 300 | **1,340** |
+| Class 12 | 260 | —   | 340 | 340 | 300 | **1,240** |
+| **Total** | **2,849** | **1,719** | **800** | **600** | **600** | **🎯 6,568** |
+
+> 104 exemplar questions requiring figures are excluded from ingestion and will be added after image re-extraction.
+
+---
+
+### 📈 Total Published: **7,579 Questions** across Classes 6–12
+
+| Tier | Count | Description |
+|------|------:|-------------|
+| 🔵 Canonical | 644 | Direct NCERT textbook extraction |
+| 🟢 Derived | 343 | AI-generated practice variants |
+| 🟣 Exemplar | 6,568 | NCERT Exemplar Problems (exam-level) |
+| **Grand Total** | **7,579** | |
 
 > Contributions via the extraction workflow are welcome — see [Content Pipeline](#-content-pipeline).
 
@@ -353,6 +383,8 @@ curl http://localhost:8080/api/v1/questions/boards
 
 ## 📦 Content Pipeline
 
+### Canonical Questions (NCERT Textbooks)
+
 To add new NCERT questions to the database:
 
 **Step 1 — Create extraction file** in `doc/NCERT/extractions/`:
@@ -390,6 +422,33 @@ node scripts/ingest-ncert-extraction.mjs doc/NCERT/extractions/class9-maths-ch3-
 ```bash
 node scripts/update-registry-titles.mjs
 ```
+
+---
+
+### NCERT Exemplar Questions
+
+Exemplar questions are pre-processed and stored in `doc/Exemplar/` as per-chapter JSON files.
+
+**Ingest all image-free exemplar questions:**
+
+```bash
+# Dry run first
+npm run ingest:exemplar:dry
+
+# Actual ingestion
+npm run ingest:exemplar -- --force
+
+# Verify results
+npm run ingest:exemplar:verify
+```
+
+**Filter by class or subject:**
+
+```bash
+npm run ingest:exemplar -- --class=7 --subject=science
+```
+
+> 104 exemplar questions requiring figure images are excluded from ingestion. These will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
 
 ---
 
