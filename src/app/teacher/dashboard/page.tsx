@@ -49,6 +49,11 @@ const IconArrow = () => (
     <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
   </svg>
 );
+const IconChevronRight = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m9 18 6-6-6-6" />
+  </svg>
+);
 
 export default async function TeacherDashboard() {
   /* ── Data Fetching (Server Component) ── */
@@ -78,7 +83,7 @@ export default async function TeacherDashboard() {
   const recentActivity = assignments
     .filter((a: AssignmentWithStats) => a.title)
     .slice(0, 5)
-    .map((a: AssignmentWithStats) => {
+    .map((a: AssignmentWithStats & { updatedAt?: string }) => {
       const hasSubmissions = (a.submissionCount || 0) > 0;
       return {
         text: hasSubmissions
