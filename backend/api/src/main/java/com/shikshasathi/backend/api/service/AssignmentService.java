@@ -282,7 +282,10 @@ public class AssignmentService {
      */
     private User resolveTeacher(String loginIdentity) {
         return userRepository.findByEmail(loginIdentity)
-            .or(() -> userRepository.findByPhone(loginIdentity))
+            .or(() -> {
+                java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+            })
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
     }
 

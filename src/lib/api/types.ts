@@ -14,12 +14,24 @@ export interface User {
   section?: string;
 }
 
-export interface AuthResponse {
-  token: string;
+export interface CandidateProfile {
   userId: string;
   name: string;
   school?: string;
   role: Role;
+  studentClass?: string;
+  section?: string;
+}
+
+export interface AuthResponse {
+  token?: string;
+  userId?: string;
+  name?: string;
+  school?: string;
+  role?: Role;
+  /** When multiple active users share the same phone (e.g., sibling students),
+   * this field contains the candidate profiles for the frontend to show a picker. */
+  candidates?: CandidateProfile[];
 }
 
 export interface ApiError {

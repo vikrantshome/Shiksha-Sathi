@@ -12,7 +12,18 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByPhone(String phone);
+
+    /**
+     * Find all users by phone number.
+     * Returns a list because multiple students (e.g., siblings) may share the same parent phone.
+     */
+    List<User> findByPhone(String phone);
+
+    /**
+     * Find active teacher users by phone number.
+     * Used for enforcing phone uniqueness during teacher signup.
+     */
+    List<User> findByPhoneAndRoleAndIsActive(String phone, com.shikshasathi.backend.core.domain.user.Role role, boolean isActive);
 
     /**
      * Find distinct school names from users that contain the given query (case-insensitive).

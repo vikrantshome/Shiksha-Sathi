@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api/auth";
+import type { CandidateProfile } from "@/lib/api/types";
 import { setCookie } from "cookies-next";
 import AuthShell from "@/components/AuthShell";
 import Loader from "@/components/Loader";
@@ -13,6 +14,9 @@ export default function LoginPage() {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [candidates, setCandidates] = useState<CandidateProfile[] | null>(null);
+  const [selectedPhone, setSelectedPhone] = useState("");
+  const [selectedPassword, setSelectedPassword] = useState("");
 
   const validatePhone = (phone: string): boolean => {
     const digits = phone.replace(/\D/g, "");
@@ -24,11 +28,41 @@ export default function LoginPage() {
     return true;
   };
 
+  const doLogin = async (phone: string, password: string) => {
+    const response = await auth.login({ phone, password });
+
+    // Multi-profile scenario: show picker
+    if (response.candidates && response.candidates.length > 0) {
+      setCandidates(response.candidates);
+      setSelectedPhone(phone);
+      setSelectedPassword(password);
+      setIsPending(false);
+      return;
+    }
+
+    // Normal single-user login
+    if (!response.token) {
+      throw new Error("Invalid credentials");
+    }
+
+    setCookie("auth-token", response.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
+
+    if (response.role === "TEACHER") {
+      router.push("/teacher/dashboard");
+    } else {
+      router.push("/");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsPending(true);
     setError(null);
     setPhoneError(null);
+    setCandidates(null);
 
     const formData = new FormData(e.currentTarget);
     const phone = (formData.get("phone") as string).replace(/\D/g, "");
@@ -40,7 +74,32 @@ export default function LoginPage() {
     }
 
     try {
-      const response = await auth.login({ phone, password });
+      await doLogin(phone, password);
+    } catch (err: unknown) {
+      const apiError = err as { message?: string };
+      setError(apiError.message || "Invalid credentials. Please try again.");
+      setIsPending(false);
+      return;
+    }
+
+    setIsPending(false);
+  };
+
+  const handleSelectProfile = async (candidate: CandidateProfile) => {
+    setIsPending(true);
+    setError(null);
+
+    try {
+      // Login with the selected profile's userId
+      const response = await auth.login({
+        phone: selectedPhone,
+        password: selectedPassword,
+        selectUserId: candidate.userId,
+      });
+
+      if (!response.token) {
+        throw new Error("Invalid credentials");
+      }
 
       setCookie("auth-token", response.token, {
         maxAge: 30 * 24 * 60 * 60,
@@ -54,13 +113,76 @@ export default function LoginPage() {
       }
     } catch (err: unknown) {
       const apiError = err as { message?: string };
-      setError(apiError.message || "Invalid credentials. Please try again.");
+      setError(apiError.message || "Failed to select profile. Please try again.");
       setIsPending(false);
-      return;
     }
-
-    setIsPending(false);
   };
+
+  const handleBackToLogin = () => {
+    setCandidates(null);
+    setSelectedPhone("");
+    setSelectedPassword("");
+  };
+
+  // Profile picker UI
+  if (candidates && candidates.length > 0) {
+    return (
+      <AuthShell
+        eyebrow="Select Profile"
+        title="Multiple Accounts Found"
+        description="This phone number is linked to multiple accounts. Please select the profile you want to sign in as."
+        alternatePrompt=""
+        alternateHref=""
+        alternateLabel=""
+        legalNote={undefined}
+      >
+        {error && (
+          <div className="mb-4 rounded-md bg-error/10 p-4 text-sm text-error">
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-3">
+          {candidates.map((candidate) => (
+            <button
+              key={candidate.userId}
+              onClick={() => handleSelectProfile(candidate)}
+              disabled={isPending}
+              className="w-full rounded-lg border border-outline-variant bg-surface-container-highest p-4 text-left transition-all hover:border-primary hover:bg-primary-container/10 disabled:opacity-50"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold text-on-primary"
+                  style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
+                >
+                  {candidate.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-on-surface">{candidate.name}</p>
+                  <p className="text-xs text-on-surface-variant">
+                    {candidate.role === "STUDENT"
+                      ? `Student · Class ${candidate.studentClass || "?"} ${candidate.section ? "- " + candidate.section : ""}`
+                      : candidate.role}
+                    {candidate.school ? ` · ${candidate.school}` : ""}
+                  </p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-on-surface-variant">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={handleBackToLogin}
+          className="mt-6 w-full rounded-lg border border-outline-variant bg-transparent py-3 text-sm font-semibold text-on-surface-variant transition-colors hover:bg-surface-container-high"
+        >
+          ← Back to Login
+        </button>
+      </AuthShell>
+    );
+  }
 
   return (
     <AuthShell
