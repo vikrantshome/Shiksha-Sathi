@@ -12,7 +12,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "questions:backfill-points": "node scripts/backfill-question-points.mjs"
+    "questions:backfill-points": "node scripts/backfill-question-points.mjs",
+    "ingest:exemplar": "node scripts/ingest-exemplar.mjs",
+    "ingest:exemplar:dry": "node scripts/ingest-exemplar.mjs --dry-run",
+    "ingest:exemplar:verify": "node scripts/ingest-exemplar.mjs --verify"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.2.7",
