@@ -1,0 +1,1911 @@
+{
+  "timestamp": "2026-04-11T15:48:02.726Z",
+  "mode": "live",
+  "force": true,
+  "summary": {
+    "totalFiles": 271,
+    "totalQuestions": 6672,
+    "totalImageFree": 6568,
+    "totalInserted": 6568,
+    "totalSkipped": 0,
+    "results": [
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-mathematics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch16.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "10-science-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch16.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch17.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch18.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch19.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch20.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch21.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch22.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch25.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-biology-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-chemistry-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch16.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-mathematics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "11-physics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch16.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch19.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-biology-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch16.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch18.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-chemistry-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-mathematics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "12-physics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 200,
+        "file": "6-mathematics-ch1.json",
+        "totalInFile": 200,
+        "imageFree": 200
+      },
+      {
+        "skipped": 0,
+        "inserted": 45,
+        "file": "6-mathematics-ch2.json",
+        "totalInFile": 78,
+        "imageFree": 45
+      },
+      {
+        "skipped": 0,
+        "inserted": 83,
+        "file": "6-mathematics-ch3.json",
+        "totalInFile": 83,
+        "imageFree": 83
+      },
+      {
+        "skipped": 0,
+        "inserted": 129,
+        "file": "6-mathematics-ch4.json",
+        "totalInFile": 129,
+        "imageFree": 129
+      },
+      {
+        "skipped": 0,
+        "inserted": 55,
+        "file": "6-mathematics-ch5.json",
+        "totalInFile": 55,
+        "imageFree": 55
+      },
+      {
+        "skipped": 0,
+        "inserted": 55,
+        "file": "6-mathematics-ch6.json",
+        "totalInFile": 60,
+        "imageFree": 55
+      },
+      {
+        "skipped": 0,
+        "inserted": 97,
+        "file": "6-mathematics-ch7.json",
+        "totalInFile": 97,
+        "imageFree": 97
+      },
+      {
+        "skipped": 0,
+        "inserted": 89,
+        "file": "6-mathematics-ch8.json",
+        "totalInFile": 89,
+        "imageFree": 89
+      },
+      {
+        "skipped": 0,
+        "inserted": 89,
+        "file": "6-mathematics-ch9.json",
+        "totalInFile": 89,
+        "imageFree": 89
+      },
+      {
+        "skipped": 0,
+        "inserted": 19,
+        "file": "6-science-ch1.json",
+        "totalInFile": 19,
+        "imageFree": 19
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "6-science-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 24,
+        "file": "6-science-ch11.json",
+        "totalInFile": 24,
+        "imageFree": 24
+      },
+      {
+        "skipped": 0,
+        "inserted": 14,
+        "file": "6-science-ch12.json",
+        "totalInFile": 23,
+        "imageFree": 14
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "6-science-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 22,
+        "file": "6-science-ch14.json",
+        "totalInFile": 22,
+        "imageFree": 22
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "6-science-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 22,
+        "file": "6-science-ch16.json",
+        "totalInFile": 22,
+        "imageFree": 22
+      },
+      {
+        "skipped": 0,
+        "inserted": 21,
+        "file": "6-science-ch2.json",
+        "totalInFile": 21,
+        "imageFree": 21
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "6-science-ch3.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "6-science-ch4.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "6-science-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 19,
+        "file": "6-science-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 19
+      },
+      {
+        "skipped": 0,
+        "inserted": 19,
+        "file": "6-science-ch7.json",
+        "totalInFile": 19,
+        "imageFree": 19
+      },
+      {
+        "skipped": 0,
+        "inserted": 19,
+        "file": "6-science-ch8.json",
+        "totalInFile": 19,
+        "imageFree": 19
+      },
+      {
+        "skipped": 0,
+        "inserted": 27,
+        "file": "6-science-ch9.json",
+        "totalInFile": 27,
+        "imageFree": 27
+      },
+      {
+        "skipped": 0,
+        "inserted": 116,
+        "file": "7-mathematics-ch1.json",
+        "totalInFile": 116,
+        "imageFree": 116
+      },
+      {
+        "skipped": 0,
+        "inserted": 31,
+        "file": "7-mathematics-ch10.json",
+        "totalInFile": 31,
+        "imageFree": 31
+      },
+      {
+        "skipped": 0,
+        "inserted": 27,
+        "file": "7-mathematics-ch11.json",
+        "totalInFile": 27,
+        "imageFree": 27
+      },
+      {
+        "skipped": 0,
+        "inserted": 44,
+        "file": "7-mathematics-ch12.json",
+        "totalInFile": 44,
+        "imageFree": 44
+      },
+      {
+        "skipped": 0,
+        "inserted": 64,
+        "file": "7-mathematics-ch2.json",
+        "totalInFile": 64,
+        "imageFree": 64
+      },
+      {
+        "skipped": 0,
+        "inserted": 57,
+        "file": "7-mathematics-ch3.json",
+        "totalInFile": 57,
+        "imageFree": 57
+      },
+      {
+        "skipped": 0,
+        "inserted": 41,
+        "file": "7-mathematics-ch4.json",
+        "totalInFile": 41,
+        "imageFree": 41
+      },
+      {
+        "skipped": 0,
+        "inserted": 40,
+        "file": "7-mathematics-ch5.json",
+        "totalInFile": 40,
+        "imageFree": 40
+      },
+      {
+        "skipped": 0,
+        "inserted": 35,
+        "file": "7-mathematics-ch6.json",
+        "totalInFile": 35,
+        "imageFree": 35
+      },
+      {
+        "skipped": 0,
+        "inserted": 38,
+        "file": "7-mathematics-ch7.json",
+        "totalInFile": 38,
+        "imageFree": 38
+      },
+      {
+        "skipped": 0,
+        "inserted": 35,
+        "file": "7-mathematics-ch8.json",
+        "totalInFile": 35,
+        "imageFree": 35
+      },
+      {
+        "skipped": 0,
+        "inserted": 34,
+        "file": "7-mathematics-ch9.json",
+        "totalInFile": 34,
+        "imageFree": 34
+      },
+      {
+        "skipped": 0,
+        "inserted": 17,
+        "file": "7-science-ch1.json",
+        "totalInFile": 21,
+        "imageFree": 17
+      },
+      {
+        "skipped": 0,
+        "inserted": 17,
+        "file": "7-science-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 17
+      },
+      {
+        "skipped": 0,
+        "inserted": 19,
+        "file": "7-science-ch11.json",
+        "totalInFile": 21,
+        "imageFree": 19
+      },
+      {
+        "skipped": 0,
+        "inserted": 18,
+        "file": "7-science-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 18
+      },
+      {
+        "skipped": 0,
+        "inserted": 11,
+        "file": "7-science-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 11
+      },
+      {
+        "skipped": 0,
+        "inserted": 16,
+        "file": "7-science-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 16
+      },
+      {
+        "skipped": 0,
+        "inserted": 24,
+        "file": "7-science-ch15.json",
+        "totalInFile": 24,
+        "imageFree": 24
+      },
+      {
+        "skipped": 0,
+        "inserted": 22,
+        "file": "7-science-ch16.json",
+        "totalInFile": 25,
+        "imageFree": 22
+      },
+      {
+        "skipped": 0,
+        "inserted": 23,
+        "file": "7-science-ch17.json",
+        "totalInFile": 25,
+        "imageFree": 23
+      },
+      {
+        "skipped": 0,
+        "inserted": 26,
+        "file": "7-science-ch18.json",
+        "totalInFile": 27,
+        "imageFree": 26
+      },
+      {
+        "skipped": 0,
+        "inserted": 27,
+        "file": "7-science-ch2.json",
+        "totalInFile": 30,
+        "imageFree": 27
+      },
+      {
+        "skipped": 0,
+        "inserted": 22,
+        "file": "7-science-ch3.json",
+        "totalInFile": 25,
+        "imageFree": 22
+      },
+      {
+        "skipped": 0,
+        "inserted": 11,
+        "file": "7-science-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 11
+      },
+      {
+        "skipped": 0,
+        "inserted": 23,
+        "file": "7-science-ch5.json",
+        "totalInFile": 26,
+        "imageFree": 23
+      },
+      {
+        "skipped": 0,
+        "inserted": 22,
+        "file": "7-science-ch6.json",
+        "totalInFile": 22,
+        "imageFree": 22
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "7-science-ch7.json",
+        "totalInFile": 21,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 17,
+        "file": "7-science-ch8.json",
+        "totalInFile": 22,
+        "imageFree": 17
+      },
+      {
+        "skipped": 0,
+        "inserted": 18,
+        "file": "7-science-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 18
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch1.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch10.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch11.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch12.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch13.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch2.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch3.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch4.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch5.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch6.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch7.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch8.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-mathematics-ch9.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch1.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch10.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch11.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch12.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch13.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch14.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch15.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch16.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch17.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch18.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch2.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch3.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch4.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch5.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch6.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch7.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch8.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 25,
+        "file": "8-science-ch9.json",
+        "totalInFile": 25,
+        "imageFree": 25
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch1.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-mathematics-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch10.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch11.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch12.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch13.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch14.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch15.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch2.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch3.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch4.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch5.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch6.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch7.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch8.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      },
+      {
+        "skipped": 0,
+        "inserted": 20,
+        "file": "9-science-ch9.json",
+        "totalInFile": 20,
+        "imageFree": 20
+      }
+    ]
+  }
+}
