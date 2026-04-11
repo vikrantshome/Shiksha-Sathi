@@ -5,6 +5,9 @@ export interface LoginRequest {
   email?: string;
   phone?: string;
   password?: string;
+  /** When multiple users share the same phone (e.g., sibling students),
+   * specify which user to authenticate by their userId. */
+  selectUserId?: string;
 }
 
 export interface SignupRequest {
