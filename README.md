@@ -37,7 +37,7 @@
 
 | Category | Features |
 |---|---|
-| 📖 **Question Bank** | 1,011+ NCERT-aligned questions across Classes 6–12, browsable by Board → Class → Subject → Chapter |
+| 📖 **Question Bank** | 7,579+ NCERT-aligned questions across Classes 6–12 (Canonical + Derived + Exemplar), browsable by Board → Class → Subject → Chapter |
 | 📝 **Assignment Engine** | Create, share via link, and manage assignments with per-question point allocation |
 | 🤖 **AI Auto-Grading** | NVIDIA-powered intelligent grading with per-answer feedback for students |
 | 📊 **Analytics Dashboard** | Class-level and student-level performance tracking with visual reports |
