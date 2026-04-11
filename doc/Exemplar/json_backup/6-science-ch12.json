@@ -1,0 +1,707 @@
+[
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q1",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Choose from the options a, b, c and d given in Fig. 12.1 the figure which shows the correct direction of current.",
+    "options": [
+      "(a)",
+      "(b)",
+      "(c)",
+      "(d)"
+    ],
+    "answer_key": "The option showing current flowing from the positive (+) terminal of the cell to its negative (-) terminal.",
+    "answer_explanation": "The conventional direction of electric current in a closed circuit is taken to be from the positive terminal to the negative terminal of the cell.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      1
+    ],
+    "provenance_excerpt": "Choose from the options a, b, c and d given in Fig. 12.1 the figure which shows the correct direction of current.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q1-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q2",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Choose the incorrect statement.",
+    "options": [
+      "A switch is the source of electric current in a circuit.",
+      "A switch help to complete or break the circuit.",
+      "A switch helps us to use electricity as per our requirement.",
+      "When the switch is open there is an air gap between its terminals."
+    ],
+    "answer_key": "A switch is the source of electric current in a circuit.",
+    "answer_explanation": "A switch only controls the flow of current. The source of electric current in a simple circuit is the electric cell or battery, not the switch.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      1
+    ],
+    "provenance_excerpt": "Choose the incorrect statement.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q3",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "In an electric bulb, light is produced due to the glowing of",
+    "options": [
+      "the glass case of the bulb.",
+      "the thin filament.",
+      "the thick wires supporting the filament.",
+      "gases inside glass case of the bulb."
+    ],
+    "answer_key": "the thin filament.",
+    "answer_explanation": "When electric current passes through the thin filament of a bulb, it gets heated to a very high temperature and starts glowing to produce light.",
+    "difficulty": "easy",
+    "blooms_level": "remember",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      2
+    ],
+    "provenance_excerpt": "In an electric bulb, light is produced due to the glowing of",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q4",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "In the following arrangement shown in Fig. 12.2, the bulb will not glow if the ends A and B are connected with",
+    "options": [
+      "A steel spoon",
+      "A metal clip",
+      "A plastic clip",
+      "A copper wire"
+    ],
+    "answer_key": "A plastic clip",
+    "answer_explanation": "A plastic clip is an insulator, so it will not allow electric current to pass through it. The circuit will remain incomplete and the bulb will not glow.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      2
+    ],
+    "provenance_excerpt": "In the following arrangement shown in Fig. 12.2, the bulb will not glow if the ends A and B are connected with",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q4-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q5",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "In the circuit shown in Fig. 12.3, when the switch is moved to \u2018ON\u2019 position,",
+    "options": [
+      "the bulb A will glow first.",
+      "the bulb B will glow first.",
+      "the bulb C will glow first.",
+      "all bulbs will glow together."
+    ],
+    "answer_key": "all bulbs will glow together.",
+    "answer_explanation": "When the switch is turned ON, the electric circuit is completed and current flows through the entire circuit almost instantaneously. Therefore, all bulbs connected in the circuit will light up simultaneously.",
+    "difficulty": "hard",
+    "blooms_level": "analyze",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      2
+    ],
+    "provenance_excerpt": "In the circuit shown in Fig. 12.3, when the switch is moved to \u2018ON\u2019 position,",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q5-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q6",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Filament of a torch bulb is",
+    "options": [
+      "a metal case.",
+      "metal tip at the centre of the base.",
+      "two thick wires.",
+      "a thin wire."
+    ],
+    "answer_key": "a thin wire.",
+    "answer_explanation": "The filament is a very thin wire made of a special metal (like tungsten) that glows when current passes through it. The thick wires only support the filament.",
+    "difficulty": "easy",
+    "blooms_level": "remember",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Filament of a torch bulb is",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q7",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Paheli is running short of connecting wires. To complete an electric circuit, she may use a",
+    "options": [
+      "glass bangle.",
+      "thick thread.",
+      "rubber pipe.",
+      "steel spoon."
+    ],
+    "answer_key": "steel spoon.",
+    "answer_explanation": "A steel spoon is made of metal and is a good conductor of electricity, so it can be used to complete the circuit. Glass, thread, and rubber are insulators.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Paheli is running short of connecting wires. To complete an electric circuit, she may use a",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q8",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "In which of the following circuits A, B and C given in Fig. 12.4, the cell will be used up very rapidly?",
+    "options": [],
+    "answer_key": "The cell will be used up very rapidly in the circuit where the positive and negative terminals are connected directly to each other without any bulb or device in between (a short circuit).",
+    "answer_explanation": "Understanding short circuits.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "In which of the following circuits A, B and C given in Fig. 12.4, the cell will be used up very rapidly?",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q8-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q9",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "Fig. 12.5 shows a bulb with its different parts marked as 1, 2, 3, 4 and 5. Which of them label the terminals of the bulb?",
+    "options": [],
+    "answer_key": "The terminals of a typical bulb are located at its base. They are the metallic base and the metal tip at the bottom of the bulb. (Usually marked by the lowest numbers in such diagrams).",
+    "answer_explanation": "Identifying bulb terminals.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      4
+    ],
+    "provenance_excerpt": "Fig. 12.5 shows a bulb with its different parts marked as 1, 2, 3, 4 and 5. Which of them label the terminals of the bul",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q9-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q10",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "You are provided with a bulb, a cell, a switch and some connecting wires. Draw a diagram to show the connections between them to make the bulb glow.",
+    "options": [],
+    "answer_key": "Connect one terminal of the cell to one terminal of the switch using a wire. Connect the second terminal of the switch to one terminal of the bulb. Finally, connect the second terminal of the bulb back to the other terminal of the cell to complete the circuit.",
+    "answer_explanation": "Simple circuit construction.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      4
+    ],
+    "provenance_excerpt": "You are provided with a bulb, a cell, a switch and some connecting wires. Draw a diagram to show the connections between",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q10-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q11",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Will the bulb glow in the circuit shown in Fig. 12.6? Explain.",
+    "options": [],
+    "answer_key": "The bulb will not glow if there is an insulator string/wire or a break in the circuit, since the path for the current is not complete.",
+    "answer_explanation": "Identifying broken or insulated circuits.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      4
+    ],
+    "provenance_excerpt": "Will the bulb glow in the circuit shown in Fig. 12.6? Explain.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q11-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q12",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in \u2018ON\u2019 position, the bulb does not glow. What could be the possible reason/s for it? Mention any two of them.",
+    "options": [],
+    "answer_key": "1. The filament of the bulb might be broken (fused bulb).\n2. The cell might be totally used up (dead cell).\n(Other reason: connections might be loose).",
+    "answer_explanation": "Troubleshooting electrical circuits.",
+    "difficulty": "medium",
+    "blooms_level": "evaluate",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      4,
+      5
+    ],
+    "provenance_excerpt": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in \u2018ON\u2019 posit",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q12-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q13",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A torch requires 3 cells. Show the arrangement of the cells, with a diagram, inside the torch so that the bulb glows.",
+    "options": [],
+    "answer_key": "The 3 cells should be arranged in series such that the positive terminal of the first cell touches the negative terminal of the second cell, and the positive terminal of the second touches the negative of the third cell.",
+    "answer_explanation": "Series arrangement of cells.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      5
+    ],
+    "provenance_excerpt": "A torch requires 3 cells. Show the arrangement of the cells, with a diagram, inside the torch so that the bulb glows.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q13-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q14",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "When the chemicals in the electric cell are used up, the electric cell stops producing electricity. The electric cell is then replaced with a new one. In case of rechargeable batteries (such as the type used in mobile phones, camera and inverters), they are used again and again. How?",
+    "options": [],
+    "answer_key": "Recharging is possible because the chemical reactions inside these rechargeable batteries are reversible. Passing an electric current through them in the opposite direction restores the chemicals to their original state, allowing them to store and provide electricity again.",
+    "answer_explanation": "Reversible chemical reactions in batteries.",
+    "difficulty": "hard",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      5
+    ],
+    "provenance_excerpt": "When the chemicals in the electric cell are used up, the electric cell stops producing electricity. The electric cell is",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q15",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Paheli connected two bulbs to a cell as shown in Fig. 12.8. She found that filament of bulb B is broken. Will the bulb A glow in this circuit? Give reason.",
+    "options": [],
+    "answer_key": "No, bulb A will not glow. When bulbs are connected in series, a broken filament in one bulb (bulb B) breaks the complete path of the entire circuit, preventing electric current from flowing through bulb A as well.",
+    "answer_explanation": "Series circuits and open circuits.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      5
+    ],
+    "provenance_excerpt": "Paheli connected two bulbs to a cell as shown in Fig. 12.8. She found that filament of bulb B is broken. Will the bulb A",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q15-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q16",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Why do bulbs have two terminals?",
+    "options": [],
+    "answer_key": "A bulb has two terminals to provide a complete path for the electric current. One terminal receives current from the cell into the filament, and the other terminal allows the current to flow out and back to the cell.",
+    "answer_explanation": "Purpose of terminals in electrical components.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      5
+    ],
+    "provenance_excerpt": "Why do bulbs have two terminals?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q17",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Which of the following arrangement A, B, C and D given in Fig. 12.9 should not be set up? Explain, why.",
+    "options": [],
+    "answer_key": "The arrangement causing a short circuit (where the positive and negative terminals of the cell are directly connected by a simple wire without any bulb or load in between) should never be set up. It will drain the cell's chemicals very rapidly and could cause severe heating or fire.",
+    "answer_explanation": "Dangers of short circuits.",
+    "difficulty": "hard",
+    "blooms_level": "evaluate",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      5,
+      6
+    ],
+    "provenance_excerpt": "Which of the following arrangement A, B, C and D given in Fig. 12.9 should not be set up? Explain, why.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q17-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q18",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A fused bulb does not glow. Why?",
+    "options": [],
+    "answer_key": "The thin filament inside a fused bulb is broken. This forms a gap that breaks the complete path (circuit) for the electric current. Since no current can flow through to heat the filament, it does not glow.",
+    "answer_explanation": "Understanding fused bulbs.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "A fused bulb does not glow. Why?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q19",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Paheli wanted to glow a torch bulb using a cell. She could not get connecting wires, instead, she got two strips of aluminium foil. Will she succeed? Explain, how?",
+    "options": [],
+    "answer_key": "Yes, she will succeed. Aluminium foil is made of metal, which is a good conductor of electricity. Therefore, the aluminium strips can serve as connecting wires to complete the electric circuit and make the bulb glow.",
+    "answer_explanation": "Applying knowledge of conductors.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "Paheli wanted to glow a torch bulb using a cell. She could not get connecting wires, instead, she got two strips of alum",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q20",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Boojho has a cell and a single piece of connecting wire. Without cutting the wire in two, will he be able to make the bulb glow? Explain with the help of a circuit diagram.",
+    "options": [],
+    "answer_key": "Yes, he can make the bulb glow. He needs to connect one terminal of the bulb (e.g., its metallic base) directly to the positive terminal of the cell by touching them together. Then, he can use the single piece of wire to connect the negative terminal of the cell to the other terminal of the bulb (e.g., the metal tip at its bottom), thereby completing the circuit.",
+    "answer_explanation": "Creative circuit construction.",
+    "difficulty": "hard",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "Boojho has a cell and a single piece of connecting wire. Without cutting the wire in two, will he be able to make the bu",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q20-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q21",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Fig. 12.10 A and B, show a bulb connected to a cell in two different ways.\n(i) What will be the direction of the current through the bulb in both the cases. (Q to P or P to Q)\n(ii) Will the bulb glow in both the cases?\n(iii) Does the brightness of the glowing bulb depend on the direction of current through it?",
+    "options": [],
+    "answer_key": "(i) In case A, if P is connected to positive, current flows P to Q. In case B, if wires are reversed, current flows Q to P. (The specific answer depends on the diagram, but it flows from positive to negative terminal of the cell).\n(ii) Yes, the bulb will glow in both cases because the circuit is complete.\n(iii) No, the brightness of the bulb does not depend on the direction of the current; it depends on the magnitude of the current.",
+    "answer_explanation": "Direction of current and bulb brightness.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      6,
+      7
+    ],
+    "provenance_excerpt": "Fig. 12.10 A and B, show a bulb connected to a cell in two different ways.\n(i) What will be the direction of the current",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": true,
+    "figure_ref": [
+      "images/NCERT-EXEMPLAR-S6-CH12-Q21-fig.png"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q22",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "Think of six activities which use electric current. Also name the devices used to perform the activity.\nExample: Get light -> Torch",
+    "options": [],
+    "answer_key": "1. Getting cool air -> Electric fan\n2. Heating water -> Electric geyser / immersion rod\n3. Pressing clothes -> Electric iron\n4. Pumping water -> Electric motor / pump\n5. Entertainment / News -> Television\n6. Cooling food -> Refrigerator",
+    "answer_explanation": "Real world applications of electricity.",
+    "difficulty": "easy",
+    "blooms_level": "apply",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "Think of six activities which use electric current. Also name the devices used to perform the activity.\nExample: Get lig",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH12-Q23",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 12,
+    "chapter_title": "Electricity and Circuits",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "A torch is not functioning, though contact points in the torch are in working condition. What can be the possible reasons for this? Mention any three.",
+    "options": [],
+    "answer_key": "1. The electric cells inside the torch may be completely exhausted (dead).\n2. The bulb inside the torch may be fused (its filament is broken).\n3. The cells might be placed with the wrong polarity (e.g., positive terminal touching another positive terminal) instead of in the proper series arrangement.",
+    "answer_explanation": "Troubleshooting a simple electrical device.",
+    "difficulty": "medium",
+    "blooms_level": "evaluate",
+    "source_file": "feep212.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "A torch is not functioning, though contact points in the torch are in working condition. What can be the possible reason",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  }
+]

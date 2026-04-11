@@ -1,0 +1,731 @@
+[
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q1",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Observe the picture given in Fig. 11.1 carefully. A patch of light is obtained at B, when the torch is lighted as shown. Which of the following is kept at position A to get this patch of light?",
+    "options": [
+      "A wooden board",
+      "A glass sheet",
+      "A mirror",
+      "A sheet of white paper"
+    ],
+    "answer_key": "A mirror",
+    "answer_explanation": "A mirror reflects the light beam from the torch and directs it towards position B to form the patch of light.",
+    "difficulty": "easy",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      1
+    ],
+    "provenance_excerpt": "Observe the picture given in Fig. 11.1 carefully. A patch of light is obtained at B, when the torch is lighted as shown.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.1"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q2",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "A student observes a tree given in Fig. 11.2 through a pin hole camera. Which of the diagrams given in Fig. 11.3 (a) to (d), depicts the image seen by her correctly?",
+    "options": [
+      "(a)",
+      "(b)",
+      "(c)",
+      "(d)"
+    ],
+    "answer_key": "An inverted image of the tree",
+    "answer_explanation": "A pinhole camera always forms an inverted (upside-down) image of the object. Thus, the diagram showing an inverted tree is correct.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      1,
+      2
+    ],
+    "provenance_excerpt": "A student observes a tree given in Fig. 11.2 through a pin hole camera. Which of the diagrams given in Fig. 11.3 (a) to ",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.2",
+      "Fig. 11.3"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q3",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Four students A, B, C and D looked through pipes of different shapes to see a candle flame as shown in Fig. 11.4. Who will be able to see the candle flame clearly?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "answer_key": "D",
+    "answer_explanation": "Light travels in a straight line. Only student D, who is using a straight pipe, will be able to see the candle flame. The other pipes are bent.",
+    "difficulty": "easy",
+    "blooms_level": "understand",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      2,
+      3
+    ],
+    "provenance_excerpt": "Four students A, B, C and D looked through pipes of different shapes to see a candle flame as shown in Fig. 11.4. Who wi",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.4"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q4",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Which of the following is/are not always necessary to observe a shadow?",
+    "options": [
+      "Sun",
+      "Screen",
+      "Source of light",
+      "Opaque object"
+    ],
+    "answer_key": "Sun",
+    "answer_explanation": "To observe a shadow, we need any source of light, an opaque object, and a screen. The Sun is a source of light, but it is not always necessary as artificial light (like a torch) can also cast a shadow.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Which of the following is/are not always necessary to observe a shadow?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q5",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Paheli observed the shadow of a tree at 8:00 a.m., 12:00 noon and 3:00 p.m. Which of the following statements is closest to her observation about the shape and size of the shadow?",
+    "options": [
+      "The shape of the shadow of the tree changes but the size remains the same.",
+      "The size of the shadow of the tree changes but the shape remains the same.",
+      "Both the size and shape of the shadow of the tree change.",
+      "Neither the shape nor the size of the shadow changes."
+    ],
+    "answer_key": "Both the size and shape of the shadow of the tree change.",
+    "answer_explanation": "As the position of the Sun in the sky changes throughout the day, the angle at which light falls on the tree changes, causing both the length (size) and the shape of the shadow to change.",
+    "difficulty": "hard",
+    "blooms_level": "evaluate",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Paheli observed the shadow of a tree at 8:00 a.m., 12:00 noon and 3:00 p.m. Which of the following statements is closest",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q6",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Which of the following can never form a circular shadow?",
+    "options": [
+      "A ball",
+      "A flat disc",
+      "A shoe box",
+      "An ice cream cone"
+    ],
+    "answer_key": "A shoe box",
+    "answer_explanation": "A shoe box is rectangular and has straight edges, so it will cast a rectangular or polygonal shadow. Balls, discs, and the base of an ice cream cone can all cast circular shadows.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Which of the following can never form a circular shadow?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q7",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "MCQ",
+    "question_text": "Two students while sitting across a table looked down on to its top surface. They noticed that they could see their own and each other\u2019s image. The table top is likely to be made of:",
+    "options": [
+      "unpolished wood",
+      "red stone",
+      "glass sheet",
+      "wood top covered with cloth"
+    ],
+    "answer_key": "glass sheet",
+    "answer_explanation": "A smooth glass sheet can act like a mirror and reflect light regularly, allowing the students to see images on its surface.",
+    "difficulty": "easy",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      3
+    ],
+    "provenance_excerpt": "Two students while sitting across a table looked down on to its top surface. They noticed that they could see their own ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q8",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "You have 3 opaque strips with very small holes of different shapes as shown in Fig. 11.5. If you obtain an image of the sun on a wall through these holes, will the image formed by these holes be the same or different?",
+    "options": [],
+    "answer_key": "The images formed will be the same (circular). Because the holes act as pinholes, a pinhole camera forms an image of the object itself regardless of the precise pinhole shape. The sun is circular, so its image will be circular.",
+    "answer_explanation": "Understanding pinhole camera principles.",
+    "difficulty": "hard",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      4
+    ],
+    "provenance_excerpt": "You have 3 opaque strips with very small holes of different shapes as shown in Fig. 11.5. If you obtain an image of the ",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.5"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q9",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position \u2018P\u2019, still the patch of light is obtained on the screen. What is the type of material of this sheet?",
+    "options": [],
+    "answer_key": "The material of the sheet is transparent (e.g., clear glass or plastic) because it allows light reflected from the mirror to pass through it completely to form a bright patch on the screen.",
+    "answer_explanation": "Properties of transparent materials.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      4
+    ],
+    "provenance_excerpt": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position \u2018P\u2019, still the patch of light is ",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.6"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q10",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "Three torches A, B and C shown in Fig. 11.7 are switched on one by one. The light from which of the torches will not form a shadow of the ball on the screen.",
+    "options": [],
+    "answer_key": "Light from the torch placed such that its light hits the ball but the shadow falls parallel to or away from the screen will not form a shadow on the given screen. (Typically the torch positioned on the side, e.g., Torch C).",
+    "answer_explanation": "Shadow formation geometry.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      5
+    ],
+    "provenance_excerpt": "Three torches A, B and C shown in Fig. 11.7 are switched on one by one. The light from which of the torches will not for",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.7"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q11",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Very Short Answer",
+    "question_text": "Look at the figure given in Fig. 11.8. Will there be any difference in the shadow formed on the screen in A and B.",
+    "options": [],
+    "answer_key": "Yes. If the distance between the object and the light source changes, the size of the shadow changes. The object closer to the light source will form a larger shadow than the object placed farther from the light source.",
+    "answer_explanation": "Shadow size relative to distance.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      5,
+      6
+    ],
+    "provenance_excerpt": "Look at the figure given in Fig. 11.8. Will there be any difference in the shadow formed on the screen in A and B.",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.8"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q12",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Correct the following statements.\n(i) The colour of the shadow of an object depends on its colour of the object.\n(ii) Transparent objects allow light to pass through them partially.",
+    "options": [],
+    "answer_key": "(i) The colour of the shadow of an object does not depend on the colour of the object; it is always dark/black.\n(ii) Translucent objects allow light to pass through them partially. (Or: Transparent objects allow light to pass through them completely.)",
+    "answer_explanation": "Correcting misconceptions about light and shadows.",
+    "difficulty": "easy",
+    "blooms_level": "remember",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "Correct the following statements.\n(i) The colour of the shadow of an object depends on its colour of the object.\n(ii) Tr",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q13",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Suggest a situation where we obtain more than one shadow of an object at a time.",
+    "options": [],
+    "answer_key": "We obtain more than one shadow of an object when there are multiple light sources illuminating the object from different directions, such as a player in a stadium lit by several floodlights.",
+    "answer_explanation": "Multiple shadows.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "Suggest a situation where we obtain more than one shadow of an object at a time.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q14",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "On a sunny day, does a bird or an aeroplane flying high in the sky cast its shadow on the ground? Under what circumstances can we see their shadow on the ground?",
+    "options": [],
+    "answer_key": "No, a bird or aeroplane flying very high does not cast a visible shadow on the ground because the ground (the screen) is too far away to capture the shadow (umbra). We can see their shadow on the ground only when they are flying very low, closer to the ground.",
+    "answer_explanation": "Shadow umbra and distance.",
+    "difficulty": "hard",
+    "blooms_level": "evaluate",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "On a sunny day, does a bird or an aeroplane flying high in the sky cast its shadow on the ground? Under what circumstanc",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q15",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "You are given a transparent glass sheet. Suggest any two ways to make it translucent without breaking it.",
+    "options": [],
+    "answer_key": "1. Rub its surface with sandpaper or a grinding stone to make it rough (frosted).\n2. Coat it with a thin layer of oil, grease, or butter.",
+    "answer_explanation": "Altering optical properties of materials.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      6
+    ],
+    "provenance_excerpt": "You are given a transparent glass sheet. Suggest any two ways to make it translucent without breaking it.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q16",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A torch is placed at two different positions A and B, one by one, as shown in Fig. 11.9. The shape of the shadow obtained in two positions is shown in Fig. 11.10. Match the position of the torch and shape of the shadow of the ball.",
+    "options": [],
+    "answer_key": "A torch placed directly overhead (Position A) will cast a circular shadow. A torch placed at an angle on the side (Position B) will cast an elongated, elliptical shadow.",
+    "answer_explanation": "Angle of light and shadow shape.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      6,
+      7
+    ],
+    "provenance_excerpt": "A torch is placed at two different positions A and B, one by one, as shown in Fig. 11.9. The shape of the shadow obtaine",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.9",
+      "Fig. 11.10"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q17",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "A student covered a torch with red cellophane sheet to obtain red light. Using the red light she obtains a shadow of an opaque object. She repeats this activity with green and blue light. Will the colour of the light affect the shadow ? Explain.",
+    "options": [],
+    "answer_key": "No, the colour of the light will not affect the shadow. A shadow is simply a region where light is blocked by an opaque object. Since there is an absence of light in the shadow region, it always appears dark/black regardless of the colour of the incident light.",
+    "answer_explanation": "Colour of shadows.",
+    "difficulty": "hard",
+    "blooms_level": "evaluate",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "A student covered a torch with red cellophane sheet to obtain red light. Using the red light she obtains a shadow of an ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q18",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Is air around us always transparent? Discuss.",
+    "options": [],
+    "answer_key": "Normally, the air around us is transparent, allowing us to see through it clearly. However, it is not always transparent; during heavy fog, thick smoke, or severe dust storms, the air becomes translucent or even opaque, obstructing clear vision.",
+    "answer_explanation": "Variability of transparency in air.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "Is air around us always transparent? Discuss.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q19",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Three identical towels of red, blue and green colour are hanging on a clothes line in the sun. What would be the colour of shadows of these towels?",
+    "options": [],
+    "answer_key": "The colour of the shadows of all three towels will be black/dark. Shadows have no colour and do not depend on the colour of the opaque object.",
+    "answer_explanation": "Colour independence of shadows.",
+    "difficulty": "easy",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "Three identical towels of red, blue and green colour are hanging on a clothes line in the sun. What would be the colour ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q20",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "Using a pinhole camera a student observes the image of two of his friends, standing in sunlight, wearing yellow and red shirt respectively. What will be the colours of the shirts in the image?",
+    "options": [],
+    "answer_key": "The colours of the shirts in the image will be yellow and red respectively. Unlike a shadow, the image formed by a pinhole camera is a real reflection of light from the object, so it retains the object's colours.",
+    "answer_explanation": "Properties of pinhole camera images.",
+    "difficulty": "medium",
+    "blooms_level": "understand",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "Using a pinhole camera a student observes the image of two of his friends, standing in sunlight, wearing yellow and red ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q21",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Short Answer",
+    "question_text": "In Fig. 11.11, a flower made of thick coloured paper has been pasted on the transparent glass sheet. What will be the shape and colour of shadow seen on the screen?",
+    "options": [],
+    "answer_key": "The shape of the shadow will be the exact outline of the paper flower. The colour of the shadow will be dark/black, even though the paper is coloured.",
+    "answer_explanation": "Shadow formation of combined objects.",
+    "difficulty": "medium",
+    "blooms_level": "apply",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      7
+    ],
+    "provenance_excerpt": "In Fig. 11.11, a flower made of thick coloured paper has been pasted on the transparent glass sheet. What will be the sh",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.11"
+    ]
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q22",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "A football match is being played at night in a stadium with flood lights ON. You can see the shadow of a football kept at the ground but cannot see its shadow when it is kicked high in the air. Explain.",
+    "options": [],
+    "answer_key": "When the football is on the ground, the screen (the ground) is very close to it, so multiple distinct or overlapping shadows are formed by the floodlights. When kicked high in the air, the distance between the ball and the ground is so large that the diverging light from the various floodlights completely intersects below it, washing out the umbra before it reaches the ground.",
+    "answer_explanation": "Shadow disappearance at large distances.",
+    "difficulty": "hard",
+    "blooms_level": "evaluate",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      8
+    ],
+    "provenance_excerpt": "A football match is being played at night in a stadium with flood lights ON. You can see the shadow of a football kept a",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q23",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "A student had a ball, a screen and a torch in working condition. He tried to form a shadow of the ball on the screen by placing them at different positions. Sometimes the shadow was not obtained. Explain.",
+    "options": [],
+    "answer_key": "A shadow might not be obtained if:\n1. The light from the torch is parallel to the screen and does not hit it (i.e. casting the shadow elsewhere).\n2. The torch is too close to the ball or placed such that the shadow expands beyond the edges of the screen.\n3. The ball is placed behind the screen or the torch is placed between the ball and the screen.\n4. The torch was not switched on.",
+    "answer_explanation": "Troubleshooting shadow experiments.",
+    "difficulty": "medium",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      8
+    ],
+    "provenance_excerpt": "A student had a ball, a screen and a torch in working condition. He tried to form a shadow of the ball on the screen by ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "image_required": false,
+    "figure_ref": []
+  },
+  {
+    "question_id": "NCERT-EXEMPLAR-S6-CH11-Q24",
+    "board": "NCERT",
+    "class_level": 6,
+    "subject": "Science",
+    "book": "Exemplar Problems - Science",
+    "chapter_number": 11,
+    "chapter_title": "Light, Shadows and Reflections",
+    "language": "English",
+    "source_kind": "EXEMPLAR",
+    "question_type": "Long Answer",
+    "question_text": "A sheet of plywood, a piece of muslin cloth and that of a transparent glass, all of the same size and shape were placed at A one by one in the arrangement shown in Fig. 11.12. Will the shadow be formed in each case. If yes, how will the shadow on the screen be different in each case? Give reasons for your answer.",
+    "options": [],
+    "answer_key": "1. Plywood (opaque): A dark, distinct shadow is formed because it blocks all light.\n2. Muslin cloth (translucent): A lighter, faint shadow is formed because it allows a portion of the light to pass through it while blocking the rest.\n3. Transparent glass: Almost no shadow or a very faint outline is formed because it allows almost all the light to pass through it entirely.",
+    "answer_explanation": "Shadow differences based on transparency.",
+    "difficulty": "hard",
+    "blooms_level": "analyze",
+    "source_file": "feep211.pdf",
+    "source_pages": [
+      8
+    ],
+    "provenance_excerpt": "A sheet of plywood, a piece of muslin cloth and that of a transparent glass, all of the same size and shape were placed ",
+    "review_state": "approved",
+    "qa_flags": [
+      "needs_figure"
+    ],
+    "image_required": false,
+    "figure_ref": [
+      "Fig. 11.12"
+    ]
+  }
+]
