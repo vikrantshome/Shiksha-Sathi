@@ -12,18 +12,35 @@ export default function LoginPage() {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const validatePhone = (phone: string): boolean => {
+    const digits = phone.replace(/\D/g, "");
+    if (digits.length !== 10) {
+      setPhoneError("Phone number must be exactly 10 digits");
+      return false;
+    }
+    setPhoneError(null);
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsPending(true);
     setError(null);
+    setPhoneError(null);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
+    const phone = (formData.get("phone") as string).replace(/\D/g, "");
     const password = formData.get("password") as string;
 
+    if (!validatePhone(phone)) {
+      setIsPending(false);
+      return;
+    }
+
     try {
-      const response = await auth.login({ email, password });
+      const response = await auth.login({ phone, password });
 
       setCookie("auth-token", response.token, {
         maxAge: 30 * 24 * 60 * 60,
@@ -82,19 +99,26 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className="grid gap-8">
         <div className="group relative">
           <label
-            htmlFor="login-email"
+            htmlFor="login-phone"
             className="mb-2 block text-xs font-semibold tracking-wider text-on-surface-variant uppercase transition-colors group-focus-within:text-primary"
           >
-            Email Address
+            Phone Number
           </label>
           <input
-            id="login-email"
-            type="email"
-            name="email"
+            id="login-phone"
+            type="tel"
+            name="phone"
             required
-            placeholder="teacher@school.com"
-            className="w-full border-0 border-b border-outline-variant bg-surface-container-highest py-3 text-base text-on-surface transition-colors placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none focus:ring-0"
+            placeholder="9876543210"
+            maxLength={10}
+            pattern="\d{10}"
+            className={`w-full border-0 border-b bg-surface-container-highest py-3 text-base text-on-surface transition-colors placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-0 ${
+              phoneError ? "border-error focus:border-error" : "border-outline-variant focus:border-primary"
+            }`}
           />
+          {phoneError && (
+            <p className="mt-1 text-xs text-error">{phoneError}</p>
+          )}
         </div>
 
         <div className="group relative">
