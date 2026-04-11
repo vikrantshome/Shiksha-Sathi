@@ -28,7 +28,10 @@ public class ClassService {
 
     public ClassEntity createClass(ClassRequest request, String loginIdentity) {
         User teacher = userRepository.findByEmail(loginIdentity)
-                .or(() -> userRepository.findByPhone(loginIdentity))
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
 
         ClassEntity entity = new ClassEntity();
@@ -58,7 +61,10 @@ public class ClassService {
 
     public ClassEntity getClassById(String id, String loginIdentity) {
         User teacher = userRepository.findByEmail(loginIdentity)
-                .or(() -> userRepository.findByPhone(loginIdentity))
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
         ClassEntity classEntity = classRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found"));
@@ -99,8 +105,11 @@ public class ClassService {
 
     public ClassEntity enrollStudent(String classId, String studentPhone, String loginIdentity) {
         ClassEntity entity = getClassById(classId, loginIdentity);
-        User student = userRepository.findByPhone(studentPhone)
-                .orElseThrow(() -> new RuntimeException("Student not found with phone: " + studentPhone));
+        java.util.List<com.shikshasathi.backend.core.domain.user.User> studentUsers = userRepository.findByPhone(studentPhone);
+        if (studentUsers.isEmpty()) {
+            throw new RuntimeException("Student not found with phone: " + studentPhone);
+        }
+        User student = studentUsers.get(0);
 
         if (entity.getStudentIds() == null) {
             entity.setStudentIds(new ArrayList<>());

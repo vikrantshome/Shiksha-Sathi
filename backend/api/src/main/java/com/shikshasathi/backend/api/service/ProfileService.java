@@ -19,7 +19,10 @@ public class ProfileService {
 
     public ProfileResponse getProfile(String username) {
         User user = userRepository.findByEmail(username)
-                .or(() -> userRepository.findByPhone(username))
+                .or(() -> {
+                    java.util.List<User> phoneUsers = userRepository.findByPhone(username);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Profile profile = profileRepository.findByUserId(user.getId())
@@ -35,7 +38,10 @@ public class ProfileService {
 
     public ProfileResponse updateProfile(String username, ProfileRequest request) {
         User user = userRepository.findByEmail(username)
-                .or(() -> userRepository.findByPhone(username))
+                .or(() -> {
+                    java.util.List<User> phoneUsers = userRepository.findByPhone(username);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Profile profile = profileRepository.findByUserId(user.getId())
