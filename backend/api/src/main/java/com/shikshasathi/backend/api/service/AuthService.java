@@ -143,7 +143,7 @@ public class AuthService {
 
         // Enforce phone uniqueness for TEACHER role
         if (request.getRole() == Role.TEACHER) {
-            List<User> existingTeachers = userRepository.findByPhoneAndRoleAndIsActive(
+            List<User> existingTeachers = userRepository.findByPhoneAndRoleAndActive(
                     request.getPhone(), Role.TEACHER, true);
             if (!existingTeachers.isEmpty()) {
                 throw new RuntimeException("A teacher account already exists with this phone number");
