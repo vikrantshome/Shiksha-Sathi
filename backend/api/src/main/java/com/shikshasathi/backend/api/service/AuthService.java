@@ -25,6 +25,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+    /**
+     * Returns the login identity for a user — email if present, otherwise phone.
+     * This must match what UserDetailsService uses for the username.
+     */
+    private String getLoginIdentity(User user) {
+        return (user.getEmail() != null && !user.getEmail().isBlank())
+                ? user.getEmail() : user.getPhone();
+    }
+
     public AuthResponse authenticate(AuthRequest request) {
         // Email-based login (single user expected)
         if (request.getEmail() != null && !request.getEmail().isBlank()) {
@@ -41,7 +50,7 @@ public class AuthService {
             user.setLastLoginAt(Instant.now().toEpochMilli());
             userRepository.save(user);
 
-            String token = jwtUtil.generateToken(request.getEmail(), user.getRole().name(), user.getId());
+            String token = jwtUtil.generateToken(getLoginIdentity(user), user.getRole().name(), user.getId());
             return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(), null);
         }
 
@@ -69,7 +78,7 @@ public class AuthService {
             selectedUser.setLastLoginAt(Instant.now().toEpochMilli());
             userRepository.save(selectedUser);
 
-            String token = jwtUtil.generateToken(phone, selectedUser.getRole().name(), selectedUser.getId());
+            String token = jwtUtil.generateToken(getLoginIdentity(selectedUser), selectedUser.getRole().name(), selectedUser.getId());
             return new AuthResponse(token, selectedUser.getId(), selectedUser.getName(), selectedUser.getSchool(), selectedUser.getRole(), null);
         }
 
@@ -101,7 +110,7 @@ public class AuthService {
             teacher.setLastLoginAt(Instant.now().toEpochMilli());
             userRepository.save(teacher);
 
-            String token = jwtUtil.generateToken(phone, teacher.getRole().name(), teacher.getId());
+            String token = jwtUtil.generateToken(getLoginIdentity(teacher), teacher.getRole().name(), teacher.getId());
             return new AuthResponse(token, teacher.getId(), teacher.getName(), teacher.getSchool(), teacher.getRole(), null);
         }
 
