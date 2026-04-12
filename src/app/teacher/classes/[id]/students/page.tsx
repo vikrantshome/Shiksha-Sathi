@@ -1,9 +1,9 @@
 import { api } from "@/lib/api";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { ClassItem, User } from "@/lib/api/types";
 import { UserPlusIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
+import { enrollStudent, removeStudent } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -34,28 +34,22 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
 
   async function handleEnrollStudent(formData: FormData) {
     "use server";
-    const studentPhone = formData.get("studentPhone") as string;
-    if (!studentPhone) return;
-
-    try {
-      await api.classes.enrollStudent(id, studentPhone.trim());
-      revalidatePath(`/teacher/classes/${id}/students`);
-    } catch (error) {
-      console.error("Failed to enroll student:", error);
+    const result = await enrollStudent(id, {
+      name: formData.get("studentName") as string,
+      phone: formData.get("studentPhone") as string,
+      birthDate: formData.get("birthDate") as string,
+    });
+    if (result?.error) {
+      console.error("Enrollment error:", result.error);
     }
+    redirect(`/teacher/classes/${id}/students`);
   }
 
   async function handleRemoveStudent(formData: FormData) {
     "use server";
     const studentId = formData.get("studentId") as string;
-    if (!studentId) return;
-
-    try {
-      await api.classes.removeStudent(id, studentId);
-      revalidatePath(`/teacher/classes/${id}/students`);
-    } catch (error) {
-      console.error("Failed to remove student:", error);
-    }
+    await removeStudent(id, studentId || "");
+    redirect(`/teacher/classes/${id}/students`);
   }
 
   return (
@@ -88,23 +82,53 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
             <h2 className="text-headline-md m-0">Enroll Student</h2>
           </div>
           <form action={handleEnrollStudent} className="flex flex-col gap-4 md:gap-5 relative z-10">
+            {/* Student Name */}
             <div>
               <label className="block text-label-md text-on-surface-variant mb-1.5">
-                Student Phone Number
+                Student Name <span className="text-error">*</span>
+              </label>
+              <input
+                name="studentName"
+                required
+                placeholder="e.g. Aarav Patel"
+                className="input-academic w-full"
+              />
+            </div>
+
+            {/* Phone Number */}
+            <div>
+              <label className="block text-label-md text-on-surface-variant mb-1.5">
+                Phone Number <span className="text-error">*</span>
               </label>
               <input
                 name="studentPhone"
                 required
+                maxLength={10}
                 pattern="[0-9]{10}"
                 placeholder="e.g. 9876543210"
                 className="input-academic w-full"
               />
+            </div>
+
+            {/* Birth Date */}
+            <div>
+              <label className="block text-label-md text-on-surface-variant mb-1.5">
+                Date of Birth <span className="text-error">*</span>
+              </label>
+              <input
+                name="birthDate"
+                required
+                placeholder="DD-MM-YYYY"
+                pattern="\d{2}-\d{2}-\d{4}"
+                className="input-academic w-full"
+              />
               <p className="text-xs text-on-surface-variant mt-2">
-                Enter the student&apos;s 10-digit phone number to add them to this class.
+                Format: DD-MM-YYYY. This will be set as the student&apos;s default password.
               </p>
             </div>
+
             <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center mt-2" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}>
-              Add Student
+              Enroll Student
             </button>
           </form>
         </div>
