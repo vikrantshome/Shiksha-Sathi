@@ -66,6 +66,24 @@ const IconQuestionBank = ({ active }: { active: boolean }) => (
   </svg>
 );
 
+const IconQuiz = ({ active }: { active: boolean }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={active ? 2.5 : 2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M9 12h6" />
+    <path d="M9 16h4" />
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6" />
+  </svg>
+);
+
 /* IconAnalytics, IconSettings, IconHelp removed — no shipped destinations (SSA-249) */
 
 const IconLogout = () => (
@@ -101,6 +119,7 @@ const navItems = [
   { href: "/teacher/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
   { href: "/teacher/classes", label: "My Classes", icon: IconClasses, mobileLabel: "Classes" },
   { href: "/teacher/question-bank", label: "Question Bank", icon: IconQuestionBank, mobileLabel: "Vault" },
+  { href: "/teacher/quizzes", label: "Quizzes", icon: IconQuiz, mobileLabel: "Quiz" },
 ];
 
 export default function TeacherLayout({
