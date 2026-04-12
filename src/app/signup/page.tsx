@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import { saveStudentIdentity } from "@/lib/api/students";
 import { trackEvent } from "@/lib/analytics";
@@ -75,10 +74,8 @@ export default function SignupPage() {
         role,
       });
 
-      setCookie("auth-token", response.token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: "/",
-      });
+      // Set cookie using native document.cookie for reliable client-side handling
+      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
 
       trackEvent("user_signed_up", { role, school });
       if (role === "STUDENT") {

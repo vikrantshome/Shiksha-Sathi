@@ -1,6 +1,7 @@
 package com.shikshasathi.backend.api.controller;
 
 import com.shikshasathi.backend.api.dto.ClassRequest;
+import com.shikshasathi.backend.api.dto.EnrollStudentRequest;
 import com.shikshasathi.backend.api.service.ClassService;
 import com.shikshasathi.backend.core.domain.school.AttendanceRecord;
 import com.shikshasathi.backend.core.domain.school.ClassEntity;
@@ -96,10 +97,9 @@ public class ClassController {
     @PostMapping("/{classId}/enroll")
     public ResponseEntity<ClassEntity> enrollStudent(
             @PathVariable String classId,
-            @RequestBody Map<String, String> request) {
+            @RequestBody EnrollStudentRequest request) {
         String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
-        String studentPhone = request.get("studentPhone");
-        return ResponseEntity.ok(classService.enrollStudent(classId, studentPhone, loginIdentity));
+        return ResponseEntity.ok(classService.enrollStudent(classId, request, loginIdentity));
     }
 
     @DeleteMapping("/{classId}/students/{studentId}")
