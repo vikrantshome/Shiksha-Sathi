@@ -81,7 +81,7 @@ public class ProfileServiceTest {
     @Test
     void getProfile_UserNotFound_ThrowsException() {
         when(userRepository.findByEmail("unknown@test.com")).thenReturn(Optional.empty());
-        when(userRepository.findByPhone("unknown@test.com")).thenReturn(Optional.empty());
+        when(userRepository.findByPhone("unknown@test.com")).thenReturn(java.util.Collections.emptyList());
 
         assertThrows(UsernameNotFoundException.class, () -> profileService.getProfile("unknown@test.com"));
     }

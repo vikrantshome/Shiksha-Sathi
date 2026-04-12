@@ -17,6 +17,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.shikshasathi.backend.core.domain.user.User;
+import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
+
 import java.io.IOException;
 
 @Slf4j
@@ -26,6 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -57,9 +61,43 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            // Prefer the userId claim (unique) to avoid ambiguity when multiple users share a phone number.
+            String userId = jwtUtil.extractUserId(jwt);
+            UserDetails userDetails = null;
 
-            if (jwtUtil.isTokenValid(jwt, userDetails.getUsername())) {
+            if (userId != null && !userId.isBlank()) {
+                User user = userRepository.findById(userId).orElse(null);
+                if (user == null) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
+                String identity = (user.getEmail() != null && !user.getEmail().isBlank())
+                        ? user.getEmail()
+                        : user.getPhone();
+
+                boolean subjectMatchesUser = username.equals(identity)
+                        || (user.getPhone() != null && username.equals(user.getPhone()))
+                        || (user.getEmail() != null && username.equals(user.getEmail()));
+
+                if (!subjectMatchesUser) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
+                userDetails = org.springframework.security.core.userdetails.User.builder()
+                        .username(identity)
+                        .password(user.getPasswordHash())
+                        .roles(user.getRole().name())
+                        .build();
+            } else {
+                userDetails = this.userDetailsService.loadUserByUsername(username);
+            }
+
+            // Validate against the token subject (username extracted from JWT).
+            // Some users may have both phone + email, and our UserDetails username can differ
+            // from the login identity used to mint the token.
+            if (jwtUtil.isTokenValid(jwt, username)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
