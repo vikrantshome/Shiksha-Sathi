@@ -43,6 +43,28 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
+    public String extractUserId(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            Object userId = claims.get("userId");
+            return userId == null ? null : userId.toString();
+        } catch (JwtException | IllegalArgumentException e) {
+            log.debug("Failed to extract userId claim: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public String extractRole(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            Object role = claims.get("role");
+            return role == null ? null : role.toString();
+        } catch (JwtException | IllegalArgumentException e) {
+            log.debug("Failed to extract role claim: {}", e.getMessage());
+            return null;
+        }
+    }
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
