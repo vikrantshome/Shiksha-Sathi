@@ -38,10 +38,10 @@ export const classes = {
       body: JSON.stringify({ studentId, date, status }),
     }),
 
-  enrollStudent: (classId: string, studentPhone: string): Promise<ClassItem> =>
+  enrollStudent: (classId: string, data: { name: string; phone: string; birthDate: string }): Promise<ClassItem> =>
     fetchApi<ClassItem>(`/classes/${classId}/enroll`, {
       method: 'POST',
-      body: JSON.stringify({ studentPhone }),
+      body: JSON.stringify(data),
     }),
 
   removeStudent: (classId: string, studentId: string): Promise<ClassItem> =>

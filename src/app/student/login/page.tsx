@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 import { auth } from "@/lib/api/auth";
 import AuthShell from "@/components/AuthShell";
 import Loader from "@/components/Loader";
@@ -27,10 +26,8 @@ export default function StudentLoginPage() {
         password,
       });
 
-      setCookie("auth-token", response.token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: "/",
-      });
+      // Set cookie using native document.cookie for reliable client-side handling
+      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
 
       router.push("/student/dashboard");
     } catch (err: unknown) {
