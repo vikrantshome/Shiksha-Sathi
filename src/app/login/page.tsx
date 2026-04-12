@@ -51,9 +51,9 @@ export default function LoginPage() {
     });
 
     if (response.role === "TEACHER") {
-      router.push("/teacher/dashboard");
+      window.location.href = "/teacher/dashboard";
     } else {
-      router.push("/");
+      window.location.href = "/";
     }
   };
 
@@ -107,9 +107,9 @@ export default function LoginPage() {
       });
 
       if (response.role === "TEACHER") {
-        router.push("/teacher/dashboard");
+        window.location.href = "/teacher/dashboard";
       } else {
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (err: unknown) {
       const apiError = err as { message?: string };
