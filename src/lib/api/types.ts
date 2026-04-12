@@ -243,3 +243,150 @@ export interface StudentIdentity {
   section: string;   // Section/Division (e.g., "A")
   storedAt: string;
 }
+
+/* ── Quiz Types ── */
+
+export interface Quiz {
+  id: string;
+  teacherId: string;
+  classId: string;
+  title: string;
+  description?: string;
+  questionIds: string[];
+  questionPointsMap?: Record<string, number>;
+  timePerQuestionSec?: number;
+  selfPacedEnabled?: boolean;
+  selfPacedCode?: string;
+  publishedAt?: string;
+}
+
+export interface StartQuizSessionResponse {
+  sessionId: string;
+  sessionCode: string;
+}
+
+export interface JoinQuizSessionResponse {
+  sessionId: string;
+  sessionCode: string;
+  status: 'LOBBY' | 'LIVE' | 'REVEAL' | 'ENDED' | string;
+}
+
+export interface QuizSession {
+  id: string;
+  quizId: string;
+  teacherId: string;
+  classId: string;
+  sessionCode: string;
+  status: 'LOBBY' | 'LIVE' | 'REVEAL' | 'ENDED' | string;
+  currentQuestionIndex: number;
+  questionStartedAt?: string;
+  questionEndsAt?: string;
+  locked: boolean;
+  endedAt?: string;
+  revision?: number;
+}
+
+export interface QuizStudentQuestionDTO {
+  id: string;
+  subject?: string;
+  grade?: string | null;
+  chapter?: string;
+  topic?: string;
+  type: string;
+  text: string;
+  options?: string[];
+  marks?: number;
+}
+
+export interface StudentQuizDTO {
+  id: string;
+  title: string;
+  timePerQuestionSec?: number;
+  totalMarks: number;
+  questions: QuizStudentQuestionDTO[];
+}
+
+export interface LeaderboardEntryDTO {
+  rank: number;
+  displayName: string;
+  score: number;
+  isMe: boolean;
+}
+
+export interface StudentQuizSessionStateDTO {
+  sessionId: string;
+  sessionCode: string;
+  quizId: string;
+  quizTitle: string;
+  status: 'LOBBY' | 'LIVE' | 'REVEAL' | 'ENDED' | string;
+  revision: number;
+  locked: boolean;
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  timePerQuestionSec?: number;
+  currentQuestion?: QuizStudentQuestionDTO;
+  questionEndsAt?: string;
+  secondsRemaining?: number;
+  leaderboard?: LeaderboardEntryDTO[];
+  myScore?: number;
+  myRank?: number;
+  myAnswer?: string;
+  correctAnswer?: string;
+  myCorrect?: boolean;
+  myPointsAwarded?: number;
+}
+
+export interface TeacherParticipantDTO {
+  studentId: string;
+  displayName: string;
+  score: number;
+}
+
+export interface TeacherQuizSessionStateDTO {
+  sessionId: string;
+  sessionCode: string;
+  quizId: string;
+  quizTitle: string;
+  status: 'LOBBY' | 'LIVE' | 'REVEAL' | 'ENDED' | string;
+  revision: number;
+  locked: boolean;
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  timePerQuestionSec?: number;
+  currentQuestion?: QuizStudentQuestionDTO;
+  correctAnswer?: string;
+  questionEndsAt?: string;
+  secondsRemaining?: number;
+  participants?: TeacherParticipantDTO[];
+  leaderboard?: LeaderboardEntryDTO[];
+  answerDistribution?: Record<string, number>;
+  totalResponses?: number;
+}
+
+export interface QuizAnswerResponse {
+  accepted: boolean;
+  correct: boolean;
+  pointsAwarded: number;
+  newScore: number;
+}
+
+export interface QuizQuestionStatDTO {
+  questionIndex: number;
+  questionId: string;
+  text: string;
+  totalResponses: number;
+  correctResponses: number;
+}
+
+export interface QuizSessionReportDTO {
+  sessionId: string;
+  sessionCode: string;
+  quizId: string;
+  quizTitle: string;
+  leaderboard: LeaderboardEntryDTO[];
+  questionStats: QuizQuestionStatDTO[];
+}
+
+export interface QuizAttemptStartResponse {
+  attemptId: string;
+}
