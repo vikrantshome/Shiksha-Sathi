@@ -1,15 +1,19 @@
 package com.shikshasathi.backend.api.service;
 
 import com.shikshasathi.backend.api.dto.ClassRequest;
+import com.shikshasathi.backend.api.dto.EnrollStudentRequest;
 import com.shikshasathi.backend.core.domain.school.AttendanceRecord;
 import com.shikshasathi.backend.core.domain.school.ClassEntity;
+import com.shikshasathi.backend.core.domain.user.Role;
 import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.school.AttendanceRepository;
 import com.shikshasathi.backend.infrastructure.repository.school.ClassRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public class ClassService {
     private final ClassRepository classRepository;
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<ClassEntity> getClassesForTeacher(String teacherId) {
         return classRepository.findByTeacherIdsContaining(teacherId);
@@ -103,13 +108,47 @@ public class ClassService {
         return attendanceRepository.save(record);
     }
 
-    public ClassEntity enrollStudent(String classId, String studentPhone, String loginIdentity) {
+    /**
+     * Enroll a student in a class. If the student doesn't exist, creates a new student account.
+     * The student's birth date (DD-MM-YYYY) becomes their default password.
+     */
+    public ClassEntity enrollStudent(String classId, EnrollStudentRequest request, String loginIdentity) {
         ClassEntity entity = getClassById(classId, loginIdentity);
-        java.util.List<com.shikshasathi.backend.core.domain.user.User> studentUsers = userRepository.findByPhone(studentPhone);
-        if (studentUsers.isEmpty()) {
-            throw new RuntimeException("Student not found with phone: " + studentPhone);
+        User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+        // Validate birth date format DD-MM-YYYY
+        String birthDate = request.getBirthDate();
+        if (birthDate == null || !birthDate.matches("\\d{2}-\\d{2}-\\d{4}")) {
+            throw new RuntimeException("Birth date must be in DD-MM-YYYY format");
         }
-        User student = studentUsers.get(0);
+
+        // Find or create student
+        java.util.List<com.shikshasathi.backend.core.domain.user.User> studentUsers = userRepository.findByPhone(request.getPhone());
+        User student;
+
+        if (studentUsers.isEmpty()) {
+            // Create new student account
+            student = new User();
+            student.setName(request.getName());
+            student.setPhone(request.getPhone());
+            student.setPasswordHash(passwordEncoder.encode(birthDate)); // Birth date as password
+            student.setRole(Role.STUDENT);
+            student.setSchool(teacher.getSchool());
+            student.setSchoolId(teacher.getSchoolId());
+            student.setStudentClass(entity.getGrade());
+            student.setSection(entity.getSection());
+            student.setActive(true);
+            student.setCreatedAt(Instant.now());
+            student = userRepository.save(student);
+        } else {
+            // Use existing student (first match)
+            student = studentUsers.get(0);
+        }
 
         if (entity.getStudentIds() == null) {
             entity.setStudentIds(new ArrayList<>());
