@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import Loader from "@/components/Loader";
+import type { ChapterMeta } from "@/lib/api/types";
 
 /* ─────────────────────────────────────────────────────────
    Question Bank Taxonomy Filters — Stitch-Directed
@@ -70,6 +71,15 @@ const TaxonomyStep = ({ icon, label, active, onClick }: TaxonomyStepProps) => (
   </button>
 );
 
+function parseLegacyChapter(chapter: string) {
+  const match = chapter.match(/^\s*chapter\s*(\d+)\s*:\s*(.+?)\s*$/i);
+  if (!match) return null;
+  return {
+    chapterNumber: match[1],
+    chapterTitle: match[2].trim(),
+  };
+}
+
 export default function QuestionBankFilters({
   subjects,
   chapters,
@@ -78,7 +88,7 @@ export default function QuestionBankFilters({
   books = [],
 }: {
   subjects: string[];
-  chapters: string[];
+  chapters: ChapterMeta[];
   boards?: string[];
   classes?: string[];
   books?: string[];
@@ -92,23 +102,43 @@ export default function QuestionBankFilters({
   const currentClass = searchParams.get("class") || "";
   const subjectParam = searchParams.get("subject") || "";
   const bookParam = searchParams.get("book") || "";
-  const chapterParam = searchParams.get("chapter") || "";
+  const legacyChapterParam = searchParams.get("chapter") || "";
+  const chapterNumberParam = searchParams.get("chapterNumber") || "";
+  const chapterTitleParam = searchParams.get("chapterTitle") || "";
   const currentSubject = subjects.includes(subjectParam) ? subjectParam : "";
   const currentBook = books.includes(bookParam) ? bookParam : "";
-  const currentChapter = chapters.includes(chapterParam) ? chapterParam : "";
+  const parsedLegacyChapter = legacyChapterParam
+    ? parseLegacyChapter(legacyChapterParam)
+    : null;
+  const chapterNumberFromLegacy = parsedLegacyChapter?.chapterNumber || "";
+  const chapterTitleFromLegacy = parsedLegacyChapter?.chapterTitle || "";
+  const currentChapterNumber = chapterNumberParam || chapterNumberFromLegacy;
+  const currentChapterTitleCandidate = chapterTitleParam || chapterTitleFromLegacy;
+  const currentChapterMeta =
+    currentChapterNumber
+      ? chapters.find(
+          (c) =>
+            String(c.chapterNumber) === currentChapterNumber &&
+            (!currentChapterTitleCandidate ||
+              (c.chapterTitle || "").toLowerCase() ===
+                currentChapterTitleCandidate.toLowerCase())
+        ) ||
+        chapters.find((c) => String(c.chapterNumber) === currentChapterNumber)
+      : undefined;
+  const currentChapterLabel = currentChapterMeta?.label || "";
   const classOptions = ["6", "7", "8", "9", "10", "11", "12"];
   const hasActiveFilters = Boolean(
-    currentBoard || currentClass || currentSubject || currentBook || currentChapter
+    currentBoard || currentClass || currentSubject || currentBook || currentChapterNumber
   );
   const isSelectionComplete = Boolean(
-    currentBoard && currentClass && currentSubject && currentChapter
+    currentBoard && currentClass && currentSubject && currentChapterNumber
   );
   const [isMobileExpanded, setIsMobileExpanded] = useState(!isSelectionComplete);
   const mobileSummary = [
     currentBoard,
     currentClass ? `Class ${currentClass}` : "",
     currentSubject,
-    currentChapter,
+    currentChapterLabel || (currentChapterNumber ? `Chapter ${currentChapterNumber}` : ""),
   ].filter(Boolean);
 
   /* eslint-disable */
@@ -123,6 +153,46 @@ export default function QuestionBankFilters({
     }
   }, [hasActiveFilters, isSelectionComplete]);
   /* eslint-enable */
+
+  useEffect(() => {
+    if (!legacyChapterParam || chapterNumberParam || !parsedLegacyChapter) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("chapterNumber", parsedLegacyChapter.chapterNumber);
+    params.set("chapterTitle", parsedLegacyChapter.chapterTitle);
+    params.delete("chapter");
+
+    const nextQuery = params.toString();
+    router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname);
+  }, [
+    chapterNumberParam,
+    legacyChapterParam,
+    parsedLegacyChapter?.chapterNumber,
+    parsedLegacyChapter?.chapterTitle,
+    pathname,
+    router,
+    searchParams,
+  ]);
+
+  const navigateWithParams = (params: URLSearchParams, method: "push" | "replace" = "push") => {
+    const nextQuery = params.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+    if (method === "replace") {
+      router.replace(nextUrl);
+      return;
+    }
+    router.push(nextUrl);
+  };
+
+  const clearChapterSelection = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("chapterNumber");
+    params.delete("chapterTitle");
+    params.delete("chapter");
+    navigateWithParams(params);
+  };
 
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
@@ -139,19 +209,46 @@ export default function QuestionBankFilters({
         params.delete("class");
         params.delete("subject");
         params.delete("book");
+        params.delete("chapterNumber");
+        params.delete("chapterTitle");
         params.delete("chapter");
       } else if (name === "class") {
         params.delete("subject");
         params.delete("book");
+        params.delete("chapterNumber");
+        params.delete("chapterTitle");
         params.delete("chapter");
       } else if (name === "subject") {
         params.delete("book");
+        params.delete("chapterNumber");
+        params.delete("chapterTitle");
         params.delete("chapter");
       } else if (name === "book") {
+        params.delete("chapterNumber");
+        params.delete("chapterTitle");
+        params.delete("chapter");
+      } else if (name === "chapterNumber") {
+        if (!value || value === "ALL") {
+          params.delete("chapterTitle");
+        }
         params.delete("chapter");
       }
 
-      router.push(`${pathname}?${params.toString()}`);
+      navigateWithParams(params);
+    });
+  };
+
+  const handleChapterSelect = (chapterItem: ChapterMeta) => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("chapterNumber", String(chapterItem.chapterNumber));
+      if (chapterItem.chapterTitle) {
+        params.set("chapterTitle", chapterItem.chapterTitle);
+      } else {
+        params.delete("chapterTitle");
+      }
+      params.delete("chapter");
+      navigateWithParams(params);
     });
   };
 
@@ -162,8 +259,10 @@ export default function QuestionBankFilters({
       params.delete("class");
       params.delete("subject");
       params.delete("book");
+      params.delete("chapterNumber");
+      params.delete("chapterTitle");
       params.delete("chapter");
-      router.push(`${pathname}?${params.toString()}`);
+      navigateWithParams(params);
     });
   };
 
@@ -325,8 +424,21 @@ export default function QuestionBankFilters({
                 Chapter
               </span>
               <select
-                value={currentChapter}
-                onChange={(e) => handleFilterChange("chapter", e.target.value)}
+                value={currentChapterMeta ? `${currentChapterMeta.chapterNumber}::${currentChapterMeta.chapterTitle || ""}` : ""}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  if (!raw) {
+                    clearChapterSelection();
+                    return;
+                  }
+                  const [num, title] = raw.split("::");
+                  const found = chapters.find(
+                    (c) =>
+                      String(c.chapterNumber) === num &&
+                      (c.chapterTitle || "") === (title || "")
+                  );
+                  if (found) handleChapterSelect(found);
+                }}
                 disabled={chapters.length === 0}
                 className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
@@ -334,8 +446,8 @@ export default function QuestionBankFilters({
                   {chapters.length > 0 ? "Select Chapter" : "No Chapters Available"}
                 </option>
                 {chapters.map((ch) => (
-                  <option key={ch} value={ch}>
-                    {ch}
+                  <option key={`${ch.chapterNumber}-${ch.chapterTitle || ""}`} value={`${ch.chapterNumber}::${ch.chapterTitle || ""}`}>
+                    {ch.label}
                   </option>
                 ))}
               </select>
@@ -486,24 +598,25 @@ export default function QuestionBankFilters({
           <div>
             <TaxonomyStep
               icon={<IconChapter />}
-              label={currentChapter || (chapters.length > 0 ? "Select Chapter" : "Select Book First")}
-              active={!!currentChapter}
+              label={currentChapterLabel || (chapters.length > 0 ? "Select Chapter" : "Select Book First")}
+              active={!!currentChapterNumber}
               onClick={() => {}}
             />
             <div className="px-2 max-h-64 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-outline-variant/20 [&::-webkit-scrollbar-thumb]:rounded-full">
               {chapters.length > 0 ? (
                 chapters.map((ch) => (
                 <button
-                  key={ch}
+                  key={`${ch.chapterNumber}-${ch.chapterTitle || ""}`}
                   type="button"
-                  onClick={() => handleFilterChange("chapter", ch)}
+                  onClick={() => handleChapterSelect(ch)}
                   className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
-                    currentChapter === ch
+                    currentChapterMeta?.chapterNumber === ch.chapterNumber &&
+                    (currentChapterMeta?.chapterTitle || "") === (ch.chapterTitle || "")
                       ? "font-medium bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20"
                       : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
-                  {ch}
+                  {ch.label}
                   </button>
                 ))
               ) : (

@@ -54,11 +54,12 @@ export default async function AdminDerivedDashboard({
 
   let chapters: string[] = [];
   try {
-    chapters = await api.questions.getChapters(
-      subjectId || undefined,
-      book || undefined,
-      classLevel || undefined
-    ).catch(() => []);
+    chapters = await api.questions.getChapters({
+      board: board || undefined,
+      subjectId: subjectId || undefined,
+      book: book || undefined,
+      classLevel: classLevel || undefined,
+    }).catch(() => []);
   } catch {
     chapters = [];
   }

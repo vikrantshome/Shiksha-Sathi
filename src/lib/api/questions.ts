@@ -1,5 +1,5 @@
 import { fetchApi } from './client';
-import { Question } from './types';
+import { ChapterMeta, Question } from './types';
 
 export const questions = {
   getSubjects: (filters?: { board?: string; classLevel?: string }): Promise<string[]> => {
@@ -26,12 +26,29 @@ export const questions = {
     return fetchApi<string[]>(`/questions/books?${params.toString()}`, { method: 'GET' });
   },
 
-  getChapters: (subjectId?: string, book?: string, classLevel?: string): Promise<string[]> => {
+  getChapters: (filters: { board?: string; subjectId?: string; book?: string; classLevel?: string }): Promise<string[]> => {
     const params = new URLSearchParams();
-    if (subjectId) params.append('subjectId', subjectId);
-    if (book) params.append('book', book);
-    if (classLevel) params.append('classLevel', classLevel);
+    if (filters.board) params.append('board', filters.board);
+    if (filters.subjectId) params.append('subjectId', filters.subjectId);
+    if (filters.book) params.append('book', filters.book);
+    if (filters.classLevel) params.append('classLevel', filters.classLevel);
     return fetchApi<string[]>(`/questions/chapters?${params.toString()}`, { method: 'GET' });
+  },
+
+  getChaptersMeta: (filters: {
+    board?: string;
+    classLevel?: string;
+    subjectId?: string;
+    book?: string;
+    visibleOnly?: boolean;
+  }): Promise<ChapterMeta[]> => {
+    const params = new URLSearchParams();
+    if (filters.board) params.append('board', filters.board);
+    if (filters.classLevel) params.append('classLevel', filters.classLevel);
+    if (filters.subjectId) params.append('subjectId', filters.subjectId);
+    if (filters.book) params.append('book', filters.book);
+    if (filters.visibleOnly) params.append('visibleOnly', 'true');
+    return fetchApi<ChapterMeta[]>(`/questions/chapters-meta?${params.toString()}`, { method: 'GET' });
   },
 
   search: (filters: {
@@ -39,6 +56,8 @@ export const questions = {
     classLevel?: string | null;
     subjectId?: string | null;
     book?: string | null;
+    chapterNumber?: number | null;
+    chapterTitle?: string | null;
     chapter?: string | null;
     q?: string | null;
     type?: string | null;
@@ -50,6 +69,10 @@ export const questions = {
     if (filters.classLevel) params.append('classLevel', filters.classLevel);
     if (filters.subjectId) params.append('subjectId', filters.subjectId);
     if (filters.book) params.append('book', filters.book);
+    if (filters.chapterNumber !== undefined && filters.chapterNumber !== null) {
+      params.append('chapterNumber', String(filters.chapterNumber));
+    }
+    if (filters.chapterTitle) params.append('chapterTitle', filters.chapterTitle);
     if (filters.chapter) params.append('chapter', filters.chapter);
     if (filters.q) params.append('q', filters.q);
     if (filters.type && filters.type !== 'ALL') params.append('type', filters.type);
