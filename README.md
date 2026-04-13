@@ -17,7 +17,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Deployed on Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://vercel.com/)
 [![Backend on Cloud Run](https://img.shields.io/badge/Backend-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
-[![NCERT Exemplar](https://img.shields.io/badge/NCERT%20Exemplar-6,568-blueviolet?logo=google-scholar&logoColor=white)](https://ncert.nic.in/exemplar-problems.php)
+[![NCERT Exemplar](https://img.shields.io/badge/NCERT%20Exemplar-8,143-blueviolet?logo=google-scholar&logoColor=white)](https://ncert.nic.in/exemplar-problems.php)
 
 <br />
 
@@ -37,7 +37,7 @@
 
 | Category | Features |
 |---|---|
-| 📖 **Question Bank** | 7,579+ NCERT-aligned questions across Classes 6–12 (Canonical + Derived + Exemplar), browsable by Board → Class → Subject → Chapter |
+| 📖 **Question Bank** | 8,787+ NCERT-aligned questions across Classes 6–12 (Canonical + Derived + Exemplar), browsable by Board → Class → Subject → Chapter |
 | 📝 **Assignment Engine** | Create, share via link, and manage assignments with per-question point allocation |
 | 🤖 **AI Auto-Grading** | NVIDIA-powered intelligent grading with per-answer feedback for students |
 | 📊 **Analytics Dashboard** | Class-level and student-level performance tracking with visual reports |
@@ -143,6 +143,18 @@ Shiksha-Sathi/
 ├── 📂 scripts/                         # Data pipeline utilities
 │   ├── ingest-ncert-extraction.mjs     # Canonical question ingestion
 │   ├── ingest-exemplar.mjs             # Exemplar question ingestion
+│   ├── extract-exemplar-questions.py   # PDF text extraction via pdftotext
+│   ├── parse-answer-pdfs.py            # NCERT answer PDF parsing
+│   ├── scrape-shaalaa-exemplar.py      # Shaalaa.com URL discovery
+│   ├── scrape-byjus-all.py             # BYJU'S solution scraping
+│   ├── scrape-shaalaa-complete.py      # Full Shaalaa chapter scraping
+│   ├── scrape-class9-10-urls.py        # Class 9-10 URL discovery
+│   ├── fix-chemistry-shaalaa-urls.py   # Chemistry URL correction
+│   ├── fix-mcq-options-with-shaalaa.py # MCQ option fix (text similarity)
+│   ├── fix-mcq-by-position.py          # MCQ option fix (position-based)
+│   ├── clean-mcq-inline-options.py     # Inline option extraction
+│   ├── clean-answer-key-misclassifications.py  # Answer key cleanup
+│   ├── clean-chemistry-mcqs.py         # Chemistry MCQ cleanup
 │   ├── update-registry-titles.mjs      # Chapter title sync
 │   ├── backfill-question-points.mjs    # Point recalculation
 │   ├── review-exemplar-images.py       # Vision-based image review
@@ -196,33 +208,47 @@ AI-generated variants, reviewed through the Admin pipeline and **published** —
 
 ---
 
-### 📝 NCERT Exemplar Questions — 6,568 Published
+### 📝 NCERT Exemplar Questions — 8,143 Published
 
 Exam-style questions sourced from **NCERT Exemplar Problems** textbooks — higher-difficulty practice questions for competitive exam preparation. All ingested as `PUBLISHED` and available to teachers.
 
 | Class | Mathematics | Science | Biology | Chemistry | Physics | Total |
 |-------|:-----------:|:-------:|:-------:|:---------:|:-------:|:-----:|
-| Class 6  | 842 | 336 | —   | —   | —   | **1,178** |
-| Class 7  | 562 | 353 | —   | —   | —   | **915**   |
-| Class 8  | 325 | 450 | —   | —   | —   | **775**   |
-| Class 9  | 280 | 280 | —   | —   | —   | **560**   |
-| Class 10 | 260 | 300 | —   | —   | —   | **560**   |
-| Class 11 | 320 | —   | 460 | 260 | 300 | **1,340** |
-| Class 12 | 260 | —   | 340 | 340 | 300 | **1,240** |
-| **Total** | **2,849** | **1,719** | **800** | **600** | **600** | **🎯 6,568** |
+| Class 6  | 745 | 336 | —   | —   | —   | **1,081** |
+| Class 7  | 1,571 | 353 | —   | —   | —   | **1,924** |
+| Class 8  | 1,904 | 17 | —   | —   | —   | **1,921** |
+| Class 9  | 100 | 280 | —   | —   | —   | **380** |
+| Class 10 | 110 | 300 | —   | —   | —   | **410** |
+| Class 11 | 168 | —   | 506 | 375 | 142 | **1,191** |
+| Class 12 | 109 | —   | 420 | 1,214 | 1,114 | **2,857** |
+| **Total** | **4,707** | **1,286** | **926** | **1,589** | **1,256** | **🎯 8,143** |
 
-> 104 exemplar questions requiring figures are excluded from ingestion and will be added after image re-extraction.
+#### ✅ Answer Coverage
+
+Every exemplar question includes answers and explanations:
+
+| Question Type | With Answers | Total | Coverage |
+|---|---|---|---|
+| **MCQ** | 1,927 | 1,927 | **100%** |
+| **FILL_IN_BLANKS** | 93 | 93 | **100%** |
+| **TRUE_FALSE** | 5 | 5 | **100%** |
+| **SHORT_ANSWER** | 5,810 | 5,810 | **100%** |
+| **LONG_ANSWER** | 0 | 233 | DRAFT (hidden) |
+
+> **Sources**: NCERT official answer PDFs (16 files), Shaalaa.com (270+ chapters), BYJU'S (216 chapters). All MCQs display proper options with correct answers highlighted.
+
+> 75 exemplar questions requiring figure images are excluded from ingestion and will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
 
 ---
 
-### 📈 Total Published: **7,579 Questions** across Classes 6–12
+### 📈 Total Published: **9,131 Questions** across Classes 6–12
 
 | Tier | Count | Description |
 |------|------:|-------------|
 | 🔵 Canonical | 644 | Direct NCERT textbook extraction |
 | 🟢 Derived | 343 | AI-generated practice variants |
-| 🟣 Exemplar | 6,568 | NCERT Exemplar Problems (exam-level) |
-| **Grand Total** | **7,579** | |
+| 🟣 Exemplar | 8,143 | NCERT Exemplar Problems (exam-level, 100% answered) |
+| **Grand Total** | **9,131** | |
 
 > Contributions via the extraction workflow are welcome — see [Content Pipeline](#-content-pipeline).
 
@@ -427,9 +453,16 @@ node scripts/update-registry-titles.mjs
 
 ### NCERT Exemplar Questions
 
-Exemplar questions are pre-processed and stored in `doc/Exemplar/` as per-chapter JSON files.
+Exemplar questions are extracted from NCERT PDFs, enriched with answers from multiple sources, and stored in `doc/Exemplar/` as per-chapter JSON files.
 
-**Ingest all image-free exemplar questions:**
+**Answer sources (multi-stage pipeline):**
+
+1. **Solved Examples** — Extracted directly from exemplar PDFs (455 examples with step-by-step solutions)
+2. **NCERT Answer PDFs** — 16 consolidated answer key PDFs parsed for MCQ/FILL_IN_BLANKS/TRUE_FALSE answers
+3. **Shaalaa.com** — 270+ chapter pages scraped for properly formatted MCQs with options
+4. **BYJU'S** — 216 chapter pages scraped for additional MCQ coverage
+
+**Ingest all exemplar questions:**
 
 ```bash
 # Dry run first
@@ -448,7 +481,20 @@ npm run ingest:exemplar:verify
 npm run ingest:exemplar -- --class=7 --subject=science
 ```
 
-> 104 exemplar questions requiring figure images are excluded from ingestion. These will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
+**Fix MCQ options after ingestion:**
+
+```bash
+# Clean inline options from garbled PDF text
+.venv/bin/python scripts/clean-mcq-inline-options.py
+
+# Fix remaining MCQs using Shaalaa position-based matching
+.venv/bin/python scripts/fix-mcq-by-position.py
+
+# Clean Chemistry answer key misclassifications
+.venv/bin/python scripts/clean-chemistry-mcqs.py
+```
+
+> 75 exemplar questions requiring figure images are excluded from ingestion. These will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
 
 ---
 

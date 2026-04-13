@@ -87,10 +87,17 @@ export interface Provenance {
   section?: string;
 }
 
+export interface ChapterMeta {
+  chapterNumber: number;
+  chapterTitle?: string | null;
+  label: string;
+  count: number;
+}
+
 export interface Question {
   id: string;
   subjectId: string;
-  chapter: string;
+  chapter?: string | null;
   topic: string;
   text: string;
   type: 'MCQ' | 'TRUE_FALSE' | 'FILL_IN_BLANKS' | 'MULTIPLE_CHOICE' | 'SHORT_ANSWER' | 'ESSAY';
