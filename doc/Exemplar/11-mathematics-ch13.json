@@ -374,8 +374,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If f (x) =            , then lim x \u2192\u03c0 f ( x) = ______________ x\u2212\u03c0 \uf8eb            x \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -400,8 +402,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "lim \uf8ec sin mx cot   \uf8f7 = 2 , then m = ______________ x\u21920 \uf8ed             3\uf8f8 x x 2 x3              dy",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

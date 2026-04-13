@@ -21,8 +21,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of cos\u20131 \uf8ec \u2013 \uf8f7 is__________. \uf8ed 2\uf8f8 \uf8eb 3\u03c0 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -47,8 +49,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of sin\u20131 \uf8ec sin \uf8f7 is__________. \uf8ed    5 \uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -73,8 +77,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If cos (tan\u20131 x + cot\u20131      3 ) = 0, then value of x is__________. \uf8eb1\uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -99,8 +105,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The set of values of sec\u20131 \uf8ec \uf8f7 is__________. \uf8ed2\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -125,8 +133,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of tan\u20131       3 is__________. \uf8eb     14\u03c0 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -151,8 +161,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of cos\u20131 \uf8ec cos     \uf8f7 is__________. \uf8ed      3 \uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -177,8 +189,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of cos (sin\u20131 x + cos\u20131 x), |x| \u2264 1 is______ . \uf8eb sin \u20131 x + cos \u20131 x \uf8f6            3",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -203,8 +217,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of expression tan \uf8ec                     \uf8f7 ,when x =    is_________. \uf8ed          2          \uf8f8           2 \uf8eb 2x \uf8f6 If y = 2 tan\u20131 x + sin\u20131 \uf8ec \uf8ed ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -229,8 +245,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "for all x, then____< y <____. \uf8eb x\u2212 y \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -255,8 +273,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The result tan\u20131x \u2013 tan\u20131y = tan\u20131 \uf8ec 1+ xy \uf8f7 is true when value of xy is _____ \uf8ed       \uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -437,8 +457,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The minimum value of n for which tan\u20131    > , n\u2208N , is valid is 5. \u03c0 4 \uf8ee \uf8eb \u20131 1 \uf8f6 \uf8f9       \u03c0",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -463,8 +485,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of sin\u20131 \uf8efcos \uf8ec sin   \uf8f7 \uf8fa is . \uf8f0 \uf8ed        2 \uf8f8\uf8fb    3",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   }
 ]
