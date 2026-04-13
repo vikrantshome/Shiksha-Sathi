@@ -1998,8 +1998,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Method of formation of solution is given in Column I. Match it with the type of solution given in Column II. Column I                                 ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2029,8 +2031,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the statement given in Column I with the phenomenon given in Column II. Column I                                   Column II (i)   Dispersion me",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2060,8 +2064,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items given in Column I and Column II. Column I                                  Column II (i)    Protective colloid                        ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2091,8 +2097,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the types of colloidal systems given in Column I with the name given in Column II. Column I                           Column II (i)     Solid in",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2122,8 +2130,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                             Column II (i)     Dialysis                       (a)   Cleansing actio",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2153,8 +2163,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                             Column II (i)     Butter                         (a)   dispersion of l",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

@@ -1432,8 +1432,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items given in Column I and Column II. Column I                             Column II (i)   Saturated solution            (a)    Solution ha",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1463,8 +1465,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items given in Column I with the type of solutions given in Column II. Column I                             Column II (i)   Soda water      ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1494,8 +1498,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the laws given in Column I with expresions given in Column II. Column I                             Column II (i) Raoult\u2019s law                  ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1525,8 +1531,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms given in Column I with expressions given in Column II. Column I                             Column II Number of moles of the (i) Mass ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

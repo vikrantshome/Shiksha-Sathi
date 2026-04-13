@@ -1626,8 +1626,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the structures of the compounds given in Column I with the name of the compounds given in Column II. Column I                             Column",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1657,8 +1659,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the starting materials given in Column I with the products formed by these (Column II) in the reaction with HI. Column I                        ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1688,8 +1692,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of column I with items of column II. Column I                                   Column II (i) Antifreeze used in car engine         (a",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1719,8 +1725,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of column I with items of column II. Column I                                         Column II (i) Methanol                          ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

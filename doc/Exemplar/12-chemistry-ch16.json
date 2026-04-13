@@ -2269,8 +2269,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the medicines given in Column I with their use given in Column II. Column I                             Column II (i) Ranitidine                ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2300,8 +2302,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the soaps given in Column I with items given in Column II. Column I                              Column II (i) Soap chips               (a)   dr",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2331,8 +2335,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match structures given in Column I with the type of detergents given in Column II. Column I                                             Column II (i) ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2362,8 +2368,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the detergents given in Column I with their uses given in Column II. Column I                                             Column II (i)         ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2393,8 +2401,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the class of compounds given in Column I with their functions given in Column II. Column I                                 Column II (i)     Ant",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2424,8 +2434,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the classes of drugs given in Column I with their action given in Column II. Column I                                 Column II (i)     Analgesi",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

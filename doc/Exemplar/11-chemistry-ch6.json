@@ -1439,8 +1439,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following : A                                       B (i)    Adiabatic process                     (a) Heat (ii)    Isolated system         ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1522,8 +1524,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following : (i) Entropy of vapourisation                                  (a)   decreases (ii) K for spontaneous process                    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

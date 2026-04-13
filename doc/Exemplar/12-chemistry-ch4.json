@@ -1697,8 +1697,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the statements given in Column I and Column II Column I                                     Column II (i)     Catalyst alters the rate of reacti",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1754,8 +1756,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                                          Column II (i)    Mathematical expression for             ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

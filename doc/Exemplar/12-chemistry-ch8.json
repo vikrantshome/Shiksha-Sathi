@@ -1529,8 +1529,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the catalysts given in Column I with the processes given in Column II. Column I (Catalyst)                      Column II (Process) (i)      Ni ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1560,8 +1562,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the compounds/elements given in Column I with uses given in Column II. Column I (Compound/element)                          Column II (Use) (i) ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1591,8 +1595,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the properties given in Column I with the metals given in Column II. Column I (Property)                             Column II (Metal) (i)     A",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1622,8 +1628,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the statements given in Column I with the oxidation states given in Column II. Column I                                   Column II (i)     Oxid",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1653,8 +1661,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the solutions given in Column I and the colours given in Column II. Column I                                  Column II (Aqueous solution of sal",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1684,8 +1694,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the property given in Column I with the element given in Column II. Column I (Property)                Column II (Element) (i)     Lanthanoid wh",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1715,8 +1727,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the properties given in Column I with the metals given in Column II. Column I (Property)                               Column II (Metal) (i)    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

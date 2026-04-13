@@ -1958,8 +1958,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reactions given in Column I with the statements given in Column II. Column I                                  Column II (i)   Ammonolysis   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1989,8 +1991,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the compounds given in Column I with the items given in Column II. Column I                                  Column II (i)   Benzene sulphonyl c",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

@@ -1240,8 +1240,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the elements given in Column I with the properties mentioned in Column II. Column I                                       Column II (i) Li      ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1271,8 +1273,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the compounds given in Column I with their uses mentioned in Column II. Column I                                   Column II (i) CaCO3          ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1302,8 +1306,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the elements given in Column I with the colour they impart to the flame given in Column II. Column I                           Column II (i) Cs ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

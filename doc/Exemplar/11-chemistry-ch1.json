@@ -1069,8 +1069,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following: (i)   88 g of CO2                               (a)   0.25 mol 23 (ii)   6.022 \u00d710         molecules of H2O        (b)   2 mol (i",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1100,8 +1102,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following physical quantities with units Physical quantity                              Unit \u20131 (i)   Molarity                              ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

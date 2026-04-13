@@ -1139,8 +1139,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymer of column I with correct monomer of column II. Column I                            Column II (i) High density polythene             ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1170,8 +1172,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with their chemical names given in Column II. Column I                                  Column II (i)   Nylon 6  ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1201,8 +1205,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with their commercial names given in Column II. Column I                                       Column II (i)    P",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1232,8 +1238,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with their main applications given in Column II. Column I                                 Column II (i)    Bakeli",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1263,8 +1271,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with the preferred mode of polymerisation followed by their monomers. Column I                                   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1294,8 +1304,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with the type of linkage present in them given in Column II. Column I                                       Colum",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1325,8 +1337,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match materials given in Column I with the polymers given in Column II. Column I                                   Column II (i) Natural rubber latex ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1356,8 +1370,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the polymers given in Column I with their repeating units given in Column II. Column I                            Column II (i)     Acrilan     ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

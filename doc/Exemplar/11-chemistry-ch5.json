@@ -1158,8 +1158,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the graphs between the following variables with their names : Graphs                                         Names (i)   Pressure vs temperature",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1189,8 +1191,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following gas laws with the equation representing them. (i) Boyle\u2019s law                    (a) V \u221d n at constant T and p (ii) Charle\u2019s law  ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

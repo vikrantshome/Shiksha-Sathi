@@ -1013,8 +1013,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms given in Column I with the compounds given in Column II. Column I                                Column II (i)   Acid rain            ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1044,8 +1046,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the pollutant(s) in Column I with the effect(s) in Column II. Column I                                          Column II (i)   Oxides of sulphu",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1075,8 +1079,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the activity given in Column I with the type of pollution created by it given in Column II. Column I (Activity)                               Co",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1106,8 +1112,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the pollutants given in Column I with their effects given in Column II. Column I                                          Column II (i)   Phosph",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
