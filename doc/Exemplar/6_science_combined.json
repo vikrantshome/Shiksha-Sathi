@@ -18,7 +18,7 @@
       "(ii) and (iv)"
     ],
     "answer_key": "(ii) and (iii)",
-    "answer_explanation": "Human beings and cockroaches are omnivores — they eat both plants and animals.",
+    "answer_explanation": "Human beings and cockroaches are omnivores \u2014 they eat both plants and animals.",
     "difficulty": "easy",
     "blooms_level": "remember",
     "source_file": "feep201.pdf",
@@ -179,7 +179,7 @@
       "Plant, vegetable, butter milk"
     ],
     "answer_key": "Plant, vegetable, butter milk",
-    "answer_explanation": "Other sets show animal → products. Plants don't directly produce buttermilk.",
+    "answer_explanation": "Other sets show animal \u2192 products. Plants don't directly produce buttermilk.",
     "difficulty": "medium",
     "blooms_level": "analyze",
     "source_file": "feep201.pdf",
@@ -286,7 +286,7 @@
     "question_type": "Short Answer",
     "question_text": "Name two ingredients in our food that are not obtained from plants or animals. Mention one source for each ingredient.",
     "options": [],
-    "answer_key": "Salt — obtained from sea water/rock deposits. Water — obtained from rivers, wells, rain.",
+    "answer_key": "Salt \u2014 obtained from sea water/rock deposits. Water \u2014 obtained from rivers, wells, rain.",
     "answer_explanation": "Salt and water are mineral/inorganic ingredients.",
     "difficulty": "easy",
     "blooms_level": "remember",
@@ -425,7 +425,7 @@
     "question_type": "Short Answer",
     "question_text": "Match the organisms given in Column I with their part/product in Column II that is used by human beings as food.",
     "options": [],
-    "answer_key": "Match organisms to their edible parts/products (e.g., Cow→Milk, Hen→Egg, Plant→Fruit).",
+    "answer_key": "Match organisms to their edible parts/products (e.g., Cow\u2192Milk, Hen\u2192Egg, Plant\u2192Fruit).",
     "answer_explanation": "Matching exercise for food sources.",
     "difficulty": "easy",
     "blooms_level": "remember",
@@ -515,7 +515,7 @@
     "question_type": "Long Answer",
     "question_text": "Connect the animal with the food it eats by an arrow using different colours in Fig. 1.4.",
     "options": [],
-    "answer_key": "Draw arrows connecting: Lion→Meat, Cow→Grass, Bear→Fish/Berries, etc.",
+    "answer_key": "Draw arrows connecting: Lion\u2192Meat, Cow\u2192Grass, Bear\u2192Fish/Berries, etc.",
     "answer_explanation": "Matching animals to their food sources.",
     "difficulty": "easy",
     "blooms_level": "apply",
@@ -546,7 +546,7 @@
     "question_type": "Long Answer",
     "question_text": "List two of your favourite food items and mention their ingredients.",
     "options": [],
-    "answer_key": "Example: (1) Chapati — wheat flour, water, salt. (2) Rice and dal — rice, lentils, water, salt, turmeric, oil.",
+    "answer_key": "Example: (1) Chapati \u2014 wheat flour, water, salt. (2) Rice and dal \u2014 rice, lentils, water, salt, turmeric, oil.",
     "answer_explanation": "Open-ended question about food ingredients.",
     "difficulty": "easy",
     "blooms_level": "apply",
@@ -900,7 +900,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "While using iodine in the laboratory, some drops of iodine fell on Paheli’s socks and some fell on her teacher’s saree. The drops of iodine on the saree turned blue black while their colour did not change on the socks. What can be the possible reason?",
+    "question_text": "While using iodine in the laboratory, some drops of iodine fell on Paheli\u2019s socks and some fell on her teacher\u2019s saree. The drops of iodine on the saree turned blue black while their colour did not change on the socks. What can be the possible reason?",
     "options": [],
     "answer_key": "The teacher's saree might have been starched. The iodine changed its colour to blue-black upon reacting with the starch. Since the socks did not have starch, no colour change was observed.",
     "answer_explanation": "Iodine turns blue-black in the presence of starch.",
@@ -910,7 +910,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "While using iodine in the laboratory, some drops of iodine fell on Paheli’s socks and some fell on her teacher’s saree. ",
+    "provenance_excerpt": "While using iodine in the laboratory, some drops of iodine fell on Paheli\u2019s socks and some fell on her teacher\u2019s saree. ",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -1152,7 +1152,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Make a board-game just like 'snakes and ladders' with 10 × 10 grid boxes. The mouth of the snake will represent the faulty food habit or faulty method of cooking. Its tail will represent the deficiency disease caused or loss of any nutrient in food... (Refer Fig 2.3)",
+    "question_text": "Make a board-game just like 'snakes and ladders' with 10 \u00d7 10 grid boxes. The mouth of the snake will represent the faulty food habit or faulty method of cooking. Its tail will represent the deficiency disease caused or loss of any nutrient in food... (Refer Fig 2.3)",
     "options": [],
     "answer_key": "Activity question involving game creation. (Snake: Faulty habit -> Tail: Deficiency/Loss. Ladder: Healthy habit -> Top: Benefit).",
     "answer_explanation": "Activity based question.",
@@ -1162,7 +1162,7 @@
     "source_pages": [
       8
     ],
-    "provenance_excerpt": "Make a board-game just like 'snakes and ladders' with 10 × 10 grid boxes. The mouth of the snake will represent the faul",
+    "provenance_excerpt": "Make a board-game just like 'snakes and ladders' with 10 \u00d7 10 grid boxes. The mouth of the snake will represent the faul",
     "review_state": "approved",
     "qa_flags": [
       "needs_figure"
@@ -1473,12 +1473,12 @@
     "question_type": "MCQ",
     "question_text": "The correct sequence to get cloth is :",
     "options": [
-      "fibre → fabric → yarn",
-      "fibre → yarn → fabric",
-      "fabric → yarn → fibre",
-      "yarn → fibre → fabric"
+      "fibre \u2192 fabric \u2192 yarn",
+      "fibre \u2192 yarn \u2192 fabric",
+      "fabric \u2192 yarn \u2192 fibre",
+      "yarn \u2192 fibre \u2192 fabric"
     ],
-    "answer_key": "fibre → yarn → fabric",
+    "answer_key": "fibre \u2192 yarn \u2192 fabric",
     "answer_explanation": "Fibres are spun to make yarn, and yarns are woven or knitted to make fabric.",
     "difficulty": "easy",
     "blooms_level": "understand",
@@ -1619,7 +1619,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "The following is an answer given by Boojho to a question asked by his teacher— “Cotton, wool, silk and jute are classified as natural fibres whereas nylon and polyester are classified as synthetic fibres.”\nCan you tell what question the teacher has asked?",
+    "question_text": "The following is an answer given by Boojho to a question asked by his teacher\u2014 \u201cCotton, wool, silk and jute are classified as natural fibres whereas nylon and polyester are classified as synthetic fibres.\u201d\nCan you tell what question the teacher has asked?",
     "options": [],
     "answer_key": "The teacher might have asked: \"Classify the following fibres as natural or synthetic: cotton, nylon, wool, silk, polyester, jute.\" Or \"Give examples of natural and synthetic fibres.\"",
     "answer_explanation": "Reverse engineering a question from the answer.",
@@ -1629,7 +1629,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "The following is an answer given by Boojho to a question asked by his teacher— “Cotton, wool, silk and jute are classifi",
+    "provenance_excerpt": "The following is an answer given by Boojho to a question asked by his teacher\u2014 \u201cCotton, wool, silk and jute are classifi",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -2274,7 +2274,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "It was Paheli’s birthday. Her grandmother gave her two gifts made of metals, one old dull silver spoon and a pair of lustrous gold earrings. She was surprised to see the difference in the appearance of the two metals. Can you explain the reason for this difference?",
+    "question_text": "It was Paheli\u2019s birthday. Her grandmother gave her two gifts made of metals, one old dull silver spoon and a pair of lustrous gold earrings. She was surprised to see the difference in the appearance of the two metals. Can you explain the reason for this difference?",
     "options": [],
     "answer_key": "Silver reacts over time with moisture and gases (like sulphur compounds) in the air, causing it to tarnish and appear dull. Gold is a noble metal and does not react easily with air or moisture, so it retains its lustre.",
     "answer_explanation": "Reaction of metals with the environment.",
@@ -2284,7 +2284,7 @@
     "source_pages": [
       3
     ],
-    "provenance_excerpt": "It was Paheli’s birthday. Her grandmother gave her two gifts made of metals, one old dull silver spoon and a pair of lus",
+    "provenance_excerpt": "It was Paheli\u2019s birthday. Her grandmother gave her two gifts made of metals, one old dull silver spoon and a pair of lus",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -2409,7 +2409,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "You are provided with the following materials— turmeric, honey, mustard oil, water, glucose, rice flour, groundnut oil.\nMake any three pairs of substances where one substance is soluble in the other and any three pairs of substances where one substance remains insoluble in the other substances.",
+    "question_text": "You are provided with the following materials\u2014 turmeric, honey, mustard oil, water, glucose, rice flour, groundnut oil.\nMake any three pairs of substances where one substance is soluble in the other and any three pairs of substances where one substance remains insoluble in the other substances.",
     "options": [],
     "answer_key": "Soluble pairs: 1. Honey and water. 2. Glucose and water. 3. Mustard oil and groundnut oil.\nInsoluble pairs: 1. Turmeric and water. 2. Mustard oil and water. 3. Rice flour and water.",
     "answer_explanation": "Soluble and insoluble pairs.",
@@ -2419,7 +2419,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "You are provided with the following materials— turmeric, honey, mustard oil, water, glucose, rice flour, groundnut oil.\n",
+    "provenance_excerpt": "You are provided with the following materials\u2014 turmeric, honey, mustard oil, water, glucose, rice flour, groundnut oil.\n",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -2656,7 +2656,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Paheli bought some vegetables such as french beans, lady’s finger, green chillies, brinjals and potatoes all mixed in a bag. Which of the following methods of separation would be most appropriate for her to separate them?",
+    "question_text": "Paheli bought some vegetables such as french beans, lady\u2019s finger, green chillies, brinjals and potatoes all mixed in a bag. Which of the following methods of separation would be most appropriate for her to separate them?",
     "options": [
       "Winnowing",
       "Sieving",
@@ -2671,7 +2671,7 @@
     "source_pages": [
       1
     ],
-    "provenance_excerpt": "Paheli bought some vegetables such as french beans, lady’s finger, green chillies, brinjals and potatoes all mixed in a ",
+    "provenance_excerpt": "Paheli bought some vegetables such as french beans, lady\u2019s finger, green chillies, brinjals and potatoes all mixed in a ",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -2688,7 +2688,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Boojho’s grandmother is suffering from diabetes. Her doctor advised her to take 'Lassi' with less fat content. Which of the following methods would be most appropriate for Boojho to prepare it?",
+    "question_text": "Boojho\u2019s grandmother is suffering from diabetes. Her doctor advised her to take 'Lassi' with less fat content. Which of the following methods would be most appropriate for Boojho to prepare it?",
     "options": [
       "Filtration",
       "Decantation",
@@ -2703,7 +2703,7 @@
     "source_pages": [
       1
     ],
-    "provenance_excerpt": "Boojho’s grandmother is suffering from diabetes. Her doctor advised her to take 'Lassi' with less fat content. Which of ",
+    "provenance_excerpt": "Boojho\u2019s grandmother is suffering from diabetes. Her doctor advised her to take 'Lassi' with less fat content. Which of ",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -2945,7 +2945,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Paheli asked for a glass of water from Boojho. He gave her a glass of ice cold water. Paheli observed some water droplets on the outer surface of the glass and asked Boojho how these droplets of water were formed? Which of the following should be Boojho’s answer?",
+    "question_text": "Paheli asked for a glass of water from Boojho. He gave her a glass of ice cold water. Paheli observed some water droplets on the outer surface of the glass and asked Boojho how these droplets of water were formed? Which of the following should be Boojho\u2019s answer?",
     "options": [
       "Evaporation of water from the glass.",
       "Water that seeped out from the glass.",
@@ -3172,7 +3172,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Read the story titled “WISE FARMER” and tick the correct option to complete the story:\nA farmer was sad/happy to see his healthy wheat crop ready for harvest. He harvested the crops and left it under the sun/rain to dry the stalks. To separate the seeds from the bundles of the stalk he handpicked/threshed them. After gathering the seed grains he wanted to separate the stones and husk from it. His wife winnowed/threshed them to separate the husk and later sieved/hand picked to remove stones from it. She ground the wheat grains and sieved/filtered the flour. The wise farmer and his wife got a good price for the flour. Can you tell why?",
+    "question_text": "Read the story titled \u201cWISE FARMER\u201d and tick the correct option to complete the story:\nA farmer was sad/happy to see his healthy wheat crop ready for harvest. He harvested the crops and left it under the sun/rain to dry the stalks. To separate the seeds from the bundles of the stalk he handpicked/threshed them. After gathering the seed grains he wanted to separate the stones and husk from it. His wife winnowed/threshed them to separate the husk and later sieved/hand picked to remove stones from it. She ground the wheat grains and sieved/filtered the flour. The wise farmer and his wife got a good price for the flour. Can you tell why?",
     "options": [],
     "answer_key": "Correct options: happy, sun, threshed, winnowed, hand picked, sieved.\nThey got a good price because the flour was clean and free from impurities like stones, husk, and bran.",
     "answer_explanation": "Story-based application of separation processes in farming.",
@@ -3182,7 +3182,7 @@
     "source_pages": [
       6
     ],
-    "provenance_excerpt": "Read the story titled “WISE FARMER” and tick the correct option to complete the story:\nA farmer was sad/happy to see his",
+    "provenance_excerpt": "Read the story titled \u201cWISE FARMER\u201d and tick the correct option to complete the story:\nA farmer was sad/happy to see his",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -3513,7 +3513,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "A piece of iron is heated till it becomes red-hot. It then becomes soft and is beaten to a desired shape. What kind of changes are observed in this process– reversible or irreversible?",
+    "question_text": "A piece of iron is heated till it becomes red-hot. It then becomes soft and is beaten to a desired shape. What kind of changes are observed in this process\u2013 reversible or irreversible?",
     "options": [],
     "answer_key": "These are reversible changes. The heating causes expansion (reversed upon cooling), and beating the metal into shape is also considered a reversible change because the iron can be heated and beaten back to its original shape.",
     "answer_explanation": "Reversible changes in metallurgy.",
@@ -3622,7 +3622,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Boojho’s sister broke a white dove, a symbol of peace, made of Plaster of Paris (POP). Boojho tried to reconstruct the toy by making a powder of the broken pieces and then making a paste by mixing water. Will he be successful in his effort? Justify your answer.",
+    "question_text": "Boojho\u2019s sister broke a white dove, a symbol of peace, made of Plaster of Paris (POP). Boojho tried to reconstruct the toy by making a powder of the broken pieces and then making a paste by mixing water. Will he be successful in his effort? Justify your answer.",
     "options": [],
     "answer_key": "No, he will not be successful. Setting of Plaster of Paris is an irreversible chemical change that occurs when it reacts with water. Once it hardens, adding water again will not recreate a paste.",
     "answer_explanation": "Chemical changes in setting materials.",
@@ -3632,7 +3632,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "Boojho’s sister broke a white dove, a symbol of peace, made of Plaster of Paris (POP). Boojho tried to reconstruct the t",
+    "provenance_excerpt": "Boojho\u2019s sister broke a white dove, a symbol of peace, made of Plaster of Paris (POP). Boojho tried to reconstruct the t",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -3811,7 +3811,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Following were the activities going on at Paheli’s home for Simba's birthday. Identify the activities as those that can be reversed and those which cannot be reversed.\n(i) Simba blew balloons and put them on the wall.\n(ii) Some of the balloons got burst.\n(iii) Paheli cut colourful strips of paper and put them ...\n(iv) She also made some flowers by origami (paper folding) ...\n(v) Her father made dough balls.\n(vi) Mother rolled the dough balls to make puries.\n(vii) Mother heated oil in a pan.\n(viii) Father fried the puries in hot oil.",
+    "question_text": "Following were the activities going on at Paheli\u2019s home for Simba's birthday. Identify the activities as those that can be reversed and those which cannot be reversed.\n(i) Simba blew balloons and put them on the wall.\n(ii) Some of the balloons got burst.\n(iii) Paheli cut colourful strips of paper and put them ...\n(iv) She also made some flowers by origami (paper folding) ...\n(v) Her father made dough balls.\n(vi) Mother rolled the dough balls to make puries.\n(vii) Mother heated oil in a pan.\n(viii) Father fried the puries in hot oil.",
     "options": [],
     "answer_key": "Reversible changes: (i) Blowing balloons (if air is let out), (iv) making origami flowers (folding), (vi) rolling dough balls into puries (before frying), (vii) heating oil in a pan (cooling reverses it).\n\nIrreversible changes: (ii) Bursting balloons, (iii) cutting paper strips, (v) making dough from flour (and tearing off dough balls), (viii) frying puries.",
     "answer_explanation": "Action analysis for birthday prep.",
@@ -3821,7 +3821,7 @@
     "source_pages": [
       5
     ],
-    "provenance_excerpt": "Following were the activities going on at Paheli’s home for Simba's birthday. Identify the activities as those that can ",
+    "provenance_excerpt": "Following were the activities going on at Paheli\u2019s home for Simba's birthday. Identify the activities as those that can ",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -4059,7 +4059,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Solve the riddles given below:\n(a) “I have a green tender stem and I am much shorter than you. Who am I?”\n(b) I come out first from the seed when it is soaked in water. I provide anchorage to plants. Who am I? Write another function that I perform.",
+    "question_text": "Solve the riddles given below:\n(a) \u201cI have a green tender stem and I am much shorter than you. Who am I?\u201d\n(b) I come out first from the seed when it is soaked in water. I provide anchorage to plants. Who am I? Write another function that I perform.",
     "options": [],
     "answer_key": "(a) Herb\n(b) Root. Another function of the root is to absorb water and minerals from the soil.",
     "answer_explanation": "Plant types and root functions.",
@@ -4069,7 +4069,7 @@
     "source_pages": [
       3
     ],
-    "provenance_excerpt": "Solve the riddles given below:\n(a) “I have a green tender stem and I am much shorter than you. Who am I?”\n(b) I come out",
+    "provenance_excerpt": "Solve the riddles given below:\n(a) \u201cI have a green tender stem and I am much shorter than you. Who am I?\u201d\n(b) I come out",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -4167,7 +4167,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Can the stem of a plant be compared with a street with two–way traffic? Give reason.",
+    "question_text": "Can the stem of a plant be compared with a street with two\u2013way traffic? Give reason.",
     "options": [],
     "answer_key": "Yes. The stem acts like a two-way street because it transports water and minerals upwards from the roots to the leaves, and it also transports synthesized food from the leaves downwards to other parts of the plant.",
     "answer_explanation": "Functions of the stem in transport.",
@@ -4177,7 +4177,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "Can the stem of a plant be compared with a street with two–way traffic? Give reason.",
+    "provenance_excerpt": "Can the stem of a plant be compared with a street with two\u2013way traffic? Give reason.",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -4225,7 +4225,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Draw the veins of leaves given in Fig. 7.2 below and write the type of venation.\nGrass     Peepal      China Rose",
+    "question_text": "Draw the veins of leaves given in Fig. 7.2 below and write the type of venation.\nGrass Peepal China Rose",
     "options": [],
     "answer_key": "1. Grass: Parallel venation (veins run parallel to each other).\n2. Peepal: Reticulate venation (veins form a net-like design).\n3. China Rose: Reticulate venation.",
     "answer_explanation": "Venation in different leaves.",
@@ -4287,7 +4287,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Observe the picture of an activity given as Fig. 7.4 carried out with leaves of plants and polythene bag. Now answer the following:\n(a) Which process is demonstrated in the activity?\n(b) When will this activity show better results – on a bright sunny day or a cloudy day?\n(c) What will you observe in the polythene bag after a few hours of setting up the activity?\n(d) Mention any one precaution you must take while performing this activity.",
+    "question_text": "Observe the picture of an activity given as Fig. 7.4 carried out with leaves of plants and polythene bag. Now answer the following:\n(a) Which process is demonstrated in the activity?\n(b) When will this activity show better results \u2013 on a bright sunny day or a cloudy day?\n(c) What will you observe in the polythene bag after a few hours of setting up the activity?\n(d) Mention any one precaution you must take while performing this activity.",
     "options": [],
     "answer_key": "(a) Transpiration (loss of water vapour from leaves).\n(b) It will show better results on a bright sunny day because the rate of transpiration is higher when there is more sunlight and heat.\n(c) We will observe droplets of water on the inner surface of the polythene bag.\n(d) Use a healthy, well-watered plant, and ensure the mouth of the polythene bag is tied tightly to prevent water vapour from escaping.",
     "answer_explanation": "Understanding the transpiration experiment.",
@@ -4841,7 +4841,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Earthworms are known as ‘farmer’s friends’. Why?",
+    "question_text": "Earthworms are known as \u2018farmer\u2019s friends\u2019. Why?",
     "options": [],
     "answer_key": "Earthworms eat soil and excrete the undigested material, which enriches the soil. In addition, as they move and burrow, they loosen and aerate the soil, making it very beneficial for plant growth.",
     "answer_explanation": "Ecological importance of earthworms.",
@@ -4851,7 +4851,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "Earthworms are known as ‘farmer’s friends’. Why?",
+    "provenance_excerpt": "Earthworms are known as \u2018farmer\u2019s friends\u2019. Why?",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -6578,7 +6578,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Two students while sitting across a table looked down on to its top surface. They noticed that they could see their own and each other’s image. The table top is likely to be made of:",
+    "question_text": "Two students while sitting across a table looked down on to its top surface. They noticed that they could see their own and each other\u2019s image. The table top is likely to be made of:",
     "options": [
       "unpolished wood",
       "red stone",
@@ -6641,7 +6641,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Very Short Answer",
-    "question_text": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position ‘P’, still the patch of light is obtained on the screen. What is the type of material of this sheet?",
+    "question_text": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position \u2018P\u2019, still the patch of light is obtained on the screen. What is the type of material of this sheet?",
     "options": [],
     "answer_key": "The material of the sheet is transparent (e.g., clear glass or plastic) because it allows light reflected from the mirror to pass through it completely to form a bright patch on the screen.",
     "answer_explanation": "Properties of transparent materials.",
@@ -6651,7 +6651,7 @@
     "source_pages": [
       4
     ],
-    "provenance_excerpt": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position ‘P’, still the patch of light is ",
+    "provenance_excerpt": "Observe the picture given in Fig. 11.6. A sheet of some material is placed at position \u2018P\u2019, still the patch of light is ",
     "review_state": "approved",
     "qa_flags": [
       "needs_figure"
@@ -7235,7 +7235,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "In the circuit shown in Fig. 12.3, when the switch is moved to ‘ON’ position,",
+    "question_text": "In the circuit shown in Fig. 12.3, when the switch is moved to \u2018ON\u2019 position,",
     "options": [
       "the bulb A will glow first.",
       "the bulb B will glow first.",
@@ -7250,7 +7250,7 @@
     "source_pages": [
       2
     ],
-    "provenance_excerpt": "In the circuit shown in Fig. 12.3, when the switch is moved to ‘ON’ position,",
+    "provenance_excerpt": "In the circuit shown in Fig. 12.3, when the switch is moved to \u2018ON\u2019 position,",
     "review_state": "approved",
     "qa_flags": [
       "needs_figure"
@@ -7455,7 +7455,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in ‘ON’ position, the bulb does not glow. What could be the possible reason/s for it? Mention any two of them.",
+    "question_text": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in \u2018ON\u2019 position, the bulb does not glow. What could be the possible reason/s for it? Mention any two of them.",
     "options": [],
     "answer_key": "1. The filament of the bulb might be broken (fused bulb).\n2. The cell might be totally used up (dead cell).\n(Other reason: connections might be loose).",
     "answer_explanation": "Troubleshooting electrical circuits.",
@@ -7466,7 +7466,7 @@
       4,
       5
     ],
-    "provenance_excerpt": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in ‘ON’ posit",
+    "provenance_excerpt": "An electric bulb is connected to a cell through a switch as shown in Fig. 12.7. When the switch is brought in \u2018ON\u2019 posit",
     "review_state": "approved",
     "qa_flags": [
       "needs_figure"
@@ -8025,7 +8025,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Very Short Answer",
-    "question_text": "How will you test that ‘tea dust’ is not adulterated with iron powder?",
+    "question_text": "How will you test that \u2018tea dust\u2019 is not adulterated with iron powder?",
     "options": [],
     "answer_key": "Move a magnet through or over the tea dust. If the tea dust is adulterated with iron powder, the magnetic iron particles will get attracted and stick to the magnet, leaving the pure non-magnetic tea dust behind.",
     "answer_explanation": "Application of magnetic separation.",
@@ -8035,7 +8035,7 @@
     "source_pages": [
       3
     ],
-    "provenance_excerpt": "How will you test that ‘tea dust’ is not adulterated with iron powder?",
+    "provenance_excerpt": "How will you test that \u2018tea dust\u2019 is not adulterated with iron powder?",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -8685,7 +8685,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "“Catch water where it falls” is the basic idea behind",
+    "question_text": "\u201cCatch water where it falls\u201d is the basic idea behind",
     "options": [
       "recycling of water.",
       "making dams to store water.",
@@ -8700,7 +8700,7 @@
     "source_pages": [
       3
     ],
-    "provenance_excerpt": "“Catch water where it falls” is the basic idea behind",
+    "provenance_excerpt": "\u201cCatch water where it falls\u201d is the basic idea behind",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -9606,7 +9606,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "On a Sunday morning Paheli’s friend visited her home. She wanted to see some flowering plants in the nearby garden. Both of them went to the garden. While returning from the garden they also observed some flowering plants on the road side. But to their surprise they found that the leaves and flowers of these roadside plants were comparatively very dull. Can you help them to know why?",
+    "question_text": "On a Sunday morning Paheli\u2019s friend visited her home. She wanted to see some flowering plants in the nearby garden. Both of them went to the garden. While returning from the garden they also observed some flowering plants on the road side. But to their surprise they found that the leaves and flowers of these roadside plants were comparatively very dull. Can you help them to know why?",
     "options": [],
     "answer_key": "Roadside plants are continuously exposed to thick dust, smoke, and exhaust emissions from vehicles passing by. These pollutants settle on the leaves and flowers, making them look very dull. Garden plants are generally in cleaner, less polluted environments, leaving them looking fresher and brighter.",
     "answer_explanation": "Observational effects of air pollution.",
@@ -9616,7 +9616,7 @@
     "source_pages": [
       6
     ],
-    "provenance_excerpt": "On a Sunday morning Paheli’s friend visited her home. She wanted to see some flowering plants in the nearby garden. Both",
+    "provenance_excerpt": "On a Sunday morning Paheli\u2019s friend visited her home. She wanted to see some flowering plants in the nearby garden. Both",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -9910,7 +9910,7 @@
     "question_type": "Short Answer",
     "question_text": "To what use can you put the following kinds of garbage and how?\n(i) rotting smelly garbage\n(ii) dry leaves collected in a garbage\n(iii) old newspapers",
     "options": [],
-    "answer_key": "(i) Rotting smelly garbage (biodegradable): Can be dumped in a compost pit to convert it into manure.\n(ii) Dry leaves: Can be gathered into a pit to be converted into compost or vermicompost.\n(iii) Old newspapers: Can be recycled to make fresh paper, or reused to make paper bags, papier-mâché crafts, and greeting cards.",
+    "answer_key": "(i) Rotting smelly garbage (biodegradable): Can be dumped in a compost pit to convert it into manure.\n(ii) Dry leaves: Can be gathered into a pit to be converted into compost or vermicompost.\n(iii) Old newspapers: Can be recycled to make fresh paper, or reused to make paper bags, papier-m\u00e2ch\u00e9 crafts, and greeting cards.",
     "answer_explanation": "Categorizing and reusing waste.",
     "difficulty": "medium",
     "blooms_level": "apply",
@@ -9935,7 +9935,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "Paheli was writing a letter to her friend. She crumpled and threw the first draft of her letter on the floor as it had become untidy. Similarly she crumpled and threw 6 more papers on the ground. In the end, she picked them up and put them in a polythene bag and threw it on the road outside her house. Do you think Paheli’s action were responsible? What would you have done if you were in her place?",
+    "question_text": "Paheli was writing a letter to her friend. She crumpled and threw the first draft of her letter on the floor as it had become untidy. Similarly she crumpled and threw 6 more papers on the ground. In the end, she picked them up and put them in a polythene bag and threw it on the road outside her house. Do you think Paheli\u2019s action were responsible? What would you have done if you were in her place?",
     "options": [],
     "answer_key": "No, Paheli's actions were very irresponsible. She wasted a lot of paper and then littered the streets, enclosing biodegradable paper in non-biodegradable plastic. In her place, I would have used the paper carefully to avoid drafts. The ruined drafts should be disposed of in a \"Blue Bin\" (for dry recyclable waste) without a polythene bag, so the paper could be recycled.",
     "answer_explanation": "Evaluating waste disposal ethics.",
@@ -10016,9 +10016,9 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Put a tick (√ ) against the garbage items given in Table 16.1 which could be converted into manure. Put a cross (×) against the others.\n(i) Egg shells, (ii) Straw, (iii) Dry flowers, (iv) Pebbles, (v) Broken pieces of glass, (vi) Nails and screws, (vii) Plastic bangles, (viii) Left over food, (ix) Steel broken vessel, (x) Dead animals",
+    "question_text": "Put a tick (\u221a ) against the garbage items given in Table 16.1 which could be converted into manure. Put a cross (\u00d7) against the others.\n(i) Egg shells, (ii) Straw, (iii) Dry flowers, (iv) Pebbles, (v) Broken pieces of glass, (vi) Nails and screws, (vii) Plastic bangles, (viii) Left over food, (ix) Steel broken vessel, (x) Dead animals",
     "options": [],
-    "answer_key": "Converted into manure (Biodegradable): (i) Egg shells (√), (ii) Straw (√), (iii) Dry flowers (√), (viii) Left over food (√), (x) Dead animals (√).\nCannot make manure (Non-biodegradable): (iv) Pebbles (×), (v) Broken pieces of glass (×), (vi) Nails and screws (×), (vii) Plastic bangles (×), (ix) Steel broken vessel (×).",
+    "answer_key": "Converted into manure (Biodegradable): (i) Egg shells (\u221a), (ii) Straw (\u221a), (iii) Dry flowers (\u221a), (viii) Left over food (\u221a), (x) Dead animals (\u221a).\nCannot make manure (Non-biodegradable): (iv) Pebbles (\u00d7), (v) Broken pieces of glass (\u00d7), (vi) Nails and screws (\u00d7), (vii) Plastic bangles (\u00d7), (ix) Steel broken vessel (\u00d7).",
     "answer_explanation": "Identifying compostable materials.",
     "difficulty": "easy",
     "blooms_level": "analyze",
@@ -10026,7 +10026,7 @@
     "source_pages": [
       5
     ],
-    "provenance_excerpt": "Put a tick (√ ) against the garbage items given in Table 16.1 which could be converted into manure. Put a cross (×) agai",
+    "provenance_excerpt": "Put a tick (\u221a ) against the garbage items given in Table 16.1 which could be converted into manure. Put a cross (\u00d7) agai",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -10130,7 +10130,7 @@
     "question_type": "Long Answer",
     "question_text": "Beautiful hand crafted articles like boxes and toys are made of paper pulp in our country. Can you explain how paper pulp which is made from paper can be used to make hard boxes and other articles?",
     "options": [],
-    "answer_key": "Waste paper is torn into small pieces and soaked in water for a day or two. It is then mashed and beaten to form a thick, smooth paste called paper pulp. Glue, starch, or clay is often mixed into it. This mixture is then moulded onto wire meshes or shaped into toys and boxes (like papier-mâché). Once it dries in the sun, it hardens into sturdy and durable articles.",
+    "answer_key": "Waste paper is torn into small pieces and soaked in water for a day or two. It is then mashed and beaten to form a thick, smooth paste called paper pulp. Glue, starch, or clay is often mixed into it. This mixture is then moulded onto wire meshes or shaped into toys and boxes (like papier-m\u00e2ch\u00e9). Once it dries in the sun, it hardens into sturdy and durable articles.",
     "answer_explanation": "Process of recycling paper into artifacts.",
     "difficulty": "medium",
     "blooms_level": "understand",
@@ -10236,7 +10236,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Long Answer",
-    "question_text": "Answer the following questions in one or two words or sentences:\n(a) Why should we prefer to use paper bags rather than polythene bags?\n(b) Who, out of the following should properly dispose of the garbage – father, mother, elder brother, younger sister?\n(c) Which one out of beetles, roundworm and earthworm are used for vermicomposting and why?",
+    "question_text": "Answer the following questions in one or two words or sentences:\n(a) Why should we prefer to use paper bags rather than polythene bags?\n(b) Who, out of the following should properly dispose of the garbage \u2013 father, mother, elder brother, younger sister?\n(c) Which one out of beetles, roundworm and earthworm are used for vermicomposting and why?",
     "options": [],
     "answer_key": "(a) Paper bags are biodegradable and can be easily recycled or composted safely, whereas polythene bags are non-biodegradable pollutants.\n(b) Every single member of the family (father, mother, elder brother, younger sister) is equally responsible for properly sorting and disposing of garbage.\n(c) Earthworms (specifically redworms) are used for vermicomposting because they consume organic waste efficiently, leaving behind natural, nutrient-rich castings (compost) without harming the soil ecosystem.",
     "answer_explanation": "Short miscellaneous environmental questions.",
