@@ -577,8 +577,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Five boys and five girls form a line. Find the number of ways of making the seating arrangement under the following condition: C1                     ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -608,8 +610,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "There are 10 professors and 20 lecturers out of whom a committee of 2 professors and 3 lecturer is to be formed. Find : C1                            ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -639,8 +643,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Using the digits 1, 2, 3, 4, 5, 6, 7, a number of 4 different digits is formed. Find C1                                       C2 (a) how many numbers ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
