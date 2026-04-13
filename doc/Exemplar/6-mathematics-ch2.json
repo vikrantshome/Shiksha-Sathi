@@ -10,26 +10,25 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Number of lines passing through five points such that no three of them are collinear is",
+    "question_text": "Number of lines passing through five points such that no three of them are collinear is ______.",
     "options": [
       "10",
       "5",
       "20",
       "8"
     ],
-    "answer_key": "10",
-    "answer_explanation": "With 5 non-collinear points, the number of lines = C(5,2) = 5×4/2 = 10.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
+    "answer_key": "A",
+    "answer_explanation": "Answer: Option (a)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      3
-    ],
-    "provenance_excerpt": "Number of lines passing through five points such that no three of them are collinear is",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "An angle greater than 180\u00b0 and less than a complete angle is called",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q2",
@@ -42,26 +41,25 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The number of diagonals in a septagon is",
+    "question_text": "The number of diagonals in a septagon is ______.",
     "options": [
       "21",
       "42",
       "7",
       "14"
     ],
-    "answer_key": "14",
-    "answer_explanation": "A septagon has 7 sides. Number of diagonals = n(n-3)/2 = 7(7-3)/2 = 7×4/2 = 14.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
+    "answer_key": "D",
+    "answer_explanation": "Answer: Option (d)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "The number of diagonals in a septagon is",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "The number of diagonals in a hexagon is ________.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q3",
@@ -74,26 +72,25 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Number of line segments in Fig. 2.5 is",
+    "question_text": "The number of diagonals in a septagon is ______.",
     "options": [
-      "5",
-      "10",
-      "15",
-      "20"
+      "21",
+      "42",
+      "7",
+      "14"
     ],
-    "answer_key": "10",
-    "answer_explanation": "With 5 points on a line segment, the number of line segments = C(5,2) = 10.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "Number of line segments in Fig. 2.5 is",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.14, points lying in the interior of the triangle PQR are ______, that in the exterior are ______ and that on the triangle               T   ",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q4",
@@ -106,26 +103,23 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Measures of the two angles between hour and minute hands of a clock at 9 O'clock are",
+    "question_text": "In Fig. 2.15, points A, B, C, D and E are collinear such that",
     "options": [
-      "60°, 300°",
-      "270°, 90°",
-      "75°, 285°",
-      "30°, 330°"
+      "AD = AB + ______",
+      "mid point of AE is ______"
     ],
-    "answer_key": "270°, 90°",
-    "answer_explanation": "At 9 O'clock, the minute hand is at 12 and the hour hand is at 9. The angle from 12 to 9 going clockwise = 3×30° = 90°. The other angle = 360° - 90° = 270°.",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
     "difficulty": "easy",
-    "blooms_level": "apply",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "Measures of the two angles between hour and minute hands of a clock at 9 O'clock are",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.15, points A, B, C, D and E are collinear such that (a)   AD = AB + ______ (c)   mid point of AE is ______ (d)   mid point of CE is ______ (",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q5",
@@ -138,26 +132,23 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "If a bicycle wheel has 48 spokes, then the angle between a pair of two consecutive spokes is",
+    "question_text": "In Fig. 2.16,",
     "options": [
-      "5½°",
-      "7½°",
-      "2/11°",
-      "2/15°"
+      "\u2220COA is a/an ______ angle",
+      "\u2220AOE is a/an ______ angle"
     ],
-    "answer_key": "7½°",
-    "answer_explanation": "The angle between consecutive spokes = 360°/48 = 7.5° = 7½°.",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
     "difficulty": "easy",
-    "blooms_level": "apply",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "If a bicycle wheel has 48 spokes, then the angle between a pair of two consecutive spokes is",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.16, (b)   \u2220COA is a/an ______ angle (c)   \u2220AOE is a/an ______ angle",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q6",
@@ -170,30 +161,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "In Fig. 2.6, ∠XYZ cannot be written as",
+    "question_text": "The number of triangles in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:e10ab93e14be41ea9b7284c9e4af518b.png)",
     "options": [
-      "∠Y",
-      "∠ZXY",
-      "∠ZYX",
-      "∠XYP"
+      "10",
+      "12",
+      "13",
+      "14"
     ],
-    "answer_key": "∠ZXY",
-    "answer_explanation": "∠XYZ is the angle at vertex Y. ∠ZXY would be an angle at vertex X, which is different from ∠XYZ. So ∠XYZ cannot be written as ∠ZXY.",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
     "difficulty": "easy",
-    "blooms_level": "remember",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "In Fig. 2.6, ∠XYZ cannot be written as",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q6-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "The number of triangles in Fig. 2.17 is ______.",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q7",
@@ -206,30 +194,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "In Fig 2.7, if point A is shifted to point B along the ray PX such that PB = 2PA, then the measure of ∠BPY is",
+    "question_text": "The number of angles in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:a18323397af3470b88c4ec8ffaf8b367.png)",
     "options": [
-      "greater than 45°",
-      "45°",
-      "less than 45°",
-      "90°"
+      "3",
+      "4",
+      "5",
+      "6"
     ],
-    "answer_key": "45°",
-    "answer_explanation": "Shifting a point along a ray does not change the angle. The angle ∠BPY = ∠APY = 45°.",
-    "difficulty": "medium",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
+    "difficulty": "easy",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "In Fig 2.7, if point A is shifted to point B along the ray PX such that PB = 2PA, then the measure of ∠BPY is",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": false,
-    "figure_ref": [
-      "Fig 2.7"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Number of angles less than 180\u00b0 in ______.",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q8",
@@ -242,30 +227,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The number of angles in Fig. 2.8 is",
+    "question_text": "The number of obtuse angles in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:389a202957ad4becb39bfc85d70eccaf.png)",
     "options": [
+      "2",
       "3",
       "4",
-      "5",
-      "6"
+      "5"
     ],
-    "answer_key": "6",
-    "answer_explanation": "With three rays from a common point creating angles of 40°, 20°, 30°, we get: 3 individual angles + 3 combination angles (40+20, 20+30, 40+20+30) = 6 angles total.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
+    "answer_key": "D",
+    "answer_explanation": "Answer: Option (d)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      4
-    ],
-    "provenance_excerpt": "The number of angles in Fig. 2.8 is",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q8-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "The number of straight angles in Fig. 2.17",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q9",
@@ -278,30 +260,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The number of obtuse angles in Fig. 2.9 is",
+    "question_text": "In the following figure, \u2220BAC = 90\u00b0 and AD \u22a5 BC. The number of right triangles in the figure is ______.\n![](https://www.shaalaa.com/images/_4:fbf0fae0df434dd78770663af117d978.png)",
     "options": [
+      "1",
       "2",
       "3",
-      "4",
-      "5"
+      "4"
     ],
-    "answer_key": "2",
-    "answer_explanation": "In the figure with angles 20°, 45°, 65°, 30°, the obtuse combinations are: 20+45+65 = 130° and 45+65+30 = 140°. So there are 2 obtuse angles (those greater than 90° but less than 180°).",
-    "difficulty": "medium",
-    "blooms_level": "analyze",
+    "answer_key": "C",
+    "answer_explanation": "Answer: Option (c)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      5
-    ],
-    "provenance_excerpt": "The number of obtuse angles in Fig. 2.9 is",
-    "review_state": "approved",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "The number of right angles in a straight angle is ______ and that in a complete angle is ______.",
+    "review_state": "DRAFT",
     "qa_flags": [
-      "needs_figure"
+      "requires_figure"
     ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q9-fig.png"
-    ]
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q10",
@@ -314,30 +293,25 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The number of triangles in Fig. 2.10 is",
+    "question_text": "The number of diagonals in a septagon is ______.",
     "options": [
-      "10",
-      "12",
-      "13",
+      "21",
+      "42",
+      "7",
       "14"
     ],
-    "answer_key": "13",
-    "answer_explanation": "By carefully counting all possible triangles formed by the intersecting lines in the figure, we get 13 triangles.",
-    "difficulty": "hard",
-    "blooms_level": "analyze",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      5
-    ],
-    "provenance_excerpt": "The number of triangles in Fig. 2.10 is",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "The number of common points in the two angles marked in B D E P Q       C A F \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf032\uf037 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q10-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q11",
@@ -350,26 +324,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "If the sum of two angles is greater than 180°, then which of the following is not possible for the two angles?",
+    "question_text": "The number of angles in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:a18323397af3470b88c4ec8ffaf8b367.png)",
     "options": [
-      "One obtuse angle and one acute angle",
-      "One reflex angle and one acute angle",
-      "Two obtuse angles",
-      "Two right angles"
+      "3",
+      "4",
+      "5",
+      "6"
     ],
-    "answer_key": "Two right angles",
-    "answer_explanation": "Two right angles sum to exactly 180°, not greater than 180°. So this is not possible.",
+    "answer_key": "D",
+    "answer_explanation": "Answer: Option (d)",
     "difficulty": "easy",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      5
-    ],
-    "provenance_excerpt": "If the sum of two angles is greater than 180°, then which of the following is not possible for the two angles?",
-    "review_state": "approved",
-    "qa_flags": [],
+    "source_pages": [],
     "image_required": false,
-    "figure_ref": []
+    "figure_ref": [],
+    "provenance_excerpt": "The number of common points in the two angles marked in B                   D A                   E C",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q12",
@@ -382,26 +357,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "If the sum of two angles is equal to an obtuse angle, then which of the following is not possible?",
+    "question_text": "The number of obtuse angles in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:389a202957ad4becb39bfc85d70eccaf.png)",
     "options": [
-      "One obtuse angle and one acute angle",
-      "One right angle and one acute angle",
-      "Two acute angles",
-      "Two right angles"
+      "2",
+      "3",
+      "4",
+      "5"
     ],
-    "answer_key": "Two right angles",
-    "answer_explanation": "Two right angles sum to 180° which is a straight angle, not an obtuse angle (which must be less than 180°). So two right angles is not possible.",
+    "answer_key": "D",
+    "answer_explanation": "Answer: Option (d)",
     "difficulty": "easy",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      5
-    ],
-    "provenance_excerpt": "If the sum of two angles is equal to an obtuse angle, then which of the following is not possible?",
-    "review_state": "approved",
-    "qa_flags": [],
+    "source_pages": [],
     "image_required": false,
-    "figure_ref": []
+    "figure_ref": [],
+    "provenance_excerpt": "The number of common points in the two angles marked in B E       P                   D Q A R               C F",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q13",
@@ -414,26 +390,27 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "A polygon has prime number of sides. Its number of sides is equal to the sum of the two least consecutive primes. The number of diagonals of the polygon is",
+    "question_text": "Number of line segments in the following figure is ______.\n![](https://www.shaalaa.com/images/_4:a26dea3d13b94c2c9f20d714a5ccdca4.png)",
     "options": [
-      "4",
       "5",
-      "7",
-      "10"
+      "10",
+      "15",
+      "20"
     ],
-    "answer_key": "5",
-    "answer_explanation": "The two least consecutive primes are 2 and 3. Sum = 5. A pentagon (5 sides) has diagonals = 5(5-3)/2 = 5.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
+    "answer_key": "B",
+    "answer_explanation": "Answer: Option (b)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      5
-    ],
-    "provenance_excerpt": "A polygon has prime number of sides. Its number of sides is equal to the sum of the two least consecutive primes. The nu",
-    "review_state": "approved",
-    "qa_flags": [],
+    "source_pages": [],
     "image_required": false,
-    "figure_ref": []
+    "figure_ref": [],
+    "provenance_excerpt": "The number of common points in the two angles marked in Q B E D A                       F G                       C R P \uf032\uf038   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA",
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "requires_figure"
+    ],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q14",
@@ -446,30 +423,25 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "In Fig. 2.11, AB = BC and AD = BD = DC. The number of isosceles triangles in the figure is",
+    "question_text": "Measures of the two angles between hour and minute hands of a clock at 9 O\u2019 clock are ______.",
     "options": [
-      "1",
-      "2",
-      "3",
-      "4"
+      "60\u00b0, 300\u00b0",
+      "270\u00b0, 90\u00b0",
+      "75\u00b0, 285\u00b0",
+      "30\u00b0, 330\u00b0"
     ],
-    "answer_key": "3",
-    "answer_explanation": "Triangle ABC is isosceles (AB=BC). Triangle ABD is isosceles (AD=BD). Triangle BDC is isosceles (BD=DC). So there are 3 isosceles triangles.",
-    "difficulty": "medium",
-    "blooms_level": "analyze",
+    "answer_key": "C",
+    "answer_explanation": "Answer: Option (c)",
+    "difficulty": "easy",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "In Fig. 2.11, AB = BC and AD = BD = DC. The number of isosceles triangles in the figure is",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q14-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "The common part between the two angles BAC and DAB in Fig. 2.22 D B A                  C State whether the statements given in questions 32 to 41 are ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q15",
@@ -481,31 +453,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "MCQ",
-    "question_text": "In Fig. 2.12, ∠BAC = 90° and AD ⊥ BC. The number of right triangles in the figure is",
-    "options": [
-      "1",
-      "2",
-      "3",
-      "4"
-    ],
-    "answer_key": "3",
-    "answer_explanation": "Triangle BAC has a right angle at A. Triangle ABD has a right angle at D. Triangle ADC has a right angle at D. So there are 3 right triangles.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "A horizontal line and a vertical line always intersect at right angles.",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "Yes, \u2235 \u2220ABD = \u2220ABC + \u2220CBD \u21d2 \u2220ABD is the sum of \u2220ABC and \u2220CBD. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 51. | Page 32 ####  Video TutorialsVIEW ALL  ####",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "In Fig. 2.12, ∠BAC = 90° and AD ⊥ BC. The number of right triangles in the figure is",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "A horizontal line and a vertical line always intersect at right angles.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q15-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q16",
@@ -517,31 +479,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "MCQ",
-    "question_text": "In Fig. 2.13, PQ ⊥ RQ, PQ = 5 cm and QR = 5 cm. Then △PQR is",
-    "options": [
-      "a right triangle but not isosceles",
-      "an isosceles right triangle",
-      "isosceles but not a right triangle",
-      "neither isosceles nor right triangle"
-    ],
-    "answer_key": "an isosceles right triangle",
-    "answer_explanation": "PQ ⊥ RQ means right angle at Q. PQ = QR = 5 cm means two sides are equal, so it is isosceles. Hence it is an isosceles right triangle.",
-    "difficulty": "easy",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "If the arms of an angle on the paper are increased, the angle increases.",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "Yes, because the line segments AB and BC together form the line segment AC. i.e. AB + BC = AC shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 52. | Page 32 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "In Fig. 2.13, PQ ⊥ RQ, PQ = 5 cm and QR = 5 cm. Then △PQR is",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "If the arms of an angle on the paper are increased, the angle increases.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q16-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q17",
@@ -553,22 +505,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "An angle greater than 180° and less than a complete angle is called _______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "If the arms of an angle on the paper are decreased, the angle decreases.",
     "options": [],
-    "answer_key": "reflex angle",
-    "answer_explanation": "An angle greater than 180° and less than 360° (complete angle) is called a reflex angle.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "answer_key": "",
+    "answer_explanation": "Angles are measured in degrees. The symbol for degrees is a little circle. The full circle is 360\u00b0 (360 degrees). A half circle or a straight angle is 180\u00b0. A quarter circle or a right angle is 90\u00b0. Place the mid-point of the protractor on the vertex of the angle. Line up one side of the angle with the zero line of the protractor (where you see the number 0). **Read the degrees here the other side crosses the number scale.**   1. Measure the angles.   2. Measure the angles. Label each angle as acute or obtuse.   3. Tasha measured an acute angle, and got 146\u00b0. The teacher pointed out that she had read the wrong set of numbers on the protractor.   4. Measure the following angles using your own protractor. If you need to, make the sides of the angles longer with a ruler.   5. Draw four dots and connect them so that you get a quadrilateral.   Measure all the angles of your quadrilateral. Then add the angle measure. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 53. | Page 32    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "An angle greater than 180° and less than a complete angle is called _______.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "If the arms of an angle on the paper are decreased, the angle decreases.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q18",
@@ -580,22 +531,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of diagonals in a hexagon is ________.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "If line PQ || line m, then line segment PQ || m",
     "options": [],
-    "answer_key": "9",
-    "answer_explanation": "Number of diagonals = n(n-3)/2 = 6(6-3)/2 = 6×3/2 = 9.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
+    "answer_key": "",
+    "answer_explanation": "Yes, points 6 and C lie in the interior of \u22202 also. Since, \u22201 is in interior of \u22202, then all the points lying inside the \u22201, will also lie inside the \u22202. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 54. | Page 32 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "The number of diagonals in a hexagon is ________.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "If line PQ || line m, then line segment PQ || m",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q19",
@@ -607,22 +557,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "A pair of opposite sides of a trapezium are ________.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Two parallel lines meet each other at some point.",
     "options": [],
-    "answer_key": "parallel",
-    "answer_explanation": "By definition, a trapezium is a quadrilateral with one pair of opposite sides parallel.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "answer_key": "",
+    "answer_explanation": "Both the figures (i) and (ii) have 3 line segments. No, Figure (i) is not a triangle since the three line segments does not form a closed figure. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 57. | Page 33    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "A pair of opposite sides of a trapezium are ________.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Two parallel lines meet each other at some point.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q20",
@@ -634,26 +583,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "In Fig. 2.14, points lying in the interior of the triangle PQR are ______, that in the exterior are ______ and that on the triangle itself are ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Measures of \u2220ABC and \u2220CBA in Fig. 2.23 are the same. A B                C",
     "options": [],
-    "answer_key": "O, S; T, N; P, Q, R, M",
-    "answer_explanation": "From the figure, O and S are interior points, T and N are exterior points, and P, Q, R, M lie on the triangle.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "No, because angle is made when two rays intersect at common point. The common point is known as vertex of an angle. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 58. | Page 33 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      6
-    ],
-    "provenance_excerpt": "In Fig. 2.14, points lying in the interior of the triangle PQR are ______, that in the exterior are ______ and that on t",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q20-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Measures of \u2220ABC and \u2220CBA in Fig. 2.23 are the same. A B                C",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q21",
@@ -665,26 +609,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "In Fig. 2.15, points A, B, C, D and E are collinear such that AB = BC = CD = DE. Then\n(a) AD = AB + ______\n(b) AD = AC + ______\n(c) mid point of AE is ______\n(d) mid point of CE is ______\n(e) AE = ______ × AB.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Two line segments may intersect at two points.",
     "options": [],
-    "answer_key": "(a) BC + CD\n(b) CD\n(c) C\n(d) D\n(e) 4",
-    "answer_explanation": "Since AB=BC=CD=DE, AD = AB+BC+CD. AD = AC+CD. AE = 4 units, midpoint is C. CE = 2 units, midpoint is D.",
+    "answer_key": "",
+    "answer_explanation": "For an angle to be trisected, we need two trisectors. So, for \u2220BAE, we have two trisectors, i.e. AC and AD. AC and AD divides the \u2220BAE in three equal angles. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 64. | Page 35    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "In Fig. 2.15, points A, B, C, D and E are collinear such that AB = BC = CD = DE. Then\n(a) AD = AB + ______\n(b) AD = AC +",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Two line segments may intersect at two points.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q21-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q22",
@@ -696,26 +635,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "In Fig. 2.16,\n(a) ∠AOD is a/an ______ angle\n(b) ∠COA is a/an ______ angle\n(c) ∠AOE is a/an ______ angle",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Many lines can pass through two given points.",
     "options": [],
-    "answer_key": "(a) right\n(b) obtuse\n(c) reflex",
-    "answer_explanation": "From the figure, ∠AOD = 90° (right), ∠COA > 90° (obtuse), ∠AOE > 180° (reflex).",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "There are two points marked, namely A and B. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 65. | Page 35 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "In Fig. 2.16,\n(a) ∠AOD is a/an ______ angle\n(b) ∠COA is a/an ______ angle\n(c) ∠AOE is a/an ______ angle",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Many lines can pass through two given points.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q22-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q23",
@@ -727,26 +661,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of triangles in Fig. 2.17 is ______. Their names are ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Only one line can pass through a given point.",
     "options": [],
-    "answer_key": "5; △ABF, △AEF, △ABE, △ABD, △ABC",
-    "answer_explanation": "Counting all triangles formed in the figure gives 5 triangles.",
+    "answer_key": "",
+    "answer_explanation": "There is only one line segment AB. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 66. | Page 35 ####  Video TutorialsVIEW ALL  ####",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "The number of triangles in Fig. 2.17 is ______. Their names are ______.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Only one line can pass through a given point.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q23-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q24",
@@ -758,26 +687,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "Number of angles less than 180° in Fig. 2.17 is ______ and their names are ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Two angles can have exactly five points in common.",
     "options": [],
-    "answer_key": "10",
-    "answer_explanation": "Counting all angles less than 180° (acute, right, and obtuse angles) in the figure gives 10 angles.",
+    "answer_key": "",
+    "answer_explanation": "There are three points marked, namely A, B and C. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 67. | Page 35 ####  Video TutorialsVIEW ALL  ####",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "Number of angles less than 180° in Fig. 2.17 is ______ and their names are ______.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Two angles can have exactly five points in common.",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q24-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q25",
@@ -789,26 +713,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of straight angles in Fig. 2.17 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Name all the line segments in Fig. 2.24. \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf032\uf039 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "options": [],
-    "answer_key": "1",
-    "answer_explanation": "A straight angle is exactly 180°. In the figure, there is 1 straight angle.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "There are three line segments, namely AB, BC and AC. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 68. | Page 35 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "The number of straight angles in Fig. 2.17 is ______.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q25-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Name all the line segments in Fig. 2.24. \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf032\uf039 \uf055\uf04e\uf049\uf054\uf02d\uf032",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q26",
@@ -820,22 +739,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of right angles in a straight angle is ______ and that in a complete angle is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Name the line segments shown in Fig. 2.25.",
     "options": [],
-    "answer_key": "2; 4",
-    "answer_explanation": "A straight angle = 180° = 2 × 90°. A complete angle = 360° = 4 × 90°.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "answer_key": "",
+    "answer_explanation": "There are four points marked, namely A, B, C and D. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 69. | Page 36 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "The number of right angles in a straight angle is ______ and that in a complete angle is ______.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "Name the line segments shown in Fig. 2.25.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q27",
@@ -847,24 +765,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of common points in the two angles marked in Fig. 2.18 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "State the mid points of all the sides of Fig. 2.26. C Y X A                                           B Z",
     "options": [],
-    "answer_key": "1",
-    "answer_explanation": "The two angles share exactly 1 common point.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "There are six line segments, namely AB, AC, AD, BC, BD and CD. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 70. | Page 36 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      7
-    ],
-    "provenance_excerpt": "The number of common points in the two angles marked in Fig. 2.18 is ______.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "State the mid points of all the sides of Fig. 2.26. C Y X A                                           B Z",
     "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q28",
@@ -876,26 +791,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of common points in the two angles marked in Fig. 2.19 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Name the vertices and the line segments in Fig. 2.27.",
     "options": [],
-    "answer_key": "2",
-    "answer_explanation": "The two angles share exactly 2 common points.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "There are five points marked, namely A, B, C, D and E. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 71. | Page 36 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      8
-    ],
-    "provenance_excerpt": "The number of common points in the two angles marked in Fig. 2.19 is ______.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q28-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Name the vertices and the line segments in Fig. 2.27.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q29",
@@ -907,26 +817,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of common points in the two angles marked in Fig. 2.20 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Write down fifteen angles (less than 180\u00b0 ) involved in Fig. 2.28. A D E           F B                                      C \uf033\uf030   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053",
     "options": [],
-    "answer_key": "3",
-    "answer_explanation": "The two angles share exactly 3 common points.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "There are ten line segments, namely AB, AD, AE, AC, BD, BE, BC, DE, DC and EC. shaalaa.com     Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 72. | Page 36 ####  Video TutorialsVIEW ALL  ####",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      8
-    ],
-    "provenance_excerpt": "The number of common points in the two angles marked in Fig. 2.20 is ______.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q29-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Write down fifteen angles (less than 180\u00b0 ) involved in Fig. 2.28. A D E           F B                                      C \uf033\uf030   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04d",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q30",
@@ -938,26 +843,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The number of common points in the two angles marked in Fig. 2.21 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Name the following angles of Fig. 2.29, using three letters: (a)    \u22201                                                                A (b)    \u22202 (c)    \u22203                                                                                E 3 (d)    \u22201 + \u22202                                                           2                   D 1 (e)    \u22202 + \u22203                                              B                                C",
     "options": [],
-    "answer_key": "4",
-    "answer_explanation": "The two angles share exactly 4 common points.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "1. Vertices shown in the figure are A, B, C, D, E and F.   2. Edges shown in the figure are AB, AC, BC, BD, DF, FC, EF, ED and AE.   3. Faces of prism shown in the figure are ABC, DEF, AEFC, AEDB and BDFC. shaalaa.com  Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 76. | Page 36    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      8
-    ],
-    "provenance_excerpt": "The number of common points in the two angles marked in Fig. 2.21 is ______.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q30-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Name the following angles of Fig. 2.29, using three letters: (a)    \u22201                                                                A (b)    \u22202 (c) ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q31",
@@ -969,26 +869,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Fill in the Blanks",
-    "question_text": "The common part between the two angles BAC and DAB in Fig. 2.22 is ______.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Name the points and then the line segments in each of the following (i)               (ii)                   (iii)                            (iv)",
     "options": [],
-    "answer_key": "ray AB",
-    "answer_explanation": "The common part between ∠BAC and ∠DAB is the ray AB, which is a side shared by both angles.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "No edges, No faces and No vertices. shaalaa.com  Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 77. | Page 37    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "The common part between the two angles BAC and DAB in Fig. 2.22 is ______.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Name the points and then the line segments in each of the following (i)               (ii)                   (iii)                            (iv)",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q31-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q32",
@@ -1000,25 +895,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "A horizontal line and a vertical line always intersect at right angles.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "True",
-    "answer_explanation": "By definition, horizontal and vertical lines are perpendicular to each other, so they always intersect at right angles (90°).",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Which points in Fig. 2.31, appear to be mid-points of the line segments? When you locate a mid-point, name the two equal line segments formed by it. B O B                 D                  C A (i)                    (ii)                            (iii)",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "The diagonals of a pentagon ABCDE are AC, AD, BE, BD and EC.  shaalaa.com  Chapter 2: Geometry - Exercise  Chapter 2 Geometry   Exercise | Q 78. | Page 37    Question Bank with Solutions   * \")    * \")   * \")   *    *    *    *    *    *    *    *    *    *     *    *    *    *    *    *    *    *    *    *    *    *     *    *    *    *    *  Question Paper Solutions   *    *    *    *    *    *    *    *    *    *    *    *  Other Resources   *    *    *    *    * \")   *    *    *    *    *    *  \u00a9 2026 Shaalaa.com  |  |  Share   0 0 0 0 0 Notifications      #### Select a course CANCEL   Login  email:   password:   Log in  Course    *    *    *    *    *    *    *    *    *    *  \u00d7",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "A horizontal line and a vertical line always intersect at right angles.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "Which points in Fig. 2.31, appear to be mid-points of the line segments? When you locate a mid-point, name the two equal line segments formed by it. B",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q33",
@@ -1030,25 +921,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "If the arms of an angle on the paper are increased, the angle increases.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "The measure of an angle depends on the rotation between its arms, not on their lengths. Increasing the length of arms does not change the angle.",
-    "difficulty": "easy",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Is it possible for the same (a)    line segment to have two different lengths? (b)    angle to have two different measures? \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf031 \uf055\uf04e\uf049\uf054\uf02d\uf032",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "If the arms of an angle on the paper are increased, the angle increases.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Is it possible for the same (a)    line segment to have two different lengths? (b)    angle to have two different measures? \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf031 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q34",
@@ -1060,25 +947,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "If the arms of an angle on the paper are decreased, the angle decreases.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "Similar to above, decreasing the length of arms does not change the angle measure.",
-    "difficulty": "easy",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Will the measure of \u2220ABC and of \u2220CBD make measure of \u2220ABD in A C B                       D",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "If the arms of an angle on the paper are decreased, the angle decreases.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Will the measure of \u2220ABC and of \u2220CBD make measure of \u2220ABD in A C B                       D",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q35",
@@ -1090,25 +973,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "If line PQ ∥ line m, then line segment PQ ∥ m.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "True",
-    "answer_explanation": "If a line is parallel to another line, then any segment of that line is also parallel to the other line.",
-    "difficulty": "easy",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Will the lengths of line segment AB and line segment BC make the",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "If line PQ ∥ line m, then line segment PQ ∥ m.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Will the lengths of line segment AB and line segment BC make the",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q36",
@@ -1120,25 +999,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Two parallel lines meet each other at some point.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "By definition, parallel lines never meet. They are always equidistant and never intersect.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Draw two acute angles and one obtuse angle without using a protractor. Estimate the measures of the angles. Measure them with the help of a protractor and see how much accurate is your estimate.",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Two parallel lines meet each other at some point.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Draw two acute angles and one obtuse angle without using a protractor. Estimate the measures of the angles. Measure them with the help of a protractor",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q37",
@@ -1150,29 +1025,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Measures of ∠ABC and ∠CBA in Fig. 2.23 are the same.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "True",
-    "answer_explanation": "∠ABC and ∠CBA refer to the same angle at vertex B, just written in reverse order. They have the same measure.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Look at Fig. 2.34. Mark a point (a)    A which is in the interior of both \u22201 and \u22202. (b)    B which is in the interior of only \u22201. (c)    Point C in the interior of \u22201. Now, state whether points B and C lie in the interior of \u22202 also.",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Measures of ∠ABC and ∠CBA in Fig. 2.23 are the same.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q37-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "Look at Fig. 2.34. Mark a point (a)    A which is in the interior of both \u22201 and \u22202. (b)    B which is in the interior of only \u22201. (c)    Point C in t",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q38",
@@ -1184,25 +1051,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Two line segments may intersect at two points.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "Two distinct line segments can intersect at most at one point. They cannot intersect at two points.",
-    "difficulty": "easy",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Find out the incorrect statement, if any, in the following: An angle is formed when we have (a) two rays with a common end-point (b) two line segments with a common end-point (c) a ray and a line segment with a common end-point",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Two line segments may intersect at two points.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Find out the incorrect statement, if any, in the following: An angle is formed when we have (a) two rays with a common end-point (b) two line segments",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q39",
@@ -1214,25 +1077,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Many lines can pass through two given points.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "Through two distinct points, exactly one line can pass. This is a basic postulate of geometry.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In which of the following figures (Fig. 2.35), (a)   perpendicular bisector is shown? \uf033\uf032   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053 (b) bisector is shown? (c) only bisector is shown? (d) only perpendicular is shown? (i)                               (ii)                     (iii)",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Many lines can pass through two given points.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In which of the following figures (Fig. 2.35), (a)   perpendicular bisector is shown? \uf033\uf032   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053 (b) bisector is shown? (c) on",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q40",
@@ -1244,25 +1103,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Only one line can pass through a given point.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "Through a single point, infinitely many lines can pass.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "What is common in the following figures (i) and (ii) (Fig. 2.36.)? (i)                       (ii)",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Only one line can pass through a given point.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "What is common in the following figures (i) and (ii) (Fig. 2.36.)? (i)                       (ii)",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q41",
@@ -1274,25 +1129,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "True/False",
-    "question_text": "Two angles can have exactly five points in common.",
-    "options": [
-      "True",
-      "False"
-    ],
-    "answer_key": "False",
-    "answer_explanation": "Two angles can have 0, 1, 2, 3, 4, or infinitely many common points, but not exactly five.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "If two rays intersect, will their point of intersection be the vertex of an angle of which the rays are the two sides?",
+    "options": [],
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Two angles can have exactly five points in common.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "If two rays intersect, will their point of intersection be the vertex of an angle of which the rays are the two sides?",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q42",
@@ -1304,22 +1155,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Name all the line segments in Fig. 2.24.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.37, A                  D (a) name any four angles that appear to be acute angles.                                          E (b) name any two angles that appear to be obtuse angles.                               B                  C",
     "options": [],
-    "answer_key": "AB, AC, AD, AE, BC, BD, BE, CD, CE, DE",
-    "answer_explanation": "All possible line segments connecting pairs of marked points in the figure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      9
-    ],
-    "provenance_excerpt": "Name all the line segments in Fig. 2.24.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.37, A                  D (a) name any four angles that appear to be acute angles.                                          E (b) name any tw",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q43",
@@ -1331,24 +1181,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Name the line segments shown in Fig. 2.25.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.38, (a) is AC + CB = AB?                  (b) is AB + AC = CB? (c) is AB + BC = CA? A            C B \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf033 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "options": [],
-    "answer_key": "AB, BC, CD, AC, AD, BD",
-    "answer_explanation": "All line segments connecting pairs of marked points in the figure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      10
-    ],
-    "provenance_excerpt": "Name the line segments shown in Fig. 2.25.",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.38, (a) is AC + CB = AB?                  (b) is AB + AC = CB? (c) is AB + BC = CA? A            C B \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf033 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q44",
@@ -1360,26 +1207,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "State the mid points of all the sides of Fig. 2.26.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.39, A                       D (a) What is AE + EC? E (b) What is AC \u2013 EC? (c) What is BD \u2013 BE?                                  B               C (d) What is BD \u2013 DE?",
     "options": [],
-    "answer_key": "X is the midpoint of BC, Y is the midpoint of CA, Z is the midpoint of AB",
-    "answer_explanation": "From the figure, X, Y, and Z are the midpoints of sides BC, CA, and AB of triangle ABC respectively.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      10
-    ],
-    "provenance_excerpt": "State the mid points of all the sides of Fig. 2.26.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q44-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.39, A                       D (a) What is AE + EC? E (b) What is AC \u2013 EC? (c) What is BD \u2013 BE?                                  B           ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q45",
@@ -1391,26 +1233,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Name the vertices and the line segments in Fig. 2.27.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Using the information given, name the right angles in each part of (a)   BA \u22a5 BD                       (b) RT \u22a5 ST (c)   AC \u22a5 BD                       (d) RS \u22a5 RW (e)   AC \u22a5 BD                       (f) AE \u22a5 CE C (g)   AC \u22a5 CD                       (h) OP \u22a5 AB A B D \uf033\uf034   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053",
     "options": [],
-    "answer_key": "Vertices: A, B, C, D, E. Line segments: AB, BC, CD, DE, EA, AC, AD, BE, BD, CE",
-    "answer_explanation": "Identify all vertices and all possible line segments in the figure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      10
-    ],
-    "provenance_excerpt": "Name the vertices and the line segments in Fig. 2.27.",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Using the information given, name the right angles in each part of (a)   BA \u22a5 BD                       (b) RT \u22a5 ST (c)   AC \u22a5 BD                      ",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q45-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q46",
@@ -1422,26 +1259,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Write down fifteen angles (less than 180°) involved in Fig. 2.28.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "What conclusion can be drawn from each part of Fig. 2.41, if (a) DB is the bisector of \u2220ADC? (b) BD bisects \u2220ABC? (c) DC is the bisector of \u2220 ADB, CA \u22a5 DA and CB \u22a5 DB?",
     "options": [],
-    "answer_key": "∠ABC, ∠ABD, ∠ABE, ∠ABF, ∠CBD, ∠CBE, ∠CBF, ∠DBE, ∠DBF, ∠EBF, ∠BAC, ∠BCA, ∠BDA, ∠BEA, ∠BFA",
-    "answer_explanation": "By systematically listing angles at each vertex and combinations from the rays in the figure, we can identify at least 15 angles less than 180°.",
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      10
-    ],
-    "provenance_excerpt": "Write down fifteen angles (less than 180°) involved in Fig. 2.28.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q46-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "What conclusion can be drawn from each part of Fig. 2.41, if (a) DB is the bisector of \u2220ADC? (b) BD bisects \u2220ABC? (c) DC is the bisector of \u2220 ADB, CA ",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q47",
@@ -1453,24 +1285,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Name the following angles of Fig. 2.29, using three letters:\n(a) ∠1  (b) ∠2  (c) ∠3  (d) ∠1 + ∠2  (e) ∠2 + ∠3  (f) ∠1 + ∠2 + ∠3  (g) ∠CBA – ∠1",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "An angle is said to be trisected, if it is divided \u2220 BAC = \u2220 CAD = \u2220 DAE, how many trisectors are there for \u2220 BAE ?",
     "options": [],
-    "answer_key": "(a) ∠BAD\n(b) ∠DAB or ∠DAC\n(c) ∠ADB or ∠ADC\n(d) ∠BAC\n(e) ∠DAC + ∠ADB\n(f) ∠BAC + ∠ADB\n(g) ∠DBA",
-    "answer_explanation": "Using the figure, each numbered angle can be identified by the three-letter notation based on vertex and arm points.",
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      11
-    ],
-    "provenance_excerpt": "Name the following angles of Fig. 2.29, using three letters:\n(a) ∠1  (b) ∠2  (c) ∠3  (d) ∠1 + ∠2  (e) ∠2 + ∠3  (f) ∠1 + ",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
+    "source_pages": [],
     "image_required": false,
-    "figure_ref": []
+    "figure_ref": [],
+    "provenance_excerpt": "An angle is said to be trisected, if it is divided \u2220 BAC = \u2220 CAD = \u2220 DAE, how many trisectors are there for \u2220 BAE ?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q48",
@@ -1482,26 +1311,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Name the points and then the line segments in each of the following figures (Fig. 2.30): (i), (ii), (iii), (iv).",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "How many points are marked in Fig. 2.43?",
     "options": [],
-    "answer_key": "Points and line segments as marked in each subfigure of Fig. 2.30.",
-    "answer_explanation": "Identify all marked points and list all line segments connecting pairs of points in each subfigure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      11
-    ],
-    "provenance_excerpt": "Name the points and then the line segments in each of the following figures (Fig. 2.30): (i), (ii), (iii), (iv).",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q48-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "How many points are marked in Fig. 2.43?",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q49",
@@ -1513,22 +1337,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Which points in Fig. 2.31 appear to be mid-points of the line segments? When you locate a mid-point, name the two equal line segments formed by it.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "How many line segments are there in Fig. 2.43?",
     "options": [],
-    "answer_key": "The midpoints divide each line segment into two equal parts as shown in each subfigure.",
-    "answer_explanation": "Visually identify points that appear to bisect line segments and name the two equal halves.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      11
-    ],
-    "provenance_excerpt": "Which points in Fig. 2.31 appear to be mid-points of the line segments? When you locate a mid-point, name the two equal ",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "How many line segments are there in Fig. 2.43?",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q50",
@@ -1540,22 +1363,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Is it possible for the same\n(a) line segment to have two different lengths?\n(b) angle to have two different measures?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.44, how many points are marked? Name them.",
     "options": [],
-    "answer_key": "(a) No\n(b) No",
-    "answer_explanation": "(a) A line segment has a unique fixed length. (b) An angle has a unique fixed measure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      11
-    ],
-    "provenance_excerpt": "Is it possible for the same\n(a) line segment to have two different lengths?\n(b) angle to have two different measures?",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.44, how many points are marked? Name them.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q51",
@@ -1567,26 +1389,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Will the measure of ∠ABC and of ∠CBD make measure of ∠ABD in Fig. 2.32?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "How many line segments are there in Fig. 2.44? Name them. \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf035 \uf055\uf04e\uf049\uf054\uf02d\uf032",
     "options": [],
-    "answer_key": "Yes, ∠ABD = ∠ABC + ∠CBD, since the ray BC lies between rays BA and BD.",
-    "answer_explanation": "When a ray lies between two other rays sharing a common vertex, the whole angle equals the sum of the parts.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12
-    ],
-    "provenance_excerpt": "Will the measure of ∠ABC and of ∠CBD make measure of ∠ABD in Fig. 2.32?",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q51-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "How many line segments are there in Fig. 2.44? Name them. \uf047E\uf04f\uf04dE\uf054\uf052\uf059   \uf033\uf035 \uf055\uf04e\uf049\uf054\uf02d\uf032",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q52",
@@ -1598,22 +1415,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Will the lengths of line segment AB and line segment BC make the length of line segment AC in Fig. 2.33?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.45 how many points are marked? Name them.",
     "options": [],
-    "answer_key": "Yes, AC = AB + BC, since B lies between A and C.",
-    "answer_explanation": "When a point lies between two other points on a line, the total length equals the sum of the parts.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12
-    ],
-    "provenance_excerpt": "Will the lengths of line segment AB and line segment BC make the length of line segment AC in Fig. 2.33?",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.45 how many points are marked? Name them.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q53",
@@ -1625,22 +1441,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Draw two acute angles and one obtuse angle without using a protractor. Estimate the measures of the angles. Measure them with the help of a protractor and see how much accurate is your estimate.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.45 how many line segments are there? Name them.",
     "options": [],
-    "answer_key": "Activity-based question. Draw angles, estimate, then verify with protractor.",
-    "answer_explanation": "This is a hands-on activity. Students should draw angles freehand, estimate their measures, then use a protractor to check accuracy.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12
-    ],
-    "provenance_excerpt": "Draw two acute angles and one obtuse angle without using a protractor. Estimate the measures of the angles. Measure them",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.45 how many line segments are there? Name them.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q54",
@@ -1652,26 +1467,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Look at Fig. 2.34. Mark a point\n(a) A which is in the interior of both ∠1 and ∠2.\n(b) B which is in the interior of only ∠1.\n(c) Point C in the interior of ∠1.\nNow, state whether points B and C lie in the interior of ∠2 also.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.46, how many points are marked? Name them.",
     "options": [],
-    "answer_key": "Points can be marked as directed. B and C may or may not lie in the interior of ∠2 depending on their exact positions.",
-    "answer_explanation": "The interior of an angle is the region between its two arms. A point in the interior of both angles must be in the overlapping region.",
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
-    "blooms_level": "apply",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12
-    ],
-    "provenance_excerpt": "Look at Fig. 2.34. Mark a point\n(a) A which is in the interior of both ∠1 and ∠2.\n(b) B which is in the interior of only",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
+    "source_pages": [],
     "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q54-fig.png"
-    ]
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.46, how many points are marked? Name them.",
+    "review_state": "approved",
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q55",
@@ -1683,22 +1493,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Find out the incorrect statement, if any, in the following:\nAn angle is formed when we have\n(a) two rays with a common end-point\n(b) two line segments with a common end-point\n(c) a ray and a line segment with a common end-point",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.46 how many line segments are there? Name them.",
     "options": [],
-    "answer_key": "Statements (b) and (c) are incorrect.",
-    "answer_explanation": "An angle is strictly formed by two rays with a common endpoint (vertex). Line segments can be extended to form rays, but by definition an angle requires two rays.",
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12
-    ],
-    "provenance_excerpt": "Find out the incorrect statement, if any, in the following:\nAn angle is formed when we have\n(a) two rays with a common e",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.46 how many line segments are there? Name them.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q56",
@@ -1710,25 +1519,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In which of the following figures (Fig. 2.35),\n(a) perpendicular bisector is shown?\n(b) bisector is shown?\n(c) only bisector is shown?\n(d) only perpendicular is shown?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "In Fig. 2.47, O is the centre of the circle. (a) Name all chords of the circle. (b) Name all radii of the circle. (c) Name a chord, which is not the diameter of the circle. (d) Shade sectors OAC and OPB. (e) Shade the smaller segment of the",
     "options": [],
-    "answer_key": "Identify from figures (i), (ii), (iii) which shows perpendicular bisector, bisector only, or perpendicular only.",
-    "answer_explanation": "A perpendicular bisector is both perpendicular and bisects the segment. A bisector only divides into equal parts. A perpendicular only makes 90° without bisecting.",
+    "answer_key": "",
+    "answer_explanation": "",
     "difficulty": "medium",
-    "blooms_level": "analyze",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      12,
-      13
-    ],
-    "provenance_excerpt": "In which of the following figures (Fig. 2.35),\n(a) perpendicular bisector is shown?\n(b) bisector is shown?\n(c) only bise",
+    "source_pages": [],
+    "image_required": true,
+    "figure_ref": [],
+    "provenance_excerpt": "In Fig. 2.47, O is the centre of the circle. (a) Name all chords of the circle. (b) Name all radii of the circle. (c) Name a chord, which is not the d",
     "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q57",
@@ -1740,26 +1545,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "What is common in the following figures (i) and (ii) (Fig. 2.36)? Is Fig. 2.36 (i) that of a triangle? If not, why?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Can we have two acute angles whose sum is (a) an acute angle? Why or why not? (b) a right angle? Why or why not? (c) an obtuse angle? Why or why not? (d) a straight angle? Why or why not? (e) a reflex angle? Why or why not?",
     "options": [],
-    "answer_key": "Both figures have three sides. Fig. 2.36(i) is not a triangle because at least one of its sides is curved (not a straight line segment).",
-    "answer_explanation": "A triangle must have exactly three straight sides (line segments). If any side is curved, it is not a triangle.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      13
-    ],
-    "provenance_excerpt": "What is common in the following figures (i) and (ii) (Fig. 2.36)? Is Fig. 2.36 (i) that of a triangle? If not, why?",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Can we have two acute angles whose sum is (a) an acute angle? Why or why not? (b) a right angle? Why or why not? (c) an obtuse angle? Why or why not? ",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q57-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q58",
@@ -1771,22 +1571,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "If two rays intersect, will their point of intersection be the vertex of an angle of which the rays are the two sides?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Can we have two obtuse angles whose sum is (a) a reflex angle? Why or why not? (b) a complete angle? Why or why not?",
     "options": [],
-    "answer_key": "Yes, if the two rays have a common point of intersection, that point becomes the vertex and the rays become the arms of an angle.",
-    "answer_explanation": "When two rays intersect at a common point, that point is the vertex and the rays form the two sides (arms) of the angle.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      13
-    ],
-    "provenance_excerpt": "If two rays intersect, will their point of intersection be the vertex of an angle of which the rays are the two sides?",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Can we have two obtuse angles whose sum is (a) a reflex angle? Why or why not? (b) a complete angle? Why or why not?",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q59",
@@ -1798,26 +1597,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.37,\n(a) name any four angles that appear to be acute angles.\n(b) name any two angles that appear to be obtuse angles.",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "Write the name of (a) vertices       (b) edges, and \uf033\uf036   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053",
     "options": [],
-    "answer_key": "(a) ∠BAE, ∠AEB, ∠ADE, ∠ABE (or similar acute angles from the figure)\n(b) ∠BAD, ∠BCD (or similar obtuse angles from the figure)",
-    "answer_explanation": "Acute angles are less than 90°. Obtuse angles are between 90° and 180°. Identify from the figure.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      13
-    ],
-    "provenance_excerpt": "In Fig. 2.37,\n(a) name any four angles that appear to be acute angles.\n(b) name any two angles that appear to be obtuse ",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "Write the name of (a) vertices       (b) edges, and \uf033\uf036   E\uf058E\uf04d\uf050\uf04cA\uf052 \uf050\uf052\uf04fB\uf04cE\uf04d\uf053 \uf04dA\uf054\uf048E\uf04dA\uf054\uf049C\uf053",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q59-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q60",
@@ -1829,26 +1623,21 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.38,\n(a) is AC + CB = AB?\n(b) is AB + AC = CB?\n(c) is AB + BC = CA?",
+    "question_type": "SHORT_ANSWER",
+    "question_text": "How many edges, faces and vertices are there in a sphere?",
     "options": [],
-    "answer_key": "(a) Yes\n(b) No\n(c) No",
-    "answer_explanation": "Since C lies between A and B on the line, AC + CB = AB. The other two equations don't hold because the sum of two parts cannot equal one part.",
-    "difficulty": "easy",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      13
-    ],
-    "provenance_excerpt": "In Fig. 2.38,\n(a) is AC + CB = AB?\n(b) is AB + AC = CB?\n(c) is AB + BC = CA?",
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
+    "provenance_excerpt": "How many edges, faces and vertices are there in a sphere?",
     "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q60-fig.png"
-    ]
+    "qa_flags": [],
+    "is_example": false
   },
   {
     "question_id": "NCERT-EXEMPLAR-M6-CH2-Q61",
@@ -1860,514 +1649,20 @@
     "chapter_title": "Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.39,\n(a) What is AE + EC?\n(b) What is AC – EC?\n(c) What is BD – BE?\n(d) What is BD – DE?",
-    "options": [],
-    "answer_key": "(a) AC\n(b) AE\n(c) ED\n(d) BE",
-    "answer_explanation": "Using the collinearity of points: AE + EC = AC, AC - EC = AE, BD - BE = ED, BD - DE = BE.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      14
-    ],
-    "provenance_excerpt": "In Fig. 2.39,\n(a) What is AE + EC?\n(b) What is AC – EC?\n(c) What is BD – BE?\n(d) What is BD – DE?",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q61-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q62",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Using the information given, name the right angles in each part of Fig. 2.40:\n(a) BA ⊥ BD  (b) RT ⊥ ST  (c) AC ⊥ BD  (d) RS ⊥ RW  (e) AC ⊥ BD  (f) AE ⊥ CE  (g) AC ⊥ CD  (h) OP ⊥ AB",
-    "options": [],
-    "answer_key": "(a) ∠ABD\n(b) ∠RTS\n(c) ∠AEB, ∠AED, ∠BEC, ∠DEC\n(d) ∠SRW\n(e) ∠AEB, ∠AED, ∠BEC, ∠DEC\n(f) ∠AEC\n(g) ∠ACD\n(h) ∠OPA, ∠OPB",
-    "answer_explanation": "When two lines/segments are perpendicular, they form right angles (90°) at their intersection.",
-    "difficulty": "medium",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      14
-    ],
-    "provenance_excerpt": "Using the information given, name the right angles in each part of Fig. 2.40:\n(a) BA ⊥ BD  (b) RT ⊥ ST  (c) AC ⊥ BD  (d)",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q62-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q63",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "What conclusion can be drawn from each part of Fig. 2.41, if\n(a) DB is the bisector of ∠ADC?\n(b) BD bisects ∠ABC?\n(c) DC is the bisector of ∠ADB, CA ⊥ DA and CB ⊥ DB?",
-    "options": [],
-    "answer_key": "(a) ∠ADB = ∠BDC\n(b) ∠ABD = ∠DBC\n(c) ∠ADC = ∠BDC and ∠CAD = ∠CBD = 90°",
-    "answer_explanation": "A bisector divides an angle into two equal parts. Perpendicularity means 90° angle.",
-    "difficulty": "medium",
-    "blooms_level": "analyze",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "What conclusion can be drawn from each part of Fig. 2.41, if\n(a) DB is the bisector of ∠ADC?\n(b) BD bisects ∠ABC?\n(c) DC",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q64",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "An angle is said to be trisected, if it is divided into three equal parts. If in Fig. 2.42, ∠BAC = ∠CAD = ∠DAE, how many trisectors are there for ∠BAE?",
-    "options": [],
-    "answer_key": "2 (rays AC and AD are the two trisectors)",
-    "answer_explanation": "Since ∠BAE is divided into three equal parts by rays AC and AD, there are 2 trisectors.",
-    "difficulty": "medium",
-    "blooms_level": "understand",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "An angle is said to be trisected, if it is divided into three equal parts. If in Fig. 2.42, ∠BAC = ∠CAD = ∠DAE, how many",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q65",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "How many points are marked in Fig. 2.43?",
-    "options": [],
-    "answer_key": "4",
-    "answer_explanation": "Count all the marked/labeled points in the figure.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "How many points are marked in Fig. 2.43?",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q66",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "How many line segments are there in Fig. 2.43?",
-    "options": [],
-    "answer_key": "6",
-    "answer_explanation": "With 4 points, the number of line segments = C(4,2) = 4×3/2 = 6.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "How many line segments are there in Fig. 2.43?",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q67",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.44, how many points are marked? Name them.",
-    "options": [],
-    "answer_key": "5 points",
-    "answer_explanation": "Count and name all marked points in the figure.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "In Fig. 2.44, how many points are marked? Name them.",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q68",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "How many line segments are there in Fig. 2.44? Name them.",
-    "options": [],
-    "answer_key": "10",
-    "answer_explanation": "With 5 points, the number of line segments = C(5,2) = 5×4/2 = 10.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      15
-    ],
-    "provenance_excerpt": "How many line segments are there in Fig. 2.44? Name them.",
-    "review_state": "approved",
-    "qa_flags": [
-      "image_removed_no_figure"
-    ],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q69",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.45, how many points are marked? Name them.",
-    "options": [],
-    "answer_key": "6 points",
-    "answer_explanation": "Count and name all marked points in the figure.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "In Fig. 2.45, how many points are marked? Name them.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q69-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q70",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.45, how many line segments are there? Name them.",
-    "options": [],
-    "answer_key": "15",
-    "answer_explanation": "With 6 points, the number of line segments = C(6,2) = 6×5/2 = 15.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "In Fig. 2.45, how many line segments are there? Name them.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q70-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q71",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.46, how many points are marked? Name them.",
-    "options": [],
-    "answer_key": "7 points",
-    "answer_explanation": "Count and name all marked points in the figure.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "In Fig. 2.46, how many points are marked? Name them.",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q72",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.46, how many line segments are there? Name them.",
-    "options": [],
-    "answer_key": "21",
-    "answer_explanation": "With 7 points, the number of line segments = C(7,2) = 7×6/2 = 21.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "In Fig. 2.46, how many line segments are there? Name them.",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q73",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "In Fig. 2.47, O is the centre of the circle.\n(a) Name all chords of the circle.\n(b) Name all radii of the circle.\n(c) Name a chord, which is not the diameter of the circle.\n(d) Shade sectors OAC and OPB.\n(e) Shade the smaller segment of the circle formed by CP.",
-    "options": [],
-    "answer_key": "(a) AC, PB, CP\n(b) OA, OC, OP, OB\n(c) CP\n(d) Sectors OAC and OPB shaded\n(e) Smaller segment formed by CP shaded",
-    "answer_explanation": "Chords are line segments with both endpoints on the circle. Radii connect the center to points on the circle. A diameter is a chord passing through the center.",
-    "difficulty": "medium",
-    "blooms_level": "understand",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "In Fig. 2.47, O is the centre of the circle.\n(a) Name all chords of the circle.\n(b) Name all radii of the circle.\n(c) Na",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q73-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q74",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Can we have two acute angles whose sum is\n(a) an acute angle? Why or why not?\n(b) a right angle? Why or why not?\n(c) an obtuse angle? Why or why not?\n(d) a straight angle? Why or why not?\n(e) a reflex angle? Why or why not?",
-    "options": [],
-    "answer_key": "(a) Yes (e.g., 30° + 40° = 70°)\n(b) Yes (e.g., 45° + 45° = 90°)\n(c) Yes (e.g., 50° + 60° = 110°)\n(d) No (max sum of two acute angles = 89° + 89° = 178° < 180°)\n(e) No (sum of two acute angles is always less than 180°, which is less than any reflex angle)",
-    "answer_explanation": "Acute angles are less than 90°. Their sum can be acute, right, or obtuse, but never reaches 180° or more.",
-    "difficulty": "medium",
-    "blooms_level": "analyze",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "Can we have two acute angles whose sum is\n(a) an acute angle? Why or why not?\n(b) a right angle? Why or why not?\n(c) an ",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q75",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Can we have two obtuse angles whose sum is\n(a) a reflex angle? Why or why not?\n(b) a complete angle? Why or why not?",
-    "options": [],
-    "answer_key": "(a) Yes (e.g., 100° + 100° = 200°, which is reflex)\n(b) Yes (e.g., 180° + 180° = 360° but obtuse angles must be less than 180°, so actually No. Max = 179° + 179° = 358° < 360°)",
-    "answer_explanation": "(a) Yes, since two obtuse angles can sum to more than 180° and less than 360°. (b) No, since the maximum sum of two obtuse angles is 179° + 179° = 358° < 360°.",
-    "difficulty": "hard",
-    "blooms_level": "analyze",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "Can we have two obtuse angles whose sum is\n(a) a reflex angle? Why or why not?\n(b) a complete angle? Why or why not?",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q76",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "Write the name of\n(a) vertices\n(b) edges\n(c) faces of the prism shown in Fig. 2.48.",
-    "options": [],
-    "answer_key": "(a) Vertices: A, B, C, D, E, F\n(b) Edges: AB, BC, CA, DE, EF, FD, AD, BE, CF\n(c) Faces: △ABC, △DEF, rectangles ABED, BCFE, CADF",
-    "answer_explanation": "A triangular prism has 6 vertices, 9 edges, and 5 faces (2 triangular + 3 rectangular).",
-    "difficulty": "medium",
-    "blooms_level": "understand",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      16
-    ],
-    "provenance_excerpt": "Write the name of\n(a) vertices\n(b) edges\n(c) faces of the prism shown in Fig. 2.48.",
-    "review_state": "approved",
-    "qa_flags": [
-      "needs_figure"
-    ],
-    "image_required": true,
-    "figure_ref": [
-      "images/NCERT-EXEMPLAR-M6-CH2-Q76-fig.png"
-    ]
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q77",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
-    "question_text": "How many edges, faces and vertices are there in a sphere?",
-    "options": [],
-    "answer_key": "Edges: 0, Faces: 1 (curved surface), Vertices: 0",
-    "answer_explanation": "A sphere has no edges, no vertices, and one continuous curved face.",
-    "difficulty": "easy",
-    "blooms_level": "remember",
-    "source_file": "feep102.pdf",
-    "source_pages": [
-      17
-    ],
-    "provenance_excerpt": "How many edges, faces and vertices are there in a sphere?",
-    "review_state": "approved",
-    "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
-  },
-  {
-    "question_id": "NCERT-EXEMPLAR-M6-CH2-Q78",
-    "board": "NCERT",
-    "class_level": 6,
-    "subject": "Mathematics",
-    "book": "Exemplar Problems - Mathematics",
-    "chapter_number": 2,
-    "chapter_title": "Geometry",
-    "language": "English",
-    "source_kind": "EXEMPLAR",
-    "question_type": "Short Answer",
+    "question_type": "SHORT_ANSWER",
     "question_text": "Draw all the diagonals of a pentagon ABCDE and name them.",
     "options": [],
-    "answer_key": "AC, AD, BD, BE, CE (5 diagonals)",
-    "answer_explanation": "A pentagon has 5(5-3)/2 = 5 diagonals. They are AC, AD, BD, BE, CE.",
-    "difficulty": "easy",
-    "blooms_level": "apply",
+    "answer_key": "",
+    "answer_explanation": "",
+    "difficulty": "medium",
+    "blooms_level": "understand",
     "source_file": "feep102.pdf",
-    "source_pages": [
-      17
-    ],
+    "source_pages": [],
+    "image_required": false,
+    "figure_ref": [],
     "provenance_excerpt": "Draw all the diagonals of a pentagon ABCDE and name them.",
     "review_state": "approved",
     "qa_flags": [],
-    "image_required": false,
-    "figure_ref": []
+    "is_example": false
   }
 ]

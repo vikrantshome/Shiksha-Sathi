@@ -73,3 +73,6 @@ doc/NCERT/**
 !doc/NCERT/publish-workflow.md
 !doc/NCERT/derived-reference-allowlist.md
 .env*.local
+
+# Exemplar PDFs (large binaries, download via scripts)
+doc/Exemplar/*.pdf

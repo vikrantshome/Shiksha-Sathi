@@ -50,6 +50,14 @@ export default async function QuestionBankPage({
     typeof resolvedParams.chapter === "string"
       ? resolvedParams.chapter
       : null;
+  const chapterNumberParam =
+    typeof resolvedParams.chapterNumber === "string"
+      ? resolvedParams.chapterNumber
+      : null;
+  const chapterTitleParam =
+    typeof resolvedParams.chapterTitle === "string"
+      ? resolvedParams.chapterTitle
+      : null;
   const q =
     typeof resolvedParams.q === "string"
       ? resolvedParams.q.toLowerCase()
@@ -78,24 +86,75 @@ export default async function QuestionBankPage({
 
   const selectedBook = book && booksData.includes(book) ? book : null;
 
-  const chapters = await api.questions.getChapters(
-    selectedSubject || undefined,
-    selectedBook || undefined,
-    classLevel || undefined
-  );
+  const chaptersMeta = await api.questions.getChaptersMeta({
+    board: board || undefined,
+    classLevel: classLevel || undefined,
+    subjectId: selectedSubject || undefined,
+    book: selectedBook || undefined,
+    visibleOnly: true,
+  });
 
-  const selectedChapter =
-    chapter && chapters.includes(chapter) ? chapter : null;
+  const parsedChapterNumberFromLegacy =
+    chapter && /chapter\s*(\d+)/i.test(chapter)
+      ? Number(chapter.match(/chapter\s*(\d+)/i)?.[1])
+      : null;
+  const parsedChapterTitleFromLegacy =
+    chapter && /chapter\s*\d+\s*:\s*(.+)$/i.test(chapter)
+      ? (chapter.match(/chapter\s*\d+\s*:\s*(.+)$/i)?.[1] || "").trim()
+      : null;
+
+  const chapterNumberCandidate =
+    chapterNumberParam && !Number.isNaN(Number(chapterNumberParam))
+      ? Number(chapterNumberParam)
+      : parsedChapterNumberFromLegacy;
+  const chapterTitleCandidate =
+    chapterTitleParam || parsedChapterTitleFromLegacy;
+
+  const selectedChapterNumber =
+    chapterNumberCandidate &&
+    chaptersMeta.some((c) => c.chapterNumber === chapterNumberCandidate)
+      ? chapterNumberCandidate
+      : null;
+
+  const selectedChapterMeta =
+    selectedChapterNumber !== null
+      ? chaptersMeta.find(
+          (c) =>
+            c.chapterNumber === selectedChapterNumber &&
+            chapterTitleCandidate &&
+            (c.chapterTitle || "").toLowerCase() ===
+              chapterTitleCandidate.toLowerCase()
+        ) ||
+        chaptersMeta.find((c) => c.chapterNumber === selectedChapterNumber)
+      : null;
+
+  const selectedChapterTitleForQuery =
+    selectedChapterMeta?.chapterTitle || chapterTitleCandidate || null;
+
+  const selectedChapterLabel =
+    selectedChapterNumber !== null
+      ? chaptersMeta.find(
+          (c) =>
+            c.chapterNumber === selectedChapterNumber &&
+            chapterTitleCandidate &&
+            (c.chapterTitle || "").toLowerCase() ===
+              chapterTitleCandidate.toLowerCase()
+        )?.label ||
+        chaptersMeta.find((c) => c.chapterNumber === selectedChapterNumber)
+          ?.label ||
+        `Chapter ${selectedChapterNumber}`
+      : null;
 
   // Fetch only if chapter is selected, or if user is searching globally
   let displayedQuestions: Question[] = [];
-  if (selectedChapter || q) {
+  if (selectedChapterNumber !== null || q) {
     displayedQuestions = await api.questions.search({
       board,
       classLevel,
       subjectId: selectedSubject,
       book: selectedBook,
-      chapter: selectedChapter,
+      chapterNumber: selectedChapterNumber,
+      chapterTitle: selectedChapterTitleForQuery,
       q,
       type,
       visibleOnly: true,
@@ -125,7 +184,7 @@ export default async function QuestionBankPage({
         icon: "subject",
       };
     }
-    if (!selectedChapter && !q) {
+    if (selectedChapterNumber === null && !q) {
       return {
         title: "Pick a Chapter",
         description: "Select a chapter to view questions.",
@@ -136,7 +195,7 @@ export default async function QuestionBankPage({
   };
 
   const emptyState = getEmptyState();
-  const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, selectedSubject, selectedChapter]
+  const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, selectedSubject, selectedChapterLabel]
     .filter(Boolean)
     .join(" / ");
   const heading = "Question Repository";
@@ -153,9 +212,9 @@ export default async function QuestionBankPage({
           <h1 className="font-headline text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold tracking-[-0.04em] text-primary m-0">
             {heading}
           </h1>
-          {selectedChapter && (
+          {selectedChapterLabel && (
             <p className="m-0 text-sm md:text-[0.9375rem] text-on-surface-variant max-w-3xl">
-              Browsing chapter-specific questions for <span className="font-medium text-on-surface">{selectedChapter}</span>.
+              Browsing chapter-specific questions for <span className="font-medium text-on-surface">{selectedChapterLabel}</span>.
             </p>
           )}
         </div>
@@ -178,7 +237,7 @@ export default async function QuestionBankPage({
           <div className="sticky top-6">
             <QuestionBankFilters
               subjects={subjects}
-              chapters={chapters}
+              chapters={chaptersMeta}
               boards={boards}
               classes={classes}
               books={booksData}

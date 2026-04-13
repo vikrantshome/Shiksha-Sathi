@@ -101,7 +101,7 @@ function mapQuestion(q, extractionRunId) {
     explanation: q.answer_explanation || null,
     points: resolveQuestionPoints({ type: mappedType }),
     source_kind: 'EXEMPLAR',
-    review_status: 'PUBLISHED',
+    review_status: q.review_state === 'DRAFT' ? 'DRAFT' : 'PUBLISHED',
     language: q.language || 'English',
     provenance,
     question_id: q.question_id,
