@@ -10,13 +10,13 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The area of the triangle on the complex plane formed by the complex numbers z, \u2013 iz and z + iz is: 2                                                 2 2 z 2 2025-26",
+    "question_text": "The area of the triangle on the complex plane formed by the complex numbers z, \u2013 iz and z + iz is: 2 2 2 z 2 2025-26",
     "options": [
-      "z                                           (B)   z",
+      "z (B) z",
       "(D) none of these"
     ],
     "answer_key": "(C), Let z = x + iy. Then \u2013 iz = y \u2013 ix. Therefore,",
-    "answer_explanation": "z + iz = (x \u2013 y) + i (x + y) 2 1 2           z Required area of the triangle =           (x + y2 ) = 2             2",
+    "answer_explanation": "z + iz = (x \u2013 y) + i (x + y) 2 1 2 z Required area of the triangle = (x + y2 ) = 2 2",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "keep205.pdf",
@@ -41,11 +41,11 @@
     "question_type": "MCQ",
     "question_text": "The equation z +1 \u2212 i = z \u22121+ i represents a",
     "options": [
-      "straight line                                   (B) circle",
-      "parabola                                        (D) hyperbola"
+      "straight line (B) circle",
+      "parabola (D) hyperbola"
     ],
     "answer_key": "(A), z +1 \u2212 i = z \u22121+ i",
-    "answer_explanation": "\u21d2        z \u2212 (\u22121 + i ) = z \u2212 (1 \u2212 i ) \u21d2       PA = PB, where A denotes the point (\u20131, 1), B denotes the point (1, \u20131) and P denotes the point (x, y) \u21d2       z lies on the perpendicular bisector of the line joining A and B and perpendicular bisector is a straight line. 2",
+    "answer_explanation": "\u21d2 z \u2212 (\u22121 + i ) = z \u2212 (1 \u2212 i ) \u21d2 PA = PB, where A denotes the point (\u20131, 1), B denotes the point (1, \u20131) and P denotes the point (x, y) \u21d2 z lies on the perpendicular bisector of the line joining A and B and perpendicular bisector is a straight line. 2",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "keep205.pdf",
@@ -70,11 +70,11 @@
     "question_type": "MCQ",
     "question_text": "Number of solutions of the equation z2 + z = 0 is 2",
     "options": [
-      "1                                               (B) 2",
-      "3                                               (D) infinitely many"
+      "1 (B) 2",
+      "3 (D) infinitely many"
     ],
     "answer_key": "(D), z2 + z = 0, z \u2260 0",
-    "answer_explanation": "\u21d2       x2 \u2013 y2 + i2xy + x2 + y2 = 0 \u21d2       2x2 + i2xy = 0      2x (x + iy) = 0 \u21d2       x = 0 or x + iy = 0 (not possible) Therefore, x = 0 and z \u2260 0 So y can have any real value. Hence infinitely many solutions. \u03c0            \u03c0",
+    "answer_explanation": "\u21d2 x2 \u2013 y2 + i2xy + x2 + y2 = 0 \u21d2 2x2 + i2xy = 0 2x (x + iy) = 0 \u21d2 x = 0 or x + iy = 0 (not possible) Therefore, x = 0 and z \u2260 0 So y can have any real value. Hence infinitely many solutions. \u03c0 \u03c0",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "keep205.pdf",
@@ -97,12 +97,12 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The amplitude of sin              + i (1\u2212 cos ) is 5            5 2\u03c0                         \u03c0                            \u03c0                 \u03c0 5                         5                           15                10 \u03c0                       \u03c0",
+    "question_text": "The amplitude of sin + i (1\u2212 cos ) is 5 5 2\u03c0 \u03c0 \u03c0 \u03c0 5 5 15 10 \u03c0 \u03c0",
     "options": [
-      "(B)                     (C)                   (D)"
+      "(B) (C) (D)"
     ],
     "answer_key": "(D), Here r cos \u03b8 = sin             and r sin \u03b8 = 1 \u2013 cos",
-    "answer_explanation": "5                       5 2025-26 COMPLEX NUMBERS AND QUADRATIC EQUATIONS    91 \u03c0                  \u03c0 1 \u2212 cos                2sin 2 5 =               10 Therefore,              tan \u03b8 =                  \u03c0                 \u03c0       \u03c0 sin             2sin      .cos 5                10      10",
+    "answer_explanation": "5 5 2025-26 COMPLEX NUMBERS AND QUADRATIC EQUATIONS 91 \u03c0 \u03c0 1 \u2212 cos 2sin 2 5 = 10 Therefore, tan \u03b8 = \u03c0 \u03c0 \u03c0 sin 2sin .cos 5 10 10",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "keep205.pdf",

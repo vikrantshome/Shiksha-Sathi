@@ -234,7 +234,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "“Every Drop Counts” is a slogan related to",
+    "question_text": "\u201cEvery Drop Counts\u201d is a slogan related to",
     "options": [
       "counting of drops of any liquid.",
       "counting of water drops.",
@@ -249,7 +249,7 @@
     "source_pages": [
       85
     ],
-    "provenance_excerpt": "“Every Drop Counts” is a slogan related to",
+    "provenance_excerpt": "\u201cEvery Drop Counts\u201d is a slogan related to",
     "review_state": "approved",
     "qa_flags": [],
     "image_required": false,
@@ -411,7 +411,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "True or False",
-    "question_text": "State whether the following statements are True or False. If false, give the correct statement.\n(a) The process of seeping of water into ground is called filtration.\n(b) 51% of the earth’s surface is covered with water.\n(c) Year 2003 was observed as the International Year of Freshwater.\n(d) Snow and ice both are solid forms of water.",
+    "question_text": "State whether the following statements are True or False. If false, give the correct statement.\n(a) The process of seeping of water into ground is called filtration.\n(b) 51% of the earth\u2019s surface is covered with water.\n(c) Year 2003 was observed as the International Year of Freshwater.\n(d) Snow and ice both are solid forms of water.",
     "options": [],
     "answer_key": "(a) False (It is called infiltration).\n(b) False (Approximately 71% is covered with water).\n(c) True.\n(d) True.",
     "answer_explanation": "Evaluating statements about water globally.",
@@ -604,7 +604,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "Short Answer",
-    "question_text": "A list of jumbled words are given here. Write the correct form of each word.\n(a) WASHFERRET   (b) CHARREGE\n(c) QUIFERA\n(d) WOSN",
+    "question_text": "A list of jumbled words are given here. Write the correct form of each word.\n(a) WASHFERRET (b) CHARREGE\n(c) QUIFERA\n(d) WOSN",
     "options": [],
     "answer_key": "(a) FRESHWATER\n(b) RECHARGE\n(c) AQUIFER\n(d) SNOW",
     "answer_explanation": "Word unscramble.",

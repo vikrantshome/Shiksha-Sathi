@@ -10460,7 +10460,7 @@
       "\u20b9 12100"
     ],
     "answer_key": "\u20b9 100",
-    "answer_explanation": "I = (12000 * 10 * (1/12)) / 100 = 100.",
+    "answer_explanation": "I = (12000 * 10 * (1/12) / 100 = 100.",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "gemp107.pdf",
