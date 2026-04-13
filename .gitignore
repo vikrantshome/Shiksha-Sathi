@@ -76,3 +76,6 @@ doc/NCERT/**
 
 # Exemplar PDFs (large binaries, download via scripts)
 doc/Exemplar/*.pdf
+
+# AI assistant settings
+.qwen/

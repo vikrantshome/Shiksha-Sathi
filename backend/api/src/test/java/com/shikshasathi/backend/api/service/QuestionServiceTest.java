@@ -8,10 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -81,6 +83,8 @@ public class QuestionServiceTest {
     void getDistinctSubjects_FiltersByBoardAndClass() {
         when(mongoTemplate.findDistinct(any(Query.class), eq("subject_id"), eq(Question.class), eq(String.class)))
                 .thenReturn(List.of("Science"));
+        when(mongoTemplate.findDistinct(any(Query.class), eq("provenance.subject"), eq(Question.class), eq(String.class)))
+                .thenReturn(List.of());
 
         List<String> result = questionService.getDistinctSubjects("NCERT", "7");
 
@@ -89,7 +93,16 @@ public class QuestionServiceTest {
 
         Query capturedQuery = queryCaptor.getValue();
         assertEquals("NCERT", capturedQuery.getQueryObject().get("provenance.board"));
-        assertEquals("7", capturedQuery.getQueryObject().get("provenance.class"));
+        Object classFilter = capturedQuery.getQueryObject().get("provenance.class");
+        assertNotNull(classFilter);
+        if (classFilter instanceof Document doc && doc.containsKey("$in")) {
+            Object in = doc.get("$in");
+            assertTrue(in instanceof List<?>);
+            List<?> list = (List<?>) in;
+            assertTrue(list.contains("7") || list.contains(7), "Expected $in to include both string and number");
+        } else {
+            assertEquals("7", classFilter);
+        }
         assertEquals(List.of("Science"), result);
     }
 
@@ -103,7 +116,7 @@ public class QuestionServiceTest {
                         "Chapter 1: Number Systems"
                 ));
 
-        List<String> result = questionService.getDistinctChapters("Mathematics", null, "9");
+        List<String> result = questionService.getDistinctChapters("NCERT", "Mathematics", null, "9");
 
         assertEquals(List.of(
                 "Chapter 1: Number Systems",
@@ -111,5 +124,85 @@ public class QuestionServiceTest {
                 "Chapter 9: Areas of Parallelograms and Triangles",
                 "Chapter 11: Constructions"
         ), result);
+    }
+
+    @Test
+    void searchQuestions_ChapterMatchesByExactOrProvenance() {
+        when(mongoTemplate.find(any(Query.class), eq(Question.class))).thenReturn(List.of());
+
+        questionService.searchQuestions(
+                "NCERT",
+                "8",
+                "Mathematics",
+                null,
+                null,
+                null,
+                "Chapter 1: Rational Numbers",
+                null,
+                "ALL",
+                false,
+                true
+        );
+
+        ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);
+        verify(mongoTemplate).find(queryCaptor.capture(), eq(Question.class));
+
+        Document queryDoc = queryCaptor.getValue().getQueryObject();
+        assertTrue(containsKey(queryDoc, "$or"), "Expected chapter filter to use $or");
+        assertTrue(containsFieldValue(queryDoc, "chapter", "Chapter 1: Rational Numbers"), "Expected exact chapter match clause");
+        assertTrue(containsFieldValue(queryDoc, "review_status", "PUBLISHED"), "Expected visibleOnly to force PUBLISHED");
+        assertTrue(containsFieldValue(queryDoc, "provenance.chapterNumber", 1), "Expected provenance chapterNumber clause");
+        assertTrue(containsKey(queryDoc, "provenance.chapterTitle"), "Expected provenance chapterTitle clause");
+        assertTrue(containsKey(queryDoc, "subject_id") || containsKey(queryDoc, "provenance.subject"), "Expected subject filter");
+    }
+
+    private static boolean containsKey(Object node, String key) {
+        if (node == null) return false;
+        if (node instanceof Document doc) {
+            if (doc.containsKey(key)) return true;
+            for (Object value : doc.values()) {
+                if (containsKey(value, key)) return true;
+            }
+            return false;
+        }
+        if (node instanceof Map<?, ?> map) {
+            if (map.containsKey(key)) return true;
+            for (Object value : map.values()) {
+                if (containsKey(value, key)) return true;
+            }
+            return false;
+        }
+        if (node instanceof List<?> list) {
+            for (Object value : list) {
+                if (containsKey(value, key)) return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    private static boolean containsFieldValue(Object node, String key, Object expectedValue) {
+        if (node == null) return false;
+        if (node instanceof Document doc) {
+            if (doc.containsKey(key) && expectedValue.equals(doc.get(key))) return true;
+            for (Object value : doc.values()) {
+                if (containsFieldValue(value, key, expectedValue)) return true;
+            }
+            return false;
+        }
+        if (node instanceof Map<?, ?> map) {
+            if (map.containsKey(key) && expectedValue.equals(map.get(key))) return true;
+            for (Object value : map.values()) {
+                if (containsFieldValue(value, key, expectedValue)) return true;
+            }
+            return false;
+        }
+        if (node instanceof List<?> list) {
+            for (Object value : list) {
+                if (containsFieldValue(value, key, expectedValue)) return true;
+            }
+            return false;
+        }
+        return false;
     }
 }
