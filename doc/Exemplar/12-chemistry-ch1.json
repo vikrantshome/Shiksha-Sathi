@@ -2066,8 +2066,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the defects given in Column I with the statements in given Column II. Column I                                Column II (i) Simple vacancy defec",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2097,8 +2099,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the type of unit cell given in Column I with the features given in Column II. Column I                                Column II (i) Primitive cu",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2154,8 +2158,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items given in Column I with the items given in Column II. Column I                              Column II (i)   Mg in solid state          ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2185,8 +2191,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the type of packing given in Column I with the items given in Column II. Column I                              Column II (i)   Square close pack",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

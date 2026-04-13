@@ -797,8 +797,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match Column I with Column II for the oxidation states of the central atoms. Column I                                     Column II 2\u2013 (i)   Cr2O 7 (a",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -828,8 +830,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items in Column I with relevant items in Column II. Column I                                     Column II (i)    Ions having positive charg",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

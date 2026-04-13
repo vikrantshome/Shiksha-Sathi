@@ -1692,8 +1692,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the vitamins given in Column I with the deficiency disease they cause given in Column II. Column I (Vitamins)                        Column II (",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1723,8 +1725,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following enzyms given in Column I with the reactions they catalyse given in Column II. Column I (Enzymes)                             Colum",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

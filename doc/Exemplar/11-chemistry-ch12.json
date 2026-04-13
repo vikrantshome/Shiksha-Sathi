@@ -1442,8 +1442,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the type of mixture of compounds in Column I with the technique of separation/purification given in Column II. Column I                         ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1473,8 +1475,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms mentioned in Column I with the terms in Column II. Column I                                         Column II (i) Carbocation         ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1504,8 +1508,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match Column I with Column II. Column I                                         Column II (i) Dumas method                                 (a) AgNO3 1",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1561,8 +1567,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the ions given in Column I with their nature given in Column II. Column I                                     Column II (i)                     ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

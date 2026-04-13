@@ -1104,8 +1104,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following equilibria with the corresponding condition (i) Liquid       Vapour                               (a)   Saturated solution (ii) So",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1135,8 +1137,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "For the reaction : N2 (g) + 3H2(g) \u0002 2NH3(g) 2 [NH3 ] Equilibrium constant Kc =                   3 [N 2 ][H2 ] Some reactions are written below in Co",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1166,8 +1170,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match standard free energy of the reaction with the corresponding equilibrium constant V (i)   \u2206G >0                    (a)      K>1 V (ii)   \u2206G <0   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1197,8 +1203,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following species with the corresponding conjugate acid Species                        Conjugate acid 2\u2013 (i)   NH3                      (a) ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1254,8 +1262,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match Column (I) with Column (II). Column I                                     Column II (i)    Equilibrium                           (a)   \u2206G > 0, K",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

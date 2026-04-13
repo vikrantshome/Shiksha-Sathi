@@ -1071,8 +1071,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the common names given in Column I with the IUPAC names given in Column II. Column I                           Column II (Common names)         ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1102,8 +1104,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the acids given in Column I with their correct IUPAC names given in Column II. Column I                       Column II (Acids)                 ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1133,8 +1137,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reactions given in Column I with the suitable reagents given in Column II. Column I                                    Column II (Reactions)",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1164,8 +1170,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the example given in Column I with the name of the reaction in Column II. Column I                                           Column II (Example)",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

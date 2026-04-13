@@ -1328,8 +1328,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I with items of Column II and assign the correct code: Column I                                        Column II (A) Pendulu",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1359,8 +1361,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I with the items of Column II and assign the correct code : Column I                                    Column II (A) Colour",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1390,8 +1394,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match items of Column I with the items of Column II and assign the correct code : Column I                          Column II (A) Cyanide process     ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1421,8 +1427,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I with the items of Column II and assign the correct code : Column I                               Column II (A) Sapphire   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1452,8 +1460,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I with items of Column II and assign the correct code : Column I                                       Column II (A) Blister",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

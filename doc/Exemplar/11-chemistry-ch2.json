@@ -1234,8 +1234,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following species with their corresponding ground state electronic configuration. Atom / Ion               Electronic configuration (i)    C",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1265,8 +1267,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the quantum numbers with the information provided by these. Quantum number                                  Information provided (i)   Principal",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1296,8 +1300,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following rules with their statements : Rules                                               Statements (i)   Hund\u2019s Rule                    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1327,8 +1333,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following (i)   X-rays                                (a) \u03bd = 100 \u2013 104 Hz (ii)   UV                                    (b) \u03bd = 1010 Hz (iii",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1358,8 +1366,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following (i)   Photon                                (a) Value is 4 for N shell (ii)   Electron                              (b) Probabilit",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1389,8 +1399,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match species given in Column I with the electronic configuration given in Column II. Column I                                           Column II (i)",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
