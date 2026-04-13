@@ -119,8 +119,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If f (x) =         , then f \u2032(1) is 2 x 5                        4 (A)                       (B)                 (C) 1            (D) 0 4             ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -150,8 +152,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If y =      , then    is 1        dx 1\u2212 2 x \u2212 4x                 \u2212 4x                1 \u2212 x2             4x (A)                       (B)              ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -181,8 +185,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If y =                  , then    at x = 0 is sin x \u2212 cos x        dx 2025-26 LIMITS AND DERIVATIVES   245 1 (A) \u20132                (B) 0              ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -212,8 +218,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If y =                , then    at x = 0 is cos x           dx (A) cos 9             (B) sin 9             (C) 0               (D) 1 x2         x100",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -243,8 +251,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If f (x) = 1 + x +      + ... +      , then f \u2032(1) is equal to 2          100 1 (A)                    (B) 100       (C) does not exist         (D) 0 ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
@@ -274,8 +284,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If f ( x ) =           for some constant \u2018a\u2019, then f \u2032(a) is x\u2212a 1 (A) 1                 (B) 0          (C) does not exist         (D) 2",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {

@@ -2540,8 +2540,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "(i) \u2192 (a), (b), (d)                (ii) \u2192 (b)           (iii) \u2192 (b)      (iv) \u2192 (c), (d) V. Assertion and Reason Type",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {

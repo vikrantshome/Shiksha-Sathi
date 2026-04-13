@@ -702,8 +702,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "A = FeCr2O4       B =. Na2CrO4        C = Na2Cr2O7.2H2O       D = K2Cr2O7 4FeCr2O4 + 8Na2CO3 + 7O2 \uf8e7\u2192 8Na2CrO4 + 2Fe2O3 + 8CO2 2NaCrO4 + 2H+ \uf8e7\u2192 Na2Cr2",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {

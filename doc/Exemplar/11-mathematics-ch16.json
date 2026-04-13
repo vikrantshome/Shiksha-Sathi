@@ -338,8 +338,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the proposed probability under Column C1 with the appropriate written description under column C2 : C1                                      C2 P",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
