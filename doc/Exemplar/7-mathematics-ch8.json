@@ -327,8 +327,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Find the sum of \u2013 4     and \u2013 7 . 6        4 5 \uf8eb    3\uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -1112,8 +1114,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "+   = ______. 6   6 3 \uf8eb \u20132 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1138,8 +1142,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u00d7        = ______. 4 \uf8ec\uf8ed 3 \uf8f7\uf8f8 \u20135 \uf8eb \u20133 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1164,8 +1170,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u00d7        =______. 3 \uf8ec\uf8ed 5 \uf8f7\uf8f8 \u20136",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1346,8 +1354,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The reciprocal of 1 is ______. \u20133 \uf8eb \u20137 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1372,8 +1382,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u00f7        = ______. 7 \uf8ec\uf8ed 3 \uf8f7\uf8f8 \uf8eb \u20135 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1398,8 +1410,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "0 \u00f7 \uf8ec    \uf8f7 = ______. \uf8ed 6\uf8f8 \uf8eb \u20135 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1424,8 +1438,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "0 \u00d7 \uf8ec    \uf8f7 = ______. \uf8ed 6\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -1450,8 +1466,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "______ \u00d7 \uf8eb\uf8ec \u20132 \uf8f6 \uf8f7 = 1. \uf8ed 5\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -2521,8 +2539,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Simplify: 3 \uf8eb 21 \uf8f6      (ii) 1 \u00f7 \uf8eb\uf8ec \u2013 \uf8f6\uf8f7 1 (i) \u00f7\uf8ec      \uf8f7 7 \uf8ed \u201355 \uf8f8               \uf8ed 2\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -2625,8 +2645,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Find the reciprocal of the following: \uf8eb1 1 \uf8f6 + \uf8eb1 \uf8f6              20 4 (i)     \uf8ec \u00d7 \uf8f7 \uf8ec \u00d7 6\uf8f7        (ii)     \u00d7 \uf8ed2 4\uf8f8 \uf8ed2    \uf8f8              51 91 3 \u20134    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

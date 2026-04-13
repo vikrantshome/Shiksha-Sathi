@@ -125,8 +125,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Find the middle term (terms) in the expansion of 10                                     9 \uf8ebx a\uf8f6                              \uf8eb     x3 \uf8f6 (i)   \uf8ec\uf8ed \u2212 \uf8f7\uf8f8 ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -411,8 +413,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If x occurs in the expansion of          x +            , prove that its coefficient is x 2n . 4n \u2212 p 2n + p 3      3 9 \uf8eb3      1 \uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -437,8 +441,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Find the term independent of x in the expansion of (1 + x + 2x ) \uf8ec x 2 \u2212 3 \uf8f7 . \uf8ed2      3x \uf8f8 Objective Type Questions Choose the correct answer from th",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -784,8 +790,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The coefficient of a           b in the expansion of                  \u2212          is _________. a 3 b                4 10          1          \uf8eb \u22122b\uf8f6   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

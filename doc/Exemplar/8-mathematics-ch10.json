@@ -2848,8 +2848,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Mathematical representation of inverse   B. y will increase in proportion",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
