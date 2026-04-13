@@ -540,8 +540,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match each item given under the column C1 to its correct answer given under column C2. Column C1                                     Column C2 (a)   I",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   }
 ]

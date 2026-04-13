@@ -2768,8 +2768,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "(iii), boiling point of (a) 364 K. boiling point of (b) 375 K, boiling point of (c) 346 K",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_text"
+    ],
     "is_example": false
   },
   {
