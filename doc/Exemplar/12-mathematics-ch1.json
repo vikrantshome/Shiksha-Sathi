@@ -47,8 +47,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Let the relation R be defined on the set A = {1, 2, 3, 4, 5} by R = {(a, b) : |a2 \u2013 b2| < 8. Then R is given by _______.",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -73,8 +75,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Let f = {(1, 2), (3, 5), (4, 1) and g = {(2, 3), (5, 1), (1, 3)}. Then g o f = ______ and f o g = ______. RELATIONS AND FUNCTIONS       17 x",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -125,8 +129,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If f (x) = (4 \u2013 (x\u20137)3}, then f \u20131(x) = _______. State True or False for the statements in each of the Exercises 53 to 63.",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -151,8 +157,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Let R = {(3, 1), (1, 3), (3, 3)} be a relation defined on the set A = {1, 2, 3}. Then R is symmetric, transitive but not reflexive.",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -255,8 +263,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Let A = {0, 1} and N be the set of natural numbers. Then the mapping f : N \u2192 A defined by f (2n\u20131) = 0, f (2n) = 1, \u2200 n \u2208 N, is onto. 58.The relation ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

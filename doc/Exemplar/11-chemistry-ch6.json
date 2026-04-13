@@ -252,8 +252,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The pressure-volume work for an ideal gas can be calculated by using the Vf expression w = \u2212 \u222b pex dV . The work can also be calculated from the pV\u2013 p",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

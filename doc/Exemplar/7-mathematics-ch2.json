@@ -695,8 +695,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Find the value of 1                 1          1 +               + 4 2 3 11        \uf8eb5\uf8f6 \uf8ec \uf8f7 7                13        \uf8ed9\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -3328,8 +3330,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Simplify:  4   5 3 3 1\u2212 \u00d7 8 5 3    \uf8eb1  3\uf8f6",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -3354,8 +3358,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Divide       by \uf8ec of \uf8f7 10    \uf8ed4  5\uf8f8 1                     2     1",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -3489,8 +3495,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Meteorology: One measure of average global temperature shows how each year varies from a base measure. The table shows results for several years. Year",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -4144,8 +4152,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Simplify and write the result in decimal form : \uf8eb   2\uf8f6 \uf8eb       1\uf8f6 \uf8eb       2\uf8f6 \uf8ec1 \u00f7 \uf8f7 + \uf8ec1 \u00f7 3 \uf8f7 + \uf8ec1 \u00f7 2 \uf8f7 \uf8ed   9\uf8f8 \uf8ed       5\uf8f8 \uf8ed       3\uf8f8",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

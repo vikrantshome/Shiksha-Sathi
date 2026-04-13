@@ -234,8 +234,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The angle between the line r = (5i\u02c6 \u2013 \u02c6j \u2013 4k\u02c6) + \uf06c (2i\u02c6 \u2013 \u02c6j + k\u02c6) and the plane \uf072                                  \u20131 \uf8eb    5 \uf8f6 r .(3i\u02c6 \u2013 4 \u02c6j \u2013 k\u02c6) ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -260,8 +262,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The angle between the planes r .(2i\u02c6 \u2013 3 \u02c6j + k\u02c6) = 1 and r.(i\u02c6 \u2013 \u02c6j ) = 4 is \uf8eb \u20135 \uf8f6 cos \u20131 \uf8ec \uf8ed 58 \uf8f7\uf8f8 . \uf072                                             ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {

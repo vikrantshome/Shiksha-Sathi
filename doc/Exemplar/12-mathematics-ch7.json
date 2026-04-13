@@ -23,8 +23,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If x = \u222b                              and        = ay, then a is equal to 0    1 + 9t   2 dx 2 y dt               dx      1",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -51,8 +53,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b                          dx is equal to \u20131 x 2 + 2 x +1 1 2 x3 + x +1 1",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -79,8 +83,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If \u222b        dt = a, then \u222b            dt is equal to 0 (1 + t ) 0 1+ t                         2 e                                e                   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -107,8 +113,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b x cos \u03c0x dx is equal to \u20132 8                            4                              2                 1 \u03c0                            \u03c0           ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -133,8 +141,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b cos8 x dx = _______. INTEGRALS    163 tan 7 x",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -159,8 +169,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b f ( x ) dx = 0 if f is an _______ function. \u2013a",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -185,8 +197,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b f ( x ) dx = 2 \u222b f ( x ) dx , if f (2a \u2013 x) = _______. 0                 0",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -211,8 +225,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b                           = _______. 0 sin n x + cos n x \u03c0",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": true
   },
   {
@@ -242,8 +258,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b 1 + cos2x is equal to \u2013\u03c0 4 (A) 1                             (B) 2             (C) 3        (D) 4 \u03c0 2",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -273,8 +291,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b 1 \u2013 sin 2xdx is equal to 0 (A) 2 2                           (B) 2 ( 2 +1)     (C) 2     (D) 2 ( 2 \u20131) \u03c0 2 \u222b cos x e sin x",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -299,8 +319,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "dx is equal to _______. 0 x+3 \u222b ( x + 4) e dx = ________. x",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -351,8 +373,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If \u222b             dx = , then a = ________. 0 1 + 4x 2 8 sin x",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -377,8 +401,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "\u222b 3 + 4cos2 x dx = ________. \u03c0",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   },
   {
@@ -403,8 +429,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of \u222b sin3x cos2x dx is _______. \u2212\u03c0",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "garbled_fraction_math"
+    ],
     "is_example": false
   }
 ]
