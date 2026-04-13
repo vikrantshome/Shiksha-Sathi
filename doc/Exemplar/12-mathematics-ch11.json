@@ -9,9 +9,14 @@
     "chapter_title": "Three Dimensional Geometry",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "SHORT_ANSWER",
-    "question_text": "The plane 2x \u2013 3y + 6z \u2013 11 = 0 makes an angle sin\u20131(\u03b1) with x-axis. The value of \u03b1 is equal to 3                2               2                 3 (A)              (B)                (C)               (D) 2                3                7                 7 THREE DIMENSIONAL GEOMETRY               239 Fill in the blanks in each of the Exercises 37 to 41.",
-    "options": [],
+    "question_type": "MCQ",
+    "question_text": "The plane 2x \u2013 3y + 6z \u2013 11 = 0 makes an angle sin\u20131(\u03b1) with x-axis. The value of \u03b1 is equal to 3 2 2 3",
+    "options": [
+      "",
+      "",
+      "",
+      "2 3 7 7 THREE DIMENSIONAL GEOMETRY 239 Fill in the blanks in each of the Exercises 37 to 41."
+    ],
     "answer_key": "",
     "answer_explanation": "",
     "difficulty": "medium",

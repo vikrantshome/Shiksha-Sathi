@@ -685,9 +685,14 @@
     "chapter_title": "18.Model Question Paper-II",
     "language": "English",
     "source_kind": "EXEMPLAR",
-    "question_type": "SHORT_ANSWER",
-    "question_text": "A = FeCr2O4       B =. Na2CrO4        C = Na2Cr2O7.2H2O       D = K2Cr2O7 4FeCr2O4 + 8Na2CO3 + 7O2 \uf8e7\u2192 8Na2CrO4 + 2Fe2O3 + 8CO2 2NaCrO4 + 2H+ \uf8e7\u2192 Na2Cr2O7 + 2Na+ + H2O Na2Cr2O7 + 2KCl \uf8e7\u2192 K2Cr2O7 + 2NaCl or A = MnO2          (B) K2MnO4            (C) KMnO4         (D) KIO3 2 MnO2 + 4KOH + O2 \uf8e7\u2192 2K2MnO4 + 2H2O (A)                     (B) + 3MnO42\u2013 + 4H \uf8e7\u2192 2MnO4\u2013 + MnO2 + 2H2O (C) \u2013                                 \u2013 2MnO4 + H2O + KI \uf8e7\u2192 2MnO2 + 2OH + KIO3 (A)          (D) Distribution of marks \u2022 \u00bd mark for each correct identification                     (\u00bd \u00d74 = 2 marks) \u2022 1 mark for each correct chemical equation                  (1 \u00d73 = 3 marks) with explanation",
-    "options": [],
+    "question_type": "MCQ",
+    "question_text": "A = FeCr2O4 B =. Na2CrO4 C = Na2Cr2O7.2H2O D = K2Cr2O7 4FeCr2O4 + 8Na2CO3 + 7O2 \u2192 8Na2CrO4 + 2Fe2O3 + 8CO2 2NaCrO4 + 2H+ \u2192 Na2Cr2O7 + 2Na+ + H2O Na2Cr2O7 + 2KCl \u2192 K2Cr2O7 + 2NaCl or A = MnO2 (B) K2MnO4 (C) KMnO4 (D) KIO3 2 MnO2 + 4KOH + O2 \u2192 2K2MnO4 + 2H2O",
+    "options": [
+      "",
+      "+ 3MnO42\u2013 + 4H \u2192 2MnO4\u2013 + MnO2 + 2H2O",
+      "\u2013 \u2013 2MnO4 + H2O + KI \u2192 2MnO2 + 2OH + KIO3 (A)",
+      "Distribution of marks \u2022 \u00bd mark for each correct identification (\u00bd \u00d74 = 2 marks) \u2022 1 mark for each correct chemical equation (1 \u00d73 = 3 marks) with explanation"
+    ],
     "answer_key": "",
     "answer_explanation": "",
     "difficulty": "medium",
