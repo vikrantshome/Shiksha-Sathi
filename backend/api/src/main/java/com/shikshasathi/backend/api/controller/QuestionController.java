@@ -1,5 +1,6 @@
 package com.shikshasathi.backend.api.controller;
 
+import com.shikshasathi.backend.api.dto.ChapterMetaDTO;
 import com.shikshasathi.backend.api.service.QuestionService;
 import com.shikshasathi.backend.core.domain.learning.Question;
 import lombok.RequiredArgsConstructor;
@@ -42,10 +43,22 @@ public class QuestionController {
 
     @GetMapping("/chapters")
     public ResponseEntity<List<String>> getChapters(
+            @RequestParam(required = false) String board,
             @RequestParam(required = false) String subjectId,
             @RequestParam(required = false) String book,
             @RequestParam(required = false) String classLevel) {
-        return ResponseEntity.ok(questionService.getDistinctChapters(subjectId, book, classLevel));
+        return ResponseEntity.ok(questionService.getDistinctChapters(board, subjectId, book, classLevel));
+    }
+
+    @GetMapping("/chapters-meta")
+    public ResponseEntity<List<ChapterMetaDTO>> getChapterMeta(
+            @RequestParam(required = false) String board,
+            @RequestParam(required = false) String classLevel,
+            @RequestParam(required = false) String subjectId,
+            @RequestParam(required = false) String book,
+            @RequestParam(required = false, defaultValue = "false") Boolean visibleOnly
+    ) {
+        return ResponseEntity.ok(questionService.getChapterMeta(board, classLevel, subjectId, book, visibleOnly));
     }
 
     @GetMapping("/search")
@@ -54,12 +67,14 @@ public class QuestionController {
             @RequestParam(required = false) String classLevel,
             @RequestParam(required = false) String subjectId,
             @RequestParam(required = false) String book,
+            @RequestParam(required = false) Integer chapterNumber,
+            @RequestParam(required = false) String chapterTitle,
             @RequestParam(required = false) String chapter,
             @RequestParam(required = false) String q,
             @RequestParam(required = false, defaultValue = "ALL") String type,
             @RequestParam(required = false, defaultValue = "false") Boolean approvedOnly,
             @RequestParam(required = false, defaultValue = "false") Boolean visibleOnly) {
-        return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapter, q, type, approvedOnly, visibleOnly));
+        return ResponseEntity.ok(questionService.searchQuestions(board, classLevel, subjectId, book, chapterNumber, chapterTitle, chapter, q, type, approvedOnly, visibleOnly));
     }
 
     /**
