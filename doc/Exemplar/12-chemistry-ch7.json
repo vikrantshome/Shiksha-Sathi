@@ -1770,8 +1770,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the compounds given in Column I with the hybridisation and shape given in Column II and mark the correct option. Column I                       ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1801,8 +1803,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the formulas of oxides given in Column I with the type of oxide given in Column II and mark the correct option. Column I                        ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1832,8 +1836,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Columns I and II and mark the correct option. Column I                                        Column II (A) H2SO4                  ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1863,8 +1869,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the species given in Column I with the shape given in Column II and mark the correct option. Column I                                        Col",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1894,8 +1902,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Columns I and II and mark the correct option. Column I                                            Column II (A) Its partial hydroly",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

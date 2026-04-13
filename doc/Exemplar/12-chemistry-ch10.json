@@ -2205,8 +2205,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the the compounds given in Column I with the effects given in Column II. Column I                            Column II (i)   Chloramphenicol    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2236,8 +2238,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                        Column II (i)   SN1 reaction                     (a) vic-dibromides (ii)   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2267,8 +2271,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the structures of compounds given in Column I with the classes of compounds given in Column II. Column I                        Column II (i)   ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2298,8 +2304,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reactions given in Column I with the types of reactions given in Column II. Column I                                          Column II (i) ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2329,8 +2337,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the structures given in Column I with the names in Column II. Column I                         Column II (i)                                  (a",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -2360,8 +2370,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reactions given in Column I with the names given in Column II. Column I                                Column II (i)                        ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

@@ -1548,8 +1548,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the species in Column I with the type of hybrid orbitals in Column II. Column I                         Column II (i)    SF4                    ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1579,8 +1581,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the species in Column I with the geometry/shape in Column II. Column I                            Column II + (i)    H3O                        ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1610,8 +1614,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the species in Column I with the bond order in Column II. Column I                            Column II (i)    NO                               ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1641,8 +1647,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items given in Column I with examples given in Column II. Column I                            Column II (i)    Hydrogen bond                ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

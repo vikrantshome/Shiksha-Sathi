@@ -1861,8 +1861,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match Column I with Column II for the given properties/applications mentioned therein. Column I                               Column II (i)   H       ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1892,8 +1894,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms in Column I with the relevant item in Column II. Column I                                         Column II (i)   Electrolysis of wate",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1923,8 +1927,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items in Column I with the relevant item in Column II. Column I                                         Column II (i)   Hydrogen peroxide is",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

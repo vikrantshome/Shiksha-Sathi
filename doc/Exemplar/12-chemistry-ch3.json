@@ -1463,8 +1463,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms given in Column I with the units given in Column II. Column I                           Column II (i)    \u2227m                         (a",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1494,8 +1496,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the terms given in Column I with the items given in Column II. Column I                              Column II (i)     \u039bm                       ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1525,8 +1529,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                              Column II (i)    Lead storage battery        (a)    maximum efficienc",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1556,8 +1562,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                                                Column II (i)        \u03ba                             ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1587,8 +1595,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II. Column I                                                Column II (i)        Lechlanche cell               ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1618,8 +1628,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the items of Column I and Column II on the basis of data given below: V                                                   V                     ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {

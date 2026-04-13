@@ -1164,8 +1164,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reagent from Column I which on reaction with CH3\u2014CH=CH2 gives some product given in Column II as per the codes given below : Column I       ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1221,8 +1223,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the following reactants in Column I with the corresponding reaction products in Column II. Column I                                       Column",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
@@ -1252,8 +1256,10 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "Match the reactions given in Column I with the reaction types in Column II. Column I                                                      Column II + ",
-    "review_state": "approved",
-    "qa_flags": [],
+    "review_state": "DRAFT",
+    "qa_flags": [
+      "match_the_following_not_mcq"
+    ],
     "is_example": false
   },
   {
