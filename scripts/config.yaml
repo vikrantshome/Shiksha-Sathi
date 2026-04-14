@@ -1,0 +1,29 @@
+# scripts/config.yaml
+mongodb:
+  uri: "mongodb://localhost:27017"
+  database: "shikshasathi"
+  collection: "questions"
+
+scraping:
+  rate_limit_delay: 2.5  # seconds between requests
+  timeout: 30
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+quality:
+  min_answer_length: 10
+  max_answer_length: 5000
+  required_keywords: ["solution", "answer", "step", "therefore", "hence", "ans", "∴"]
+  forbidden_patterns: ["figure", "diagram", "draw", "construct", "sketch", "image", "picture"]
+
+logging:
+  level: "INFO"
+  file: "logs/auto-enrich-{date}.log"
+  success_csv: "logs/successful_updates_{date}.csv"
+  failure_csv: "logs/failed_questions_{date}.csv"
+
+batch:
+  class_order: [10, 9, 8, 7, 6, 11, 12]  # start with Class 10
+  batch_size: 50
+
+# Optional: SERPAPI key for Google search (recommended)
+serpapi_key: ""  # Set via environment variable SERPAPI_KEY
