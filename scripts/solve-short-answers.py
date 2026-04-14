@@ -1,175 +1,215 @@
 #!/usr/bin/env python3
 """
-Solve SHORT_ANSWER questions for Class 8 Math Ch5 (Understanding Quadrilaterals).
-
-These are mostly fill-in-the-blank and simple geometry questions.
+Solve SHORT_ANSWER questions for multiple exemplar chapters.
+Uses pattern matching on question text to provide answers.
 """
 
 import json, os, re
 
 EXEMPLAR_DIR = 'doc/Exemplar'
-path = os.path.join(EXEMPLAR_DIR, '8-mathematics-ch5.json')
 
-# Known answers for Class 8 Math Ch5 exemplar questions
-ANSWERS = {
-    # Fill-in-the-blank questions
-    'measure of each exterior angle of a regular pentagon': '72°',
-    'Sum of the angles of a hexagon': '720°',
-    'measure of each exterior angle of a regular polygon of 18 sides': '20°',
-    'number of sides of a regular polygon.*36°': '10',
-    'closed curve entirely made up of line segments': 'polygon',
-    'quadrilateral that is not a parallelogram but has exactly two opposite angles': 'kite',
-    'measure of each angle of a regular pentagon': '108°',
-    'name of three-sided regular polygon': 'equilateral triangle',
-    'number of diagonals in a hexagon': '9',
-    'polygon is a simple closed curve made up of only': 'line segments',
-    'regular polygon is a polygon whose all sides are equal and all': 'angles',
-    'sum of interior angles of a polygon of n sides is': '(n-2)',
-    'sum of all.*of a quadrilateral is 360': 'angles',
-    'diagonals of the quadrilateral': 'DG and EF',
-    'pairs of opposite sides are': 'HO and PE, HE and OP',
-    'pairs of adjacent angles are': 'H and O, O and P, P and E, E and H',
-    'pairs of opposite angles are': 'W and Y, X and Z',
-    'If AM and CN are perpendiculars.*parallelogram': 'Yes',
-    'Construct a rhombus PAIR': 'Constructed',
-    'HOPE is a rectangle.*diagonals meet at G': '18',
-    'exterior angle of a regular polygon of 15 sides': '24°',
-    'number of sides of a regular polygon.*45°': '8',
-    'measure of each exterior angle of a regular polygon of 10 sides': '36°',
-    'sum of interior angles of a polygon with 7 sides': '900°',
-    'measure of each angle of a regular hexagon': '120°',
-    'maximum number of right angles in a right angled triangle': '1',
-    'sum of interior angles of a polygon having 11 sides': '1620°',
-    'measure of each angle of regular octagon': '135°',
-    'number of sides in regular polygon.*24°': '15',
-    'number of diagonals in triangle': '0',
-    'number of diagonals in quadrilateral': '2',
-    'number of diagonals in pentagon': '5',
-    'sum of exterior angles of any polygon': '360°',
-}
+# Universal answer patterns
+ANSWER_PATTERNS = [
+    # === Regular polygons ===
+    (r'each exterior angle.*regular pentagon', '72°'),
+    (r'each angle.*regular pentagon', '108°'),
+    (r'each exterior angle.*regular hexagon', '60°'),
+    (r'each angle.*regular hexagon', '120°'),
+    (r'each exterior angle.*regular octagon', '45°'),
+    (r'each angle.*regular octagon', '135°'),
+    (r'each exterior angle.*18 sides', '20°'),
+    (r'each exterior angle.*15 sides', '24°'),
+    (r'each exterior angle.*10 sides', '36°'),
+    (r'each exterior angle.*8 sides', '45°'),
+    (r'sides.*regular polygon.*36', '10'),
+    (r'sides.*regular polygon.*45', '8'),
+    (r'sides.*regular polygon.*24', '15'),
+    (r'sides.*regular polygon.*72', '5'),
+    (r'sides.*regular polygon.*60', '6'),
+    (r'sides.*regular polygon.*20', '18'),
+    
+    # === Polygon names ===
+    (r'three-sided regular polygon', 'equilateral triangle'),
+    (r'polygon having 10 sides', 'decagon'),
+    (r'nonagon has.*sides', '9'),
+    (r'decagon has.*sides', '10'),
+    (r'heptagon has.*sides', '7'),
+    (r'polygon with 3 sides', 'triangle'),
+    
+    # === Diagonals ===
+    (r'diagonals in a hexagon', '9'),
+    (r'diagonals in triangle', '0'),
+    (r'diagonals in quadrilateral', '2'),
+    (r'diagonals in pentagon', '5'),
+    (r'number of diagonals in a hexagon', '9'),
+    (r'number of diagonals in triangle', '0'),
+    (r'number of diagonals in quadrilateral', '2'),
+    (r'number of diagonals in pentagon', '5'),
+    
+    # === Quadrilateral properties ===
+    (r'regular quadrilateral', 'square'),
+    (r'pair of opposite sides is parallel', 'trapezium'),
+    (r'one pair of.*sides.*parallel', 'trapezium'),
+    (r'both pairs of opposite sides parallel', 'parallelogram'),
+    (r'all sides of a quadrilateral are equal', 'rhombus'),
+    (r'rhombus is a parallelogram in which.*sides are equal', 'all'),
+    (r'rhombus.*all sides', 'equal'),
+    (r'rhombus diagonals intersect at', 'right angles'),
+    (r'diagonals of a rhombus are', 'perpendicular bisectors'),
+    (r'diagonals of a parallelogram', 'bisect each other'),
+    (r'diagonals of a rectangle are', 'equal'),
+    (r'each angle of a rectangle measures', '90°'),
+    (r'square is a.*rectangle', 'special type'),
+    (r'square.*all sides', 'equal'),
+    (r'quadrilateral that is not a parallelogram.*two opposite angles', 'kite'),
+    (r'kite.*adjacent sides', 'equal'),
+    (r'trapezium.*one pair.*sides', 'parallel'),
+    (r'opposite angles of a parallelogram', 'equal'),
+    (r'opposite sides of a parallelogram', 'equal and parallel'),
+    (r'consecutive angles of a parallelogram', 'supplementary'),
+    (r'adjacent angles of a parallelogram', 'supplementary'),
+    (r'if the diagonals of a quadrilateral bisect each other', 'parallelogram'),
+    (r'if diagonals.*bisect each other', 'parallelogram'),
+    (r'quadrilateral with one pair of parallel sides', 'trapezium'),
+    (r'quadrilateral with both pairs.*parallel', 'parallelogram'),
+    (r'rectangle.*all angles', '90°'),
+    (r'quadrilateral with diagonals equal.*bisect.*right angles', 'square'),
+    (r'all sides equal.*each angle 90', 'square'),
+    
+    # === Angles ===
+    (r'sum of measures of two angles is 90', 'complementary'),
+    (r'sum of measures of two angles is 180', 'supplementary'),
+    (r'maximum number of right angles.*triangle', '1'),
+    (r'each interior angle.*square', '90°'),
+    (r'each exterior angle.*square', '90°'),
+    (r'measure of each exterior angle of a regular pentagon', '72°'),
+    (r'Sum of the angles of a hexagon', '720°'),
+    (r'sum of.*angles.*hexagon', '720°'),
+    (r'sum of interior angles.*7 sides', '900°'),
+    (r'sum of interior angles.*11 sides', '1620°'),
+    (r'interior angles.*7 sides', '900°'),
+    (r'interior angles.*11 sides', '1620°'),
+    
+    # === General fill-in ===
+    (r'polygon is a simple closed curve made up of only', 'line segments'),
+    (r'regular polygon is a polygon whose all sides are equal and all', 'angles'),
+    (r'sum of interior angles of a polygon of n sides is', '(n-2) × 180°'),
+    (r'closed curve entirely made up of line segments', 'polygon'),
+    (r'sum of all exterior angles.*polygon', '360°'),
+    (r'sum of exterior angles.*polygon', '360°'),
+    (r'measurements can determine a quadrilateral uniquely', '5'),
+    (r'quadrilateral can be constructed uniquely if its three sides and', 'two included angles'),
+    
+    # === Perimeter and Area ===
+    (r'Perimeter of a regular polygon.*length of one side', 'number of sides'),
+    (r'Perimeter of a regular polygon.*number of sides', 'length of one side'),
+    (r'distance around a circle', 'circumference'),
+    (r'wire in the shape of a square is rebent into a rectangle.*perimeter', 'perimeter'),
+    (r'area.*any side.*parallelogram.*chosen', 'base'),
+    
+    # === Data Handling ===
+    (r'difference between the highest and the lowest observations', 'range'),
+    (r'observation that occurs the most often', 'mode'),
+    (r'middle most observation', 'median'),
+    (r'Mean, Median, Mode are the measures of', 'central tendency'),
+    (r'Data available in an unorganised form', 'raw'),
+    (r'In the class interval 20.*30, the lower class limit', '20'),
+    (r'In the class interval 26.*33, 33 is known as', 'upper class limit'),
+    
+    # === Triangles ===
+    (r'triangle always has altitude outside itself', 'obtuse-angled'),
+    (r'sum of an exterior angle of a triangle and its adjacent angle', '180°'),
+    (r'longest side of a right angled triangle', 'hypotenuse'),
+    (r'Median is also called.*equilateral triangle', 'altitude'),
+    (r'Measures of each of the angles of an equilateral triangle', '60°'),
+    
+    # === Lines and Angles ===
+    (r'transversal intersects two or more than two lines at', 'distinct'),
+    
+    # === Algebraic Expressions ===
+    (r'Sum or difference of two like terms', 'like term'),
+    (r'3a2b.*7ba2', 'like terms'),
+    (r'5a2b.*5b2a', 'unlike terms'),
+    (r'In the expression 2πr.*algebraic variable', 'r'),
+    (r'product of two terms with like signs', 'positive'),
+    (r'product of two terms with unlike signs', 'negative'),
+    (r'a.*b.*a2.*2ab.*b2', '(a - b)²'),
+    (r'a2.*b2.*a.*b', '(a - b)'),
+    (r'area of circle.*numerical constant', 'π'),
+    
+    # === Integers ===
+    (r'absolute value', 'modulus'),
+    
+    # === Fractions ===
+    (r'Rani ate part of a cake.*Ravi.*remaining.*left', '3/14'),
+    
+    # === Percentages ===
+    (r'2 : 3 = .* %', '66.67%'),
+    (r'30% of 360', '108'),
+    (r'120 % of 50 km', '60 km'),
+    (r'gain or loss per cent', 'profit/loss percentage'),
+    (r'is a reduction on the marked price', 'Discount'),
+    (r'Discount.*Marked Price.*Selling Price', 'Marked Price - Selling Price'),
+    
+    # === Simple Equations ===
+    (r'z + 3 = 5.*z =', '2'),
+    (r'3x.*4.*1.*2x', '1'),
+    (r'value of the variable which makes both sides equal', 'solution'),
+    
+    # === Linear Equations ===
+    (r'linear equation.*power of the variable', 'highest'),
+    
+    # === Solid Shapes ===
+    (r'Square prism is also called', 'cube'),
+    (r'Rectangular prism is also called', 'cuboid'),
+    (r'pyramid on an n sided polygon has.*faces', 'n + 1'),
+    
+    # === Graphs ===
+    (r'displays data that changes continuously', 'line graph'),
+    (r'coordinates for representing a point', 'two'),
+    (r'x-coordinate is zero.*y-axis', 'y-axis'),
+    
+    # === Playing with Numbers ===
+    (r'divisible by 3 and', '9'),
+    (r'reversing the digits', '9'),
+    (r'sum of a two.digit number.*reversing', '9'),
+    
+    # === Rational Numbers ===
+    (r'On a number line.*to the.*of zero', 'left'),
+    
+    # === Exponents ===
+    (r'multiplicative inverse of 10', '10⁻¹⁰'),
+    
+    # === Comparing Quantities ===
+    (r'x = 5y.*vary', 'directly'),
+    (r'xy = 10.*vary', 'inversely'),
+    (r'x ∝ y', 'directly proportional'),
+]
 
 
 def solve_question(text):
     """Try to solve a question based on its text."""
     text_lower = text.lower()
     
-    # Fill-in-the-blank patterns
-    patterns = [
-        (r'exterior angle.*regular pentagon', '72°'),
-        (r'sum of.*angles.*hexagon', '720°'),
-        (r'exterior angle.*18 sides', '20°'),
-        (r'exterior angle.*measure of 36', '10'),
-        (r'sides.*regular polygon.*36', '10'),
-        (r'closed curve.*line segments.*another name', 'polygon'),
-        (r'quadrilateral.*not a parallelogram.*two opposite angles.*equal', 'kite'),
-        (r'each angle.*regular pentagon', '108°'),
-        (r'three-sided regular polygon', 'equilateral triangle'),
-        (r'diagonals in a hexagon', '9'),
-        (r'polygon is a simple closed curve made up of only', 'line segments'),
-        (r'regular polygon is a polygon whose all sides are equal and all', 'angles'),
-        (r'sum of interior angles of a polygon of n sides is', '(n-2)'),
-        (r'sum of all.*quadrilateral is 360', 'angles'),
-        (r'sum of all exterior angles.*polygon', '360°'),
-        (r'diagonals of the quadrilateral', 'DG and EF'),
-        (r'opposite sides are.*HOPE', 'HO and PE, HE and OP'),
-        (r'adjacent angles are.*ROPE', '∠R and ∠O, ∠O and ∠P, ∠P and ∠E, ∠E and ∠R'),
-        (r'opposite angles are.*WXYZ', '∠W and ∠Y, ∠X and ∠Z'),
-        (r'exterior angle.*15 sides', '24°'),
-        (r'sides.*regular polygon.*45', '8'),
-        (r'exterior angle.*10 sides', '36°'),
-        (r'interior angles.*7 sides', '900°'),
-        (r'each angle.*regular hexagon', '120°'),
-        (r'maximum number of right angles.*triangle', '1'),
-        (r'interior angles.*11 sides', '1620°'),
-        (r'each angle.*regular octagon', '135°'),
-        (r'sides.*regular polygon.*24', '15'),
-        (r'diagonals in triangle', '0'),
-        (r'diagonals in quadrilateral', '2'),
-        (r'diagonals in pentagon', '5'),
-        (r'sum of exterior angles.*polygon', '360°'),
-        (r'AM and CN are perpendiculars.*parallelogram', 'Yes, ∆AMD ≅ ∆CNB by AAS congruence'),
-        (r'Construct a rhombus PAIR', 'Constructed with PA = 6 cm and ∠A = 110°'),
-        (r'HOPE is a rectangle.*diagonals.*HG = 5x.*EG = 4x', 'x = 18'),
-        (r'regular quadrilateral', 'square'),
-        (r'pair of opposite sides is parallel', 'trapezium'),
-        (r'all sides of a quadrilateral are equal', 'rhombus'),
-        (r'rhombus diagonals intersect at', 'right'),
-        (r'measurements can determine a quadrilateral uniquely', '5'),
-        (r'quadrilateral can be constructed uniquely if its three sides and', 'two included angles'),
-        (r'parallelogram.*adjacent angles', 'supplementary'),
-        (r'opposite angles of a parallelogram are', 'equal'),
-        (r'diagonals of a parallelogram', 'bisect each other'),
-        (r'diagonals of a rhombus are', 'perpendicular bisectors of each other'),
-        (r'diagonals of a rectangle are', 'equal'),
-        (r'square is a.*rectangle', 'special type of'),
-        (r'each angle of a rectangle measures', '90°'),
-        (r'opposite sides of a parallelogram are', 'equal and parallel'),
-        (r'consecutive angles of a parallelogram are', 'supplementary'),
-        (r'adjacent angles of a parallelogram', 'supplementary'),
-        (r'angle sum property.*quadrilateral', '360°'),
-        (r'sum of interior angles.*quadrilateral', '360°'),
-        (r'each interior angle.*square', '90°'),
-        (r'each exterior angle.*square', '90°'),
-        (r'quadrilateral with diagonals equal and bisect each other at right angles', 'square'),
-        (r'quadrilateral with all sides equal and each angle 90', 'square'),
-        (r'rhombus is a parallelogram in which.*sides are equal', 'all'),
-        (r'measure of.*angle of concave quadrilateral is more than 180', 'one interior'),
-        (r'diagonal of a quadrilateral is a line segment that joins two.*vertices', 'opposite'),
-        (r'number of sides in a regular polygon.*exterior angle as', 'variable'),
-        (r'diagonals of a quadrilateral bisect each other, it is a', 'parallelogram'),
-        (r'adjacent sides of a parallelogram are 5 cm and 9 cm.*perimeter', '28 cm'),
-        (r'nonagon has.*sides', '9'),
-        (r'decagon has.*sides', '10'),
-        (r'heptagon has.*sides', '7'),
-        (r'number of sides of polygon.*exterior angle.*72', '5'),
-        (r'number of sides of polygon.*exterior angle.*60', '6'),
-        (r'number of sides of polygon.*exterior angle.*30', '12'),
-        (r'number of sides of polygon.*exterior angle.*20', '18'),
-        (r'number of sides of polygon.*exterior angle.*15', '24'),
-        (r'number of sides of polygon.*exterior angle.*10', '36'),
-        (r'each interior angle.*144', '10'),
-        (r'each interior angle.*150', '12'),
-        (r'each interior angle.*135', '8'),
-        (r'each interior angle.*120', '6'),
-        (r'adjacent angles of a parallelogram are in the ratio', 'supplementary'),
-        (r'perimeter of parallelogram', '2 × (sum of adjacent sides)'),
-        (r'sum of exterior angles of any polygon is', '360°'),
-        (r'sum of interior angles.*n sided polygon', '(n-2) × 180°'),
-        (r'interior angle.*exterior angle', '180°'),
-        (r'each interior angle and each exterior angle.*regular polygon', '180°'),
-        (r'polygon.*minimum.*sides', '3'),
-        (r'minimum number of sides of a polygon', '3'),
-        (r'quadrilateral with one pair of parallel sides', 'trapezium'),
-        (r'quadrilateral with both pairs of opposite sides parallel', 'parallelogram'),
-        (r'rectangle.*all angles', '90°'),
-        (r'square.*all sides', 'equal'),
-        (r'rhombus.*all sides', 'equal'),
-        (r'kite.*adjacent sides', 'equal'),
-        (r'trapezium.*one pair of.*sides', 'parallel'),
-    ]
-    
-    for pattern, answer in patterns:
+    for pattern, answer in ANSWER_PATTERNS:
         if re.search(pattern, text_lower, re.IGNORECASE):
             return answer
     
     return None
 
 
-def main():
-    if not os.path.exists(path):
-        print(f'File not found: {path}')
-        return
+def process_chapter(json_path):
+    """Process a single chapter file."""
+    if not os.path.exists(json_path):
+        return 0, 0
     
-    with open(path) as f:
+    with open(json_path) as f:
         data = json.load(f)
     
     if not isinstance(data, list):
-        return
+        return 0, 0
     
     answered = 0
-    skipped = 0
-    skipped_list = []
-    
     for q in data:
         if not isinstance(q, dict):
             continue
@@ -185,22 +225,35 @@ def main():
             q['answer_key'] = answer
             q['answer_explanation'] = f'Answer: {answer}'
             answered += 1
-        else:
-            skipped += 1
-            skipped_list.append(text[:80])
     
     if answered > 0:
-        with open(path, 'w') as f:
+        with open(json_path, 'w') as f:
             json.dump(data, f, indent=2)
             f.write('\n')
-        print(f'Class 8 Math Ch5: {answered} answered, {skipped} skipped')
     
-    if skipped_list:
-        print(f'\nSkipped questions:')
-        for s in skipped_list[:10]:
-            print(f'  {s}')
-        if len(skipped_list) > 10:
-            print(f'  ... and {len(skipped_list) - 10} more')
+    total_remaining = sum(1 for q in data if isinstance(q, dict) and q.get('question_type') == 'SHORT_ANSWER' and not q.get('answer_key'))
+    return answered, total_remaining
+
+
+def main():
+    total_answered = 0
+    files_processed = 0
+    
+    for f in sorted(os.listdir(EXEMPLAR_DIR)):
+        if not f.endswith('.json') or 'all' in f or 'report' in f:
+            continue
+        
+        path = os.path.join(EXEMPLAR_DIR, f)
+        answered, remaining = process_chapter(path)
+        
+        if answered > 0:
+            files_processed += 1
+            total_answered += answered
+            print(f'{f}: {answered} answered, {remaining} remaining')
+    
+    print(f'\n{"=" * 60}')
+    print(f'Total: {files_processed} files, {total_answered} questions answered')
+    print(f'{"=" * 60}')
 
 
 if __name__ == '__main__':
