@@ -874,7 +874,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "At high pressure the following reaction is zero order. 1130 K 2NH3(g) \u2192\u2192\u2192\u2192\u2192 Platinum catalyst \u2192 N (g) + 3H (g) 2 2 Which of the following options are correct for this reaction? disappears completely.",
+    "question_text": "At high pressure the following reaction is zero order. 1130 K 2NH3(g) \u2192\u2192 Platinum catalyst \u2192 N (g) + 3H (g) 2 2 Which of the following options are correct for this reaction? disappears completely.",
     "options": [
       "Rate of reaction = Rate constant",
       "Rate of the reaction depends on concentration of ammonia.",
@@ -2117,7 +2117,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Consider a first order gas phase decomposition reaction given below : A\u2061(g)\ue429B\u2061(g)+C\u2061(g) The initial pressure of the system before decomposition of A was pi. After lapse of time \u2018t\u2019, total pressure of the system increased by x units and became \u2018pt\u2019 The rate constant k for the reaction is given as ______.",
+    "question_text": "Consider a first order gas phase decomposition reaction given below : A\u2061(g)B\u2061(g)+C\u2061(g) The initial pressure of the system before decomposition of A was pi. After lapse of time \u2018t\u2019, total pressure of the system increased by x units and became \u2018pt\u2019 The rate constant k for the reaction is given as ______.",
     "options": [
       "\ud835\udc58=2.303\ud835\udc61\u2062log\u2062\ud835\udc5d\ud835\udc56\ud835\udc5d\ud835\udc56\u2212\ud835\udc65",
       "\ud835\udc58=2.303\ud835\udc61\u2062log\u2062\ud835\udc5d\ud835\udc562\u2062\ud835\udc5d\ud835\udc56\u2212\ud835\udc5d\ud835\udc61",

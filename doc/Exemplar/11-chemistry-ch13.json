@@ -241,8 +241,8 @@
     "question_type": "MCQ",
     "question_text": "Arrange the following carbanions in order of their decreasing stability. \u2013 \u2013 (C)",
     "options": [
-      "H3C \u2013 C \uf0ba C (B) H \u2013 C \uf0ba C",
-      "H3C \u2013 C \uf0ba C (B) H \u2013 C \uf0ba C",
+      "H3C \u2013 C C (B) H \u2013 C C",
+      "H3C \u2013 C C (B) H \u2013 C C",
       "A>B>C",
       "B>A>C",
       "C>B>A",
@@ -272,7 +272,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Arrange the following alkyl halides in decreasing order of the rate of \uf062\u2013 elimination reaction with alcoholic KOH.",
+    "question_text": "Arrange the following alkyl halides in decreasing order of the rate of \u2013 elimination reaction with alcoholic KOH.",
     "options": [
       "(B) CH3\u2014CH2\u2014Br (C) CH3\u2014CH2\u2014CH2\u2014Br",
       "A>B>C",
@@ -308,8 +308,8 @@
     "options": [
       "\u2192 3",
       "CH4 + O2 \u23af\u23af\u23af\u23af",
-      "CH4 + O2 \uf0be\uf0be\uf0ae C(s) + 2H2O (l)",
-      "CH4 + 2O2 \uf0be\uf0be\uf0ae CO2 (g) + 2H2O (l)"
+      "CH4 + O2 C(s) + 2H2O (l)",
+      "CH4 + 2O2 CO2 (g) + 2H2O (l)"
     ],
     "answer_key": "C",
     "answer_explanation": "Answer: Option (iii)",
@@ -337,8 +337,8 @@
     "question_type": "MCQ",
     "question_text": "Some oxidation reactions of methane are given below. Which of them is/are controlled oxidation reactions? Mo2O3 CH4 (g) + O2 (g) \u23af\u23af\u23af\u23af 163 Hydrocarbons 2025-26 Cu/523/100 atm 2CH4 (g) + O2 (g) \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
     "options": [
-      "CH4 (g) + 2O2 (g) \uf0be\uf0be\uf0ae CO2 (g) + 2H2O (l)",
-      "CH4 (g) + O2 (g) \uf0be\uf0be\uf0ae C (s) + 2H2O (l)",
+      "CH4 (g) + 2O2 (g) CO2 (g) + 2H2O (l)",
+      "CH4 (g) + O2 (g) C (s) + 2H2O (l)",
       "\u2192 HCHO + H2O",
       "\u2192 2CH3OH"
     ],
@@ -432,11 +432,11 @@
     "question_type": "MCQ",
     "question_text": "Which are the correct IUPAC names of the following compound?",
     "options": [
-      "5 \u2013 (2\uf0a2, 2\uf0a2\u2013Dimethylpropyl)-decane",
+      "5 \u2013 (2, 2\u2013Dimethylpropyl)-decane",
       "4 \u2013 Butyl \u2013 2,2\u2013 dimethylnonane",
       "2,2\u2013 Dimethyl \u2013 4\u2013 pentyloctane",
       "5 \u2013 neo-Pentyldecane",
-      "5 \u2013 (2\uf0a2, 2\uf0a2\u2013Dimethylpropyl)-decane",
+      "5 \u2013 (2, 2\u2013Dimethylpropyl)-decane",
       "4 \u2013 Butyl \u2013 2,2\u2013 dimethylnonane",
       "2,2\u2013 Dimethyl \u2013 4\u2013 pentyloctane",
       "5 \u2013 neo-Pentyldecane"
@@ -961,7 +961,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The relative reactivity of 1\uf0b0, 2\uf0b0, 3\uf0b0 hydrogen\u2019s towards chlorination is 1 : 3.8 : 5. Calculate the percentages of all monochlorinated products obtained from 2-methylbutane. Exemplar Problems, Chemistry 166 2025-26",
+    "question_text": "The relative reactivity of 1, 2, 3 hydrogen\u2019s towards chlorination is 1 : 3.8 : 5. Calculate the percentages of all monochlorinated products obtained from 2-methylbutane. Exemplar Problems, Chemistry 166 2025-26",
     "options": [],
     "answer_key": "",
     "answer_explanation": "",
@@ -1925,7 +1925,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "LONG_ANSWER",
-    "question_text": "Step I 896 mL vapour of CxHy (A) weighs 3.28 g 3.28 \u00d7 22700 \u20131 22700 mL vapour of CxHy (A) weighs g mol = 83.1 g mol\u20131 896 Step II Element (%) Atomic Relative ratio Relative no. Simplest mass of atoms ratio C 87.8 12 7.31 1 3 H 12.19 1 12.19 1.66 4.98\uf0bb5 Empirical formula of \u2018A\u2019 C3H5 Empirical formula mass = 35 + 5 = 41 u Molecular mass 83.1 n= = = 2.02 \u2248 2 Empirical formula mass 41 Exemplar Problems, Chemistry 174 2025-26 \uf0de Molecular mass is double of the empirical formula mass. \u2234 Molecular Formula is C6H10 Step III Structure of 2-methylpentane is Hence, the molecule has a five carbon chain with a methyl group at the second carbon atom. \u2018A\u2019 adds a molecule of H2O in the presence of Hg2+ and H+, it should be an alkyne. Two possible structures for \u2018A\u2019 are : or I II Since the ketone (B) gives a positive iodoform test, it should contain a \u2014COCH3 group. Hence the structure of ketone is as follows : Therefore structure of alkyne is II.",
+    "question_text": "Step I 896 mL vapour of CxHy (A) weighs 3.28 g 3.28 \u00d7 22700 \u20131 22700 mL vapour of CxHy (A) weighs g mol = 83.1 g mol\u20131 896 Step II Element (%) Atomic Relative ratio Relative no. Simplest mass of atoms ratio C 87.8 12 7.31 1 3 H 12.19 1 12.19 1.66 4.985 Empirical formula of \u2018A\u2019 C3H5 Empirical formula mass = 35 + 5 = 41 u Molecular mass 83.1 n= = = 2.02 \u2248 2 Empirical formula mass 41 Exemplar Problems, Chemistry 174 2025-26 Molecular mass is double of the empirical formula mass. \u2234 Molecular Formula is C6H10 Step III Structure of 2-methylpentane is Hence, the molecule has a five carbon chain with a methyl group at the second carbon atom. \u2018A\u2019 adds a molecule of H2O in the presence of Hg2+ and H+, it should be an alkyne. Two possible structures for \u2018A\u2019 are : or I II Since the ketone (B) gives a positive iodoform test, it should contain a \u2014COCH3 group. Hence the structure of ketone is as follows : Therefore structure of alkyne is II.",
     "options": [],
     "answer_key": "",
     "answer_explanation": "",
