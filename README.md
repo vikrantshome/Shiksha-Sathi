@@ -158,7 +158,20 @@ Shiksha-Sathi/
 │   ├── update-registry-titles.mjs      # Chapter title sync
 │   ├── backfill-question-points.mjs    # Point recalculation
 │   ├── review-exemplar-images.py       # Vision-based image review
-│   └── reextract-exemplar-figures.py   # Figure re-extraction
+│   ├── reextract-exemplar-figures.py   # Figure re-extraction
+│   │
+│   ├── ## Automated Solution Enrichment (new)
+│   ├── auto_enrich_exemplars.py        # Main orchestrator with QA
+│   ├── search_discovery.py             # Google search URL discovery
+│   ├── answer_extractor.py             # crawl4ai extraction + quality eval
+│   ├── progress_tracker.py             # Batch progress logging
+│   ├── retry_handler.py                # Exponential backoff wrapper
+│   ├── run_pilot.py                    # Class 10 Maths pilot
+│   ├── run_full.py                     # Full dataset runner
+│   ├── verify_setup.py                 # Environment check
+│   ├── monitor.py                      # Dashboard
+│   ├── generate_report.py              # Summary report
+│   └── qa_check.py                     # Manual spot-check sampler
 │
 ├── Dockerfile                          # Frontend container
 ├── backend/Dockerfile                  # Backend container
@@ -495,6 +508,54 @@ npm run ingest:exemplar -- --class=7 --subject=science
 ```
 
 > 75 exemplar questions requiring figure images are excluded from ingestion. These will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
+
+---
+
+### 🤖 Automated Solution Enrichment
+
+For DRAFT questions lacking answers, the automated enrichment system uses Google search + **crawl4ai** to scrape solutions from verified websites, with built-in subject expert QA.
+
+**Quick start:**
+
+```bash
+# 1. Verify environment (MongoDB + SERPAPI_KEY)
+python scripts/verify_setup.py
+
+# 2. Run pilot (Class 10 Mathematics, ~21 questions)
+python scripts/run_pilot.py
+
+# 3. If successful, run full dataset (or specific classes)
+python scripts/run_full.py 10 9 8 7 6 11 12
+```
+
+**How it works:**
+
+1. **URL Discovery**: Google Search finds solution pages (cbsetuts.com, etc.)
+2. **Answer Extraction**: crawl4ai fetches page content, extracts solution text
+3. **Quality Evaluation**: Automated subject expert scoring (≥0.7 passes)
+4. **Auto-Approval**: High-quality answers automatically marked `PUBLISHED`
+5. **Comprehensive Logging**: CSV + JSON logs, progress tracking, dashboard
+
+**Results:** ~1,522 eligible DRAFT questions (excluding figure-dependent and LONG_ANSWER). Estimated 8-12 hours to process all with rate limiting.
+
+**Configuration:** Edit `scripts/config.yaml` to adjust quality thresholds, rate limits, and batch sizes.
+
+**Monitoring:**
+
+```bash
+# View live dashboard
+python scripts/monitor.py
+
+# Generate detailed report
+python scripts/generate_report.py
+
+# Sample enriched answers for QA
+python scripts/qa_check.py
+```
+
+**Rollback:** If needed, revert all automated updates (see `docs/ops-runbook.md`).
+
+Full documentation: [docs/ops-runbook.md](docs/ops-runbook.md)
 
 ---
 
