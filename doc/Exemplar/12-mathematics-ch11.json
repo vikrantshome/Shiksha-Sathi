@@ -10,15 +10,15 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "The plane 2x \u2013 3y + 6z \u2013 11 = 0 makes an angle sin\u20131(\u03b1) with x-axis. The value of \u03b1 is equal to 3 2 2 3",
+    "question_text": "The plane 2x \u2013 3y + 6z \u2013 11 = 0 makes an angle sin\u207b\u00b9(\u03b1) with x-axis. The value of \u03b1 is equal to",
     "options": [
-      "",
-      "",
-      "",
-      "2 3 7 7 THREE DIMENSIONAL GEOMETRY 239 Fill in the blanks in each of the Exercises 37 to 41."
+      "2/3",
+      "3/2",
+      "2/7",
+      "3/7"
     ],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "C",
+    "answer_explanation": "Answer: 2/7 \u2014 Direction cosines of normal: (2/7, -3/7, 6/7). Angle between plane and x-axis: sin(\u03c6) = |cos \u03b8| = 2/7.",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep211.pdf",
