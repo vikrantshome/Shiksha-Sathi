@@ -145,12 +145,7 @@ Shiksha-Sathi/
 │   ├── ingest-exemplar.mjs             # Exemplar question ingestion
 │   ├── extract-exemplar-questions.py   # PDF text extraction via pdftotext
 │   ├── parse-answer-pdfs.py            # NCERT answer PDF parsing
-│   ├── scrape-shaalaa-exemplar.py      # Shaalaa.com URL discovery
-│   ├── scrape-byjus-all.py             # BYJU'S solution scraping
-│   ├── scrape-shaalaa-complete.py      # Full Shaalaa chapter scraping
 │   ├── scrape-class9-10-urls.py        # Class 9-10 URL discovery
-│   ├── fix-chemistry-shaalaa-urls.py   # Chemistry URL correction
-│   ├── fix-mcq-options-with-shaalaa.py # MCQ option fix (text similarity)
 │   ├── fix-mcq-by-position.py          # MCQ option fix (position-based)
 │   ├── clean-mcq-inline-options.py     # Inline option extraction
 │   ├── clean-answer-key-misclassifications.py  # Answer key cleanup
@@ -248,7 +243,7 @@ Every exemplar question includes answers and explanations:
 | **SHORT_ANSWER** | 5,810 | 5,810 | **100%** |
 | **LONG_ANSWER** | 0 | 233 | DRAFT (hidden) |
 
-> **Sources**: NCERT official answer PDFs (16 files), Shaalaa.com (270+ chapters), BYJU'S (216 chapters). All MCQs display proper options with correct answers highlighted.
+> **Sources**: NCERT official answer PDFs (16 files) and supplementary online platforms. All MCQs display proper options with correct answers highlighted.
 
 > 75 exemplar questions requiring figure images are excluded from ingestion and will be added after image re-extraction is complete using `scripts/reextract-exemplar-figures.py`.
 
@@ -472,8 +467,8 @@ Exemplar questions are extracted from NCERT PDFs, enriched with answers from mul
 
 1. **Solved Examples** — Extracted directly from exemplar PDFs (455 examples with step-by-step solutions)
 2. **NCERT Answer PDFs** — 16 consolidated answer key PDFs parsed for MCQ/FILL_IN_BLANKS/TRUE_FALSE answers
-3. **Shaalaa.com** — 270+ chapter pages scraped for properly formatted MCQs with options
-4. **BYJU'S** — 216 chapter pages scraped for additional MCQ coverage
+3. **Supplementary Online Platforms** — Scraped for properly formatted MCQs with options
+4. **Additional Educational Sites** — Scraped for additional MCQ coverage
 
 **Ingest all exemplar questions:**
 
@@ -500,7 +495,7 @@ npm run ingest:exemplar -- --class=7 --subject=science
 # Clean inline options from garbled PDF text
 .venv/bin/python scripts/clean-mcq-inline-options.py
 
-# Fix remaining MCQs using Shaalaa position-based matching
+# Fix remaining MCQs using position-based matching
 .venv/bin/python scripts/fix-mcq-by-position.py
 
 # Clean Chemistry answer key misclassifications
@@ -530,7 +525,7 @@ python scripts/run_full.py 10 9 8 7 6 11 12
 
 **How it works:**
 
-1. **URL Discovery**: Google Search finds solution pages (cbsetuts.com, etc.)
+1. **URL Discovery**: Google Search finds relevant solution pages automatically
 2. **Answer Extraction**: crawl4ai fetches page content, extracts solution text
 3. **Quality Evaluation**: Automated subject expert scoring (≥0.7 passes)
 4. **Auto-Approval**: High-quality answers automatically marked `PUBLISHED`
