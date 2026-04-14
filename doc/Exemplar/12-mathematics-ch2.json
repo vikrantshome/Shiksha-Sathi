@@ -10,10 +10,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The principal value of cos\u20131 ) \u2013 \u221a is__________. } 2\u222b ( 3\u03c0 \u221e",
+    "question_text": "The principal value of cos\u207b\u00b9(-\u221a3/2) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "5\u03c0/6",
+    "answer_explanation": "Answer: 5\u03c0/6",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -21,10 +21,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of cos\u20131 \uf8ec \u2013 \uf8f7 is__________. \uf8ed 2\uf8f8 \uf8eb 3\u03c0 \uf8f6",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -38,10 +36,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The value of sin\u20131 ) sin \u221a is__________. } 5 \u222b",
+    "question_text": "The value of sin\u207b\u00b9(sin(\u03c0/5)) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/5",
+    "answer_explanation": "Answer: \u03c0/5",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -49,10 +47,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of sin\u20131 \uf8ec sin \uf8f7 is__________. \uf8ed    5 \uf8f8",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -66,10 +62,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "If cos (tan\u20131 x + cot\u20131 3 ) = 0, then value of x is__________. (1\u221e",
+    "question_text": "If cos(tan\u207b\u00b9x + cot\u207b\u00b9(1/3)) = 0, then value of x is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "1/3",
+    "answer_explanation": "Answer: 1/3",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -77,10 +73,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "If cos (tan\u20131 x + cot\u20131      3 ) = 0, then value of x is__________. \uf8eb1\uf8f6",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -94,10 +88,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The set of values of sec\u20131 ) \u221a is__________. }2\u222b",
+    "question_text": "The principal value of sec\u207b\u00b9(-\u221a2) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "3\u03c0/4",
+    "answer_explanation": "Answer: 3\u03c0/4",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -105,10 +99,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The set of values of sec\u20131 \uf8ec \uf8f7 is__________. \uf8ed2\uf8f8",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -122,10 +114,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The principal value of tan\u20131 3 is__________. ( 14\u03c0 \u221e",
+    "question_text": "The principal value of tan\u207b\u00b9(1/\u221a3) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/6",
+    "answer_explanation": "Answer: \u03c0/6",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -133,10 +125,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of tan\u20131       3 is__________. \uf8eb     14\u03c0 \uf8f6",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -150,10 +140,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The value of cos\u20131 ) cos \u221a is__________. } 3 \u222b",
+    "question_text": "The value of cos\u207b\u00b9(cos(\u03c0/3)) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/3",
+    "answer_explanation": "Answer: \u03c0/3",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -161,10 +151,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of cos\u20131 \uf8ec cos     \uf8f7 is__________. \uf8ed      3 \uf8f8",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -178,10 +166,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The value of cos (sin\u20131 x + cos\u20131 x), |x| \u2264 1 is______ . ( sin \u20131 x + cos \u20131 x \u221e 3",
+    "question_text": "The value of cos\u207b\u00b9(sin\u207b\u00b9x + cos\u207b\u00b9x), |x| \u2264 1 is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/2",
+    "answer_explanation": "Answer: \u03c0/2",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -189,10 +177,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of cos (sin\u20131 x + cos\u20131 x), |x| \u2264 1 is______ . \uf8eb sin \u20131 x + cos \u20131 x \uf8f6            3",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -206,10 +192,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The value of expression tan ) \u221a ,when x = is_________. } 2 \u222b 2 ( 2x \u221e If y = 2 tan\u20131 x + sin\u20131 ) } 1 + x 2 \u221a\u222b",
+    "question_text": "The value of expression tan\u207b\u00b9(2x/(1-x\u00b2)), when x = 1/2 is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/3",
+    "answer_explanation": "Answer: \u03c0/3",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -217,10 +203,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The value of expression tan \uf8ec                     \uf8f7 ,when x =    is_________. \uf8ed          2          \uf8f8           2 \uf8eb 2x \uf8f6 If y = 2 tan\u20131 x + sin\u20131 \uf8ec \uf8ed ",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -234,10 +218,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "for all x, then____< y <____. ( x\u2212 y \u221e",
+    "question_text": "If y = 2tan\u207b\u00b9x + sin\u207b\u00b9(2x/(1+x\u00b2)), then ______ < y < ______ for all x.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "-2\u03c0, 2\u03c0",
+    "answer_explanation": "Answer: -2\u03c0, 2\u03c0",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -245,10 +229,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "for all x, then____< y <____. \uf8eb x\u2212 y \uf8f6",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -262,10 +244,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The result tan\u20131x \u2013 tan\u20131y = tan\u20131 ) 1+ xy \u221a is true when value of xy is _____ } \u222b",
+    "question_text": "The result tan\u207b\u00b9x - tan\u207b\u00b9y = tan\u207b\u00b9((x-y)/(1+xy)) is true when value of xy is ______.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "xy > -1",
+    "answer_explanation": "Answer: xy > -1",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -273,10 +255,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The result tan\u20131x \u2013 tan\u20131y = tan\u20131 \uf8ec 1+ xy \uf8f7 is true when value of xy is _____ \uf8ed       \uf8f8",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -446,10 +426,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The minimum value of n for which tan\u20131 > , n\u2208N , is valid is 5. \u03c0 4 < ( \u20131 1 \u221e \u2211 \u03c0",
+    "question_text": "The minimum value of n for which tan\u207b\u00b9(1/n) < \u03c0/4, n \u2208 N, is valid is ______.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "2",
+    "answer_explanation": "Answer: 2",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -457,10 +437,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The minimum value of n for which tan\u20131    > , n\u2208N , is valid is 5. \u03c0 4 \uf8ee \uf8eb \u20131 1 \uf8f6 \uf8f9       \u03c0",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   },
   {
@@ -474,10 +452,10 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "The principal value of sin\u20131 >cos ) sin \u221a \u2206 is . \u2264 } 2 \u222b\u2202 3",
+    "question_text": "The principal value of sin\u207b\u00b9(cos(sin\u207b\u00b9(\u221a3/2))) is__________.",
     "options": [],
-    "answer_key": "",
-    "answer_explanation": "",
+    "answer_key": "\u03c0/6",
+    "answer_explanation": "Answer: \u03c0/6",
     "difficulty": "medium",
     "blooms_level": "understand",
     "source_file": "leep202.pdf",
@@ -485,10 +463,8 @@
     "image_required": false,
     "figure_ref": [],
     "provenance_excerpt": "The principal value of sin\u20131 \uf8efcos \uf8ec sin   \uf8f7 \uf8fa is . \uf8f0 \uf8ed        2 \uf8f8\uf8fb    3",
-    "review_state": "DRAFT",
-    "qa_flags": [
-      "garbled_fraction_math"
-    ],
+    "review_state": null,
+    "qa_flags": [],
     "is_example": false
   }
 ]
