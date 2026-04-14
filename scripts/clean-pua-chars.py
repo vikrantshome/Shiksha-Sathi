@@ -20,6 +20,9 @@ EXEMPLAR_DIR = 'doc/Exemplar'
 # PUA character replacements
 # These are mappings from pdftotext's PUA usage to sensible Unicode
 PUA_REPLACEMENTS = {
+    '\uf024': '^',    # Hat notation for unit vectors (î, ĵ, k̂)
+    '\uf072': '',     # Vector arrow over variable (a⃗ → a, context implies vector)
+    '\uf0b6': 'k',    # k unit vector
     '\uf8e7': '→',   # Arrow (reaction arrows, implies)
     '\uf8e8': ']',    # Right bracket
     '\uf8e9': '[',    # Left bracket
@@ -48,7 +51,8 @@ PUA_REPLACEMENTS = {
 }
 
 # Any PUA char not in the map gets removed
-PUA_PATTERN = re.compile(r'[\uf800-\uf8ff]')
+# PUA covers U+E000-U+F8FF
+PUA_PATTERN = re.compile(r'[\uE000-\uF8FF]')
 
 
 def clean_pua(text):
@@ -59,7 +63,7 @@ def clean_pua(text):
     result = []
     for char in text:
         code = ord(char)
-        if 0xF800 <= code <= 0xF8FF:
+        if 0xE000 <= code <= 0xF8FF:
             replacement = PUA_REPLACEMENTS.get(char, '')
             result.append(replacement)
         else:
