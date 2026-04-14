@@ -1621,7 +1621,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "We know that the relationship between Kc and Kp is Kp = Kc (RT)\u2206n What would be the value of \u2206n for the reaction NH\ud835\udc344\u2062Cl\u2061(s)\ue408NH\ud835\udc343\u2062(g)+HCl\u2061(g)",
+    "question_text": "We know that the relationship between Kc and Kp is Kp = Kc (RT)\u2206n What would be the value of \u2206n for the reaction NH\ud835\udc344\u2062Cl\u2061(s)NH\ud835\udc343\u2062(g)+HCl\u2061(g)",
     "options": [
       "1",
       "0.5",
@@ -1652,7 +1652,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "For the reaction H\u2061\ud835\udc342\u2062(g)+I\ud835\udc342\u2062(g)\ue4082\u2062HI\u2061(g), the standard free energy is \u2206G\u0398 > 0. The equilibrium constant (K ) would be ______.",
+    "question_text": "For the reaction H\u2061\ud835\udc342\u2062(g)+I\ud835\udc342\u2062(g)2\u2062HI\u2061(g), the standard free energy is \u2206G\u0398 > 0. The equilibrium constant (K ) would be ______.",
     "options": [
       "K = 0",
       "K > 1",
@@ -1714,7 +1714,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "PCl\ud835\udc345,PCl\ud835\udc343andCl\ud835\udc342 are at equilibrium at 500 K in a closed container and their concentrations are 0.8 \u00d7 10\u20133 mol L\u20131, 1.2 \u00d7 10\u20133 mol L\u20131 and 1.2 \u00d7 10\u20133 mol L\u20131 respectively. The value of Kc for the reaction PCl\ud835\udc345\u2062(g)\ue408PCl\ud835\udc343\u2062(g)+Cl\ud835\udc342\u2062(g) will be ______.",
+    "question_text": "PCl\ud835\udc345,PCl\ud835\udc343andCl\ud835\udc342 are at equilibrium at 500 K in a closed container and their concentrations are 0.8 \u00d7 10\u20133 mol L\u20131, 1.2 \u00d7 10\u20133 mol L\u20131 and 1.2 \u00d7 10\u20133 mol L\u20131 respectively. The value of Kc for the reaction PCl\ud835\udc345\u2062(g)PCl\ud835\udc343\u2062(g)+Cl\ud835\udc342\u2062(g) will be ______.",
     "options": [
       "1.8 \u00d7 103 mol L\u20131",
       "1.8 \u00d7 10\u20133",

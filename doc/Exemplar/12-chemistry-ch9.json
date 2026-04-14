@@ -1631,10 +1631,10 @@
     "question_type": "MCQ",
     "question_text": "Which of the following complexes formed by Cu\ud835\udc342+ ions is most stable?",
     "options": [
-      "Cu\u2061\ud835\udc342++4NH\ud835\udc343\ue408[Cu\u2061(NH\ud835\udc343)\u2062\ud835\udc344]\u2062\ud835\udc342+,logK=11.6",
-      "Cu\u2061\ud835\udc342++4CN\ud835\udc34\u2212\ue408[Cu\u2061(CN)\u2062\ud835\udc344]\u2062\ud835\udc342\u2212,logK=27.3",
-      "Cu\u2061\ud835\udc342++2en\ue408[Cu\u2061(en)\u2062\ud835\udc342]\u2062\ud835\udc342+,logK=15.4",
-      "Cu\u2061\ud835\udc342++4\u2062H\u2061\ud835\udc342\u2062O\ue408[Cu\u2061(H\u2061\ud835\udc342\u2062O)\u2062\ud835\udc344]\u2062\ud835\udc342+,logK=8.9"
+      "Cu\u2061\ud835\udc342++4NH\ud835\udc343[Cu\u2061(NH\ud835\udc343)\u2062\ud835\udc344]\u2062\ud835\udc342+,logK=11.6",
+      "Cu\u2061\ud835\udc342++4CN\ud835\udc34\u2212[Cu\u2061(CN)\u2062\ud835\udc344]\u2062\ud835\udc342\u2212,logK=27.3",
+      "Cu\u2061\ud835\udc342++2en[Cu\u2061(en)\u2062\ud835\udc342]\u2062\ud835\udc342+,logK=15.4",
+      "Cu\u2061\ud835\udc342++4\u2062H\u2061\ud835\udc342\u2062O[Cu\u2061(H\u2061\ud835\udc342\u2062O)\u2062\ud835\udc344]\u2062\ud835\udc342+,logK=8.9"
     ],
     "answer_key": "",
     "answer_explanation": "",

@@ -418,7 +418,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "In which of the following reactions heterogenous catalysis is involved? NO(g) (a) 2SO2 (g) + O2 (g) \u2192\u2192 \u2192 2SO3 (g) (b) Pt(s) 2SO2 (g) \u2192\u2192 \u2192 2SO3 (g) Fe(s) (c) N2 (g) + 3H2 (g) \u2192\u2192 \u2192 2NH3 (g) (d) HCl(l) CH3COOCH3 (l) + H2O (l) \u2192\u2192 \u2192 CH3COOH (aq) + CH3OH (aq)",
+    "question_text": "In which of the following reactions heterogenous catalysis is involved? NO(g) (a) 2SO2 (g) + O2 (g) \u2192 \u2192 2SO3 (g) (b) Pt(s) 2SO2 (g) \u2192 \u2192 2SO3 (g) Fe(s) (c) N2 (g) + 3H2 (g) \u2192 \u2192 2NH3 (g) (d) HCl(l) CH3COOCH3 (l) + H2O (l) \u2192 \u2192 CH3COOH (aq) + CH3OH (aq)",
     "options": [
       "(b), (c)",
       "(b), (c), (d)",

@@ -168,7 +168,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Which reagent will you use for the following reaction? CH3CH2CH2CH3 \u2192\u2192 CH3CH2CH2CH2Cl + CH3CH2CHClCH3 Exemplar Problems, Chemistry 134 23/04/18",
+    "question_text": "Which reagent will you use for the following reaction? CH3CH2CH2CH3 \u2192 CH3CH2CH2CH2Cl + CH3CH2CHClCH3 Exemplar Problems, Chemistry 134 23/04/18",
     "options": [
       "Cl2/UV light",
       "NaCl + H2SO4",
@@ -1461,7 +1461,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "SHORT_ANSWER",
-    "question_text": "Which of the products will be major product in the reaction given below? Explain. CH3CH = CH2 + HI \u2192\u2192 CH3CH2CH2I + CH3CHICH3 (A) (B)",
+    "question_text": "Which of the products will be major product in the reaction given below? Explain. CH3CH = CH2 + HI \u2192 CH3CH2CH2I + CH3CHICH3 (A) (B)",
     "options": [],
     "answer_key": "",
     "answer_explanation": "",
@@ -2966,9 +2966,9 @@
     "question_type": "MCQ",
     "question_text": "Which of the following is halogen exchange reaction?",
     "options": [
-      "RX+NaI\ue429RI+NaX",
+      "RX+NaIRI+NaX",
       "![](https://www.shaalaa.com/images/_4:d22f14a8632040b08273d1b07037e99d.png)",
-      "R\u2212OH+HXZnCl\ud835\udc342\ue421\ue421\ue421\ue421\ue421\ue421\ue421\ue422R\u2212X+H\u2061\ud835\udc342\u2062O",
+      "R\u2212OH+HXZnCl\ud835\udc342R\u2212X+H\u2061\ud835\udc342\u2062O",
       "![](https://www.shaalaa.com/images/_4:dc7c137b1ccf45ae8bee5ccf7229dc09.png)"
     ],
     "answer_key": "",
@@ -2997,7 +2997,7 @@
     "language": "English",
     "source_kind": "EXEMPLAR",
     "question_type": "MCQ",
-    "question_text": "Which reagent will you use for the following reaction?\nCH\ud835\udc343\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062CH\ud835\udc343\ue429CH\ud835\udc343\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062Cl+CH\ud835\udc343\u2062CH\ud835\udc342\u2062CHClCH\ud835\udc343",
+    "question_text": "Which reagent will you use for the following reaction?\nCH\ud835\udc343\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062CH\ud835\udc343CH\ud835\udc343\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062CH\ud835\udc342\u2062Cl+CH\ud835\udc343\u2062CH\ud835\udc342\u2062CHClCH\ud835\udc343",
     "options": [
       "Cl2/UV light",
       "NaCl+H\u2061\ud835\udc342\u2062CO\ud835\udc344",
