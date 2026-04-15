@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { useAssignment } from "@/components/AssignmentContext";
+import { useQuiz } from "@/components/QuizContext";
 import { api } from "@/lib/api";
 import Loader from "@/components/Loader";
+import QuizTray from "@/components/QuizTray";
 
 interface ClassType {
   id: string;
@@ -15,7 +16,7 @@ interface ClassType {
 const SUPPORTED_TYPES = new Set(["MCQ", "TRUE_FALSE", "MULTIPLE_CHOICE"]);
 
 export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
-  const { selectedQuestions, clearSelection } = useAssignment();
+  const { selectedQuestions, clearSelection } = useQuiz();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [selectedClassId, setSelectedClassId] = useState<string>("");
@@ -29,9 +30,9 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
     selfPacedCode?: string;
   } | null>(null);
 
+  // With separate quiz context, we expect only quiz-compatible questions
+  // Filter as safety measure but ideally question bank should prevent non-compatible selection
   const supportedQuestions = selectedQuestions.filter((q) => SUPPORTED_TYPES.has(q.type));
-  const unsupportedCount = selectedQuestions.length - supportedQuestions.length;
-
   const totalMarks = supportedQuestions.reduce((acc, q) => acc + (q.points ?? 1), 0);
 
   const handleCreate = (formData: FormData) => {
@@ -202,43 +203,33 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
     );
   }
 
-  if (selectedQuestions.length === 0) {
-    return (
-      <section className="bg-surface-container-lowest rounded-lg py-12 px-8 border border-dashed border-outline/25 text-center">
-        <div className="w-16 h-16 rounded-full bg-surface-container-low text-primary flex items-center justify-center mx-auto mb-5">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 5v14" />
-            <path d="M5 12h14" />
-          </svg>
-        </div>
-        <h2 className="m-0 text-2xl font-bold text-on-surface">
-          No questions in the tray yet
-        </h2>
-        <p className="mt-4 mx-auto mb-0 text-on-surface-variant max-w-[30rem] leading-[1.7]">
-          Add MCQ/True‑False questions from the Question Bank, then return here to publish the quiz.
-        </p>
-        <div className="mt-6">
-          <Link href="/teacher/question-bank" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}>
-            Browse Question Bank
-          </Link>
-        </div>
-      </section>
-    );
-  }
+   if (selectedQuestions.length === 0) {
+     return (
+       <section className="bg-surface-container-lowest rounded-lg py-12 px-8 border border-dashed border-outline/25 text-center">
+         <div className="w-16 h-16 rounded-full bg-surface-container-low text-primary flex items-center justify-center mx-auto mb-5">
+           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+             <path d="M12 5v14" />
+             <path d="M5 12h14" />
+           </svg>
+         </div>
+         <h2 className="m-0 text-2xl font-bold text-on-surface">
+           No questions selected yet
+         </h2>
+         <p className="mt-4 mx-auto mb-0 text-on-surface-variant max-w-[30rem] leading-[1.7]">
+           Select MCQ/True‑False questions from the Question Bank below to build your quiz.
+         </p>
+         <div className="mt-6">
+           <Link href="/teacher/question-bank?context=quiz" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-on-primary text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease_out hover:opacity-90 hover:shadow-sm active:scale-[0.98]" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}>
+             Browse Question Bank
+           </Link>
+         </div>
+       </section>
+     );
+   }
 
   return (
     <form action={handleCreate} className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(20rem,24rem)] lg:items-start gap-6">
-      <section className="bg-surface-container-lowest rounded-lg p-8 shadow-sm">
-        <h2 className="m-0 text-lg font-bold text-on-surface">Quiz Questions</h2>
-        <p className="mt-2 mb-0 text-sm text-on-surface-variant leading-[1.7]">
-          {supportedQuestions.length} supported question{supportedQuestions.length === 1 ? "" : "s"} in tray • {totalMarks} total marks
-          {unsupportedCount > 0 ? (
-            <span className="block mt-1 text-error">
-              {unsupportedCount} unsupported question{unsupportedCount === 1 ? "" : "s"} will be ignored (quiz supports MCQ/True‑False only).
-            </span>
-          ) : null}
-        </p>
-      </section>
+       {/* Removed duplicate question summary - now handled by QuizTray */}
 
       <aside className="grid gap-6">
         <section className="bg-surface-container-lowest rounded-lg p-8 shadow-sm">
