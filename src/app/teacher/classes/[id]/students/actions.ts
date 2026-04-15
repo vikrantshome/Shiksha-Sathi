@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { api } from "@/lib/api";
 
-export async function enrollStudent(classId: string, data: { name: string; phone: string; birthDate: string }) {
+export async function enrollStudent(classId: string, data: { name: string; phone: string; birthDate: string; rollNumber?: string }) {
   if (!data.name?.trim()) {
     return { error: "Student name is required" };
   }
@@ -17,8 +17,9 @@ export async function enrollStudent(classId: string, data: { name: string; phone
   try {
     await api.classes.enrollStudent(classId, data);
   } catch (error) {
+    const err = error as { message?: string };
     console.error("Failed to enroll student:", error);
-    return { error: "Failed to enroll student" };
+    return { error: err.message || "Failed to enroll student" };
   }
 
   revalidatePath(`/teacher/classes/${classId}/students`);

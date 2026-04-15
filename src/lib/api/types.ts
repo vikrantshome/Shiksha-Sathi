@@ -12,6 +12,7 @@ export interface User {
   rollNumber?: string;
   studentClass?: string;
   section?: string;
+  birthDate?: string;
 }
 
 export interface CandidateProfile {
@@ -21,6 +22,7 @@ export interface CandidateProfile {
   role: Role;
   studentClass?: string;
   section?: string;
+  rollNumber?: string;
 }
 
 export interface AuthResponse {

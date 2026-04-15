@@ -45,6 +45,9 @@ public class User extends BaseEntity {
     @Field("section")
     private String section;      // Section/Division (e.g., "A")
 
+    @Field("birth_date")
+    private String birthDate;
+
     public void setStudentClass(String studentClass) {
         this.studentClass = studentClass;
     }
