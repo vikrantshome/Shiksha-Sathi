@@ -110,6 +110,18 @@ public class ClassController {
         return ResponseEntity.ok(classService.removeStudent(classId, studentId, loginIdentity));
     }
 
+    @PatchMapping("/students/{studentId}")
+    public ResponseEntity<User> updateStudent(
+            @PathVariable String studentId,
+            @RequestBody Map<String, String> request) {
+        String loginIdentity = SecurityContextHolder.getContext().getAuthentication().getName();
+        String name = request.get("name");
+        String phone = request.get("phone");
+        String rollNumber = request.get("rollNumber");
+        String birthDate = request.get("birthDate");
+        return ResponseEntity.ok(classService.updateStudent(studentId, name, phone, rollNumber, birthDate, loginIdentity));
+    }
+
     @PostMapping("/{classId}/attendance/bulk")
     public ResponseEntity<List<AttendanceRecord>> markBulkAttendance(
             @PathVariable String classId,
