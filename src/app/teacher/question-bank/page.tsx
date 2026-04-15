@@ -3,6 +3,8 @@ import { Question } from "@/lib/api/types";
 import QuestionBankFilters, { QuestionBankSearch } from "@/components/QuestionBankFilters";
 import QuestionCard from "@/components/QuestionCard";
 import AssignmentTray from "@/components/AssignmentTray";
+import QuizTray from "@/components/QuizTray";
+import { QuizProvider } from "@/components/QuizContext";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +38,8 @@ export default async function QuestionBankPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedParams = await searchParams;
+  const context = resolvedParams.context || "assignment"; // default to assignment for backward compatibility
+  
   const board =
     typeof resolvedParams.board === "string" ? resolvedParams.board : null;
   const classLevel =
@@ -131,19 +135,20 @@ export default async function QuestionBankPage({
   const selectedChapterTitleForQuery =
     selectedChapterMeta?.chapterTitle || chapterTitleCandidate || null;
 
-  const selectedChapterLabel =
-    selectedChapterNumber !== null
-      ? chaptersMeta.find(
-          (c) =>
-            c.chapterNumber === selectedChapterNumber &&
-            chapterTitleCandidate &&
-            (c.chapterTitle || "").toLowerCase() ===
-              chapterTitleCandidate.toLowerCase()
-        )?.label ||
-        chaptersMeta.find((c) => c.chapterNumber === selectedChapterNumber)
-          ?.label ||
-        `Chapter ${selectedChapterNumber}`
-      : null;
+  let selectedChapterLabel: string | undefined = undefined;
+  if (selectedChapterNumber !== null) {
+    const foundChapter = chaptersMeta.find(
+      (c) =>
+        c.chapterNumber === selectedChapterNumber &&
+        chapterTitleCandidate &&
+        (c.chapterTitle || "").toLowerCase() ===
+          chapterTitleCandidate.toLowerCase()
+    );
+    selectedChapterLabel =
+      foundChapter?.label ||
+      chaptersMeta.find((c) => c.chapterNumber === selectedChapterNumber)?.label ||
+      `Chapter ${selectedChapterNumber}`;
+  }
 
   // Fetch only if chapter is selected, or if user is searching globally
   let displayedQuestions: Question[] = [];
@@ -200,88 +205,90 @@ export default async function QuestionBankPage({
     .join(" / ");
   const heading = "Question Repository";
   return (
-    <div className="pb-20 md:pb-24">
-      {/* ═══ Page Header ═══ */}
-      <div className="flex items-end justify-between gap-4 mb-4 md:mb-6 flex-wrap">
-        <div className="grid gap-1.5 md:gap-2">
-          {breadcrumb && (
-            <p className="text-label-sm text-on-surface-variant m-0">
-              {breadcrumb}
-            </p>
-          )}
-          <h1 className="font-headline text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold tracking-[-0.04em] text-primary m-0">
-            {heading}
-          </h1>
-          {selectedChapterLabel && (
-            <p className="m-0 text-sm md:text-[0.9375rem] text-on-surface-variant max-w-3xl">
-              Browsing chapter-specific questions for <span className="font-medium text-on-surface">{selectedChapterLabel}</span>.
-            </p>
+    <QuizProvider>
+      <div className="pb-20 md:pb-24">
+        {/* ═══ Page Header ═══ */}
+        <div className="flex items-end justify-between gap-4 mb-4 md:mb-6 flex-wrap">
+          <div className="grid gap-1.5 md:gap-2">
+            {breadcrumb && (
+              <p className="text-label-sm text-on-surface-variant m-0">
+                {breadcrumb}
+              </p>
+            )}
+            <h1 className="font-headline text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold tracking-[-0.04em] text-primary m-0">
+              {heading}
+            </h1>
+            {selectedChapterLabel && (
+              <p className="m-0 text-sm md:text-[0.9375rem] text-on-surface-variant max-w-3xl">
+                Browsing chapter-specific questions for <span className="font-medium text-on-surface">{selectedChapterLabel}</span>.
+              </p>
+            )}
+          </div>
+          {!emptyState && (
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-container-low text-xs font-bold text-on-surface-variant">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              {displayedQuestions.length} curated result
+              {displayedQuestions.length !== 1 ? "s" : ""}
+            </span>
           )}
         </div>
-        {!emptyState && (
-          <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-container-low text-xs font-bold text-on-surface-variant">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            {displayedQuestions.length} curated result
-            {displayedQuestions.length !== 1 ? "s" : ""}
-          </span>
-        )}
-      </div>
 
-      {/* ═══ Search + Type Filter Bar ═══ */}
-      <QuestionBankSearch />
+        {/* ═══ Search + Type Filter Bar ═══ */}
+        <QuestionBankSearch />
 
-      {/* ═══ 3-Panel Workspace Grid ═══ */}
-      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
-        {/* Left Rail: Taxonomy Navigation — full-width on tablet, column on desktop */}
-        <div className="md:col-span-2 lg:col-span-1 order-1">
-          <div className="sticky top-6">
-            <QuestionBankFilters
-              subjects={subjects}
-              chapters={chaptersMeta}
-              boards={boards}
-              classes={classes}
-              books={booksData}
-            />
+        {/* ═══ 3-Panel Workspace Grid ═══ */}
+        <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
+          {/* Left Rail: Taxonomy Navigation — full-width on tablet, column on desktop */}
+          <div className="md:col-span-2 lg:col-span-1 order-1">
+            <div className="sticky top-6">
+              <QuestionBankFilters
+                subjects={subjects}
+                chapters={chaptersMeta}
+                boards={boards}
+                classes={classes}
+                books={booksData}
+              />
+            </div>
+          </div>
+
+          {/* Center: Question Results */}
+          <div className="order-2">
+            {emptyState ? (
+              /* Progressive Empty State — Stitch Direction */
+              <div className="flex flex-col items-center justify-center min-h-64 md:min-h-96 text-center p-8 md:p-12">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-4 md:mb-6">
+                  <EmptyStateIcon />
+                </div>
+                <h3 className="font-headline text-lg font-bold text-on-surface mb-2">
+                  {emptyState.title}
+                </h3>
+                <p className="text-sm text-on-surface-variant max-w-xs leading-relaxed">
+                  {emptyState.description}
+                </p>
+              </div>
+            ) : (
+              <div>
+                {displayedQuestions.length === 0 ? (
+                  <div className="text-center p-8 md:p-12 text-on-surface-variant text-sm">
+                    No questions found matching your criteria.
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-4 md:gap-5">
+                    {displayedQuestions.map((question) => (
+                      <QuestionCard key={question.id} question={question} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Right Rail: Selection Tray */}
+          <div className="order-3">
+            {context === "quiz" ? <QuizTray /> : <AssignmentTray />}
           </div>
         </div>
-
-        {/* Center: Question Results */}
-        <div className="order-2">
-          {emptyState ? (
-            /* Progressive Empty State — Stitch Direction */
-            <div className="flex flex-col items-center justify-center min-h-64 md:min-h-96 text-center p-8 md:p-12">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-4 md:mb-6">
-                <EmptyStateIcon />
-              </div>
-              <h3 className="font-headline text-lg font-bold text-on-surface mb-2">
-                {emptyState.title}
-              </h3>
-              <p className="text-sm text-on-surface-variant max-w-xs leading-relaxed">
-                {emptyState.description}
-              </p>
-            </div>
-          ) : (
-            <div>
-              {displayedQuestions.length === 0 ? (
-                <div className="text-center p-8 md:p-12 text-on-surface-variant text-sm">
-                  No questions found matching your criteria.
-                </div>
-              ) : (
-                <div className="flex flex-col gap-4 md:gap-5">
-                  {displayedQuestions.map((question) => (
-                    <QuestionCard key={question.id} question={question} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Right Rail: Assignment Tray */}
-        <div className="order-3">
-          <AssignmentTray />
-        </div>
       </div>
-    </div>
+    </QuizProvider>
   );
 }
