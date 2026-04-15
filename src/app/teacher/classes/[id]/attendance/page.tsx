@@ -125,10 +125,10 @@ export default function AttendancePage() {
   }
 
   return (
-    <div className="pb-8 md:pb-10">
+    <div className="pb-6">
       {/* ── Header ── */}
-      <div className="mb-6 md:mb-8">
-        <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-on-surface-variant mb-2 md:mb-3">
+      <div className="mb-4">
+        <nav className="flex items-center gap-2 text-[10px] uppercase tracking-[0.08em] text-on-surface-variant mb-2">
           <Link href="/teacher/classes" className="text-primary no-underline">
             Classes
           </Link>
@@ -136,44 +136,38 @@ export default function AttendancePage() {
           <span>{classData.name}</span>
         </nav>
 
-        <div className="grid gap-4 md:gap-6 md:grid-cols-[1.5fr_minmax(15rem,18rem)] md:items-end">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h1 className="font-manrope text-[clamp(2rem,4vw,2.5rem)] font-extrabold tracking-[-0.03em] text-primary m-0">
-              Attendance Register
+            <h1 className="font-manrope text-2xl font-bold tracking-[-0.03em] text-primary m-0">
+              Attendance
             </h1>
-            <p className="text-[0.9375rem] text-on-surface-variant leading-[1.7] mt-2 md:mt-3 max-w-[32rem]">
-              {classData.name} • Section {classData.section} • {students.length} students
+            <p className="text-xs text-on-surface-variant mt-1">
+              {classData.name} • {students.length} students
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <div className="bg-surface-container-lowest rounded-lg p-3 md:p-4 shadow-sm">
-              <label
-                htmlFor="attendance-date"
-                className="block text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant mb-2"
-              >
-                Register Date
-              </label>
+          <div className="flex items-center gap-3">
+            <div className="bg-surface-container-lowest rounded-lg px-3 py-1.5 shadow-sm">
               <input
                 id="attendance-date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-surface-container-low border-0 border-b border-outline-variant py-2 text-[0.9375rem] text-on-surface outline-none focus:border-primary transition-colors"
+                className="bg-transparent border-0 text-sm text-on-surface outline-none"
               />
             </div>
             <Link
               href={`/teacher/classes/${id}/attendance/history`}
-              className="text-center text-xs font-medium text-primary hover:text-primary-dim no-underline"
+              className="text-[10px] font-medium text-primary hover:text-primary-dim no-underline"
             >
-              View History →
+              History →
             </Link>
           </div>
         </div>
       </div>
 
       {/* ── Summary Cards ── */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
+      <section className="grid grid-cols-3 gap-2 mb-4">
         {([
           ["Present", summary.present, statusMeta.PRESENT] as const,
           ["Absent", summary.absent, statusMeta.ABSENT] as const,
@@ -181,12 +175,12 @@ export default function AttendancePage() {
         ]).map(([title, value, meta]) => (
           <div
             key={title}
-            className="bg-surface-container-lowest rounded-lg p-4 md:p-5 shadow-sm"
+            className="bg-surface-container-lowest rounded-lg p-3 shadow-sm"
           >
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
+            <p className="text-[0.5625rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               {title}
             </p>
-            <p className={`font-manrope text-[1.5rem] md:text-[1.75rem] font-bold mt-1 md:mt-2 m-0 ${meta.text}`}>
+            <p className={`font-manrope text-xl font-bold mt-0.5 m-0 ${meta.text}`}>
               {value}
             </p>
           </div>
@@ -196,16 +190,16 @@ export default function AttendancePage() {
       {/* ── Student Roster ── */}
       <section className="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
         {/* Table Header */}
-        <div className="flex items-center justify-between gap-3 md:gap-4 p-4 px-4 md:p-5 md:px-6 bg-surface-container-low">
+        <div className="flex items-center justify-between gap-3 p-3 px-4 bg-surface-container-low">
           <div>
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant m-0">
               Daily Register
             </p>
-            <h2 className="text-[1.125rem] font-bold text-on-surface mt-1">
+            <h2 className="text-[1rem] font-bold text-on-surface mt-0.5">
               Student Roster
             </h2>
           </div>
-          <span className="text-xs text-on-surface-variant hidden sm:block">
+          <span className="text-[10px] text-on-surface-variant hidden sm:block">
             Mark each student as present, absent, or late.
           </span>
         </div>
@@ -215,10 +209,10 @@ export default function AttendancePage() {
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="text-left p-3 md:p-4 px-4 md:px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                <th className="text-left p-2 px-4 text-[0.625rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
                   Student
                 </th>
-                <th className="text-left p-3 md:p-4 px-4 md:px-6 text-[0.6875rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
+                <th className="text-left p-2 px-4 text-[0.625rem] tracking-[0.08em] uppercase text-on-surface-variant font-bold bg-[rgba(244,244,239,0.5)]">
                   Status
                 </th>
               </tr>
@@ -228,28 +222,25 @@ export default function AttendancePage() {
                 const currentStatus = attendance[student.id] as AttendanceStatus | undefined;
                 return (
                   <tr key={student.id} className="border-t border-outline/10">
-                    <td className="p-4 md:p-5 px-4 md:px-6 align-top">
-                      <div className="flex items-center gap-3 md:gap-4 flex-wrap">
-                        <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                    <td className="p-2 px-4 align-middle">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0 text-xs">
                           {student.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
+                          <p className="m-0 text-sm font-semibold text-on-surface">
                             {student.name}
-                          </p>
-                          <p className="m-0 mt-1 text-xs text-on-surface-variant">
-                            {student.email}
                           </p>
                         </div>
                         {saving === student.id && (
-                          <span className="text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary ml-auto">
+                          <span className="text-[0.5625rem] font-bold tracking-[0.08em] uppercase text-primary ml-1">
                             Saving…
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="p-5 px-6 align-top">
-                      <div className="flex flex-wrap gap-2">
+                    <td className="p-2 px-4 align-middle">
+                      <div className="flex gap-1">
                         {(Object.keys(statusMeta) as AttendanceStatus[]).map((status) => {
                           const meta = statusMeta[status];
                           const active = currentStatus === status;
@@ -258,9 +249,9 @@ export default function AttendancePage() {
                               key={status}
                               type="button"
                               onClick={() => handleStatusChange(student.id, status)}
-                              className={`border-none rounded-full py-2 px-4 text-xs font-bold cursor-pointer transition-all duration-150 ease-out hover:opacity-90 hover:-translate-y-px active:scale-[0.98] ${
+                              className={`border-none rounded-full py-1 px-2.5 text-[10px] font-semibold cursor-pointer transition-all duration-150 ease-out ${
                                 active
-                                  ? `${meta.bgActive} text-on-primary`
+                                  ? `${meta.bgActive} text-white`
                                   : `${meta.bg} ${meta.text}`
                               }`}
                             >
@@ -278,33 +269,23 @@ export default function AttendancePage() {
         </div>
 
         {/* Mobile Card Fallback */}
-        <div className="grid gap-4 p-5 md:hidden">
+        <div className="grid gap-2 p-3 md:hidden">
           {students.map((student) => {
             const currentStatus = attendance[student.id] as AttendanceStatus | undefined;
             return (
               <article
                 key={student.id}
-                className="grid gap-4 pb-4 border-b border-outline/15 last:border-b-0 last:pb-0"
+                className="flex items-center justify-between gap-2 py-2 border-b border-outline/10 last:border-b-0"
               >
-                <div className="flex items-center gap-4 flex-wrap">
-                  <div className="w-10 h-10 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-full bg-secondary-container text-on-primary-container font-bold flex items-center justify-center shrink-0 text-xs">
                     {student.name.charAt(0)}
                   </div>
-                  <div>
-                    <p className="m-0 text-[0.9375rem] font-semibold text-on-surface">
-                      {student.name}
-                    </p>
-                    <p className="m-0 mt-1 text-xs text-on-surface-variant">
-                      {student.email}
-                    </p>
-                  </div>
-                  {saving === student.id && (
-                    <span className="text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary ml-auto">
-                      Saving…
-                    </span>
-                  )}
+                  <p className="m-0 text-sm font-medium text-on-surface">
+                    {student.name}
+                  </p>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex gap-1">
                   {(Object.keys(statusMeta) as AttendanceStatus[]).map((status) => {
                     const meta = statusMeta[status];
                     const active = currentStatus === status;
@@ -313,9 +294,9 @@ export default function AttendancePage() {
                         key={status}
                         type="button"
                         onClick={() => handleStatusChange(student.id, status)}
-                        className={`border-none rounded-full py-2 px-4 text-xs font-bold cursor-pointer transition-all duration-150 ease-out hover:opacity-90 hover:-translate-y-px active:scale-[0.98] ${
+                        className={`border-none rounded-full py-1 px-2 text-[9px] font-semibold cursor-pointer ${
                           active
-                            ? `${meta.bgActive} text-on-primary`
+                            ? `${meta.bgActive} text-white`
                             : `${meta.bg} ${meta.text}`
                         }`}
                       >

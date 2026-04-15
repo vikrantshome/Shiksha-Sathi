@@ -136,7 +136,8 @@ public class AuthService {
                         u.getSchool(),
                         u.getRole(),
                         u.getStudentClass(),
-                        u.getSection()
+                        u.getSection(),
+                        u.getRollNumber()
                 ))
                 .collect(Collectors.toList());
 

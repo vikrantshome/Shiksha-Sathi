@@ -34,5 +34,6 @@ public class AuthResponse {
         private Role role;
         private String studentClass;
         private String section;
+        private String rollNumber;
     }
 }

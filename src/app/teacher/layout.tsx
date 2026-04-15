@@ -251,19 +251,15 @@ export default function TeacherLayout({
 
         <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="hidden lg:flex flex-col w-48 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-surface-container-low">
+          <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
             {/* Brand Section */}
-            <div className="p-5">
-              <p className="text-[0.6875rem] font-bold text-on-surface uppercase tracking-[0.1em] m-0">
-                Shiksha Sathi
-              </p>
-              <p className="text-[0.625rem] text-on-surface-variant uppercase tracking-[-0.02em] m-0">
-                Teacher Portal
-              </p>
+            <div className="p-6">
+              <h1 className="text-xl font-black text-[#12423f] tracking-tighter">Shiksha Sathi</h1>
+              <p className="text-[10px] uppercase tracking-widest opacity-60 font-bold text-[#1c1c1a]">Teacher Portal</p>
             </div>
 
             {/* Nav Links */}
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-1 px-3">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 const ItemIcon = item.icon;
@@ -271,10 +267,10 @@ export default function TeacherLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 py-2.5 px-4 mx-3 rounded-md text-sm no-underline transition-all duration-200 hover:bg-surface-container ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm no-underline transition-all duration-200 ${
                       active
-                        ? "font-semibold text-primary bg-primary-container/20"
-                        : "font-normal text-on-surface-variant bg-transparent"
+                        ? "bg-white text-[#12423f] font-semibold shadow-sm"
+                        : "text-[#1c1c1a] opacity-80 hover:opacity-100 hover:bg-[#ebe8e4]"
                     }`}
                   >
                     <ItemIcon active={active} />
@@ -285,20 +281,20 @@ export default function TeacherLayout({
             </nav>
 
             {/* Bottom Actions */}
-            <div className="mt-auto p-5">
+            <div className="mt-auto p-6">
               {/* Create Assignment CTA */}
               <Link
                 href="/teacher/question-bank"
-                className="block w-full bg-primary text-on-primary py-2.5 rounded-sm text-xs font-semibold text-center no-underline shadow-[0_4px_12px_rgba(48,51,47,0.06)] hover:brightness-95 active:scale-95 transition-all duration-150"
+                className="block w-full bg-[linear-gradient(135deg,#12423f_0%,#2d5a56_100%)] text-white py-3 rounded-lg font-bold text-sm text-center no-underline shadow-sm hover:opacity-90 transition-opacity"
               >
                 Create New Assignment
               </Link>
 
-              {/* Settings/Support removed — no shipped routes (SSA-249) */}
-              <div className="border-t border-[var(--color-outline-variant)]/10 pt-3 mt-3">
+              {/* Log out */}
+              <div className="border-t border-[#c0c8c6]/20 pt-3 mt-3">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 text-on-surface-variant py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-primary transition-colors duration-120 text-left"
+                  className="flex items-center gap-3 text-[#1c1c1a] py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-[#12423f] transition-colors duration-120 text-left w-full"
                 >
                   <IconLogout />
                   Log out
