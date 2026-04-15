@@ -1,6 +1,6 @@
 # scripts/config.yaml
 mongodb:
-  uri: "mongodb://localhost:27017"
+  uri: ""  # Will be loaded from MONGODB_URI environment variable
   database: "shikshasathi"
   collection: "questions"
 

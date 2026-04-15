@@ -1,0 +1,4 @@
+id,class_num,subject,question_number,status,quality_score,source_url,issues,error,timestamp
+id1,10,Maths,1,success,0.85,https://example.com,,,2026-04-14T14:06:49.367398
+id2,10,Maths,2,failed,0.0,,No URL found,,2026-04-14T14:06:49.367409
+id3,9,Science,1,skipped,0.0,,Already answered,,2026-04-14T14:06:49.367501

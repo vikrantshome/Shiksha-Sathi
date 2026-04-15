@@ -1,0 +1,42 @@
+[
+  {
+    "id": "id1",
+    "class_num": 10,
+    "subject": "Maths",
+    "question_number": "1",
+    "status": "success",
+    "quality_score": 0.85,
+    "issues": [],
+    "source_url": "https://example.com",
+    "error": "",
+    "timestamp": "2026-04-14T14:06:49.367398"
+  },
+  {
+    "id": "id2",
+    "class_num": 10,
+    "subject": "Maths",
+    "question_number": "2",
+    "status": "failed",
+    "quality_score": 0.0,
+    "issues": [
+      "No URL found"
+    ],
+    "source_url": "",
+    "error": "",
+    "timestamp": "2026-04-14T14:06:49.367409"
+  },
+  {
+    "id": "id3",
+    "class_num": 9,
+    "subject": "Science",
+    "question_number": "1",
+    "status": "skipped",
+    "quality_score": 0.0,
+    "issues": [
+      "Already answered"
+    ],
+    "source_url": "",
+    "error": "",
+    "timestamp": "2026-04-14T14:06:49.367501"
+  }
+]

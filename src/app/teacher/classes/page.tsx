@@ -156,7 +156,7 @@ export default async function ClassesPage() {
                           <span className="material-symbols-outlined text-[20px]">archive</span>
                         </button>
                         <button className="p-2 text-[#404847] hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete Class">
-                          <span class="material-symbols-outlined text-[20px]">delete</span>
+                          <span className="material-symbols-outlined text-[20px]">delete</span>
                         </button>
                       </div>
                     </div>

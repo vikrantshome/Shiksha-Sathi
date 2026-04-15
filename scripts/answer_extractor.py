@@ -55,7 +55,7 @@ class AnswerExtractor:
 
         # Remove the original question text to avoid confusion
         question_clean = re.sub(
-            r"[^\w\s]", "", question_data.get("question_text", "")[:100]
+            r"[^\w\s]", "", question_data.get("text", "")[:100]
         ).lower()
         text = self._remove_question(text, question_clean)
 
