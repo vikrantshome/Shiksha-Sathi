@@ -26,7 +26,7 @@ export default function AttendanceHistoryPage() {
   const [classData, setClassData] = useState<ClassItem | null>(null);
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState(false);
-  const [students, setStudents] = useState<{ id: string; name: string }[]>([]);
+  const [students, setStudents] = useState<{ id: string; name: string; rollNumber?: string }[]>([]);
 
   // Default: last 7 days
   const today = new Date();
@@ -73,12 +73,12 @@ export default function AttendanceHistoryPage() {
 
     // Build CSV
     const dates = [...new Set(records.map(r => r.date))].sort();
-    const headers = ["Student Name", "Student ID", ...dates];
+    const headers = ["Roll No", "Student Name", ...dates];
     const rows = students.map(student => {
       const studentRecords = records.filter(r => r.studentId === student.id);
       const statusMap: Record<string, string> = {};
       studentRecords.forEach(r => { statusMap[r.date] = r.status; });
-      return [student.name, student.id, ...dates.map(d => statusMap[d] || "—")];
+      return [student.rollNumber || "—", student.name, ...dates.map(d => statusMap[d] || "—")];
     });
 
     const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
@@ -86,7 +86,7 @@ export default function AttendanceHistoryPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `attendance-${classData.name}-${startDate}-to-${endDate}.csv`;
+    a.download = `${classData.name}_${classData.grade}_${classData.section}_attendance_${startDate}_to_${endDate}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
