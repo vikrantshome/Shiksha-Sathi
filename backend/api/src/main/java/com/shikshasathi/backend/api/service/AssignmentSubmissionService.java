@@ -234,10 +234,15 @@ public class AssignmentSubmissionService {
             return "";
         }
 
+        // 1. Normalize unicode (e.g., convert fancy superscripts to base forms if appropriate, 
+        // though NFKC might convert ² to 2, which we might want to preserve as ^2 later)
         String normalized = Normalizer.normalize(answer, Normalizer.Form.NFKC)
                 .toLowerCase()
-                .trim()
-                .replaceAll("[\\p{Punct}\\p{S}]+", " ")
+                .trim();
+
+        // 2. Preserve math-significant punctuation and symbols, replace others with space
+        // We preserve: ^ * / + - = ( ) . , √ π θ
+        normalized = normalized.replaceAll("[^a-z0-9\\^\\*/\\+\\-\\=\\(\\)\\.\\,√πθ\\s]", " ")
                 .replaceAll("\\s+", " ")
                 .trim();
 

@@ -12,60 +12,60 @@
   --font-manrope: "Manrope";
 
   /* ── Heritage Primary Palette (Deep Academic Teal) ── */
-  --color-primary: #2C5F6E;
-  --color-primary-dim: #245060;
-  --color-primary-light: #3A7585;
-  --color-primary-container: #B8DCE6;
-  --color-on-primary: #F0F8FB;
-  --color-on-primary-container: #001A24;
-  --color-primary-fixed: #B8DCE6;
-  --color-primary-fixed-dim: #A8D0DC;
-  --color-on-primary-fixed: #1A4555;
-  --color-on-primary-fixed-variant: #2C5F6E;
+  --color-primary: #0d5a54;
+  --color-primary-dim: #12423f;
+  --color-primary-light: #1a7a70;
+  --color-primary-container: #bcece6;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #00201e;
+  --color-primary-fixed: #bcece6;
+  --color-primary-fixed-dim: #9edfd8;
+  --color-on-primary-fixed: #00201e;
+  --color-on-primary-fixed-variant: #004d47;
 
   /* ── Heritage Secondary Palette (Warm Slate) ── */
-  --color-secondary: #5A6B78;
-  --color-secondary-dim: #4E5E6A;
-  --color-secondary-container: #D0DDE5;
-  --color-on-secondary: #F4F7FA;
-  --color-on-secondary-container: #14212B;
-  --color-secondary-fixed: #D0DDE5;
-  --color-secondary-fixed-dim: #C2D1DA;
-  --color-on-secondary-fixed: #364652;
-  --color-on-secondary-fixed-variant: #505E6A;
+  --color-secondary: #3d6b4f;
+  --color-secondary-dim: #2d5a3d;
+  --color-secondary-container: #d6e7d6;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #0a2e12;
+  --color-secondary-fixed: #d6e7d6;
+  --color-secondary-fixed-dim: #c0dbc0;
+  --color-on-secondary-fixed: #0a2e12;
+  --color-on-secondary-fixed-variant: #1a4220;
 
   /* ── Heritage Tertiary Palette (Rich Amber) ── */
-  --color-tertiary: #C4842D;
-  --color-tertiary-dim: #A87024;
-  --color-tertiary-container: #F5E0C8;
-  --color-on-tertiary: #FDF9F3;
-  --color-on-tertiary-container: #3D2206;
-  --color-tertiary-fixed: #F5E0C8;
-  --color-tertiary-fixed-dim: #EDD4B6;
-  --color-on-tertiary-fixed: #6B4A1E;
-  --color-on-tertiary-fixed-variant: #8E6228;
+  --color-tertiary: #8b4513;
+  --color-tertiary-dim: #6b350f;
+  --color-tertiary-container: #ffdbce;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #2e0c00;
+  --color-tertiary-fixed: #ffdbce;
+  --color-tertiary-fixed-dim: #f4b9a3;
+  --color-on-tertiary-fixed: #321206;
+  --color-on-tertiary-fixed-variant: #653c2c;
 
   /* ── Heritage Surface Palette (Premium Warm Neutrals) ── */
-  --color-surface: #F7F6F3;
-  --color-surface-dim: #D6D7D2;
-  --color-surface-bright: #F7F6F3;
-  --color-surface-container-lowest: #FFFFFF;
-  --color-surface-container-low: #F2F1EC;
-  --color-surface-container: #EBEAE5;
-  --color-surface-container-high: #E5E4DF;
-  --color-surface-container-highest: #DEDdd8;
-  --color-on-surface: #1A1B1E;
-  --color-on-surface-variant: #3D4247;
-  --color-surface-variant: #DEDDD8;
+  --color-surface: #fffbf7;
+  --color-surface-dim: #e8e4df;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3ee;
+  --color-surface-container: #f0ebe4;
+  --color-surface-container-high: #e5e0d9;
+  --color-surface-container-highest: #d9d4cd;
+  --color-on-surface: #1a1a1a;
+  --color-on-surface-variant: #4a4542;
+  --color-surface-variant: #d9d4cd;
 
   /* ── Heritage Outline Palette ── */
-  --color-outline: #6E7479;
-  --color-outline-variant: #BCC2C8;
+  --color-outline: #707977;
+  --color-outline-variant: #c0c8c6;
 
   /* ── Heritage Inverse Palette ── */
-  --color-inverse-surface: #2D2F32;
-  --color-inverse-on-surface: #EFF0F2;
-  --color-inverse-primary: #98C8D8;
+  --color-inverse-surface: #31302e;
+  --color-inverse-on-surface: #f3f0ec;
+  --color-inverse-primary: #a1cfca;
 
   /* ── Semantic Status (Premium) ── */
   --color-success: #1B6B47;
