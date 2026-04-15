@@ -38,7 +38,7 @@ export const classes = {
       body: JSON.stringify({ studentId, date, status }),
     }),
 
-  enrollStudent: (classId: string, data: { name: string; phone: string; birthDate: string }): Promise<ClassItem> =>
+  enrollStudent: (classId: string, data: { name: string; phone: string; birthDate: string; rollNumber?: string }): Promise<ClassItem> =>
     fetchApi<ClassItem>(`/classes/${classId}/enroll`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -47,6 +47,12 @@ export const classes = {
   removeStudent: (classId: string, studentId: string): Promise<ClassItem> =>
     fetchApi<ClassItem>(`/classes/${classId}/students/${studentId}`, {
       method: 'DELETE',
+    }),
+
+  updateStudent: (studentId: string, data: { name?: string; phone?: string; rollNumber?: string | null }): Promise<User> =>
+    fetchApi<User>(`/classes/students/${studentId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
     }),
 
   markBulkAttendance: (classId: string, date: string, status: string): Promise<AttendanceRecord[]> =>

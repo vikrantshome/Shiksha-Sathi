@@ -155,13 +155,13 @@ export default async function TeacherDashboard() {
       <header className="mb-6 md:mb-8 lg:mb-12">
         <div className="flex flex-col gap-4 md:gap-6">
           <div>
-            <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
+            <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#12423f] mb-2">
               Teacher Dashboard
             </span>
-            <h1 className="font-manrope text-[clamp(1.5rem,3vw,1.875rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
+            <h1 className="font-manrope text-[clamp(1.5rem,3vw,1.875rem)] font-extrabold text-[#12423f] tracking-[-0.02em] leading-[1.2] m-0">
               {greeting}, {user.name || "Teacher"}.
             </h1>
-            <p className="text-sm text-on-surface-variant mt-2 max-w-[28rem] leading-[1.6]">
+            <p className="text-sm text-[#404847] mt-2 max-w-[28rem] leading-[1.6]">
               Your teaching studio is aligned for the day. You have{" "}
               {activeAssignments}{" "}
               active assignment{activeAssignments === 1 ? "" : "s"}{" "}
@@ -172,58 +172,59 @@ export default async function TeacherDashboard() {
       </header>
 
       {/* ═══ Summary Stat Cards ═══ */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8 md:mb-12">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 md:mb-12">
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="group bg-surface-container-lowest p-4 md:p-6 rounded-md border border-outline/5 shadow-sm transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(48,51,47,0.06)]"
+            className={`bg-white p-6 rounded-xl shadow-sm border-l-4 ${i === 0 ? 'border-[#12423f]' : i === 1 ? 'border-[#536255]' : i === 2 ? 'border-[#734837]' : 'border-[#707977]'}`}
           >
-            <div className="flex flex-col items-start gap-2 mb-3 md:mb-4 sm:flex-row sm:justify-between sm:items-start">
-              <div
-                className="p-2 bg-surface-container-low rounded-sm text-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-[var(--color-primary-container)]"
-              >
-                {stat.icon}
-              </div>
-              <span className="text-[0.5625rem] md:text-[0.625rem] font-bold text-primary-dim leading-[1.4]">
+            <div className="flex items-center gap-1 mb-2">
+              <span className={`material-symbols-outlined text-sm ${i === 0 ? 'text-[#12423f]' : i === 1 ? 'text-[#536255]' : i === 2 ? 'text-[#734837]' : 'text-[#707977]'}`}>
+                {i === 0 ? 'trending_up' : i === 1 ? 'check_circle' : i === 2 ? 'horizontal_rule' : 'group'}
+              </span>
+              <span className={`text-[0.5625rem] font-bold ${i === 0 ? 'text-[#12423f]' : i === 1 ? 'text-[#536255]' : i === 2 ? 'text-[#734837]' : 'text-[#404847]'}`}>
                 {stat.badge}
               </span>
             </div>
-            <h3 className="font-manrope text-[1.375rem] md:text-2xl font-bold text-on-surface m-0">
+            <h3 className="font-manrope text-3xl font-black text-[#1c1c1a] m-0">
               {stat.value}
             </h3>
-            <p className="text-[0.625rem] md:text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-[0.08em] mt-1 leading-[1.4]">
+            <p className="text-[0.625rem] font-medium text-[#404847] uppercase tracking-[0.08em] mt-1 leading-[1.4]">
               {stat.label}
             </p>
           </div>
         ))}
       </section>
 
-      {/* ═══ Bento Grid: Assignments + Sidebar ═══ */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 md:gap-8">
+      {/* ═══ Bento Grid: Main Content + Quick Actions Sidebar ═══ */}
+      <div className="grid grid-cols-1 lg:grid-cols-[2.5fr_1fr] gap-6 md:gap-8">
         {/* ── Left: Recent Assignments ── */}
-        <section>
+        <section className="flex flex-col gap-8">
           <div className="flex items-center justify-between mb-3 md:mb-4">
-            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em]">
+            <h2 className="font-manrope text-2xl font-bold text-[#12423f] tracking-tight">
               Recent Assignments
             </h2>
+            <button className="text-[#12423f] font-bold text-sm flex items-center gap-2 hover:underline">
+              View All <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
           </div>
 
           {assignments.length === 0 ? (
             /* ── Empty State ── */
-            <div className="bg-surface-container-low rounded-md border-2 border-dashed border-outline/30 p-8 md:p-10 flex flex-col items-center text-center">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-surface-container rounded-full flex items-center justify-center mb-3 md:mb-4 text-outline">
+            <div className="bg-[#f0ede9] rounded-2xl border-2 border-dashed border-[#c0c8c6] p-8 md:p-10 flex flex-col items-center text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-[#e5e2de] rounded-full flex items-center justify-center mb-3 md:mb-4 text-[#707977]">
                 <IconPlus />
               </div>
-              <h4 className="text-sm font-bold text-on-surface m-0">
+              <h4 className="text-sm font-bold text-[#1c1c1a] m-0">
                 No Assignments Yet
               </h4>
-              <p className="text-xs text-on-surface-variant mt-2 leading-[1.6] max-w-[20rem]">
+              <p className="text-xs text-[#404847] mt-2 leading-[1.6] max-w-[20rem]">
                 Browse the Question Bank to build your first assignment and
                 start your classroom workflow.
               </p>
               <Link
                 href="/teacher/question-bank"
-                className="mt-4 md:mt-6 text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-2"
+                className="mt-4 md:mt-6 text-[0.6875rem] font-bold text-[#12423f] no-underline flex items-center gap-2"
               >
                 Create New Assignment
                 <IconArrow />
@@ -231,18 +232,18 @@ export default async function TeacherDashboard() {
             </div>
           ) : (
             /* ── Assignments Table ── */
-            <div className="bg-surface-container-lowest rounded-md border border-outline/10 overflow-hidden">
+            <div className="bg-[#f0ede9] rounded-2xl p-8 border border-[#c0c8c6]/30 overflow-hidden">
               {/* Desktop Table */}
               <div className="hidden md:block">
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse text-left text-sm">
                     <thead>
-                      <tr className="bg-surface-container-low border-b border-outline/10">
+                      <tr className="border-b border-[#c0c8c6]/30">
                         {["Assignment Title", "Class", "Submissions", "Avg. Score", "Action"].map(
                           (h, idx) => (
                             <th
                               key={h}
-                              className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
+                              className={`pb-4 text-[0.625rem] font-black uppercase tracking-[0.1em] text-[#404847] ${idx === 4 ? "text-right" : "text-left"}`}
                             >
                               {h}
                             </th>
@@ -250,7 +251,7 @@ export default async function TeacherDashboard() {
                         )}
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-[#c0c8c6]/10">
                       {assignments.map((assignment) => {
                         const submissionPct = assignment.maxScore > 0 
                           ? Math.round((assignment.submissionCount / 45) * 100)
@@ -258,7 +259,7 @@ export default async function TeacherDashboard() {
                         return (
                           <tr
                             key={assignment.id}
-                            className="border-b border-outline/5 transition-colors duration-200 ease-out hover:bg-surface-container-high"
+                            className="border-b border-[#c0c8c6]/5 transition-colors duration-200 ease-out hover:bg-[#e5e2de]"
                           >
                             <td className="p-3 md:p-4 px-4 md:px-6">
                               <p className="font-semibold text-on-surface m-0 text-sm">
@@ -335,146 +336,75 @@ export default async function TeacherDashboard() {
           )}
         </section>
 
-        {/* ── Right Sidebar Column ── */}
-        <section>
-          {/* Teaching Focus */}
-          <div className="mb-6 md:mb-8">
-            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4 md:mb-6">
-              Teaching Focus
-            </h2>
-            <div className="bg-surface-container-low rounded-md p-5 md:p-6 lg:p-8 grid gap-4 md:gap-5">
-              <div>
-                <p className="text-[0.6875rem] font-bold text-on-surface-variant tracking-[0.08em] uppercase m-0">
-                  Review Queue
-                </p>
-                <p className="m-[8px_0_0] font-manrope text-[1.75rem] font-bold text-primary">
-                  {activeAssignments}
-                </p>
-                <p className="text-[0.8125rem] text-on-surface-variant m-[8px_0_0] leading-[1.6]">
-                  Assignment{activeAssignments === 1 ? "" : "s"} currently collecting or awaiting submissions.
-                </p>
-              </div>
-              <div className="grid gap-2 md:gap-3 grid-cols-2">
-                <Link
-                  href="/teacher/question-bank"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-3 py-3 text-center text-xs font-bold text-on-primary no-underline shadow-[0_8px_18px_rgba(48,51,47,0.12)] transition-all duration-150 hover:brightness-95 hover:shadow-[0_10px_22px_rgba(48,51,47,0.16)] active:scale-[0.98]"
-                  style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
-                >
-                  <IconPlus />
-                  Create Assignment
-                </Link>
-                <Link
-                  href="/teacher/classes"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-primary/12 bg-surface-container-lowest px-3 py-3 text-center text-xs font-bold text-primary no-underline shadow-[0_4px_12px_rgba(48,51,47,0.05)] transition-all duration-150 hover:border-primary/22 hover:bg-surface-container-high active:scale-[0.98]"
-                >
-                  <IconArrow />
-                  Manage Classes
-                </Link>
-              </div>
+        {/* ── Right: Quick Actions + Activity Sidebar ── */}
+        <aside className="max-w-[320px] flex flex-col gap-6">
+          {/* Quick Actions */}
+          <div className="bg-[#f0ede9] rounded-2xl p-6 shadow-sm border border-[#c0c8c6]/30">
+            <h4 className="text-sm font-black uppercase tracking-widest text-[#12423f] mb-4">Quick Actions</h4>
+            <div className="flex flex-col gap-3">
+              <Link href="/teacher/question-bank" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+                <span className="material-symbols-outlined text-white bg-[#12423f] p-2 rounded-lg shadow-sm">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-[#1c1c1a]">Create Assignment</p>
+                  <p className="text-[10px] text-[#707977]">Push to all active classes</p>
+                </div>
+              </Link>
+              <Link href="/teacher/question-bank" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+                <span className="material-symbols-outlined text-white bg-[#536255] p-2 rounded-lg shadow-sm">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-[#1c1c1a]">Question Bank</p>
+                  <p className="text-[10px] text-[#707977]">Browse NCERT questions</p>
+                </div>
+              </Link>
+              <Link href="/teacher/classes" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+                <span className="material-symbols-outlined text-white bg-[#583222] p-2 rounded-lg shadow-sm">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-[#1c1c1a]">Manage Classes</p>
+                  <p className="text-[10px] text-[#707977]">Add students & sections</p>
+                </div>
+              </Link>
+              <Link href="/teacher/classes" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+                <span className="material-symbols-outlined text-white bg-[#396662] p-2 rounded-lg shadow-sm">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-[#1c1c1a]">View Reports</p>
+                  <p className="text-[10px] text-[#707977]">Track class performance</p>
+                </div>
+              </Link>
             </div>
           </div>
 
-          {/* Recent Activity Timeline */}
-          <div>
-            <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-3 md:mb-4">
-              Recent Activity
-            </h2>
-            <div className="pl-2 border-l-2 border-surface-container">
+          {/* Recent Activity */}
+          <div className="bg-[#f0ede9] rounded-2xl p-6 border border-[#c0c8c6]/30">
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="text-sm font-black uppercase tracking-widest text-[#12423f]">Activity</h4>
+              <span className="material-symbols-outlined text-sm opacity-40">history</span>
+            </div>
+            <div className="flex flex-col gap-4">
               {recentActivity.map((item, idx) => (
-                <div
-                  key={idx}
-                  className={`relative pl-6 ${idx < recentActivity.length - 1 ? "pb-4 md:pb-6" : ""}`}
-                >
-                  <div
-                    className={`absolute w-2 h-2 rounded-full -left-[5px] top-[4px] ${item.isNew ? "bg-primary" : "bg-outline-variant"}`}
-                  />
-                  <p className="text-xs font-bold text-on-surface m-0">
-                    {item.text}
-                  </p>
-                  <p className="text-[0.625rem] text-on-surface-variant uppercase mt-1">
-                    {item.time}
-                  </p>
+                <div key={idx} className="flex gap-3 relative">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 ${idx === 0 ? 'bg-[#bcece6]' : idx === 1 ? 'bg-[#d6e7d6]' : 'bg-[#ffdbce]'}`}>
+                    <span className={`material-symbols-outlined text-sm ${idx === 0 ? 'text-[#12423f]' : idx === 1 ? 'text-[#536255]' : 'text-[#583222]'}`}>
+                      {idx === 0 ? 'upload_file' : idx === 1 ? 'chat' : 'check_circle'}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-[#1c1c1a]">{item.text}</p>
+                    <p className="text-[10px] text-[#707977] mt-0.5">{item.time}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </aside>
       </div>
-
-      {/* ═══ Quick Actions ═══ */}
-      <section className="mt-10 md:mt-12 lg:mt-16">
-        <h2 className="font-manrope text-lg font-bold text-on-surface tracking-[-0.01em] mb-4 md:mb-6">
-          Quick Actions
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          <Link
-            href="/teacher/question-bank"
-            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-primary-container)] flex items-center justify-center text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-[var(--color-on-primary)]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-                <rect x="9" y="3" width="6" height="4" rx="1" />
-                <path d="M9 12h6" /><path d="M9 16h6" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-on-surface">Create Assignment</p>
-              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Build from question bank</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/teacher/question-bank"
-            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-secondary-container)] flex items-center justify-center text-[var(--color-on-secondary-container)] transition-colors group-hover:bg-[var(--color-secondary)] group-hover:text-[var(--color-on-secondary)]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-on-surface">Question Bank</p>
-              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Browse NCERT questions</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/teacher/classes"
-            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-tertiary-container)] flex items-center justify-center text-[var(--color-on-tertiary-container)] transition-colors group-hover:bg-[var(--color-tertiary)] group-hover:text-[var(--color-on-tertiary)]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-on-surface">Manage Classes</p>
-              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Add students & sections</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/teacher/classes"
-            className="group flex flex-col items-start gap-3 rounded-xl border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-lowest)] p-4 md:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-success-container)] flex items-center justify-center text-[var(--color-on-success-container)] transition-colors group-hover:bg-[var(--color-success)] group-hover:text-[var(--color-on-success)]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="14" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-on-surface">View Reports</p>
-              <p className="text-[0.6875rem] text-on-surface-variant mt-0.5">Track class performance</p>
-            </div>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

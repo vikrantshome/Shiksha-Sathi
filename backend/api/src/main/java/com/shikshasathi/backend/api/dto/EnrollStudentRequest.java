@@ -11,4 +11,5 @@ public class EnrollStudentRequest {
      * This becomes the student's default password.
      */
     private String birthDate;
+    private String rollNumber;
 }
