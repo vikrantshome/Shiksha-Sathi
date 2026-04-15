@@ -127,6 +127,17 @@ public class ClassService {
             throw new RuntimeException("Birth date must be in DD-MM-YYYY format");
         }
 
+        // Check for duplicate roll number in this class
+        String newRollNumber = request.getRollNumber();
+        if (newRollNumber != null && !newRollNumber.isEmpty()) {
+            List<User> existingStudents = userRepository.findAllById(entity.getStudentIds());
+            boolean rollExists = existingStudents.stream()
+                    .anyMatch(s -> s.getRollNumber() != null && s.getRollNumber().equals(newRollNumber));
+            if (rollExists) {
+                throw new RuntimeException("Roll number " + newRollNumber + " already exists in this class");
+            }
+        }
+
         // Find or create student
         java.util.List<com.shikshasathi.backend.core.domain.user.User> studentUsers = userRepository.findByPhone(request.getPhone());
         User student;
@@ -142,12 +153,22 @@ public class ClassService {
             student.setSchoolId(teacher.getSchoolId());
             student.setStudentClass(entity.getGrade());
             student.setSection(entity.getSection());
+            student.setBirthDate(birthDate);
             student.setActive(true);
             student.setCreatedAt(Instant.now());
+            // Set roll number if provided
+            if (request.getRollNumber() != null && !request.getRollNumber().isEmpty()) {
+                student.setRollNumber(request.getRollNumber());
+            }
             student = userRepository.save(student);
         } else {
             // Use existing student (first match)
             student = studentUsers.get(0);
+            // Update roll number if provided
+            if (request.getRollNumber() != null && !request.getRollNumber().isEmpty()) {
+                student.setRollNumber(request.getRollNumber());
+                student = userRepository.save(student);
+            }
         }
 
         if (entity.getStudentIds() == null) {
@@ -197,5 +218,48 @@ public class ClassService {
 
     public List<AttendanceRecord> getStudentAttendance(String studentId, LocalDate startDate, LocalDate endDate) {
         return attendanceRepository.findByStudentIdAndDateBetween(studentId, startDate.toString(), endDate.toString());
+    }
+
+    public User updateStudent(String studentId, String name, String phone, String rollNumber, String birthDate, String loginIdentity) {
+        User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        
+        // Check for duplicate roll number if being changed
+        if (rollNumber != null && !rollNumber.isEmpty()) {
+            List<ClassEntity> teacherClasses = classRepository.findByTeacherIdsContaining(teacher.getId());
+            for (ClassEntity cls : teacherClasses) {
+                if (cls.getStudentIds() != null && cls.getStudentIds().contains(studentId)) {
+                    List<User> classStudents = userRepository.findAllById(cls.getStudentIds());
+                    boolean rollExists = classStudents.stream()
+                            .filter(s -> !s.getId().equals(studentId))
+                            .anyMatch(s -> s.getRollNumber() != null && s.getRollNumber().equals(rollNumber));
+                    if (rollExists) {
+                        throw new RuntimeException("Roll number " + rollNumber + " already exists in this class");
+                    }
+                }
+            }
+        }
+        
+        if (name != null && !name.isEmpty()) {
+            student.setName(name);
+        }
+        if (phone != null && !phone.isEmpty()) {
+            student.setPhone(phone);
+        }
+        if (rollNumber != null) {
+            student.setRollNumber(rollNumber.isEmpty() ? null : rollNumber);
+        }
+        if (birthDate != null && !birthDate.isEmpty()) {
+            if (birthDate.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                student.setBirthDate(birthDate);
+            }
+        }
+        return userRepository.save(student);
     }
 }

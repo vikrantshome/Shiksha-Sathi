@@ -33,6 +33,7 @@ export default async function ClassesPage() {
     try {
       await api.classes.createClass({ name, section, grade });
       revalidatePath("/teacher/classes");
+      redirect("/teacher/classes");
     } catch (error) {
       console.error("Failed to create class:", error);
     }
@@ -64,189 +65,115 @@ export default async function ClassesPage() {
     <div className="pb-8 md:pb-10">
       {/* Page Header */}
       <div className="mb-6 md:mb-8">
-        <h1 className="text-display-sm">Classes</h1>
-        <p className="text-body-md text-on-surface-variant mt-1">
+        <h1 className="font-manrope text-4xl font-extrabold text-[#12423f] tracking-tight">Classes</h1>
+        <p className="text-[#404847] mt-2 max-w-2xl text-lg">
           Organize your teaching workspace and keep every section attendance-ready
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Create Class Form */}
-        <div className="bg-surface-container-low p-5 md:p-6 lg:p-8 rounded-lg h-fit relative overflow-hidden">
-          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5">
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
-              <PlusIcon className="w-4 h-4 text-on-primary-container" />
+        <div className="lg:col-span-1">
+          <div className="bg-[#f4f4f0] p-8 rounded-xl relative overflow-hidden">
+            <div className="relative z-10">
+              <h2 className="text-xl font-bold text-[#1c1c1a] mb-6 font-manrope tracking-tight">Create Class</h2>
+              <form action={handleCreateClass} className="space-y-6">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#404847] block">Class Name</label>
+                  <input
+                    name="name"
+                    required
+                    placeholder="e.g. Grade 10 Mathematics"
+                    className="w-full bg-transparent border-0 border-b border-[#707977]/30 focus:border-[#12423f] focus:ring-0 px-0 py-2 text-[#1c1c1a] placeholder:text-[#707977] font-medium transition-colors"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#404847] block">Grade</label>
+                  <select
+                    name="grade"
+                    required
+                    className="w-full bg-transparent border-0 border-b border-[#707977]/30 focus:border-[#12423f] focus:ring-0 px-0 py-2 text-[#1c1c1a] font-medium transition-colors cursor-pointer"
+                  >
+                    <option value="">Select</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i + 1} value={String(i + 1)}>
+                        Class {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#404847] block">Section</label>
+                  <input
+                    name="section"
+                    required
+                    placeholder="e.g. A"
+                    className="w-full bg-transparent border-0 border-b border-[#707977]/30 focus:border-[#12423f] focus:ring-0 px-0 py-2 text-[#1c1c1a] placeholder:text-[#707977] font-medium transition-colors"
+                  />
+                </div>
+                <button type="submit" className="w-full mt-4 bg-[#12423f] text-white py-3 rounded-lg font-bold text-sm tracking-wide shadow-sm hover:shadow-md transition-all active:scale-[0.98]">
+                  Create Class
+                </button>
+              </form>
             </div>
-            <h2 className="text-headline-md">Create Class</h2>
+            <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[#cae5e1]/30 rounded-full blur-3xl"></div>
           </div>
-          <form action={handleCreateClass} className="flex flex-col gap-4 md:gap-5 relative z-10">
-            <div>
-              <label className="block text-label-md text-on-surface-variant mb-1.5">
-                Class Name
-              </label>
-              <input
-                name="name"
-                required
-                placeholder="e.g. Grade 10 Mathematics"
-                className="input-academic w-full"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-label-md text-on-surface-variant mb-1.5">
-                  Grade
-                </label>
-                <select
-                  name="grade"
-                  required
-                  className="input-academic w-full cursor-pointer"
-                >
-                  <option value="">Select</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={String(i + 1)}>
-                      Class {i + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-label-md text-on-surface-variant mb-1.5">
-                  Section
-                </label>
-                <input
-                  name="section"
-                  required
-                  placeholder="e.g. A"
-                  className="input-academic w-full"
-                />
-              </div>
-            </div>
-            <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium leading-[1.3] tracking-[0.02em] rounded-sm transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center mt-2" style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}>
-              Create Class
-            </button>
-          </form>
         </div>
 
         {/* Class List */}
-        <div className="md:col-span-2 flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4 mb-2">
-            <div>
-              <h2 className="text-headline-md">Class Management</h2>
-              <p className="text-body-sm text-on-surface-variant mt-1">Track attendance-ready sections and archive older cohorts with care.</p>
-            </div>
+        <div className="lg:col-span-3">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold text-[#1c1c1a] font-manrope tracking-tight">Class Management</h2>
           </div>
           {classes.length === 0 ? (
-            <div className="text-center py-10 md:py-12 px-6 md:px-8 bg-surface-container-lowest rounded-lg border border-dashed border-outline-variant">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-on-surface-variant">
-                <AcademicCapIcon className="w-7 h-7 md:w-8 md:h-8" />
+            <div className="text-center py-10 md:py-12 px-6 md:px-8 bg-[#f4f4f0] rounded-lg border-2 border-dashed border-[#c0c8c6]">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-[#e5e2de] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 text-[#707977]">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
-              <p className="text-headline-sm mb-2">No active classes yet</p>
-              <p className="text-body-md text-on-surface-variant max-w-sm mx-auto">
+              <p className="text-lg font-bold text-[#1c1c1a] mb-2">No active classes yet</p>
+              <p className="text-[#404847] max-w-sm mx-auto">
                 Create your first class to begin attendance, assignments, and section-level classroom operations.
               </p>
             </div>
           ) : (
-            <div className="grid gap-6">
-              <div className="grid gap-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <h3 className="text-title-md font-semibold text-on-surface m-0">
-                      Active Classes
-                    </h3>
-                    <p className="text-body-sm text-on-surface-variant mt-1 m-0">
-                      Attendance-ready sections currently in use.
-                    </p>
-                  </div>
-                  <span className="text-label-sm text-on-surface-variant">
-                    {activeClasses.length}
-                  </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {activeClasses.length === 0 ? (
+                <div className="rounded-lg border border-dashed border-[#c0c8c6] bg-[#f4f4f0] px-5 py-6 text-sm text-[#404847]">
+                  No active classes right now. Archived sections are shown below.
                 </div>
-
-                {activeClasses.length === 0 ? (
-                  <div className="rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest px-5 py-6 text-sm text-on-surface-variant">
-                    No active classes right now. Archived sections are shown below.
-                  </div>
-                ) : (
-                  activeClasses.map((cls) => (
-                    <div
-                      key={cls.id}
-                      className="bg-surface-container-low p-4 md:p-5 lg:p-6 rounded-lg transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(27,28,26,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
-                    >
-                      <div className="flex items-center gap-3 md:gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
-                          <span className="text-on-secondary-container font-semibold">
-                            {cls.section}
-                          </span>
-                        </div>
-                        <div>
-                          <h3 className="text-title-md font-semibold text-on-surface">
-                            {cls.name}
-                          </h3>
-                          <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                            <span>Class {cls.grade} • Section {cls.section}</span>
-                          </div>
-                        </div>
+              ) : (
+                activeClasses.map((cls) => (
+                  <div
+                    key={cls.id}
+                    className="bg-[#f4f4f0] hover:bg-white p-6 rounded-xl transition-all duration-300 group hover:shadow-[0px_12px_32px_rgba(27,28,26,0.04)]"
+                  >
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="w-12 h-12 bg-[#12423f] text-white flex items-center justify-center rounded-lg font-bold text-lg tracking-tighter">
+                        {cls.section}
                       </div>
-                      <ClassActionButtons
-                        enrollHref={`/teacher/classes/${cls.id}/students`}
-                        attendanceHref={`/teacher/classes/${cls.id}/attendance`}
-                        archiveAction={handleArchiveClass.bind(null, cls.id)}
-                        deleteAction={handleDeleteClass.bind(null, cls.id)}
-                        className={cls.name}
-                      />
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="p-2 text-[#404847] hover:text-[#12423f] hover:bg-[#e5e2de] rounded-lg transition-colors" title="Archive Class">
+                          <span className="material-symbols-outlined text-[20px]">archive</span>
+                        </button>
+                        <button className="p-2 text-[#404847] hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete Class">
+                          <span class="material-symbols-outlined text-[20px]">delete</span>
+                        </button>
+                      </div>
                     </div>
-                  ))
-                )}
-              </div>
-
-              {archivedClasses.length > 0 && (
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between gap-4">
                     <div>
-                      <h3 className="text-title-md font-semibold text-on-surface m-0">
-                        Archived Classes
-                      </h3>
-                      <p className="text-body-sm text-on-surface-variant mt-1 m-0">
-                        Previously used sections that are no longer active.
-                      </p>
+                      <h3 className="text-lg font-bold text-[#1c1c1a] group-hover:text-[#12423f] transition-colors">{cls.name}</h3>
+                      <p className="text-sm text-[#404847] font-medium mt-1">Class {cls.grade} • Section {cls.section}</p>
                     </div>
-                    <span className="text-label-sm text-on-surface-variant">
-                      {archivedClasses.length}
-                    </span>
+                    <div className="mt-6 flex gap-3">
+                      <Link href={`/teacher/classes/${cls.id}/students`} className="flex-1 bg-[#12423f] text-white py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 text-center no-underline">
+                        Enroll Students
+                      </Link>
+                      <Link href={`/teacher/classes/${cls.id}/attendance`} className="flex-1 bg-[#e5e2de] text-[#4a6360] py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[#cae5e1] hover:text-[#12423f] transition-all active:scale-95 text-center no-underline">
+                        Attendance
+                      </Link>
+                    </div>
                   </div>
-
-                  {archivedClasses.map((cls) => (
-                    <div
-                      key={cls.id}
-                      className="bg-surface-container-lowest p-4 md:p-5 lg:p-6 rounded-lg border border-outline-variant/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4"
-                    >
-                      <div className="flex items-center gap-3 md:gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
-                          <span className="text-on-surface-variant font-semibold">
-                            {cls.section}
-                          </span>
-                        </div>
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-title-md font-semibold text-on-surface m-0">
-                              {cls.name}
-                            </h3>
-                            <span className="rounded-full bg-surface-container px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.08em] text-on-surface-variant">
-                              Archived
-                            </span>
-                          </div>
-                          <div className="flex items-center text-body-sm text-on-surface-variant mt-1 gap-3">
-                            <span>Class {cls.grade} • Section {cls.section}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <ClassActionButtons
-                        deleteAction={handleDeleteClass.bind(null, cls.id)}
-                        className={cls.name}
-                      />
-                    </div>
-                  ))}
-                </div>
+                ))
               )}
             </div>
           )}
