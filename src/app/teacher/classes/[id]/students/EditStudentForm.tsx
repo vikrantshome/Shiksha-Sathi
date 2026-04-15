@@ -8,7 +8,7 @@ import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 interface Student {
   id: string;
   name: string;
-  phone: string;
+  phone?: string;
   rollNumber?: string;
   birthDate?: string;
 }
