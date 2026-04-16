@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 Enhanced Question Bank Audit Agent using NVIDIA NIM API (Kimi K2 Thinking model)
-Detects and fixes question defects with RAG and web search support
+Detects and fixes question defects with WEB SEARCH for authoritative verification
 
 Features:
 - Uses moonshotai/kimi-k2-thinking model (best for reasoning)
-- RAG: Uses audit-results.jsonl as knowledge base for similar "ok" questions
-- Web search: Uses crawl4ai to fetch external info when needed
+- Web search: Uses crawl4ai to verify questions against authoritative sources (NCERT, etc.)
+- NOT RAG: No longer uses flawed "ok" questions as examples
 - Auto-fix issues when detected
 """
 
@@ -15,6 +15,7 @@ import json
 import logging
 import os
 import re
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -33,6 +34,29 @@ logging.basicConfig(
     ],
 )
 logger = logging.getLogger(__name__)
+
+
+def web_search(query: str) -> Optional[str]:
+    """Perform web search using crawl4ai CLI tool"""
+    try:
+        cmd = [
+            "python",
+            "-m",
+            "crawl4ai",
+            "--url",
+            f"https://www.google.com/search?q={query}",
+            "--format",
+            "markdown",
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode == 0 and result.stdout:
+            logger.info(f"Web search completed for: {query[:50]}...")
+            return result.stdout[:5000]  # Limit context size
+    except FileNotFoundError:
+        logger.warning("crawl4ai not installed, skipping web search")
+    except Exception as e:
+        logger.warning(f"Web search error: {e}")
+    return None
 
 
 def load_mongodb_uri() -> str:
@@ -65,81 +89,40 @@ def load_api_key() -> str:
     return api_key
 
 
-class KnowledgeBase:
-    """RAG knowledge base loaded from audit-results.jsonl"""
+class AuthoritativeSourceFetcher:
+    """Fetches authoritative content from NCERT and educational sources"""
 
-    def __init__(self, results_file: str = "audit-results.jsonl"):
-        self.results_file = results_file
-        self.ok_questions: Dict[str, List[Dict]] = {}
-        self._load_knowledge_base()
-
-    def _load_knowledge_base(self):
-        """Load knowledge base from results file"""
-        if not os.path.exists(self.results_file):
-            logger.warning(f"Knowledge base file not found: {self.results_file}")
-            return
-
-        count = 0
-        with open(self.results_file, "r", encoding="utf-8") as f:
-            for line in f:
-                try:
-                    result = json.loads(line)
-                    if result.get("status") == "ok":
-                        qid = result.get("question_id", "")
-                        class_num = result.get("class", "default")
-                        if class_num not in self.ok_questions:
-                            self.ok_questions[class_num] = []
-                        self.ok_questions[class_num].append(result)
-                        count += 1
-                except json.JSONDecodeError:
-                    pass
-
-        logger.info(f"Loaded {count} 'ok' questions into knowledge base")
-
-    def get_similar_questions(
-        self, question_text: str, class_num: str, limit: int = 3
-    ) -> List[Dict]:
-        """Get similar 'ok' questions for context"""
-        similar = []
-
-        for cls in [class_num, "default"]:
-            if cls in self.ok_questions:
-                for ok_q in self.ok_questions[cls][:limit]:
-                    if len(similar) >= limit:
-                        break
-                    similar.append(ok_q)
-
-        return similar[:limit]
-
-
-class WebSearcher:
-    """Web search using crawl4ai for additional context"""
+    NCERT_BASE_URLS = [
+        "https://ncert.nic.in/textbook.php",
+        "https://www.ncert.nic.in/ncert-links",
+    ]
 
     def __init__(self):
-        self.crawl4ai_available = False
-        try:
-            from crawl4ai import Crawl4AI
+        self.search_cache: Dict[str, str] = {}
 
-            self.crawl4ai_available = True
-            self.crawler = Crawl4AI()
-        except ImportError:
-            logger.warning("crawl4ai not available, skipping web search")
+    def fetch_authoritative_content(
+        self, question_text: str, class_num: str, subject: str = ""
+    ) -> Optional[str]:
+        """Fetch relevant authoritative content for a question"""
+        cache_key = f"{class_num}:{question_text[:50]}"
+        if cache_key in self.search_cache:
+            return self.search_cache[cache_key]
 
-    def search_and_fetch(self, query: str) -> Optional[str]:
-        """Search web and return relevant content"""
-        if not self.crawl4ai_available:
-            return None
+        query = self._build_search_query(question_text, class_num, subject)
+        content = web_search(query)
 
-        try:
-            # Use crawl4ai deep crawl for relevant info
-            result = self.crawler.crawl4ai_get_screenshot(
-                url=f"https://www.google.com/search?q={query}"
-            )
-            logger.info(f"Web search triggered for: {query[:50]}...")
-            return None
-        except Exception as e:
-            logger.warning(f"Web search error: {e}")
-            return None
+        if content:
+            self.search_cache[cache_key] = content
+
+        return content
+
+    def _build_search_query(
+        self, question_text: str, class_num: str, subject: str
+    ) -> str:
+        """Build search query for authoritative sources"""
+        keywords = question_text[:100]
+        query = f"NCERT Class {class_num} {keywords}"
+        return query
 
 
 class AuditAgent:
@@ -147,69 +130,86 @@ class AuditAgent:
         self,
         api_key: str,
         model: str = "moonshotai/kimi-k2-thinking",
-        knowledge_base: Optional[KnowledgeBase] = None,
+        enable_web_search: bool = True,
     ):
         self.client = OpenAI(
             base_url="https://integrate.api.nvidia.com/v1",
             api_key=api_key,
         )
         self.model = model
-        self.knowledge_base = knowledge_base
-        self.web_searcher = WebSearcher()
+        self.enable_web_search = enable_web_search
+        self.source_fetcher = (
+            AuthoritativeSourceFetcher() if enable_web_search else None
+        )
 
         self.system_prompt = """You are a question bank quality assurance expert specializing in Indian education (NCERT curriculum for Classes 6-12).
 
 Your task is to analyze each question and respond with ONLY a valid JSON array (no other text).
 
 ## Response Format
-[{"question_id": "id", "status": "ok"|"needs_fix"|"error", "issues": [], "auto_fixes": {}, "recommendation": "approve"|"needs_review", "need_web_search": false}]
+[{"question_id": "id", "status": "ok"|"needs_fix"|"error", "issues": [], "auto_fixes": {}, "recommendation": "approve"|"needs_review"}]
 
 ## Quality Rules
-1. **Type Matching**: TRUE_FALSE questions must have definite true/false answers, not explanations
-2. **Superscript Issues**: "a2b" should be "a²b", "x2" should be "x²"
-3. **Complete Explanations**: Answer must include justification, not just "Answer: True"
-4. **Single Question**: Each question should be self-contained, not multi-part
-5. **Valid Content**: No garbled text, date stamps, JS code, or nonsense
-6. **Placeholder Answers**: Reject answers like "reason required", "numerical factor needed"
-7. **Complete Questions**: No incomplete sentences or missing options
+ 1. **Type Matching**: TRUE_FALSE questions must have definite true/false answers, not explanations
+ 2. **Superscript Issues**: "a2b" should be "a²b", "x2" should be "x²"
+ 3. **Complete Explanations**: Answer must include justification, not just "Answer: True"
+ 4. **Single Question**: Each question should be self-contained, not multi-part
+ 5. **Valid Content**: No garbled text, date stamps, JS code, or nonsense
+ 6. **Placeholder Answers**: Reject answers like "reason required", "numerical factor needed"
+ 7. **Complete Questions**: No incomplete sentences or missing options
+ 8. **MCQ Type Detection**: If question text contains options like "(a)", "(b)", "(c)", "(d)" or "A)", "B)", "C)", "D)" and answer references these letters, it should be type MCQ not SHORT_ANSWER
+ 9. **Options in Answer**: If answer contains "(a)", "(b)", "(c)" or "option (a)", "option b" - the question likely has hidden MCQ options and should be converted to MCQ type with proper options extracted
+10. **Embedded Options Detection**: If options field contains concatenated options like "7 (b) 8 (c) 9 (d) 10" - this is malformed. Extract properly: options=["7", "8", "9", "10"], answer="8" (the letter to text mapping)
+11. **True/False Detection**: If answer is "True.", "False.", "true", "false", "Yes", "No" (without explanation), the type should be TRUE_FALSE not SHORT_ANSWER. Also if question text is a statement like "Diagonals of a rectangle are perpendicular to each other." or "is a simple closed curve." - these are True/False statements
 
-## Good Examples (from knowledge base)
-{examples}
+## MATH NOTATION VALIDATION (CRITICAL)
+Check for suspicious empty spaces where math operators should be:
+- Pattern "X (X Y)" where X is variable and Y is number - likely means "X (X ± Y)" or similar
+- Look at the ANSWER and OPTIONS to deduce the correct operator
+- For "n (n 1)" - check if answer is "n(n-1)" or "n(n+1)" or "n(n×1)" from options
+- Use THINKING REASONING: analyze the options to determine what operator makes sense
+- If question has garbled math with empty spaces where operators should be:
+  1. Look at the correct answer to determine operator
+  2. Look at options for clues
+  3. Provide corrected "question" field in auto_fixes with proper notation
+
+Example reasoning: If question shows "n (n 1)" and correct answer is "n(n-1)/2", 
+then the missing operator is "-". Fix should replace "n (n 1)" with "n(n-1)".
 
 ## Analysis Guidelines
 - For MATH: Check formula correctness, proper notation (use ², ³, √, π)
 - For SCIENCE: Verify scientific accuracy, proper terminology
 - For LANGUAGE: Check grammar, proper word usage, spelling
+- Use the provided authoritative source content to verify factual accuracy when available
 
 Respond ONLY with JSON array, no explanations."""
 
-    def _build_prompt(self, question: Dict, similar_ok: List[Dict]) -> tuple:
-        """Build enhanced prompt with RAG context"""
+    def _build_prompt(
+        self, question: Dict, authoritative_content: Optional[str] = None
+    ) -> tuple:
+        """Build prompt with optional authoritative source content"""
 
-        # Build examples text for RAG
-        examples_text = ""
-        if similar_ok:
-            examples_text = "\n## Reference Examples (from knowledge base):\n"
-            for i, ex in enumerate(similar_ok[:3], 1):
-                ex_text = ex.get("question_text", "") or ex.get("text", "")
-                ex_type = ex.get("type", "")
-                ex_answer = ex.get("correctAnswer", ex.get("answer", ""))
-                examples_text += (
-                    f"{i}. [{ex_type}] {ex_text[:150]}... Answer: {ex_answer[:100]}\n"
-                )
+        # Add authoritative content if available
+        source_context = ""
+        if authoritative_content:
+            source_context = f"""
+## Authoritative Reference (from web search):
+{authoritative_content[:2000]}
+"""
 
-        # Replace placeholder in system prompt (use replace instead of format)
-        prompt = self.system_prompt.replace("{examples}", examples_text)
+        prompt = self.system_prompt + source_context
 
         q_text = question.get("text", question.get("question_text", ""))
         q_type = question.get("type", "UNKNOWN")
         q_answer = question.get("correctAnswer", question.get("answer", ""))
         q_explanation = question.get("explanation", "")
         q_class = question.get("provenance", {}).get("class", "unknown")
+        q_subject = question.get("provenance", {}).get("subject", "")
 
         user_prompt = f"""## Question to Analyze
 Question ID: {question["_id"]}
 Class: {q_class}
+Subject: {q_subject}
 Type: {q_type}
 Question: {q_text}
 Answer: {q_answer}
@@ -223,14 +223,22 @@ Analyze and respond with JSON array."""
         if not questions:
             return []
 
-        first_class = questions[0].get("provenance", {}).get("class", "6")
-        similar_ok = []
-        if self.knowledge_base:
-            similar_ok = self.knowledge_base.get_similar_questions(
-                questions[0].get("text", ""), first_class, limit=3
-            )
+        question = questions[0]
 
-        prompt, user_prompt = self._build_prompt(questions[0], similar_ok)
+        # Fetch authoritative content from web search
+        authoritative_content = None
+        if self.source_fetcher and self.enable_web_search:
+            q_text = question.get("text", question.get("question_text", ""))
+            q_class = question.get("provenance", {}).get("class", "6")
+            q_subject = question.get("provenance", {}).get("subject", "")
+            try:
+                authoritative_content = self.source_fetcher.fetch_authoritative_content(
+                    q_text, q_class, q_subject
+                )
+            except Exception as e:
+                logger.warning(f"Web search failed: {e}")
+
+        prompt, user_prompt = self._build_prompt(question, authoritative_content)
 
         try:
             response = self.client.chat.completions.create(
@@ -425,7 +433,7 @@ def load_processed_ids(results_file: str) -> Set[str]:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Enhanced Question Bank Audit Agent with RAG"
+        description="Enhanced Question Bank Audit Agent with Web Search"
     )
     parser.add_argument(
         "--class-num",
@@ -455,20 +463,16 @@ def main():
         help="Results file path",
     )
     parser.add_argument(
-        "--knowledge-base",
-        default="audit-results.jsonl",
-        help="Knowledge base file for RAG",
+        "--no-web-search",
+        action="store_true",
+        help="Disable web search for authoritative verification",
     )
     args = parser.parse_args()
 
     logger.info(f"Model: {args.model}")
     logger.info(f"Batch size: {args.batch_size}")
     logger.info(f"Dry run: {args.dry_run}")
-
-    knowledge_base = None
-    if os.path.exists(args.knowledge_base):
-        knowledge_base = KnowledgeBase(args.knowledge_base)
-        logger.info("RAG knowledge base loaded")
+    logger.info(f"Web search: {not args.no_web_search}")
 
     try:
         db = get_mongodb_connection()
@@ -478,7 +482,7 @@ def main():
         return 1
 
     api_key = load_api_key()
-    agent = AuditAgent(api_key, args.model, knowledge_base)
+    agent = AuditAgent(api_key, args.model, enable_web_search=not args.no_web_search)
 
     processed_ids = load_processed_ids(args.results_file)
     logger.info(f"Already processed: {len(processed_ids)} questions")
