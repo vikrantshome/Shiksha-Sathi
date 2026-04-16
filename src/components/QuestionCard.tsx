@@ -73,7 +73,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
 
   return (
     <div
-      className={`group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 relative border border-outline-variant ${
+      className={`group bg-surface-container-lowest rounded-xl p-4 md:p-6 transition-all duration-300 relative border border-outline-variant ${
         selected
           ? "border-primary shadow-md shadow-primary/10"
           : "hover:shadow-md hover:border-outline"
@@ -109,7 +109,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); toggleQuestion(q); }}
-            className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all active:scale-95 group/btn ${
+            className={`w-10 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border transition-all active:scale-95 group/btn ${
               selected
                 ? "bg-primary text-on-primary border-primary"
                 : "border-outline-variant text-outline hover:bg-primary hover:text-on-primary hover:border-primary"
@@ -117,11 +117,11 @@ export default function QuestionCard({ question: q }: { question: Question }) {
             title={selected ? "Remove from assignment" : "Add to assignment"}
           >
             {selected ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14" /><path d="M5 12h14" />
               </svg>
             )}
@@ -129,34 +129,34 @@ export default function QuestionCard({ question: q }: { question: Question }) {
         </div>
 
         {/* Question Text */}
-        <p className="mb-6 text-lg font-semibold leading-relaxed text-on-surface">
+        <p className="mb-4 md:mb-6 text-base md:text-lg font-semibold leading-relaxed text-on-surface">
           {q.text}
         </p>
 
         {/* MCQ Options Grid — correct option highlighted by default */}
         {q.options && (
-          <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 mb-4 md:mb-6">
             {q.options.map((opt, i) => {
               const isCorrect = q.correctAnswer === opt || q.correctAnswer === String.fromCharCode(65 + i);
               return (
                 <div
                   key={i}
-                  className={`p-4 rounded-xl text-sm flex items-center gap-3 transition-all duration-200 ${
+                  className={`p-3 md:p-4 rounded-lg md:rounded-xl text-xs md:text-sm flex items-center gap-2 md:gap-3 transition-all duration-200 ${
                     isCorrect
-                      ? "border border-primary/20 bg-primary/5 font-bold text-primary"
+                      ? "border-2 border-[#1B6B47] bg-[#1B6B47]/10 font-semibold text-[#1B6B47] shadow-sm"
                       : "border border-outline/10 bg-surface-variant/30 font-medium text-on-surface-variant"
                   }`}
                 >
                   <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                    className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[8px] md:text-[10px] font-bold shrink-0 ${
                       isCorrect
-                        ? "bg-primary text-on-primary"
+                        ? "bg-[#1B6B47] text-white"
                         : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"
                     }`}
                   >
                     {String.fromCharCode(65 + i)}
                   </span>
-                  {opt}
+                  <span className="line-clamp-2">{opt}</span>
                 </div>
               );
             })}
@@ -196,11 +196,11 @@ export default function QuestionCard({ question: q }: { question: Question }) {
           <div className="grid grid-cols-3 gap-8">
             <div className="col-span-2 space-y-4">
               {/* Correct Answer */}
-              <div>
-                <h4 className="mb-1 text-[0.625rem] font-bold tracking-widest text-on-surface-variant uppercase">
+              <div className="p-4 rounded-lg bg-[#1B6B47]/10 border border-[#1B6B47]/20">
+                <h4 className="mb-1 text-[0.625rem] font-bold tracking-widest text-[#1B6B47] uppercase">
                   Correct Answer
                 </h4>
-                <p className="m-0 text-sm font-semibold text-primary">
+                <p className="m-0 text-lg font-bold text-[#1B6B47]">
                   {q.correctAnswer}
                 </p>
               </div>
