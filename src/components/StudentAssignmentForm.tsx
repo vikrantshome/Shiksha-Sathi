@@ -17,6 +17,8 @@ interface StudentAssignmentFormProps {
   onProgressChange?: (answered: number) => void;
 }
 
+type GradingStep = "submitting" | "grading" | "calculating" | "complete";
+
 export default function StudentAssignmentForm({
   assignment,
   onProgressChange,
@@ -28,6 +30,27 @@ export default function StudentAssignmentForm({
   const [error, setError] = useState<string | null>(null);
   const [existingSubmission, setExistingSubmission] = useState<SubmitAssignmentResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [gradingStep, setGradingStep] = useState<GradingStep>("submitting");
+
+  // Grading progress animation
+  useEffect(() => {
+    if (!isPending) {
+      setGradingStep("complete");
+      return;
+    }
+    
+    const steps: GradingStep[] = ["submitting", "grading", "calculating"];
+    let stepIndex = 0;
+    
+    const interval = setInterval(() => {
+      stepIndex = (stepIndex + 1) % steps.length;
+      setGradingStep(steps[stepIndex]);
+    }, 1500);
+    
+    return () => clearInterval(interval);
+  }, [isPending]);
+
+  // ... rest of the code stays the same
 
   // Fetch authenticated user profile
   useEffect(() => {
@@ -226,8 +249,11 @@ export default function StudentAssignmentForm({
       {assignment.questions.map((q, index) => (
         <article
           key={q.id}
-          className="p-5 md:p-6 rounded-xl transition-colors duration-200"
-          style={{ background: "var(--color-surface-container-lowest)" }}
+          className={`p-5 md:p-6 rounded-xl transition-colors duration-200 ${isPending ? "opacity-50 pointer-events-none" : ""}`}
+          style={{ 
+            background: "var(--color-surface-container-lowest)",
+            filter: isPending ? "blur(1px)" : "none",
+          }}
         >
           <div className="flex justify-between items-start mb-5">
             <div className="flex gap-4 items-start">
@@ -296,17 +322,10 @@ export default function StudentAssignmentForm({
                   Enter a single word or a short phrase.
                 </p>
               </div>
-            </div>
+</div>
           )}
         </article>
       ))}
-
-      {/* Error */}
-      {error && (
-        <div className="p-4 text-sm font-medium text-center rounded-xl" style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}>
-          {error}
-        </div>
-      )}
 
       {/* Submit */}
       <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-outline-variant)" }}>
@@ -338,6 +357,47 @@ export default function StudentAssignmentForm({
           )}
         </button>
       </div>
+
+      {/* ═══ Grading Overlay ═══ */}
+      {isPending && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div 
+            className="absolute inset-0 animate-fade-in"
+            style={{ 
+              backgroundColor: "rgba(18, 66, 63, 0.85)",
+              backdropFilter: "blur(8px)",
+            }} 
+          />
+          <div className="relative z-10 animate-scale-in bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center">
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="w-20 h-20 border-4 border-gray-200 rounded-full" />
+                <div 
+                  className="absolute top-0 left-0 w-20 h-20 border-4 border-[#12423f] rounded-full border-t-transparent animate-spin" 
+                  style={{ animationDuration: "1s" }}
+                />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-[#12423f] mb-2">
+              {gradingStep === "submitting" && "Submitting your answers..."}
+              {gradingStep === "grading" && "Grading your responses..."}
+              {gradingStep === "calculating" && "Calculating results..."}
+              {gradingStep === "complete" && "Almost done!"}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {gradingStep === "submitting" && "Please wait while we process your submission"}
+              {gradingStep === "grading" && "Our AI is evaluating your answers"}
+              {gradingStep === "calculating" && "Computing your score and feedback"}
+              {gradingStep === "complete" && "Preparing your results"}
+            </p>
+            <div className="mt-6 flex justify-center gap-1.5">
+              <span className={`w-2 h-2 rounded-full bg-[#12423f] ${gradingStep === "submitting" ? "opacity-100" : "opacity-30"}`} style={{ animation: "pulse 1.5s infinite" }} />
+              <span className={`w-2 h-2 rounded-full bg-[#12423f] ${gradingStep === "grading" ? "opacity-100" : "opacity-30"}`} style={{ animation: "pulse 1.5s infinite 0.2s" }} />
+              <span className={`w-2 h-2 rounded-full bg-[#12423f] ${gradingStep === "calculating" ? "opacity-100" : "opacity-30"}`} style={{ animation: "pulse 1.5s infinite 0.4s" }} />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
