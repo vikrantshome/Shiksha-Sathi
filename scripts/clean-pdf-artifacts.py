@@ -15,13 +15,15 @@ Usage:
 import os
 import re
 import sys
+from pathlib import Path
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env.local for MongoDB URI
+load_dotenv(dotenv_path=Path(".env.local"))
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-DB_NAME = os.getenv("MONGO_DB", "shikshasathi")
+MONGO_URI = os.getenv("MONGODB_URI")
+DB_NAME = "shikshasathi"
 
 # Patterns to identify PDF artifacts
 ARTIFACT_PATTERNS = [
