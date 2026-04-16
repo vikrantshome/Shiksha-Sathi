@@ -154,7 +154,7 @@ export default function TeacherLayout({
             <div className="flex items-center gap-10">
               <Link
                 href="/teacher/dashboard"
-                className="font-manrope text-xl font-bold text-on-surface tracking-[-0.03em] no-underline"
+                className="font-manrope text-xl font-black text-[#12423f] tracking-[-0.03em] no-underline"
               >
                 Shiksha Sathi
               </Link>
@@ -182,12 +182,6 @@ export default function TeacherLayout({
 
             {/* Right: Actions */}
             <div className="flex items-center gap-4">
-              <Link
-                href="/teacher/question-bank"
-                className="hidden md:inline-flex bg-primary text-on-primary px-4 py-2 rounded-sm text-sm font-medium no-underline hover:brightness-95 active:scale-95 transition-all duration-150"
-              >
-                Assignment Builder
-              </Link>
               <div className="flex items-center gap-1">
                 <CartIcon />
                 <Link
@@ -253,11 +247,6 @@ export default function TeacherLayout({
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
           <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
             {/* Brand Section */}
-            <div className="p-6">
-              <h1 className="text-xl font-black text-[#12423f] tracking-tighter">Shiksha Sathi</h1>
-              <p className="text-[10px] uppercase tracking-widest opacity-60 font-bold text-[#1c1c1a]">Teacher Portal</p>
-            </div>
-
             {/* Nav Links */}
             <nav className="flex flex-col gap-1 px-3">
               {navItems.map((item) => {
