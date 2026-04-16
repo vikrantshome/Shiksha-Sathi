@@ -240,7 +240,7 @@ export default async function QuestionBankPage({
         <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-[14rem_1fr_16rem] lg:gap-8">
           {/* Left Rail: Taxonomy Navigation — full-width on tablet, column on desktop */}
           <div className="md:col-span-2 lg:col-span-1 order-1">
-            <div className="sticky top-6">
+            <div className="sticky top-4 md:top-6">
               <QuestionBankFilters
                 subjects={subjects}
                 chapters={chaptersMeta}
