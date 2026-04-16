@@ -452,19 +452,24 @@ export default function StudentDashboardPage() {
                       return (
                         <tr
                           key={sub.id}
-                          className="transition-colors duration-200 ease-out"
+                          className="transition-colors duration-200 ease-out cursor-pointer"
                           style={{ 
                             borderBottom: "1px solid var(--color-outline-variant)",
                             background: "transparent"
                           }}
                           onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-surface-container)"}
                           onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                          onClick={() => window.location.href = `/student/results/${sub.id}`}
                         >
-                          <td className="p-3 md:p-3.5 px-4 md:px-6">
-                            <p className="font-medium m-0 text-sm" style={{ color: "var(--color-on-surface)" }}>
-                              {sub.assignmentTitle}
-                            </p>
-                          </td>
+<td className="p-3 md:p-3.5 px-4 md:px-6">
+                             <Link
+                               href={`/student/results/${sub.id}`}
+                               className="font-medium m-0 text-sm no-underline hover:underline"
+                               style={{ color: "var(--color-on-surface)" }}
+                             >
+                               {sub.assignmentTitle}
+                             </Link>
+                           </td>
                           <td className="p-3 md:p-3.5 px-4 md:px-6">
                             {isGraded && scorePct !== null ? (
                               <span className="font-semibold text-sm" style={{ color: scorePct >= 70 ? "var(--color-success)" : scorePct >= 50 ? "var(--color-warning)" : "var(--color-error)" }}>
