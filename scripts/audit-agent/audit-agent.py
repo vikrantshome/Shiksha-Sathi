@@ -172,6 +172,24 @@ Your task is to analyze each question and respond with ONLY a valid JSON array (
 5. **Valid Content**: No garbled text, date stamps, JS code, or nonsense
 6. **Placeholder Answers**: Reject answers like "reason required", "numerical factor needed"
 7. **Complete Questions**: No incomplete sentences or missing options
+8. **MCQ Type Detection**: If question text contains options like "(a)", "(b)", "(c)", "(d)" or "A)", "B)", "C)", "D)" and answer references these letters, it should be type MCQ not SHORT_ANSWER
+9. **Options in Answer**: If answer contains "(a)", "(b)", "(c)" or "option (a)", "option b" - the question likely has hidden MCQ options and should be converted to MCQ type with proper options extracted
+10. **Embedded Options Detection**: If options field contains concatenated options like "7 (b) 8 (c) 9 (d) 10" - this is malformed. Extract properly: options=["7", "8", "9", "10"], answer="8" (the letter to text mapping)
+11. **True/False Detection**: If answer is "True.", "False.", "true", "false", "Yes", "No" (without explanation), the type should be TRUE_FALSE not SHORT_ANSWER. Also if question text is a statement like "Diagonals of a rectangle are perpendicular to each other." or "is a simple closed curve." - these are True/False statements
+
+## MATH NOTATION VALIDATION (CRITICAL)
+Check for suspicious empty spaces where math operators should be:
+- Pattern "X (X Y)" where X is variable and Y is number - likely means "X (X ± Y)" or similar
+- Look at the ANSWER and OPTIONS to deduce the correct operator
+- For "n (n 1)" - check if answer is "n(n-1)" or "n(n+1)" or "n(n×1)" from options
+- Use THINKING REASONING: analyze the options to determine what operator makes sense
+- If question has garbled math with empty spaces where operators should be:
+  1. Look at the correct answer to determine operator
+  2. Look at options for clues
+  3. Provide corrected "question" field in auto_fixes with proper notation
+
+Example reasoning: If question shows "n (n 1)" and correct answer is "n(n-1)/2", 
+then the missing operator is "-". Fix should replace "n (n 1)" with "n(n-1)".
 
 ## Good Examples (from knowledge base)
 {examples}

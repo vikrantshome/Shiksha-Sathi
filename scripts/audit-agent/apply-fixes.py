@@ -68,8 +68,14 @@ def apply_fixes_from_results(results_file: str, db, dry_run: bool = True) -> dic
                     updates["explanation"] = auto_fixes["explanation"]
                 if "answer" in auto_fixes:
                     updates["correctAnswer"] = auto_fixes["answer"]
+                # Handle "question" field - contains corrected question text with proper math notation
+                if "question" in auto_fixes and auto_fixes["question"]:
+                    updates["text"] = auto_fixes["question"]
                 if "text" in auto_fixes:
                     updates["text"] = auto_fixes["text"]
+                # Handle choices for MCQ questions - map to options field in MongoDB
+                if "choices" in auto_fixes and auto_fixes["choices"]:
+                    updates["options"] = auto_fixes["choices"]
                 if "superscript" in auto_fixes:
                     # If superscript fix is provided, apply it to the question text
                     if "text" not in updates and result.get("question_text"):
