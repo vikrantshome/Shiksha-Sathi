@@ -545,6 +545,15 @@ body {
   background: var(--color-outline);
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ================================================================
    RESPONSIVE SPACING UTILITIES
    For consistent mobile → tablet → desktop density scaling
