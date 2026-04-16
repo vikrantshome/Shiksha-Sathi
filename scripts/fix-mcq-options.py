@@ -17,12 +17,15 @@ import os
 import re
 import sys
 from pymongo import MongoClient
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(".env.local"))
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-DB_NAME = os.getenv("MONGO_DB", "shikshasathi")
+MONGO_URI = os.getenv(
+    "MONGODB_URI", os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+)
+DB_NAME = "shikshasathi"
 
 # Patterns indicating corrupted options
 CORRUPTION_PATTERNS = [
