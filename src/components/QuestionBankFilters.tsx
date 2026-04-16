@@ -327,7 +327,7 @@ export default function QuestionBankFilters({
             {mobileSummary.map((item) => (
               <span
                 key={item}
-                className="inline-flex items-center rounded-full bg-[var(--color-primary-container)] px-2.5 py-1 text-[0.6875rem] font-medium text-[var(--color-on-primary-container)]"
+                className="inline-flex items-center rounded-xl bg-[var(--color-primary-container)] px-2.5 py-1 text-[0.6875rem] font-medium text-[var(--color-on-primary-container)]"
               >
                 {item}
               </span>
@@ -664,6 +664,7 @@ export function QuestionBankSearch() {
     { label: "MCQ", value: "MCQ" },
     { label: "True/False", value: "TRUE_FALSE" },
     { label: "Fill Blanks", value: "FILL_IN_BLANKS" },
+    { label: "Short Answer", value: "SHORT_ANSWER" },
   ];
 
   return (
@@ -694,14 +695,14 @@ export function QuestionBankSearch() {
           />
         </div>
 
-        {/* Type Filter Pills */}
-        <div className="flex items-center gap-1 p-1 rounded-sm bg-surface-container-low">
+        {/* Type Filter Pills - scrollable on mobile */}
+        <div className="flex items-center gap-1 p-1 rounded-sm bg-surface-container-low overflow-x-auto scrollbar-hide">
           {typeFilters.map((f) => (
             <button
               key={f.value}
               type="button"
               onClick={() => handleFilterChange("type", f.value)}
-              className={`py-1.5 px-4 text-xs border-none rounded-sm cursor-pointer transition-all duration-150 whitespace-nowrap ${
+              className={`py-1.5 px-3 text-xs border-none rounded-sm cursor-pointer transition-all duration-150 ${
                 currentType === f.value
                   ? "font-semibold bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] shadow-[0_2px_6px_rgba(44,95,110,0.06)]"
                   : "font-normal bg-transparent text-on-surface-variant hover:text-on-surface"
