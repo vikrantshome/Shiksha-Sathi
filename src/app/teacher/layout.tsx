@@ -247,6 +247,11 @@ export default function TeacherLayout({
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
           <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
             {/* Brand Section */}
+            <div className="px-4 pt-6 pb-4">
+              <span className="text-[0.6875rem] font-bold tracking-[0.08em] text-[#12423f]/60 uppercase">
+                Teacher Portal
+              </span>
+            </div>
             {/* Nav Links */}
             <nav className="flex flex-col gap-1 px-3">
               {navItems.map((item) => {
