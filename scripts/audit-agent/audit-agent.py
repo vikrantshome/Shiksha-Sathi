@@ -448,7 +448,7 @@ def main():
     )
     parser.add_argument(
         "--model",
-        default="moonshotai/kimi-k2-thinking",
+        default="mistralai/mistral-small-4-119b-2603",
         help="Model to use",
     )
     parser.add_argument(
