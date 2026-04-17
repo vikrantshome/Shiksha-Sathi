@@ -146,8 +146,15 @@ class AuditAgent:
 
 Your task is to analyze each question and respond with ONLY a valid JSON array (no other text).
 
-## Response Format
+## Response Format - STRICT JSON
 [{"question_id": "id", "status": "ok"|"needs_fix"|"error", "issues": [], "auto_fixes": {}, "recommendation": "approve"|"needs_review"}]
+
+IMPORTANT: Output must be valid JSON that can be parsed by Python json.loads(). 
+- Use double quotes for all strings
+- No trailing commas
+- No comments or explanations
+- No markdown code blocks
+- Escape special characters properly
 
 ## Quality Rules
  1. **Type Matching**: TRUE_FALSE questions must have definite true/false answers, not explanations
@@ -261,25 +268,74 @@ Analyze and respond with JSON array."""
 
     def _parse_response(self, content: str, questions: List[Dict]) -> List[Dict]:
         results = []
-        try:
-            start_idx = content.find("[")
-            if start_idx == -1:
-                start_idx = content.find("{")
 
-            if start_idx != -1:
-                json_str = content[start_idx:]
-                json_str = re.sub(
-                    r"<thinking>.*?</thinking>", "", json_str, flags=re.DOTALL
-                )
-                json_str = re.sub(r"```json", "", json_str)
-                json_str = re.sub(r"```", "", json_str)
+        # Clean up the response
+        content = content.strip()
+
+        # Remove markdown code blocks
+        content = re.sub(r"```json", "", content)
+        content = re.sub(r"```", "", content)
+
+        # Remove thinking tags
+        content = re.sub(r"<thinking>.*?</thinking>", "", content, flags=re.DOTALL)
+
+        # Find JSON array or object
+        start_idx = content.find("[")
+        if start_idx == -1:
+            start_idx = content.find("{")
+
+        if start_idx != -1:
+            json_str = content[start_idx:]
+
+            # Try to find the end of the JSON
+            if json_str.startswith("["):
+                # Find matching closing bracket
+                depth = 0
+                end_idx = 0
+                in_string = False
+                escape = False
+                for i, c in enumerate(json_str):
+                    if escape:
+                        escape = False
+                        continue
+                    if c == "\\":
+                        escape = True
+                        continue
+                    if c == '"':
+                        in_string = not in_string
+                        continue
+                    if not in_string:
+                        if c == "[" or c == "{":
+                            depth += 1
+                        elif c == "]" or c == "}":
+                            depth -= 1
+                            if depth == 0:
+                                end_idx = i + 1
+                                break
+
+                if end_idx > 0:
+                    json_str = json_str[:end_idx]
+
+            # Try to parse
+            try:
                 data = json.loads(json_str)
                 if isinstance(data, list):
                     results.extend(data)
                 elif isinstance(data, dict):
                     results.append(data)
-        except json.JSONDecodeError as e:
-            logger.warning(f"JSON parse error: {e}")
+            except json.JSONDecodeError as e:
+                # Try to fix common issues and retry
+                try:
+                    # Remove trailing commas
+                    json_str_fixed = re.sub(r",(\s*[}\]])", r"\1", json_str)
+                    data = json.loads(json_str_fixed)
+                    if isinstance(data, list):
+                        results.extend(data)
+                    elif isinstance(data, dict):
+                        results.append(data)
+                except:
+                    logger.warning(f"JSON parse error: {e}")
+                    logger.warning(f"Content sample: {json_str[:200]}")
 
         while len(results) < len(questions):
             results.append({"status": "error", "issues": ["Parse error"]})
@@ -449,7 +505,7 @@ def main():
     parser.add_argument(
         "--model",
         default="mistralai/mistral-small-4-119b-2603",
-        help="Model to use",
+        help="Model to use (mistralai/mistral-small-4-119b-2603 - best GPQA)",
     )
     parser.add_argument(
         "--classes",
