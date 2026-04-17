@@ -749,7 +749,7 @@ def audit_class(
 ) -> Dict[str, int]:
     """Audit all questions for a given class number."""
     if statuses is None:
-        statuses = ["DRAFT", "PUBLISHED"]
+        statuses = ["DRAFT", "PUBLISHED", "REVIEW", "REJECTED"]
 
     if processed_ids is None:
         processed_ids = set()
