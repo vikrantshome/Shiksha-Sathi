@@ -19,7 +19,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from openai import OpenAI
 from pymongo import MongoClient
@@ -87,6 +87,68 @@ def load_api_key() -> str:
     if not api_key:
         raise ValueError("NVIDIA_API_KEY not found in .env or environment")
     return api_key
+
+
+def pre_validate_question(question: Dict) -> Tuple[bool, Optional[str]]:
+    """Pre-validate question before LLM call to avoid wasted API costs."""
+    q_text = str(question.get("text", question.get("question_text", ""))).strip()
+    q_answer_raw = question.get("correctAnswer", question.get("answer", ""))
+    # Convert answer to string if it's a dict/list (e.g., for matching questions)
+    if isinstance(q_answer_raw, (dict, list)):
+        q_answer = json.dumps(q_answer_raw)
+    else:
+        q_answer = str(q_answer_raw).strip()
+    q_type = question.get("type", "")
+
+    if len(q_text) < 10:
+        return False, "too_short"
+
+    # Control characters (except whitespace)
+    if any(ord(c) < 32 and c not in "\n\t\r" for c in q_text):
+        return False, "corrupted_control_chars"
+
+    # Placeholder answer patterns
+    placeholder_patterns = [
+        r"^Explanation\s*:?\s*(None|Answer\s*:|See|Not provided)",
+        r"^See detailed solution",
+        r"^Model Response\s*:",
+        r"^Answer:\s*See",
+        r"^numerical factor needed",
+        r"^reason required",
+    ]
+    if q_answer and any(re.search(p, q_answer, re.I) for p in placeholder_patterns):
+        return False, "placeholder_answer"
+
+    # Empty answer
+    if not q_answer or q_answer.lower() in ["none", "n/a", "na", "not applicable"]:
+        return False, "empty_answer"
+
+    # Missing context references
+    context_refs = [
+        r"fig\.?\s*\d+",
+        r"figure\s*\d+",
+        r"question\s+\d+\s+above",
+        r"above question",
+        r"following table",
+    ]
+    if any(re.search(ref, q_text, re.I) for ref in context_refs):
+        if len(q_text) < 100:
+            return False, "missing_context"
+
+    # Unsupported types
+    unsupported_types = [
+        "ESSAY",
+        "LONG_ANSWER",
+        "CONSTRUCTION",
+        "MATCHING",
+        "MULTI_PART",
+        "MULTI_PART_SHORT_ANSWER",
+        "LONG_DESCRIPTIVE",
+    ]
+    if q_type in unsupported_types:
+        return False, "unsupported_type"
+
+    return True, None
 
 
 class AuthoritativeSourceFetcher:
@@ -166,28 +228,61 @@ IMPORTANT: Output must be valid JSON that can be parsed by Python json.loads().
  7. **Complete Questions**: No incomplete sentences or missing options
  8. **MCQ Type Detection**: If question text contains options like "(a)", "(b)", "(c)", "(d)" or "A)", "B)", "C)", "D)" and answer references these letters, it should be type MCQ not SHORT_ANSWER
  9. **Options in Answer**: If answer contains "(a)", "(b)", "(c)" or "option (a)", "option b" - the question likely has hidden MCQ options and should be converted to MCQ type with proper options extracted
-10. **Embedded Options Detection**: If options field contains concatenated options like "7 (b) 8 (c) 9 (d) 10" - this is malformed. Extract properly: options=["7", "8", "9", "10"], answer="8" (the letter to text mapping)
-11. **True/False Detection**: If answer is "True.", "False.", "true", "false", "Yes", "No" (without explanation), the type should be TRUE_FALSE not SHORT_ANSWER. Also if question text is a statement like "Diagonals of a rectangle are perpendicular to each other." or "is a simple closed curve." - these are True/False statements
+10. **Embedded Options Detection**: If options field contains concatenated options like "7 (b) 8 (c) 9 (d) 10" - this is malformed. Extract properly: options=["7", "8", "9", "10"], answer="8"
+11. **True/False Detection**: If answer is "True.", "False.", "true", "false", "Yes", "No" (without explanation), type should be TRUE_FALSE not SHORT_ANSWER
+12. **Vague Questions**: If question asks "main message of the chapter" or "what is the theme" without specifying chapter/story name - INVALID. Fix: Add chapter name.
+13. **MCQ Options in Question Text**: MCQ questions MUST include options in question text like "(a) option1 (b) option2". If options field exists but question text doesn't have them, ADD them.
+14. **DESCRIPTIVE Type**: DESCRIPTIVE type should NOT have MCQ-style options (a,b,c,d). If options exist, change type to MCQ.
+15. **Letter Answers**: If answer is "(a)", "(b)", "option a", convert to full option text. correctAnswer should be full text, not letter.
+16. **Type-Answer Mismatch**: If question is "What is X?" and answer is definition/explanation, type should be DESCRIPTIVE or SHORT_ANSWER, not TRUE_FALSE.
+17. **Vague Definitions**: If answer is full paragraph definition for "What is adaptation?", type should be DESCRIPTIVE or SHORT_ANSWER, not TRUE_FALSE.
+18. **Embedded MCQ in SHORT_ANSWER**: If type is SHORT_ANSWER but question text contains multiple option patterns like "(A)", "(B)", "(C)", "(D)" - this is actually MCQ. Convert to MCQ type and extract options.
+19. **Concatenated Options**: If question text has options merged like "1:10 10:1 1:1 100:1" without separators - extract and create proper MCQ format.
+20. **Multi-part TRUE_FALSE**: If TRUE_FALSE question contains multiple sub-statements like "(a) statement (b) statement" - these should be split into separate questions. One TRUE_FALSE question = one statement only.
+21. **TRUE_FALSE Must Have Options**: TRUE_FALSE questions should have "True" and "False" as explicit options in question text or options field. If not provided, add them.
+22. **MCQ Must Have 4 Options**: If type is MCQ but options field is empty or has < 4 options, this is invalid. Search trusted sources for actual question with options. If not found, generate 4 plausible options based on question context. Options should be realistic distractors.
+23. **TRUE_FALSE Answer Cleanup**: If correctAnswer contains "Explanation:" or extra text like "True because...", extract just "True" or "False". Strip everything after first word if matches true/false.
+24. **MCQ Letter → Full Text**: If correctAnswer is "(a)", "(b)", "(c)", "(d)" or just "a", "b", "c", "d", and options array exists, convert to the full option text. Map letter index to options list.
+25. **Extract MCQ Options from Text**: If options field is empty but question_text contains "(a) text (b) text (c) text (d) text" patterns, extract them into options array and ensure answer references full text. Handle uppercase letters and variations with periods.
+26. **Invalid Type Conversion**: For unsupported types:
+    - LONG_ANSWER → DESCRIPTIVE (if answer is paragraph)
+    - ESSAY → DESCRIPTIVE (if answer is explanatory text)
+    - CONSTRUCTION → SHORT_ANSWER (if answer is brief)
+    - MATCHING → needs_review (flag for manual handling)
+27. **Multi-part Detection**: If question_text contains multiple sub-questions labeled (a), (b), (c), (d) and type is not MCQ, either split into separate questions (if independent) or change type to MULTI_PART_SHORT_ANSWER if they are meant to be answered together. Flag as error if unclear.
 
 ## MATH NOTATION VALIDATION (CRITICAL)
 Check for suspicious empty spaces where math operators should be:
 - Pattern "X (X Y)" where X is variable and Y is number - likely means "X (X ± Y)" or similar
 - Look at the ANSWER and OPTIONS to deduce the correct operator
-- For "n (n 1)" - check if answer is "n(n-1)" or "n(n+1)" or "n(n×1)" from options
-- Use THINKING REASONING: analyze the options to determine what operator makes sense
-- If question has garbled math with empty spaces where operators should be:
-  1. Look at the correct answer to determine operator
+- For "n (n 1)" - check if answer is "n(n-1)" or "n(n+1)" from options
+- Use THINKING REASONING: analyze options to determine operator
+- If question has garbled math with empty spaces:
+  1. Look at correct answer to determine operator
   2. Look at options for clues
-  3. Provide corrected "question" field in auto_fixes with proper notation
+  3. Provide corrected "question" field in auto_fixes
 
-Example reasoning: If question shows "n (n 1)" and correct answer is "n(n-1)/2", 
-then the missing operator is "-". Fix should replace "n (n 1)" with "n(n-1)".
+Example: If question shows "n (n 1)" and correct answer is "n(n-1)/2", missing operator is "-". Fix should replace "n (n 1)" with "n(n-1)".
 
 ## Analysis Guidelines
 - For MATH: Check formula correctness, proper notation (use ², ³, √, π)
 - For SCIENCE: Verify scientific accuracy, proper terminology
 - For LANGUAGE: Check grammar, proper word usage, spelling
-- Use the provided authoritative source content to verify factual accuracy when available
+- Use provided authoritative source content to verify factual accuracy when available
+
+## Trusted Source Verification (CRITICAL)
+When authoritative content is provided:
+1. Compare question and answer with source
+2. If source has a DIFFERENT answer, note this as issue and use verified answer
+3. Note the source in audit_result
+4. Verify the question TYPE matches source format
+
+Trusted sources (in priority order):
+- learncbse.in (NCERT solutions, exemplar problems)
+- vedantu.com (NCERT solutions, video explanations)
+- tiwariacademy.com (NCERT Hindi/English medium)
+- cbselabs.com (CBSE labs, sample papers)
+- doubtnut.com (NCERT solutions, video answers)
 
 Respond ONLY with JSON array, no explanations."""
 
@@ -231,6 +326,23 @@ Analyze and respond with JSON array."""
             return []
 
         question = questions[0]
+
+        # Pre-validation: Skip obvious problems to save API costs
+        is_valid, error_category = pre_validate_question(question)
+        if not is_valid:
+            q_id = str(question["_id"])
+            logger.warning(f"  {q_id}: Pre-validation failed: {error_category}")
+            return [
+                {
+                    "question_id": q_id,
+                    "status": "error",
+                    "issues": [f"Pre-validation failed: {error_category}"],
+                    "error_category": error_category,
+                    "recommendation": "manual_review"
+                    if error_category in ["corrupted_control_chars", "missing_context"]
+                    else "reject",
+                }
+            ]
 
         # Fetch authoritative content from web search
         authoritative_content = None
@@ -338,9 +450,100 @@ Analyze and respond with JSON array."""
                     logger.warning(f"Content sample: {json_str[:200]}")
 
         while len(results) < len(questions):
-            results.append({"status": "error", "issues": ["Parse error"]})
+            results.append(
+                {
+                    "status": "error",
+                    "issues": ["Parse error: Missing result for question"],
+                    "error_category": "MISSING_RESULT",
+                    "recommendation": "retry",
+                }
+            )
 
         return results[: len(questions)]
+
+
+def apply_rule_based_fixes(question: Dict, result: Dict) -> Dict:
+    """Apply rule-based fixes as fallback when LLM missed fixable issues."""
+    updates = {}
+    q_text = str(question.get("text", "")).strip()
+    q_type = question.get("type", "").upper()
+    q_answer_raw = question.get("correctAnswer", "")
+    # Convert to string if dict/list (e.g., matching questions)
+    if isinstance(q_answer_raw, (dict, list)):
+        q_answer = json.dumps(q_answer_raw)
+    else:
+        q_answer = str(q_answer_raw).strip()
+    q_options = question.get("options", [])
+
+    # Rule 23: TRUE_FALSE answer cleanup
+    if q_type == "TRUE_FALSE" and q_answer:
+        cleaned = re.sub(r"^Explanation\s*:?\s*", "", q_answer, flags=re.I).strip()
+        first_word = cleaned.split()[0] if cleaned else ""
+        if first_word.lower() in ["true", "false"]:
+            cleaned = first_word
+        if cleaned.lower() in ["true", "false"]:
+            updates["correctAnswer"] = cleaned.capitalize()
+            result.setdefault("issues", []).append(
+                "TRUE_FALSE answer contained explanation"
+            )
+            result.setdefault("auto_fixes", {})["answer"] = updates["correctAnswer"]
+
+    # Rule 24: MCQ letter -> full text conversion
+    if q_type == "MCQ" and q_answer and q_options:
+        letter_match = re.match(r"^\(?([a-d])\)?$", q_answer, re.I)
+        if letter_match:
+            letter = letter_match.group(1).lower()
+            idx = ord(letter) - ord("a")
+            if 0 <= idx < len(q_options):
+                updates["correctAnswer"] = q_options[idx]
+                result.setdefault("issues", []).append(
+                    "MCQ answer was letter, converted to full text"
+                )
+
+    # Rule 25: Extract MCQ options from text
+    if q_type == "MCQ" and not q_options:
+        pattern = r"\(([a-d])\)\s*([^()]+?)(?=\s*\([a-d]\)|$)"
+        matches = re.findall(pattern, q_text, re.I)
+        if len(matches) >= 4:
+            sorted_matches = sorted(matches, key=lambda m: m[0].lower())
+            options = [text.strip() for _, text in sorted_matches[:4]]
+            if len(options) == 4:
+                updates["options"] = options
+                if not any(f"({chr(97 + i)})" in q_text.lower() for i in range(4)):
+                    opt_str = " ".join(
+                        [f"({chr(97 + i)}) {opt}" for i, opt in enumerate(options)]
+                    )
+                    updates["text"] = f"{q_text.strip()} {opt_str}"
+                result.setdefault("issues", []).append(
+                    "Extracted MCQ options from question text"
+                )
+                result.setdefault("auto_fixes", {})["options"] = options
+
+    # Rule 26: Invalid type conversion
+    if q_type in ["LONG_ANSWER", "ESSAY", "CONSTRUCTION"]:
+        if q_type in ["LONG_ANSWER", "ESSAY"]:
+            if len(q_answer.split()) > 20:
+                updates["type"] = "DESCRIPTIVE"
+            else:
+                updates["type"] = "SHORT_ANSWER"
+        else:
+            updates["type"] = "SHORT_ANSWER"
+        result.setdefault("issues", []).append(
+            f"Converted invalid type {q_type} to {updates['type']}"
+        )
+        result.setdefault("auto_fixes", {})["type"] = updates["type"]
+
+    # Rule 27: Multi-part detection
+    if re.search(r"\([a-d]\)\s*\.?\s*[A-Z]", q_text) and q_type not in [
+        "MCQ",
+        "MULTI_PART_SHORT_ANSWER",
+    ]:
+        result.setdefault("issues", []).append(
+            "Multi-part question with inappropriate type"
+        )
+        result["recommendation"] = "needs_review"
+
+    return updates
 
 
 def process_result(
@@ -364,6 +567,7 @@ def process_result(
         )
         result["timestamp"] = datetime.utcnow().isoformat()
 
+        # Write to JSONL results file
         with open(results_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(result) + "\n")
 
@@ -372,12 +576,25 @@ def process_result(
             logger.info(
                 f"  {question_id}: OK - {result.get('recommendation', 'approve')}"
             )
+            if not dry_run:
+                db.questions.update_one(
+                    {"_id": question["_id"]},
+                    {
+                        "$set": {
+                            "audit_status": "ok",
+                            "audit_result": ["approved"],
+                            "audit_timestamp": datetime.utcnow().isoformat(),
+                            "review_status": "PUBLISHED",
+                        }
+                    },
+                )
         elif result.get("status") == "needs_fix":
             stats["fixed"] += 1
             issues = result.get("issues", [])
             logger.info(f"  {question_id}: FIXED - {', '.join(issues[:2])}")
 
-            if not dry_run and result.get("auto_fixes"):
+            if not dry_run:
+                # Collect LLM auto_fixes
                 updates = {}
                 auto_fixes = result.get("auto_fixes", {})
 
@@ -389,18 +606,129 @@ def process_result(
                     updates["correctAnswer"] = auto_fixes["answer"]
                 if "text" in auto_fixes:
                     updates["text"] = auto_fixes["text"]
+                if "question" in auto_fixes:
+                    updates["text"] = auto_fixes["question"]
+                if "options" in auto_fixes:
+                    updates["options"] = auto_fixes["options"]
+                if "choices" in auto_fixes:
+                    updates["options"] = auto_fixes["choices"]
 
+                # Apply LLM fixes first
                 if updates:
                     db.questions.update_one(
                         {"_id": question["_id"]},
-                        {"$set": updates},
+                        {
+                            "$set": {
+                                **updates,
+                                "audit_status": "fixed",
+                                "audit_result": result.get("issues", []),
+                                "audit_timestamp": datetime.utcnow().isoformat(),
+                                "review_status": "PUBLISHED",
+                            }
+                        },
                     )
+                    logger.info(f"    Applied LLM fixes: {list(updates.keys())}")
+
+                # Apply rule-based fixes as fallback
+                q_updated = db.questions.find_one({"_id": question["_id"]})
+                if q_updated:
+                    combined = {
+                        "status": result.get("status", "needs_fix"),
+                        "issues": result.get("issues", []),
+                        "auto_fixes": auto_fixes,
+                    }
+                    rule_updates = apply_rule_based_fixes(q_updated, combined)
+                    if rule_updates:
+                        db.questions.update_one(
+                            {"_id": question["_id"]},
+                            {
+                                "$set": {
+                                    **rule_updates,
+                                    "audit_status": "fixed",
+                                    "audit_result": result.get("issues", []),
+                                    "audit_timestamp": datetime.utcnow().isoformat(),
+                                    "review_status": "PUBLISHED",
+                                }
+                            },
+                        )
+                        logger.info(
+                            f"    Applied rule-based fixes: {list(rule_updates.keys())}"
+                        )
+                        updates.update(rule_updates)
+
+                # Post-process: Convert letter answers to full text (legacy)
+                q_updated = db.questions.find_one({"_id": question["_id"]})
+                if q_updated and q_updated.get("type") == "MCQ":
+                    answer = q_updated.get("correctAnswer", "")
+                    options = q_updated.get("options", [])
+                    if answer and len(answer) <= 5 and "(" in answer:
+                        letter = (
+                            answer.strip().replace("(", "").replace(")", "").lower()
+                        )
+                        if letter in ["a", "b", "c", "d"] and options:
+                            idx = ord(letter) - ord("a")
+                            if 0 <= idx < len(options):
+                                db.questions.update_one(
+                                    {"_id": question["_id"]},
+                                    {"$set": {"correctAnswer": options[idx]}},
+                                )
+                                logger.info(
+                                    f"    Converted letter answer to full text: {options[idx]}"
+                                )
+
+                # Post-process: Add options to question text if missing
+                q_check = db.questions.find_one({"_id": question["_id"]})
+                if q_check and q_check.get("type") == "MCQ":
+                    q_text = q_check.get("text", "")
+                    opts = q_check.get("options", [])
+                    if opts and not any(
+                        f"({chr(97 + i)})" in q_text.lower()
+                        or f"({chr(65 + i)})" in q_text
+                        for i in range(len(opts))
+                    ):
+                        opt_str = " ".join(
+                            [f"({chr(97 + i)}) {opt}" for i, opt in enumerate(opts)]
+                        )
+                        new_text = f"{q_text.strip()} {opt_str}"
+                        db.questions.update_one(
+                            {"_id": question["_id"]}, {"$set": {"text": new_text}}
+                        )
+                        logger.info(f"    Added options to question text")
+
+                if updates:
                     logger.info(f"    Applied fixes: {list(updates.keys())}")
+                else:
+                    logger.warning(
+                        f"    No fixes could be applied despite needs_fix status"
+                    )
+                    db.questions.update_one(
+                        {"_id": question["_id"]},
+                        {
+                            "$set": {
+                                "audit_status": "error",
+                                "audit_result": [
+                                    "No auto_fixes provided and rule-based fixes not applicable"
+                                ],
+                                "audit_timestamp": datetime.utcnow().isoformat(),
+                            }
+                        },
+                    )
         else:
             stats["errors"] += 1
             logger.warning(
                 f"  {question_id}: ERROR - {result.get('issues', ['Unknown'])}"
             )
+            if not dry_run:
+                update_doc = {
+                    "audit_status": "error",
+                    "audit_result": result.get("issues", ["Parse error"]),
+                    "audit_errors": str(result.get("error", "Parse error")),
+                    "audit_timestamp": datetime.utcnow().isoformat(),
+                }
+                # Add error_category if present (from pre-validation or parse categorization)
+                if result.get("error_category"):
+                    update_doc["error_category"] = result["error_category"]
+                db.questions.update_one({"_id": question["_id"]}, {"$set": update_doc})
 
         stats["processed"] += 1
 
