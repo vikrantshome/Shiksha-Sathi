@@ -1,0 +1,58 @@
+# Virtual Environment
+.venv/
+venv/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+*~
+
+# Test results
+audit-test*.jsonl
+audit-test*.json
+audit-websearch.jsonl
+audit-all-*.jsonl
+audit-complete*.jsonl
+audit-full*.jsonl
+audit-results-backup*.jsonl
+
+# Old logs
+api.log
+audit-full.log
+
+# Temporary scripts
+apply_improvements.py
+apply-fixes.py
+map_orphans.py
+modify_audit_agent.py
+audit-status-api.py
+run-audit.sh
+
+# Old backups
+audit-agent-original.py
