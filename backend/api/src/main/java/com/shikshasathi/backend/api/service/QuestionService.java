@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -304,5 +306,19 @@ public class QuestionService {
         }
 
         return Integer.MAX_VALUE;
+    }
+
+    public Map<String, Long> getCountsByClass() {
+        Map<String, Long> counts = new LinkedHashMap<>();
+        for (int i = 6; i <= 12; i++) {
+            String classStr = String.valueOf(i);
+            Query query = new Query();
+            query.addCriteria(new Criteria().orOperator(
+                Criteria.where("provenance.class").is(i),
+                Criteria.where("provenance.class").is(classStr)
+            ));
+            counts.put(classStr, mongoTemplate.count(query, Question.class));
+        }
+        return counts;
     }
 }
