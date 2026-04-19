@@ -22,7 +22,7 @@ public class AIGradingProperties {
     private String provider = "nvidia";
 
     /** API key for the provider (NVIDIA API key or HF token). */
-    private String apiKey = "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";
+    private String apiKey;
 
     /** Model name to use (e.g., "nvidia/nemotron-3-super-120b-a12b"). */
     private String model = "nvidia/nemotron-3-super-120b-a12b";
