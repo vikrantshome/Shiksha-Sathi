@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -26,30 +27,38 @@ public class AuditResultService {
     private MongoTemplate mongoTemplate;
 
 public List<AuditResult> getAuditResults(Integer classLevel, String chapter, String status) {
-    // Build base query criteria
-    List<Criteria> criteriaList = new ArrayList<>();
+    // Build query to handle both snake_case and camelCase field names
+    List<Criteria> allCriteria = new ArrayList<>();
 
     if (classLevel != null) {
-      criteriaList.add(Criteria.where("class_level").is(classLevel));
+      // Query both class_level and classLevel
+      Criteria classLevelCriteria = new Criteria().orOperator(
+          Criteria.where("class_level").is(classLevel),
+          Criteria.where("classLevel").is(classLevel)
+      );
+      allCriteria.add(classLevelCriteria);
     }
 
     if (chapter != null && !chapter.isEmpty()) {
-      criteriaList.add(Criteria.where("chapter").is(chapter));
+      allCriteria.add(Criteria.where("chapter").is(chapter));
     }
 
     if (status != null && !status.isEmpty()) {
-      criteriaList.add(Criteria.where("audit_status").is(status));
+      Criteria statusCriteria = new Criteria().orOperator(
+          Criteria.where("audit_status").is(status),
+          Criteria.where("auditStatus").is(status)
+      );
+      allCriteria.add(statusCriteria);
     }
 
-    // Get all matching results
     Query query = new Query();
-    if (!criteriaList.isEmpty()) {
-      query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+    if (!allCriteria.isEmpty()) {
+      query.addCriteria(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
     }
     query.with(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "audited_at"));
-    
+
     List<AuditResult> allResults = mongoTemplate.find(query, AuditResult.class);
-    
+
     // Keep only the latest result for each question
     Map<String, AuditResult> latestByQuestion = new LinkedHashMap<>();
     for (AuditResult result : allResults) {
@@ -58,7 +67,7 @@ public List<AuditResult> getAuditResults(Integer classLevel, String chapter, Str
         latestByQuestion.put(qId, result);
       }
     }
-    
+
     return new ArrayList<>(latestByQuestion.values());
   }
 
@@ -142,7 +151,7 @@ public Map<String, Object> getStatistics(Integer classLevel, String chapter) {
             if (autoFixes.containsKey("type")) {
                 question.setType((String) autoFixes.get("type"));
             }
-            if (autoFixes.containsKey("options") && question.getOptions() != null) {
+            if (autoFixes.containsKey("options")) {
                 question.setOptions((List<String>) autoFixes.get("options"));
             }
             if (autoFixes.containsKey("explanation")) {
@@ -208,5 +217,9 @@ public Map<String, Object> getStatistics(Integer classLevel, String chapter) {
 
     public void deleteByAuditRunId(String auditRunId) {
         auditResultRepository.deleteByAuditRunId(auditRunId);
+    }
+
+    public List<AuditResult> getAllRaw() {
+        return auditResultRepository.findAll();
     }
 }

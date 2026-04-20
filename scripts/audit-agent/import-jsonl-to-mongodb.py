@@ -44,30 +44,56 @@ def get_db() -> "MongoClient":
 
 def map_line_to_doc(line: Dict) -> Dict:
     """Map a raw JSON line to the AuditResult document structure.
-    The source line uses snake_case keys that match the fields expected by the
-    Java `AuditResult` entity, which are stored in MongoDB using the @Field names.
-    This function now produces keys that align with those Mongo field names.
+    Uses camelCase to match the MongoDB collection format.
     """
-    # Basic required fields – provide sensible defaults if missing.
+    # Handle both status formats: "fixed" (new) or "needs_fix" (legacy)
+    status = line.get("status", "unknown")
+    if status == "needs_fix":
+        audit_status = "needs_fix"
+    elif status == "ok" or status == "approved":
+        audit_status = "ok"
+    elif status == "fixed":
+        audit_status = "fixed"
+    else:
+        audit_status = status
+
+    # Map auto_fixes keys to camelCase
+    auto_fixes = line.get("auto_fixes", {})
+    mapped_fixes = {}
+    for k, v in auto_fixes.items():
+        # Convert snake_case keys to camelCase
+        if k == "question":
+            mapped_fixes["question"] = v
+        elif k == "correct_answer":
+            mapped_fixes["correctAnswer"] = v
+        elif k == "question_type":
+            mapped_fixes["type"] = v
+        elif k == "question_options":
+            mapped_fixes["options"] = v
+        elif k == "explanation":
+            mapped_fixes["explanation"] = v
+        else:
+            mapped_fixes[k] = v
+
     audit_doc = {
-        "question_id": line.get("question_id"),
-        "class_level": int(line.get("class", 0)) if line.get("class") else None,
+        "questionId": line.get("question_id"),
+        "classLevel": int(line.get("class", 0)) if line.get("class") else None,
         "chapter": line.get("chapter", ""),
         "subject": line.get("subject", ""),
-        "audit_status": line.get("status", "unknown"),
+        "auditStatus": audit_status,
         "issues": line.get("issues", []),
-        "auto_fixes": line.get("auto_fixes", {}),
+        "autoFixes": mapped_fixes,
         "recommendation": line.get("recommendation", "unknown"),
-        "db_status": line.get("status_db", ""),
-        "question_text": line.get("question_text", ""),
-        "question_type": line.get("type", ""),
-        "correct_answer": line.get("correctAnswer", ""),
-        "question_options": line.get("options", []),
+        "dbStatus": line.get("status_db", ""),
+        "questionText": line.get("question_text", ""),
+        "questionType": line.get("type", ""),
+        "correctAnswer": line.get("correctAnswer", ""),
+        "questionOptions": line.get("options", []),
         "explanation": line.get("explanation", ""),
-        "audited_at": datetime.utcnow(),
-        "applied_at": None,
-        "applied_by": None,
-        "audit_run_id": line.get("audit_run_id", "legacy_import"),
+        "auditedAt": datetime.utcnow(),
+        "appliedAt": None,
+        "appliedBy": None,
+        "auditRunId": line.get("audit_run_id", "legacy_import"),
     }
     return audit_doc
 
@@ -97,7 +123,12 @@ def main(argv: List[str] = None):
     if not argv:
         # No explicit files – import the three class files.
         default_dir = os.path.join(os.path.dirname(__file__))
-        patterns = ["audit-class9.jsonl", "audit-class10.jsonl", "audit-class11.jsonl"]
+        patterns = [
+            "audit-class8.jsonl",
+            "audit-class9.jsonl",
+            "audit-class10.jsonl",
+            "audit-class11.jsonl",
+        ]
         files = [os.path.join(default_dir, p) for p in patterns]
     else:
         files = argv

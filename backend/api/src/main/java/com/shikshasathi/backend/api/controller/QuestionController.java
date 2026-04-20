@@ -61,6 +61,11 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getChapterMeta(board, classLevel, subjectId, book, visibleOnly));
     }
 
+    @GetMapping("/counts-by-class")
+    public ResponseEntity<java.util.Map<String, Long>> getCountsByClass() {
+        return ResponseEntity.ok(questionService.getCountsByClass());
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Question>> searchQuestions(
             @RequestParam(required = false) String board,

@@ -67,6 +67,10 @@ export const audit = {
     return fetchApi<AuditStatistics>(`/audit-results/statistics?${searchParams.toString()}`, { method: 'GET' });
   },
 
+  getQuestionCountsByClass: (): Promise<Record<string, number>> => {
+    return fetchApi<Record<string, number>>('/questions/counts-by-class', { method: 'GET' });
+  },
+
   applyFix: (questionId: string, appliedBy?: string): Promise<Question> =>
     fetchApi<Question>('/audit-results/apply-fix', {
       method: 'POST',
