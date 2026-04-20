@@ -148,6 +148,7 @@ export default function TeacherLayout({
     <AssignmentProvider>
       <div className="min-h-screen flex flex-col bg-surface">
         {/* ═══ Top Navigation Bar ═══ */}
+        {!pathname.startsWith("/teacher/quizzes/display") ? (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface-container-lowest)]/95 backdrop-blur-[16px] border-b border-[var(--color-outline-variant)]/15 shadow-[0_2px_8px_rgba(27,28,26,0.06)]">
           <div className="flex justify-between items-center px-6 h-16 max-w-[100rem] mx-auto">
             {/* Left: Brand + Desktop Nav */}
@@ -207,6 +208,7 @@ export default function TeacherLayout({
             </div>
           </div>
         </nav>
+        ) : null}
 
         {/* ═══ Mobile Dropdown Menu ═══ */}
         {mobileMenuOpen && (
@@ -245,7 +247,7 @@ export default function TeacherLayout({
 
         <div className="flex flex-1 pt-16">
           {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-          <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
+          <aside className={`${pathname.startsWith("/teacher/quizzes/display") ? "hidden" : "hidden lg:flex"} flex-col w-48 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]`}>
             {/* Brand Section */}
             <div className="px-4 pt-6 pb-4">
               <span className="text-[0.6875rem] font-bold tracking-[0.08em] text-[#12423f]/60 uppercase">
@@ -299,7 +301,7 @@ export default function TeacherLayout({
 
           {/* ═══ Main Content ═══ */}
           <main className="flex-1 w-full max-w-full overflow-hidden pb-24 md:pb-0">
-            <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
+            <div className={pathname.startsWith("/teacher/quizzes/display") ? "w-full h-full" : "max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8"}>
               {children}
             </div>
           </main>

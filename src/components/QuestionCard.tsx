@@ -3,22 +3,7 @@
 import { useState } from "react";
 import { Question } from "@/lib/api/types";
 import { useAssignment } from "./AssignmentContext";
-
-/* ─────────────────────────────────────────────────────────
-   Question Card — Stitch-Directed Redesign
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/question_bank_browse_select
-                  doc/stitch_shiksha_sathi_ui_refresh/question_bank
-                  doc/stitch_shiksha_sathi_ui_refresh/question_bank_select_questions
-   Implements: rounded-2xl card, top-right add button (+ → check_circle),
-   type badge, difficulty, source label, MCQ options with letter circles,
-   expandable explanation, metadata sidebar.
-
-   Phase 1 additions (gap-fill):
-   - Difficulty badge (derived from points)
-   - View Solution link in expanded area
-   - Formatted source label
-   - Usage count (dummy)
-   ───────────────────────────────────────────────────────── */
+import { useQuiz } from "./QuizContext";
 
 /* ── Type Badge Color Map ── */
 const typeBadgeClasses: Record<string, string> = {
@@ -62,9 +47,11 @@ const getSourceLabel = (q: Question): string => {
   return "LOCAL";
 };
 
-export default function QuestionCard({ question: q }: { question: Question }) {
+export default function QuestionCard({ question: q, mode = "assignment" }: { question: Question; mode?: "assignment" | "quiz" }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const { toggleQuestion, isSelected } = useAssignment();
+  const assignmentCtx = useAssignment();
+  const quizCtx = useQuiz();
+  const { toggleQuestion, isSelected } = mode === "quiz" ? { toggleQuestion: quizCtx.toggleQuestion, isSelected: quizCtx.isSelected } : assignmentCtx;
 
   const selected = isSelected(q.id);
   const badge = getTypeBadge(q.type);
@@ -114,7 +101,7 @@ export default function QuestionCard({ question: q }: { question: Question }) {
                 ? "bg-primary text-on-primary border-primary"
                 : "border-outline-variant text-outline hover:bg-primary hover:text-on-primary hover:border-primary"
             }`}
-            title={selected ? "Remove from assignment" : "Add to assignment"}
+            title={selected ? `Remove from ${mode}` : `Add to ${mode}`}
           >
             {selected ? (
               <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="currentColor" stroke="none">
