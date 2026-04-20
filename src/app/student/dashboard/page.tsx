@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   getStudentIdentity,
   saveStudentIdentity,
@@ -226,6 +227,7 @@ function EmptyState() {
 
 /* ── Main Dashboard ── */
 export default function StudentDashboardPage() {
+  const router = useRouter();
   const [identity, setIdentity] = useState<StudentIdentity | null>(null);
   const [stats, setStats] = useState<StudentDashboardStats | null>(null);
   const [loading, setLoading] = useState(false);
@@ -235,8 +237,10 @@ export default function StudentDashboardPage() {
     const existing = getStudentIdentity();
     if (existing) {
       setIdentity(existing);
+    } else {
+      router.replace("/student/login");
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (!identity) return;
@@ -255,13 +259,11 @@ export default function StudentDashboardPage() {
         if (!cancelled) setLoading(false);
       }
     }
-    load();
-    return () => { cancelled = true; };
+load();
+    return () => { cancelled = true };
   }, [identity]);
 
-  if (!identity) {
-    return <IdentityEntry onSubmit={(id) => setIdentity(id)} />;
-  }
+  if (!identity) return null;
 
   const currentIdentity = identity;
 
