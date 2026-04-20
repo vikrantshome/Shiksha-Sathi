@@ -20,6 +20,8 @@ export default function AuditPage() {
   const [showRunModal, setShowRunModal] = useState(false);
   const [runClass, setRunClass] = useState<number | null>(null);
   const [jobs, setJobs] = useState<AuditJob[]>([]);
+  const [classStatsMap, setClassStatsMap] = useState<Record<number, { total: number; ok: number; needsFix: number; error: number }>>({});
+  const [questionCounts, setQuestionCounts] = useState<Record<number, number>>({});
 
   const fetchStats = useCallback(async () => {
     try {
@@ -57,6 +59,38 @@ export default function AuditPage() {
   }, [fetchStats]);
 
   useEffect(() => {
+    const fetchAllClassStats = async () => {
+      const map: Record<number, { total: number; ok: number; needsFix: number; error: number }> = {};
+      for (const cls of CLASSES.slice(0, 6)) {
+        try {
+          const data = await audit.getStatistics({ classLevel: cls });
+          map[cls] = { total: data.total, ok: data.ok, needsFix: data.needsFix, error: data.error };
+        } catch {
+          map[cls] = { total: 0, ok: 0, needsFix: 0, error: 0 };
+        }
+      }
+      setClassStatsMap(map);
+    };
+    fetchAllClassStats();
+  }, []);
+
+  useEffect(() => {
+    const fetchQuestionCounts = async () => {
+      try {
+        const counts = await audit.getQuestionCountsByClass();
+        const numCounts: Record<number, number> = {};
+        for (const [cls, count] of Object.entries(counts)) {
+          numCounts[parseInt(cls)] = count;
+        }
+        setQuestionCounts(numCounts);
+      } catch (err) {
+        console.error('Failed to fetch question counts:', err);
+      }
+    };
+    fetchQuestionCounts();
+  }, []);
+
+  useEffect(() => {
     fetchResults();
   }, [fetchResults]);
 
@@ -89,6 +123,15 @@ export default function AuditPage() {
       setSelectedIds(new Set());
     } else {
       setSelectedIds(new Set(pageIds));
+    }
+  };
+
+  const handleSelectAllAcrossPages = () => {
+    const allQuestionIds = results.map((r) => r.questionId);
+    if (selectedIds.size === allQuestionIds.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(allQuestionIds));
     }
   };
 
@@ -199,13 +242,75 @@ export default function AuditPage() {
           <p className="text-on-surface-variant mt-1">
             Review audit results and apply fixes to questions.
           </p>
+        </div>
+        <div className="flex gap-3">
           <button
             onClick={() => setShowRunModal(true)}
-            className="mt-2 px-4 py-2 bg-primary text-primary-on rounded-lg font-medium hover:opacity-90 transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:opacity-90 transition shadow-lg"
           >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             Run Audit
           </button>
+          <button
+            onClick={() => {
+              if (selectedIds.size === 0) return;
+              handleBulkApplyFixes();
+            }}
+            disabled={selectedIds.size === 0}
+            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            Apply Fix ({selectedIds.size})
+          </button>
+          <button
+            onClick={() => {
+              if (selectedIds.size === 0) return;
+              handleBulkReject();
+            }}
+            disabled={selectedIds.size === 0}
+            className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Reject ({selectedIds.size})
+          </button>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-6">
+        {CLASSES.slice(0, 6).map((cls) => {
+          const classStats = classStatsMap[cls] || { total: 0, ok: 0, needsFix: 0, error: 0 };
+          const totalQuestions = questionCounts[cls] || 0;
+          const auditedPct = totalQuestions > 0 ? Math.round((classStats.total / totalQuestions) * 100) : 0;
+          return (
+            <button
+              key={cls}
+              onClick={() => setSelectedClass(selectedClass === cls ? null : cls)}
+              className={`p-3 rounded-lg text-left transition ${
+                selectedClass === cls
+                  ? 'bg-primary/20 border-2 border-primary'
+                  : 'bg-[var(--color-surface-container)] hover:bg-primary/10'
+              }`}
+            >
+              <div className="text-xs text-on-surface-variant flex justify-between">
+                <span>Class {cls}</span>
+                <span className="text-blue-600">{auditedPct}%</span>
+              </div>
+              <div className="text-xl font-bold">{classStats.total} <span className="text-xs font-normal text-gray-400">/ {totalQuestions}</span></div>
+              <div className="flex gap-2 mt-1 text-xs">
+                <span className="text-green-600">{classStats.ok}</span>
+                <span className="text-orange-600">{classStats.needsFix}</span>
+                <span className="text-red-600">{classStats.error}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -316,6 +421,12 @@ export default function AuditPage() {
                     onChange={handleSelectAll}
                     className="w-4 h-4"
                   />
+                  <button
+                    onClick={handleSelectAllAcrossPages}
+                    className="ml-2 text-xs text-blue-600 hover:text-blue-800 underline"
+                  >
+                    {selectedIds.size === results.length ? 'Deselect All' : 'Select All'}
+                  </button>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-on-surface-variant">
                   Class
