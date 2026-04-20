@@ -645,6 +645,7 @@ export function QuestionBankSearch() {
 
   const currentQuery = searchParams.get("q") || "";
   const currentType = searchParams.get("type") || "ALL";
+  const context = searchParams.get("context") || "assignment";
 
   const handleFilterChange = (name: string, value: string) => {
     startTransition(() => {
@@ -659,13 +660,17 @@ export function QuestionBankSearch() {
     });
   };
 
-  const typeFilters = [
+  const allTypeFilters = [
     { label: "All Types", value: "ALL" },
     { label: "MCQ", value: "MCQ" },
     { label: "True/False", value: "TRUE_FALSE" },
     { label: "Fill Blanks", value: "FILL_IN_BLANKS" },
     { label: "Short Answer", value: "SHORT_ANSWER" },
   ];
+  
+  const typeFilters = context === "quiz" 
+    ? allTypeFilters.filter(f => f.value === "ALL" || f.value === "MCQ" || f.value === "TRUE_FALSE")
+    : allTypeFilters;
 
   return (
     <div className="flex flex-col gap-4 mb-6">
