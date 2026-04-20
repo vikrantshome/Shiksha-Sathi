@@ -7,11 +7,19 @@ import { useState, useSyncExternalStore } from "react";
 import { deleteCookie } from "cookies-next";
 
 /* ─────────────────────────────────────────────────────────
-   Student Layout Shell
-   Patterned after teacher layout but simplified for student needs.
-   Top nav + mobile bottom tabs. No left sidebar rail.
-   Design System: "The Digital Atelier" — Heritage Palette + M3
-   ───────────────────────────────────────────────────────── */
+    Student Layout Shell
+    Patterned after teacher layout with left sidebar rail on desktop.
+    Top nav + mobile bottom tabs. 
+    Design System: "The Digital Atelier" — Heritage Palette + M3
+    ───────────────────────────────────────────────────────── */
+
+const IconLogout = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <polyline points="16 17 21 12 16 7" />
+    <line x1="21" y1="12" x2="9" y2="12" />
+  </svg>
+);
 
 const IconBook = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -121,7 +129,7 @@ export default function StudentLayout({
         boxShadow: "0 1px 3px rgba(27, 28, 30, 0.04)"
       }}>
         <div className="flex justify-between items-center px-3 md:px-4 h-full max-w-[100rem] mx-auto">
-          {/* Left: Brand + Nav */}
+          {/* Left: Brand */}
           <div className="flex items-center gap-2 md:gap-3">
             <Link
               href="/student/dashboard"
@@ -134,38 +142,9 @@ export default function StudentLayout({
                 Shiksha Sathi
               </span>
             </Link>
-
-            {/* Navigation Tabs — Refined Academic Style */}
-            <div className="hidden md:flex items-center gap-1 h-full" role="tablist">
-              {navItems.map((item) => {
-                const active = isActive(item.href);
-                return (
-                  <Link
-                    key={item.key}
-                    href={item.href}
-                    role="tab"
-                    aria-selected={active}
-                    className={`h-10 flex items-center gap-2 text-[0.875rem] no-underline transition-all duration-200 px-4 ${
-                      active
-                        ? "font-semibold rounded-full"
-                        : "font-medium hover:bg-surface-container rounded-md"
-                    }`}
-                    style={active ? {
-                      background: "var(--color-primary-container)",
-                      color: "var(--color-on-primary-container)"
-                    } : {
-                      color: "var(--color-on-surface-variant)"
-                    }}
-                  >
-                    <item.icon active={active} />
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
           </div>
 
-          {/* Right: Student Identity + Actions */}
+          {/* Right: Student Identity + Menu Toggle */}
           <div className="flex items-center gap-2">
             {studentName && (
               <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ background: "var(--color-surface-container)" }}>
@@ -173,58 +152,8 @@ export default function StudentLayout({
                   {studentName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
                 </div>
                 <span className="text-xs font-medium" style={{ color: "var(--color-on-surface)" }}>{studentName}</span>
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="ml-1 text-[0.625rem] font-bold uppercase tracking-wider transition-colors cursor-pointer bg-transparent border-none"
-                  style={{ color: "var(--color-primary)" }}
-                >
-                  Logout
-                </button>
               </div>
             )}
-            <Link
-              href="/student/assignment/"
-              className="hidden md:inline-flex items-center gap-2 no-underline text-[0.875rem] font-medium px-5 py-2.5 rounded-sm transition-all active:scale-95"
-              style={{
-                background: "var(--color-primary)",
-                color: "var(--color-on-primary)",
-                boxShadow: "var(--shadow-sm)"
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                const code = prompt("Enter your assignment code:");
-                if (code) window.location.href = `/student/assignment/${code}`;
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
-              </svg>
-              Enter Code
-            </Link>
-
-            <Link
-              href="/student/quizzes/join"
-              className="hidden md:inline-flex items-center gap-2 no-underline text-[0.875rem] font-medium px-5 py-2.5 rounded-sm transition-all active:scale-95"
-              style={{
-                background: "var(--color-secondary-container)",
-                color: "var(--color-on-secondary-container)",
-                boxShadow: "var(--shadow-sm)"
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                const code = prompt("Enter your quiz code:");
-                if (code) window.location.href = `/student/quizzes/join?code=${encodeURIComponent(code)}`;
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 12h6" />
-                <path d="M9 16h4" />
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <path d="M14 2v6h6" />
-              </svg>
-              Quiz Code
-            </Link>
 
             {/* Mobile Menu Toggle */}
             <button
@@ -311,11 +240,81 @@ export default function StudentLayout({
       )}
 
       {/* ═══ Main Content ═══ */}
-      <main className="flex-1 w-full pt-16 pb-20 md:pb-8 bg-surface">
-        <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
-          {children}
-        </div>
-      </main>
+      <div className="flex flex-1 pt-16">
+        {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
+        <aside className="hidden lg:flex flex-col w-48 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
+          {/* Brand Section */}
+          <div className="px-4 pt-6 pb-4">
+            <span className="text-[0.6875rem] font-bold tracking-[0.08em] text-[#12423f]/60 uppercase">
+              Student Portal
+            </span>
+          </div>
+          {/* Nav Links */}
+          <nav className="flex flex-col gap-1 px-3">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              const ItemIcon = item.icon;
+              return (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm no-underline transition-all duration-200 ${
+                    active
+                      ? "bg-white text-[#12423f] font-semibold shadow-sm"
+                      : "text-[#1c1c1a] opacity-80 hover:opacity-100 hover:bg-[#ebe8e4]"
+                  }`}
+                >
+                  <ItemIcon active={active} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Quick Actions */}
+          <div className="mt-auto p-6">
+            {/* Enter Assignment Code */}
+            <button
+              onClick={() => {
+                const code = prompt("Enter your assignment code:");
+                if (code) window.location.href = `/student/assignment/${code}`;
+              }}
+              className="block w-full bg-[linear-gradient(135deg,#12423f_0%,#2d5a56_100%)] text-white py-3 rounded-lg font-bold text-sm text-center no-underline shadow-sm hover:opacity-90 transition-opacity cursor-pointer border-none mb-3"
+            >
+              Enter Assignment
+            </button>
+
+            {/* Enter Quiz Code */}
+            <button
+              onClick={() => {
+                const code = prompt("Enter your quiz code:");
+                if (code) window.location.href = `/student/quizzes/join?code=${encodeURIComponent(code)}`;
+              }}
+              className="block w-full bg-white text-[#12423f] py-3 rounded-lg font-bold text-sm text-center no-underline shadow-sm hover:bg-gray-50 transition-colors cursor-pointer border border-[#12423f]/20 mb-3"
+            >
+              Join Quiz
+            </button>
+
+            {/* Log out */}
+            <div className="border-t border-[#c0c8c6]/20 pt-3 mt-3">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 text-[#1c1c1a] py-2 text-[0.8125rem] bg-transparent border-none cursor-pointer hover:text-[#12423f] transition-colors duration-120 text-left w-full"
+              >
+                <IconLogout />
+                Log out
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        {/* ═══ Main Content Area ═══ */}
+        <main className="flex-1 w-full max-w-full overflow-hidden pb-24 md:pb-0">
+          <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
+            {children}
+          </div>
+        </main>
+      </div>
 
       {/* ═══ Bottom Navigation Bar (Refined M3 Pattern) ═══ */}
       <nav className="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 z-50 px-1" style={{

@@ -164,6 +164,13 @@ export default async function QuestionBankPage({
       type,
       visibleOnly: true,
     });
+
+    // Quiz mode: only allow MCQ and TRUE_FALSE types
+    if (context === "quiz") {
+      displayedQuestions = displayedQuestions.filter(
+        (q) => q.type === "MCQ" || q.type === "TRUE_FALSE"
+      );
+    }
   }
 
   // Determine empty state message and icon
@@ -275,7 +282,7 @@ export default async function QuestionBankPage({
                 ) : (
                   <div className="flex flex-col gap-4 md:gap-5">
                     {displayedQuestions.map((question) => (
-                      <QuestionCard key={question.id} question={question} />
+                      <QuestionCard key={question.id} question={question} mode={context === "quiz" ? "quiz" : "assignment"} />
                     ))}
                   </div>
                 )}

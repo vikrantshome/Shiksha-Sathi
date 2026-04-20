@@ -83,8 +83,10 @@ export default function TeacherQuizSessionPage() {
           <p className="m-0 text-sm text-on-surface-variant flex items-center gap-3 flex-wrap">
             Join code: <span className="font-semibold text-on-surface">{state?.sessionCode}</span> • {questionLabel} • Status:{" "}
             <span className="font-semibold text-on-surface">{status}</span>
-            <CountdownRing secondsRemaining={state?.secondsRemaining} totalSeconds={state?.timePerQuestionSec} size={40} />
           </p>
+          <div className="flex items-center gap-3">
+            <CountdownRing secondsRemaining={state?.secondsRemaining} totalSeconds={state?.timePerQuestionSec} size={40} />
+          </div>
         </div>
         <button
           type="button"
@@ -92,6 +94,13 @@ export default function TeacherQuizSessionPage() {
           onClick={() => router.push("/teacher/quizzes")}
         >
           Back to Quizzes
+        </button>
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => window.open(`/teacher/quizzes/display/${sessionId}`, "_blank", "width=1024,height=768")}
+        >
+          Open Display Mode
         </button>
       </header>
 
