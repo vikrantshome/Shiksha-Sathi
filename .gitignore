@@ -79,3 +79,4 @@ doc/Exemplar/*.pdf
 
 # AI assistant settings
 .qwen/
+.worktrees/
