@@ -351,13 +351,13 @@ export default async function TeacherDashboard() {
                   <p className="text-[10px] text-[#707977]">Push to all active classes</p>
                 </div>
               </Link>
-              <Link href="/teacher/question-bank" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+              <Link href="/teacher/quizzes/create" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
                 <span className="material-symbols-outlined text-white bg-[#536255] p-2 rounded-lg shadow-sm">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-[#1c1c1a]">Question Bank</p>
-                  <p className="text-[10px] text-[#707977]">Browse NCERT questions</p>
+                  <p className="text-sm font-bold text-[#1c1c1a]">Create Quiz</p>
+                  <p className="text-[10px] text-[#707977]">Interactive live assessments</p>
                 </div>
               </Link>
               <Link href="/teacher/classes" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
@@ -369,7 +369,7 @@ export default async function TeacherDashboard() {
                   <p className="text-[10px] text-[#707977]">Add students & sections</p>
                 </div>
               </Link>
-              <Link href="/teacher/classes" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
+              <Link href="/teacher/assignments" className="flex items-center gap-3 p-4 bg-white hover:bg-[#f7f3ee] rounded-xl transition-all text-left shadow-sm group border border-[#e5e2de]">
                 <span className="material-symbols-outlined text-white bg-[#396662] p-2 rounded-lg shadow-sm">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </span>
