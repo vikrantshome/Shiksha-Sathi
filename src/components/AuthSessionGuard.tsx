@@ -31,7 +31,7 @@ export default function AuthSessionGuard() {
           return;
         }
 
-        router.replace("/");
+        router.replace("/student/dashboard");
       } catch {
         deleteCookie("auth-token", { path: "/" });
       }
