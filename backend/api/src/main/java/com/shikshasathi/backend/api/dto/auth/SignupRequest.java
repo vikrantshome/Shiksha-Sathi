@@ -21,6 +21,9 @@ public class SignupRequest {
     @NotBlank(message = "School is required")
     private String school; // School/Institute name (required)
 
+    @NotBlank(message = "Board is required")
+    private String board; // Board (CBSE, ICSE, State Board, etc.) - required for teachers
+
     // Student-specific fields (required when role = STUDENT)
     private String rollNumber;
     private String studentClass; // Class/Grade (e.g., "8")

@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { api } from "@/lib/api";
-import ProfileForm from "@/components/ProfileForm";
 import { ProfileResponse } from "@/lib/api/types";
 
 export const dynamic = "force-dynamic";
@@ -20,18 +19,6 @@ export default async function ProfilePage() {
     errorState = true;
   }
 
-  const initialData = {
-    name: profile?.name || "",
-    school: profile?.school || "",
-    board: profile?.board || "CBSE",
-  };
-
-  const profileStrength = initialData.school && initialData.board
-    ? 100
-    : initialData.name
-    ? 66
-    : 33;
-
   return (
     <div className="max-w-[72rem] mx-auto pb-10 md:pb-12">
       <section className="mb-6 md:mb-8 lg:mb-10">
@@ -48,50 +35,54 @@ export default async function ProfilePage() {
         </p>
       </section>
 
-      {errorState && (
+      {errorState ? (
         <div className="mb-4 md:mb-6 p-3 md:p-4 rounded-md bg-error/[0.08] text-error text-sm">
-          Error loading profile data. You can still update your details below
-          and try saving again.
+          Error loading profile data.
+        </div>
+      ) : (
+        <div className="bg-surface-container-lowest rounded-lg shadow-sm p-8 grid gap-8">
+          <section className="grid gap-5">
+            <div>
+              <p className="text-label-sm text-on-surface-variant m-0">
+                Personal Details
+              </p>
+              <h2 className="font-manrope text-xl font-bold text-on-surface mt-1 mb-0">
+                Your Profile
+              </h2>
+            </div>
+            <div>
+              <label className="text-label-md block text-on-surface-variant mb-1">
+                Full Name
+              </label>
+              <p className="text-[0.9375rem] text-on-surface">
+                {profile?.name || "Not set"}
+              </p>
+            </div>
+          </section>
+
+          <section className="grid gap-5">
+            <div>
+              <label className="text-label-md block text-on-surface-variant mb-1">
+                School Name
+              </label>
+              <p className="text-[0.9375rem] text-on-surface">
+                {profile?.school || "Not set"}
+              </p>
+            </div>
+          </section>
+
+          <section className="grid gap-5">
+            <div>
+              <label className="text-label-md block text-on-surface-variant mb-1">
+                Board
+              </label>
+              <p className="text-[0.9375rem] text-on-surface">
+                {profile?.board || "Not set"}
+              </p>
+            </div>
+          </section>
         </div>
       )}
-
-      {/* 2-column on desktop, stacked on mobile */}
-      <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,24rem)] lg:items-start">
-        <div>
-          <ProfileForm initialData={initialData} />
-        </div>
-
-        <aside className="grid gap-4 md:gap-6">
-          {/* Profile Strength Card */}
-          <section className="bg-primary-container rounded-lg p-5 md:p-6">
-            <p className="text-label-sm text-on-primary-container m-0">
-              Profile Strength
-            </p>
-            <div className="w-full h-2 bg-white/35 rounded-full overflow-hidden mt-4">
-              <div
-                className="h-full bg-primary rounded-full transition-all duration-500 w-[var(--strength-w)]"
-                style={{ '--strength-w': `${profileStrength}%` } as React.CSSProperties}
-              />
-            </div>
-            <p className="text-[0.8125rem] leading-[1.7] text-on-primary-container mt-2 md:mt-3 mb-0">
-              Complete school and board context so your teaching workspace stays
-              aligned with the right curriculum signals.
-            </p>
-          </section>
-
-          {/* Teacher Insight Card */}
-          <section className="bg-tertiary-container rounded-lg p-5 md:p-6">
-            <p className="text-label-sm text-[var(--color-on-tertiary-container)] m-0">
-              Teacher Insight
-            </p>
-            <p className="text-sm leading-[1.7] text-[var(--color-on-tertiary-container)] mt-2 md:mt-3 mb-0">
-              Teachers with clear board alignment move faster from question
-              selection to assignment publication because the workspace can
-              narrow content sooner.
-            </p>
-          </section>
-        </aside>
-      </div>
     </div>
   );
 }
