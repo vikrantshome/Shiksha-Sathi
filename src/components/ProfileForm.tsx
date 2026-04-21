@@ -84,9 +84,6 @@ export default function ProfileForm({
           <p className="text-label-sm text-on-surface-variant m-0">
             School Details
           </p>
-          <h2 className="font-manrope text-lg font-bold text-on-surface mt-1 mb-0">
-            Teaching Context
-          </h2>
         </div>
         <div>
           <label className="text-label-md block text-on-surface-variant mb-2">
