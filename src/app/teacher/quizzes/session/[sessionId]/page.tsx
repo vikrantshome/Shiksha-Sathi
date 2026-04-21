@@ -166,11 +166,11 @@ export default function TeacherQuizSessionPage() {
               <span className="hidden sm:inline">Live Quiz Console</span>
               <span className="sm:hidden">Quiz Console</span>
             </p>
-            <h1 className="m-0 font-bold tracking-[-0.02em] text-primary" style={{ fontSize: "clamp(1.5rem, 5vw, 2.5rem)" }}>
+            <h1 className="m-0 font-bold tracking-[-0.02em] text-primary text-xl md:text-2xl lg:text-3xl">
               {state?.quizTitle ?? "Quiz"}
             </h1>
             <p className="m-0 text-sm text-on-surface-variant flex flex-wrap items-center gap-2 md:gap-3">
-              <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)", fontSize: "clamp(0.875rem, 2vw, 1rem)" }}>
+              <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs md:text-sm font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                 <CodeIcon />
                 <span className="font-mono">{state?.sessionCode}</span>
               </span>
@@ -301,7 +301,7 @@ export default function TeacherQuizSessionPage() {
             >
               {/* Question Header */}
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                <h2 className="m-0 text-lg md:text-xl font-bold text-on-surface leading-relaxed flex-1">
+                <h2 className="m-0 text-base md:text-lg font-bold text-on-surface leading-relaxed flex-1">
                   <span className="mr-1 text-on-surface-variant font-extrabold">{state.currentQuestionIndex + 1}.</span>
                   {state.currentQuestion.text}
                 </h2>
@@ -328,7 +328,7 @@ export default function TeacherQuizSessionPage() {
                         }}
                       >
                         <div className="flex items-center justify-between gap-2 relative z-10">
-                          <span className="text-base md:text-lg font-bold" style={{ color: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-on-surface)" }}>
+                          <span className="text-sm md:text-lg font-bold" style={{ color: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-on-surface)" }}>
                             {opt}
                           </span>
                           <span className="text-xs md:text-sm font-extrabold tabular-nums" style={{ color: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-on-surface-variant)" }}>
@@ -375,10 +375,10 @@ export default function TeacherQuizSessionPage() {
                       >
                         <div className="flex items-center justify-between gap-2 relative z-10">
                           <div className="flex items-center gap-2">
-                            <span className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-bold" style={{ background: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-surface-container)", color: isCorrect && isReveal ? "var(--color-on-primary)" : "var(--color-on-surface-variant)" }}>
+                            <span className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-surface-container)", color: isCorrect && isReveal ? "var(--color-on-primary)" : "var(--color-on-surface-variant)" }}>
                               {optionLabel}
                             </span>
-                            <span className="text-sm md:text-base font-semibold text-on-surface">{opt}</span>
+                            <span className="text-xs md:text-sm font-semibold text-on-surface">{opt}</span>
                           </div>
                           <span className="text-xs md:text-sm font-extrabold tabular-nums" style={{ color: isCorrect && isReveal ? "var(--color-primary)" : "var(--color-on-surface-variant)" }}>
                             {count} ({pct}%)
@@ -407,7 +407,7 @@ export default function TeacherQuizSessionPage() {
               {/* Answer Footer */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 md:gap-4 pt-2">
                 {state.correctAnswer ? (
-                  <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
+                  <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs md:text-sm font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                     <CheckIcon />
                     Correct: {state.correctAnswer}
                   </div>
@@ -438,7 +438,7 @@ export default function TeacherQuizSessionPage() {
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               </div>
-              <p className="text-base md:text-lg font-medium text-on-surface">Session is in lobby</p>
+              <p className="text-sm md:text-base font-medium text-on-surface">Session is in lobby</p>
               <p className="text-sm text-on-surface-variant mt-1">Students can join using the code above</p>
             </motion.div>
           )}
