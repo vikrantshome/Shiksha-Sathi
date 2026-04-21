@@ -240,7 +240,7 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: state?.locked ? "var(--color-tertiary-container)" : "var(--color-surface-container-high)", color: state?.locked ? "var(--color-on-tertiary)" : "var(--color-on-surface)" }}
+              style={{ background: state?.locked ? "#0f766e" : "#e5e7eb", color: state?.locked ? "white" : "#1f2937" }}
               onClick={() => run(() => api.quizSessions.lock(sessionId, !state?.locked))}
             >
               <LockIcon locked={state?.locked ?? false} />
@@ -250,7 +250,7 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isLive || isReveal || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "var(--color-primary)", color: "var(--color-on-primary)" }}
+              style={{ background: "#0d5a54", color: "white" }}
               onClick={() => run(() => api.quizSessions.start(sessionId))}
             >
               <PlayIcon />
@@ -260,7 +260,7 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isLobby || isReveal || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "var(--color-tertiary-container)", color: "var(--color-on-tertiary)" }}
+              style={{ background: "var(--color-primary-dim)", color: "white" }}
               onClick={() => run(() => api.quizSessions.reveal(sessionId))}
             >
               <EyeIcon />
@@ -270,7 +270,7 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isLobby || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}
+              style={{ background: "#3d6b4f", color: "white" }}
               onClick={() => run(() => api.quizSessions.next(sessionId))}
             >
               <ArrowIcon />
@@ -280,7 +280,7 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "var(--color-error-container)", color: "var(--color-error)" }}
+              style={{ background: "#b91c1c", color: "white" }}
               onClick={() => run(() => api.quizSessions.end(sessionId))}
             >
               <CloseIcon />
