@@ -60,14 +60,25 @@ def web_search(query: str) -> Optional[str]:
 
 
 def load_mongodb_uri() -> str:
-    env_path = os.path.join(os.path.dirname(__file__), ".env")
-    if os.path.exists(env_path):
-        with open(env_path) as f:
-            for line in f:
-                if line.strip().startswith("MONGODB_URI="):
-                    uri = line.split("=", 1)[1].strip().strip('"')
-                    return uri
-    return os.environ.get("MONGODB_URI", "mongodb://localhost:27017/")
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), ".env"),
+        os.path.join(os.path.dirname(__file__), "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", ".env.local"),
+    ]
+    for env_path in possible_paths:
+        env_path = os.path.abspath(env_path)
+        if os.path.exists(env_path):
+            with open(env_path) as f:
+                for line in f:
+                    if line.strip().startswith("MONGODB_URI="):
+                        uri = line.split("=", 1)[1].strip().strip('"')
+                        return uri
+    return os.environ.get(
+        "MONGODB_URI",
+        "mongodb+srv://devteam2025:devteam2026@naviksha.g77okxs.mongodb.net/shikshasathi?appName=naviksha",
+    )
 
 
 def get_mongodb_connection() -> MongoClient:
@@ -77,12 +88,21 @@ def get_mongodb_connection() -> MongoClient:
 
 
 def load_api_key() -> str:
-    env_path = os.path.join(os.path.dirname(__file__), ".env")
-    if os.path.exists(env_path):
-        with open(env_path) as f:
-            for line in f:
-                if line.strip().startswith("NVIDIA_API_KEY="):
-                    return line.split("=", 1)[1].strip()
+    # For worktrees, go up from .worktrees/audit-run/scripts/audit-agent to repo root
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), ".env"),
+        os.path.join(os.path.dirname(__file__), "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", ".env.local"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", ".env.local"),
+    ]
+    for env_path in possible_paths:
+        env_path = os.path.abspath(env_path)
+        if os.path.exists(env_path):
+            with open(env_path) as f:
+                for line in f:
+                    if line.strip().startswith("NVIDIA_API_KEY="):
+                        return line.split("=", 1)[1].strip()
     api_key = os.environ.get("NVIDIA_API_KEY")
     if not api_key:
         raise ValueError("NVIDIA_API_KEY not found in .env or environment")
@@ -192,6 +212,7 @@ class AuditAgent:
         self,
         api_key: str,
         model: str = "moonshotai/kimi-k2-thinking",
+        fallback_model: str = "minimaxai/minimax-m2.5",
         enable_web_search: bool = True,
     ):
         self.client = OpenAI(
@@ -199,10 +220,17 @@ class AuditAgent:
             api_key=api_key,
         )
         self.model = model
+        self.fallback_model = fallback_model
         self.enable_web_search = enable_web_search
         self.source_fetcher = (
             AuthoritativeSourceFetcher() if enable_web_search else None
         )
+        self.retry_system_prompt = """You are a JSON generator. Your ONLY task is to output valid JSON.
+
+Respond with ONLY a JSON array, no explanations, no markdown, no code blocks:
+[{"question_id": "id", "status": "ok"|"needs_fix", "issues": [], "auto_fixes": {}, "recommendation": "approve"|"needs_review"}]
+
+DO NOT include any text before or after the JSON. Start with [ and end with ]."""
 
         self.system_prompt = """You are a question bank quality assurance expert specializing in Indian education (NCERT curriculum for Classes 6-12).
 
@@ -372,11 +400,260 @@ Analyze and respond with JSON array."""
 
             message = response.choices[0].message
             content = message.content or message.reasoning or ""
-            return self._parse_response(content, questions)
+
+            # First attempt with normal parsing
+            results = self._parse_response(content, questions)
+
+            # Check if we got valid results (not all parse errors)
+            if results and all(
+                r.get("status") == "error" and "Parse error" in str(r.get("issues", []))
+                for r in results
+            ):
+                # Retry with enhanced parsing
+                logger.info("First parse failed, retrying with enhanced parsing")
+                results = self._parse_response_enhanced(content, questions)
+
+            # If still failing, try with simpler prompt
+            if results and all(
+                r.get("status") == "error" and "Parse error" in str(r.get("issues", []))
+                for r in results
+            ):
+                logger.info("Enhanced parsing failed, retrying with simple prompt")
+                results = self._retry_with_simple_prompt(question)
+
+            # Check if we still have parse errors - try fallback model (ANY parse error trigger)
+            if any(
+                (
+                    r.get("status") == "error"
+                    and "Parse error" in str(r.get("issues", []))
+                )
+                or r.get("error_category") == "MISSING_RESULT"
+                for r in results
+            ):
+                logger.info(
+                    f"Parse errors found, retrying with fallback model: {self.fallback_model}"
+                )
+                results = self._retry_with_fallback_model(question)
+
+            return results
 
         except Exception as e:
+            error_str = str(e)
+            # Check for API errors (504 Gateway Timeout, rate limits, etc.)
+            if (
+                "504" in error_str
+                or "Gateway Timeout" in error_str
+                or "rate_limit" in error_str
+                or "429" in error_str
+            ):
+                logger.warning(
+                    f"API error: {error_str}, retrying with fallback model: {self.fallback_model}"
+                )
+                return self._retry_with_fallback_model(question)
+
             logger.error(f"API error: {e}")
             return [{"error": str(e)} for _ in questions]
+
+    def _parse_response_enhanced(
+        self, content: str, questions: List[Dict]
+    ) -> List[Dict]:
+        """Enhanced JSON parsing with multiple fallback strategies."""
+        results = []
+        content = content.strip()
+
+        # Remove markdown code blocks
+        content = re.sub(r"```json", "", content)
+        content = re.sub(r"```", "", content)
+        content = re.sub(r"<thinking>.*?</thinking>", "", content, flags=re.DOTALL)
+
+        # Strategy 1: Find JSON array
+        start_idx = content.find("[")
+        if start_idx == -1:
+            start_idx = content.find("{")
+
+        if start_idx != -1:
+            json_str = content[start_idx:]
+
+            # Try to find matching closing bracket
+            depth = 0
+            end_idx = 0
+            in_string = False
+            escape = False
+            for i, c in enumerate(json_str):
+                if escape:
+                    escape = False
+                    continue
+                if c == "\\":
+                    escape = True
+                    continue
+                if c == '"':
+                    in_string = not in_string
+                    continue
+                if not in_string:
+                    if c == "[" or c == "{":
+                        depth += 1
+                    elif c == "]" or c == "}":
+                        depth -= 1
+                    if depth == 0:
+                        end_idx = i + 1
+                        break
+
+            if end_idx > 0:
+                json_str = json_str[:end_idx]
+
+                # Try original
+                try:
+                    data = json.loads(json_str)
+                    if isinstance(data, list):
+                        results.extend(data)
+                    elif isinstance(data, dict):
+                        results.append(data)
+                    if results:
+                        return results[: len(questions)]
+                except:
+                    pass
+
+                # Try fixing trailing commas
+                try:
+                    json_str_fixed = re.sub(r",(\s*[}\]])", r"\1", json_str)
+                    data = json.loads(json_str_fixed)
+                    if isinstance(data, list):
+                        results.extend(data)
+                    elif isinstance(data, dict):
+                        results.append(data)
+                    if results:
+                        return results[: len(questions)]
+                except:
+                    pass
+
+                # Try extracting individual JSON objects
+                try:
+                    obj_matches = re.finditer(
+                        r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}", json_str
+                    )
+                    for match in obj_matches:
+                        try:
+                            obj = json.loads(match.group())
+                            results.append(obj)
+                        except:
+                            continue
+                    if results:
+                        return results[: len(questions)]
+                except:
+                    pass
+
+        # If all strategies fail, return error
+        while len(results) < len(questions):
+            results.append(
+                {
+                    "status": "error",
+                    "issues": ["Parse error: Missing result for question"],
+                    "error_category": "MISSING_RESULT",
+                    "recommendation": "retry",
+                }
+            )
+        return results[: len(questions)]
+
+    def _retry_with_simple_prompt(self, question: Dict) -> List[Dict]:
+        """Retry with simpler prompt that outputs minimal JSON."""
+        q_text = question.get("text", question.get("question_text", ""))
+        q_type = question.get("type", "UNKNOWN")
+        q_answer = question.get("correctAnswer", question.get("answer", ""))
+        q_id = str(question["_id"])
+
+        user_prompt = f"""Question ID: {q_id}
+Type: {q_type}
+Question: {q_text}
+Answer: {q_answer}
+
+Output ONLY valid JSON array like:
+[{{"question_id": "{q_id}", "status": "ok", "issues": [], "auto_fixes": {{}}, "recommendation": "approve"}}]
+
+No other text."""
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": self.retry_system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.1,
+                max_tokens=1000,
+            )
+
+            message = response.choices[0].message
+            content = message.content or message.reasoning or ""
+
+            # Try to parse
+            return self._parse_response_enhanced(content, [question])
+
+        except Exception as e:
+            error_str = str(e)
+            if (
+                "504" in error_str
+                or "Gateway Timeout" in error_str
+                or "rate_limit" in error_str
+                or "429" in error_str
+            ):
+                logger.warning(
+                    f"Simple prompt retry failed: {error_str}, trying fallback model"
+                )
+                return self._retry_with_fallback_model(question)
+
+            logger.error(f"Simple prompt retry failed: {e}")
+            return [
+                {
+                    "status": "error",
+                    "issues": ["Retry with simple prompt failed"],
+                    "error_category": "MISSING_RESULT",
+                    "recommendation": "manual_review",
+                }
+            ]
+
+    def _retry_with_fallback_model(self, question: Dict) -> List[Dict]:
+        """Retry with fallback model when primary model returns empty/invalid response."""
+        q_text = question.get("question_text", "")
+        q_id = question.get("question_id", "")
+        q_type = question.get("type", "SHORT_ANSWER")
+        q_answer = question.get("correctAnswer", "")
+
+        user_prompt = f"""Analyze this question and return JSON result:
+
+Question: {q_text}
+Type: {q_type}
+Answer: {q_answer}
+
+JSON format (ONLY):
+[{{"question_id": "{q_id}", "status": "ok"|"needs_fix"|"error", "issues": [], "auto_fixes": {{}}, "recommendation": "approve"|"needs_review"}}]"""
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.fallback_model,
+                messages=[
+                    {"role": "system", "content": self.retry_system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.1,
+                max_tokens=1000,
+            )
+
+            message = response.choices[0].message
+            content = message.content or message.reasoning or ""
+
+            logger.info(f"Fallback model returned: {content[:100]}...")
+            return self._parse_response_enhanced(content, [question])
+
+        except Exception as e:
+            logger.error(f"Fallback model failed: {e}")
+            return [
+                {
+                    "status": "error",
+                    "issues": ["Fallback model retry failed"],
+                    "error_category": "MISSING_RESULT",
+                    "recommendation": "manual_review",
+                }
+            ]
 
     def _parse_response(self, content: str, questions: List[Dict]) -> List[Dict]:
         results = []
@@ -519,9 +796,14 @@ def apply_rule_based_fixes(question: Dict, result: Dict) -> Dict:
                 )
                 result.setdefault("auto_fixes", {})["options"] = options
 
-    # Rule 26: Invalid type conversion
-    if q_type in ["LONG_ANSWER", "ESSAY", "CONSTRUCTION"]:
-        if q_type in ["LONG_ANSWER", "ESSAY"]:
+    # Rule 26: Invalid type conversion (enhanced)
+    if q_type in ["LONG_ANSWER", "ESSAY", "CONSTRUCTION", "FILL_IN_BLANKS"]:
+        if q_type == "FILL_IN_BLANKS":
+            updates["type"] = "SHORT_ANSWER"
+            result.setdefault("issues", []).append(
+                "Converted FILL_IN_BLANKS to SHORT_ANSWER"
+            )
+        elif q_type in ["LONG_ANSWER", "ESSAY"]:
             if len(q_answer.split()) > 20:
                 updates["type"] = "DESCRIPTIVE"
             else:
@@ -532,6 +814,55 @@ def apply_rule_based_fixes(question: Dict, result: Dict) -> Dict:
             f"Converted invalid type {q_type} to {updates['type']}"
         )
         result.setdefault("auto_fixes", {})["type"] = updates["type"]
+
+    # Rule 28: Fix placeholder answers
+    placeholder_patterns = [
+        (r"^Explanation\s*:?\s*(None|Answer\s*:|See|Not provided)", ""),
+        (r"^See detailed solution", ""),
+        (r"^Model Response\s*:", ""),
+        (r"^Answer:\s*See", ""),
+        (r"^numerical factor needed", ""),
+        (r"^reason required", ""),
+        (r"^Please refer to.*", ""),
+        (r"^See attached.*", ""),
+    ]
+
+    for pattern, replacement in placeholder_patterns:
+        if re.search(pattern, q_answer, re.I):
+            # Try to extract actual answer from explanation field
+            q_explanation = str(question.get("explanation", "")).strip()
+            if q_explanation and len(q_explanation.split()) > 2:
+                updates["correctAnswer"] = q_explanation
+                result.setdefault("issues", []).append(
+                    "Replaced placeholder with explanation"
+                )
+                result.setdefault("auto_fixes", {})["answer"] = q_explanation
+                break
+            else:
+                # Mark for manual review
+                result["recommendation"] = "needs_review"
+                break
+
+    # Rule 29: Fix corrupted control characters
+    if question.get("text"):
+        text = question["text"]
+        cleaned = "".join(c for c in text if ord(c) >= 32 or c in "\n\t\r")
+        if cleaned != text:
+            updates["text"] = cleaned
+            result.setdefault("issues", []).append(
+                "Removed control characters from question"
+            )
+            result.setdefault("auto_fixes", {})["text"] = cleaned
+
+    if question.get("correctAnswer"):
+        ans = str(question.get("correctAnswer", ""))
+        cleaned = "".join(c for c in ans if ord(c) >= 32 or c in "\n\t\r")
+        if cleaned != ans:
+            updates["correctAnswer"] = cleaned
+            result.setdefault("issues", []).append(
+                "Removed control characters from answer"
+            )
+            result.setdefault("auto_fixes", {})["answer"] = cleaned
 
     # Rule 27: Multi-part detection
     if re.search(r"\([a-d]\)\s*\.?\s*[A-Z]", q_text) and q_type not in [
@@ -832,8 +1163,13 @@ def main():
     )
     parser.add_argument(
         "--model",
-        default="mistralai/mistral-small-4-119b-2603",
-        help="Model to use (mistralai/mistral-small-4-119b-2603 - best GPQA)",
+        default="moonshotai/kimi-k2-thinking",
+        help="Primary model to use (default: moonshotai/kimi-k2-thinking)",
+    )
+    parser.add_argument(
+        "--fallback-model",
+        default="minimaxai/minimax-m2.5",
+        help="Fallback model when primary returns empty result (default: minimaxai/minimax-m2.5)",
     )
     parser.add_argument(
         "--classes",
@@ -851,6 +1187,36 @@ def main():
         action="store_true",
         help="Disable web search for authoritative verification",
     )
+    parser.add_argument(
+        "--retry-errors",
+        action="store_true",
+        help="Only process questions with audit_status=error",
+    )
+    parser.add_argument(
+        "--fix-empty-answers",
+        action="store_true",
+        help="Generate answers for questions with empty_answer error using LLM",
+    )
+    parser.add_argument(
+        "--fix-missing-result",
+        action="store_true",
+        help="Retry questions with MISSING_RESULT error using simple prompt",
+    )
+    parser.add_argument(
+        "--fix-unsupported-type",
+        action="store_true",
+        help="Convert unsupported types to supported types",
+    )
+    parser.add_argument(
+        "--fix-placeholder-answer",
+        action="store_true",
+        help="Generate answers for questions with placeholder_answer error using LLM",
+    )
+    parser.add_argument(
+        "--fix-corrupted-chars",
+        action="store_true",
+        help="Strip and fix corrupted_control_chars errors, re-validate with LLM if needed",
+    )
     args = parser.parse_args()
 
     logger.info(f"Model: {args.model}")
@@ -866,7 +1232,12 @@ def main():
         return 1
 
     api_key = load_api_key()
-    agent = AuditAgent(api_key, args.model, enable_web_search=not args.no_web_search)
+    agent = AuditAgent(
+        api_key,
+        args.model,
+        args.fallback_model,
+        enable_web_search=not args.no_web_search,
+    )
 
     processed_ids = load_processed_ids(args.results_file)
     logger.info(f"Already processed: {len(processed_ids)} questions")
@@ -874,6 +1245,465 @@ def main():
     classes_to_process = [args.class_num] if args.class_num else args.classes
 
     total_stats = {"processed": 0, "fixed": 0, "skipped": 0, "errors": 0}
+
+    # Handle retry mode - query only error questions
+    if args.retry_errors:
+        for class_num in classes_to_process:
+            query = {"provenance.class": class_num, "audit_status": "error"}
+            error_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(error_questions)} error questions to retry"
+            )
+
+            # Process error questions
+            if error_questions:
+                for q in error_questions:
+                    results = agent.audit_questions([q])
+                    for question, result in zip([q], results):
+                        result["class"] = class_num
+                        result["status_db"] = "error_retry"
+                        process_result(
+                            question,
+                            result,
+                            db,
+                            args.dry_run,
+                            args.results_file,
+                            total_stats,
+                        )
+                    time.sleep(0.5)
+
+        logger.info("=== Retry Complete ===")
+        logger.info(
+            f"Processed: {total_stats['processed']}, Fixed: {total_stats['fixed']}, OK: {total_stats['skipped']}, Errors: {total_stats['errors']}"
+        )
+        return 0
+
+    # Handle empty_answer fix mode - generate answers using LLM directly
+    if args.fix_empty_answers:
+        from openai import OpenAI
+
+        client = OpenAI(
+            base_url="https://integrate.api.nvidia.com/v1",
+            api_key=api_key,
+        )
+
+        for class_num in classes_to_process:
+            query = {
+                "provenance.class": class_num,
+                "audit_status": "error",
+                "error_category": "empty_answer",
+            }
+            empty_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(empty_questions)} empty answer questions"
+            )
+
+            for i, q in enumerate(empty_questions):
+                q_id = str(q["_id"])
+                q_text = q.get("text", q.get("question_text", ""))
+                q_type = q.get("type", "SHORT_ANSWER")
+
+                # Generate answer using LLM
+                prompt = f"""Given this question, provide a correct and complete answer.
+
+Question Type: {q_type}
+Question: {q_text}
+
+Respond with ONLY the answer text, no explanations or JSON."""
+
+                try:
+                    response = client.chat.completions.create(
+                        model="mistralai/mistral-small-4-119b-2603",
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.1,
+                        max_tokens=500,
+                    )
+                    answer = response.choices[0].message.content.strip()
+
+                    # Update question with generated answer
+                    if not args.dry_run:
+                        db.questions.update_one(
+                            {"_id": q["_id"]},
+                            {
+                                "$set": {
+                                    "correctAnswer": answer,
+                                    "audit_status": "fixed",
+                                    "audit_result": [
+                                        "Answer generated by LLM for empty_answer"
+                                    ],
+                                    "audit_timestamp": datetime.utcnow().isoformat(),
+                                }
+                            },
+                        )
+                        total_stats["fixed"] += 1
+                    else:
+                        total_stats["skipped"] += 1
+
+                    logger.info(
+                        f"[{i + 1}/{len(empty_questions)}] {q_id}: Generated answer"
+                    )
+
+                except Exception as e:
+                    logger.error(f"Error generating answer for {q_id}: {e}")
+                    total_stats["errors"] += 1
+
+                time.sleep(0.3)  # Rate limiting
+
+                # Log progress every 50
+                if (i + 1) % 50 == 0:
+                    logger.info(
+                        f"Progress: {i + 1}/{len(empty_questions)} for Class {class_num}"
+                    )
+
+        logger.info("=== Empty Answer Fix Complete ===")
+        logger.info(f"Fixed: {total_stats['fixed']}, Errors: {total_stats['errors']}")
+        return 0
+
+    # Handle MISSING_RESULT fix mode - retry with simple prompt
+    if args.fix_missing_result:
+        for class_num in classes_to_process:
+            query = {
+                "provenance.class": class_num,
+                "audit_status": "error",
+                "error_category": "MISSING_RESULT",
+            }
+            missing_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(missing_questions)} MISSING_RESULT questions"
+            )
+
+            for i, q in enumerate(missing_questions):
+                results = agent.audit_questions([q])
+                for question, result in zip([q], results):
+                    result["class"] = class_num
+                    result["status_db"] = "missing_result_fix"
+                    process_result(
+                        question,
+                        result,
+                        db,
+                        args.dry_run,
+                        args.results_file,
+                        total_stats,
+                    )
+                time.sleep(0.5)
+
+                if (i + 1) % 50 == 0:
+                    logger.info(
+                        f"Progress: {i + 1}/{len(missing_questions)} for Class {class_num}"
+                    )
+
+        logger.info("=== MISSING_RESULT Fix Complete ===")
+        logger.info(
+            f"Processed: {total_stats['processed']}, Fixed: {total_stats['fixed']}, Errors: {total_stats['errors']}"
+        )
+        return 0
+
+    # Handle unsupported_type fix mode
+    if args.fix_unsupported_type:
+        type_mapping = {
+            "LONG_ANSWER": "DESCRIPTIVE",
+            "ESSAY": "DESCRIPTIVE",
+            "CONSTRUCTION": "SHORT_ANSWER",
+            "FILL_IN_BLANKS": "SHORT_ANSWER",
+            "MATCHING": "SHORT_ANSWER",
+            "MULTI_PART": "SHORT_ANSWER",
+            "MULTI_PART_SHORT_ANSWER": "SHORT_ANSWER",
+            "LONG_DESCRIPTIVE": "DESCRIPTIVE",
+        }
+
+        for class_num in classes_to_process:
+            query = {
+                "provenance.class": class_num,
+                "audit_status": "error",
+                "error_category": "unsupported_type",
+            }
+            unsupported_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(unsupported_questions)} unsupported type questions"
+            )
+
+            for q in unsupported_questions:
+                q_type = q.get("type", "")
+                new_type = type_mapping.get(q_type)
+
+                if new_type and not args.dry_run:
+                    db.questions.update_one(
+                        {"_id": q["_id"]},
+                        {
+                            "$set": {
+                                "type": new_type,
+                                "audit_status": "fixed",
+                                "audit_result": [f"Converted {q_type} to {new_type}"],
+                                "audit_timestamp": datetime.utcnow().isoformat(),
+                            }
+                        },
+                    )
+                    total_stats["fixed"] += 1
+                    logger.info(f"Converted {q_type} -> {new_type}")
+                elif new_type:
+                    total_stats["skipped"] += 1
+
+        logger.info("=== Unsupported Type Fix Complete ===")
+        logger.info(f"Fixed: {total_stats['fixed']}")
+        return 0
+
+    # Handle placeholder_answer fix mode - generate answers using LLM
+    if args.fix_placeholder_answer:
+        from openai import OpenAI
+
+        client = OpenAI(
+            base_url="https://integrate.api.nvidia.com/v1",
+            api_key=api_key,
+        )
+
+        for class_num in classes_to_process:
+            query = {
+                "provenance.class": class_num,
+                "audit_status": "error",
+                "error_category": "placeholder_answer",
+            }
+            placeholder_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(placeholder_questions)} placeholder answer questions"
+            )
+
+            for i, q in enumerate(placeholder_questions):
+                q_id = str(q["_id"])
+                q_text = q.get("text", q.get("question_text", ""))
+                q_type = q.get("type", "SHORT_ANSWER")
+                q_explanation = q.get("explanation", "")
+
+                # Generate answer using LLM
+                prompt = f"""Given this question, provide the correct answer.
+Do NOT output JSON. Output ONLY the answer text.
+
+Question Type: {q_type}
+Question: {q_text}
+Explanation (if available): {q_explanation}
+
+Answer:"""
+
+                try:
+                    response = client.chat.completions.create(
+                        model=args.model,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.1,
+                        max_tokens=500,
+                    )
+                    answer_content = response.choices[0].message.content
+
+                    # If primary model returns empty, retry with fallback
+                    if not answer_content:
+                        logger.warning(f"Empty response, retrying with fallback model")
+                        response = client.chat.completions.create(
+                            model=args.fallback_model,
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=0.1,
+                            max_tokens=500,
+                        )
+                        answer_content = response.choices[0].message.content
+
+                    if not answer_content:
+                        logger.warning(f"Empty response for {q_id}, skipping")
+                        total_stats["errors"] += 1
+                        continue
+                    answer = answer_content.strip()
+
+                    # Update question with generated answer
+                    if not args.dry_run:
+                        db.questions.update_one(
+                            {"_id": q["_id"]},
+                            {
+                                "$set": {
+                                    "correctAnswer": answer,
+                                    "audit_status": "fixed",
+                                    "audit_result": [
+                                        "Answer generated by LLM for placeholder_answer"
+                                    ],
+                                    "audit_timestamp": datetime.utcnow().isoformat(),
+                                }
+                            },
+                        )
+                        total_stats["fixed"] += 1
+                    else:
+                        total_stats["skipped"] += 1
+
+                    logger.info(
+                        f"[{i + 1}/{len(placeholder_questions)}] {q_id}: Generated answer"
+                    )
+
+                except Exception as e:
+                    logger.error(f"Error generating answer for {q_id}: {e}")
+                    total_stats["errors"] += 1
+
+                time.sleep(0.3)
+
+                if (i + 1) % 20 == 0:
+                    logger.info(
+                        f"Progress: {i + 1}/{len(placeholder_questions)} for Class {class_num}"
+                    )
+
+        logger.info("=== Placeholder Answer Fix Complete ===")
+        logger.info(f"Fixed: {total_stats['fixed']}, Errors: {total_stats['errors']}")
+        return 0
+
+    # Handle corrupted_control_chars fix mode
+    if args.fix_corrupted_chars:
+        from openai import OpenAI
+
+        client = OpenAI(
+            base_url="https://integrate.api.nvidia.com/v1",
+            api_key=api_key,
+        )
+
+        import unicodedata
+
+        def strip_control_chars(text: str) -> str:
+            """Strip non-printable control chars but keep whitespace."""
+            if not text:
+                return text
+            result = []
+            for c in text:
+                ord_c = ord(c)
+                # Keep whitespace chars (\t, \n, \r) and printable chars
+                if c in "\t\n\r" or (ord_c >= 32 and ord_c < 127):
+                    result.append(c)
+                elif ord_c >= 128:
+                    # Keep extended ASCII chars (they're typically valid)
+                    result.append(c)
+            return "".join(result)
+
+        for class_num in classes_to_process:
+            query = {
+                "provenance.class": class_num,
+                "audit_status": "error",
+                "error_category": "corrupted_control_chars",
+            }
+            corrupted_questions = list(db.questions.find(query))
+            logger.info(
+                f"Class {class_num}: {len(corrupted_questions)} corrupted control chars questions"
+            )
+
+            for i, q in enumerate(corrupted_questions):
+                q_id = str(q["_id"])
+                q_text = q.get("text", "")
+                q_answer = q.get("correctAnswer", "")
+                q_explanation = q.get("explanation", "")
+                q_type = q.get("type", "SHORT_ANSWER")
+
+                cleaned_answer = strip_control_chars(str(q_answer))
+                cleaned_explanation = strip_control_chars(str(q_explanation))
+
+                # Re-validate: check if question still makes sense after cleaning
+                prompt = f"""This question was flagged because it contained corrupted control characters.
+The characters have been stripped. Please verify the question still makes sense.
+
+Question Type: {q_type}
+Question Text: {q_text}
+Answer (cleaned): {cleaned_answer}
+Explanation (cleaned): {cleaned_explanation}
+
+Does the question still make sense and have a valid answer? Answer YES or NO.
+If NO, provide the correct answer that should replace the cleaned answer.
+Respond with ONLY: YES or NO|answer"""
+
+                try:
+                    response = client.chat.completions.create(
+                        model=args.model,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.1,
+                        max_tokens=100,
+                    )
+                    llm_content = response.choices[0].message.content
+
+                    # If primary model returns empty, retry with fallback
+                    if not llm_content:
+                        logger.warning(f"Empty response, retrying with fallback model")
+                        response = client.chat.completions.create(
+                            model=args.fallback_model,
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=0.1,
+                            max_tokens=100,
+                        )
+                        llm_content = response.choices[0].message.content
+
+                    if not llm_content:
+                        logger.warning(f"Empty response for {q_id}, skipping")
+                        total_stats["errors"] += 1
+                        continue
+                    llm_response = llm_content.strip()
+
+                    if llm_response.upper().startswith("YES"):
+                        # Question still makes sense - apply cleaned fields
+                        updates = {"audit_status": "fixed"}
+                        if q_answer != cleaned_answer:
+                            updates["correctAnswer"] = cleaned_answer
+                            updates["audit_result"] = [
+                                "Stripped control chars from answer"
+                            ]
+                        if q_explanation != cleaned_explanation:
+                            updates["explanation"] = cleaned_explanation
+                            updates.setdefault("audit_result", []).append(
+                                "Stripped control chars from explanation"
+                            )
+                        updates["audit_timestamp"] = datetime.utcnow().isoformat()
+
+                        if not args.dry_run:
+                            db.questions.update_one(
+                                {"_id": q["_id"]}, {"$set": updates}
+                            )
+                            total_stats["fixed"] += 1
+                        else:
+                            total_stats["skipped"] += 1
+
+                        logger.info(
+                            f"[{i + 1}/{len(corrupted_questions)}] {q_id}: Cleaned OK"
+                        )
+                    else:
+                        # LLM says it's invalid - regenerate answer
+                        new_answer = (
+                            llm_response.split("|", 1)[-1].strip()
+                            if "|" in llm_response
+                            else cleaned_answer
+                        )
+
+                        if not args.dry_run:
+                            db.questions.update_one(
+                                {"_id": q["_id"]},
+                                {
+                                    "$set": {
+                                        "correctAnswer": new_answer,
+                                        "explanation": cleaned_explanation,
+                                        "audit_status": "fixed",
+                                        "audit_result": [
+                                            "Stripped control chars, regenerated answer"
+                                        ],
+                                        "audit_timestamp": datetime.utcnow().isoformat(),
+                                    }
+                                },
+                            )
+                            total_stats["fixed"] += 1
+                        else:
+                            total_stats["skipped"] += 1
+
+                        logger.info(
+                            f"[{i + 1}/{len(corrupted_questions)}] {q_id}: Regenerated"
+                        )
+
+                except Exception as e:
+                    logger.error(f"Error fixing {q_id}: {e}")
+                    total_stats["errors"] += 1
+
+                time.sleep(0.3)
+
+                if (i + 1) % 20 == 0:
+                    logger.info(
+                        f"Progress: {i + 1}/{len(corrupted_questions)} for Class {class_num}"
+                    )
+
+        logger.info("=== Corrupted Chars Fix Complete ===")
+        logger.info(f"Fixed: {total_stats['fixed']}, Errors: {total_stats['errors']}")
+        return 0
 
     for class_num in classes_to_process:
         logger.info(f"=== Starting audit for Class {class_num} ===")
