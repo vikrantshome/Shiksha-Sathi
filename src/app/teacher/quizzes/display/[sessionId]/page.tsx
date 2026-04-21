@@ -58,6 +58,11 @@ export default function QuizDisplayPage({
   const isRevealed = state.status === "REVEAL";
   const showTimer = typeof state.secondsRemaining === "number";
 
+  // Normalize question type for comparisons (handle case variations and null)
+  const questionType = question?.type?.toUpperCase() ?? "";
+  const isTrueFalse = questionType === "TRUE_FALSE" || questionType === "TF";
+  const isMCQ = questionType === "MCQ" || questionType === "MULTIPLE_CHOICE";
+
   // Default answers for display
   const defaultOptions = ["A", "B", "C", "D"];
 
@@ -96,7 +101,7 @@ export default function QuizDisplayPage({
         <main className="flex-1 flex flex-col justify-center px-2 py-4 overflow-auto">
           <div className="text-center mb-2">
             <div className="text-lg md:text-xl font-semibold inline-block px-3 py-1 bg-gray-900 rounded-lg">
-              {question.type === "MCQ" ? "Multiple Choice" : question.type === "TRUE_FALSE" ? "True / False" : question.type}
+              {isMCQ ? "Multiple Choice" : isTrueFalse ? "True / False" : question.type}
             </div>
           </div>
           
@@ -104,8 +109,37 @@ export default function QuizDisplayPage({
             {question.text}
           </h2>
 
-          {/* Options */}
-          {question.options && question.options.length > 0 && (
+          {/* True/False - show special TRUE/FALSE buttons */}
+          {isTrueFalse && (
+            <div className="grid grid-cols-2 gap-3 max-w-3xl mx-auto w-full">
+              {["TRUE", "FALSE"].map((option) => {
+                const isCorrect = state.correctAnswer === option;
+                
+                return (
+                  <div
+                    key={option}
+                    className={`p-6 md:p-10 rounded-2xl text-2xl md:text-4xl font-bold flex items-center justify-center transition-all ${
+                      isRevealed && isCorrect
+                        ? "bg-emerald-600 text-white scale-105"
+                        : isRevealed
+                          ? "bg-gray-800 opacity-50"
+                          : "bg-gray-800 hover:bg-gray-700"
+                    }`}
+                  >
+                    {option}
+                    {isRevealed && isCorrect && (
+                      <svg className="w-10 h-10 md:w-14 md:h-14 ml-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                      </svg>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Options with labels - show grid for MCQ/MULTIPLE_CHOICE type with valid options */}
+          {!isTrueFalse && question.options && question.options.length > 0 && (
             <div className="grid grid-cols-2 gap-2 md:gap-3 max-w-4xl mx-auto w-full">
               {question.options.map((option, idx) => {
                 const optionLabel = defaultOptions[idx] || String(idx + 1);
@@ -128,35 +162,6 @@ export default function QuizDisplayPage({
                     <span className="flex-1">{option}</span>
                     {isRevealed && isCorrect && (
                       <svg className="w-6 h-6 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* True/False shortcuts */}
-          {question.type === "TRUE_FALSE" && (
-            <div className="grid grid-cols-2 gap-3 max-w-2xl mx-auto w-full">
-              {["TRUE", "FALSE"].map((option) => {
-                const isCorrect = state.correctAnswer === option;
-                
-                return (
-                  <div
-                    key={option}
-                    className={`p-6 md:p-10 rounded-2xl text-2xl md:text-4xl font-bold flex items-center justify-center transition-all ${
-                      isRevealed && isCorrect
-                        ? "bg-emerald-600 text-white scale-105"
-                        : isRevealed
-                          ? "bg-gray-800 opacity-50"
-                          : "bg-gray-800 hover:bg-gray-700"
-                    }`}
-                  >
-                    {option}
-                    {isRevealed && isCorrect && (
-                      <svg className="w-10 h-10 md:w-14 md:h-14 ml-3" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                       </svg>
                     )}
