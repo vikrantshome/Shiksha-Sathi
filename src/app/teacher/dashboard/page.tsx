@@ -204,9 +204,9 @@ export default async function TeacherDashboard() {
             <h2 className="font-manrope text-2xl font-bold text-[#12423f] tracking-tight">
               Recent Assignments
             </h2>
-            <button className="text-[#12423f] font-bold text-sm flex items-center gap-2 hover:underline">
+            <Link href="/teacher/assignments" className="text-[#12423f] font-bold text-sm flex items-center gap-2 hover:underline">
               View All <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
+            </Link>
           </div>
 
           {assignments.length === 0 ? (
