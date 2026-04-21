@@ -40,7 +40,7 @@ public class AssignmentSubmissionService {
      * Only SHORT_ANSWER and ESSAY need conceptual AI evaluation.
      */
     private static final java.util.Set<String> AI_GRADED_TYPES = java.util.Set.of(
-            "SHORT_ANSWER", "ESSAY"
+            "SHORT_ANSWER", "ESSAY", "FILL_IN_BLANKS"
     );
 
     private final AssignmentSubmissionRepository submissionRepository;

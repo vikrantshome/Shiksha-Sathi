@@ -240,51 +240,51 @@ export default function TeacherQuizSessionPage() {
               type="button"
               disabled={isBusy || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: state?.locked ? "#0f766e" : "#e5e7eb", color: state?.locked ? "white" : "#1f2937" }}
+              style={{ background: state?.locked ? "#115e59" : "#4b5563", color: "white" }}
               onClick={() => run(() => api.quizSessions.lock(sessionId, !state?.locked))}
             >
               <LockIcon locked={state?.locked ?? false} />
-              <span className="hidden sm:inline">{state?.locked ? "Unlock" : "Lock"}</span>
+              <span>{state?.locked ? "Unlock" : "Lock"}</span>
             </button>
             <button
               type="button"
               disabled={isBusy || isLive || isReveal || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "#0d5a54", color: "white" }}
+              style={{ background: "#022c22", color: "white" }}
               onClick={() => run(() => api.quizSessions.start(sessionId))}
             >
               <PlayIcon />
-              <span className="hidden sm:inline">Start</span>
+              <span>Start</span>
             </button>
             <button
               type="button"
               disabled={isBusy || isLobby || isReveal || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "var(--color-primary-dim)", color: "white" }}
+              style={{ background: "#78350f", color: "white" }}
               onClick={() => run(() => api.quizSessions.reveal(sessionId))}
             >
               <EyeIcon />
-              <span className="hidden sm:inline">Reveal</span>
+              <span>Reveal</span>
             </button>
             <button
               type="button"
               disabled={isBusy || isLobby || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "#3d6b4f", color: "white" }}
+              style={{ background: "#1a4731", color: "white" }}
               onClick={() => run(() => api.quizSessions.next(sessionId))}
             >
               <ArrowIcon />
-              <span className="hidden sm:inline">Next</span>
+              <span>Next</span>
             </button>
             <button
               type="button"
               disabled={isBusy || isEnded}
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all hover:shadow-elevated1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: "#b91c1c", color: "white" }}
+              style={{ background: "#7f1d1d", color: "white" }}
               onClick={() => run(() => api.quizSessions.end(sessionId))}
             >
               <CloseIcon />
-              <span className="hidden sm:inline">End</span>
+              <span>End</span>
             </button>
           </div>
         </div>

@@ -54,9 +54,9 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIEnabled_ReturnsAIGradedResult() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
         when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getModel()).thenReturn("test-model");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
@@ -95,8 +95,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AITimeout_MarksAsPendingReview_NoStringFallback() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -115,8 +115,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIHttp500_MarksAsPendingReview() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -134,8 +134,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIMalformedJson_MarksAsPendingReview() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -153,8 +153,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIFailure_ExplicitFallbackEnabled_UsesStringMatch() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(true);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
@@ -177,8 +177,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_BlankStudentAnswer_AIGrading() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
@@ -199,8 +199,8 @@ public class AIGradingServiceTest {
     @Test
     void gradeAnswer_AIPartialCredit() {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getProvider()).thenReturn("nvidia");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """

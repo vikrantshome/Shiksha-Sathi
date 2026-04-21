@@ -49,7 +49,7 @@ const IconClasses = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconQuestionBank = ({ active }: { active: boolean }) => (
+const IconAssignments = ({ active }: { active: boolean }) => (
   <svg
     width="20"
     height="20"
@@ -60,9 +60,8 @@ const IconQuestionBank = ({ active }: { active: boolean }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <ellipse cx="12" cy="5" rx="9" ry="3" />
-    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-    <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
   </svg>
 );
 
@@ -118,7 +117,7 @@ const IconClose = () => (
 const navItems = [
   { href: "/teacher/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
   { href: "/teacher/classes", label: "My Classes", icon: IconClasses, mobileLabel: "Classes" },
-  { href: "/teacher/question-bank", label: "Question Bank", icon: IconQuestionBank, mobileLabel: "Vault" },
+  { href: "/teacher/assignments", label: "Assignments", icon: IconAssignments, mobileLabel: "Assignments" },
   { href: "/teacher/quizzes", label: "Quizzes", icon: IconQuiz, mobileLabel: "Quiz" },
 ];
 

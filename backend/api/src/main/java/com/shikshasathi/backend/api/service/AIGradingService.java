@@ -48,7 +48,7 @@ public class AIGradingService {
      * Grade a single subjective answer using the AI grading service.
      * Results are cached by cache key to avoid redundant API calls.
      */
-    @Cacheable(value = "grading", key = "#questionText + '|' + #expectedAnswer + '|' + #studentAnswer + '|' + #maxMarks")
+    @Cacheable(value = "grading", key = "#question.text + '|' + #expectedAnswer + '|' + #studentAnswer + '|' + #maxMarks")
     public QuestionFeedbackDTO gradeAnswer(Question question, String expectedAnswer,
                                            String studentAnswer, int maxMarks) {
         if (!aiGradingProperties.isEnabled()) {
@@ -118,6 +118,9 @@ public class AIGradingService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
         String url = aiGradingProperties.getEndpointUrl();
+        if (url == null || url.trim().isEmpty()) {
+            throw new IllegalStateException("AI grading endpoint URL is not configured");
+        }
         log.info("Calling NVIDIA API: model={}, endpoint={}", aiGradingProperties.getModel(), url);
 
         Exception lastException = null;
@@ -125,8 +128,8 @@ public class AIGradingService {
             try {
                 ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-                if (response.getBody() == null) {
-                    throw new IllegalStateException("NVIDIA API returned empty body");
+                if (response == null || response.getBody() == null) {
+                    throw new IllegalStateException("NVIDIA API returned null response or empty body");
                 }
                 if (!response.getStatusCode().is2xxSuccessful()) {
                     throw new IllegalStateException("NVIDIA API returned " + response.getStatusCode());
@@ -221,6 +224,16 @@ public class AIGradingService {
     private AIGradingResponse parseJsonContentDirect(String text) {
         try {
             JsonNode root = objectMapper.readTree(text);
+
+            // If it's an OpenAI/NVIDIA chat completion response, extract the content first
+            if (root.has("choices") && root.get("choices").isArray() && root.get("choices").size() > 0) {
+                JsonNode firstChoice = root.get("choices").get(0);
+                if (firstChoice.has("message") && firstChoice.get("message").has("content")) {
+                    String content = firstChoice.get("message").get("content").asText();
+                    // Recursive call to parse the extracted content
+                    return parseJsonContentDirect(extractJsonFromResponse(content));
+                }
+            }
 
             double marksAwarded = getDoubleField(root, "marks_awarded", 0);
             int maxMarks = getIntField(root, "max_marks", 0);

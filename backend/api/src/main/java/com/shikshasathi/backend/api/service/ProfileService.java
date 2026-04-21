@@ -28,10 +28,20 @@ public class ProfileService {
         Profile profile = profileRepository.findByUserId(user.getId())
                 .orElse(new Profile());
 
+        String profileName = profile.getName();
+        String userName = user.getName();
+        String fallbackName = user.getEmail() != null ? user.getEmail().split("@")[0] : "Teacher";
+        
+        String displayName = profileName != null && !profileName.isBlank() && !"Test".equals(profileName) 
+            ? profileName 
+            : (userName != null && !userName.isBlank() && !"Test".equals(userName) 
+                ? userName 
+                : fallbackName);
+
         return ProfileResponse.builder()
                 .userId(user.getId())
-                .name(profile.getName() != null ? profile.getName() : user.getName())
-                .school(profile.getSchool())
+                .name(displayName)
+                .school(profile.getSchool() != null ? profile.getSchool() : user.getSchool())
                 .board(profile.getBoard())
                 .build();
     }
