@@ -16,6 +16,7 @@ export interface SignupRequest {
   phone: string;
   password?: string;
   school: string;
+  board?: string;
   // Student-specific fields
   rollNumber?: string;
   studentClass?: string;
