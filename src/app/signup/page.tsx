@@ -18,7 +18,11 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [role, setRole] = useState<Role>("TEACHER");
   const [school, setSchool] = useState("");
+  const [board, setBoard] = useState("CBSE");
+  const [boardOther, setBoardOther] = useState("");
   const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE", "Other"];
 
   const validatePhone = (phone: string): boolean => {
     const digits = phone.replace(/\D/g, "");
@@ -53,6 +57,12 @@ export default function SignupPage() {
       return;
     }
 
+    // Validate board (for teachers)
+    if (role === "TEACHER" && board === "Other" && !boardOther.trim()) {
+      setError("Please enter your board name");
+      return;
+    }
+
     // Student-specific validation
     if (role === "STUDENT" && (!studentClass || !section || !rollNumber)) {
       setError("Please fill in all student details (class, section, roll number)");
@@ -68,6 +78,7 @@ export default function SignupPage() {
         phone: phone.replace(/\D/g, ""),
         password,
         school,
+        board: role === "TEACHER" ? (board === "Other" ? boardOther : board) : undefined,
         rollNumber: role === "STUDENT" ? rollNumber : undefined,
         studentClass: role === "STUDENT" ? studentClass : undefined,
         section: role === "STUDENT" ? section : undefined,
@@ -185,6 +196,40 @@ export default function SignupPage() {
 
         {/* School */}
         <SearchableSchoolDropdown value={school} onChange={setSchool} />
+
+        {/* Board - Teacher Only */}
+        {role === "TEACHER" && (
+          <div className="group">
+            <label className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] text-on-surface-variant mb-2">
+              Board <span className="text-error">*</span>
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {boardOptions.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setBoard(option)}
+                  className={`px-4 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                    board === option
+                      ? "bg-secondary-container text-primary font-semibold"
+                      : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            {board === "Other" && (
+              <input
+                type="text"
+                value={boardOther}
+                onChange={(e) => setBoardOther(e.target.value)}
+                placeholder="Enter your board name"
+                className="w-full mt-3 bg-surface-container-highest border-0 border-b border-outline-variant focus:ring-0 focus:border-primary px-0 py-3 text-on-surface placeholder:text-outline transition-all duration-300"
+              />
+            )}
+          </div>
+        )}
 
         {/* Student-Only Fields */}
         {role === "STUDENT" && (
