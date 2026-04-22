@@ -45,13 +45,6 @@ const IconAssignments = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconResults = ({ active }: { active: boolean }) => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.5 : 2} strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-    <polyline points="16 7 22 7 22 13" />
-  </svg>
-);
-
 const IconMenu = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
@@ -73,7 +66,6 @@ const IconStudent = () => (
 const navItems = [
   { key: "dashboard", href: "/student/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
   { key: "assignments", href: "/student/assignments", label: "My Assignments", icon: IconAssignments, mobileLabel: "Work" },
-  { key: "results", href: "/student/assignments?filter=GRADED", label: "Results", icon: IconResults, mobileLabel: "Results" },
 ];
 
 export default function StudentLayout({
@@ -92,21 +84,10 @@ export default function StudentLayout({
   );
 
   const isActive = (href: string) => {
-    const hrefPath = href.split("?")[0]; // Strip query params for comparison
-    const search = href.split("?")[1] || "";
-
-    if (hrefPath === "/student/dashboard") {
+    if (href === "/student/dashboard") {
       return pathname === "/student" || pathname === "/student/dashboard";
     }
-    if (hrefPath === "/student/assignments") {
-      if (search.includes("filter=GRADED")) {
-        // Results tab: active when on assignments page with GRADED filter
-        return pathname.startsWith(hrefPath);
-      }
-      // My Assignments tab: active when on assignments page WITHOUT GRADED filter
-      return pathname.startsWith(hrefPath) && !pathname.includes("filter=GRADED");
-    }
-    return pathname.startsWith(hrefPath);
+    return pathname.startsWith(href);
   };
 
   const handleLogout = () => {
