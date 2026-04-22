@@ -46,7 +46,7 @@ export default async function StudentAssignmentPage({
   return (
     <div className="min-h-screen" style={{ background: "var(--color-surface)" }}>
       {/* ═══ Main Content Area (no left margin — student has no sidebar) ═══ */}
-      <main className="pt-2 pb-24 px-4 md:px-8 lg:px-16">
+      <main className="pt-2 pb-24 px-4 md:px-8 lg:px-16 xl:pr-80">
         <div className="max-w-3xl mx-auto relative">
           {/* Question Sequence with Live Header */}
           <AssignmentProgress assignment={assignment} />
