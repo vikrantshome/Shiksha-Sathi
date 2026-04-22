@@ -56,7 +56,8 @@ public class AIGradingServiceTest {
         when(aiGradingProperties.isEnabled()).thenReturn(true);
         when(aiGradingProperties.getProvider()).thenReturn("hf-space");
         when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.getFallbackUrl1()).thenReturn("http://fallback1");
+        when(aiGradingProperties.getFallbackUrl2()).thenReturn("http://fallback2");
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
