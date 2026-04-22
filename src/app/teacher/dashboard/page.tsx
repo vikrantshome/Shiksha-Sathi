@@ -75,9 +75,11 @@ export default async function TeacherDashboard() {
     (acc: number, a: AssignmentWithStats) => acc + (a.submissionCount || 0),
     0
   );
-  const activeAssignments = assignments.filter(
-    (a: AssignmentWithStats) => a.submissionCount > 0
-  ).length;
+  
+  const activeAssignmentsList = assignments.filter(
+    (a: AssignmentWithStats) => (a.submissionCount || 0) > 0
+  );
+  const activeAssignmentsCount = activeAssignmentsList.length;
 
   /* ── Build Real Activity Feed from Assignments ── */
   const recentActivity = assignments
@@ -130,11 +132,13 @@ export default async function TeacherDashboard() {
     },
     {
       icon: <IconTrending />,
-      value: assignments.length > 0
-        ? `${Math.round(assignments.reduce((acc: number, a: AssignmentWithStats) => acc + (a.averageScore || 0), 0) / assignments.length)}%`
+      value: activeAssignmentsCount > 0
+        ? `${Math.round(
+            (activeAssignmentsList.reduce((acc, a) => acc + (a.averageScore / (a.totalMarks || 1)), 0) / activeAssignmentsCount) * 100
+          )}%`
         : "—",
       label: "Average Score",
-      badge: assignments.length > 0 ? `${assignments.length} active` : "No data yet",
+      badge: activeAssignmentsCount > 0 ? `${activeAssignmentsCount} active` : "No data yet",
     },
     {
       icon: <IconSchool />,
@@ -163,8 +167,8 @@ export default async function TeacherDashboard() {
             </h1>
             <p className="text-sm text-[#404847] mt-2 max-w-[28rem] leading-[1.6]">
               Your teaching studio is aligned for the day. You have{" "}
-              {activeAssignments}{" "}
-              active assignment{activeAssignments === 1 ? "" : "s"}{" "}
+              {activeAssignmentsCount}{" "}
+              active assignment{activeAssignmentsCount === 1 ? "" : "s"}{" "}
               ready for review or follow-up.
             </p>
           </div>
@@ -253,7 +257,7 @@ export default async function TeacherDashboard() {
                     </thead>
                     <tbody className="divide-y divide-[#c0c8c6]/10">
                       {assignments.map((assignment) => {
-                        const submissionPct = assignment.maxScore > 0 
+                        const submissionPct = assignment.totalMarks > 0 
                           ? Math.round((assignment.submissionCount / 45) * 100)
                           : 0;
                         return (
@@ -288,7 +292,7 @@ export default async function TeacherDashboard() {
                             <td className="p-3 md:p-4 px-4 md:px-6 font-semibold text-primary text-sm">
                               {assignment.averageScore}
                               <span className="font-normal text-on-surface-variant">
-                                {" "}/ {assignment.maxScore}
+                                {" "}/ {assignment.totalMarks}
                               </span>
                             </td>
                             <td className="p-3 md:p-4 px-4 md:px-6 text-right">
@@ -326,7 +330,7 @@ export default async function TeacherDashboard() {
                         </p>
                       </div>
                       <span className="text-sm font-semibold text-primary">
-                        {assignment.averageScore}/{assignment.maxScore}
+                        {assignment.averageScore}/{assignment.totalMarks}
                       </span>
                     </div>
                   </Link>

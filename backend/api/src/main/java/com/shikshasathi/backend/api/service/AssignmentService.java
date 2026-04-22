@@ -143,6 +143,7 @@ public class AssignmentService {
                 .className(className)
                 .dueDate(assignment.getDueDate())
                 .totalMarks(assignment.getMaxScore())
+                .maxScore(assignment.getMaxScore())
                 .linkId(assignment.getId().substring(0, 8))
                 .code(assignment.getCode())
                 .submissionCount(completionCount)
