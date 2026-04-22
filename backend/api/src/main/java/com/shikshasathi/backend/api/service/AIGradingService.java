@@ -9,15 +9,21 @@ import com.shikshasathi.backend.core.domain.learning.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * AI-powered grading service supporting both NVIDIA API (primary) and HF Space (fallback).
@@ -39,6 +45,10 @@ public class AIGradingService {
 
     private static final int MAX_RETRIES = 3;
     private static final long INITIAL_BACKOFF_MS = 1000;
+    private static final int MAX_REASONING_RETRIES = 2;
+    private static final int MIN_REASONING_LENGTH = 20;
+
+    private String gradingPrompt; // lazy-loaded from classpath
 
     private final AIGradingProperties aiGradingProperties;
     private final RestTemplate restTemplate;
@@ -58,7 +68,7 @@ public class AIGradingService {
         }
 
         try {
-            AIGradingResponse response = callAIGradingAgent(question.getText(), expectedAnswer, studentAnswer, maxMarks);
+            AIGradingResponse response = callAIGradingAgentWithValidation(question.getText(), expectedAnswer, studentAnswer, maxMarks);
             return buildFeedbackFromAI(question, expectedAnswer, studentAnswer, response);
         } catch (RestClientException e) {
             log.warn("AI grading service unreachable for question {}: {}", question.getId(), e.getMessage());
@@ -173,10 +183,34 @@ public class AIGradingService {
 
     // --- Prompt Building ---
 
+    /**
+     * Load the grading prompt from classpath resource (cached).
+     */
+    private String loadGradingPrompt() {
+        if (gradingPrompt == null) {
+            synchronized (this) {
+                if (gradingPrompt == null) {
+                    try {
+                        ClassPathResource resource = new ClassPathResource("prompts/grading-prompt.txt");
+                        try (BufferedReader reader = new BufferedReader(
+                                new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+                            gradingPrompt = reader.lines().collect(Collectors.joining("\n"));
+                            log.info("Grading prompt loaded from classpath ({} chars)", gradingPrompt.length());
+                        }
+                    } catch (IOException e) {
+                        log.error("Failed to load grading prompt file; using built-in default", e);
+                        gradingPrompt = "You are a STRICT expert teacher grading student answers. "
+                                + "Grade based on conceptual correctness, not keyword matching. "
+                                + "Be strict with factual accuracy.";
+                    }
+                }
+            }
+        }
+        return gradingPrompt;
+    }
+
     private String buildSystemPrompt() {
-        return "You are a STRICT expert teacher grading student answers. "
-                + "Grade based on conceptual correctness, not keyword matching. "
-                + "Be strict with factual accuracy.";
+        return loadGradingPrompt();
     }
 
     private String buildUserPrompt(String question, String expectedAnswer, String studentAnswer, int maxMarks) {
@@ -208,13 +242,94 @@ public class AIGradingService {
         );
     }
 
+    // --- AI Response Validation & Retry ---
+
+    /**
+     * Validate the AI grading response according to required structure.
+     * Returns true if all checks pass; false otherwise.
+     */
+    private boolean validateAIGradingResponse(AIGradingResponse response, int maxMarks) {
+        if (response == null) {
+            return false;
+        }
+        String reasoning = response.getReasoning();
+        if (reasoning == null || reasoning.trim().length() < MIN_REASONING_LENGTH) {
+            return false;
+        }
+        double confidence = response.getConfidence();
+        if (confidence < 0.0 || confidence > 1.0) {
+            return false;
+        }
+        double marksAwarded = response.getMarksAwarded();
+        if (marksAwarded < 0 || marksAwarded > maxMarks) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Calls the AI grading agent and validates the response's reasoning.
+     * Retries up to MAX_REASONING_RETRIES times if reasoning is empty, null, or too short.
+     * After exhausting retries, throws an exception to trigger pending review.
+     */
+    private AIGradingResponse callAIGradingAgentWithValidation(String questionText, String expectedAnswer,
+                                                               String studentAnswer, int maxMarks) {
+        AIGradingResponse response = callAIGradingAgent(questionText, expectedAnswer, studentAnswer, maxMarks);
+
+        if (!validateAIGradingResponse(response, maxMarks)) {
+            log.warn("AI response validation failed (reasoning/confidence/marks), retrying up to {} times", MAX_REASONING_RETRIES);
+            for (int attempt = 1; attempt <= MAX_REASONING_RETRIES; attempt++) {
+                try {
+                    response = callAIGradingAgent(questionText, expectedAnswer, studentAnswer, maxMarks);
+                    if (validateAIGradingResponse(response, maxMarks)) {
+                        log.info("Response validation passed on retry {}", attempt);
+                        return response;
+                    }
+                } catch (Exception e) {
+                    log.warn("Retry {} failed: {}", attempt, e.getMessage());
+                    if (attempt == MAX_REASONING_RETRIES) {
+                        throw new IllegalStateException("AI response validation failed after " + MAX_REASONING_RETRIES + " retries", e);
+                    }
+                }
+            }
+            // Exhausted retries without valid response
+            throw new IllegalStateException("AI returned invalid response after " + MAX_REASONING_RETRIES + " validation retries");
+        }
+        return response;
+    }
+
     // --- Response Parsing ---
 
     /**
      * Parse JSON content from the NVIDIA model response.
+     * Handles both direct JSON responses and NVIDIA wrapper format (with choices.content).
      */
     private AIGradingResponse parseJsonContent(String text) {
         String jsonStr = extractJsonFromResponse(text);
+
+        // Check if this is an NVIDIA-style wrapper with "choices" array
+        // The wrapper may have a content field containing the actual JSON as a string
+        if (jsonStr.contains("\"choices\"") && jsonStr.contains("\"content\"")) {
+            try {
+                JsonNode root = objectMapper.readTree(jsonStr);
+                JsonNode choices = root.get("choices");
+                if (choices != null && choices.isArray() && choices.size() > 0) {
+                    JsonNode messageNode = choices.get(0).get("message");
+                    if (messageNode != null) {
+                        JsonNode contentNode = messageNode.get("content");
+                        if (contentNode != null && contentNode.isTextual()) {
+                            String innerJson = contentNode.asText();
+                            // Parse the inner JSON directly.
+                            return parseJsonContentDirect(innerJson);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to extract NVIDIA wrapper content, falling back to direct parse", e);
+                // Fall through to direct parse of outer wrapper (which may fail)
+            }
+        }
+
         return parseJsonContentDirect(jsonStr);
     }
 

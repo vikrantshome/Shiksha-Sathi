@@ -60,7 +60,7 @@ public class AIGradingServiceTest {
         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
-            {"marks_awarded": 4.0, "max_marks": 5, "is_correct": true, "reasoning": "Correct concept", "confidence": 0.9}
+            {"marks_awarded": 4.0, "max_marks": 5, "is_correct": true, "reasoning": "The answer correctly explains the process of photosynthesis with accurate details", "confidence": 0.9}
             """;
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(aiResponse, HttpStatus.OK));
@@ -72,7 +72,7 @@ public class AIGradingServiceTest {
 
         assertTrue(result.isCorrect());
         assertEquals(4, result.getMarksAwarded());
-        assertEquals("Correct concept", result.getReasoning());
+        assertEquals("The answer correctly explains the process of photosynthesis with accurate details", result.getReasoning());
         assertEquals(0.9, result.getConfidence());
         assertFalse(result.isAiGradingFailed());
     }
@@ -175,14 +175,15 @@ public class AIGradingServiceTest {
     }
 
     @Test
-    void gradeAnswer_BlankStudentAnswer_AIGrading() {
-        when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
-        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+     void gradeAnswer_BlankStudentAnswer_AIGrading() {
+         when(aiGradingProperties.isEnabled()).thenReturn(true);
+         when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+         when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+         when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
-            {"marks_awarded": 0.0, "max_marks": 5, "is_correct": false, "reasoning": "Blank answer", "confidence": 1.0}
+            {"marks_awarded": 0.0, "max_marks": 5, "is_correct": false, "reasoning": "Student answer is blank; no response provided", "confidence": 1.0}
             """;
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(aiResponse, HttpStatus.OK));
@@ -197,11 +198,12 @@ public class AIGradingServiceTest {
     }
 
     @Test
-    void gradeAnswer_AIPartialCredit() {
-        when(aiGradingProperties.isEnabled()).thenReturn(true);
-        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
-        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
-        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+     void gradeAnswer_AIPartialCredit() {
+         when(aiGradingProperties.isEnabled()).thenReturn(true);
+         when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+         when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+         when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+         when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
 
         String aiResponse = """
             {"marks_awarded": 2.5, "max_marks": 5, "is_correct": true, "reasoning": "Partial understanding shown", "confidence": 0.7}
@@ -231,7 +233,7 @@ public class AIGradingServiceTest {
 
         // NVIDIA API response format
         String nvidiaResponse = """
-            {"choices":[{"index":0,"message":{"role":"assistant","content":"{\\"marks_awarded\\": 4.0, \\"max_marks\\": 5, \\"is_correct\\": true, \\"reasoning\\": \\"Correct concept\\", \\"confidence\\": 0.9}"}}],"usage":{"total_tokens":50}}
+            {"choices":[{"index":0,"message":{"role":"assistant","content":"{\\"marks_awarded\\": 4.0, \\"max_marks\\": 5, \\"is_correct\\": true, \\"reasoning\\": \\"The answer correctly explains the process of photosynthesis with accurate details\\", \\"confidence\\": 0.9}"}}],"usage":{"total_tokens":50}}
             """;
         when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(nvidiaResponse, HttpStatus.OK));
@@ -243,7 +245,7 @@ public class AIGradingServiceTest {
 
         assertTrue(result.isCorrect());
         assertEquals(4, result.getMarksAwarded());
-        assertEquals("Correct concept", result.getReasoning());
+        assertEquals("The answer correctly explains the process of photosynthesis with accurate details", result.getReasoning());
         assertEquals(0.9, result.getConfidence());
         assertFalse(result.isAiGradingFailed());
     }
