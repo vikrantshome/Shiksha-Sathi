@@ -12,6 +12,7 @@ public class AssignmentWithStats {
     private String className;
     private Instant dueDate;
     private Integer totalMarks;
+    private Integer maxScore;
     private String linkId;
     private String code; // Short 6-char code for student entry
     private long submissionCount;
