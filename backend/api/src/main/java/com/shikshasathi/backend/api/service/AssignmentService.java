@@ -164,8 +164,14 @@ public class AssignmentService {
         return null;
     }
 
-    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
-        User teacher = userRepository.findByEmail(email).orElse(null);
+    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String loginIdentity) {
+        User teacher = userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
+                .orElse(null);
         if (teacher == null || !teacher.getId().equals(teacherId)) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized assignment fetch for mismatched teacher");
         }
@@ -178,8 +184,13 @@ public class AssignmentService {
         }).collect(Collectors.toList());
     }
 
-    public List<Assignment> getAssignmentsByClass(String classId, String email) {
-        User teacher = userRepository.findByEmail(email)
+    public List<Assignment> getAssignmentsByClass(String classId, String loginIdentity) {
+        User teacher = userRepository.findById(loginIdentity)
+            .or(() -> userRepository.findByEmail(loginIdentity))
+            .or(() -> {
+                java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+            })
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
             
         ClassEntity classEntity = classRepository.findById(classId)
@@ -279,10 +290,11 @@ public class AssignmentService {
     }
 
     /**
-     * Resolve teacher from JWT subject (could be email or phone).
+     * Resolve teacher from identity (could be ID, email or phone).
      */
     private User resolveTeacher(String loginIdentity) {
-        return userRepository.findByEmail(loginIdentity)
+        return userRepository.findById(loginIdentity)
+            .or(() -> userRepository.findByEmail(loginIdentity))
             .or(() -> {
                 java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                 return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));

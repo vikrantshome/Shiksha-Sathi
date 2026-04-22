@@ -29,7 +29,8 @@ public class ClassController {
      * Resolve user from JWT subject (could be email or phone).
      */
     private User resolveUser(String loginIdentity) {
-        return userRepository.findByEmail(loginIdentity)
+        return userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));

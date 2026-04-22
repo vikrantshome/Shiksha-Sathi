@@ -32,7 +32,8 @@ public class ClassService {
     }
 
     public ClassEntity createClass(ClassRequest request, String loginIdentity) {
-        User teacher = userRepository.findByEmail(loginIdentity)
+        User teacher = userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
@@ -65,7 +66,8 @@ public class ClassService {
     }
 
     public ClassEntity getClassById(String id, String loginIdentity) {
-        User teacher = userRepository.findByEmail(loginIdentity)
+        User teacher = userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
@@ -114,7 +116,8 @@ public class ClassService {
      */
     public ClassEntity enrollStudent(String classId, EnrollStudentRequest request, String loginIdentity) {
         ClassEntity entity = getClassById(classId, loginIdentity);
-        User teacher = userRepository.findByEmail(loginIdentity)
+        User teacher = userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
@@ -221,7 +224,8 @@ public class ClassService {
     }
 
     public User updateStudent(String studentId, String name, String phone, String rollNumber, String birthDate, String loginIdentity) {
-        User teacher = userRepository.findByEmail(loginIdentity)
+        User teacher = userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));

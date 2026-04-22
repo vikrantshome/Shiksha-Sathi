@@ -17,7 +17,8 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService(com.shikshasathi.backend.infrastructure.repository.user.UserRepository userRepository) {
         return username -> {
-            com.shikshasathi.backend.core.domain.user.User user = userRepository.findByEmail(username)
+            com.shikshasathi.backend.core.domain.user.User user = userRepository.findById(username)
+                    .or(() -> userRepository.findByEmail(username))
                     .or(() -> {
                         java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(username);
                         return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
@@ -25,7 +26,7 @@ public class ApplicationConfig {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
             return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getEmail() != null ? user.getEmail() : user.getPhone())
+                    .username(user.getId())
                     .password(user.getPasswordHash())
                     .roles(user.getRole().name())
                     .build();
