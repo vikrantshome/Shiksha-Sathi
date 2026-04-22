@@ -30,15 +30,34 @@ public class AIGradingProperties {
     /** URL of the primary API endpoint (NVIDIA API). */
     private String endpointUrl = "https://integrate.api.nvidia.com/v1/chat/completions";
 
-    /** URL of the HF Space grading endpoint (fallback). Disabled — Naviksha AI agent (Qwen3.5-2B) has low accuracy. */
-    private String hfSpaceUrl;
+    /** URL of the first fallback model (qwen3.5-122b) when primary fails or returns empty reasoning. */
+    private String fallbackUrl1 = "https://build.nvidia.com/qwen/qwen3.5-122b-a10b";
+
+    /** URL of the second fallback model (mistral-small-4-119b) when primary and first fallback fail. */
+    private String fallbackUrl2 = "https://build.nvidia.com/mistralai/mistral-small-4-119b-2603";
 
     /** HTTP timeout in milliseconds for the grading request. */
     private long timeoutMs = 30000;
+
+    public long getTimeoutMs() {
+        return timeoutMs;
+    }
 
     /** Temperature for the AI model (lower = more deterministic). */
     private double temperature = 0.1;
 
     /** Whether to fall back to string matching when AI grading fails. Default false. */
     private boolean fallbackToStringMatch = false;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+public boolean isFallbackToStringMatch() {
+    return fallbackToStringMatch;
+}
+
+public String getHfSpaceUrl() {
+    return endpointUrl;
+}
 }

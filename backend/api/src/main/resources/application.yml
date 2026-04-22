@@ -30,7 +30,8 @@ ai-grading:
   api-key: ${NVIDIA_API_KEY}
   model: ${AI_GRADING_MODEL:nvidia/nemotron-3-super-120b-a12b}
   endpoint-url: ${AI_GRADING_URL:https://integrate.api.nvidia.com/v1/chat/completions}
-  hf-space-url: ${AI_GRADING_HF_URL:https://ainaviksha-naviksha-ai-agent.hf.space/grade}
+  fallback-url-1: ${AI_GRADING_FALLBACK_URL_1:https://build.nvidia.com/qwen/qwen3.5-122b-a10b}
+  fallback-url-2: ${AI_GRADING_FALLBACK_URL_2:https://build.nvidia.com/mistralai/mistral-small-4-119b-2603}
   timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
   temperature: ${AI_GRADING_TEMPERATURE:0.1}
   fallback-to-string-match: ${AI_GRADING_FALLBACK:false}
