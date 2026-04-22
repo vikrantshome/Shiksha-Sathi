@@ -57,6 +57,12 @@ next-env.d.ts
 *.iml
 *.ipr
 
+# Eclipse
+.settings/
+.project
+.classpath
+.factorypath
+
 # VS Code
 .vscode/
 
@@ -77,6 +83,16 @@ doc/NCERT/**
 # Exemplar PDFs (large binaries, download via scripts)
 doc/Exemplar/*.pdf
 
-# AI assistant settings
+# AI Assistant Settings
 .qwen/
 .worktrees/
+.kilo/
+.opencode/
+.ruff_cache/
+.pytest_cache/
+
+# Build and Output
+bin/
+**/bin/
+.gradle/
+**/build/
