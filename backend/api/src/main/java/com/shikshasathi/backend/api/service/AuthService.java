@@ -185,7 +185,8 @@ public class AuthService {
     }
 
     public UserResponse getCurrentUser(String username) {
-        User user = userRepository.findByEmail(username)
+        com.shikshasathi.backend.core.domain.user.User user = userRepository.findById(username)
+                .or(() -> userRepository.findByEmail(username))
                 .or(() -> {
                     List<User> phoneUsers = userRepository.findByPhone(username);
                     return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));

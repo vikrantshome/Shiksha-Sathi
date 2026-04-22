@@ -231,7 +231,8 @@ public class QuizService {
     }
 
     private User resolveTeacher(String loginIdentity) {
-        return userRepository.findByEmail(loginIdentity)
+        return userRepository.findById(loginIdentity)
+                .or(() -> userRepository.findByEmail(loginIdentity))
                 .or(() -> {
                     List<User> phoneUsers = userRepository.findByPhone(loginIdentity);
                     return phoneUsers.isEmpty() ? Optional.empty() : Optional.of(phoneUsers.get(0));

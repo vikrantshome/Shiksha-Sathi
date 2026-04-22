@@ -51,8 +51,13 @@ public class AssignmentSubmissionService {
     private final AIGradingService aiGradingService;
     private final ObjectMapper objectMapper;
 
-    public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
-        com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
+    public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String loginIdentity) {
+        com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findById(loginIdentity)
+            .or(() -> userRepository.findByEmail(loginIdentity))
+            .or(() -> {
+                java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+            })
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
             
         Assignment assignment = assignmentRepository.findById(assignmentId)
