@@ -200,7 +200,8 @@ public class AssignmentSubmissionService {
                         .marksAwarded(marksAwarded)
                         .build();
             }
-
+            
+            questionFeedback.setExplanation(question.getExplanation());
             feedback.add(questionFeedback);
             score += questionFeedback.getMarksAwarded() == null ? 0 : questionFeedback.getMarksAwarded();
         }
