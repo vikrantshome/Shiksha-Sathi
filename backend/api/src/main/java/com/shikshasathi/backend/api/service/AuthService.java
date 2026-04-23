@@ -84,52 +84,28 @@ public class AuthService {
 
         List<User> candidates = userRepository.findByPhone(phone);
 
-        // Filter to active users only
-        List<User> activeUsers = candidates.stream()
+        // Filter to active users whose password matches the provided one
+        List<User> matchingUsers = candidates.stream()
                 .filter(User::isActive)
+                .filter(u -> passwordEncoder.matches(request.getPassword(), u.getPasswordHash()))
                 .collect(Collectors.toList());
 
-        if (activeUsers.isEmpty()) {
+        if (matchingUsers.isEmpty()) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        // Separate teachers and students
-        List<User> teachers = activeUsers.stream()
-                .filter(u -> u.getRole() == Role.TEACHER)
-                .collect(Collectors.toList());
-        List<User> students = activeUsers.stream()
-                .filter(u -> u.getRole() != Role.TEACHER)
-                .collect(Collectors.toList());
+        // If only one user matches, log in directly
+        if (matchingUsers.size() == 1) {
+            User user = matchingUsers.get(0);
+            user.setLastLoginAt(Instant.now().toEpochMilli());
+            userRepository.save(user);
 
-        // If there's a teacher, they should be unique (enforced at signup). Login as teacher.
-        if (!teachers.isEmpty()) {
-            User teacher = teachers.get(0);
-            if (!passwordEncoder.matches(request.getPassword(), teacher.getPasswordHash())) {
-                throw new RuntimeException("Invalid credentials");
-            }
-            teacher.setLastLoginAt(Instant.now().toEpochMilli());
-            userRepository.save(teacher);
-
-            String token = jwtUtil.generateToken(getLoginIdentity(teacher), teacher.getRole().name(), teacher.getId());
-            return new AuthResponse(token, teacher.getId(), teacher.getName(), teacher.getSchool(), teacher.getRole(), null);
+            String token = jwtUtil.generateToken(getLoginIdentity(user), user.getRole().name(), user.getId());
+            return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(), null);
         }
 
-        // Multiple active students with same phone — verify password against any of them.
-        // All students sharing a parent phone should have the same password (parent's choice).
-        // Check password against the first student; if it matches, show profile picker.
-        User firstStudent = students.get(0);
-        if (!passwordEncoder.matches(request.getPassword(), firstStudent.getPasswordHash())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        // Update last login for the most recently active student
-        students.sort(Comparator.comparing(User::getLastLoginAt, Comparator.nullsFirst(Long::compareTo)).reversed());
-        User primaryStudent = students.get(0);
-        primaryStudent.setLastLoginAt(Instant.now().toEpochMilli());
-        userRepository.save(primaryStudent);
-
-        // Return candidate profiles for frontend to show picker
-        List<AuthResponse.CandidateProfile> profiles = students.stream()
+        // If multiple users match (e.g., parent password for multiple kids), return candidates
+        List<AuthResponse.CandidateProfile> profiles = matchingUsers.stream()
                 .map(u -> new AuthResponse.CandidateProfile(
                         u.getId(),
                         u.getName(),
