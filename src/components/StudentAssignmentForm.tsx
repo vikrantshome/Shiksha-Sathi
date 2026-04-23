@@ -295,81 +295,103 @@ export default function StudentAssignmentForm({
       {assignment.questions.map((q, index) => (
         <article
           key={q.id}
-          className={`p-5 md:p-6 rounded-xl transition-colors duration-200 ${isPending ? "opacity-50 pointer-events-none" : ""}`}
+          className={`p-6 md:p-8 rounded-2xl border transition-all duration-300 hover:shadow-md animate-in fade-in slide-in-from-bottom-2 ${
+            isPending ? "opacity-50 pointer-events-none grayscale" : "opacity-100"
+          }`}
           style={{ 
             background: "var(--color-surface-container-lowest)",
-            filter: isPending ? "blur(1px)" : "none",
+            borderColor: "var(--color-outline-variant)",
           }}
         >
-          <div className="flex justify-between items-start mb-5">
-            <div className="flex gap-4 items-start">
-              <span className="text-sm font-semibold shrink-0" style={{ color: "var(--color-primary)" }}>
-                {String(index + 1).padStart(2, "0")}.
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
+            <div className="flex gap-5 items-start">
+              <span 
+                className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-sm font-bold shadow-sm"
+                style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}
+              >
+                {index + 1}
               </span>
-              <h2 className="text-base font-medium leading-relaxed" style={{ color: "var(--color-on-surface)" }}>
+              <h2 className="text-lg font-medium leading-relaxed pt-1" style={{ color: "var(--color-on-surface)" }}>
                 {q.text}
               </h2>
             </div>
-            <span className="text-[0.75rem] font-bold tracking-wider px-3 py-1 rounded-full shrink-0 ml-4" style={{ background: "var(--color-surface-container)", color: "var(--color-on-surface-variant)" }}>
-              {q.points || 1} MARKS
+            <span 
+              className="text-[0.7rem] font-black uppercase tracking-widest px-4 py-1.5 rounded-lg shrink-0" 
+              style={{ background: "var(--color-surface-container-high)", color: "var(--color-on-surface-variant)" }}
+            >
+              {q.points || 1} Points
             </span>
           </div>
 
-          {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-10">
-              {q.options.map((opt, i) => {
-                const isSelected = answers[q.id] === opt;
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => handleAnswerChange(q.id, opt)}
-                    className="flex items-center gap-3 p-4 rounded-xl transition-all text-left text-sm group"
-                    style={{
-                      background: isSelected ? "var(--color-primary-container)" : "var(--color-surface-container-low)",
-                      border: isSelected ? "1px solid var(--color-primary)" : "1px solid transparent",
-                    }}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" className="shrink-0" style={{
-                      fill: isSelected ? "var(--color-primary)" : "none",
-                      stroke: isSelected ? "var(--color-primary)" : "var(--color-outline)",
-                      strokeWidth: 2,
-                    }}>
-                      <circle cx="12" cy="12" r="8" />
-                      {isSelected && <circle cx="12" cy="12" r="4" fill="var(--color-on-primary-container)" />}
-                    </svg>
-                    <span className="text-sm" style={{
-                      color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
-                      fontWeight: isSelected ? 600 : 400,
-                    }}>
-                      {String.fromCharCode(65 + i)}) {opt}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="pl-10">
-              <div className="relative max-w-md">
-                <input
-                  type="text"
-                  value={answers[q.id] || ""}
-                  onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                  placeholder="Type your answer here..."
-                  className="w-full border-0 border-b-2 focus:ring-0 px-0 py-3 text-sm transition-all font-body bg-transparent"
-                  style={{
-                    borderColor: "var(--color-outline-variant)",
-                    color: "var(--color-on-surface)",
+          <div className="md:pl-[3.75rem]">
+            {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
+              <div className="grid grid-cols-1 gap-3 max-w-2xl">
+                {q.options.map((opt, i) => {
+                  const isSelected = answers[q.id] === opt;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handleAnswerChange(q.id, opt)}
+                      className="group flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 text-left active:scale-[0.98]"
+                      style={{
+                        background: isSelected ? "var(--color-primary-container)" : "var(--color-surface)",
+                        borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline-variant)",
+                      }}
+                    >
+                      <div className="relative flex items-center justify-center">
+                        <div 
+                          className="w-6 h-6 rounded-full border-2 transition-all group-hover:border-primary"
+                          style={{ borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline)" }}
+                        >
+                          {isSelected && (
+                            <div 
+                              className="absolute inset-1 rounded-full animate-in zoom-in-50 duration-200"
+                              style={{ background: "var(--color-primary)" }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-base flex-1" style={{
+                        color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
+                        fontWeight: isSelected ? 600 : 400,
+                      }}>
+                        {opt}
+                      </span>
+                      <span className="text-[0.65rem] opacity-40 font-bold uppercase tracking-tighter self-center">Option {String.fromCharCode(65 + i)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="max-w-xl group">
+                <div 
+                  className="relative rounded-t-lg transition-all border-b-2 overflow-hidden"
+                  style={{ 
+                    background: "var(--color-surface-container-low)",
+                    borderColor: "var(--color-outline)" 
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                />
-                <p className="mt-2 text-[0.75rem] italic" style={{ color: "var(--color-on-surface-variant)" }}>
-                  Enter a single word or a short phrase.
+                >
+                  <label className="absolute left-4 top-2 text-[0.65rem] font-bold uppercase tracking-wider opacity-60" style={{ color: "var(--color-primary)" }}>
+                    Your Response
+                  </label>
+                  <input
+                    type="text"
+                    value={answers[q.id] || ""}
+                    onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                    placeholder="Provide your answer..."
+                    className="w-full bg-transparent pt-7 pb-3 px-4 text-base focus:ring-0 border-none placeholder:opacity-30 transition-colors"
+                    style={{ color: "var(--color-on-surface)" }}
+                  />
+                  <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-focus-within:w-full" style={{ background: "var(--color-primary)" }} />
+                </div>
+                <p className="mt-2 text-xs flex items-center gap-1.5 opacity-70" style={{ color: "var(--color-on-surface-variant)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  Short answer preferred.
                 </p>
               </div>
-</div>
-          )}
+            )}
+          </div>
         </article>
       ))}
 
