@@ -455,4 +455,31 @@ public class AssignmentSubmissionServiceTest {
         assertFalse(result.getFeedback().get(1).isAiGradingFailed());
         assertEquals(2, result.getFeedback().size());
     }
+
+    @Test
+    void submitAssignment_PopulatesExplanationField() {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student10");
+        submission.setAnswers(Map.of("q1", "Equal"));
+
+        Question question1 = new Question();
+        question1.setId("q1");
+        question1.setText("Two triangles are similar if their corresponding angles are:");
+        question1.setCorrectAnswer("Equal");
+        question1.setPoints(1);
+        question1.setExplanation("Angles must be equal for similarity.");
+
+        mockedAssignment.setQuestionIds(List.of("q1"));
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student10")).thenReturn(Optional.empty());
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
+
+        assertEquals(1, result.getFeedback().size());
+        assertEquals("Angles must be equal for similarity.", result.getFeedback().get(0).getExplanation());
+    }
 }

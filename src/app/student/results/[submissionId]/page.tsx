@@ -300,6 +300,17 @@ export default function StudentResultsPage({
                         </div>
                       </div>
                     )}
+
+                    {f.explanation && (
+                      <div className="mt-3 p-4 rounded-sm bg-secondary-container/30 border-l-2 border-secondary">
+                        <div className="text-[0.6875rem] text-secondary font-bold tracking-widest mb-1 uppercase">
+                          Explanation
+                        </div>
+                        <div className="text-sm text-on-secondary-container leading-relaxed">
+                          {f.explanation}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
