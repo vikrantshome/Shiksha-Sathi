@@ -11,6 +11,7 @@ import {
 import type { StudentDashboardStats, StudentIdentity } from "@/lib/api/types";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 import Loader from "@/components/Loader";
+import CodeEntryModal from "@/components/CodeEntryModal";
 
 /* ─────────────────────────────────────────────────────────
    Student Dashboard
@@ -199,12 +200,7 @@ function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => 
 }
 
 /* ── Empty State ── */
-function EmptyState() {
-  const handleEnterCode = () => {
-    const code = prompt("Enter your assignment code:");
-    if (code) window.location.href = `/student/assignment/${code}`;
-  };
-
+function EmptyState({ onEnterCode }: { onEnterCode: () => void }) {
   return (
     <div className="bg-surface-container-low rounded-md border-2 border-dashed border-outline/30 p-8 md:p-10 flex flex-col items-center text-center">
       <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center mb-4 text-outline">
@@ -215,7 +211,7 @@ function EmptyState() {
         Your teacher will share an assignment code. Enter it below to get started.
       </p>
       <button
-        onClick={handleEnterCode}
+        onClick={onEnterCode}
         className="mt-4 md:mt-6 text-[0.6875rem] font-bold text-primary no-underline flex items-center gap-2 cursor-pointer bg-transparent border-none"
       >
         Enter Assignment Code
@@ -232,6 +228,7 @@ export default function StudentDashboardPage() {
   const [stats, setStats] = useState<StudentDashboardStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
 
   useEffect(() => {
     const existing = getStudentIdentity();
@@ -300,12 +297,17 @@ load();
   ];
 
   const handleEnterCode = () => {
-    const code = prompt("Enter your assignment code:");
-    if (code) window.location.href = `/student/assignment/${code}`;
+    setIsAssignmentModalOpen(true);
   };
 
   return (
     <div className="max-w-full pb-12">
+      <CodeEntryModal
+        isOpen={isAssignmentModalOpen}
+        onClose={() => setIsAssignmentModalOpen(false)}
+        onSubmit={(code) => window.location.href = `/student/assignment/${code}`}
+        title="Enter Assignment Code"
+      />
       {/* ═══ Welcome Banner (Refined Premium) ═══ */}
       <header className="mb-6 md:mb-8 lg:mb-10 p-5 md:p-6 rounded-lg" style={{ 
         background: "var(--color-primary-container)",
@@ -427,7 +429,7 @@ load();
             <Loader size="md" label="Loading..." />
           </div>
         ) : stats.recentSubmissions.length === 0 ? (
-          <EmptyState />
+          <EmptyState onEnterCode={handleEnterCode} />
         ) : (
           <div className="rounded-md overflow-hidden" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
             {/* Desktop Table */}

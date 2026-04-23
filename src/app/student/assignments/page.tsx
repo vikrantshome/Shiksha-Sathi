@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getStudentIdentity, students } from "@/lib/api/students";
 import type { StudentSubmissionSummary, StudentIdentity } from "@/lib/api/types";
 import Loader from "@/components/Loader";
+import CodeEntryModal from "@/components/CodeEntryModal";
 
 /* ─────────────────────────────────────────────────────────
    Student Assignments List Page
@@ -27,6 +28,7 @@ export default function StudentAssignmentsPage({
   const [filter, setFilter] = useState<FilterStatus>(initialFilter);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
 
   useEffect(() => {
     const existing = getStudentIdentity();
@@ -72,14 +74,19 @@ export default function StudentAssignmentsPage({
   ];
 
   const handleEnterCode = () => {
-    const code = prompt("Enter your assignment code:");
-    if (code) window.location.href = `/student/assignment/${code}`;
+    setIsAssignmentModalOpen(true);
   };
 
   if (!identity) return null;
 
   return (
     <div className="max-w-full pb-12">
+      <CodeEntryModal
+        isOpen={isAssignmentModalOpen}
+        onClose={() => setIsAssignmentModalOpen(false)}
+        onSubmit={(code) => window.location.href = `/student/assignment/${code}`}
+        title="Enter Assignment Code"
+      />
       {/* ═══ Page Header ═══ */}
       <header className="mb-6 md:mb-8">
         <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
