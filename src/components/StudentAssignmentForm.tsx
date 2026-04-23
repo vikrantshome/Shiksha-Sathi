@@ -191,96 +191,141 @@ export default function StudentAssignmentForm({
       : 0;
 
     return (
-      <div className="w-full max-w-4xl px-4 py-8 mx-auto md:py-12 lg:py-16">
-        {/* Success Confirmation */}
-        <div className="flex flex-col items-center justify-center mb-10 text-center md:mb-14">
-          <div className="flex items-center justify-center mb-4 rounded-full w-14 h-14 md:w-16 bg-primary-container md:mb-6">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+      <div className="w-full max-w-4xl px-4 py-8 mx-auto md:py-12">
+        {/* Success Confirmation & Header */}
+        <div className="flex flex-col items-center justify-center mb-10 text-center">
+          <div className="flex items-center justify-center mb-4 rounded-full w-14 h-14 bg-[var(--color-primary-container)] ring-8 ring-[var(--color-primary-container)]/20">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <h2 className="font-headline text-on-surface-variant text-sm tracking-[0.05em] font-semibold mb-2 uppercase">
-            Submission Confirmed
-          </h2>
-          <h1 className="text-2xl font-extrabold tracking-tight font-headline md:text-3xl text-on-surface">
-            Assignment Submitted Successfully
+          <h2 className="text-[var(--color-primary)] text-xs font-bold tracking-[0.2em] mb-2 uppercase">Assessment Finalled</h2>
+          <h1 className="text-3xl font-extrabold tracking-tight font-headline text-[var(--color-on-surface)] md:text-4xl">
+            Success! Review Your Results
           </h1>
         </div>
 
-        {/* Score Display */}
-        <div className="grid grid-cols-1 gap-4 mb-10 md:grid-cols-12 md:gap-6 md:mb-14">
-          <div className="relative flex flex-col items-center justify-center p-6 overflow-hidden rounded-lg md:col-span-8 bg-surface-container-lowest md:p-10">
-            <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
-            <span className="mb-4 text-xs font-bold tracking-widest uppercase font-label text-on-surface-variant">
-              Total Performance
-            </span>
-            <div className="flex items-baseline gap-3">
-              <span className="font-extrabold leading-none tracking-tighter text-8xl font-headline text-primary">
-                {result.score}
-              </span>
-              <span className="text-4xl font-bold font-headline text-outline-variant">
-                / {result.totalMarks}
-              </span>
+        {/* Premium Score Summary */}
+        <div className="mb-12">
+          <div className="relative overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-container-lowest)] border border-[var(--color-outline-variant)] shadow-[var(--shadow-md)]">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary)] opacity-5 rounded-full -mr-16 -mt-16 blur-3xl" />
+            <div className="flex flex-col md:flex-row items-center">
+              <div className="w-full md:w-2/5 p-8 md:p-12 border-b md:border-b-0 md:border-r border-[var(--color-outline-variant)] flex flex-col items-center justify-center text-center">
+                <span className="mb-4 text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--color-on-surface-variant)]">Overall Grade</span>
+                <div className="flex items-baseline justify-center">
+                  <span className="text-8xl font-black font-headline tracking-tighter text-[var(--color-primary)]">
+                    {result.score}
+                  </span>
+                  <span className="text-2xl font-bold ml-1 text-[var(--color-outline)]">/{result.totalMarks}</span>
+                </div>
+                <div className="mt-4 px-3 py-1 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] rounded-[var(--radius-full)] text-[10px] font-black uppercase tracking-wider">
+                  {Math.round(scorePercent)}% Accuracy
+                </div>
+              </div>
+              <div className="w-full md:w-3/5 p-8 md:p-12 bg-[var(--color-surface-container-low)]">
+                <h3 className="text-xl font-bold mb-3 text-[var(--color-on-surface)]">
+                  {scorePercent >= 80 ? 'Mastery Achieved!' : scorePercent >= 50 ? 'Proficiency Building' : 'Review Required'}
+                </h3>
+                <p className="text-[var(--color-on-surface-variant)] leading-relaxed text-sm">
+                  {scorePercent >= 80
+                    ? `Phenomenal performance, ${user?.name}. You've demonstrated a deep understanding of these concepts. Your mastery puts you far ahead of the curve.`
+                    : scorePercent >= 50
+                    ? `Great effort, ${user?.name}. You're making solid progress. Focus on the corrections below to polish the areas where points were missed.`
+                    : `Don't get discouraged, ${user?.name}. This assessment highlights specific gaps in knowledge which are now identified for your focused review.`}
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <span className="badge">Assignment Completed</span>
+                  <span className="badge">AI-Evaluated</span>
+                </div>
+              </div>
             </div>
-            <p className="max-w-xs mt-6 text-sm font-medium text-center text-on-surface-variant">
-              {scorePercent >= 80
-                ? `Excellent work, ${user?.name}! You've demonstrated a strong grasp of the material.`
-                : scorePercent >= 50
-                ? `Good effort, ${user?.name}. Review the feedback below to improve.`
-                : `Keep studying, ${user?.name}. Review the detailed feedback for guidance.`}
-            </p>
           </div>
         </div>
 
-        {/* Detailed Feedback */}
+        {/* Detailed M3 Result Cards */}
         {result.feedback && result.feedback.length > 0 && (
-          <div className="space-y-6 mb-12">
-            <h3 className="text-lg font-bold text-on-surface mb-4">Detailed Results</h3>
-            {result.feedback.map((f, i) => (
-              <div 
-                key={f.questionId} 
-                className="p-5 md:p-6 rounded-xl border border-outline-variant bg-surface-container-lowest"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex gap-3">
-                    <span className="text-sm font-bold text-outline-variant">{String(i + 1).padStart(2, '0')}</span>
-                    <p className="text-sm font-medium text-on-surface">{f.questionText}</p>
-                  </div>
-                  <span className={`text-[0.625rem] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${f.isCorrect ? 'bg-success-container text-on-success-container' : 'bg-error-container text-on-error-container'}`}>
-                    {f.marksAwarded} / {assignment.questions.find(q => q.id === f.questionId)?.points || 1}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-8">
-                  <div>
-                    <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Your Answer</span>
-                    <p className={`text-sm ${f.isCorrect ? 'text-success' : 'text-error'} font-medium`}>{f.studentAnswer || '(Empty)'}</p>
-                  </div>
-                  {!f.isCorrect && (
-                    <div>
-                      <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Correct Answer</span>
-                      <p className="text-sm text-on-surface font-medium">{Array.isArray(f.correctAnswer) ? f.correctAnswer.join(', ') : f.correctAnswer}</p>
+          <div className="space-y-8 mb-12">
+            <div className="flex items-center gap-4 mb-6">
+              <h3 className="text-xl font-bold text-[var(--color-on-surface)]">Detailed Review</h3>
+              <div className="h-[1px] flex-1 bg-[var(--color-outline-variant)] opacity-50" />
+            </div>
+            
+            {result.feedback.map((f, i) => {
+              const totalPoints = assignment.questions.find(q => q.id === f.questionId)?.points || 1;
+              return (
+                <div 
+                  key={f.questionId} 
+                  className="group relative bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-[var(--transition-normal)] overflow-hidden"
+                >
+                  {/* Status Indicator Bar */}
+                  <div className={`absolute left-0 top-0 bottom-0 w-1 ${f.isCorrect ? 'bg-success' : 'bg-error'}`} />
+                  
+                  <div className="p-6 md:p-8">
+                    {/* Header */}
+                    <div className="flex flex-wrap gap-4 justify-between items-start mb-6">
+                      <div className="flex gap-4">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-surface-container-high)] text-[var(--color-on-surface)] text-xs font-black">
+                          {i + 1}
+                        </span>
+                        <h4 className="flex-1 text-base font-bold text-[var(--color-on-surface)] leading-snug max-w-2xl">
+                          {f.questionText}
+                        </h4>
+                      </div>
+                      <div className={`flex items-center gap-2 font-bold text-xs uppercase tracking-wider px-3 py-1.5 rounded-lg border ${f.isCorrect ? 'bg-success/5 border-success/20 text-success' : 'bg-error/5 border-error/20 text-error'}`}>
+                        {f.isCorrect ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                        ) : (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                        )}
+                        {f.marksAwarded} / {totalPoints} PTS
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                {f.reasoning && (
-                  <div className="mt-4 pl-8 pt-4 border-t border-outline-variant/30">
-                    <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Feedback</span>
-                    <p className="text-xs text-on-surface-variant leading-relaxed italic">{f.reasoning}</p>
+                    {/* Content Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-0 md:ml-12">
+                      <div className={`p-4 rounded-xl border ${f.isCorrect ? 'bg-success/5 border-success/10' : 'bg-error/5 border-error/10'}`}>
+                        <span className="text-[10px] font-black uppercase tracking-[0.1em] text-[var(--color-on-surface-variant)] mb-2 block">Your Answer</span>
+                        <p className={`text-sm font-semibold ${f.isCorrect ? 'text-success' : 'text-error'}`}>
+                          {f.studentAnswer || <span className="italic opacity-50">No response provided</span>}
+                        </p>
+                      </div>
+
+                      {!f.isCorrect && (
+                        <div className="p-4 rounded-xl border border-[var(--color-outline-variant)] bg-[var(--color-surface-container-low)]">
+                          <span className="text-[10px] font-black uppercase tracking-[0.1em] text-[var(--color-on-surface-variant)] mb-2 block">Correct Solution</span>
+                          <p className="text-sm font-semibold text-[var(--color-on-surface)]">
+                            {Array.isArray(f.correctAnswer) ? f.correctAnswer.join(', ') : f.correctAnswer}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* AI Reasoning / Feedback */}
+                    {f.reasoning && (
+                      <div className="mt-8 ml-0 md:ml-12 p-5 rounded-xl border-l-4 border-[var(--color-primary)] bg-[var(--color-primary-container)]/30">
+                        <div className="flex items-center gap-2 mb-2 text-[var(--color-primary)]">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                          <span className="text-[10px] font-black uppercase tracking-widest">Performance Insight</span>
+                        </div>
+                        <p className="text-[13px] text-[var(--color-on-surface-variant)] leading-relaxed font-medium">
+                          {f.reasoning}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         )}
 
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-8">
           <a
             href="/student/dashboard"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-lg text-sm font-bold no-underline hover:brightness-110 transition-all"
+            className="flex items-center gap-3 px-10 py-4 bg-[var(--color-on-surface)] text-[var(--color-surface)] rounded-[var(--radius-full)] text-sm font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-xl"
           >
-            Go to Dashboard
+            Return to Dashboard
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
         </div>
       </div>
