@@ -17,6 +17,11 @@ public class AuthResponse {
     private String school;
     private Role role;
 
+    // Student-specific fields added for immediate frontend access
+    private String studentClass;
+    private String section;
+    private String rollNumber;
+
     /**
      * When multiple active users share the same phone (e.g., sibling students),
      * this field contains the candidate profiles for the frontend to show a picker.

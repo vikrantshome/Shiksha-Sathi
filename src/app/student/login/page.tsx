@@ -53,15 +53,13 @@ export default function StudentLoginPage() {
 
       document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
 
-      const user = await auth.getMe();
-      
-      if (user.role === "STUDENT") {
+      if (response.role === "STUDENT") {
         saveStudentIdentity({
-          studentId: user.id,
-          studentName: user.name || "",
-          school: user.school || "",
-          class: user.studentClass || "",
-          section: user.section || "",
+          studentId: response.userId || "",
+          studentName: response.name || "",
+          school: response.school || "",
+          class: response.studentClass || "",
+          section: response.section || "",
           storedAt: new Date().toISOString(),
         });
       }
@@ -97,15 +95,13 @@ export default function StudentLoginPage() {
 
       document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
 
-      const user = await auth.getMe();
-      
-      if (user.role === "STUDENT") {
+      if (response.role === "STUDENT") {
         saveStudentIdentity({
-          studentId: user.id,
-          studentName: user.name || candidate.name,
-          school: user.school || candidate.school || "",
-          class: user.studentClass || candidate.studentClass || "",
-          section: user.section || candidate.section || "",
+          studentId: response.userId || "",
+          studentName: response.name || candidate.name,
+          school: response.school || candidate.school || "",
+          class: response.studentClass || candidate.studentClass || "",
+          section: response.section || candidate.section || "",
           storedAt: new Date().toISOString(),
         });
       }

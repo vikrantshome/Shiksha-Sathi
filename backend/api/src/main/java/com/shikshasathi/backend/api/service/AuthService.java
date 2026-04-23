@@ -51,7 +51,8 @@ public class AuthService {
             userRepository.save(user);
 
             String token = jwtUtil.generateToken(getLoginIdentity(user), user.getRole().name(), user.getId());
-            return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(), null);
+            return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(),
+                    user.getStudentClass(), user.getSection(), user.getRollNumber(), null);
         }
 
         // Phone-based login (may return multiple users — e.g., sibling students)
@@ -79,7 +80,8 @@ public class AuthService {
             userRepository.save(selectedUser);
 
             String token = jwtUtil.generateToken(getLoginIdentity(selectedUser), selectedUser.getRole().name(), selectedUser.getId());
-            return new AuthResponse(token, selectedUser.getId(), selectedUser.getName(), selectedUser.getSchool(), selectedUser.getRole(), null);
+            return new AuthResponse(token, selectedUser.getId(), selectedUser.getName(), selectedUser.getSchool(), selectedUser.getRole(),
+                    selectedUser.getStudentClass(), selectedUser.getSection(), selectedUser.getRollNumber(), null);
         }
 
         List<User> candidates = userRepository.findByPhone(phone);
@@ -101,7 +103,8 @@ public class AuthService {
             userRepository.save(user);
 
             String token = jwtUtil.generateToken(getLoginIdentity(user), user.getRole().name(), user.getId());
-            return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(), null);
+            return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(),
+                    user.getStudentClass(), user.getSection(), user.getRollNumber(), null);
         }
 
         // If multiple users match (e.g., parent password for multiple kids), return candidates
@@ -117,7 +120,7 @@ public class AuthService {
                 ))
                 .collect(Collectors.toList());
 
-        return new AuthResponse(null, null, null, null, null, profiles);
+        return new AuthResponse(null, null, null, null, null, null, null, null, profiles);
     }
 
     public AuthResponse register(SignupRequest request) {
@@ -157,7 +160,8 @@ public class AuthService {
                 ? user.getEmail() : user.getPhone();
         String token = jwtUtil.generateToken(loginIdentity, user.getRole().name(), user.getId());
 
-        return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(), null);
+        return new AuthResponse(token, user.getId(), user.getName(), user.getSchool(), user.getRole(),
+                user.getStudentClass(), user.getSection(), user.getRollNumber(), null);
     }
 
     public UserResponse getCurrentUser(String username) {
