@@ -267,11 +267,22 @@ export default function QuestionBankFilters({
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      {/* Loading indicator */}
+    <div className="flex flex-col gap-3 relative">
+      {/* M3 Full View Overlay for Loading */}
       {isPending && (
-        <div className="px-4 py-2">
-          <Loader size="sm" label="Applying filters..." />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--color-surface)]/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="flex flex-col items-center gap-5 p-8 rounded-[var(--radius-lg)] bg-[var(--color-surface-container-lowest)] shadow-[var(--shadow-xl)] border border-[var(--color-outline-variant)]">
+            <div className="relative flex items-center justify-center w-16 h-16 bg-[var(--color-primary-container)] rounded-full">
+               <div className="absolute inset-0 rounded-full border-4 border-[var(--color-primary)] border-r-transparent animate-spin" />
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
+                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+               </svg>
+            </div>
+            <div className="text-center">
+              <h3 className="text-sm font-bold tracking-widest uppercase text-[var(--color-primary)] mb-1">Applying Filters</h3>
+              <p className="text-xs font-medium text-[var(--color-on-surface-variant)]">Curating your workspace...</p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -718,10 +729,21 @@ export function QuestionBankSearch() {
           ))}
         </div>
 
-        {/* Loading */}
+        {/* M3 Full View Overlay for Search/Type Loading */}
         {isPending && (
-          <div className="flex items-center gap-2">
-            <Loader size="sm" label="Loading…" />
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--color-surface)]/40 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="flex flex-col items-center gap-5 p-8 rounded-[var(--radius-lg)] bg-[var(--color-surface-container-lowest)] shadow-[var(--shadow-xl)] border border-[var(--color-outline-variant)]">
+              <div className="relative flex items-center justify-center w-16 h-16 bg-[var(--color-primary-container)] rounded-full">
+                 <div className="absolute inset-0 rounded-full border-4 border-[var(--color-primary)] border-r-transparent animate-spin" />
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-primary)]">
+                   <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                 </svg>
+              </div>
+              <div className="text-center">
+                <h3 className="text-sm font-bold tracking-widest uppercase text-[var(--color-primary)] mb-1">Searching</h3>
+                <p className="text-xs font-medium text-[var(--color-on-surface-variant)]">Finding best matches...</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
