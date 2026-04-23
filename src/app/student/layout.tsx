@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { getStudentIdentity, clearStudentIdentity } from "@/lib/api/students";
 import { useState, useSyncExternalStore } from "react";
 import { deleteCookie } from "cookies-next";
+import CodeEntryModal from "@/components/CodeEntryModal";
 
 /* ─────────────────────────────────────────────────────────
     Student Layout Shell
@@ -83,6 +84,8 @@ export default function StudentLayout({
 }) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
 
   // useSyncExternalStore ensures hydration-safe reads from localStorage
   const studentName = useSyncExternalStore(
@@ -202,8 +205,7 @@ export default function StudentLayout({
           <button
             onClick={() => {
               setMobileMenuOpen(false);
-              const code = prompt("Enter your assignment code:");
-              if (code) window.location.href = `/student/assignment/${code}`;
+              setIsAssignmentModalOpen(true);
             }}
             className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer mb-2 transition-all bg-transparent border-none"
             style={{ 
@@ -275,10 +277,7 @@ export default function StudentLayout({
           <div className="mt-auto p-6">
             {/* Enter Assignment Code */}
             <button
-              onClick={() => {
-                const code = prompt("Enter your assignment code:");
-                if (code) window.location.href = `/student/assignment/${code}`;
-              }}
+              onClick={() => setIsAssignmentModalOpen(true)}
               className="block w-full bg-[linear-gradient(135deg,#12423f_0%,#2d5a56_100%)] text-white py-3 rounded-lg font-bold text-sm text-center no-underline shadow-sm hover:opacity-90 transition-opacity cursor-pointer border-none mb-3"
             >
               Enter Assignment
@@ -286,10 +285,7 @@ export default function StudentLayout({
 
             {/* Enter Quiz Code */}
             <button
-              onClick={() => {
-                const code = prompt("Enter your quiz code:");
-                if (code) window.location.href = `/student/quizzes/join?code=${encodeURIComponent(code)}`;
-              }}
+              onClick={() => setIsQuizModalOpen(true)}
               className="block w-full bg-white text-[#12423f] py-3 rounded-lg font-bold text-sm text-center no-underline shadow-sm hover:bg-gray-50 transition-colors cursor-pointer border border-[#12423f]/20 mb-3"
             >
               Join Quiz
@@ -361,6 +357,21 @@ export default function StudentLayout({
           );
         })}
       </nav>
+
+      {/* Modals */}
+      <CodeEntryModal
+        isOpen={isAssignmentModalOpen}
+        onClose={() => setIsAssignmentModalOpen(false)}
+        onSubmit={(code) => window.location.href = `/student/assignment/${code}`}
+        title="Enter Assignment Code"
+      />
+      <CodeEntryModal
+        isOpen={isQuizModalOpen}
+        onClose={() => setIsQuizModalOpen(false)}
+        onSubmit={(code) => window.location.href = `/student/quizzes/join?code=${encodeURIComponent(code)}`}
+        title="Enter Quiz Code"
+        description="Enter the 6-character quiz code provided by your teacher."
+      />
     </div>
   );
 }
