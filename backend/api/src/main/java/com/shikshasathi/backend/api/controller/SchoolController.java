@@ -45,27 +45,35 @@ public class SchoolController extends BaseController {
         Map<String, School> uniqueSchools = new LinkedHashMap<>();
 
         // 1. Search pre-seeded schools from the schools collection
-        var seededPage = schoolRepository.findByNameContainingIgnoreCase(q, PageRequest.of(0, 5));
-        for (School school : seededPage.getContent()) {
-            if (school.getName() == null) continue;
-            uniqueSchools.put(school.getName().trim().toLowerCase(), school);
+        try {
+            var seededPage = schoolRepository.findByNameContainingIgnoreCase(q, PageRequest.of(0, 5));
+            for (School school : seededPage.getContent()) {
+                if (school.getName() == null) continue;
+                uniqueSchools.put(school.getName().trim().toLowerCase(), school);
+            }
+        } catch (Exception e) {
+            // Log and continue to user schools
         }
 
         // 2. Search distinct school names from existing users
         if (uniqueSchools.size() < 5) {
-            var remaining = 5 - uniqueSchools.size();
-            var userSchoolNames = userRepository.findDistinctSchoolNames(q, remaining);
-            for (String name : userSchoolNames) {
-                if (name == null || name.isBlank()) continue;
-                String key = name.trim().toLowerCase();
-                if (!uniqueSchools.containsKey(key)) {
-                    // Create a School wrapper with null ID (not from seeded collection)
-                    School userSchool = new School();
-                    userSchool.setId(null);
-                    userSchool.setName(name.trim());
-                    userSchool.setActive(true);
-                    uniqueSchools.put(key, userSchool);
+            try {
+                var remaining = 5 - uniqueSchools.size();
+                var userSchoolNames = userRepository.findDistinctSchoolNames(q, remaining);
+                for (String name : userSchoolNames) {
+                    if (name == null || name.isBlank()) continue;
+                    String key = name.trim().toLowerCase();
+                    if (!uniqueSchools.containsKey(key)) {
+                        // Create a School wrapper with null ID (not from seeded collection)
+                        School userSchool = new School();
+                        userSchool.setId(null);
+                        userSchool.setName(name.trim());
+                        userSchool.setActive(true);
+                        uniqueSchools.put(key, userSchool);
+                    }
                 }
+            } catch (Exception e) {
+                // Log and return what we have
             }
         }
 
