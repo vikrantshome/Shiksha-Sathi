@@ -19,17 +19,17 @@ interface StudentAssignmentPageProps {
 export default async function StudentAssignmentPage({
   params,
 }: StudentAssignmentPageProps) {
-  // Check for auth token — redirect to login if missing
-  const cookieStore = await cookies();
-  const authToken = cookieStore.get("auth-token")?.value;
-  if (!authToken) {
-    redirect("/student/login");
-  }
-
   const resolvedParams = await params;
 
   if (!resolvedParams.linkId) {
     notFound();
+  }
+
+  // Check for auth token — redirect to login if missing, preserving the return URL
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get("auth-token")?.value;
+  if (!authToken) {
+    redirect(`/student/login?redirect=/student/assignment/${resolvedParams.linkId}`);
   }
 
   let assignment;

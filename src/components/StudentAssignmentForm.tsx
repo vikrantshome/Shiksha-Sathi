@@ -205,8 +205,8 @@ export default function StudentAssignmentForm({
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <h2 className="text-[var(--color-primary)] text-xs font-bold tracking-[0.2em] mb-2 uppercase">Assessment Finalized</h2>
-          <h1 className="text-3xl font-extrabold tracking-tight font-headline text-[var(--color-on-surface)] md:text-4xl">
+          <h2 className="text-[var(--color-primary)] text-[0.65rem] sm:text-xs font-bold tracking-[0.2em] mb-2 uppercase">Assessment Finalized</h2>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight font-headline text-[var(--color-on-surface)]">
             Success! Review Your Results
           </h1>
         </div>
@@ -216,23 +216,23 @@ export default function StudentAssignmentForm({
           <div className="relative overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-container-lowest)] border border-[var(--color-outline-variant)] shadow-[var(--shadow-md)]">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary)] opacity-5 rounded-full -mr-16 -mt-16 blur-3xl" />
             <div className="flex flex-col md:flex-row items-center">
-              <div className="w-full md:w-2/5 p-8 md:p-12 border-b md:border-b-0 md:border-r border-[var(--color-outline-variant)] flex flex-col items-center justify-center text-center">
-                <span className="mb-4 text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--color-on-surface-variant)]">Overall Grade</span>
+              <div className="w-full md:w-2/5 p-5 sm:p-7 md:p-10 border-b md:border-b-0 md:border-r border-[var(--color-outline-variant)] flex flex-col items-center justify-center text-center">
+                <span className="mb-3 text-[0.6rem] sm:text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--color-on-surface-variant)]">Overall Grade</span>
                 <div className="flex items-baseline justify-center">
-                  <span className="text-8xl font-black font-headline tracking-tighter text-[var(--color-primary)]">
+                  <span className="text-6xl sm:text-7xl md:text-8xl font-black font-headline tracking-tighter text-[var(--color-primary)]">
                     {result.score}
                   </span>
-                  <span className="text-2xl font-bold ml-1 text-[var(--color-outline)]">/{result.totalMarks}</span>
+                  <span className="text-xl md:text-2xl font-bold ml-1 text-[var(--color-outline)]">/{result.totalMarks}</span>
                 </div>
-                <div className="mt-4 px-3 py-1 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] rounded-[var(--radius-full)] text-[10px] font-black uppercase tracking-wider">
+                <div className="mt-3 px-3 py-1 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] rounded-[var(--radius-full)] text-[10px] font-black uppercase tracking-wider">
                   {Math.round(scorePercent)}% Accuracy
                 </div>
               </div>
-              <div className="w-full md:w-3/5 p-8 md:p-12 bg-[var(--color-surface-container-low)]">
-                <h3 className="text-xl font-bold mb-3 text-[var(--color-on-surface)]">
+              <div className="w-full md:w-3/5 p-5 sm:p-6 md:p-10 bg-[var(--color-surface-container-low)]">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-[var(--color-on-surface)]">
                   {scorePercent >= 80 ? 'Mastery Achieved!' : scorePercent >= 50 ? 'Proficiency Building' : 'Review Required'}
                 </h3>
-                <p className="text-[var(--color-on-surface-variant)] leading-relaxed text-sm">
+                <p className="text-[var(--color-on-surface-variant)] leading-relaxed text-xs sm:text-sm">
                   {scorePercent >= 80
                     ? `Phenomenal performance, ${user?.name}. You've demonstrated a deep understanding of these concepts. Your mastery puts you far ahead of the curve.`
                     : scorePercent >= 50
@@ -263,19 +263,19 @@ export default function StudentAssignmentForm({
                   key={f.questionId} 
                   className="group relative bg-[var(--color-surface-container-lowest)] rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-[var(--transition-normal)] overflow-hidden"
                 >
-                  <div className={`absolute left-0 top-0 bottom-0 w-1 ${f.isCorrect ? 'bg-success' : 'bg-error'}`} />
+                  <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${f.isCorrect ? 'bg-success' : 'bg-error'}`} />
                   
-                  <div className="p-6 md:p-8">
-                    <div className="flex flex-wrap gap-4 justify-between items-start mb-6">
-                      <div className="flex gap-4">
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-surface-container-high)] text-[var(--color-on-surface)] text-xs font-black">
+                  <div className="p-4 sm:p-5 md:p-7">
+                    <div className="flex flex-wrap gap-3 justify-between items-start mb-4 md:mb-5">
+                      <div className="flex gap-3">
+                        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[var(--color-surface-container-high)] text-[var(--color-on-surface)] text-xs font-black">
                           {i + 1}
                         </span>
-                        <h4 className="flex-1 text-base font-bold text-[var(--color-on-surface)] leading-snug max-w-2xl">
+                        <h4 className="flex-1 text-sm sm:text-base font-bold text-[var(--color-on-surface)] leading-snug max-w-2xl">
                           {f.questionText}
                         </h4>
                       </div>
-                      <div className={`flex items-center gap-2 font-bold text-xs uppercase tracking-wider px-3 py-1.5 rounded-lg border ${f.isCorrect ? 'bg-success/5 border-success/20 text-success' : 'bg-error/5 border-error/20 text-error'}`}>
+                      <div className={`flex items-center gap-1.5 font-bold text-[0.6rem] sm:text-xs uppercase tracking-wider px-2.5 py-1 rounded-lg border ${f.isCorrect ? 'bg-success/5 border-success/20 text-success' : 'bg-error/5 border-error/20 text-error'}`}>
                         {f.isCorrect ? (
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                         ) : (
@@ -285,10 +285,10 @@ export default function StudentAssignmentForm({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-0 md:ml-12">
-                      <div className={`p-4 rounded-xl border ${f.isCorrect ? 'bg-success/5 border-success/10' : 'bg-error/5 border-error/10'}`}>
-                        <span className="text-[10px] font-black uppercase tracking-[0.1em] text-[var(--color-on-surface-variant)] mb-2 block">Your Answer</span>
-                        <p className={`text-sm font-semibold ${f.isCorrect ? 'text-success' : 'text-error'}`}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5 ml-0 sm:ml-10 md:ml-12">
+                      <div className={`p-3 md:p-4 rounded-xl border ${f.isCorrect ? 'bg-success/5 border-success/10' : 'bg-error/5 border-error/10'}`}>
+                        <span className="text-[10px] font-black uppercase tracking-[0.1em] text-[var(--color-on-surface-variant)] mb-1.5 block">Your Answer</span>
+                        <p className={`text-xs sm:text-sm font-semibold ${f.isCorrect ? 'text-success' : 'text-error'}`}>
                           {f.studentAnswer || <span className="italic opacity-50">No response provided</span>}
                         </p>
                       </div>
@@ -373,7 +373,7 @@ export default function StudentAssignmentForm({
       {assignment.questions.map((q, index) => (
         <article
           key={q.id}
-          className={`p-6 md:p-8 rounded-2xl border transition-all duration-300 hover:shadow-md animate-in fade-in slide-in-from-bottom-2 ${
+          className={`p-4 sm:p-5 md:p-7 rounded-2xl border transition-all duration-300 hover:shadow-md animate-in fade-in slide-in-from-bottom-2 ${
             isPending ? "opacity-50 pointer-events-none grayscale" : "opacity-100"
           }`}
           style={{ 
@@ -381,29 +381,29 @@ export default function StudentAssignmentForm({
             borderColor: "var(--color-outline-variant)",
           }}
         >
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
-            <div className="flex gap-5 items-start">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-3 mb-4 md:mb-6">
+            <div className="flex gap-3 md:gap-4 items-start">
               <span 
-                className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-sm font-bold shadow-sm"
+                className="w-7 h-7 md:w-9 md:h-9 shrink-0 flex items-center justify-center rounded-full text-xs md:text-sm font-bold shadow-sm"
                 style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}
               >
                 {index + 1}
               </span>
-              <h2 className="text-lg font-medium leading-relaxed pt-1" style={{ color: "var(--color-on-surface)" }}>
+              <h2 className="text-sm sm:text-base md:text-[1.0625rem] font-medium leading-relaxed pt-0.5 md:pt-1" style={{ color: "var(--color-on-surface)" }}>
                 {q.text}
               </h2>
             </div>
             <span 
-              className="text-[0.7rem] font-black uppercase tracking-widest px-4 py-1.5 rounded-lg shrink-0" 
+              className="text-[0.6rem] md:text-[0.65rem] font-black uppercase tracking-widest px-2.5 md:px-3.5 py-1 rounded-lg shrink-0" 
               style={{ background: "var(--color-surface-container-high)", color: "var(--color-on-surface-variant)" }}
             >
-              {q.points || 1} Points
+              {q.points || 1} pts
             </span>
           </div>
 
-          <div className="md:pl-[3.75rem]">
+          <div className="sm:pl-10 md:pl-[3.25rem]">
             {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
-              <div className="grid grid-cols-1 gap-3 max-w-2xl">
+              <div className="grid grid-cols-1 gap-2 md:gap-2.5 max-w-2xl">
                 {q.options.map((opt, i) => {
                   const isSelected = answers[q.id] === opt;
                   return (
@@ -411,32 +411,32 @@ export default function StudentAssignmentForm({
                       key={i}
                       type="button"
                       onClick={() => handleAnswerChange(q.id, opt)}
-                      className="group flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 text-left active:scale-[0.98]"
+                      className="group flex items-center gap-3 p-3 md:p-3.5 rounded-xl border-2 transition-all duration-200 text-left active:scale-[0.98]"
                       style={{
                         background: isSelected ? "var(--color-primary-container)" : "var(--color-surface)",
                         borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline-variant)",
                       }}
                     >
-                      <div className="relative flex items-center justify-center">
+                      <div className="relative flex items-center justify-center shrink-0">
                         <div 
-                          className="w-6 h-6 rounded-full border-2 transition-all group-hover:border-primary"
+                          className="w-5 h-5 rounded-full border-2 transition-all group-hover:border-primary"
                           style={{ borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline)" }}
                         >
                           {isSelected && (
                             <div 
-                              className="absolute inset-1 rounded-full animate-in zoom-in-50 duration-200"
+                              className="absolute inset-[3px] rounded-full animate-in zoom-in-50 duration-200"
                               style={{ background: "var(--color-primary)" }}
                             />
                           )}
                         </div>
                       </div>
-                      <span className="text-base flex-1" style={{
+                      <span className="text-sm md:text-[0.9375rem] flex-1" style={{
                         color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
                         fontWeight: isSelected ? 600 : 400,
                       }}>
                         {opt}
                       </span>
-                      <span className="text-[0.65rem] opacity-40 font-bold uppercase tracking-tighter self-center">Option {String.fromCharCode(65 + i)}</span>
+                      <span className="text-[0.6rem] opacity-30 font-bold uppercase tracking-tighter self-center hidden sm:inline">{String.fromCharCode(65 + i)}</span>
                     </button>
                   );
                 })}
@@ -474,23 +474,23 @@ export default function StudentAssignmentForm({
       ))}
 
       {/* Submit */}
-      <div className="mt-12 pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-outline-variant)" }}>
+      <div className="mt-8 md:mt-12 pt-5 md:pt-8 flex flex-col items-center" style={{ borderTop: "1px solid var(--color-outline-variant)" }}>
         {error && (
           <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
             {error}
           </div>
         )}
-        <p className="text-xs mb-6 flex items-center gap-2" style={{ color: "var(--color-on-surface-variant)" }}>
+        <p className="text-xs mb-4 md:mb-6 flex items-center gap-2" style={{ color: "var(--color-on-surface-variant)" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-primary)" }}>
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
           </svg>
-          Please review all answers before final submission.
+          Review all answers before submitting.
         </p>
         <button
           type="button"
           onClick={handleSubmitAssignment}
           disabled={isPending}
-          className="px-8 py-4 rounded-full font-semibold text-sm flex items-center gap-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 md:px-8 md:py-3.5 rounded-full font-semibold text-sm flex items-center gap-2.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{
             background: "var(--color-primary-container)",
             color: "var(--color-on-primary-container)",

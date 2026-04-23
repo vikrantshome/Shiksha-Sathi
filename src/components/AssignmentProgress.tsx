@@ -25,27 +25,27 @@ export default function AssignmentProgress({
   return (
     <>
       {/* Assignment Header with live progress */}
-      <header className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+      <header className="mb-5 md:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-3 md:mb-4">
           <div>
-            <span className="text-[0.875rem] font-medium tracking-wide uppercase mb-1 block" style={{ color: "var(--color-primary)" }}>
+            <span className="text-[0.7rem] sm:text-[0.8rem] font-medium tracking-wide uppercase mb-0.5 block" style={{ color: "var(--color-primary)" }}>
               Ongoing Assessment
             </span>
-            <h1 className="text-[2rem] font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+            <h1 className="text-xl sm:text-2xl md:text-[2rem] font-semibold tracking-tight leading-tight" style={{ color: "var(--color-on-surface)" }}>
               {assignment.title}
             </h1>
             {assignment.description && (
-              <p className="text-sm mt-1" style={{ color: "var(--color-on-surface-variant)" }}>
+              <p className="text-xs sm:text-sm mt-1" style={{ color: "var(--color-on-surface-variant)" }}>
                 {assignment.description}
               </p>
             )}
           </div>
-          <div className="text-right">
-            <p className="text-xs font-bold tracking-tight uppercase" style={{ color: "var(--color-primary)" }}>
+          <div className="text-left sm:text-right shrink-0">
+            <p className="text-[0.6rem] sm:text-xs font-bold tracking-tight uppercase" style={{ color: "var(--color-primary)" }}>
               Progress
             </p>
-            <p className="text-lg font-semibold" style={{ color: "var(--color-on-surface)" }}>
-              {answered} / {total} Answered
+            <p className="text-sm sm:text-base md:text-lg font-semibold" style={{ color: "var(--color-on-surface)" }}>
+              {answered} / {total}
             </p>
           </div>
         </div>
