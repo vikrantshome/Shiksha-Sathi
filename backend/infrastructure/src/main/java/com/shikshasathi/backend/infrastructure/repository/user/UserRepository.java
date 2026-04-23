@@ -30,7 +30,7 @@ public interface UserRepository extends MongoRepository<User, String> {
      * Returns up to `limit` results. Skips null/empty school names.
      */
     @Aggregation(pipeline = {
-            "{ $match: { school: { $regex: ?0, $options: 'i' }, school: { $ne: null }, school: { $ne: '' } } }",
+            "{ $match: { school: { $regex: ?0, $options: 'i' } } }",
             "{ $group: { _id: '$school' } }",
             "{ $project: { school: '$_id', _id: 0 } }",
             "{ $sort: { school: 1 } }",
