@@ -232,6 +232,49 @@ export default function StudentAssignmentForm({
           </div>
         </div>
 
+        {/* Detailed Feedback */}
+        {result.feedback && result.feedback.length > 0 && (
+          <div className="space-y-6 mb-12">
+            <h3 className="text-lg font-bold text-on-surface mb-4">Detailed Results</h3>
+            {result.feedback.map((f, i) => (
+              <div 
+                key={f.questionId} 
+                className="p-5 md:p-6 rounded-xl border border-outline-variant bg-surface-container-lowest"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex gap-3">
+                    <span className="text-sm font-bold text-outline-variant">{String(i + 1).padStart(2, '0')}</span>
+                    <p className="text-sm font-medium text-on-surface">{f.questionText}</p>
+                  </div>
+                  <span className={`text-[0.625rem] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${f.isCorrect ? 'bg-success-container text-on-success-container' : 'bg-error-container text-on-error-container'}`}>
+                    {f.marksAwarded} / {assignment.questions.find(q => q.id === f.questionId)?.points || 1}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-8">
+                  <div>
+                    <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Your Answer</span>
+                    <p className={`text-sm ${f.isCorrect ? 'text-success' : 'text-error'} font-medium`}>{f.studentAnswer || '(Empty)'}</p>
+                  </div>
+                  {!f.isCorrect && (
+                    <div>
+                      <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Correct Answer</span>
+                      <p className="text-sm text-on-surface font-medium">{Array.isArray(f.correctAnswer) ? f.correctAnswer.join(', ') : f.correctAnswer}</p>
+                    </div>
+                  )}
+                </div>
+
+                {f.reasoning && (
+                  <div className="mt-4 pl-8 pt-4 border-t border-outline-variant/30">
+                    <span className="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">Feedback</span>
+                    <p className="text-xs text-on-surface-variant leading-relaxed italic">{f.reasoning}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="flex justify-center">
           <a
             href="/student/dashboard"
