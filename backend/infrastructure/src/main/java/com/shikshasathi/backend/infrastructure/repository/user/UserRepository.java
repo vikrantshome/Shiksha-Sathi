@@ -26,23 +26,8 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findByPhoneAndRoleAndActive(String phone, com.shikshasathi.backend.core.domain.user.Role role, boolean active);
 
     /**
-     * Find distinct school names from users that contain the given query (case-insensitive).
-     * Returns up to `limit` results. Skips null/empty school names.
+     * Find users whose school name contains the given query (case-insensitive).
+     * Used as a base for the searchable school dropdown.
      */
-    @Aggregation(pipeline = {
-            "{ $match: { school: { $regex: ?0, $options: 'i' } } }",
-            "{ $group: { _id: '$school' } }",
-            "{ $project: { school: '$_id', _id: 0 } }",
-            "{ $sort: { school: 1 } }",
-            "{ $limit: ?1 }",
-            "{ $group: { _id: null, schools: { $push: '$school' } } }",
-            "{ $project: { _id: 0, schools: 1 } }"
-    })
-    List<org.bson.Document> findDistinctSchoolNamesRaw(String query, int limit);
-
-    default List<String> findDistinctSchoolNames(String query, int limit) {
-        List<org.bson.Document> results = findDistinctSchoolNamesRaw(query, limit);
-        if (results.isEmpty()) return List.of();
-        return (List<String>) results.get(0).get("schools");
-    }
+    List<User> findBySchoolContainingIgnoreCase(String query);
 }

@@ -58,10 +58,11 @@ public class SchoolController extends BaseController {
         // 2. Search distinct school names from existing users
         if (uniqueSchools.size() < 5) {
             try {
-                var remaining = 5 - uniqueSchools.size();
-                var userSchoolNames = userRepository.findDistinctSchoolNames(q, remaining);
-                for (String name : userSchoolNames) {
+                var usersWithSchool = userRepository.findBySchoolContainingIgnoreCase(q);
+                for (var user : usersWithSchool) {
+                    String name = user.getSchool();
                     if (name == null || name.isBlank()) continue;
+                    
                     String key = name.trim().toLowerCase();
                     if (!uniqueSchools.containsKey(key)) {
                         // Create a School wrapper with null ID (not from seeded collection)
@@ -71,6 +72,8 @@ public class SchoolController extends BaseController {
                         userSchool.setActive(true);
                         uniqueSchools.put(key, userSchool);
                     }
+                    
+                    if (uniqueSchools.size() >= 5) break;
                 }
             } catch (Exception e) {
                 // Log and return what we have
