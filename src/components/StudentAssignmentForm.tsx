@@ -375,12 +375,12 @@ export default function StudentAssignmentForm({
                   <label className="absolute left-4 top-2 text-[0.65rem] font-bold uppercase tracking-wider opacity-60" style={{ color: "var(--color-primary)" }}>
                     Your Response
                   </label>
-                  <input
-                    type="text"
+                  <textarea
+                    rows={3}
                     value={answers[q.id] || ""}
                     onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                     placeholder="Provide your answer..."
-                    className="w-full bg-transparent pt-7 pb-3 px-4 text-base focus:ring-0 border-none placeholder:opacity-30 transition-colors"
+                    className="w-full bg-transparent pt-7 pb-3 px-4 text-base focus:ring-0 border-none placeholder:opacity-30 transition-colors resize-y min-h-[5rem]"
                     style={{ color: "var(--color-on-surface)" }}
                   />
                   <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-focus-within:w-full" style={{ background: "var(--color-primary)" }} />
