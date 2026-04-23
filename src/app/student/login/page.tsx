@@ -15,11 +15,20 @@ export default function StudentLoginPage() {
   const [candidates, setCandidates] = useState<CandidateProfile[] | null>(null);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateProfile | null>(null);
   const [loginData, setLoginData] = useState<{ phone: string; password: string } | null>(null);
+  const [redirectUrl, setRedirectUrl] = useState("/student/dashboard");
 
   useEffect(() => {
     const stored = localStorage.getItem("shiksha-sathi-student-identity");
     if (stored) {
       router.replace("/student/dashboard");
+    }
+    // Capture redirect param so we can bounce back after login
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const dest = params.get("redirect");
+      if (dest && dest.startsWith("/")) setRedirectUrl(dest);
+    } catch {
+      // ignore
     }
   }, [router]);
 
@@ -66,7 +75,7 @@ export default function StudentLoginPage() {
         });
       }
 
-      router.push("/student/dashboard");
+      router.push(redirectUrl);
     } catch (err: unknown) {
       const apiError = err as { message?: string };
       setError(apiError.message || "Invalid credentials. Please try again.");
@@ -110,7 +119,7 @@ export default function StudentLoginPage() {
         });
       }
 
-      router.push("/student/dashboard");
+      router.push(redirectUrl);
     } catch (err: unknown) {
       const apiError = err as { message?: string };
       setError(apiError.message || "Failed to select profile. Please try again.");
