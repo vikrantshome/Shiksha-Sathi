@@ -24,37 +24,57 @@ export default function AssignmentProgress({
 
   return (
     <>
-      {/* Assignment Header with live progress */}
-      <header className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
-          <div>
-            <span className="text-[0.875rem] font-medium tracking-wide uppercase mb-1 block" style={{ color: "var(--color-primary)" }}>
-              Ongoing Assessment
-            </span>
-            <h1 className="text-[2rem] font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+      {/* Assignment Header Card */}
+      <header className="mb-8 card-elevated p-6 md:p-8" style={{ background: "var(--color-surface-container-low)" }}>
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="badge" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
+                Ongoing Assessment
+              </span>
+              <span className="text-xs font-medium" style={{ color: "var(--color-on-surface-variant)" }}>
+                ID: {assignment.id.split('-')[0].toUpperCase()}
+              </span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
               {assignment.title}
             </h1>
             {assignment.description && (
-              <p className="text-sm mt-1" style={{ color: "var(--color-on-surface-variant)" }}>
+              <p className="text-sm leading-relaxed max-w-2xl" style={{ color: "var(--color-on-surface-variant)" }}>
                 {assignment.description}
               </p>
             )}
           </div>
-          <div className="text-right">
-            <p className="text-xs font-bold tracking-tight uppercase" style={{ color: "var(--color-primary)" }}>
-              Progress
-            </p>
-            <p className="text-lg font-semibold" style={{ color: "var(--color-on-surface)" }}>
-              {answered} / {total} Answered
+          
+          <div className="flex flex-col items-start md:items-end justify-center min-w-[140px]">
+            <span className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "var(--color-primary)" }}>
+              Completion
+            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl font-bold" style={{ color: "var(--color-on-surface)" }}>{Math.round(progressPercent)}%</span>
+              <span className="text-sm font-medium" style={{ color: "var(--color-on-surface-variant)" }}>done</span>
+            </div>
+            <p className="text-xs mt-1 font-medium" style={{ color: "var(--color-on-surface-variant)" }}>
+              {answered} of {total} questions
             </p>
           </div>
         </div>
-        {/* M3 Linear Progress Indicator */}
-        <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--color-surface-variant)" }}>
-          <div
-            className="h-full rounded-full transition-all duration-500 ease-in-out"
-            style={{ width: `${progressPercent}%`, background: "var(--color-primary)" }}
-          />
+
+        {/* Integrated M3 Linear Progress */}
+        <div className="relative pt-2">
+          <div 
+            className="w-full h-2 rounded-full overflow-hidden" 
+            style={{ background: "var(--color-surface-container-highest)" }}
+          >
+            <div
+              className="h-full rounded-full transition-all duration-700 ease-out"
+              style={{ 
+                width: `${progressPercent}%`, 
+                background: "var(--color-primary)",
+                boxShadow: "0 0 8px var(--color-primary-container)"
+              }}
+            />
+          </div>
         </div>
       </header>
 
