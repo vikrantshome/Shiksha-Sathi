@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface AssignmentSubmissionRepository extends MongoRepository<AssignmentSubmission, String> {
     List<AssignmentSubmission> findByAssignmentId(String assignmentId);
     List<AssignmentSubmission> findByStudentId(String studentId);
+    List<AssignmentSubmission> findByStudentRollNumber(String studentRollNumber);
     Optional<AssignmentSubmission> findByAssignmentIdAndStudentId(String assignmentId, String studentId);
 }

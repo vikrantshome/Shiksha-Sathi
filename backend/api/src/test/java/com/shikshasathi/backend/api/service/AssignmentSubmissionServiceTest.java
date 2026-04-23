@@ -345,19 +345,6 @@ public class AssignmentSubmissionServiceTest {
         mockedAssignment.setQuestionIds(List.of("q1"));
         mockedAssignment.setMaxScore(2);
 
-        QuestionFeedbackDTO aiFeedback = QuestionFeedbackDTO.builder()
-                .questionId("q1")
-                .questionText("The powerhouse of the cell is the ________")
-                .studentAnswer("mitochondria")
-                .correctAnswer("mitochondria")
-                .isCorrect(true)
-                .marksAwarded(2)
-                .reasoning("Correct answer")
-                .confidence(1.0)
-                .build();
-        when(aiGradingService.gradeAnswer(any(), anyString(), anyString(), anyInt()))
-                .thenReturn(aiFeedback);
-
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student7")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
         when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
@@ -367,7 +354,7 @@ public class AssignmentSubmissionServiceTest {
 
         assertEquals(2, result.getScore());
         assertTrue(result.getFeedback().get(0).isCorrect());
-        verify(aiGradingService).gradeAnswer(any(), anyString(), anyString(), anyInt());
+        verifyNoInteractions(aiGradingService);
     }
 
     @Test

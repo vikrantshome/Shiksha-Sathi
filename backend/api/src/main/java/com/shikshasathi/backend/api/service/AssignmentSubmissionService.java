@@ -68,7 +68,25 @@ public class AssignmentSubmissionService {
     }
 
     public List<SubmissionDTO> getSubmissionsForStudent(String studentId) {
-        return submissionRepository.findByStudentId(studentId).stream()
+        List<AssignmentSubmission> submissions = new ArrayList<>(submissionRepository.findByStudentId(studentId));
+        
+        // Recover legacy submissions saved under rollNumber or studentId=rollNumber
+        userRepository.findById(studentId).ifPresent(user -> {
+            if (user.getRollNumber() != null && !user.getRollNumber().isBlank()) {
+                List<AssignmentSubmission> legacySubmissions = submissionRepository.findByStudentRollNumber(user.getRollNumber());
+                legacySubmissions.addAll(submissionRepository.findByStudentId(user.getRollNumber()));
+                
+                for (AssignmentSubmission legacy : legacySubmissions) {
+                    if (legacy.getSchool() != null && legacy.getSchool().equals(user.getSchool())) {
+                        if (submissions.stream().noneMatch(s -> s.getId().equals(legacy.getId()))) {
+                            submissions.add(legacy);
+                        }
+                    }
+                }
+            }
+        });
+
+        return submissions.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
