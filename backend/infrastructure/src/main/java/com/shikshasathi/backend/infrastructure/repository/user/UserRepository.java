@@ -31,11 +31,18 @@ public interface UserRepository extends MongoRepository<User, String> {
      */
     @Aggregation(pipeline = {
             "{ $match: { school: { $regex: ?0, $options: 'i' }, school: { $ne: null }, school: { $ne: '' } } }",
-            "{ $group: { _id: { $toLower: '$school' }, school: { $first: '$school' } } }",
-            "{ $match: { school: { $ne: null }, school: { $ne: '' } } }",
-            "{ $project: { _id: 0, school: 1 } }",
+            "{ $group: { _id: '$school' } }",
+            "{ $project: { school: '$_id', _id: 0 } }",
             "{ $sort: { school: 1 } }",
-            "{ $limit: ?1 }"
+            "{ $limit: ?1 }",
+            "{ $group: { _id: null, schools: { $push: '$school' } } }",
+            "{ $project: { _id: 0, schools: 1 } }"
     })
-    List<String> findDistinctSchoolNames(String query, int limit);
+    List<org.bson.Document> findDistinctSchoolNamesRaw(String query, int limit);
+
+    default List<String> findDistinctSchoolNames(String query, int limit) {
+        List<org.bson.Document> results = findDistinctSchoolNamesRaw(query, limit);
+        if (results.isEmpty()) return List.of();
+        return (List<String>) results.get(0).get("schools");
+    }
 }
