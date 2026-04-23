@@ -31,6 +31,9 @@ export interface AuthResponse {
   name?: string;
   school?: string;
   role?: Role;
+  studentClass?: string;
+  section?: string;
+  rollNumber?: string;
   /** When multiple active users share the same phone (e.g., sibling students),
    * this field contains the candidate profiles for the frontend to show a picker. */
   candidates?: CandidateProfile[];
@@ -173,6 +176,7 @@ export interface QuestionFeedbackDTO {
   isCorrect: boolean;
   marksAwarded: number;
   reasoning?: string;
+  explanation?: string;
   confidence?: number;
   aiGradingFailed?: boolean;
 }
