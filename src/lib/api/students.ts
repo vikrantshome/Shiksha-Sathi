@@ -72,6 +72,7 @@ export const students = {
         assignmentId: s.assignmentId,
         assignmentTitle: assignment?.title ?? 'Assignment',
         assignmentLinkId: assignment?.linkId ?? '',
+        teacherName: assignment?.teacherName ?? 'Unknown Teacher',
         studentName: s.studentName,
         studentRollNumber: s.studentRollNumber,
         score: s.score,

@@ -172,10 +172,10 @@ export default function StudentAssignmentsPage({
               <table className="w-full border-collapse text-left text-sm">
                 <thead>
                   <tr className="bg-surface-container-low border-b border-outline/10">
-                    {["Assignment", "Score", "Status", "Submitted", ""].map((h, idx) => (
+                    {["Assignment", "Teacher", "Score", "Status", "Submitted", ""].map((h, idx) => (
                       <th
                         key={h}
-                        className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 4 ? "text-right" : "text-left"}`}
+                        className={`p-3 md:p-4 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant ${idx === 5 ? "text-right" : "text-left"}`}
                       >
                         {h}
                       </th>
@@ -198,6 +198,9 @@ export default function StudentAssignmentsPage({
                           <p className="text-[0.625rem] text-on-surface-variant m-0 mt-0.5">
                             {sub.studentRollNumber}
                           </p>
+                        </td>
+                        <td className="p-3 md:p-4 px-4 md:px-6 text-on-surface-variant text-sm">
+                          {sub.teacherName || "Unknown"}
                         </td>
                         <td className="p-3 md:p-4 px-4 md:px-6">
                           {isGraded && scorePct !== null ? (
@@ -260,6 +263,9 @@ export default function StudentAssignmentsPage({
                     <div>
                       <p className="font-semibold text-on-surface text-sm m-0">
                         {sub.assignmentTitle}
+                      </p>
+                      <p className="text-[0.625rem] text-on-surface-variant m-[2px_0_0]">
+                        By {sub.teacherName || "Unknown"}
                       </p>
                       <p className="text-[0.6875rem] text-on-surface-variant m-[2px_0_0]">
                         {new Date(sub.submittedAt).toLocaleDateString("en-IN", {

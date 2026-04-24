@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.annotation.Transient;
 
 import java.time.Instant;
 import java.util.List;
@@ -47,4 +48,7 @@ public class Assignment extends BaseEntity {
 
     @Field("code")
     private String code; // Short 6-char alphanumeric code for student entry (e.g. "A3K9X7")
+
+    @Transient
+    private String teacherName;
 }

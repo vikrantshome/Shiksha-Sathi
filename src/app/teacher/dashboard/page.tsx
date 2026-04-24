@@ -122,13 +122,13 @@ export default async function TeacherDashboard() {
       icon: <IconAssignment />,
       value: assignments.length,
       label: "Total Assignments",
-      badge: `+${Math.min(assignments.length, 2)} this week`,
+      badge: assignments.length === 0 ? "None yet" : `Across ${new Set(assignments.map((a: AssignmentWithStats) => a.className).filter(Boolean)).size || 1} class${new Set(assignments.map((a: AssignmentWithStats) => a.className).filter(Boolean)).size !== 1 ? "es" : ""}`,
     },
     {
       icon: <IconGroups />,
       value: totalSubmissions,
       label: "Total Submissions",
-      badge: `${assignments.length > 0 ? Math.round((totalSubmissions / (assignments.length * 45)) * 100) : 0}% completion`,
+      badge: assignments.length > 0 ? `~${Math.round(totalSubmissions / assignments.length)} per assignment` : "No submissions yet",
     },
     {
       icon: <IconTrending />,

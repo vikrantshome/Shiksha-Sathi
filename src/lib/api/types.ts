@@ -125,6 +125,7 @@ export interface Assignment {
   subjectId: string;
   classId: string;
   teacherId: string;
+  teacherName?: string;
   questionIds: string[];
   questionPointsMap?: Record<string, number>;
   dueDate: string;
@@ -227,6 +228,7 @@ export interface StudentSubmissionSummary {
   assignmentId: string;
   assignmentTitle: string;
   assignmentLinkId: string;
+  teacherName: string;
   studentName: string;
   studentRollNumber: string;
   score: number;

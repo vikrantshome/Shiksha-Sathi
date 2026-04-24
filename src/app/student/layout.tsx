@@ -46,10 +46,15 @@ const IconAssignments = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconResults = ({ active }: { active: boolean }) => (
+const IconQuiz = ({ active }: { active: boolean }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.5 : 2} strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-    <polyline points="16 7 22 7 22 13" />
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+);
+
+const IconProfile = ({ active }: { active: boolean }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth={active ? 0 : 2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
   </svg>
 );
 
@@ -73,8 +78,8 @@ const IconStudent = () => (
 
 const navItems = [
   { key: "dashboard", href: "/student/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
-  { key: "assignments", href: "/student/assignments", label: "My Assignments", icon: IconAssignments, mobileLabel: "Work" },
-  { key: "results", href: "/student/assignments?filter=GRADED", label: "Results", icon: IconResults, mobileLabel: "Results" },
+  { key: "assignments", href: "/student/assignments", label: "My Assignments", icon: IconAssignments, mobileLabel: "Assignments" },
+  { key: "quiz", href: "/student/quizzes/join", label: "Quiz", icon: IconQuiz, mobileLabel: "Quiz" },
 ];
 
 export default function StudentLayout({
@@ -89,25 +94,18 @@ export default function StudentLayout({
 
   // useSyncExternalStore ensures hydration-safe reads from localStorage
   const studentName = useSyncExternalStore(
-    () => () => {}, // no subscription needed (read-only for now)
+    () => () => { }, // no subscription needed (read-only for now)
     () => getStudentIdentity()?.studentName ?? null,
     () => null, // server always returns null
   );
 
   const isActive = (href: string) => {
     const hrefPath = href.split("?")[0]; // Strip query params for comparison
-    const search = href.split("?")[1] || "";
-
     if (hrefPath === "/student/dashboard") {
       return pathname === "/student" || pathname === "/student/dashboard";
     }
-    if (hrefPath === "/student/assignments") {
-      if (search.includes("filter=GRADED")) {
-        // Results tab: active when on assignments page with GRADED filter
-        return pathname.startsWith(hrefPath);
-      }
-      // My Assignments tab: active when on assignments page WITHOUT GRADED filter
-      return pathname.startsWith(hrefPath) && !pathname.includes("filter=GRADED");
+    if (hrefPath === "/student/quizzes/join") {
+      return pathname.startsWith("/student/quizzes");
     }
     return pathname.startsWith(hrefPath);
   };
@@ -125,8 +123,8 @@ export default function StudentLayout({
   return (
     <div className="min-h-screen flex flex-col bg-surface">
       {/* ═══ Top App Bar (M3 Enhanced) ═══ */}
-      <nav className="fixed top-0 left-0 right-0 z-50" style={{ 
-        height: "64px", 
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{
+        height: "64px",
         background: "var(--color-surface-container-low)",
         borderBottom: "1px solid var(--color-outline-variant)",
         boxShadow: "0 1px 3px rgba(27, 28, 30, 0.04)"
@@ -148,15 +146,27 @@ export default function StudentLayout({
           </div>
 
           {/* Right: Student Identity + Menu Toggle */}
-          <div className="flex items-center gap-2">
-            {studentName && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ background: "var(--color-surface-container)" }}>
-                <div className="w-6 h-6 rounded-full flex items-center justify-center text-[0.625rem] font-bold" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
-                  {studentName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex items-center gap-2">
+              {studentName && (
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md" style={{ background: "var(--color-surface-container)" }}>
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-[0.625rem] font-bold" style={{ background: "var(--color-secondary-container)", color: "var(--color-on-secondary-container)" }}>
+                    {studentName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="text-xs font-medium" style={{ color: "var(--color-on-surface)" }}>{studentName}</span>
                 </div>
-                <span className="text-xs font-medium" style={{ color: "var(--color-on-surface)" }}>{studentName}</span>
-              </div>
-            )}
+              )}
+
+              <Link
+                href="/student/profile"
+                className="p-2 text-on-surface-variant rounded-full flex items-center justify-center transition-colors duration-120 hover:bg-surface-container no-underline"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="8" r="5" />
+                  <path d="M20 21a8 8 0 0 0-16 0" />
+                </svg>
+              </Link>
+            </div>
 
             {/* Mobile Menu Toggle */}
             <button
@@ -174,7 +184,7 @@ export default function StudentLayout({
 
       {/* ═══ Mobile Dropdown Menu (M3 Enhanced) ═══ */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] p-3" style={{ 
+        <div className="md:hidden fixed top-16 left-0 right-0 z-[45] p-3" style={{
           background: "var(--color-surface-container-low)",
           boxShadow: "var(--shadow-lg)",
           borderBottom: "1px solid var(--color-outline-variant)"
@@ -186,9 +196,8 @@ export default function StudentLayout({
                 key={item.key}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm no-underline mb-2 transition-all ${
-                  active ? "font-semibold" : "font-medium"
-                }`}
+                className={`flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm no-underline mb-2 transition-all ${active ? "font-semibold" : "font-medium"
+                  }`}
                 style={active ? {
                   background: "var(--color-primary-container)",
                   color: "var(--color-on-primary-container)"
@@ -202,15 +211,31 @@ export default function StudentLayout({
               </Link>
             );
           })}
+          <Link
+            href="/student/profile"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm no-underline mb-2 transition-all ${isActive("/student/profile") ? "font-semibold" : "font-medium"
+              }`}
+            style={isActive("/student/profile") ? {
+              background: "var(--color-primary-container)",
+              color: "var(--color-on-primary-container)"
+            } : {
+              color: "var(--color-on-surface-variant)",
+              background: "var(--color-surface-container)"
+            }}
+          >
+            <IconProfile active={isActive("/student/profile")} />
+            Profile
+          </Link>
           <button
             onClick={() => {
               setMobileMenuOpen(false);
               setIsAssignmentModalOpen(true);
             }}
             className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer mb-2 transition-all bg-transparent border-none"
-            style={{ 
-              background: "var(--color-secondary-container)", 
-              color: "var(--color-on-secondary-container)" 
+            style={{
+              background: "var(--color-secondary-container)",
+              color: "var(--color-on-secondary-container)"
             }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -225,7 +250,7 @@ export default function StudentLayout({
                 handleLogout();
               }}
               className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer transition-all bg-transparent border-none"
-              style={{ 
+              style={{
                 color: "var(--color-error)",
                 background: "var(--color-error-container)"
               }}
@@ -244,7 +269,7 @@ export default function StudentLayout({
       {/* ═══ Main Content ═══ */}
       <div className="flex flex-1 pt-16">
         {/* ═══ Left Sidebar Rail (Desktop only) ═══ */}
-        <aside className="hidden lg:flex flex-col w-48 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
+        <aside className="hidden lg:flex flex-col w-52 shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6f3ef]">
           {/* Brand Section */}
           <div className="px-4 pt-6 pb-4">
             <span className="text-[0.6875rem] font-bold tracking-[0.08em] text-[#12423f]/60 uppercase">
@@ -260,11 +285,10 @@ export default function StudentLayout({
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm no-underline transition-all duration-200 ${
-                    active
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm no-underline transition-all duration-200 ${active
                       ? "bg-white text-[#12423f] font-semibold shadow-sm"
                       : "text-[#1c1c1a] opacity-80 hover:opacity-100 hover:bg-[#ebe8e4]"
-                  }`}
+                    }`}
                 >
                   <ItemIcon active={active} />
                   {item.label}
@@ -330,9 +354,8 @@ export default function StudentLayout({
               className="flex flex-col items-center justify-center no-underline w-16 transition-all duration-200"
             >
               <div
-                className={`flex items-center justify-center transition-all duration-200 mb-1 w-14 h-7 rounded-full ${
-                  active ? "" : "bg-transparent"
-                }`}
+                className={`flex items-center justify-center transition-all duration-200 mb-1 w-14 h-7 rounded-full ${active ? "" : "bg-transparent"
+                  }`}
                 style={active ? {
                   background: "var(--color-secondary-container)",
                   color: "var(--color-on-secondary-container)"
@@ -343,9 +366,8 @@ export default function StudentLayout({
                 <ItemIcon active={active} />
               </div>
               <span
-                className={`text-[0.6875rem] transition-colors duration-200 ${
-                  active ? "font-medium" : "font-normal"
-                }`}
+                className={`text-[0.6875rem] transition-colors duration-200 ${active ? "font-medium" : "font-normal"
+                  }`}
                 style={{
                   color: active ? "var(--color-on-surface)" : "var(--color-on-surface-variant)",
                   letterSpacing: active ? "0.01em" : "0.02em"
