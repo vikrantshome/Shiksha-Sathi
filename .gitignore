@@ -85,6 +85,7 @@ doc/Exemplar/*.pdf
 
 # AI Assistant Settings
 .qwen/
+.gemini/
 .worktrees/
 .kilo/
 .opencode/
