@@ -64,9 +64,9 @@ export default function StudentLoginPage() {
 
       const user = await auth.getMe();
       
-      if (user.role === "STUDENT" && user.rollNumber) {
+      if (user.role === "STUDENT") {
         saveStudentIdentity({
-          studentId: user.rollNumber,
+          studentId: user.id,
           studentName: user.name || "",
           school: user.school || "",
           class: user.studentClass || "",
@@ -108,9 +108,9 @@ export default function StudentLoginPage() {
 
       const user = await auth.getMe();
       
-      if (user.role === "STUDENT" && user.rollNumber) {
+      if (user.role === "STUDENT") {
         saveStudentIdentity({
-          studentId: user.rollNumber,
+          studentId: user.id,
           studentName: user.name || candidate.name,
           school: user.school || candidate.school || "",
           class: user.studentClass || candidate.studentClass || "",

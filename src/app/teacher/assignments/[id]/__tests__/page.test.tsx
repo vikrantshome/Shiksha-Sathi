@@ -19,6 +19,12 @@ vi.mock('next/navigation', () => ({
   notFound: vi.fn(),
 }));
 
+vi.mock("next/headers", () => ({
+  headers: vi.fn(() => ({
+    get: vi.fn(() => "localhost:4000"),
+  })),
+}));
+
 // Mock next/link
 vi.mock('next/link', () => ({
   default: ({ children, href }: { children: React.ReactNode, href: string }) => <a href={href}>{children}</a>,
@@ -51,6 +57,7 @@ describe('AssignmentReportPage', () => {
         status: 'PUBLISHED',
         totalMarks: 20, 
         linkId: 'math-123',
+        code: 'math-123',
         className: '',
         submissionCount: 2,
         averageScore: 15,
@@ -151,6 +158,7 @@ describe('AssignmentReportPage', () => {
         status: 'PUBLISHED',
         totalMarks: 10, 
         linkId: 'empty-123',
+        code: 'empty-123',
         className: '',
         submissionCount: 0,
         averageScore: 0,

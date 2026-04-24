@@ -41,8 +41,9 @@ public class AssignmentService {
      * Used by student dashboard to enrich submissions with assignment metadata.
      */
     public Assignment getAssignmentById(String assignmentId) {
-        return assignmentRepository.findById(assignmentId)
+        Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
+        return enrichWithTeacherName(assignment);
     }
 
     public AssignmentReportDTO getAssignmentReport(String assignmentId, String loginIdentity) {
@@ -164,6 +165,14 @@ public class AssignmentService {
         return null;
     }
 
+    private Assignment enrichWithTeacherName(Assignment assignment) {
+        if (assignment != null && assignment.getTeacherId() != null) {
+            userRepository.findById(assignment.getTeacherId())
+                .ifPresent(u -> assignment.setTeacherName(u.getName()));
+        }
+        return assignment;
+    }
+
     public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
         User teacher = userRepository.findByEmail(email).orElse(null);
         if (teacher == null || !teacher.getId().equals(teacherId)) {
@@ -189,7 +198,9 @@ public class AssignmentService {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized to fetch assignments for this class");
         }
         
-        return assignmentRepository.findByClassId(classId);
+        List<Assignment> assignments = assignmentRepository.findByClassId(classId);
+        assignments.forEach(this::enrichWithTeacherName);
+        return assignments;
     }
 
     public StudentAssignmentDTO getAssignmentByLinkId(String linkId) {
@@ -275,7 +286,9 @@ public class AssignmentService {
         if (!teacher.getId().equals(teacherId)) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
-        return assignmentRepository.findByTeacherId(teacherId);
+        List<Assignment> assignments = assignmentRepository.findByTeacherId(teacherId);
+        assignments.forEach(a -> a.setTeacherName(teacher.getName()));
+        return assignments;
     }
 
     /**
@@ -303,7 +316,9 @@ public class AssignmentService {
         assignment.setTeacherId(teacher.getId());
         assignment.setStatus("DRAFT");
         assignment.setCode(generateUniqueCode());
-        return assignmentRepository.save(assignment);
+        Assignment saved = assignmentRepository.save(assignment);
+        saved.setTeacherName(teacher.getName());
+        return saved;
     }
 
     /**
@@ -340,6 +355,7 @@ public class AssignmentService {
         
         assignment.setStatus("PUBLISHED");
         Assignment saved = assignmentRepository.save(assignment);
+        saved.setTeacherName(teacher.getName());
         eventPublisher.publishEvent(new NotificationEvent(this, teacher.getId(), "Assignment published: " + assignment.getTitle()));
         return saved;
     }

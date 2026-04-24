@@ -61,6 +61,11 @@ const IconCode = () => (
     <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
   </svg>
 );
+const IconZap = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+);
 
 /* ── Identity Entry Modal ── */
 function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => void }) {
@@ -229,6 +234,7 @@ export default function StudentDashboardPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
 
   useEffect(() => {
     const existing = getStudentIdentity();
@@ -307,6 +313,13 @@ load();
         onClose={() => setIsAssignmentModalOpen(false)}
         onSubmit={(code) => window.location.href = `/student/assignment/${code}`}
         title="Enter Assignment Code"
+      />
+      <CodeEntryModal
+        isOpen={isQuizModalOpen}
+        onClose={() => setIsQuizModalOpen(false)}
+        onSubmit={(code) => window.location.href = `/student/quizzes/join?code=${encodeURIComponent(code)}`}
+        title="Enter Quiz Code"
+        description="Enter the 6-character quiz code provided by your teacher."
       />
       {/* ═══ Welcome Banner (Refined Premium) ═══ */}
       <header className="mb-6 md:mb-8 lg:mb-10 p-5 md:p-6 rounded-lg" style={{ 
@@ -554,6 +567,43 @@ load();
             </div>
           </div>
         )}
+      </section>
+
+      {/* ═══ Quiz Section ═══ */}
+      <section className="mt-6 md:mt-8">
+        <div className="flex items-center justify-between mb-3 md:mb-4">
+          <h2 className="text-base font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+            Quizzes
+          </h2>
+          <button
+            onClick={() => setIsQuizModalOpen(true)}
+            className="text-[0.6875rem] font-medium flex items-center gap-1 px-2.5 py-1 rounded-xs transition-colors cursor-pointer border-none"
+            style={{ color: "var(--color-primary)", background: "var(--color-primary-container)" }}
+          >
+            <IconZap />
+            Join Quiz
+          </button>
+        </div>
+        <div
+          className="rounded-md border-2 border-dashed p-6 md:p-8 flex flex-col items-center text-center"
+          style={{ borderColor: "var(--color-outline-variant)", background: "var(--color-surface-container-low)" }}
+        >
+          <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3" style={{ background: "var(--color-surface-container)", color: "var(--color-outline)" }}>
+            <IconZap />
+          </div>
+          <h4 className="text-sm font-bold text-on-surface">No Quiz History Yet</h4>
+          <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed max-w-[18rem]">
+            When your teacher starts a live quiz, enter the code to join and your results will appear here.
+          </p>
+          <button
+            onClick={() => setIsQuizModalOpen(true)}
+            className="mt-4 text-[0.6875rem] font-bold flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+            style={{ color: "var(--color-primary)" }}
+          >
+            Join a Quiz
+            <IconArrowRight />
+          </button>
+        </div>
       </section>
 
       {/* ═══ Performance Tip ═══ */}

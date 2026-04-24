@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4000';
 const TEST_EMAIL = 'final@test.com';
@@ -13,7 +13,7 @@ test.describe('Global Loaders Regression Tests', () => {
     });
   });
 
-  async function login(page) {
+  async function login(page: Page) {
     await page.goto(`${FRONTEND_URL}/login`);
     await page.fill('input[name="email"]', TEST_EMAIL);
     await page.fill('input[name="password"]', TEST_PASS);
