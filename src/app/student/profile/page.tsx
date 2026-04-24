@@ -137,14 +137,11 @@ function Skeleton() {
 export default function StudentProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [identity, setIdentity] = useState<StudentIdentity | null>(null);
+  const [identity, setIdentity] = useState<StudentIdentity | null>(() => getStudentIdentity());
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const storedIdentity = getStudentIdentity();
-    setIdentity(storedIdentity);
-
     api.auth
       .getMe()
       .then((u) => {

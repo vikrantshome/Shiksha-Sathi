@@ -5,6 +5,7 @@ import {
   StudentIdentity,
   SubmissionDTO,
   Assignment,
+  User,
 } from './types';
 
 const STORAGE_KEY = 'shiksha-sathi-student-identity';

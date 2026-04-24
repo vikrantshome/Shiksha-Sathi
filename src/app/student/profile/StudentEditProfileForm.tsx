@@ -95,9 +95,10 @@ export default function StudentEditProfileForm({ user, identity, onSuccess, onCa
         });
 
         onSuccess(updated);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Profile update failed:", err);
-        setError(err.message || "Failed to update profile. Please check your details and try again.");
+        const errorMessage = err instanceof Error ? err.message : "Failed to update profile. Please check your details and try again.";
+        setError(errorMessage);
       }
     });
   };
