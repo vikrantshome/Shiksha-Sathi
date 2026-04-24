@@ -85,6 +85,7 @@ describe('CreateAssignmentForm', () => {
       maxScore: 3,
       status: 'PUBLISHED',
       linkId: 'test-link',
+      code: 'test-code',
       totalMarks: 3,
     };
     const publishedAssignment: Assignment = {
@@ -130,6 +131,7 @@ describe('CreateAssignmentForm', () => {
       maxScore: 3,
       status: 'PUBLISHED',
       linkId: 'test-link',
+      code: 'test-code',
       totalMarks: 3,
     };
     const publishedAssignment: Assignment = {
