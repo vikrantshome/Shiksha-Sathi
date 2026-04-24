@@ -59,6 +59,10 @@ public class User extends BaseEntity {
     @Field("is_active")
     private boolean active = true;
 
+    public void setSchool(String school) {
+        this.school = school != null ? school.trim() : null;
+    }
+
     @Field("last_login_at")
     private Long lastLoginAt;
 }
