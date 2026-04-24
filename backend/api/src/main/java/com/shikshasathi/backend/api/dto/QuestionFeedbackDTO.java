@@ -21,4 +21,6 @@ public class QuestionFeedbackDTO {
     /** True when AI grading failed and this question awaits manual/AI review. */
     @JsonProperty("aiGradingFailed")
     private boolean aiGradingFailed;
+    /** Explanation for the question (from the Question entity). */
+    private String explanation;
 }

@@ -176,6 +176,7 @@ export interface QuestionFeedbackDTO {
   reasoning?: string;
   confidence?: number;
   aiGradingFailed?: boolean;
+  explanation?: string;
 }
 
 export interface SubmitAssignmentResponse {

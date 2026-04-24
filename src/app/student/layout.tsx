@@ -243,6 +243,22 @@ export default function StudentLayout({
             </svg>
             Enter Assignment Code
           </button>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setIsQuizModalOpen(true);
+            }}
+            className="w-full flex items-center gap-3 p-3 px-4 text-sm font-medium rounded-sm cursor-pointer mb-2 transition-all bg-transparent border-none"
+            style={{ 
+              background: "var(--color-primary-container)", 
+              color: "var(--color-on-primary-container)" 
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            Join Quiz
+          </button>
           {studentName && (
             <button
               onClick={() => {
@@ -351,11 +367,12 @@ export default function StudentLayout({
             <Link
               key={item.key}
               href={item.href}
-              className="flex flex-col items-center justify-center no-underline w-16 transition-all duration-200"
+              className="flex flex-col items-center justify-center no-underline w-14 transition-all duration-200"
             >
               <div
-                className={`flex items-center justify-center transition-all duration-200 mb-1 w-14 h-7 rounded-full ${active ? "" : "bg-transparent"
-                  }`}
+                className={`flex items-center justify-center transition-all duration-200 mb-1 w-14 h-7 rounded-full ${
+                  active ? "" : "bg-transparent"
+                }`}
                 style={active ? {
                   background: "var(--color-secondary-container)",
                   color: "var(--color-on-secondary-container)"
@@ -378,6 +395,27 @@ export default function StudentLayout({
             </Link>
           );
         })}
+        {/* Join Quiz — mobile bottom nav */}
+        <button
+          type="button"
+          onClick={() => setIsQuizModalOpen(true)}
+          className="flex flex-col items-center justify-center bg-transparent border-none w-14 cursor-pointer transition-all duration-200"
+        >
+          <div
+            className="flex items-center justify-center mb-1 w-12 h-7 rounded-full"
+            style={{ color: "var(--color-on-surface-variant)" }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <span
+            className="text-[0.6875rem] font-normal"
+            style={{ color: "var(--color-on-surface-variant)", letterSpacing: "0.02em" }}
+          >
+            Quiz
+          </span>
+        </button>
       </nav>
 
       {/* Modals */}
