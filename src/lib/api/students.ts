@@ -66,17 +66,23 @@ export const students = {
     const enriched: StudentSubmissionSummary[] = [];
 
     for (const s of submissions) {
-      const assignment = await getAssignment(s.assignmentId);
+      // If backend already provided title and total marks, we can skip the extra fetch
+      // but we still need teacherName and linkId for the summary DTO if not present.
+      let assignment = null;
+      if (!s.assignmentTitle || !s.totalMarks) {
+        assignment = await getAssignment(s.assignmentId);
+      }
+
       enriched.push({
         id: s.id,
         assignmentId: s.assignmentId,
-        assignmentTitle: assignment?.title ?? 'Assignment',
-        assignmentLinkId: assignment?.linkId ?? '',
-        teacherName: assignment?.teacherName ?? 'Unknown Teacher',
+        assignmentTitle: s.assignmentTitle || assignment?.title || 'Assignment',
+        assignmentLinkId: s.assignmentLinkId || assignment?.linkId || '',
+        teacherName: assignment?.teacherName || 'Teacher',
         studentName: s.studentName,
         studentRollNumber: s.studentRollNumber,
         score: s.score,
-        totalMarks: assignment?.maxScore ?? assignment?.totalMarks ?? 0,
+        totalMarks: s.totalMarks || assignment?.maxScore || assignment?.totalMarks || 0,
         submittedAt: s.submittedAt,
         status: s.status as 'SUBMITTED' | 'GRADED',
       });

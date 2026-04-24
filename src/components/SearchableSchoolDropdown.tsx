@@ -38,16 +38,21 @@ export default function SearchableSchoolDropdown({
 
   // Debounced search
   const searchSchools = useCallback(async (q: string) => {
+    console.log("SearchableSchoolDropdown: searchSchools called with query:", q);
     if (q.length < 2) {
+      console.log("SearchableSchoolDropdown: query too short, clearing results");
       setResults([]);
       return;
     }
     setIsLoading(true);
     try {
+      console.log("SearchableSchoolDropdown: fetching schools for:", q);
       const found = await schools.search(q);
+      console.log("SearchableSchoolDropdown: found schools:", found);
       setResults(found);
-      setIsOpen(true); // Keep dropdown open — "Add new" option handles zero results
-    } catch {
+      setIsOpen(found.length > 0 || true); // Keep dropdown open — "Add new" option handles zero results
+    } catch (error) {
+      console.error("SearchableSchoolDropdown: search failed:", error);
       setResults([]);
     } finally {
       setIsLoading(false);

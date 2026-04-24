@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
+    Optional<User> findByRollNumber(String rollNumber);
 
     /**
      * Find all users by phone number.
@@ -30,9 +31,10 @@ public interface UserRepository extends MongoRepository<User, String> {
      * Returns up to `limit` results. Skips null/empty school names.
      */
     @Aggregation(pipeline = {
-            "{ $match: { school: { $regex: ?0, $options: 'i' }, school: { $ne: null }, school: { $ne: '' } } }",
+            "{ $match: { school: { $regex: ?0, $options: 'i' } } }",
+            "{ $project: { school: { $trim: { input: '$school' } } } }",
+            "{ $match: { school: { $nin: [null, ''] } } }",
             "{ $group: { _id: { $toLower: '$school' }, school: { $first: '$school' } } }",
-            "{ $match: { school: { $ne: null }, school: { $ne: '' } } }",
             "{ $project: { _id: 0, school: 1 } }",
             "{ $sort: { school: 1 } }",
             "{ $limit: ?1 }"

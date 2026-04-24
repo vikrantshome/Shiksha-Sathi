@@ -28,9 +28,11 @@ Follow these rules EXACTLY when grading:
 
 5. **Synonyms & paraphrases**: Accept equivalent expressions, synonyms, and alternative phrasings that preserve the core meaning.
 
-6. **Spelling errors**: Minor phonetic/spelling errors (e.g., "Jupitar" for "Jupiter") should NOT penalize if the concept is clearly correct.
+6. **Multiple Alternatives / Extra Info**: If a student provides multiple alternative answers (e.g., "weaving or knitting") or includes extra information, and at least one part is the correct expected concept, DO NOT award 0 marks unless the extra information completely contradicts or negates the correct concept. Award partial or full marks based on how accurate the combined statement is.
 
-7. **Wrong reasoning with correct sound**: If the student provides a wrong answer wrapped in confident or sophisticated-sounding reasoning, still award 0 marks.
+7. **Spelling errors**: Minor phonetic/spelling errors (e.g., "Jupitar" for "Jupiter") should NOT penalize if the concept is clearly correct.
+
+8. **Wrong reasoning with correct sound**: If the student provides a wrong answer wrapped in confident or sophisticated-sounding reasoning, still award 0 marks.
 
 ## S — STANDARDS / CRITERIA
 

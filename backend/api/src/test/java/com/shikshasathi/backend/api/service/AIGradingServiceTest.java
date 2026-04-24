@@ -250,4 +250,33 @@ public class AIGradingServiceTest {
         assertEquals(0.9, result.getConfidence());
         assertFalse(result.isAiGradingFailed());
     }
+
+    @Test
+    void gradeAnswer_MultipleAlternatives_ReturnsPartialOrFullCredit() {
+        when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getProvider()).thenReturn("hf-space");
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://test-endpoint");
+        when(aiGradingProperties.getHfSpaceUrl()).thenReturn("http://test-endpoint/grade");
+        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+
+        String aiResponse = """
+            {"marks_awarded": 1.0, "max_marks": 1, "is_correct": true, "reasoning": "The student provided the correct concept along with a related term.", "confidence": 0.8}
+            """;
+        when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(aiResponse, HttpStatus.OK));
+
+        Question question = new Question();
+        question.setId("q2");
+        question.setText("The process of making fabric from yarn is called ________.");
+        question.setType("FILL_IN_BLANKS");
+        question.setPoints(1);
+        question.setCorrectAnswer("weaving");
+
+        QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
+                question, "weaving", "weaving or knitting", 1);
+
+        assertEquals(1, result.getMarksAwarded());
+        assertTrue(result.isCorrect());
+        assertFalse(result.isAiGradingFailed());
+    }
 }

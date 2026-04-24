@@ -67,26 +67,36 @@ public class AssignmentSubmissionService {
                 .collect(Collectors.toList());
     }
 
-    public List<SubmissionDTO> getSubmissionsForStudent(String studentId) {
-        List<AssignmentSubmission> submissions = new ArrayList<>(submissionRepository.findByStudentId(studentId));
-        
-        // Recover legacy submissions saved under rollNumber or studentId=rollNumber
-        userRepository.findById(studentId).ifPresent(user -> {
-            if (user.getRollNumber() != null && !user.getRollNumber().isBlank()) {
-                List<AssignmentSubmission> legacySubmissions = submissionRepository.findByStudentRollNumber(user.getRollNumber());
-                legacySubmissions.addAll(submissionRepository.findByStudentId(user.getRollNumber()));
-                
-                for (AssignmentSubmission legacy : legacySubmissions) {
-                    if (legacy.getSchool() != null && legacy.getSchool().equals(user.getSchool())) {
-                        if (submissions.stream().noneMatch(s -> s.getId().equals(legacy.getId()))) {
-                            submissions.add(legacy);
-                        }
-                    }
-                }
-            }
-        });
+    public List<SubmissionDTO> getSubmissionsForStudent(String studentIdOrRollNumber) {
+        // 1. Resolve student identity (could be ObjectId or RollNumber)
+        com.shikshasathi.backend.core.domain.user.User student = userRepository.findById(studentIdOrRollNumber)
+                .or(() -> userRepository.findByRollNumber(studentIdOrRollNumber))
+                .orElse(null);
 
-        return submissions.stream()
+        // Use a LinkedHashMap to preserve order while deduplicating by submission ID
+        java.util.Map<String, AssignmentSubmission> submissionsMap = new java.util.LinkedHashMap<>();
+        
+        // 2. Direct fetch by whatever identifier was passed
+        submissionRepository.findByStudentId(studentIdOrRollNumber).forEach(s -> submissionsMap.put(s.getId(), s));
+        submissionRepository.findByStudentRollNumber(studentIdOrRollNumber).forEach(s -> submissionsMap.put(s.getId(), s));
+
+        // 3. If student record exists, fetch by ALL known identifiers to ensure full history
+        if (student != null) {
+            submissionRepository.findByStudentId(student.getId()).forEach(s -> submissionsMap.put(s.getId(), s));
+            if (student.getRollNumber() != null && !student.getRollNumber().isBlank()) {
+                submissionRepository.findByStudentRollNumber(student.getRollNumber()).forEach(s -> submissionsMap.put(s.getId(), s));
+                submissionRepository.findByStudentId(student.getRollNumber()).forEach(s -> submissionsMap.put(s.getId(), s));
+            }
+        }
+
+        return submissionsMap.values().stream()
+                .filter(s -> {
+                    // Safety check for roll number collisions: ensure school matches if student record exists
+                    if (student != null && s.getSchool() != null && student.getSchool() != null) {
+                        return s.getSchool().equalsIgnoreCase(student.getSchool());
+                    }
+                    return true;
+                })
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
@@ -107,7 +117,7 @@ public class AssignmentSubmissionService {
         );
         int score = submission.getScore() == null ? 0 : submission.getScore();
 
-        return SubmissionDTO.builder()
+        SubmissionDTO dto = SubmissionDTO.builder()
                 .id(submission.getId())
                 .assignmentId(submission.getAssignmentId())
                 .studentId(submission.getStudentId())
@@ -121,6 +131,14 @@ public class AssignmentSubmissionService {
                 .submittedAt(submission.getSubmittedAt())
                 .status(submission.getStatus())
                 .build();
+
+        // Enrich with assignment metadata
+        assignmentRepository.findById(submission.getAssignmentId()).ifPresent(assignment -> {
+            dto.setAssignmentTitle(assignment.getTitle());
+            dto.setTotalMarks(assignment.getMaxScore());
+        });
+
+        return dto;
     }
 
     /**

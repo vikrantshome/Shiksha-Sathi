@@ -398,7 +398,7 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer id="resources" className="bg-[var(--color-surface-container-low)] dark:bg-slate-900 pt-10 md:pt-12 lg:pt-16 border-t border-[var(--color-outline-variant)]/20">
+      <footer id="resources" className="bg-[var(--color-surface-container-low)] pt-10 md:pt-12 lg:pt-16 border-t border-[var(--color-outline-variant)]/20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             <div className="space-y-4 md:space-y-6">
