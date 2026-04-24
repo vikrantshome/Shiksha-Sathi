@@ -3,6 +3,7 @@ package com.shikshasathi.backend.api.service;
 import com.shikshasathi.backend.api.dto.auth.AuthRequest;
 import com.shikshasathi.backend.api.dto.auth.AuthResponse;
 import com.shikshasathi.backend.api.dto.auth.SignupRequest;
+import com.shikshasathi.backend.api.dto.auth.UpdateProfileRequest;
 import com.shikshasathi.backend.api.dto.auth.UserResponse;
 import com.shikshasathi.backend.core.domain.user.Role;
 import com.shikshasathi.backend.core.domain.user.User;
@@ -183,7 +184,67 @@ public class AuthService {
                 user.getRollNumber(),
                 user.getStudentClass(),
                 user.getSection(),
-                user.getSchool()
+                user.getSchool(),
+                user.getBirthDate()
+        );
+    }
+
+    public UserResponse updateCurrentUser(String username, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(username)
+                .or(() -> {
+                    List<User> phoneUsers = userRepository.findByPhone(username);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.getName() != null) {
+            user.setName(request.getName());
+        }
+
+        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
+            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+                throw new RuntimeException("Email already in use");
+            }
+            user.setEmail(request.getEmail());
+        }
+
+        if (request.getPhone() != null) {
+            user.setPhone(request.getPhone());
+        }
+
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(request.getBirthDate());
+        }
+
+        if (request.getRollNumber() != null) {
+            user.setRollNumber(request.getRollNumber());
+        }
+
+        if (request.getStudentClass() != null) {
+            user.setStudentClass(request.getStudentClass());
+        }
+
+        if (request.getSection() != null) {
+            user.setSection(request.getSection());
+        }
+
+        if (request.getSchool() != null) {
+            user.setSchool(request.getSchool());
+        }
+
+        user = userRepository.save(user);
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getRole(),
+                user.getRollNumber(),
+                user.getStudentClass(),
+                user.getSection(),
+                user.getSchool(),
+                user.getBirthDate()
         );
     }
 }

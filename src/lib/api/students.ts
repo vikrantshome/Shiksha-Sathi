@@ -121,4 +121,23 @@ export const students = {
       recentSubmissions: submissions.slice(0, 10),
     };
   },
+
+  /**
+   * Update the current student's profile.
+   */
+  updateProfile: async (data: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    birthDate?: string;
+    studentClass?: string;
+    section?: string;
+    rollNumber?: string;
+    school?: string;
+  }): Promise<User> => {
+    return fetchApi<User>('/auth/me', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
 };

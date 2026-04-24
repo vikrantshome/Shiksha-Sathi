@@ -3,6 +3,7 @@ package com.shikshasathi.backend.api.controller;
 import com.shikshasathi.backend.api.dto.auth.AuthRequest;
 import com.shikshasathi.backend.api.dto.auth.AuthResponse;
 import com.shikshasathi.backend.api.dto.auth.SignupRequest;
+import com.shikshasathi.backend.api.dto.auth.UpdateProfileRequest;
 import com.shikshasathi.backend.api.dto.auth.UserResponse;
 import com.shikshasathi.backend.api.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,11 @@ public class AuthController {
     public ResponseEntity<UserResponse> me() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(authService.getCurrentUser(username));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateMe(@RequestBody UpdateProfileRequest request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(authService.updateCurrentUser(username, request));
     }
 }
