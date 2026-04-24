@@ -96,3 +96,4 @@ bin/
 **/bin/
 .gradle/
 **/build/
+.gemini/

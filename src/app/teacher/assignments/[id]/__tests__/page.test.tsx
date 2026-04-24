@@ -19,6 +19,12 @@ vi.mock('next/navigation', () => ({
   notFound: vi.fn(),
 }));
 
+vi.mock("next/headers", () => ({
+  headers: vi.fn(() => ({
+    get: vi.fn(() => "localhost:4000"),
+  })),
+}));
+
 // Mock next/link
 vi.mock('next/link', () => ({
   default: ({ children, href }: { children: React.ReactNode, href: string }) => <a href={href}>{children}</a>,

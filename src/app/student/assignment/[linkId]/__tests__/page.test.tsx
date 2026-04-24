@@ -18,6 +18,12 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
+vi.mock("next/headers", () => ({
+  cookies: vi.fn(() => ({
+    get: vi.fn(() => ({ value: "mock-auth-token" })),
+  })),
+}));
+
 // Mock the child component to simplify page testing
 vi.mock("@/components/StudentAssignmentForm", () => ({
   default: () => <div data-testid="mock-student-form">Student Form</div>,
