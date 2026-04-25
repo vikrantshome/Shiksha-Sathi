@@ -253,6 +253,7 @@ export interface StudentIdentity {
   school: string;    // School/Institute name
   class: string;     // Class/Grade (e.g., "10")
   section: string;   // Section/Division (e.g., "A")
+  rollNumber?: string;
   storedAt: string;
 }
 

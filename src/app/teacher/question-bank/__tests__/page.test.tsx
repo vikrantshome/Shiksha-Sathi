@@ -61,7 +61,7 @@ describe('QuestionBankPage', () => {
     vi.mocked(api.questions.getSubjects).mockResolvedValue(['Mathematics', 'Science', 'English']);
     vi.mocked(api.questions.getBooks).mockResolvedValue(['Curiosity', 'Ganita Prakash']);
     vi.mocked(api.questions.getChapters).mockResolvedValue(['Chapter 1: Sets', 'Chapter 2: Relations']);
-    vi.mocked(api.questions.getChaptersMeta).mockResolvedValue([{ title: 'Chapter 1: Sets', sequence: 1 }]);
+    vi.mocked(api.questions.getChaptersMeta).mockResolvedValue([{ label: 'Chapter 1: Sets', chapterNumber: 1, count: 10 }]);
     vi.mocked(api.questions.search).mockResolvedValue([
       {
         id: 'q1',

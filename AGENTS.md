@@ -7,6 +7,11 @@ Compact, repo-specific guidance. Excludes generic best practices; includes only 
 - **Backend (port 8080):** `npm run dev:backend` or `cd backend && ./gradlew bootRun`
 - **Both concurrently:** `npm run dev`
 
+## Typecheck & Lint
+- Frontend typecheck: `npx tsc --noEmit` (no dedicated script)
+- Frontend lint: `npm run lint`
+- Backend build: `cd backend && ./gradlew build`
+
 ## Environment & Secrets (What to Set and Where)
 
 ### Backend env loading order (automatic on `bootRun`)
@@ -15,10 +20,11 @@ System env > `.env.local` (repo root) > `backend/src/main/resources/.env` (dev o
 **Required variables:**
 - `MONGODB_URI` — MongoDB Atlas connection string (no default).
 - `JWT_SECRET` — JWT signing key. **Must override in production**; the placeholder default is insecure.
-- `NVIDIA_API_KEY` — **Mandatory** for AI grading. No default; supply via `.env.local` or environment.
+- `NVIDIA_API_KEY` — **Mandatory** for AI grading via Spring `ai-grading.api-key` property.
 
 **Optional:**
 - `AI_GRADING_ENABLED` (default: `true`)
+- `AI_GRADING_PROVIDER` (default: `nvidia`)
 - `PORT` (default: `8080`)
 
 ### Frontend
@@ -115,3 +121,13 @@ Expects `NEXT_PUBLIC_API_URL` and `JWT_SECRET` at build/runtime (from `.env.loca
 - **Assignment `linkId` prefix matching** can yield false positives if IDs share prefix; use full IDs or codes for sharing.
 - **CORS** — only `localhost:*`, `127.0.0.1:*`, and `*.vercel.app` are whitelisted.
 - **Lombok** — ensure IDE plugin is active; otherwise code will not compile.
+
+## graphify
+
+This project has a graphify knowledge graph at graphify-out/.
+
+Rules:
+- Before answering architecture or codebase questions, read graphify-out/GRAPH_REPORT.md for god nodes and community structure
+- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
+- For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep — these traverse the graph's EXTRACTED + INFERRED edges instead of scanning files
+- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)

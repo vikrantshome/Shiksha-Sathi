@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getStudentIdentity } from "@/lib/api/students";
+import { getStudentIdentity, saveStudentIdentity } from "@/lib/api/students";
 import { api } from "@/lib/api";
 import { User, StudentIdentity } from "@/lib/api/types";
+import StudentEditProfileForm from "./StudentEditProfileForm";
 
 /* ── Icons ── */
 const IconUser = () => (
@@ -53,6 +54,11 @@ const IconCalendar = () => (
 const IconSection = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M3 6h18M3 12h18M3 18h18"/>
+  </svg>
+);
+const IconEdit = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
   </svg>
 );
 
@@ -131,21 +137,40 @@ function Skeleton() {
 export default function StudentProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [identity, setIdentity] = useState<StudentIdentity | null>(null);
+  const [identity, setIdentity] = useState<StudentIdentity | null>(() => getStudentIdentity());
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const storedIdentity = getStudentIdentity();
-    setIdentity(storedIdentity);
-
     api.auth
       .getMe()
-      .then((u) => setUser(u))
+      .then((u) => {
+        setUser(u);
+      })
       .catch((err: { status?: number }) => {
         if (err.status === 401) router.replace("/student/login");
       })
       .finally(() => setLoading(false));
   }, [router]);
+
+  const handleUpdateSuccess = (updatedUser: User) => {
+    setUser(updatedUser);
+    setIsEditing(false);
+    
+    // Also update identity if roll number/class/section changed or name changed
+    if (identity) {
+      const newIdentity: StudentIdentity = {
+        ...identity,
+        studentName: updatedUser.name,
+        rollNumber: updatedUser.rollNumber || identity.rollNumber,
+        class: updatedUser.studentClass || identity.class,
+        section: updatedUser.section || identity.section,
+        school: updatedUser.school || identity.school,
+      };
+      setIdentity(newIdentity);
+      saveStudentIdentity(newIdentity);
+    }
+  };
 
   if (loading) return <Skeleton />;
 
@@ -178,97 +203,120 @@ export default function StudentProfilePage() {
   return (
     <div className="max-w-4xl pb-12 mx-auto w-full">
       {/* ═══ Page Header ═══ */}
-      <header className="mb-6 md:mb-8">
-        <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-[#12423f] mb-1">
-          Account
-        </span>
-        <h1 className="text-xl sm:text-2xl md:text-[1.75rem] font-extrabold tracking-tight text-[#12423f] m-0">
-          My Profile
-        </h1>
-        <p className="text-xs sm:text-sm mt-1 text-[#404847] max-w-md">
-          Your personal, academic, and account details on Shiksha Sathi.
-        </p>
+      <header className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-[#12423f] mb-1">
+            Account
+          </span>
+          <h1 className="text-xl sm:text-2xl md:text-[1.75rem] font-extrabold tracking-tight text-[#12423f] m-0">
+            My Profile
+          </h1>
+          <p className="text-xs sm:text-sm mt-1 text-[#404847] max-w-md">
+            Your personal, academic, and account details on Shiksha Sathi.
+          </p>
+        </div>
+        
+        {!isEditing && (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all hover:shadow-md active:scale-95 text-white shadow-sm"
+            style={{ background: "#12423f" }}
+          >
+            <IconEdit /> Edit Profile
+          </button>
+        )}
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-        {/* ── Avatar + Name Banner ── */}
-        <div
-          className="rounded-2xl p-6 flex items-center gap-5 md:col-span-2"
-          style={{
-            background:
-              "linear-gradient(135deg, #12423f 0%, #1a5c58 100%)",
-          }}
-        >
+      {isEditing && user ? (
+        <div className="max-w-2xl">
+          <StudentEditProfileForm 
+            user={user} 
+            identity={identity}
+            onSuccess={handleUpdateSuccess} 
+            onCancel={() => setIsEditing(false)} 
+          />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+          {/* ── Avatar + Name Banner ── */}
           <div
-            className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0 text-xl md:text-2xl font-black"
+            className="rounded-2xl p-6 flex items-center gap-5 md:col-span-2"
             style={{
-              background: "rgba(255,255,255,0.15)",
-              color: "#fff",
-              letterSpacing: "-0.02em",
+              background:
+                "linear-gradient(135deg, #12423f 0%, #1a5c58 100%)",
             }}
           >
-            {initials}
-          </div>
-          <div className="min-w-0">
-            <p className="text-base md:text-lg font-extrabold text-white m-0 leading-tight truncate">
-              {displayName}
-            </p>
-            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-              <span
-                className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded-full"
-                style={{
-                  background: "rgba(255,255,255,0.15)",
-                  color: "#bcece6",
-                }}
-              >
-                <IconShield /> Student
-              </span>
-              {classDisplay && (
+            <div
+              className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0 text-xl md:text-2xl font-black"
+              style={{
+                background: "rgba(255,255,255,0.15)",
+                color: "#fff",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {initials}
+            </div>
+            <div className="min-w-0">
+              <p className="text-base md:text-lg font-extrabold text-white m-0 leading-tight truncate">
+                {displayName}
+              </p>
+              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                 <span
-                  className="inline-flex items-center gap-1 text-[0.6rem] font-semibold px-2 py-0.5 rounded-full"
+                  className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded-full"
                   style={{
-                    background: "rgba(188,236,230,0.18)",
-                    color: "rgba(255,255,255,0.8)",
+                    background: "rgba(255,255,255,0.15)",
+                    color: "#bcece6",
                   }}
                 >
-                  {classDisplay}
+                  <IconShield /> Student
                 </span>
+                {classDisplay && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[0.6rem] font-semibold px-2 py-0.5 rounded-full"
+                    style={{
+                      background: "rgba(188,236,230,0.18)",
+                      color: "rgba(255,255,255,0.8)",
+                    }}
+                  >
+                    {classDisplay}
+                  </span>
+                )}
+              </div>
+              {school && (
+                <p className="text-[0.7rem] text-white/60 mt-1.5 m-0 truncate">
+                  {school}
+                </p>
               )}
             </div>
-            {school && (
-              <p className="text-[0.7rem] text-white/60 mt-1.5 m-0 truncate">
-                {school}
-              </p>
-            )}
           </div>
+
+          {/* ── Contact Details ── */}
+          <SectionCard title="Contact Details">
+            <ProfileField icon={<IconUser />}  label="Full Name"    value={displayName} />
+            <ProfileField icon={<IconMail />}  label="Email"        value={email} />
+            <ProfileField icon={<IconPhone />} label="Phone Number" value={phone} />
+          </SectionCard>
+
+          {/* ── Academic Details ── */}
+          <SectionCard title="Academic Details">
+            <ProfileField icon={<IconSchool />}  label="School / Institution" value={school} />
+            <ProfileField icon={<IconClass />}   label="Class / Grade"        value={classVal ? `Class ${classVal}` : null} />
+            <ProfileField icon={<IconSection />} label="Section / Division"   value={section} />
+            <ProfileField icon={<IconHash />}    label="Roll Number"          value={rollNo} />
+            <ProfileField icon={<IconCalendar />}label="Date of Birth"        value={birthDate} />
+          </SectionCard>
+
+          {/* ── Account Info ── */}
+          <SectionCard title="Account Info">
+            <ProfileField icon={<IconShield />} label="Role"       value="Student" />
+            <ProfileField icon={<IconHash />}   label="Account ID" value={userId} mono />
+          </SectionCard>
+
+          <p className="text-[0.7rem] text-[#707977] text-center md:col-span-2 mt-2">
+            To update academic details like school or class, contact your school administrator or teacher.
+          </p>
         </div>
-
-        {/* ── Contact Details ── */}
-        <SectionCard title="Contact Details">
-          <ProfileField icon={<IconUser />}  label="Full Name"    value={displayName} />
-          <ProfileField icon={<IconMail />}  label="Email"        value={email} />
-          <ProfileField icon={<IconPhone />} label="Phone Number" value={phone} />
-        </SectionCard>
-
-        {/* ── Academic Details ── */}
-        <SectionCard title="Academic Details">
-          <ProfileField icon={<IconSchool />}  label="School / Institution" value={school} />
-          <ProfileField icon={<IconClass />}   label="Class / Grade"        value={classVal ? `Class ${classVal}` : null} />
-          <ProfileField icon={<IconSection />} label="Section / Division"   value={section} />
-          <ProfileField icon={<IconHash />}    label="Roll Number"          value={rollNo} />
-          <ProfileField icon={<IconCalendar />}label="Date of Birth"        value={birthDate} />
-        </SectionCard>
-
-        {/* ── Account Info ── */}
-        <SectionCard title="Account Info">
-          <ProfileField icon={<IconShield />} label="Role"       value="Student" />
-          <ProfileField icon={<IconHash />}   label="Account ID" value={userId} mono />
-        </SectionCard>
-
-        <p className="text-[0.7rem] text-[#707977] text-center md:col-span-2 mt-2">
-          To update your details, contact your school administrator or teacher.
-        </p>
-      </div>
+      )}
     </div>
   );
 }
