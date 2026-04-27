@@ -44,10 +44,11 @@ export default function LoginPage() {
       throw new Error("Invalid credentials");
     }
 
-    // Set cookie using native document.cookie for reliable client-side handling
-    document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      // Set cookie using native document.cookie for reliable client-side handling
+      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      sessionStorage.setItem('shiksha-sathi-token', response.token);
 
-    if (response.role === "TEACHER") {
+      if (response.role === "TEACHER") {
       window.location.href = "/teacher/dashboard";
     } else {
       window.location.href = "/";
@@ -100,6 +101,7 @@ export default function LoginPage() {
 
       // Set cookie using native document.cookie
       document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      sessionStorage.setItem('shiksha-sathi-token', response.token);
 
       if (response.role === "TEACHER") {
         window.location.href = "/teacher/dashboard";
@@ -117,6 +119,7 @@ export default function LoginPage() {
     setCandidates(null);
     setSelectedPhone("");
     setSelectedPassword("");
+    sessionStorage.removeItem('shiksha-sathi-token');
   };
 
   // Profile picker UI

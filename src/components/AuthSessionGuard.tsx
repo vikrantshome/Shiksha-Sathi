@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api/auth";
 
@@ -10,7 +9,9 @@ export default function AuthSessionGuard() {
 
   useEffect(() => {
     let cancelled = false;
-    const token = getCookie("auth-token");
+    const token = typeof window !== 'undefined' 
+      ? sessionStorage.getItem('shiksha-sathi-token') 
+      : null;
 
     if (!token) {
       return () => {
@@ -33,7 +34,10 @@ export default function AuthSessionGuard() {
 
         router.replace("/student/dashboard");
       } catch {
-        deleteCookie("auth-token", { path: "/" });
+        // Clear sessionStorage token on auth failure
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('shiksha-sathi-token');
+        }
       }
     };
 

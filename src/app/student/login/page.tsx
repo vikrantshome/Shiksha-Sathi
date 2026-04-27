@@ -61,6 +61,7 @@ export default function StudentLoginPage() {
       }
 
       document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      sessionStorage.setItem('shiksha-sathi-token', response.token);
 
       const user = await auth.getMe();
       
@@ -104,11 +105,12 @@ export default function StudentLoginPage() {
         return;
       }
 
-      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+        document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+        sessionStorage.setItem('shiksha-sathi-token', response.token);
 
-      const user = await auth.getMe();
-      
-      if (user.role === "STUDENT") {
+        const user = await auth.getMe();
+        
+        if (user.role === "STUDENT") {
         saveStudentIdentity({
           studentId: user.id,
           studentName: user.name || candidate.name,
@@ -130,6 +132,7 @@ export default function StudentLoginPage() {
   const handleBackToLogin = () => {
     setCandidates(null);
     setSelectedCandidate(null);
+    sessionStorage.removeItem('shiksha-sathi-token');
   };
 
   if (candidates && candidates.length > 0) {

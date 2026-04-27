@@ -100,6 +100,7 @@ export default function AdminLayout({
   const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
     deleteCookie("auth-token");
+    sessionStorage.removeItem('shiksha-sathi-token');
     router.push("/login");
   };
 

@@ -354,6 +354,7 @@ load();
             onClick={() => {
               setIdentity(null);
               localStorage.removeItem("shiksha-sathi-student-identity");
+              sessionStorage.removeItem('shiksha-sathi-token');
             }}
             className="ml-2 underline font-semibold cursor-pointer bg-transparent border-none"
             style={{ color: "var(--color-error)" }}
