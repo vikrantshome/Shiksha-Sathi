@@ -73,4 +73,13 @@ public class AssignmentController {
         String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(assignmentService.publishAssignment(assignmentId, email));
     }
+
+    @PatchMapping("/{assignmentId}/grades")
+    public ResponseEntity<Void> updateGrade(
+            @PathVariable String assignmentId,
+            @RequestBody com.shikshasathi.backend.api.dto.GradeUpdateRequest request) {
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        assignmentService.updateGrade(assignmentId, request, email);
+        return ResponseEntity.ok().build();
+    }
 }

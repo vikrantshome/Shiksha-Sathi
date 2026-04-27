@@ -1,5 +1,6 @@
 package com.shikshasathi.backend.api.service;
 
+import com.shikshasathi.backend.api.dto.GradeUpdateRequest;
 import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
 import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
@@ -12,11 +13,13 @@ import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRep
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -47,6 +50,9 @@ public class AssignmentSubmissionServiceTest {
 
     @Mock
     private AIGradingService aiGradingService;
+
+    @Spy
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
     private AssignmentSubmissionService submissionService;
@@ -481,5 +487,31 @@ public class AssignmentSubmissionServiceTest {
 
         assertEquals(1, result.getFeedback().size());
         assertEquals("Angles must be equal for similarity.", result.getFeedback().get(0).getExplanation());
+    }
+
+    @Test
+    void updateGrade_UpdatesScoreAndRecalculatesTotal() {
+        GradeUpdateRequest request = new GradeUpdateRequest();
+        request.setStudentId("student123");
+        request.setQuestionId("q1");
+        request.setScore(5);
+
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setAssignmentId("assignment123");
+        submission.setStudentId("student123");
+        // Initial state: 1 question with 2 marks
+        submission.setScore(2);
+        submission.setFeedbackJson("[{\"questionId\":\"q1\",\"marksAwarded\":2},{\"questionId\":\"q2\",\"marksAwarded\":3}]");
+
+        when(submissionRepository.findByAssignmentIdAndStudentId("assignment123", "student123"))
+                .thenReturn(Optional.of(submission));
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(i -> i.getArgument(0));
+
+        AssignmentSubmission updated = submissionService.updateGrade("assignment123", request);
+
+        assertNotNull(updated);
+        // q1 score changed from 2 to 5. q2 remains 3. Total should be 5 + 3 = 8.
+        assertEquals(8, updated.getScore(), "Total score should be 8 after manual update");
+        verify(submissionRepository).save(submission);
     }
 }
