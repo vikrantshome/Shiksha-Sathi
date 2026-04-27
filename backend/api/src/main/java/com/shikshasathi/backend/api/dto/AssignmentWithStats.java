@@ -15,6 +15,7 @@ public class AssignmentWithStats {
     private Integer maxScore;
     private String linkId;
     private String code; // Short 6-char code for student entry
+    private String status; // DRAFT, PUBLISHED, CLOSED
     private long submissionCount;
     private double averageScore;
 }

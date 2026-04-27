@@ -118,7 +118,7 @@ const IconClose = () => (
 const navItems = [
   { href: "/teacher/dashboard", label: "Dashboard", icon: IconDashboard, mobileLabel: "Home" },
   { href: "/teacher/classes", label: "My Classes", icon: IconClasses, mobileLabel: "Classes" },
-  { href: "/teacher/question-bank", label: "Question Bank", icon: IconQuestionBank, mobileLabel: "Vault" },
+  { href: "/teacher/assignments", label: "Assignments", icon: IconQuestionBank, mobileLabel: "Tasks" },
   { href: "/teacher/quizzes", label: "Quizzes", icon: IconQuiz, mobileLabel: "Quiz" },
 ];
 
