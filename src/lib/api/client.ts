@@ -1,25 +1,29 @@
-import { getCookie } from 'cookies-next';
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+async function getServerToken(): Promise<string | undefined> {
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    return cookieStore.get('auth-token')?.value;
+  } catch {
+    return undefined;
+  }
+}
 
 export async function fetchApi<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
   let token: string | undefined;
-  
+    
   if (typeof window === 'undefined') {
-    // Server-side: read from cookie (for SSR)
-    try {
-      token = getCookie('auth-token') as string | undefined;
-    } catch {
-      // Ignore if cookies not available
-    }
+    // Server-side: read from cookie using dynamic import of next/headers
+    token = await getServerToken();
   } else {
     // Client-side: read from sessionStorage for tab isolation
     token = sessionStorage.getItem('shiksha-sathi-token') ?? undefined;
   }
-  
+    
   const headers = new Headers(options.headers);
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);

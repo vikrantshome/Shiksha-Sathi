@@ -31,6 +31,7 @@ public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
     private final AssignmentSubmissionRepository submissionRepository;
+    private final AssignmentSubmissionService assignmentSubmissionService;
     private final ClassRepository classRepository;
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
@@ -359,5 +360,17 @@ public class AssignmentService {
         saved.setTeacherName(teacher.getName());
         eventPublisher.publishEvent(new NotificationEvent(this, teacher.getId(), "Assignment published: " + assignment.getTitle()));
         return saved;
+    }
+
+    public void updateGrade(String assignmentId, com.shikshasathi.backend.api.dto.GradeUpdateRequest request, String loginIdentity) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized to update grades for this assignment");
+        }
+
+        assignmentSubmissionService.updateGrade(assignmentId, request);
     }
 }

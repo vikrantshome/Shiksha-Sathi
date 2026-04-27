@@ -6,6 +6,7 @@ import com.shikshasathi.backend.api.exception.DuplicateSubmissionException;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
 import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
 import com.shikshasathi.backend.api.dto.SubmitAssignmentResponseDTO;
+import com.shikshasathi.backend.api.dto.GradeUpdateRequest;
 
 import com.shikshasathi.backend.api.events.NotificationEvent;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
@@ -174,6 +175,61 @@ public class AssignmentSubmissionService {
         }
 
         return dto;
+    }
+
+    public AssignmentSubmission updateGrade(String assignmentId, GradeUpdateRequest request) {
+        AssignmentSubmission submission = submissionRepository.findByAssignmentIdAndStudentId(assignmentId, request.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Submission not found for student: " + request.getStudentId()));
+
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        String feedbackJson = submission.getFeedbackJson();
+        if (feedbackJson != null && !feedbackJson.isBlank()) {
+            try {
+                feedback = objectMapper.readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {});
+            } catch (Exception e) {
+                log.warn("Failed to deserialize feedback JSON for submission {}: {}", submission.getId(), e.getMessage());
+            }
+        }
+
+        // Update the score for the specific question
+        boolean found = false;
+        for (QuestionFeedbackDTO qf : feedback) {
+            if (qf.getQuestionId().equals(request.getQuestionId())) {
+                qf.setMarksAwarded(request.getScore());
+                // If marks are updated manually, we consider it not failed anymore if it was
+                qf.setAiGradingFailed(false);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            log.warn("Question {} not found in submission feedback for student {}", request.getQuestionId(), request.getStudentId());
+        }
+
+        // Recalculate total score
+        int totalScore = feedback.stream()
+                .mapToInt(qf -> qf.getMarksAwarded() == null ? 0 : qf.getMarksAwarded())
+                .sum();
+
+        submission.setScore(totalScore);
+
+        // Update feedback JSON
+        try {
+            submission.setFeedbackJson(objectMapper.writeValueAsString(feedback));
+        } catch (Exception e) {
+            log.error("Failed to serialize feedback JSON for submission {}: {}", submission.getId(), e.getMessage());
+        }
+
+        // Ensure status is GRADED if it was PARTIALLY_GRADED
+        if ("PARTIALLY_GRADED".equals(submission.getStatus())) {
+            boolean stillHasFailures = feedback.stream().anyMatch(QuestionFeedbackDTO::isAiGradingFailed);
+            if (!stillHasFailures) {
+                submission.setStatus("GRADED");
+            }
+        }
+
+        return submissionRepository.save(submission);
     }
 
     // Includes Duplicate Submission Prevention Logic (SSA-127)
