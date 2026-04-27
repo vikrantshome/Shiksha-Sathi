@@ -22,8 +22,10 @@ Teachers need a "Google Sheets"-style view to assess assignment data at a glance
 - Visual indicators for AI-graded vs. Manually-graded vs. Pending.
 
 ## 4. API Changes
-- **Backend**: Add a new endpoint `PATCH /api/assignments/{id}/grades` (or similar) to handle fast, cell-based grading updates.
-- **Frontend**: Connect the grid to this endpoint to auto-save score edits without full page reloads.
+- **Backend**: Add a new endpoint `PATCH /api/assignments/{id}/grades`.
+  - **Payload**: `{ studentId: string, questionId: string, score: number }`
+  - **Action**: Updates the specific score in the submission record and triggers a recalculation of the student's total score.
+- **Frontend**: Connect the grid cells to this endpoint to auto-save score edits via a debounced fetch call to ensure high performance during rapid editing.
 
 ## 5. Future Advancements Note
 We have captured the requirement for a "Full Assessment Tool" (inline comments, rich feedback threads inside spreadsheet cells, rubrics). This is out of scope for the current iteration but has been noted for future development.
