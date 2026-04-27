@@ -112,6 +112,7 @@ export default function StudentLayout({
 
   const handleLogout = () => {
     deleteCookie("auth-token", { path: "/" });
+    sessionStorage.removeItem('shiksha-sathi-token');
     window.location.href = "/";
   };
 

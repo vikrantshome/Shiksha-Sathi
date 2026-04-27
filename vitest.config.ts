@@ -8,12 +8,14 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    exclude: ['.worktrees/**', '**/node_modules/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
         'node_modules/**',
         '.next/**',
+        '.worktrees/**',
         'vitest.config.ts',
         'vitest.setup.ts',
         'tailwind.config.ts',

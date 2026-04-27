@@ -9,17 +9,15 @@ export async function fetchApi<T>(
   let token: string | undefined;
   
   if (typeof window === 'undefined') {
-    // Server-side
+    // Server-side: read from cookie (for SSR)
     try {
-      const { cookies } = await import('next/headers');
-      const cookieStore = await cookies();
-      token = cookieStore.get('auth-token')?.value;
+      token = getCookie('auth-token') as string | undefined;
     } catch {
-      // Ignore if headers not available
+      // Ignore if cookies not available
     }
   } else {
-    // Client-side
-    token = getCookie('auth-token') as string | undefined;
+    // Client-side: read from sessionStorage for tab isolation
+    token = sessionStorage.getItem('shiksha-sathi-token') ?? undefined;
   }
   
   const headers = new Headers(options.headers);
