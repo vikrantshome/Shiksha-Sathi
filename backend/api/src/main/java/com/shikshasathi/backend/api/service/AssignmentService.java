@@ -147,6 +147,7 @@ public class AssignmentService {
                 .maxScore(assignment.getMaxScore())
                 .linkId(assignment.getId().substring(0, 8))
                 .code(assignment.getCode())
+                .status(assignment.getStatus())
                 .submissionCount(completionCount)
                 .averageScore(Math.round(averageScore * 10.0) / 10.0)
                 .build();
