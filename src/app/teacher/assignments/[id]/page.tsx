@@ -1,7 +1,7 @@
 "use client";
 
 import { api } from "@/lib/api";
-import { AssignmentReport, AssignmentSubmission, QuestionFeedbackDTO } from "@/lib/api/types";
+import { AssignmentReport, AssignmentSubmission, QuestionFeedback } from "@/lib/api/types";
 import CopyAssignmentLinkButton from "@/components/CopyAssignmentLinkButton";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -67,7 +67,7 @@ export default function AssignmentReportPage({
       const row: any = { id: sub.studentId, student: sub.studentName, total: `${sub.score} / ${assignment.totalMarks}` };
       // Map scores from the feedback array added in the backend PR
       if (sub.feedback) {
-        sub.feedback.forEach((f: QuestionFeedbackDTO) => {
+        sub.feedback.forEach((f: QuestionFeedback) => {
           row[f.questionId] = f.marksAwarded;
         });
       }

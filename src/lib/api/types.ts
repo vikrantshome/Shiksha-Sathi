@@ -155,6 +155,14 @@ export interface AssignmentSubmission {
   score: number;
   submittedAt: string;
   status: 'SUBMITTED' | 'GRADED';
+  feedback?: QuestionFeedback[];
+}
+
+export interface QuestionFeedback {
+  questionId: string;
+  marksAwarded: number;
+  maxMarks: number;
+  feedback?: string;
 }
 
 export interface GradeUpdateRequest {

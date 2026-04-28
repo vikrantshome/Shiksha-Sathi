@@ -88,7 +88,9 @@ export default function SignupPage() {
 
       // Set sessionStorage for client-side auth (tab-isolated)
       // No cookie - cookie is shared across all tabs, defeating tab isolation
-      sessionStorage.setItem('shiksha-sathi-token', response.token);
+      if (response.token) {
+        sessionStorage.setItem('shiksha-sathi-token', response.token);
+      }
 
       trackEvent("user_signed_up", { role, school });
       if (role === "STUDENT") {
