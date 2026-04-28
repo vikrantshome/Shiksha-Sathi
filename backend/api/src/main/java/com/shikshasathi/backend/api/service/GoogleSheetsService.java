@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,29 +23,35 @@ public class GoogleSheetsService {
 
     private static final String APPLICATION_NAME = "Shiksha Sathi";
     private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "../../google"; // Relative to backend/api execution dir
 
     private Sheets getSheetsService() throws Exception {
-        // Since the user provided token.json directly, we'll try a simpler loading approach
-        // for an "installed" app flow if possible, or manual token injection.
-        // For now, let's assume we can load it from the provided file structure.
-        
-        // This is a simplified implementation for the demo context.
-        // In production, we'd use a more robust token refreshing mechanism.
+        // Load credentials from local google/ folder (root of project)
         File clientSecretFile = new File("../../google/client_secret.json");
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(clientSecretFile));
+        File tokenFile = new File("../../google/token.json");
+        
+        if (!clientSecretFile.exists() || !tokenFile.exists()) {
+            throw new RuntimeException("Google API credentials not found in project root google/ folder");
+        }
 
-        // We use the refresh token from token.json to get a valid credential
-        // For high speed, I'll use a direct credential builder since we have the token
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(clientSecretFile));
+        
         com.google.api.client.http.HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         
-        // Load token.json manually to get access_token
+        // Load token.json manually to get the refresh token
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        Map<String, Object> tokenData = mapper.readValue(new File("../../google/token.json"), Map.class);
+        Map<String, Object> tokenData = mapper.readValue(tokenFile, Map.class);
+        
         String accessToken = (String) tokenData.get("access_token");
+        String refreshToken = (String) tokenData.get("refresh_token");
 
-        Credential credential = new com.google.api.client.auth.oauth2.Credential(com.google.api.client.auth.oauth2.BearerToken.authorizationHeaderAccessMethod())
-                .setAccessToken(accessToken);
+        // Build a credential that can auto-refresh
+        Credential credential = new GoogleCredential.Builder()
+                .setTransport(httpTransport)
+                .setJsonFactory(JSON_FACTORY)
+                .setClientSecrets(clientSecrets)
+                .build()
+                .setAccessToken(accessToken)
+                .setRefreshToken(refreshToken);
 
         return new Sheets.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
@@ -101,11 +105,11 @@ public class GoogleSheetsService {
                     .setValueInputOption("RAW")
                     .execute();
 
-            log.info("Created Google Sheet: {}", spreadsheetUrl);
+            log.info("Successfully created and populated Google Sheet: {}", spreadsheetUrl);
             return spreadsheetUrl;
 
         } catch (Exception e) {
-            log.error("Failed to create Google Sheet", e);
+            log.error("Google Sheets creation failed", e);
             throw new RuntimeException("Google Sheets Integration failed: " + e.getMessage());
         }
     }
