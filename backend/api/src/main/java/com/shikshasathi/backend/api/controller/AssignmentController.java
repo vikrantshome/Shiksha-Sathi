@@ -3,6 +3,7 @@ package com.shikshasathi.backend.api.controller;
 import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
 import com.shikshasathi.backend.api.dto.AssignmentWithStats;
 import com.shikshasathi.backend.api.service.AssignmentService;
+import com.shikshasathi.backend.api.service.GoogleSheetsService;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 public class AssignmentController {
 
     private final AssignmentService assignmentService;
+    private final GoogleSheetsService googleSheetsService;
 
     @GetMapping("/{assignmentId}")
     public ResponseEntity<Assignment> getById(@PathVariable String assignmentId) {
@@ -75,17 +77,25 @@ public class AssignmentController {
     }
 
     @PatchMapping("/{assignmentId}/grades")
-    public ResponseEntity<Void> updateGrade(
+    public ResponseEntity<java.util.Map<String, Object>> updateGrade(
             @PathVariable String assignmentId,
             @RequestBody com.shikshasathi.backend.api.dto.GradeUpdateRequest request) {
         String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
         assignmentService.updateGrade(assignmentId, request, email);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(java.util.Collections.singletonMap("success", true));
     }
 
     @GetMapping("/class/{classId}/gradebook")
     public ResponseEntity<com.shikshasathi.backend.api.dto.ClassGradebookDTO> getClassGradebook(@PathVariable String classId) {
         String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(assignmentService.getClassGradebook(classId, email));
+    }
+
+    @GetMapping("/class/{classId}/export-sheets")
+    public ResponseEntity<java.util.Map<String, String>> exportToSheets(@PathVariable String classId) {
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        com.shikshasathi.backend.api.dto.ClassGradebookDTO gradebook = assignmentService.getClassGradebook(classId, email);
+        String spreadsheetUrl = googleSheetsService.createGradebookSheet(gradebook);
+        return ResponseEntity.ok(java.util.Collections.singletonMap("url", spreadsheetUrl));
     }
 }

@@ -158,6 +158,7 @@ public class AssignmentService {
 
         return AssignmentWithStats.builder()
                 .id(assignment.getId())
+                .classId(assignment.getClassId())
                 .title(assignment.getTitle())
                 .className(className)
                 .dueDate(assignment.getDueDate())
@@ -399,7 +400,8 @@ public class AssignmentService {
         // Auth check... (simplifying for brevity)
 
         List<Assignment> assignments = assignmentRepository.findByClassId(classId);
-        List<AssignmentSubmission> submissions = submissionRepository.findByStudentClass(classEntity.getName());
+        List<String> assignmentIds = assignments.stream().map(Assignment::getId).collect(Collectors.toList());
+        List<AssignmentSubmission> submissions = submissionRepository.findAllByAssignmentIdIn(assignmentIds);
 
         List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary> assignmentSummaries = assignments.stream()
                 .map(a -> com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary.builder()

@@ -41,6 +41,7 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
   const [worksheetClass, setWorksheetClass] = useState<string>("all");
   const [gradebook, setGradebook] = useState<ClassGradebookDTO | null>(null);
   const [isLoadingGradebook, setIsLoadingGradebook] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const [search, setSearch] = useState("");
   const [classFilter, setClassFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -120,6 +121,22 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
 
     return list;
   }, [initialAssignments, search, classFilter, statusFilter, sortConfig]);
+
+  const handleExport = async () => {
+    const selectedClass = initialAssignments.find(a => a.className === worksheetClass);
+    if (!selectedClass?.classId) return;
+
+    setIsExporting(true);
+    try {
+      const { url } = await api.assignments.exportToSheets(selectedClass.classId);
+      window.open(url, '_blank');
+    } catch (err) {
+      console.error("Export failed", err);
+      alert("Failed to export to Google Sheets. Please check backend logs.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleSort = (key: SortKey) => {
     setSortConfig(prev => ({
@@ -322,6 +339,26 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
               <option value="all">Select a Class</option>
               {distinctClasses.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
+          </div>
+
+          <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-[#c0c8c6]/20 shadow-sm">
+            <div className="text-xs text-[#707977]">
+              <span className="font-bold text-[#12423f]">{gradebook?.students.length || 0}</span> students found in this class roster.
+            </div>
+            <button
+              onClick={handleExport}
+              disabled={isExporting || !gradebook}
+              className="px-4 py-2 bg-[#4285F4] hover:bg-[#357ae8] disabled:bg-[#c0c8c6] text-white text-[0.7rem] font-black uppercase tracking-widest rounded-lg flex items-center gap-2 transition-all shadow-md active:scale-95"
+            >
+              {isExporting ? (
+                <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z" />
+                </svg>
+              )}
+              Open in Google Sheets
+            </button>
           </div>
           
           <DataGrid 

@@ -5,6 +5,8 @@ import {
   AssignmentReport,
   AssignmentSubmission,
   AssignmentWithStats,
+  ClassGradebookDTO,
+  GradeUpdateRequest,
   SubmitAssignmentResponse,
 } from './types';
 
@@ -45,6 +47,9 @@ export const assignments = {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
+
+  exportToSheets: (classId: string): Promise<{ url: string }> =>
+    fetchApi<{ url: string }>(`/assignments/class/${classId}/export-sheets`, { method: 'GET' }),
 
   submitAssignment: (
     assignmentId: string,
