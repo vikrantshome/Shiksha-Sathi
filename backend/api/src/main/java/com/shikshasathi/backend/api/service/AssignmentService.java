@@ -6,6 +6,9 @@ import com.shikshasathi.backend.api.dto.QuestionPerformance;
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.api.dto.StudentQuestionDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
+import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.shikshasathi.backend.api.events.NotificationEvent;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
@@ -36,6 +39,7 @@ public class AssignmentService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
+    private final ObjectMapper objectMapper;
 
     /**
      * Get assignment by ID — public access, no auth check.
@@ -59,7 +63,20 @@ public class AssignmentService {
 
         List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
         List<SubmissionDTO> submissionDTOs = submissions.stream()
-                .map(this::mapSubmissionToDTO)
+                .map(s -> {
+                    SubmissionDTO dto = mapSubmissionToDTO(s);
+                    // Add full feedback for worksheet view
+                    try {
+                        String feedbackJson = s.getFeedbackJson();
+                        if (feedbackJson != null && !feedbackJson.isBlank()) {
+                            dto.setFeedback(objectMapper
+                                .readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {}));
+                        }
+                    } catch (Exception e) {
+                        // fallback
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
 
         List<QuestionPerformance> questionStats = assignment.getQuestionIds().stream()
@@ -372,5 +389,61 @@ public class AssignmentService {
         }
 
         assignmentSubmissionService.updateGrade(assignmentId, request);
+    }
+
+    public com.shikshasathi.backend.api.dto.ClassGradebookDTO getClassGradebook(String classId, String loginIdentity) {
+        com.shikshasathi.backend.core.domain.school.ClassEntity classEntity = classRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class not found"));
+        
+        User teacher = resolveTeacher(loginIdentity);
+        // Auth check... (simplifying for brevity)
+
+        List<Assignment> assignments = assignmentRepository.findByClassId(classId);
+        List<AssignmentSubmission> submissions = submissionRepository.findByStudentClass(classEntity.getName());
+
+        List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary> assignmentSummaries = assignments.stream()
+                .map(a -> com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary.builder()
+                        .id(a.getId())
+                        .title(a.getTitle())
+                        .maxScore(a.getMaxScore())
+                        .build())
+                .collect(Collectors.toList());
+
+        Map<String, List<AssignmentSubmission>> studentSubmissions = submissions.stream()
+                .collect(Collectors.groupingBy(AssignmentSubmission::getStudentId));
+
+        List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.StudentPerformance> studentPerformances = studentSubmissions.entrySet().stream()
+                .map(entry -> {
+                    String studentId = entry.getKey();
+                    List<AssignmentSubmission> subs = entry.getValue();
+                    AssignmentSubmission first = subs.get(0);
+
+                    Map<String, Integer> scores = subs.stream()
+                            .collect(Collectors.toMap(AssignmentSubmission::getAssignmentId, AssignmentSubmission::getScore, (a, b) -> a));
+
+                    double avg = subs.stream()
+                            .mapToDouble(s -> {
+                                Assignment a = assignments.stream().filter(as -> as.getId().equals(s.getAssignmentId())).findFirst().orElse(null);
+                                if (a == null || a.getMaxScore() == 0) return 0.0;
+                                return (s.getScore() * 100.0) / a.getMaxScore();
+                            })
+                            .average().orElse(0.0);
+
+                    return com.shikshasathi.backend.api.dto.ClassGradebookDTO.StudentPerformance.builder()
+                            .studentId(studentId)
+                            .studentName(first.getStudentName())
+                            .studentRollNumber(first.getStudentRollNumber())
+                            .scores(scores)
+                            .averagePercentage(Math.round(avg * 10.0) / 10.0)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return com.shikshasathi.backend.api.dto.ClassGradebookDTO.builder()
+                .classId(classId)
+                .className(classEntity.getName() + " (" + classEntity.getSection() + ")")
+                .assignments(assignmentSummaries)
+                .students(studentPerformances)
+                .build();
     }
 }

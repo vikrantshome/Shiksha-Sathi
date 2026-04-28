@@ -35,6 +35,17 @@ export const assignments = {
       method: 'GET',
     }),
 
+  getGradebook: (classId: string): Promise<ClassGradebookDTO> =>
+    fetchApi<ClassGradebookDTO>(`/assignments/class/${classId}/gradebook`, {
+      method: 'GET',
+    }),
+
+  updateGrade: (assignmentId: string, data: GradeUpdateRequest): Promise<void> =>
+    fetchApi<void>(`/assignments/${assignmentId}/grades`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
   submitAssignment: (
     assignmentId: string,
     studentName: string,

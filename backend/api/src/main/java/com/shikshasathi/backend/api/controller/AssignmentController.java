@@ -82,4 +82,10 @@ public class AssignmentController {
         assignmentService.updateGrade(assignmentId, request, email);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/class/{classId}/gradebook")
+    public ResponseEntity<com.shikshasathi.backend.api.dto.ClassGradebookDTO> getClassGradebook(@PathVariable String classId) {
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getClassGradebook(classId, email));
+    }
 }
