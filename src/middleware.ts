@@ -2,22 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const hasAuthCookie = request.cookies.has("auth-token");
+  // Cookie check removed for tab-isolated auth
+  // Auth is handled client-side via sessionStorage and server validates via Authorization header
   const pathname = request.nextUrl.pathname;
 
-  // Protect /teacher routes
-  if (pathname.startsWith("/teacher")) {
-    if (!hasAuthCookie) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-  }
-
-  // Protect /student routes (except assignment link access and login page)
-  if (pathname.startsWith("/student") && !pathname.startsWith("/student/assignment/") && pathname !== "/student/login") {
-    if (!hasAuthCookie) {
-      return NextResponse.redirect(new URL("/student/login", request.url));
-    }
-  }
+  // For now, allow all requests - client-side AuthSessionGuard handles protection
+  // This enables tab-isolated logout behavior
 
   return NextResponse.next();
 }

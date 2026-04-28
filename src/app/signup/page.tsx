@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api/auth";
 import { saveStudentIdentity } from "@/lib/api/students";
 import { trackEvent } from "@/lib/analytics";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import AuthShell from "@/components/AuthShell";
 import AuthSessionGuard from "@/components/AuthSessionGuard";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
@@ -20,6 +21,7 @@ export default function SignupPage() {
   const [school, setSchool] = useState("");
   const [board, setBoard] = useState("");
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
@@ -84,8 +86,9 @@ export default function SignupPage() {
         role,
       });
 
-      // Set cookie using native document.cookie for reliable client-side handling
-      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      // Set sessionStorage for client-side auth (tab-isolated)
+      // No cookie - cookie is shared across all tabs, defeating tab isolation
+      sessionStorage.setItem('shiksha-sathi-token', response.token);
 
       trackEvent("user_signed_up", { role, school });
       if (role === "STUDENT") {
@@ -314,14 +317,28 @@ export default function SignupPage() {
             <label htmlFor="signup-password" className="block text-[0.65rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant mb-1">
               Password <span className="text-error">*</span>
             </label>
-            <input
-              id="signup-password"
-              type="password"
-              name="password"
-              required
-              placeholder="••••••••"
-              className="w-full px-0 py-2 text-sm transition-all duration-300 border-0 border-b bg-surface-container-highest border-outline-variant focus:ring-0 focus:border-primary text-on-surface placeholder:text-outline"
-            />
+            <div className="relative">
+              <input
+                id="signup-password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                placeholder="••••••••"
+                className="w-full px-0 py-2 text-sm transition-all duration-300 border-0 border-b bg-surface-container-highest border-outline-variant focus:ring-0 focus:border-primary text-on-surface placeholder:text-outline pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-on-surface-variant hover:text-primary transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
 

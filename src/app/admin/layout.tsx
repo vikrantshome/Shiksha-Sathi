@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { deleteCookie } from "cookies-next";
 import { useState } from "react";
 
 /* ─────────────────────────────────────────────────────────
@@ -99,7 +98,6 @@ export default function AdminLayout({
 
   const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
-    deleteCookie("auth-token");
     sessionStorage.removeItem('shiksha-sathi-token');
     router.push("/login");
   };

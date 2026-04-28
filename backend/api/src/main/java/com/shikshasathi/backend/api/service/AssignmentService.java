@@ -193,9 +193,9 @@ public class AssignmentService {
         return assignment;
     }
 
-    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
-        User teacher = userRepository.findByEmail(email).orElse(null);
-        if (teacher == null || !teacher.getId().equals(teacherId)) {
+    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String loginIdentity) {
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(teacherId)) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized assignment fetch for mismatched teacher");
         }
         
@@ -313,12 +313,18 @@ public class AssignmentService {
 
     /**
      * Resolve teacher from JWT subject (could be email or phone).
+     * For phone-based lookup, finds the first user with TEACHER role among candidates.
      */
     private User resolveTeacher(String loginIdentity) {
         return userRepository.findByEmail(loginIdentity)
             .or(() -> {
                 java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
-                return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                if (phoneUsers.isEmpty()) return java.util.Optional.empty();
+                // Prefer TEACHER role if multiple users exist with same phone
+                return phoneUsers.stream()
+                    .filter(u -> com.shikshasathi.backend.core.domain.user.Role.TEACHER.equals(u.getRole()))
+                    .findFirst()
+                    .or(() -> java.util.Optional.of(phoneUsers.get(0)));
             })
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
     }
