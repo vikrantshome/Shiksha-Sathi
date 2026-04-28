@@ -1,8 +1,9 @@
 "use client";
 
-import { AssignmentWithStats } from "@/lib/api/types";
+import { AssignmentWithStats, ClassGradebookDTO } from "@/lib/api/types";
+import { api } from "@/lib/api";
 import Link from "next/link";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import DataGrid from "./DataGrid";
 
 /* ── Icons ── */
@@ -38,6 +39,9 @@ type SortKey = 'title' | 'className' | 'submissionCount' | 'averageScore' | 'due
 export default function AssignmentDashboard({ initialAssignments, totalSubmissions, avgScoreAll }: Props) {
   const [viewMode, setViewMode] = useState<'list' | 'worksheet'>('list');
   const [worksheetClass, setWorksheetClass] = useState<string>("all");
+  const [gradebook, setGradebook] = useState<ClassGradebookDTO | null>(null);
+  const [isLoadingGradebook, setIsLoadingGradebook] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const [search, setSearch] = useState("");
   const [classFilter, setClassFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -46,30 +50,52 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
     direction: 'desc'
   });
 
+  // Fetch real gradebook data when class changes
+  useEffect(() => {
+    if (viewMode === 'worksheet' && worksheetClass !== 'all') {
+      const selectedClass = initialAssignments.find(a => a.className === worksheetClass);
+      if (selectedClass?.classId) {
+        setIsLoadingGradebook(true);
+        api.assignments.getGradebook(selectedClass.classId)
+          .then(data => setGradebook(data))
+          .catch(err => console.error("Failed to fetch gradebook", err))
+          .finally(() => setIsLoadingGradebook(false));
+      }
+    } else {
+      setGradebook(null);
+    }
+  }, [viewMode, worksheetClass, initialAssignments]);
+
   const distinctClasses = useMemo(() => {
     return Array.from(new Set(initialAssignments.map(a => a.className).filter(Boolean))).sort();
   }, [initialAssignments]);
 
   const gradebookColumns = useMemo(() => {
     const cols = [{ key: 'student', header: 'Student', width: '200px' }];
-    const classAssignments = initialAssignments
-      .filter(a => worksheetClass === 'all' || a.className === worksheetClass)
-      .filter(a => a.status !== 'DRAFT'); // Only show graded/published in worksheet
     
-    classAssignments.forEach(a => {
-      cols.push({ key: a.id, header: a.title, width: '150px' });
-    });
-    cols.push({ key: 'average', header: 'Avg %', width: '100px' });
+    if (gradebook) {
+      gradebook.assignments.forEach(a => {
+        cols.push({ key: a.id, header: a.title, width: '150px' });
+      });
+      cols.push({ key: 'average', header: 'Avg %', width: '100px' });
+    } else {
+      cols.push({ key: 'info', header: 'Status', width: '300px' });
+    }
     return cols;
-  }, [initialAssignments, worksheetClass]);
+  }, [gradebook]);
 
   const gradebookData = useMemo(() => {
-    // Note: Full gradebook requires student list from API. 
-    // This provides a high-level summary based on current assignments.
-    return [
-      { id: 'summary-avg', student: 'Class Average', average: avgScoreAll + '%' },
-    ];
-  }, [initialAssignments, worksheetClass, avgScoreAll]);
+    if (!gradebook) {
+      return [{ id: 'msg', student: 'Please select a class to view scores', info: 'Waiting for selection...' }];
+    }
+
+    return gradebook.students.map(s => ({
+      id: s.studentId,
+      student: s.studentName,
+      ...s.scores,
+      average: s.averagePercentage + '%'
+    }));
+  }, [gradebook]);
 
   const filteredAndSorted = useMemo(() => {
     let list = initialAssignments.filter(a => {
@@ -95,6 +121,22 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
 
     return list;
   }, [initialAssignments, search, classFilter, statusFilter, sortConfig]);
+
+  const handleExport = async () => {
+    const selectedClass = initialAssignments.find(a => a.className === worksheetClass);
+    if (!selectedClass?.classId) return;
+
+    setIsExporting(true);
+    try {
+      const { url } = await api.assignments.exportToSheets(selectedClass.classId);
+      window.open(url, '_blank');
+    } catch (err) {
+      console.error("Export failed", err);
+      alert("Failed to export to Google Sheets. Please check backend logs.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleSort = (key: SortKey) => {
     setSortConfig(prev => ({
@@ -278,7 +320,11 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
           <div className="flex items-center justify-between bg-[#f0ede9] p-4 rounded-2xl border border-[#c0c8c6]/30">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#12423f] text-white flex items-center justify-center">
-                <IconFilter />
+                {isLoadingGradebook ? (
+                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <IconFilter />
+                )}
               </div>
               <div>
                 <p className="text-[0.65rem] font-bold uppercase tracking-wider text-[#707977] m-0">Performance Grid</p>
@@ -290,9 +336,29 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
               onChange={(e) => setWorksheetClass(e.target.value)}
               className="pl-4 pr-8 py-2 bg-white border border-[#c0c8c6]/30 rounded-lg text-sm focus:border-[#12423f] outline-none cursor-pointer font-bold text-[#12423f]"
             >
-              <option value="all">All Classes</option>
+              <option value="all">Select a Class</option>
               {distinctClasses.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
+          </div>
+
+          <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-[#c0c8c6]/20 shadow-sm">
+            <div className="text-xs text-[#707977]">
+              <span className="font-bold text-[#12423f]">{gradebook?.students.length || 0}</span> students found in this class roster.
+            </div>
+            <button
+              onClick={handleExport}
+              disabled={isExporting || !gradebook}
+              className="px-4 py-2 bg-[#4285F4] hover:bg-[#357ae8] disabled:bg-[#c0c8c6] text-white text-[0.7rem] font-black uppercase tracking-widest rounded-lg flex items-center gap-2 transition-all shadow-md active:scale-95"
+            >
+              {isExporting ? (
+                <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z" />
+                </svg>
+              )}
+              Open in Google Sheets
+            </button>
           </div>
           
           <DataGrid 

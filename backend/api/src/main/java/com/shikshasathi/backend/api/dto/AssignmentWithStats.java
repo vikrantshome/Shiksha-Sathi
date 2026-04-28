@@ -9,6 +9,7 @@ import java.time.Instant;
 public class AssignmentWithStats {
     private String id;
     private String title;
+    private String classId;
     private String className;
     private Instant dueDate;
     private Integer totalMarks;

@@ -143,6 +143,19 @@ public class AuthService {
             }
         }
 
+        // For STUDENT role: allow siblings (different names) but block duplicates (same name)
+        if (request.getRole() == Role.STUDENT) {
+            List<User> existingStudents = userRepository.findByPhoneAndRoleAndActive(
+                    request.getPhone(), Role.STUDENT, true);
+            boolean nameExists = existingStudents.stream()
+                    .anyMatch(u -> u.getName() != null 
+                            && u.getName().equalsIgnoreCase(request.getName()));
+            if (nameExists) {
+                throw new RuntimeException("A student account already exists with this phone number and name. "
+                        + "If this is a sibling, please use a different name.");
+            }
+        }
+
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());

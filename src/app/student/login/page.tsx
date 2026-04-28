@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { saveStudentIdentity } from "@/lib/api/students";
 import { auth } from "@/lib/api/auth";
 import type { CandidateProfile } from "@/lib/api/types";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import AuthShell from "@/components/AuthShell";
 import Loader from "@/components/Loader";
 
@@ -15,11 +16,13 @@ export default function StudentLoginPage() {
   const [candidates, setCandidates] = useState<CandidateProfile[] | null>(null);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateProfile | null>(null);
   const [loginData, setLoginData] = useState<{ phone: string; password: string } | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState("/student/dashboard");
 
   useEffect(() => {
     const stored = localStorage.getItem("shiksha-sathi-student-identity");
-    if (stored) {
+    const token = sessionStorage.getItem("shiksha-sathi-token");
+    if (stored && token) {
       router.replace("/student/dashboard");
     }
     // Capture redirect param so we can bounce back after login
@@ -60,7 +63,8 @@ export default function StudentLoginPage() {
         return;
       }
 
-      document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+      // Set sessionStorage for client-side auth (tab-isolated)
+      // No cookie - cookie is shared across all tabs, defeating tab isolation
       sessionStorage.setItem('shiksha-sathi-token', response.token);
 
       const user = await auth.getMe();
@@ -105,7 +109,8 @@ export default function StudentLoginPage() {
         return;
       }
 
-        document.cookie = `auth-token=${response.token}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`;
+// Set sessionStorage for client-side auth (tab-isolated)
+        // No cookie - cookie is shared across all tabs, defeating tab isolation
         sessionStorage.setItem('shiksha-sathi-token', response.token);
 
         const user = await auth.getMe();
@@ -251,14 +256,28 @@ export default function StudentLoginPage() {
           >
             Password
           </label>
-          <input
-            id="student-login-password"
-            type="password"
-            name="password"
-            required
-            placeholder="••••••••"
-            className="w-full border-0 border-b border-outline-variant bg-surface-container-highest py-3 text-base text-on-surface transition-colors placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none focus:ring-0"
-          />
+          <div className="relative">
+            <input
+              id="student-login-password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              required
+              placeholder="••••••••"
+              className="w-full border-0 border-b border-outline-variant bg-surface-container-highest py-3 text-base text-on-surface transition-colors placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none focus:ring-0 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-on-surface-variant hover:text-primary transition-colors"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <EyeSlashIcon className="h-5 w-5" />
+              ) : (
+                <EyeIcon className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
 
         <button

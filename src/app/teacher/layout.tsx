@@ -3,7 +3,6 @@
 import { AssignmentProvider } from "@/components/AssignmentContext";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { deleteCookie } from "cookies-next";
 import CartIcon from "@/components/CartIcon";
 import { useState } from "react";
 
@@ -133,7 +132,6 @@ export default function TeacherLayout({
 
   const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
-    deleteCookie("auth-token");
     sessionStorage.removeItem('shiksha-sathi-token');
     router.push("/login");
   };

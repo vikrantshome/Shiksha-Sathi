@@ -6,6 +6,9 @@ import com.shikshasathi.backend.api.dto.QuestionPerformance;
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.api.dto.StudentQuestionDTO;
 import com.shikshasathi.backend.api.dto.SubmissionDTO;
+import com.shikshasathi.backend.api.dto.QuestionFeedbackDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.shikshasathi.backend.api.events.NotificationEvent;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
@@ -36,6 +39,7 @@ public class AssignmentService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
+    private final ObjectMapper objectMapper;
 
     /**
      * Get assignment by ID — public access, no auth check.
@@ -59,7 +63,20 @@ public class AssignmentService {
 
         List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
         List<SubmissionDTO> submissionDTOs = submissions.stream()
-                .map(this::mapSubmissionToDTO)
+                .map(s -> {
+                    SubmissionDTO dto = mapSubmissionToDTO(s);
+                    // Add full feedback for worksheet view
+                    try {
+                        String feedbackJson = s.getFeedbackJson();
+                        if (feedbackJson != null && !feedbackJson.isBlank()) {
+                            dto.setFeedback(objectMapper
+                                .readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {}));
+                        }
+                    } catch (Exception e) {
+                        // fallback
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
 
         List<QuestionPerformance> questionStats = assignment.getQuestionIds().stream()
@@ -141,6 +158,7 @@ public class AssignmentService {
 
         return AssignmentWithStats.builder()
                 .id(assignment.getId())
+                .classId(assignment.getClassId())
                 .title(assignment.getTitle())
                 .className(className)
                 .dueDate(assignment.getDueDate())
@@ -175,9 +193,9 @@ public class AssignmentService {
         return assignment;
     }
 
-    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String email) {
-        User teacher = userRepository.findByEmail(email).orElse(null);
-        if (teacher == null || !teacher.getId().equals(teacherId)) {
+    public List<AssignmentWithStats> getAssignmentsWithStatsForTeacher(String teacherId, String loginIdentity) {
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(teacherId)) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized assignment fetch for mismatched teacher");
         }
         
@@ -295,12 +313,18 @@ public class AssignmentService {
 
     /**
      * Resolve teacher from JWT subject (could be email or phone).
+     * For phone-based lookup, finds the first user with TEACHER role among candidates.
      */
     private User resolveTeacher(String loginIdentity) {
         return userRepository.findByEmail(loginIdentity)
             .or(() -> {
                 java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
-                return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                if (phoneUsers.isEmpty()) return java.util.Optional.empty();
+                // Prefer TEACHER role if multiple users exist with same phone
+                return phoneUsers.stream()
+                    .filter(u -> com.shikshasathi.backend.core.domain.user.Role.TEACHER.equals(u.getRole()))
+                    .findFirst()
+                    .or(() -> java.util.Optional.of(phoneUsers.get(0)));
             })
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
     }
@@ -372,5 +396,62 @@ public class AssignmentService {
         }
 
         assignmentSubmissionService.updateGrade(assignmentId, request);
+    }
+
+    public com.shikshasathi.backend.api.dto.ClassGradebookDTO getClassGradebook(String classId, String loginIdentity) {
+        com.shikshasathi.backend.core.domain.school.ClassEntity classEntity = classRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class not found"));
+        
+        User teacher = resolveTeacher(loginIdentity);
+        // Auth check... (simplifying for brevity)
+
+        List<Assignment> assignments = assignmentRepository.findByClassId(classId);
+        List<String> assignmentIds = assignments.stream().map(Assignment::getId).collect(Collectors.toList());
+        List<AssignmentSubmission> submissions = submissionRepository.findAllByAssignmentIdIn(assignmentIds);
+
+        List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary> assignmentSummaries = assignments.stream()
+                .map(a -> com.shikshasathi.backend.api.dto.ClassGradebookDTO.AssignmentSummary.builder()
+                        .id(a.getId())
+                        .title(a.getTitle())
+                        .maxScore(a.getMaxScore())
+                        .build())
+                .collect(Collectors.toList());
+
+        Map<String, List<AssignmentSubmission>> studentSubmissions = submissions.stream()
+                .collect(Collectors.groupingBy(AssignmentSubmission::getStudentId));
+
+        List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.StudentPerformance> studentPerformances = studentSubmissions.entrySet().stream()
+                .map(entry -> {
+                    String studentId = entry.getKey();
+                    List<AssignmentSubmission> subs = entry.getValue();
+                    AssignmentSubmission first = subs.get(0);
+
+                    Map<String, Integer> scores = subs.stream()
+                            .collect(Collectors.toMap(AssignmentSubmission::getAssignmentId, AssignmentSubmission::getScore, (a, b) -> a));
+
+                    double avg = subs.stream()
+                            .mapToDouble(s -> {
+                                Assignment a = assignments.stream().filter(as -> as.getId().equals(s.getAssignmentId())).findFirst().orElse(null);
+                                if (a == null || a.getMaxScore() == 0) return 0.0;
+                                return (s.getScore() * 100.0) / a.getMaxScore();
+                            })
+                            .average().orElse(0.0);
+
+                    return com.shikshasathi.backend.api.dto.ClassGradebookDTO.StudentPerformance.builder()
+                            .studentId(studentId)
+                            .studentName(first.getStudentName())
+                            .studentRollNumber(first.getStudentRollNumber())
+                            .scores(scores)
+                            .averagePercentage(Math.round(avg * 10.0) / 10.0)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return com.shikshasathi.backend.api.dto.ClassGradebookDTO.builder()
+                .classId(classId)
+                .className(classEntity.getName() + " (" + classEntity.getSection() + ")")
+                .assignments(assignmentSummaries)
+                .students(studentPerformances)
+                .build();
     }
 }

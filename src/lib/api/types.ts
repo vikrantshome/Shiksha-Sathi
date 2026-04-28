@@ -155,6 +155,41 @@ export interface AssignmentSubmission {
   score: number;
   submittedAt: string;
   status: 'SUBMITTED' | 'GRADED';
+  feedback?: QuestionFeedback[];
+}
+
+export interface QuestionFeedback {
+  questionId: string;
+  marksAwarded: number;
+  maxMarks: number;
+  feedback?: string;
+}
+
+export interface GradeUpdateRequest {
+  studentId: string;
+  questionId: string;
+  score: number;
+}
+
+export interface StudentPerformance {
+  studentId: string;
+  studentName: string;
+  studentRollNumber: string;
+  scores: Record<string, number>; // assignmentId -> score
+  averagePercentage: number;
+}
+
+export interface GradebookAssignment {
+  id: string;
+  title: string;
+  maxScore: number;
+}
+
+export interface ClassGradebookDTO {
+  classId: string;
+  className: string;
+  assignments: GradebookAssignment[];
+  students: StudentPerformance[];
 }
 
 export interface AssignmentByLinkResponse {

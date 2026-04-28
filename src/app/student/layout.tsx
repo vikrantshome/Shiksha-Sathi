@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getStudentIdentity, clearStudentIdentity } from "@/lib/api/students";
 import { useState, useSyncExternalStore } from "react";
-import { deleteCookie } from "cookies-next";
 import CodeEntryModal from "@/components/CodeEntryModal";
 
 /* ─────────────────────────────────────────────────────────
@@ -111,7 +110,6 @@ export default function StudentLayout({
   };
 
   const handleLogout = () => {
-    deleteCookie("auth-token", { path: "/" });
     sessionStorage.removeItem('shiksha-sathi-token');
     window.location.href = "/";
   };
