@@ -197,8 +197,7 @@ public class AuthService {
                 user.getRollNumber(),
                 user.getStudentClass(),
                 user.getSection(),
-                user.getSchool(),
-                user.getBirthDate()
+                user.getSchool()
         );
     }
 
@@ -223,10 +222,6 @@ public class AuthService {
 
         if (request.getPhone() != null) {
             user.setPhone(request.getPhone());
-        }
-
-        if (request.getBirthDate() != null) {
-            user.setBirthDate(request.getBirthDate());
         }
 
         if (request.getRollNumber() != null) {
@@ -256,8 +251,7 @@ public class AuthService {
                 user.getRollNumber(),
                 user.getStudentClass(),
                 user.getSection(),
-                user.getSchool(),
-                user.getBirthDate()
+                user.getSchool()
         );
     }
 }
