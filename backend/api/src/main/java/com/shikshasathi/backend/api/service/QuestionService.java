@@ -3,6 +3,7 @@ package com.shikshasathi.backend.api.service;
 import com.shikshasathi.backend.api.dto.ChapterMetaDTO;
 import com.shikshasathi.backend.core.domain.learning.Question;
 import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
+import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Data;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,7 +19,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,33 +28,54 @@ public class QuestionService {
 
     private static final Pattern CHAPTER_NUMBER_PATTERN = Pattern.compile("(?i)chapter\\s*(\\d+)");
     private static final Pattern CHAPTER_NUMBER_AND_TITLE_PATTERN =
-            Pattern.compile("(?i)^chapter\\s*(\\d+)\\s*:\\s*(.+?)\\s*$");
+            Pattern.compile("^\\s*chapter\\s*(\\d+)\\s*:\\s*(.+?)\\s*$", Pattern.CASE_INSENSITIVE);
     private static final Pattern PLACEHOLDER_QUESTION_TEXT_PATTERN =
             Pattern.compile("(?i)^sample\\s+question\\s+\\d+\\b");
 
     private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
-
-    /**
-     * Fetch a single question by its MongoDB ID.
-     */
-    public Question getQuestionById(String id) {
-        return questionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
-    }
 
     private static final int DEFAULT_OBJECTIVE_POINTS = 1;
     private static final int DEFAULT_SHORT_ANSWER_POINTS = 2;
     private static final int DEFAULT_LONG_ANSWER_POINTS = 5;
 
-    public List<String> getDistinctSubjects(String board, String classLevel) {
-        Query query = new Query();
+    private Criteria getPrivacyCriteria(String loginIdentity) {
+        String userId = null;
+        if (loginIdentity != null && !loginIdentity.equals("anonymousUser")) {
+            java.util.Optional<com.shikshasathi.backend.core.domain.user.User> userOpt = userRepository.findByEmail(loginIdentity);
+            if (userOpt.isEmpty()) {
+                java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                if (!phoneUsers.isEmpty()) userOpt = java.util.Optional.of(phoneUsers.get(0));
+            }
+            if (userOpt.isPresent()) {
+                userId = userOpt.get().getId();
+            }
+        }
+        
+        List<Criteria> orList = new ArrayList<>();
+        orList.add(Criteria.where("source_kind").ne("CUSTOM"));
+        orList.add(Criteria.where("source_kind").exists(false));
+        if (userId != null) {
+            orList.add(Criteria.where("teacher_id").is(userId));
+        }
+        
+        return new Criteria().orOperator(orList.toArray(new Criteria[0]));
+    }
+
+    public List<String> getDistinctSubjects(String board, String classLevel, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
+        
         if (board != null && !board.isEmpty()) {
-            query.addCriteria(Criteria.where("provenance.board").is(board));
+            allCriteria.add(Criteria.where("provenance.board").is(board));
         }
         if (classLevel != null && !classLevel.isEmpty()) {
-            query.addCriteria(classLevelCriteria(classLevel));
+            allCriteria.add(classLevelCriteria(classLevel));
         }
+        
+        Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
+        
         List<String> subjectIds = mongoTemplate.findDistinct(query, "subject_id", Question.class, String.class);
         List<String> provenanceSubjects = mongoTemplate.findDistinct(query, "provenance.subject", Question.class, String.class);
 
@@ -69,44 +90,54 @@ public class QuestionService {
                 .toList();
     }
 
-    public List<String> getDistinctBoards() {
-        return mongoTemplate.getCollection("questions")
-                .distinct("provenance.board", String.class)
-                .into(new ArrayList<>());
+    public List<String> getDistinctBoards(String loginIdentity) {
+        Query query = new Query(getPrivacyCriteria(loginIdentity));
+        return mongoTemplate.findDistinct(query, "provenance.board", Question.class, String.class);
     }
 
-    public List<String> getDistinctClasses(String board) {
-        Query query = new Query();
+    public List<String> getDistinctClasses(String board, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
+        
         if (board != null && !board.isEmpty()) {
-            query.addCriteria(Criteria.where("provenance.board").is(board));
+            allCriteria.add(Criteria.where("provenance.board").is(board));
         }
+        
+        Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
         return mongoTemplate.findDistinct(query, "provenance.class", Question.class, String.class);
     }
 
-    public List<String> getDistinctBooks(String board, String classLevel, String subject) {
-        Query query = new Query();
-        if (board != null && !board.isEmpty()) query.addCriteria(Criteria.where("provenance.board").is(board));
-        if (classLevel != null && !classLevel.isEmpty()) query.addCriteria(classLevelCriteria(classLevel));
-        if (subject != null && !subject.isEmpty()) query.addCriteria(subjectCriteria(subject));
+    public List<String> getDistinctBooks(String board, String classLevel, String subject, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
+        
+        if (board != null && !board.isEmpty()) allCriteria.add(Criteria.where("provenance.board").is(board));
+        if (classLevel != null && !classLevel.isEmpty()) allCriteria.add(classLevelCriteria(classLevel));
+        if (subject != null && !subject.isEmpty()) allCriteria.add(subjectCriteria(subject));
 
+        Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
         return mongoTemplate.findDistinct(query, "provenance.book", Question.class, String.class);
     }
 
-    public List<String> getDistinctChapters(String board, String subjectId, String book, String classLevel) {
-        Query query = new Query();
+    public List<String> getDistinctChapters(String board, String subjectId, String book, String classLevel, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
+        
         if (board != null && !board.isEmpty()) {
-            query.addCriteria(Criteria.where("provenance.board").is(board));
+            allCriteria.add(Criteria.where("provenance.board").is(board));
         }
         if (subjectId != null && !subjectId.isEmpty() && !subjectId.equalsIgnoreCase("null")) {
-            query.addCriteria(subjectCriteria(subjectId));
+            allCriteria.add(subjectCriteria(subjectId));
         }
         if (book != null && !book.isEmpty()) {
-            query.addCriteria(Criteria.where("provenance.book").is(book));
+            allCriteria.add(Criteria.where("provenance.book").is(book));
         }
         if (classLevel != null && !classLevel.isEmpty()) {
-            query.addCriteria(classLevelCriteria(classLevel));
+            allCriteria.add(classLevelCriteria(classLevel));
         }
 
+        Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
+        
         List<String> chapters = new ArrayList<>(
                 mongoTemplate.findDistinct(query, "chapter", Question.class, String.class)
         );
@@ -114,22 +145,22 @@ public class QuestionService {
         return chapters;
     }
 
-    public List<ChapterMetaDTO> getChapterMeta(String board, String classLevel, String subjectId, String book, Boolean visibleOnly) {
-        List<Criteria> criteria = new ArrayList<>();
-        if (board != null && !board.isEmpty()) criteria.add(Criteria.where("provenance.board").is(board));
-        if (classLevel != null && !classLevel.isEmpty()) criteria.add(classLevelCriteria(classLevel));
+    public List<ChapterMetaDTO> getChapterMeta(String board, String classLevel, String subjectId, String book, Boolean visibleOnly, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
+        
+        if (board != null && !board.isEmpty()) allCriteria.add(Criteria.where("provenance.board").is(board));
+        if (classLevel != null && !classLevel.isEmpty()) allCriteria.add(classLevelCriteria(classLevel));
         if (subjectId != null && !subjectId.isEmpty() && !subjectId.equalsIgnoreCase("null")) {
-            criteria.add(subjectCriteria(subjectId));
+            allCriteria.add(subjectCriteria(subjectId));
         }
-        if (book != null && !book.isEmpty()) criteria.add(Criteria.where("provenance.book").is(book));
+        if (book != null && !book.isEmpty()) allCriteria.add(Criteria.where("provenance.book").is(book));
         if (visibleOnly != null && visibleOnly) {
-            criteria.add(Criteria.where("review_status").is("PUBLISHED"));
-            criteria.add(excludePlaceholderQuestionsCriteria());
+            allCriteria.add(Criteria.where("review_status").is("PUBLISHED"));
+            allCriteria.add(excludePlaceholderQuestionsCriteria());
         }
 
-        Criteria matchCriteria = criteria.isEmpty()
-                ? new Criteria()
-                : new Criteria().andOperator(criteria.toArray(new Criteria[0]));
+        Criteria matchCriteria = new Criteria().andOperator(allCriteria.toArray(new Criteria[0]));
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(matchCriteria),
@@ -174,20 +205,20 @@ public class QuestionService {
         private long count;
     }
 
-    public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, Integer chapterNumber, String chapterTitle, String chapter, String queryText, String type, Boolean approvedOnly, Boolean visibleOnly) {
-        Query query = new Query();
-        List<Criteria> criteria = new ArrayList<>();
+    public List<Question> searchQuestions(String board, String classLevel, String subjectId, String book, Integer chapterNumber, String chapterTitle, String chapter, String queryText, String type, Boolean approvedOnly, Boolean visibleOnly, String loginIdentity) {
+        List<Criteria> allCriteria = new ArrayList<>();
+        allCriteria.add(getPrivacyCriteria(loginIdentity));
 
-        if (board != null && !board.isEmpty()) criteria.add(Criteria.where("provenance.board").is(board));
-        if (classLevel != null && !classLevel.isEmpty()) criteria.add(classLevelCriteria(classLevel));
+        if (board != null && !board.isEmpty()) allCriteria.add(Criteria.where("provenance.board").is(board));
+        if (classLevel != null && !classLevel.isEmpty()) allCriteria.add(classLevelCriteria(classLevel));
         if (subjectId != null && !subjectId.isEmpty() && !subjectId.equalsIgnoreCase("null")) {
-            criteria.add(subjectCriteria(subjectId));
+            allCriteria.add(subjectCriteria(subjectId));
         }
-        if (book != null && !book.isEmpty()) criteria.add(Criteria.where("provenance.book").is(book));
+        if (book != null && !book.isEmpty()) allCriteria.add(Criteria.where("provenance.book").is(book));
         if (chapterNumber != null) {
-            criteria.add(Criteria.where("provenance.chapterNumber").is(chapterNumber));
+            allCriteria.add(Criteria.where("provenance.chapterNumber").is(chapterNumber));
             if (chapterTitle != null && !chapterTitle.isBlank()) {
-                criteria.add(Criteria.where("provenance.chapterTitle")
+                allCriteria.add(Criteria.where("provenance.chapterTitle")
                         .regex("^" + Pattern.quote(chapterTitle.trim()) + "$", "i"));
             }
         } else if (chapter != null && !chapter.isEmpty() && !chapter.equalsIgnoreCase("null")) {
@@ -203,53 +234,44 @@ public class QuestionService {
                         Criteria.where("provenance.chapterTitle").regex("^" + Pattern.quote(parsedChapterTitle) + "$", "i")
                 );
 
-                criteria.add(new Criteria().orOperator(chapterExact, byProvenance));
+                allCriteria.add(new Criteria().orOperator(chapterExact, byProvenance));
             } else {
-                criteria.add(chapterExact);
+                allCriteria.add(chapterExact);
             }
         }
 
-        // visibleOnly takes precedence - only PUBLISHED content
         if (visibleOnly != null && visibleOnly) {
-            criteria.add(Criteria.where("review_status").is("PUBLISHED"));
-            criteria.add(excludePlaceholderQuestionsCriteria());
+            allCriteria.add(Criteria.where("review_status").is("PUBLISHED"));
+            allCriteria.add(excludePlaceholderQuestionsCriteria());
         } else if (approvedOnly != null && approvedOnly) {
-            // approvedOnly for admin/reviewer workflows - APPROVED or PUBLISHED
-            criteria.add(Criteria.where("review_status").in("APPROVED", "PUBLISHED"));
+            allCriteria.add(Criteria.where("review_status").in("APPROVED", "PUBLISHED"));
         }
 
         if (type != null && !type.equalsIgnoreCase("ALL")) {
-            criteria.add(Criteria.where("type").is(type));
+            allCriteria.add(Criteria.where("type").is(type));
         }
 
         if (queryText != null && !queryText.isEmpty()) {
-            Criteria textCriteria = new Criteria().orOperator(
+            allCriteria.add(new Criteria().orOperator(
                     Criteria.where("text").regex(queryText, "i"),
                     Criteria.where("topic").regex(queryText, "i"),
                     Criteria.where("provenance.chapterTitle").regex(queryText, "i")
-            );
-            criteria.add(textCriteria);
+            ));
         }
 
-        if (!criteria.isEmpty()) {
-            query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[0])));
-        }
-
+        Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
         return mongoTemplate.find(query, Question.class);
     }
 
-    /**
-     * Some ingested datasets include placeholder "Sample question N ..." rows. These should never be shown
-     * in curated browsing flows (visibleOnly=true).
-     */
+    public Question getQuestionById(String id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+    }
+
     private Criteria excludePlaceholderQuestionsCriteria() {
         return Criteria.where("text").not().regex(PLACEHOLDER_QUESTION_TEXT_PATTERN);
     }
 
-    /**
-     * MongoDB data historically contains mixed types for provenance.class (e.g., "8" or 8).
-     * Match both representations to avoid dropping results.
-     */
     private Criteria classLevelCriteria(String classLevel) {
         try {
             int numeric = Integer.parseInt(classLevel);
@@ -259,10 +281,6 @@ public class QuestionService {
         }
     }
 
-    /**
-     * MongoDB data historically contains inconsistent subject storage:
-     * some records use `subject_id`, others only populate `provenance.subject`.
-     */
     private Criteria subjectCriteria(String subjectId) {
         return new Criteria().orOperator(
                 Criteria.where("subject_id").is(subjectId),
@@ -271,6 +289,29 @@ public class QuestionService {
     }
 
     public Question createQuestion(Question question) {
+        if (question.getPoints() == null || question.getPoints() <= 0) {
+            question.setPoints(defaultPointsForType(question.getType()));
+        }
+        return questionRepository.save(question);
+    }
+
+    public Question createCustomQuestion(Question question, String loginIdentity) {
+        com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(loginIdentity)
+                .or(() -> {
+                    java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
+                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                })
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+                
+        question.setTeacherId(teacher.getId());
+        question.setSourceKind("CUSTOM");
+        question.setReviewStatus("PUBLISHED");
+        
+        if (question.getProvenance() == null) {
+            question.setProvenance(new com.shikshasathi.backend.core.domain.learning.Provenance());
+        }
+        question.getProvenance().setBook("My Custom Questions");
+        
         if (question.getPoints() == null || question.getPoints() <= 0) {
             question.setPoints(defaultPointsForType(question.getType()));
         }
@@ -308,15 +349,18 @@ public class QuestionService {
         return Integer.MAX_VALUE;
     }
 
-    public Map<String, Long> getCountsByClass() {
+    public Map<String, Long> getCountsByClass(String loginIdentity) {
         Map<String, Long> counts = new LinkedHashMap<>();
         for (int i = 6; i <= 12; i++) {
             String classStr = String.valueOf(i);
-            Query query = new Query();
-            query.addCriteria(new Criteria().orOperator(
+            List<Criteria> allCriteria = new ArrayList<>();
+            allCriteria.add(getPrivacyCriteria(loginIdentity));
+            allCriteria.add(new Criteria().orOperator(
                 Criteria.where("provenance.class").is(i),
                 Criteria.where("provenance.class").is(classStr)
             ));
+            
+            Query query = new Query(new Criteria().andOperator(allCriteria.toArray(new Criteria[0])));
             counts.put(classStr, mongoTemplate.count(query, Question.class));
         }
         return counts;

@@ -38,7 +38,7 @@ export const classes = {
       body: JSON.stringify({ studentId, date, status }),
     }),
 
-  enrollStudent: (classId: string, data: { name: string; phone: string; birthDate: string; rollNumber?: string }): Promise<ClassItem> =>
+  enrollStudent: (classId: string, data: { name: string; phone: string; rollNumber?: string }): Promise<ClassItem> =>
     fetchApi<ClassItem>(`/classes/${classId}/enroll`, {
       method: 'POST',
       body: JSON.stringify(data),

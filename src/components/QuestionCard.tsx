@@ -83,6 +83,12 @@ export default function QuestionCard({ question: q, mode = "assignment" }: { que
             >
               {difficultyBadge.label}
             </span>
+            {/* Custom Question Badge */}
+            {q.sourceKind === "CUSTOM" && (
+              <span className="rounded-full px-2 py-0.5 text-[0.625rem] font-bold tracking-wider uppercase bg-amber-50 text-amber-700 border border-amber-200">
+                My Question
+              </span>
+            )}
             {/* Chapter */}
             {q.provenance?.chapterTitle && (
               <>

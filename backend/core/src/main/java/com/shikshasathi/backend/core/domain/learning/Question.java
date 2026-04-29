@@ -21,6 +21,9 @@ public class Question extends BaseEntity {
     @Field("subject_id")
     private String subjectId;
 
+    @Field("teacher_id")
+    private String teacherId;
+
     @Field("chapter")
     private String chapter;
 

@@ -29,14 +29,18 @@ export default function EnrollForm({ classId }: EnrollFormProps) {
     }
 
     try {
-      const res = await fetch(`/api/classes/${classId}/enroll`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+      const token = typeof window !== 'undefined' ? sessionStorage.getItem('shiksha-sathi-token') : null;
+      const res = await fetch(`${API_URL}/classes/${classId}/enroll`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({
           name: formData.get("studentName"),
           phone: phone,
-          birthDate: formData.get("birthDate"),
-          rollNumber: rollNumber && rollNumber.trim() ? rollNumber.trim() : undefined,
+          rollNumber: rollNumber.trim(),
         }),
       });
 
@@ -112,34 +116,17 @@ export default function EnrollForm({ classId }: EnrollFormProps) {
 
         <div className="relative">
           <label className="block text-xs font-semibold text-[#404847] mb-1.5 uppercase tracking-wide">
-            Roll Number <span className="text-[#707977] font-normal">(Optional)</span>
+            Roll Number <span className="text-[#ba1a1a]">*</span>
           </label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#707977]">#</span>
             <input
               name="rollNumber"
-              placeholder="e.g. 1, 2, 3..."
+              required
+              placeholder="e.g. 1101"
               className="w-full bg-white border-none rounded-lg pl-10 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-[#12423f] focus:bg-white transition-all duration-200 shadow-sm"
             />
           </div>
-        </div>
-
-        <div className="relative">
-          <label className="block text-xs font-semibold text-[#404847] mb-1.5 uppercase tracking-wide">
-            Date of Birth <span className="text-[#ba1a1a]">*</span>
-          </label>
-          <div className="relative">
-            <input
-              name="birthDate"
-              required
-              placeholder="DD-MM-YYYY"
-              pattern="\d{2}-\d{2}-\d{4}"
-              className="w-full bg-white border-none rounded-lg pl-4 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-[#12423f] focus:bg-white transition-all duration-200 shadow-sm"
-            />
-          </div>
-          <p className="text-[10px] text-[#707977] mt-1.5">
-            Format: DD-MM-YYYY • Used as default password
-          </p>
         </div>
 
         <button

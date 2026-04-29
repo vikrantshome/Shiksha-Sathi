@@ -4,6 +4,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import Loader from "@/components/Loader";
 import type { ChapterMeta } from "@/lib/api/types";
+import CreateCustomQuestionModal from "@/components/CreateCustomQuestionModal";
 
 /* ─────────────────────────────────────────────────────────
    Question Bank Taxonomy Filters — Stitch-Directed
@@ -642,6 +643,7 @@ export function QuestionBankSearch() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const currentQuery = searchParams.get("q") || "";
   const currentType = searchParams.get("type") || "ALL";
@@ -675,6 +677,19 @@ export function QuestionBankSearch() {
   return (
     <div className="flex flex-col gap-4 mb-6">
       <div className="flex flex-wrap items-center gap-4">
+        {/* Create Custom Question Button */}
+        <button
+          type="button"
+          onClick={() => setIsCreateModalOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border border-[var(--color-primary)]/20 shadow-sm hover:shadow-md transition-all whitespace-nowrap cursor-pointer"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create Custom Question
+        </button>
+
         {/* Search Input */}
         <div className="relative flex-1 min-w-48">
           <svg
@@ -725,6 +740,17 @@ export function QuestionBankSearch() {
           </div>
         )}
       </div>
+
+      <CreateCustomQuestionModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSuccess={() => {
+          setIsCreateModalOpen(false);
+          router.refresh();
+        }}
+        initialClassLevel={searchParams.get("class") || undefined}
+        initialSubject={searchParams.get("subject") || undefined}
+      />
     </div>
   );
 }
