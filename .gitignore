@@ -104,3 +104,5 @@ scratch/
 graphify-out/
 backend/graphify-out/
 google/
+test-results/
+opencode.json
