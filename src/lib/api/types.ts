@@ -12,7 +12,6 @@ export interface User {
   rollNumber?: string;
   studentClass?: string;
   section?: string;
-  birthDate?: string;
 }
 
 export interface CandidateProfile {
@@ -99,6 +98,7 @@ export interface ChapterMeta {
 export interface Question {
   id: string;
   subjectId: string;
+  teacherId?: string;
   chapter?: string | null;
   topic: string;
   text: string;
@@ -107,7 +107,7 @@ export interface Question {
   correctAnswer: string;
   points: number;
   explanation?: string;
-  sourceKind?: 'CANONICAL' | 'DERIVED';
+  sourceKind?: 'CANONICAL' | 'DERIVED' | 'CUSTOM';
   reviewStatus?: 'DRAFT' | 'APPROVED' | 'REJECTED' | 'PUBLISHED';
   provenance?: Provenance;
   language?: string;

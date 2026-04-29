@@ -2,6 +2,11 @@
 
 This document details the schema of the MongoDB database collections for Shiksha Sathi. It maps directly to the domain entities used in the Spring Boot backend (`com.shikshasathi.backend.core.domain`).
 
+## Overview
+
+**Database**: MongoDB (host: configured via `MONGODB_URI`)  
+**Collections**: 12 core collections
+
 ## Entity-Relationship Diagram
 
 ```mermaid
@@ -11,11 +16,10 @@ erDiagram
     SCHOOLS ||--o{ CLASSES : "contains"
     SCHOOLS ||--o{ SUBJECTS : "teaches"
     
-    USERS ||--o{ PROFILES : "has"
     USERS {
-        string role "PARTNER, ADMIN, TEACHER, STUDENT, PARENT"
+        string role "TEACHER, STUDENT"
     }
-
+    
     CLASSES ||--o{ ATTENDANCES : "records"
     USERS ||--o{ ATTENDANCES : "takes"
     
@@ -26,154 +30,310 @@ erDiagram
     STUDENT_USERS ||--o{ ASSIGNMENT_SUBMISSIONS : "submits"
     
     QUESTIONS ||--o{ ASSIGNMENTS : "included in"
-    EXTRACTION_RUNS ||--o{ QUESTIONS : "generates"
+    
+    TEACHER_USERS ||--o{ QUIZZES : "creates"
+    CLASSES ||--o{ QUIZZES : "receives"
+    QUIZZES ||--o{ QUIZ_SESSIONS : "hosts"
+    QUIZ_SESSIONS ||--o{ QUIZ_ATTEMPTS : "records"
 ```
 
 ## Base Entity
+
 Almost all collections inherit standard auditing fields from `BaseEntity`:
-*   `created_at`: Timestamp of creation (Instant)
-*   `updated_at`: Timestamp of last update (Instant)
-*   `created_by`: ID of the user who created the record
-*   `updated_by`: ID of the user who last modified the record
+- `created_at`: Timestamp of creation (Instant)
+- `updated_at`: Timestamp of last update (Instant)
+- `created_by`: ID of the user who created the record
+- `updated_by`: ID of the user who last modified the record
 
 ---
 
-## Organizational & User Collections
+## Collections
 
 ### `organizations`
+
 Represents high-level organizational bodies (e.g., educational trusts, districts).
-*   `name` (String): Organization name.
-*   `address` (String): Main address.
-*   `contact_email` (String): Primary contact email.
-*   `is_active` (Boolean): Active status.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `name` | String | Organization name |
+| `address` | String | Main address |
+| `contact_email` | String | Primary contact email |
+| `is_active` | Boolean | Active status (default: true) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `schools`
+
 Represents individual schools under an organization.
-*   `organization_id` (String): Refers to Organization `_id`.
-*   `name` (String): School name.
-*   `address` (String): Location/address.
-*   `contact_email` (String): Administrative email.
-*   `is_active` (Boolean): Active status.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `organization_id` | String | Refers to Organization `_id` |
+| `name` | String | School name |
+| `address` | String | Location/address |
+| `contact_email` | String | Administrative email |
+| `is_active` | Boolean | Active status (default: true) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `users`
-Core user representation for authentication and identity.
-*   `name` (String)
-*   `email` (String)
-*   `phone` (String)
-*   `password_hash` (String)
-*   `role` (Enum): `PARTNER`, `ADMIN`, `TEACHER`, `STUDENT`, `PARENT`
-*   `school_id` (String): Refers to School `_id`.
-*   `school` (String): Denormalized school name.
-*   `roll_number` (String): Specifically for Students.
-*   `student_class` (String): Class level/grade.
-*   `section` (String): Section division.
-*   `is_active` (Boolean)
-*   `last_login_at` (Number/Milli)
 
-### `profiles`
-Detailed profile data (focused primarily on Teachers).
-*   `user_id` (String): Refers to User `_id`.
-*   `name` (String)
-*   `school` (String)
-*   `board` (String)
+Core user representation for authentication and identity.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `name` | String | User's full name |
+| `email` | String | Email address (unique) |
+| `phone` | String | Phone number |
+| `password_hash` | String | BCrypt hashed password |
+| `role` | Enum | TEACHER, STUDENT |
+| `school_id` | String | Refers to School `_id` |
+| `school` | String | Denormalized school name |
+| `roll_number` | String | Student roll number |
+| `student_class` | String | Class level (e.g., "10") |
+| `section` | String | Section/division (e.g., "A") |
+| `birth_date` | String | Date of birth |
+| `is_active` | Boolean | Account status (default: true) |
+| `last_login_at` | Long | Last login timestamp (millis) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ---
 
 ## School Management Collections
 
 ### `classes`
-Represents a grouping of students.
-*   `school_id` (String): Refers to School `_id`.
-*   `name` (String): E.g., "Class 10A".
-*   `section` (String): E.g., "A".
-*   `grade` (String): The grade/standard (e.g., "10").
-*   `teacher_ids` (List of Strings): Teachers assigned.
-*   `student_ids` (List of Strings): Students enrolled.
-*   `is_active` (Boolean)
+
+Represents a grouping of students (e.g., Class 10-A).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `school_id` | String | Refers to School `_id` |
+| `name` | String | Class name (e.g., "10A") |
+| `section` | String | Section (e.g., "A") |
+| `grade` | String | Grade level (e.g., "10") |
+| `teacher_ids` | List[String] | Teacher user IDs |
+| `student_ids` | List[String] | Enrolled student IDs |
+| `is_active` | Boolean | Active status (default: true) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `subjects`
+
 Subjects taught in a school.
-*   `school_id` (String): Refers to School `_id`.
-*   `name` (String): E.g., "Science".
-*   `description` (String)
-*   `is_active` (Boolean)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `school_id` | String | Refers to School `_id` |
+| `name` | String | Subject name (e.g., "Science") |
+| `description` | String | Subject description |
+| `is_active` | Boolean | Active status (default: true) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `attendances`
+
 Records of student attendance.
-*   `class_id` (String): Refers to Class `_id`.
-*   `student_id` (String): Refers to User `_id`.
-*   `date` (String): ISO date format (YYYY-MM-DD).
-*   `status` (String): `PRESENT`, `ABSENT`, `LATE`, `EXCUSED`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `class_id` | String | Refers to Class `_id` |
+| `student_id` | String | Refers to User `_id` |
+| `date` | String | ISO date (YYYY-MM-DD) |
+| `status` | String | PRESENT, ABSENT, LATE, EXCUSED |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ---
 
 ## Learning & Assessment Collections
 
 ### `questions`
-A unified collection for both Canonical (source) and Derived (AI-generated) questions.
-*   `subject_id` (String)
-*   `chapter` (String)
-*   `topic` (String)
-*   `text` (String): The question content.
-*   `type` (String): `MULTIPLE_CHOICE`, `SHORT_ANSWER`, `ESSAY`, `FILL_IN_BLANKS`, etc.
-*   `options` (List of Strings): For MCQs.
-*   `correct_answer` (String)
-*   `points` (Integer)
-*   `explanation` (String)
-*   `source_kind` (String): `CANONICAL` or `DERIVED`.
-*   `review_status` (String): `DRAFT`, `APPROVED`, `REJECTED`, `PUBLISHED`.
-*   `language` (String)
-*   `provenance` (Object):
-    *   `extraction_run_id`, `board`, `class` (class level/grade), `subject`, `book`, `chapterNumber`, `chapterTitle`, `sourceFile`, `pageNumbers`, `section`.
-*   **Derived-Specific Fields**:
-    *   `source_canonical_question_ids` (List of Strings): Ancestry linking to canonical questions.
-    *   `variation_type` (String): Type of variation.
-    *   `difficulty_level` (String)
-    *   `concept_tested` (String)
-    *   `generation_metadata` (Map)
 
-### `extraction_runs`
-Logs of ingestion from source materials (e.g., PDFs).
-*   `board` (String)
-*   `class_level` (String)
-*   `subject` (String)
-*   `book` (String)
-*   `chapter_number`/`chapter_title`
-*   `version` (Integer)
-*   `status` (String): `PENDING`, `COMPLETED`, `FAILED`, `APPROVED`
-*   `source_file` (String)
-*   `extraction_metadata` (Object)
-*   `question_count` (Integer)
+A unified collection for both Canonical (source) and Derived (AI-generated) questions.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `subject_id` | String | Subject reference |
+| `chapter` | String | Chapter name |
+| `topic` | String | Topic name |
+| `text` | String | Question content |
+| `type` | String | MULTIPLE_CHOICE, SHORT_ANSWER, ESSAY, FILL_IN_BLANKS, TRUE_FALSE |
+| `options` | List[String] | MCQ options |
+| `correct_answer` | String | Correct answer |
+| `points` | Integer | Mark value |
+| `explanation` | String | Answer explanation |
+| `source_kind` | String | CANONICAL, DERIVED, EXEMPLAR |
+| `review_status` | String | DRAFT, APPROVED, REJECTED, PUBLISHED |
+| `provenance` | Object | Source metadata (board, class, book, chapterNumber, etc.) |
+| `language` | String | Question language |
+| `question_id` | String | Reference to canonical question (for exemplars) |
+| `difficulty` | String | easy, medium, hard |
+| `blooms_level` | String | remember, understand, apply, analyze, evaluate, create |
+| `qa_flags` | List[String] | Quality assurance flags |
+| `review_state` | String | approved, rejected |
+| `source_pages` | List[Integer] | Source PDF page numbers |
+| `source_canonical_question_ids` | List[String] | Parent question IDs (for derived) |
+| `derived_from_chapter_id` | String | Chapter reference |
+| `generation_run_id` | String | AI generation run ID |
+| `generation_rationale` | String | AI generation rationale |
+| `reviewer_notes` | String | Reviewer comments |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `assignments`
-Tasks given to students.
-*   `title` (String), `description` (String)
-*   `subject_id` (String), `class_id` (String)
-*   `teacher_id` (String)
-*   `question_ids` (List of Strings)
-*   `due_date` (Instant)
-*   `max_score` (Integer)
-*   `status` (String): `DRAFT`, `PUBLISHED`, `CLOSED`
-*   `code` (String): 6-char alphanumeric code for joining without explicit logins.
+
+Tasks assigned to students.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `title` | String | Assignment title |
+| `description` | String | Assignment description |
+| `subject_id` | String | Subject reference |
+| `class_id` | String | Class reference |
+| `teacher_id` | String | Teacher user ID |
+| `question_ids` | List[String] | Included question IDs |
+| `due_date` | Instant | Due date/time |
+| `max_score` | Integer | Maximum score |
+| `status` | String | DRAFT, PUBLISHED, CLOSED |
+| `code` | String | 6-char alphanumeric join code |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
 
 ### `assignment_submissions`
-Student submissions for an assignment.
-*   `assignment_id` (String)
-*   `student_id` (String)
-*   `student_name` (String), `student_roll_number` (String), `school` (String), `student_class` (String), `section` (String)
-*   `answers` (Map of Strings to Objects): Question ID resolving to the student's answer.
-*   `score` (Integer)
-*   `submitted_at` (Instant)
-*   `status` (String): `SUBMITTED`, `GRADED`
-*   `feedback` (String): AI-graded feedback stored as JSON string.
+
+Student submissions for assignments.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `assignment_id` | String | Assignment reference |
+| `student_id` | String | Student user ID |
+| `student_name` | String | Student name |
+| `student_roll_number` | String | Student roll number |
+| `school` | String | School name |
+| `student_class` | String | Class level |
+| `section` | String | Section |
+| `answers` | Map | Question ID → Student Answer |
+| `score` | Integer | Awarded score |
+| `submitted_at` | Instant | Submission timestamp |
+| `status` | String | SUBMITTED, GRADED |
+| `feedback_json` | String | AI-graded feedback (JSON) |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
+
+### `quizzes`
+
+Teacher-created quizzes.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `teacher_id` | String | Teacher user ID |
+| `class_id` | String | Class reference |
+| `title` | String | Quiz title |
+| `description` | String | Quiz description |
+| `question_ids` | List[String] | Included question IDs |
+| `question_points_map` | Map | Question ID ��� points |
+| `time_per_question_sec` | Integer | Seconds per question |
+| `self_paced_enabled` | Boolean | Self-paced mode enabled |
+| `self_paced_code` | String | Code for self-paced access |
+| `published_at` | Instant | Publish timestamp |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
+
+### `quiz_sessions`
+
+Live quiz session instances.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `quiz_id` | String | Quiz reference |
+| `teacher_id` | String | Teacher user ID |
+| `class_id` | String | Class reference |
+| `session_code` | String | Session join code |
+| `status` | String | LOBBY, LIVE, REVEAL, ENDED |
+| `current_question_index` | Integer | Current question position |
+| `question_started_at` | Instant | Question start timestamp |
+| `question_ends_at` | Instant | Question end timestamp |
+| `locked` | Boolean | Session locked status |
+| `ended_at` | Instant | Session end timestamp |
+| `revision` | Long | State revision number |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
+
+### `quiz_attempts`
+
+Student quiz attempt records.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `quiz_id` | String | Quiz reference |
+| `student_id` | String | Student user ID |
+| `started_at` | Instant | Attempt start timestamp |
+| `submitted_at` | Instant | Submission timestamp |
+| `answers` | Map | Question ID → Answer |
+| `score` | Integer | Awarded score |
+| `total_marks` | Integer | Total marks possible |
+| `created_at` | Instant | Creation timestamp |
+| `updated_at` | Instant | Last update timestamp |
+
+### `analytics_events`
+
+Usage tracking and event logging.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `_id` | ObjectId | Primary key |
+| `event` | String | Event type |
+| `payload` | Map | Event details |
+| `userAgent` | String | Client user agent |
+| `userId` | String | User ID |
+| `timestamp` | LocalDateTime | Event timestamp |
 
 ---
 
-## Analytics
-### `analytics_events`
-Usage tracking and event logging.
-*   `event` (String): Type of event.
-*   `payload` (Map of Strings to Objects): Event details.
-*   `userAgent` (String)
-*   `userId` (String)
-*   `timestamp` (LocalDateTime)
+## Indexes
+
+### `users` Collection
+- `email` (unique)
+- `phone`
+- `role`
+- `school_id`
+- `student_class` + `section`
+
+### `questions` Collection
+- `subject_id`
+- `chapter`
+- `source_kind`
+- `review_status`
+- `provenance.board` + `provenance.class` + `provenance.subject`
+
+### `assignments` Collection
+- `class_id`
+- `teacher_id`
+- `status`
+- `code` (unique)
+
+### `assignment_submissions` Collection
+- `assignment_id`
+- `student_id`
+
+### `quiz_sessions` Collection
+- `session_code` (unique)
+- `quiz_id`
+- `status`
+
+### `classes` Collection
+- `school_id`
+- `grade`

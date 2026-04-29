@@ -88,6 +88,12 @@ export const questions = {
       body: JSON.stringify(question),
     }),
 
+  createCustom: (question: Partial<Question>): Promise<Question> =>
+    fetchApi<Question>('/questions/custom', {
+      method: 'POST',
+      body: JSON.stringify(question),
+    }),
+
   unpublish: (questionIds: string[]): Promise<{ publishedCount: number; status: string }> =>
     fetchApi<{ publishedCount: number; status: string }>('/questions/unpublish', {
       method: 'POST',

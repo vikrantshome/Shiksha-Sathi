@@ -8,7 +8,7 @@ import {
   saveStudentIdentity,
   students,
 } from "@/lib/api/students";
-import type { StudentDashboardStats, StudentIdentity } from "@/lib/api/types";
+import type { StudentDashboardStats, StudentIdentity, Assignment, SubmissionDTO, Quiz, ClassItem } from "@/lib/api/types";
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 import Loader from "@/components/Loader";
 import CodeEntryModal from "@/components/CodeEntryModal";
@@ -235,6 +235,14 @@ export default function StudentDashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  
+  // New: pending/submitted from enrolled classes
+  const [enrolledClasses, setEnrolledClasses] = useState<ClassItem[]>([]);
+  const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
+  const [submittedAssignments, setSubmittedAssignments] = useState<SubmissionDTO[]>([]);
+  const [pendingQuizzes, setPendingQuizzes] = useState<Quiz[]>([]);
+  const [submittedQuizzes, setSubmittedQuizzes] = useState<any[]>([]);
+  const [isLoadingNew, setIsLoadingNew] = useState(false);
 
   useEffect(() => {
     const existing = getStudentIdentity();
@@ -262,7 +270,33 @@ export default function StudentDashboardPage() {
         if (!cancelled) setLoading(false);
       }
     }
-load();
+    
+    async function loadFromEnrolled() {
+      setIsLoadingNew(true);
+      try {
+        const [classes, pending, submitted, pQuizzes, sQuizzes] = await Promise.all([
+          students.getEnrolledClasses(),
+          students.getPendingAssignments(),
+          students.getSubmittedAssignments(),
+          students.getPendingQuizzes(),
+          students.getSubmittedQuizzes(),
+        ]);
+        if (!cancelled) {
+          setEnrolledClasses(classes);
+          setPendingAssignments(pending);
+          setSubmittedAssignments(submitted);
+          setPendingQuizzes(pQuizzes);
+          setSubmittedQuizzes(sQuizzes);
+        }
+      } catch {
+        // Fall silently - the "code entry" path still works
+      } finally {
+        if (!cancelled) setIsLoadingNew(false);
+      }
+    }
+    
+    load();
+    loadFromEnrolled();
     return () => { cancelled = true };
   }, [identity]);
 
@@ -278,27 +312,27 @@ load();
   const statCards = [
     {
       icon: <IconAssignment />,
-      value: stats?.totalAssignments ?? 0,
-      label: "Total Assignments",
-      badge: stats ? `${stats.gradedCount} graded` : "—",
+      value: pendingAssignments.length,
+      label: "Pending Assignments",
+      badge: isLoadingNew ? "—" : `${pendingAssignments.length} pending`,
+    },
+    {
+      icon: <IconCheck />,
+      value: submittedAssignments.length,
+      label: "Submitted",
+      badge: isLoadingNew ? "—" : `${submittedAssignments.length} submitted`,
+    },
+    {
+      icon: <IconTrophy />,
+      value: submittedQuizzes.length,
+      label: "Quizzes Completed",
+      badge: isLoadingNew ? "—" : `${submittedQuizzes.length} attempted`,
     },
     {
       icon: <IconTrending />,
       value: stats ? `${stats.averageScorePercent}%` : "—",
       label: "Average Score",
       badge: stats && stats.averageScorePercent >= 70 ? "Great job!" : "Keep going",
-    },
-    {
-      icon: <IconTrophy />,
-      value: stats ? `${stats.bestScorePercent}%` : "—",
-      label: "Best Score",
-      badge: stats && stats.bestScorePercent === 100 ? "Perfect!" : "Personal best",
-    },
-    {
-      icon: <IconCheck />,
-      value: stats?.gradedCount ?? 0,
-      label: "Graded",
-      badge: stats ? `${stats.submittedCount - stats.gradedCount} pending` : "—",
     },
   ];
 
@@ -339,9 +373,11 @@ load();
           <p className="text-sm mt-2 max-w-[28rem] leading-[1.6]" style={{ color: "var(--color-on-primary-container)", opacity: 0.85 }}>
             {loading
               ? "Loading your assignments..."
-              : stats && stats.totalAssignments > 0
-                ? `You have completed ${stats.totalAssignments} assignment${stats.totalAssignments === 1 ? "" : "s"}.${stats.gradedCount < stats.totalAssignments ? ` ${stats.totalAssignments - stats.gradedCount} still pending grading.` : ""}`
-                : "Enter an assignment code from your teacher to get started."}
+              : pendingAssignments.length > 0 || pendingQuizzes.length > 0
+                ? `You have ${pendingAssignments.length} pending assignment${pendingAssignments.length === 1 ? "" : "s"} and ${pendingQuizzes.length} pending quiz${pendingQuizzes.length === 1 ? "" : "s"} from your enrolled classes.`
+                : stats && stats.totalAssignments > 0
+                  ? `You have completed ${stats.totalAssignments} assignment${stats.totalAssignments === 1 ? "" : "s"}.${stats.gradedCount < stats.totalAssignments ? ` ${stats.totalAssignments - stats.gradedCount} still pending grading.` : ""}`
+                  : "Enter an assignment code from your teacher to get started."}
           </p>
         </div>
       </header>
@@ -423,6 +459,85 @@ load();
           Enter Assignment Code
         </button>
       </div>
+
+      {/* ═══ Pending Assignments from Enrolled Classes ═══ */}
+      {(pendingAssignments.length > 0 || pendingQuizzes.length > 0) && (
+        <section className="mb-6 md:mb-10">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <h2 className="text-base font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
+              Pending Work
+            </h2>
+          </div>
+          
+          {pendingAssignments.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-sm font-medium mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+                Assignments ({pendingAssignments.length})
+              </h3>
+              <div className="rounded-md overflow-hidden" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
+                {pendingAssignments.slice(0, 5).map((assignment) => (
+                  <Link
+                    key={assignment.id}
+                    href={`/student/assignment/${assignment.linkId || assignment.id}`}
+                    className="block p-3 md:p-4 border-b border-outline/5 no-underline"
+                    style={{ borderColor: "var(--color-outline-variant)" }}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-medium text-sm m-0" style={{ color: "var(--color-on-surface)" }}>
+                          {assignment.title}
+                        </p>
+                        {assignment.description && (
+                          <p className="text-xs text-on-surface-variant m-[2px_0_0] line-clamp-1">
+                            {assignment.description}
+                          </p>
+                        )}
+                      </div>
+                      <span className="text-[0.625rem] font-bold uppercase px-2 py-1 rounded-xs" style={{ background: "var(--color-warning-container)", color: "var(--color-on-warning-container)" }}>
+                        Pending
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {pendingQuizzes.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium mb-2" style={{ color: "var(--color-on-surface-variant)" }}>
+                Quizzes ({pendingQuizzes.length})
+              </h3>
+              <div className="rounded-md overflow-hidden" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
+                {pendingQuizzes.slice(0, 5).map((quiz) => (
+                  <Link
+                    key={quiz.id}
+                    href={`/student/quizzes/join?code=${quiz.selfPacedCode}`}
+                    className="block p-3 md:p-4 border-b border-outline/5 no-underline"
+                    style={{ borderColor: "var(--color-outline-variant)" }}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-medium text-sm m-0" style={{ color: "var(--color-on-surface)" }}>
+                          {quiz.title}
+                        </p>
+                        {quiz.description && (
+                          <p className="text-xs text-on-surface-variant m-[2px_0_0] line-clamp-1">
+                            {quiz.description}
+                          </p>
+                        )}
+                      </div>
+                      <span className="text-[0.625rem] font-bold uppercase px-2 py-1 rounded-xs" style={{ background: "var(--color-tertiary-container)", color: "var(--color-on-tertiary-container)" }}>
+                        Quiz
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* ═══ Recent Assignments (Refined Premium) ═══ */}
       <section>
@@ -585,26 +700,100 @@ load();
             Join Quiz
           </button>
         </div>
-        <div
-          className="rounded-md border-2 border-dashed p-6 md:p-8 flex flex-col items-center text-center"
-          style={{ borderColor: "var(--color-outline-variant)", background: "var(--color-surface-container-low)" }}
-        >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3" style={{ background: "var(--color-surface-container)", color: "var(--color-outline)" }}>
-            <IconZap />
+        
+        {isLoadingNew ? (
+          <div className="rounded-md p-8 flex justify-center text-center" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)" }}>
+            <Loader size="md" label="Loading quizzes..." />
           </div>
-          <h4 className="text-sm font-bold text-on-surface">No Quiz History Yet</h4>
-          <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed max-w-[18rem]">
-            When your teacher starts a live quiz, enter the code to join and your results will appear here.
-          </p>
-          <button
-            onClick={() => setIsQuizModalOpen(true)}
-            className="mt-4 text-[0.6875rem] font-bold flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
-            style={{ color: "var(--color-primary)" }}
+        ) : submittedQuizzes.length === 0 && pendingQuizzes.length === 0 ? (
+          <div
+            className="rounded-md border-2 border-dashed p-6 md:p-8 flex flex-col items-center text-center"
+            style={{ borderColor: "var(--color-outline-variant)", background: "var(--color-surface-container-low)" }}
           >
-            Join a Quiz
-            <IconArrowRight />
-          </button>
-        </div>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3" style={{ background: "var(--color-surface-container)", color: "var(--color-outline)" }}>
+              <IconZap />
+            </div>
+            <h4 className="text-sm font-bold text-on-surface">No Quiz History Yet</h4>
+            <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed max-w-[18rem]">
+              When your teacher starts a live quiz, enter the code to join and your results will appear here.
+            </p>
+            <button
+              onClick={() => setIsQuizModalOpen(true)}
+              className="mt-4 text-[0.6875rem] font-bold flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+              style={{ color: "var(--color-primary)" }}
+            >
+              Join a Quiz
+              <IconArrowRight />
+            </button>
+          </div>
+        ) : submittedQuizzes.length > 0 ? (
+          <div className="rounded-md overflow-hidden" style={{ background: "var(--color-surface-container-lowest)", border: "1px solid var(--color-outline-variant)", boxShadow: "var(--shadow-sm)" }}>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--color-outline-variant)" }}>
+                    {["Quiz", "Score", "Status", "Completed", ""].map((h, idx) => (
+                      <th
+                        key={h}
+                        className={`p-3 md:p-3.5 px-4 md:px-6 text-[0.625rem] font-bold uppercase tracking-[0.08em] ${idx === 4 ? "text-right" : "text-left"}`}
+                        style={{ color: "var(--color-on-surface-variant)" }}
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {submittedQuizzes.slice(0, 10).map((attempt) => {
+                    const score = attempt.score ?? 0;
+                    const total = attempt.totalMarks ?? attempt.maxScore ?? 100;
+                    const scorePct = Math.round((score / total) * 100);
+                    const isGraded = attempt.submittedAt != null;
+                    return (
+                      <tr
+                        key={attempt.id}
+                        className="transition-colors duration-200 ease-out cursor-pointer"
+                        style={{ 
+                          borderBottom: "1px solid var(--color-outline-variant)",
+                          background: "transparent"
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = "var(--color-surface-container)"}
+                        onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                      >
+                        <td className="p-3 md:p-3.5 px-4 md:px-6">
+                          <span className="font-medium text-sm" style={{ color: "var(--color-on-surface)" }}>
+                            {attempt.quizTitle || "Quiz"}
+                          </span>
+                        </td>
+                        <td className="p-3 md:p-3.5 px-4 md:px-6">
+                          <span className="font-semibold text-sm" style={{ color: scorePct >= 70 ? "var(--color-success)" : "var(--color-on-surface-variant)" }}>
+                            {score}/{total} ({scorePct}%)
+                          </span>
+                        </td>
+                        <td className="p-3 md:p-3.5 px-4 md:px-6">
+                          <span className="inline-flex items-center px-2.5 py-1 text-[0.625rem] font-bold tracking-wider rounded-xs uppercase" style={{
+                            background: "var(--color-success-container)",
+                            color: "var(--color-on-success-container)",
+                          }}>
+                            Completed
+                          </span>
+                        </td>
+                        <td className="p-3 md:p-3.5 px-4 md:px-6 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
+                          {attempt.submittedAt ? new Date(attempt.submittedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "—"}
+                        </td>
+                        <td className="p-3 md:p-3.5 px-4 md:px-6 text-right">
+                          <span className="text-[0.6875rem] font-medium" style={{ color: "var(--color-primary)" }}>
+                            View
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : null}
       </section>
 
       {/* ═══ Performance Tip ═══ */}

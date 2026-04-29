@@ -3,15 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { api } from "@/lib/api";
 
-export async function enrollStudent(classId: string, data: { name: string; phone: string; birthDate: string; rollNumber?: string }) {
+export async function enrollStudent(classId: string, data: { name: string; phone: string; rollNumber?: string }) {
   if (!data.name?.trim()) {
     return { error: "Student name is required" };
   }
   if (!data.phone || data.phone.trim().length !== 10) {
     return { error: "Valid 10-digit phone number is required" };
-  }
-  if (!data.birthDate || !/^\d{2}-\d{2}-\d{4}$/.test(data.birthDate)) {
-    return { error: "Birth date must be in DD-MM-YYYY format" };
   }
 
   try {

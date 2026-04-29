@@ -6,6 +6,8 @@ import {
   SubmissionDTO,
   Assignment,
   User,
+  Quiz,
+  ClassItem,
 } from './types';
 
 const STORAGE_KEY = 'shiksha-sathi-student-identity';
@@ -67,11 +69,12 @@ export const students = {
     const enriched: StudentSubmissionSummary[] = [];
 
     for (const s of submissions) {
-      // If backend already provided title and total marks, we can skip the extra fetch
-      // but we still need teacherName and linkId for the summary DTO if not present.
+      // Fetch assignment details to get teacherName (the submission may not have it)
       let assignment = null;
-      if (!s.assignmentTitle || !s.totalMarks) {
+      try {
         assignment = await getAssignment(s.assignmentId);
+      } catch (e) {
+        // Assignment fetch failed, continue without it
       }
 
       enriched.push({
@@ -130,7 +133,6 @@ export const students = {
     name?: string;
     email?: string;
     phone?: string;
-    birthDate?: string;
     studentClass?: string;
     section?: string;
     rollNumber?: string;
@@ -139,6 +141,51 @@ export const students = {
     return fetchApi<User>('/auth/me', {
       method: 'PUT',
       body: JSON.stringify(data),
+    });
+  },
+
+  /**
+   * Get classes the current student is enrolled in.
+   */
+  getEnrolledClasses: async (): Promise<ClassItem[]> => {
+    return fetchApi<ClassItem[]>('/students/me/classes', {
+      method: 'GET',
+    });
+  },
+
+  /**
+   * Get pending (not yet attempted) assignments for the current student.
+   */
+  getPendingAssignments: async (): Promise<Assignment[]> => {
+    return fetchApi<Assignment[]>('/students/me/assignments/pending', {
+      method: 'GET',
+    });
+  },
+
+  /**
+   * Get submitted assignments (with scores) for the current student.
+   */
+  getSubmittedAssignments: async (): Promise<SubmissionDTO[]> => {
+    return fetchApi<SubmissionDTO[]>('/students/me/assignments/submitted', {
+      method: 'GET',
+    });
+  },
+
+  /**
+   * Get pending (not yet attempted) quizzes for the current student.
+   */
+  getPendingQuizzes: async (): Promise<Quiz[]> => {
+    return fetchApi<Quiz[]>('/students/me/quizzes/pending', {
+      method: 'GET',
+    });
+  },
+
+  /**
+   * Get submitted quizzes (with scores) for the current student.
+   */
+  getSubmittedQuizzes: async (): Promise<any[]> => {
+    return fetchApi<any[]>('/students/me/quizzes/submitted', {
+      method: 'GET',
     });
   },
 };

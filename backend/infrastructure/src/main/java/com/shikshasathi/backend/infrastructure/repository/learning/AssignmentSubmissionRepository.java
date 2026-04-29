@@ -15,4 +15,5 @@ public interface AssignmentSubmissionRepository extends MongoRepository<Assignme
     List<AssignmentSubmission> findByStudentRollNumber(String studentRollNumber);
     Optional<AssignmentSubmission> findByAssignmentIdAndStudentId(String assignmentId, String studentId);
     List<AssignmentSubmission> findByStudentClass(String studentClass);
+    List<AssignmentSubmission> findByStudentIdIn(List<String> studentIds);
 }

@@ -190,7 +190,6 @@ export default function StudentProfilePage() {
   const email     = user?.email || null;
   const phone     = user?.phone || null;
   const rollNo    = user?.rollNumber || null;
-  const birthDate = user?.birthDate || null;
   const userId    = user?.id || null;
 
   const classDisplay =
@@ -303,7 +302,6 @@ export default function StudentProfilePage() {
             <ProfileField icon={<IconClass />}   label="Class / Grade"        value={classVal ? `Class ${classVal}` : null} />
             <ProfileField icon={<IconSection />} label="Section / Division"   value={section} />
             <ProfileField icon={<IconHash />}    label="Roll Number"          value={rollNo} />
-            <ProfileField icon={<IconCalendar />}label="Date of Birth"        value={birthDate} />
           </SectionCard>
 
           {/* ── Account Info ── */}

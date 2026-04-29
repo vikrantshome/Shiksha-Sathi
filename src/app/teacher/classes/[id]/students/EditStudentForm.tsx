@@ -10,7 +10,6 @@ interface Student {
   name: string;
   phone?: string;
   rollNumber?: string;
-  birthDate?: string;
 }
 
 interface EditStudentFormProps {
@@ -26,7 +25,6 @@ export default function EditStudentForm({ student }: EditStudentFormProps) {
     setLoading(true);
     setError(null);
     const rollNumber = formData.get("rollNumber") as string;
-    const birthDate = formData.get("birthDate") as string;
     
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
     const token = getCookie('auth-token') as string | undefined;
@@ -42,7 +40,6 @@ export default function EditStudentForm({ student }: EditStudentFormProps) {
           name: formData.get("name"),
           phone: formData.get("phone"),
           rollNumber: rollNumber && rollNumber.trim() ? rollNumber.trim() : null,
-          birthDate: birthDate && birthDate.trim() ? birthDate.trim() : null,
         }),
       });
       
@@ -110,17 +107,6 @@ export default function EditStudentForm({ student }: EditStudentFormProps) {
             </div>
           </div>
 
-          <div className="relative">
-            <label className="block text-xs font-semibold text-[#404847] mb-1.5 uppercase tracking-wide">Date of Birth</label>
-            <input
-              name="birthDate"
-              defaultValue={student.birthDate || ""}
-              placeholder="DD-MM-YYYY"
-              pattern="\d{2}-\d{2}-\d{4}"
-              className="w-full bg-[#f6f3ef] border-none rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#12423f] transition-all duration-200 shadow-sm"
-            />
-          </div>
-          
           <div className="relative">
             <label className="block text-xs font-semibold text-[#404847] mb-1.5 uppercase tracking-wide">Roll Number</label>
             <div className="relative">

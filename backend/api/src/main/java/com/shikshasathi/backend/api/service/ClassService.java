@@ -10,6 +10,9 @@ import com.shikshasathi.backend.infrastructure.repository.school.AttendanceRepos
 import com.shikshasathi.backend.infrastructure.repository.school.ClassRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ public class ClassService {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MongoTemplate mongoTemplate;
 
     public List<ClassEntity> getClassesForTeacher(String teacherId) {
         return classRepository.findByTeacherIdsContaining(teacherId);
@@ -110,10 +114,10 @@ public class ClassService {
 
     /**
      * Enroll a student in a class. If the student doesn't exist, creates a new student account.
-     * The student's birth date (DD-MM-YYYY) becomes their default password.
+     * The student's roll number becomes their default password.
      */
-    public ClassEntity enrollStudent(String classId, EnrollStudentRequest request, String loginIdentity) {
-        ClassEntity entity = getClassById(classId, loginIdentity);
+public ClassEntity enrollStudent(String classId, EnrollStudentRequest request, String loginIdentity) {
+        // Get teacher
         User teacher = userRepository.findByEmail(loginIdentity)
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
@@ -121,21 +125,47 @@ public class ClassService {
                 })
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
 
-        // Validate birth date format DD-MM-YYYY
-        String birthDate = request.getBirthDate();
-        if (birthDate == null || !birthDate.matches("\\d{2}-\\d{2}-\\d{4}")) {
-            throw new RuntimeException("Birth date must be in DD-MM-YYYY format");
+        // Get class directly using MongoTemplate (more reliable)
+        Query query = new Query(Criteria.where("_id").is(classId));
+        ClassEntity entity = mongoTemplate.findOne(query, ClassEntity.class);
+        if (entity == null) {
+            throw new RuntimeException("Class not found");
         }
 
+        // Auto-add teacher to class if not present
+        if (entity.getTeacherIds() == null) {
+            entity.setTeacherIds(new ArrayList<>());
+        }
+        if (!entity.getTeacherIds().contains(teacher.getId())) {
+            entity.getTeacherIds().add(teacher.getId());
+        }
+        
+        if (entity.getStudentIds() == null) {
+            entity.setStudentIds(new ArrayList<>());
+        }
+        
+        // Initialize timestamps
+        if (entity.getCreatedAt() == null) {
+            entity.setCreatedAt(java.time.Instant.now());
+        }
+        entity.setUpdatedAt(java.time.Instant.now());
+
+        // Roll number is required - used as default password
+        final String rollNumber = request.getRollNumber();
+        if (rollNumber == null || rollNumber.trim().isEmpty()) {
+            throw new RuntimeException("Roll number is required");
+        }
+        final String trimmedRoll = rollNumber.trim();
+
         // Check for duplicate roll number in this class
-        String newRollNumber = request.getRollNumber();
-        if (newRollNumber != null && !newRollNumber.isEmpty()) {
+        boolean rollExists = false;
+        if (!entity.getStudentIds().isEmpty()) {
             List<User> existingStudents = userRepository.findAllById(entity.getStudentIds());
-            boolean rollExists = existingStudents.stream()
-                    .anyMatch(s -> s.getRollNumber() != null && s.getRollNumber().equals(newRollNumber));
-            if (rollExists) {
-                throw new RuntimeException("Roll number " + newRollNumber + " already exists in this class");
-            }
+            rollExists = existingStudents.stream()
+                    .anyMatch(s -> s.getRollNumber() != null && s.getRollNumber().equals(trimmedRoll));
+        }
+        if (rollExists) {
+            throw new RuntimeException("Roll number " + trimmedRoll + " already exists in this class");
         }
 
         // Find or create student
@@ -147,33 +177,23 @@ public class ClassService {
             student = new User();
             student.setName(request.getName());
             student.setPhone(request.getPhone());
-            student.setPasswordHash(passwordEncoder.encode(birthDate)); // Birth date as password
+            student.setPasswordHash(passwordEncoder.encode(trimmedRoll)); // Roll number as password
             student.setRole(Role.STUDENT);
             student.setSchool(teacher.getSchool());
             student.setSchoolId(teacher.getSchoolId());
             student.setStudentClass(entity.getGrade());
             student.setSection(entity.getSection());
-            student.setBirthDate(birthDate);
             student.setActive(true);
             student.setCreatedAt(Instant.now());
-            // Set roll number if provided
-            if (request.getRollNumber() != null && !request.getRollNumber().isEmpty()) {
-                student.setRollNumber(request.getRollNumber());
-            }
+            student.setRollNumber(rollNumber);
             student = userRepository.save(student);
         } else {
-            // Use existing student (first match)
+            // Use existing student (first match) - only update roll number
             student = studentUsers.get(0);
-            // Update roll number if provided
-            if (request.getRollNumber() != null && !request.getRollNumber().isEmpty()) {
-                student.setRollNumber(request.getRollNumber());
-                student = userRepository.save(student);
-            }
+            student.setRollNumber(rollNumber);
+            student = userRepository.save(student);
         }
 
-        if (entity.getStudentIds() == null) {
-            entity.setStudentIds(new ArrayList<>());
-        }
         if (entity.getStudentIds().contains(student.getId())) {
             throw new RuntimeException("Student is already enrolled in this class");
         }
@@ -220,7 +240,7 @@ public class ClassService {
         return attendanceRepository.findByStudentIdAndDateBetween(studentId, startDate.toString(), endDate.toString());
     }
 
-    public User updateStudent(String studentId, String name, String phone, String rollNumber, String birthDate, String loginIdentity) {
+    public User updateStudent(String studentId, String name, String phone, String rollNumber, String loginIdentity) {
         User teacher = userRepository.findByEmail(loginIdentity)
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
@@ -254,11 +274,6 @@ public class ClassService {
         }
         if (rollNumber != null) {
             student.setRollNumber(rollNumber.isEmpty() ? null : rollNumber);
-        }
-        if (birthDate != null && !birthDate.isEmpty()) {
-            if (birthDate.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                student.setBirthDate(birthDate);
-            }
         }
         return userRepository.save(student);
     }

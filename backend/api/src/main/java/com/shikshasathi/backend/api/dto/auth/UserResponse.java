@@ -19,5 +19,4 @@ public class UserResponse {
     private String studentClass; // Class/Grade (e.g., "8")
     private String section;      // Section/Division (e.g., "A")
     private String school;
-    private String birthDate;
 }

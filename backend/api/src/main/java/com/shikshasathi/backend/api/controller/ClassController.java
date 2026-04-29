@@ -118,8 +118,7 @@ public class ClassController {
         String name = request.get("name");
         String phone = request.get("phone");
         String rollNumber = request.get("rollNumber");
-        String birthDate = request.get("birthDate");
-        return ResponseEntity.ok(classService.updateStudent(studentId, name, phone, rollNumber, birthDate, loginIdentity));
+        return ResponseEntity.ok(classService.updateStudent(studentId, name, phone, rollNumber, loginIdentity));
     }
 
     @PostMapping("/{classId}/attendance/bulk")
