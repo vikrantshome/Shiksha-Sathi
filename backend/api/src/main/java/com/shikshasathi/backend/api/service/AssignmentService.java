@@ -231,6 +231,12 @@ public class AssignmentService {
                 .or(() -> assignmentRepository.findByCode(linkId)) // Also try short code lookup
                 .orElseThrow(() -> new RuntimeException("Assignment not found"));
         
+        // Enrich with teacher name
+        if (assignment.getTeacherId() != null) {
+            userRepository.findById(assignment.getTeacherId())
+                .ifPresent(u -> assignment.setTeacherName(u.getName()));
+        }
+        
         List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
                 .map(qId -> {
                     Question q = questionRepository.findById(qId).orElse(null);
@@ -257,6 +263,7 @@ public class AssignmentService {
                 .dueDate(assignment.getDueDate())
                 .totalMarks(assignment.getMaxScore())
                 .questions(questions)
+                .teacherName(assignment.getTeacherName())
                 .build();
     }
 

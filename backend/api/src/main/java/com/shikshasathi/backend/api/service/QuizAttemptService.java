@@ -137,6 +137,95 @@ public class QuizAttemptService {
         return normalizeAnswer(studentAnswer).equals(normalizeAnswer(correctAnswer));
     }
 
+    public QuizAttempt getAttemptWithFeedback(String attemptId) {
+        QuizAttempt attempt = quizAttemptRepository.findById(attemptId)
+                .orElseThrow(() -> new RuntimeException("Quiz attempt not found"));
+        
+        Quiz quiz = quizRepository.findById(attempt.getQuizId())
+                .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        
+        Map<String, Integer> pointsMap = quiz.getQuestionPointsMap();
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        
+        if (attempt.getAnswers() != null && attempt.getSubmittedAt() != null) {
+            for (String questionId : quiz.getQuestionIds()) {
+                Optional<Question> maybeQuestion = questionRepository.findById(questionId);
+                if (maybeQuestion.isEmpty()) {
+                    continue;
+                }
+                Question q = maybeQuestion.get();
+                String studentAnswer = attempt.getAnswers().getOrDefault(questionId, "");
+                String correctAnswer = q.getCorrectAnswer() == null ? "" : q.getCorrectAnswer();
+                int marks = pointsMap != null ? pointsMap.getOrDefault(questionId, q.getPoints() != null ? q.getPoints() : 1) : (q.getPoints() != null ? q.getPoints() : 1);
+                
+                boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
+                int awarded = isCorrect ? marks : 0;
+                
+                feedback.add(QuestionFeedbackDTO.builder()
+                        .questionId(q.getId())
+                        .questionText(q.getText())
+                        .studentAnswer(studentAnswer)
+                        .correctAnswer(correctAnswer)
+                        .isCorrect(isCorrect)
+                        .marksAwarded(awarded)
+                        .aiGradingFailed(false)
+                        .build());
+            }
+        }
+        
+        attempt.setAnswers(attempt.getAnswers());
+        
+        return attempt;
+    }
+
+    public Object getAttemptDetails(String attemptId) {
+        QuizAttempt attempt = quizAttemptRepository.findById(attemptId)
+                .orElseThrow(() -> new RuntimeException("Quiz attempt not found"));
+        
+        Quiz quiz = quizRepository.findById(attempt.getQuizId())
+                .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        
+        Map<String, Integer> pointsMap = quiz.getQuestionPointsMap();
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        
+        if (attempt.getAnswers() != null && attempt.getSubmittedAt() != null) {
+            for (String questionId : quiz.getQuestionIds()) {
+                Optional<Question> maybeQuestion = questionRepository.findById(questionId);
+                if (maybeQuestion.isEmpty()) {
+                    continue;
+                }
+                Question q = maybeQuestion.get();
+                String studentAnswer = attempt.getAnswers().getOrDefault(questionId, "");
+                String correctAnswer = q.getCorrectAnswer() == null ? "" : q.getCorrectAnswer();
+                int marks = pointsMap != null ? pointsMap.getOrDefault(questionId, q.getPoints() != null ? q.getPoints() : 1) : (q.getPoints() != null ? q.getPoints() : 1);
+                
+                boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
+                int awarded = isCorrect ? marks : 0;
+                
+                feedback.add(QuestionFeedbackDTO.builder()
+                        .questionId(q.getId())
+                        .questionText(q.getText())
+                        .studentAnswer(studentAnswer)
+                        .correctAnswer(correctAnswer)
+                        .isCorrect(isCorrect)
+                        .marksAwarded(awarded)
+                        .aiGradingFailed(false)
+                        .build());
+            }
+        }
+        
+        return java.util.Map.of(
+            "id", attempt.getId(),
+            "quizId", attempt.getQuizId(),
+            "quizTitle", quiz.getTitle() != null ? quiz.getTitle() : "Quiz",
+            "studentId", attempt.getStudentId(),
+            "score", attempt.getScore() != null ? attempt.getScore() : 0,
+            "totalMarks", attempt.getTotalMarks() != null ? attempt.getTotalMarks() : 0,
+            "submittedAt", attempt.getSubmittedAt() != null ? attempt.getSubmittedAt().toString() : "",
+            "feedback", feedback
+        );
+    }
+
     private String normalizeAnswer(String answer) {
         if (answer == null) {
             return "";

@@ -39,6 +39,11 @@ public class QuizAttemptController {
         return ResponseEntity.ok(quizAttemptService.submitAttempt(attemptId, studentId, request.getAnswers()));
     }
 
+    @GetMapping("/{attemptId}")
+    public ResponseEntity<Object> getAttemptDetails(@PathVariable String attemptId) {
+        return ResponseEntity.ok(quizAttemptService.getAttemptDetails(attemptId));
+    }
+
     private String currentUserIdFromAuthHeader(String authorization) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Missing Authorization header");

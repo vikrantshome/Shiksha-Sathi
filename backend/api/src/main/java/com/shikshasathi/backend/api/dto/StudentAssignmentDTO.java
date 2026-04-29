@@ -15,4 +15,5 @@ public class StudentAssignmentDTO {
     private Instant dueDate;
     private Integer totalMarks;
     private List<StudentQuestionDTO> questions;
+    private String teacherName;
 }

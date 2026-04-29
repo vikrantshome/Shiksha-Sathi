@@ -12,5 +12,6 @@ public interface QuizRepository extends MongoRepository<Quiz, String> {
     List<Quiz> findByTeacherId(String teacherId);
     Optional<Quiz> findBySelfPacedCode(String selfPacedCode);
     boolean existsBySelfPacedCode(String selfPacedCode);
+    List<Quiz> findByClassId(String classId);
 }
 

@@ -8,19 +8,20 @@ import type { SubmissionDTO, QuestionFeedbackDTO } from "@/lib/api/types";
 import Loader from "@/components/Loader";
 
 /* ─────────────────────────────────────────────────────────
-   Student Results Page — Uses AI-Graded Feedback from DB
-   Displays the feedback that was computed by AIGradingService
-   at submission time and stored in the submission entity.
+   Student Results Page — Handles both Assignments and Quizzes
    ───────────────────────────────────────────────────────── */
 
 interface ResultData {
-  submission: SubmissionDTO;
+  type: "assignment" | "quiz";
+  title: string;
   feedback: QuestionFeedbackDTO[];
   score: number;
   totalMarks: number;
   scorePercent: number;
   studentName: string;
   studentRoll: string;
+  submittedAt: string;
+  status: string;
 }
 
 export default function StudentResultsPage({
@@ -33,7 +34,7 @@ export default function StudentResultsPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load result data from backend (includes AI-graded feedback)
+  // Load result data from backend (handles both assignments and quizzes)
   useEffect(() => {
     let cancelled = false;
 
@@ -44,32 +45,71 @@ export default function StudentResultsPage({
       setError(null);
 
       try {
-        // Fetch submission with feedback
-        const submission = await fetchApi<SubmissionDTO>(
-          `/submissions/${resolvedParams.submissionId}`,
-          { method: "GET" }
-        );
+        // First try assignment submission endpoint
+        let data: any = null;
+        let type: "assignment" | "quiz" = "assignment";
+        
+        try {
+          data = await fetchApi<SubmissionDTO>(
+            `/submissions/${resolvedParams.submissionId}`,
+            { method: "GET" }
+          );
+        } catch (e: any) {
+          if (e.status === 404) {
+            // Try quiz attempt endpoint
+            data = await fetchApi<any>(
+              `/quiz-attempts/${resolvedParams.submissionId}`,
+              { method: "GET" }
+            );
+            type = "quiz";
+          } else {
+            throw e;
+          }
+        }
 
         if (cancelled) return;
 
-        if (!submission) {
-          setError("Submission not found.");
+        if (!data) {
+          setError("Results not found.");
           setLoading(false);
           return;
         }
 
-        const feedback = submission.feedback || [];
-        const totalMarks = submission.totalMarks ?? 0;
-        const scorePercent = totalMarks > 0 ? Math.round((submission.score / totalMarks) * 100) : 0;
+        let feedback: QuestionFeedbackDTO[] = [];
+        let title = "Assignment";
+        let studentName = data.studentName || "Student";
+        let studentRoll = data.studentRollNumber || "N/A";
+        let submittedAt = data.submittedAt || "";
+        let status = data.status || "SUBMITTED";
+        
+        if (type === "quiz") {
+          feedback = data.feedback || [];
+          title = data.quizTitle || "Quiz";
+          // For quiz, we may not have student info in the same format
+          studentName = data.studentName || "Student";
+          studentRoll = data.studentId || "N/A";
+          submittedAt = data.submittedAt || "";
+          status = data.submittedAt ? "COMPLETED" : "PENDING";
+        } else {
+          feedback = data.feedback || [];
+          title = data.assignmentTitle || "Assignment";
+        }
+
+        const totalMarks = data.totalMarks ?? 0;
+        const score = data.score ?? 0;
+        const scorePercent = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
 
         setResult({
-          submission,
+          type,
+          title,
           feedback,
-          score: submission.score,
+          score,
           totalMarks,
           scorePercent,
-          studentName: submission.studentName || "Student",
-          studentRoll: submission.studentRollNumber || "N/A",
+          studentName,
+          studentRoll,
+          submittedAt,
+          status,
         });
       } catch (err: unknown) {
         if (cancelled) return;
@@ -115,7 +155,7 @@ export default function StudentResultsPage({
   // Render not found
   if (!result) return null;
 
-  const isGraded = result.submission.status === "GRADED";
+  const isGraded = result.status === "GRADED" || result.status === "COMPLETED";
 
   return (
     <div className="max-w-4xl mx-auto pb-12">
@@ -128,17 +168,13 @@ export default function StudentResultsPage({
           Back to Dashboard
         </Link>
         <span className="block font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-primary mb-2">
-          {isGraded ? "Results" : "Submission Details"}
+          {result.type === "quiz" ? "Quiz Results" : isGraded ? "Results" : "Submission Details"}
         </span>
         <h1 className="font-manrope text-[clamp(1.25rem,3vw,1.75rem)] font-extrabold text-on-surface tracking-[-0.02em] leading-[1.2] m-0">
-          {result.submission.assignmentTitle ?? "Assignment Results"}
+          {result.title}
         </h1>
         <p className="text-sm text-on-surface-variant mt-2">
-          Submitted on {new Date(result.submission.submittedAt).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {result.submittedAt ? `Submitted on ${new Date(result.submittedAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}` : "Not submitted yet"}
         </p>
       </header>
 
