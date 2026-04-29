@@ -64,8 +64,10 @@ export default function StudentLoginPage() {
       }
 
       // Set sessionStorage for client-side auth (tab-isolated)
-      // No cookie - cookie is shared across all tabs, defeating tab isolation
       sessionStorage.setItem('shiksha-sathi-token', response.token);
+      
+      // Also set cookie for middleware and server-side logic
+      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       const user = await auth.getMe();
       
