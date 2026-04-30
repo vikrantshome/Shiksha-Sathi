@@ -1,4 +1,4 @@
-import { api } from './api';
+import { fetchApi } from './api/client';
 
 /**
  * Fire-and-forget telemetry utility.
@@ -9,7 +9,10 @@ export function trackEvent(eventName: string, payload?: Record<string, unknown>)
 
   setTimeout(() => {
     try {
-      api.analytics.track(eventName, payload || {}).catch((e: Error) => {
+      fetchApi<void>('/analytics/track', {
+        method: 'POST',
+        body: JSON.stringify({ eventName, payload }),
+      }).catch((e: Error) => {
         console.debug('Telemetry tracking failed silently:', e);
       });
     } catch (error) {
