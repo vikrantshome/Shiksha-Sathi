@@ -46,7 +46,7 @@ export default function StudentResultsPage({
 
       try {
         // First try assignment submission endpoint
-        let data: unknown = null;
+        let data: SubmissionDTO | Record<string, unknown> | null = null;
         let type: "assignment" | "quiz" = "assignment";
         
         try {
@@ -58,7 +58,7 @@ export default function StudentResultsPage({
           const err = e as { status?: number };
           if (err.status === 404) {
             // Try quiz attempt endpoint
-            data = await fetchApi<unknown>(
+            data = await fetchApi<Record<string, unknown>>(
               `/quiz-attempts/${resolvedParams.submissionId}`,
               { method: "GET" }
             );
@@ -78,26 +78,28 @@ export default function StudentResultsPage({
 
         let feedback: QuestionFeedbackDTO[] = [];
         let title = "Assignment";
-        let studentName = data.studentName || "Student";
-        let studentRoll = data.studentRollNumber || "N/A";
-        let submittedAt = data.submittedAt || "";
-        let status = data.status || "SUBMITTED";
+        let studentName = (data as Record<string, unknown>).studentName as string || "Student";
+        let studentRoll = (data as Record<string, unknown>).studentRollNumber as string || "N/A";
+        let submittedAt = (data as Record<string, unknown>).submittedAt as string || "";
+        let status = (data as Record<string, unknown>).status as string || "SUBMITTED";
         
         if (type === "quiz") {
-          feedback = data.feedback || [];
-          title = data.quizTitle || "Quiz";
+          const quizData = data as Record<string, unknown>;
+          feedback = (quizData.feedback as QuestionFeedbackDTO[]) || [];
+          title = (quizData.quizTitle as string) || "Quiz";
           // For quiz, we may not have student info in the same format
-          studentName = data.studentName || "Student";
-          studentRoll = data.studentId || "N/A";
-          submittedAt = data.submittedAt || "";
-          status = data.submittedAt ? "COMPLETED" : "PENDING";
+          studentName = (quizData.studentName as string) || "Student";
+          studentRoll = (quizData.studentId as string) || "N/A";
+          submittedAt = (quizData.submittedAt as string) || "";
+          status = quizData.submittedAt ? "COMPLETED" : "PENDING";
         } else {
-          feedback = data.feedback || [];
-          title = data.assignmentTitle || "Assignment";
+          const submissionData = data as SubmissionDTO;
+          feedback = submissionData.feedback || [];
+          title = submissionData.assignmentTitle || "Assignment";
         }
 
-        const totalMarks = data.totalMarks ?? 0;
-        const score = data.score ?? 0;
+        const totalMarks = (data as Record<string, unknown>).totalMarks as number ?? 0;
+        const score = (data as Record<string, unknown>).score as number ?? 0;
         const scorePercent = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
 
         setResult({

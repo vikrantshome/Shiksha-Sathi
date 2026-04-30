@@ -34,7 +34,7 @@ export default function AssignmentReportPage({
 
   const handleGradeUpdate = async (studentId: string, questionId: string, value: unknown) => {
     if (!report) return;
-    const score = parseInt(value, 10);
+    const score = parseInt(value as string, 10);
     if (isNaN(score)) return;
 
     try {

@@ -9,6 +9,16 @@ import {
   students,
 } from "@/lib/api/students";
 import type { StudentDashboardStats, StudentIdentity, Assignment, SubmissionDTO, Quiz, ClassItem } from "@/lib/api/types";
+
+interface QuizAttempt {
+  id: string;
+  quizId?: string;
+  quizTitle?: string;
+  score?: number;
+  totalMarks?: number;
+  maxScore?: number;
+  submittedAt?: string;
+}
 import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 import Loader from "@/components/Loader";
 import CodeEntryModal from "@/components/CodeEntryModal";
@@ -241,7 +251,7 @@ export default function StudentDashboardPage() {
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
   const [submittedAssignments, setSubmittedAssignments] = useState<SubmissionDTO[]>([]);
   const [pendingQuizzes, setPendingQuizzes] = useState<Quiz[]>([]);
-  const [submittedQuizzes, setSubmittedQuizzes] = useState<unknown[]>([]);
+  const [submittedQuizzes, setSubmittedQuizzes] = useState<QuizAttempt[]>([]);
   const [isLoadingNew, setIsLoadingNew] = useState(false);
 
   useEffect(() => {
@@ -279,7 +289,7 @@ export default function StudentDashboardPage() {
           students.getPendingAssignments(),
           students.getSubmittedAssignments(),
           students.getPendingQuizzes(),
-          students.getSubmittedQuizzes(),
+          students.getSubmittedQuizzes() as Promise<QuizAttempt[]>,
         ]);
         if (!cancelled) {
           setEnrolledClasses(classes);
