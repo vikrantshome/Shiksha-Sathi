@@ -32,6 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!**/.env.example
+
+# Prevent .env in backend resources from ever being committed
+backend/api/src/main/resources/.env
+backend/api/src/main/resources/.env.*
+scripts/**/.env
+scripts/**/.env.*
 
 # vercel
 .vercel

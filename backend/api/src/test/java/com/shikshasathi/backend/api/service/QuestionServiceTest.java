@@ -86,7 +86,7 @@ public class QuestionServiceTest {
         when(mongoTemplate.findDistinct(any(Query.class), eq("provenance.subject"), eq(Question.class), eq(String.class)))
                 .thenReturn(List.of());
 
-        List<String> result = questionService.getDistinctSubjects("NCERT", "7");
+        List<String> result = questionService.getDistinctSubjects("NCERT", "7", "teacher@test.com");
 
         ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);
         verify(mongoTemplate).findDistinct(queryCaptor.capture(), eq("subject_id"), eq(Question.class), eq(String.class));
@@ -116,7 +116,7 @@ public class QuestionServiceTest {
                         "Chapter 1: Number Systems"
                 ));
 
-        List<String> result = questionService.getDistinctChapters("NCERT", "Mathematics", null, "9");
+        List<String> result = questionService.getDistinctChapters("NCERT", "Mathematics", null, "9", "teacher@test.com");
 
         assertEquals(List.of(
                 "Chapter 1: Number Systems",
@@ -141,7 +141,8 @@ public class QuestionServiceTest {
                 null,
                 "ALL",
                 false,
-                true
+                true,
+                "teacher@test.com"
         );
 
         ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);

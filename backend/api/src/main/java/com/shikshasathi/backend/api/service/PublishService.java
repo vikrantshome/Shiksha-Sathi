@@ -22,18 +22,14 @@ public class PublishService {
 
     /**
      * Get publish status for a specific chapter.
+     * Uses filtered repository query instead of findAll() + in-memory filtering.
      */
-    public ChapterPublishStatus getChapterPublishStatus(String board, String classLevel, 
+    public ChapterPublishStatus getChapterPublishStatus(String board, String classLevel,
             String subject, String book, Integer chapterNumber) {
-        
-        List<Question> chapterQuestions = questionRepository.findAll().stream()
-                .filter(q -> q.getProvenance() != null)
-                .filter(q -> board.equals(q.getProvenance().getBoard()))
-                .filter(q -> classLevel.equals(q.getProvenance().getClassLevel()))
-                .filter(q -> subject.equals(q.getProvenance().getSubject()))
-                .filter(q -> book.equals(q.getProvenance().getBook()))
-                .filter(q -> chapterNumber.equals(q.getProvenance().getChapterNumber()))
-                .collect(Collectors.toList());
+
+        List<Question> chapterQuestions = questionRepository
+                .findByProvenanceBoardAndProvenanceClassLevelAndProvenanceSubjectAndProvenanceBookAndProvenanceChapterNumber(
+                        board, classLevel, subject, book, chapterNumber);
 
         long draftCount = chapterQuestions.stream()
                 .filter(q -> "DRAFT".equals(q.getReviewStatus()))
@@ -74,17 +70,15 @@ public class PublishService {
 
     /**
      * Publish all approved questions for a chapter.
+     * Uses filtered repository query instead of findAll() + in-memory filtering.
      */
-    public PublishResult publishChapter(String board, String classLevel, 
+    public PublishResult publishChapter(String board, String classLevel,
             String subject, String book, Integer chapterNumber) {
-        
-        List<Question> approvedQuestions = questionRepository.findAll().stream()
-                .filter(q -> q.getProvenance() != null)
-                .filter(q -> board.equals(q.getProvenance().getBoard()))
-                .filter(q -> classLevel.equals(q.getProvenance().getClassLevel()))
-                .filter(q -> subject.equals(q.getProvenance().getSubject()))
-                .filter(q -> book.equals(q.getProvenance().getBook()))
-                .filter(q -> chapterNumber.equals(q.getProvenance().getChapterNumber()))
+
+        List<Question> approvedQuestions = questionRepository
+                .findByProvenanceBoardAndProvenanceClassLevelAndProvenanceSubjectAndProvenanceBookAndProvenanceChapterNumber(
+                        board, classLevel, subject, book, chapterNumber)
+                .stream()
                 .filter(q -> "APPROVED".equals(q.getReviewStatus()))
                 .collect(Collectors.toList());
 
@@ -104,16 +98,16 @@ public class PublishService {
 
     /**
      * Unpublish questions by ID.
+     * Uses batch fetch instead of per-ID findById() calls.
      */
     public PublishResult unpublishQuestions(List<String> questionIds) {
+        List<Question> questions = questionRepository.findByIdIn(questionIds);
+
         int unpublishedCount = 0;
-        for (String id : questionIds) {
-            Question q = questionRepository.findById(id).orElse(null);
-            if (q != null) {
-                q.setReviewStatus("APPROVED"); // Revert to approved but not published
-                questionRepository.save(q);
-                unpublishedCount++;
-            }
+        for (Question q : questions) {
+            q.setReviewStatus("APPROVED");
+            questionRepository.save(q);
+            unpublishedCount++;
         }
 
         return PublishResult.builder()
@@ -125,19 +119,17 @@ public class PublishService {
 
     /**
      * Get all chapters with their publish status for a class.
+     * Uses filtered repository query instead of findAll() + in-memory filtering.
      */
     public List<ChapterPublishStatus> getClassPublishStatus(String board, String classLevel) {
-        // Get all unique chapter combinations
-        List<Question> allQuestions = questionRepository.findAll().stream()
-                .filter(q -> q.getProvenance() != null)
-                .filter(q -> board.equals(q.getProvenance().getBoard()))
-                .filter(q -> classLevel.equals(q.getProvenance().getClassLevel()))
-                .collect(Collectors.toList());
+        List<Question> allQuestions = questionRepository
+                .findByProvenanceBoardAndProvenanceClassLevel(board, classLevel);
 
         return allQuestions.stream()
-                .collect(Collectors.groupingBy(q -> 
-                    q.getProvenance().getSubject() + "_" + 
-                    q.getProvenance().getBook() + "_" + 
+                .filter(q -> q.getProvenance() != null)
+                .collect(Collectors.groupingBy(q ->
+                    q.getProvenance().getSubject() + "_" +
+                    q.getProvenance().getBook() + "_" +
                     q.getProvenance().getChapterNumber()))
                 .values()
                 .stream()
@@ -145,10 +137,10 @@ public class PublishService {
                     Question first = chapterQuestions.get(0);
                     Provenance p = first.getProvenance();
                     return getChapterPublishStatus(
-                        p.getBoard(), 
-                        p.getClassLevel(), 
-                        p.getSubject(), 
-                        p.getBook(), 
+                        p.getBoard(),
+                        p.getClassLevel(),
+                        p.getSubject(),
+                        p.getBook(),
                         p.getChapterNumber()
                     );
                 })
@@ -157,18 +149,17 @@ public class PublishService {
 
     /**
      * Get summary statistics for publish dashboard.
+     * Uses count queries instead of loading all questions into memory.
      */
     public PublishDashboardSummary getDashboardSummary() {
-        List<Question> allQuestions = questionRepository.findAll();
-        
-        long totalQuestions = allQuestions.size();
-        long draftCount = allQuestions.stream().filter(q -> "DRAFT".equals(q.getReviewStatus())).count();
-        long approvedCount = allQuestions.stream().filter(q -> "APPROVED".equals(q.getReviewStatus())).count();
-        long publishedCount = allQuestions.stream().filter(q -> "PUBLISHED".equals(q.getReviewStatus())).count();
-        long rejectedCount = allQuestions.stream().filter(q -> "REJECTED".equals(q.getReviewStatus())).count();
-        
-        long canonicalCount = allQuestions.stream().filter(q -> "CANONICAL".equals(q.getSourceKind())).count();
-        long derivedCount = allQuestions.stream().filter(q -> "DERIVED".equals(q.getSourceKind())).count();
+        long draftCount = questionRepository.countByReviewStatus("DRAFT");
+        long approvedCount = questionRepository.countByReviewStatus("APPROVED");
+        long publishedCount = questionRepository.countByReviewStatus("PUBLISHED");
+        long rejectedCount = questionRepository.countByReviewStatus("REJECTED");
+        long canonicalCount = questionRepository.countBySourceKind("CANONICAL");
+        long derivedCount = questionRepository.countBySourceKind("DERIVED");
+
+        long totalQuestions = draftCount + approvedCount + publishedCount + rejectedCount;
 
         return PublishDashboardSummary.builder()
                 .totalQuestions(totalQuestions)

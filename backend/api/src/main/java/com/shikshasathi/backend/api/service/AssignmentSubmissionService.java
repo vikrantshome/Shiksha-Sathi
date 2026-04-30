@@ -55,16 +55,27 @@ public class AssignmentSubmissionService {
     public List<SubmissionDTO> getSubmissionsForAssignment(String assignmentId, String teacherEmail) {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(teacherEmail)
             .orElseThrow(() -> new RuntimeException("Teacher not found"));
-            
+
         Assignment assignment = assignmentRepository.findById(assignmentId)
             .orElseThrow(() -> new RuntimeException("Assignment not found"));
-            
+
         if (!teacher.getId().equals(assignment.getTeacherId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized to view submissions for this assignment");
         }
-    
-        return submissionRepository.findByAssignmentId(assignmentId).stream()
-                .map(this::mapToDTO)
+
+        List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
+
+        // Batch fetch all students and assignments to eliminate N+1 in mapToDTO
+        List<String> studentIds = submissions.stream()
+                .map(AssignmentSubmission::getStudentId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<String, com.shikshasathi.backend.core.domain.user.User> userMap = userRepository.findAllById(studentIds)
+                .stream()
+                .collect(Collectors.toMap(com.shikshasathi.backend.core.domain.user.User::getId, u -> u));
+
+        return submissions.stream()
+                .map(s -> mapToDTO(s, userMap, assignment))
                 .collect(Collectors.toList());
     }
 
@@ -103,16 +114,24 @@ public class AssignmentSubmissionService {
     }
 
     private SubmissionDTO mapToDTO(AssignmentSubmission submission) {
+        return mapToDTO(submission, Map.of(), null);
+    }
+
+    private SubmissionDTO mapToDTO(AssignmentSubmission submission,
+                                    Map<String, com.shikshasathi.backend.core.domain.user.User> userMap,
+                                    Assignment assignment) {
         String fallbackRollNumber = firstNonBlank(submission.getStudentRollNumber(), submission.getStudentId());
         String fallbackName = fallbackRollNumber == null ? "Unknown Student" : "Student " + fallbackRollNumber;
+
+        com.shikshasathi.backend.core.domain.user.User user = userMap.get(submission.getStudentId());
         String studentName = firstNonBlank(
                 submission.getStudentName(),
-                userRepository.findById(submission.getStudentId()).map(u -> u.getName()).orElse(null),
+                user != null ? user.getName() : null,
                 fallbackName
         );
         String studentRollNumber = firstNonBlank(
                 submission.getStudentRollNumber(),
-                userRepository.findById(submission.getStudentId()).map(u -> u.getRollNumber()).orElse(null),
+                user != null ? user.getRollNumber() : null,
                 fallbackRollNumber,
                 "N/A"
         );
@@ -134,10 +153,15 @@ public class AssignmentSubmissionService {
                 .build();
 
         // Enrich with assignment metadata
-        assignmentRepository.findById(submission.getAssignmentId()).ifPresent(assignment -> {
+        if (assignment != null) {
             dto.setAssignmentTitle(assignment.getTitle());
             dto.setTotalMarks(assignment.getMaxScore());
-        });
+        } else {
+            assignmentRepository.findById(submission.getAssignmentId()).ifPresent(a -> {
+                dto.setAssignmentTitle(a.getTitle());
+                dto.setTotalMarks(a.getMaxScore());
+            });
+        }
 
         return dto;
     }
@@ -246,8 +270,13 @@ public class AssignmentSubmissionService {
         boolean hasAIFailure = false;
         Map<String, Object> answers = submission.getAnswers();
 
+        // Batch fetch all questions to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
         for (String questionId : assignment.getQuestionIds()) {
-            Question question = questionRepository.findById(questionId).orElse(null);
+            Question question = questionMap.get(questionId);
             if (question == null) {
                 continue;
             }

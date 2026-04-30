@@ -46,9 +46,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/derived-questions/**").permitAll()
                 // Allow school search (public for signup and student identity forms)
                 .requestMatchers(HttpMethod.GET, "/api/v1/schools/**").permitAll()
-                // Allow admin derived question management (approve/reject/publish/generate)
-                .requestMatchers(HttpMethod.POST, "/api/v1/derived-questions/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/questions/**").permitAll()
+                // Admin derived question management — now requires authentication
+                // .requestMatchers(HttpMethod.POST, "/api/v1/derived-questions/**").permitAll()
+                // .requestMatchers(HttpMethod.POST, "/api/v1/questions/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend-lint:
+    name: Frontend Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --coverage
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: coverage/
+        if: always()
+
+  backend-build:
+    name: Backend Build & Test
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_URI: mongodb://localhost:27017/test
+      JWT_SECRET: test-secret-key-for-ci-pipeline-must-be-at-least-256-bits-long-for-hmac-sha256-signing!!
+      NVIDIA_API_KEY: test-key-not-used-in-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 23
+          distribution: temurin
+          cache: gradle
+      - name: Build and Test
+        run: |
+          cd backend
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-test-results
+          path: backend/**/build/reports/tests/
+
+  security-check:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high || true
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 23
+          distribution: temurin
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Checking for hardcoded secrets..."
+          # Check that no .env files exist in source tree
+          if [ -f "backend/api/src/main/resources/.env" ]; then
+            echo "ERROR: .env file found in backend resources"
+            exit 1
+          fi
+          echo "No hardcoded .env files found in source tree"
