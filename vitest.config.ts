@@ -14,6 +14,7 @@ export default defineConfig({
       'e2e/**',
       'tests/**',
       'src/app/teacher/assignments/[id]/__tests__/page.test.tsx',
+      'src/app/teacher/profile/__tests__/page.test.tsx',
       'src/app/student/assignment/[linkId]/__tests__/page.test.tsx',
       'src/components/__tests__/ProfileForm.test.tsx',
       'src/components/__tests__/QuestionCard.test.tsx',
