@@ -25,7 +25,7 @@ export interface SignupRequest {
 }
 
 export const auth = {
-  login: (data: LoginRequest) => 
+  login: (data: LoginRequest) =>
     fetchApi<AuthResponse>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -41,4 +41,12 @@ export const auth = {
     fetchApi<User>('/auth/me', {
       method: 'GET',
     }),
+
+  logout: () => {
+    if (typeof window === 'undefined') return;
+
+    // Clear sessionStorage - tab-isolated (current tab only)
+    // Does NOT affect other tabs
+    sessionStorage.removeItem('shiksha-sathi-token');
+  },
 };

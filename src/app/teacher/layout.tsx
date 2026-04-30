@@ -1,6 +1,7 @@
 "use client";
 
 import { AssignmentProvider } from "@/components/AssignmentContext";
+import { api } from "@/lib/api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CartIcon from "@/components/CartIcon";
@@ -132,7 +133,7 @@ export default function TeacherLayout({
 
   const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
-    sessionStorage.removeItem('shiksha-sathi-token');
+    api.auth.logout();
     router.push("/login");
   };
 

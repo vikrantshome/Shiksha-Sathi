@@ -20,7 +20,7 @@ export default function StudentLoginPage() {
   const [redirectUrl, setRedirectUrl] = useState("/student/dashboard");
 
   useEffect(() => {
-    const stored = localStorage.getItem("shiksha-sathi-student-identity");
+    const stored = sessionStorage.getItem("shiksha-sathi-student-identity");
     const token = sessionStorage.getItem("shiksha-sathi-token");
     if (stored && token) {
       router.replace("/student/dashboard");

@@ -12,16 +12,16 @@ import {
 
 const STORAGE_KEY = 'shiksha-sathi-student-identity';
 
-/* ── Identity Persistence (localStorage) ── */
+/* ── Identity Persistence (sessionStorage - tab-isolated) ── */
 
 export function saveStudentIdentity(identity: StudentIdentity): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(identity));
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(identity));
 }
 
 export function getStudentIdentity(): StudentIdentity | null {
   if (typeof window === 'undefined') return null;
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = sessionStorage.getItem(STORAGE_KEY);
   if (!stored) return null;
   try {
     return JSON.parse(stored) as StudentIdentity;
@@ -32,7 +32,7 @@ export function getStudentIdentity(): StudentIdentity | null {
 
 export function clearStudentIdentity(): void {
   if (typeof window === 'undefined') return;
-  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
 }
 
 /* ── Enrichment Cache ── */

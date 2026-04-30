@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getStudentIdentity, clearStudentIdentity } from "@/lib/api/students";
+import { api } from "@/lib/api";
 import { useState, useSyncExternalStore } from "react";
 import CodeEntryModal from "@/components/CodeEntryModal";
 
@@ -110,7 +111,7 @@ export default function StudentLayout({
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('shiksha-sathi-token');
+    api.auth.logout();
     window.location.href = "/";
   };
 
