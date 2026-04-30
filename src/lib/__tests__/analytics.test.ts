@@ -24,7 +24,7 @@ describe('Analytics trackEvent', () => {
 
     expect(fetchApi).toHaveBeenCalledWith('/analytics/track', expect.objectContaining({
       method: 'POST',
-      body: expect.stringContaining('"event":"class_created"')
+      body: expect.stringContaining('"eventName":"class_created"')
     }));
   });
 

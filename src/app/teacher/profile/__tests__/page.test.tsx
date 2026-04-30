@@ -49,7 +49,7 @@ describe('ProfilePage', () => {
     const Page = await ProfilePage();
     render(Page);
 
-    expect(screen.getByText('Teacher Profile')).toBeInTheDocument();
+    expect(screen.getByText('Your Profile')).toBeInTheDocument();
     expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: 'Test Teacher', school: '', board: 'CBSE' }));
   });
 
