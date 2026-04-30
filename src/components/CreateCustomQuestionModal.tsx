@@ -118,7 +118,7 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Question Type</label>
-              <select value={type} onChange={e => setType(e.target.value)} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
+              <select value={type} onChange={e => setType(e.target.value as "MCQ" | "SHORT_ANSWER")} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
                 <option value="MCQ">Multiple Choice</option>
                 <option value="SHORT_ANSWER">Short Answer</option>
               </select>
