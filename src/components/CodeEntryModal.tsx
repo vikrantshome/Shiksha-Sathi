@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 
 interface CodeEntryModalProps {
@@ -22,9 +22,8 @@ export default function CodeEntryModal({
 }: CodeEntryModalProps) {
   const [code, setCode] = useState("");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isOpen) {
-      setCode("");
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';

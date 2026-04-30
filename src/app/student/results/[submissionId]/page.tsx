@@ -46,7 +46,7 @@ export default function StudentResultsPage({
 
       try {
         // First try assignment submission endpoint
-        let data: any = null;
+        let data: unknown = null;
         let type: "assignment" | "quiz" = "assignment";
         
         try {
@@ -54,10 +54,11 @@ export default function StudentResultsPage({
             `/submissions/${resolvedParams.submissionId}`,
             { method: "GET" }
           );
-        } catch (e: any) {
-          if (e.status === 404) {
+        } catch (e: unknown) {
+          const err = e as { status?: number };
+          if (err.status === 404) {
             // Try quiz attempt endpoint
-            data = await fetchApi<any>(
+            data = await fetchApi<unknown>(
               `/quiz-attempts/${resolvedParams.submissionId}`,
               { method: "GET" }
             );

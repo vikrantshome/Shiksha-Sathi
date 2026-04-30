@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export default function CountdownRing({
   secondsRemaining,
@@ -12,19 +12,12 @@ export default function CountdownRing({
   totalSeconds?: number;
   size?: number;
 }) {
-  const [maxSeconds, setMaxSeconds] = useState<number | null>(null);
+  const normalizedMax = useMemo(() => {
+    if (typeof totalSeconds === "number" && totalSeconds > 0) return totalSeconds;
+    if (typeof secondsRemaining === "number") return secondsRemaining;
+    return 30;
+  }, [totalSeconds, secondsRemaining]);
 
-  useEffect(() => {
-    if (typeof totalSeconds === "number" && totalSeconds > 0) {
-      setMaxSeconds(totalSeconds);
-      return;
-    }
-    if (typeof secondsRemaining === "number") {
-      setMaxSeconds((prev) => (prev == null ? secondsRemaining : prev));
-    }
-  }, [secondsRemaining, totalSeconds]);
-
-  const normalizedMax = maxSeconds && maxSeconds > 0 ? maxSeconds : 30;
   const remaining = typeof secondsRemaining === "number" ? Math.max(secondsRemaining, 0) : null;
 
   const { radius, circumference, progress } = useMemo(() => {

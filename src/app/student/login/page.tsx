@@ -17,21 +17,21 @@ export default function StudentLoginPage() {
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateProfile | null>(null);
   const [loginData, setLoginData] = useState<{ phone: string; password: string } | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState("/student/dashboard");
+  const [redirectUrl] = useState(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const dest = params.get("redirect");
+      return dest && dest.startsWith("/") ? dest : "/student/dashboard";
+    } catch {
+      return "/student/dashboard";
+    }
+  });
 
   useEffect(() => {
     const stored = sessionStorage.getItem("shiksha-sathi-student-identity");
     const token = sessionStorage.getItem("shiksha-sathi-token");
     if (stored && token) {
       router.replace("/student/dashboard");
-    }
-    // Capture redirect param so we can bounce back after login
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const dest = params.get("redirect");
-      if (dest && dest.startsWith("/")) setRedirectUrl(dest);
-    } catch {
-      // ignore
     }
   }, [router]);
 

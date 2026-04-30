@@ -11,9 +11,9 @@ interface Column {
 
 interface DataGridProps {
   columns: Column[];
-  data: any[];
+  data: Record<string, unknown>[];
   rowKey: string;
-  onCellChange?: (rowId: string, colKey: string, value: any) => void;
+  onCellChange?: (rowId: string, colKey: string, value: unknown) => void;
 }
 
 export default function DataGrid({ columns, data, rowKey, onCellChange }: DataGridProps) {

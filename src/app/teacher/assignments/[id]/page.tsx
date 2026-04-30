@@ -32,7 +32,7 @@ export default function AssignmentReportPage({
       .finally(() => setIsLoading(false));
   }, [resolvedParams.id]);
 
-  const handleGradeUpdate = async (studentId: string, questionId: string, value: any) => {
+  const handleGradeUpdate = async (studentId: string, questionId: string, value: unknown) => {
     if (!report) return;
     const score = parseInt(value, 10);
     if (isNaN(score)) return;
@@ -64,7 +64,7 @@ export default function AssignmentReportPage({
     ];
 
     const data = submissions.map(sub => {
-      const row: any = { id: sub.studentId, student: sub.studentName, total: `${sub.score} / ${assignment.totalMarks}` };
+      const row: Record<string, unknown> = { id: sub.studentId, student: sub.studentName, total: `${sub.score} / ${assignment.totalMarks}` };
       // Map scores from the feedback array added in the backend PR
       if (sub.feedback) {
         sub.feedback.forEach((f: QuestionFeedback) => {
@@ -243,7 +243,7 @@ export default function AssignmentReportPage({
             <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl flex items-start gap-3">
               <div className="mt-0.5 text-[#12423f]">💡</div>
               <p className="text-xs text-[#404847] leading-relaxed m-0">
-                <span className="font-bold text-[#12423f]">Manual Grading:</span> Clicking into a question cell (Q1, Q2...) allows you to override the AI's calculation. The total score for the student will automatically update upon saving.
+                <span className="font-bold text-[#12423f]">Manual Grading:</span> Clicking into a question cell (Q1, Q2...) allows you to override the AI&apos;s calculation. The total score for the student will automatically update upon saving.
               </p>
             </div>
         </div>

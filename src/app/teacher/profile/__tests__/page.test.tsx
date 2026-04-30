@@ -1,10 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ProfilePage from '../page';
-import { ProfileResponse } from '@/lib/api/types';
+import { ProfileResponse, User } from '@/lib/api/types';
 
 vi.mock('@/lib/api', () => ({
   api: {
+    auth: {
+      getMe: vi.fn(),
+    },
     teachers: {
       getProfile: vi.fn(),
     },
@@ -31,6 +34,12 @@ import { api } from '@/lib/api';
 describe('ProfilePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(api.auth.getMe).mockResolvedValue({
+      id: 'teacher-1',
+      name: 'Test Teacher',
+      email: 'test@example.com',
+      role: 'TEACHER',
+    } as User);
     vi.mocked(api.teachers.getProfile).mockRejectedValue({ status: 404 });
   });
 
@@ -41,7 +50,7 @@ describe('ProfilePage', () => {
     render(Page);
 
     expect(screen.getByText('Teacher Profile')).toBeInTheDocument();
-    expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: '', school: '', board: 'CBSE' }));
+    expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: 'Test Teacher', school: '', board: 'CBSE' }));
   });
 
   it('renders ProfilePage with fetched profile data', async () => {

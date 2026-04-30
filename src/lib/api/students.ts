@@ -73,7 +73,7 @@ export const students = {
       let assignment = null;
       try {
         assignment = await getAssignment(s.assignmentId);
-      } catch (e) {
+      } catch {
         // Assignment fetch failed, continue without it
       }
 
@@ -183,8 +183,8 @@ export const students = {
   /**
    * Get submitted quizzes (with scores) for the current student.
    */
-  getSubmittedQuizzes: async (): Promise<any[]> => {
-    return fetchApi<any[]>('/students/me/quizzes/submitted', {
+  getSubmittedQuizzes: async (): Promise<unknown[]> => {
+    return fetchApi<unknown[]>('/students/me/quizzes/submitted', {
       method: 'GET',
     });
   },

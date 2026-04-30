@@ -241,7 +241,7 @@ export default function StudentDashboardPage() {
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
   const [submittedAssignments, setSubmittedAssignments] = useState<SubmissionDTO[]>([]);
   const [pendingQuizzes, setPendingQuizzes] = useState<Quiz[]>([]);
-  const [submittedQuizzes, setSubmittedQuizzes] = useState<any[]>([]);
+  const [submittedQuizzes, setSubmittedQuizzes] = useState<unknown[]>([]);
   const [isLoadingNew, setIsLoadingNew] = useState(false);
 
   useEffect(() => {
