@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,10 +58,11 @@ public class QuizService {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized for this class");
         }
 
-        // Validate question types
-        List<Question> questions = request.getQuestionIds().stream()
-                .map(qId -> questionRepository.findById(qId).orElseThrow(() -> new IllegalArgumentException("Question not found: " + qId)))
-                .collect(Collectors.toList());
+        // Validate question types — batch fetch to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(request.getQuestionIds());
+        if (questions.size() != request.getQuestionIds().size()) {
+            throw new IllegalArgumentException("One or more questions not found");
+        }
         for (Question q : questions) {
             if (q.getType() == null || !SUPPORTED_QUIZ_TYPES.contains(q.getType())) {
                 throw new IllegalArgumentException("Unsupported quiz question type: " + q.getType());
@@ -150,9 +152,14 @@ public class QuizService {
             throw new RuntimeException("Quiz is not available.");
         }
 
-        List<StudentQuestionDTO> questions = quiz.getQuestionIds().stream()
+        // Batch fetch all questions to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(quiz.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        List<StudentQuestionDTO> questionsList = quiz.getQuestionIds().stream()
                 .map(qId -> {
-                    Question q = questionRepository.findById(qId).orElse(null);
+                    Question q = questionMap.get(qId);
                     if (q == null) return null;
                     int marks = quiz.getQuestionPointsMap() != null ? quiz.getQuestionPointsMap().getOrDefault(qId, q.getPoints() != null ? q.getPoints() : 1) : (q.getPoints() != null ? q.getPoints() : 1);
                     return StudentQuestionDTO.builder()
@@ -170,14 +177,14 @@ public class QuizService {
                 .filter(q -> q != null)
                 .collect(Collectors.toList());
 
-        int total = questions.stream().mapToInt(q -> q.getMarks() == null ? 0 : q.getMarks()).sum();
+        int total = questionsList.stream().mapToInt(q -> q.getMarks() == null ? 0 : q.getMarks()).sum();
 
         return StudentQuizDTO.builder()
                 .id(quiz.getId())
                 .title(quiz.getTitle())
                 .timePerQuestionSec(quiz.getTimePerQuestionSec())
                 .totalMarks(total)
-                .questions(questions)
+                .questions(questionsList)
                 .build();
     }
 

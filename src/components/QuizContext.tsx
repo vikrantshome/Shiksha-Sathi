@@ -35,15 +35,8 @@ function saveQuestions(questions: Question[]) {
 }
 
 export function QuizProvider({ children }: { children: ReactNode }) {
-  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
-  const [initialized, setInitialized] = useState(false);
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const saved = loadQuestions();
-    setSelectedQuestions(saved);
-    setInitialized(true);
-  }, []);
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>(() => loadQuestions());
+  const [initialized] = useState(true);
 
   // Save to localStorage whenever questions change
   useEffect(() => {

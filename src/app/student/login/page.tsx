@@ -17,21 +17,21 @@ export default function StudentLoginPage() {
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateProfile | null>(null);
   const [loginData, setLoginData] = useState<{ phone: string; password: string } | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState("/student/dashboard");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("shiksha-sathi-student-identity");
-    const token = sessionStorage.getItem("shiksha-sathi-token");
-    if (stored && token) {
-      router.replace("/student/dashboard");
-    }
-    // Capture redirect param so we can bounce back after login
+  const [redirectUrl] = useState(() => {
     try {
       const params = new URLSearchParams(window.location.search);
       const dest = params.get("redirect");
-      if (dest && dest.startsWith("/")) setRedirectUrl(dest);
+      return dest && dest.startsWith("/") ? dest : "/student/dashboard";
     } catch {
-      // ignore
+      return "/student/dashboard";
+    }
+  });
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("shiksha-sathi-student-identity");
+    const token = sessionStorage.getItem("shiksha-sathi-token");
+    if (stored && token) {
+      router.replace("/student/dashboard");
     }
   }, [router]);
 
@@ -64,8 +64,10 @@ export default function StudentLoginPage() {
       }
 
       // Set sessionStorage for client-side auth (tab-isolated)
-      // No cookie - cookie is shared across all tabs, defeating tab isolation
       sessionStorage.setItem('shiksha-sathi-token', response.token);
+      
+      // Also set cookie for middleware and server-side logic
+      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       const user = await auth.getMe();
       

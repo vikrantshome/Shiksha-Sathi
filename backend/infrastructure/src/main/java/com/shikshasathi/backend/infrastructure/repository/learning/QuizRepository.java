@@ -13,5 +13,8 @@ public interface QuizRepository extends MongoRepository<Quiz, String> {
     Optional<Quiz> findBySelfPacedCode(String selfPacedCode);
     boolean existsBySelfPacedCode(String selfPacedCode);
     List<Quiz> findByClassId(String classId);
+
+    // Batch fetch for N+1 elimination
+    List<Quiz> findByClassIdIn(List<String> classIds);
 }
 

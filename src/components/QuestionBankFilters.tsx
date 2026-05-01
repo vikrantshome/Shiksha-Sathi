@@ -419,7 +419,7 @@ export default function QuestionBankFilters({
               </label>
             )}
 
-            {currentSubject && (
+            {currentSubject && (books.length <= 1 || currentBook) && (
               <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Chapter
@@ -595,7 +595,7 @@ export default function QuestionBankFilters({
         )}
 
         {/* ── Chapter List ── */}
-        {currentSubject && (
+        {currentSubject && (books.length <= 1 || currentBook) && (
           <div>
             <TaxonomyStep
               icon={<IconChapter />}

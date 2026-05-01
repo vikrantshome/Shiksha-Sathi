@@ -1,6 +1,9 @@
 spring:
   application:
     name: shikshasathi-backend
+  # Enable request logging via filter
+  mvc:
+    log-request-details: true
   jackson:
     time-zone: Asia/Kolkata
   data:
@@ -22,7 +25,7 @@ management:
         include: health,info,metrics
   endpoint:
     health:
-      show-details: always
+      show-details: when_authorized
 
 ai-grading:
   enabled: ${AI_GRADING_ENABLED:true}
@@ -35,3 +38,11 @@ ai-grading:
   timeout-ms: ${AI_GRADING_TIMEOUT_MS:30000}
   temperature: ${AI_GRADING_TEMPERATURE:0.1}
   fallback-to-string-match: ${AI_GRADING_FALLBACK:false}
+
+logging:
+  level:
+    com.shikshasathi: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %X{correlationId:-} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"

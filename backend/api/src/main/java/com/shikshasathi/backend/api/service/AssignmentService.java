@@ -21,6 +21,7 @@ import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepos
 import com.shikshasathi.backend.infrastructure.repository.school.ClassRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
@@ -79,9 +81,14 @@ public class AssignmentService {
                 })
                 .collect(Collectors.toList());
 
+        // Batch fetch all questions to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
         List<QuestionPerformance> questionStats = assignment.getQuestionIds().stream()
                 .map(qId -> {
-                    Question question = questionRepository.findById(qId).orElse(null);
+                    Question question = questionMap.get(qId);
                     if (question == null) return null;
 
                     long correctCount = submissions.stream()
@@ -201,8 +208,14 @@ public class AssignmentService {
         
         List<Assignment> assignments = assignmentRepository.findByTeacherId(teacherId);
         
+        // Batch fetch all submissions to eliminate N+1
+        List<String> assignmentIds = assignments.stream().map(Assignment::getId).collect(Collectors.toList());
+        Map<String, List<AssignmentSubmission>> submissionsByAssignment = submissionRepository.findAllByAssignmentIdIn(assignmentIds)
+                .stream()
+                .collect(Collectors.groupingBy(AssignmentSubmission::getAssignmentId));
+
         return assignments.stream().map(assignment -> {
-            List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignment.getId());
+            List<AssignmentSubmission> submissions = submissionsByAssignment.getOrDefault(assignment.getId(), List.of());
             return mapToStats(assignment, submissions);
         }).collect(Collectors.toList());
     }
@@ -237,9 +250,14 @@ public class AssignmentService {
                 .ifPresent(u -> assignment.setTeacherName(u.getName()));
         }
         
-        List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
+        // Batch fetch all questions to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        List<StudentQuestionDTO> questionsList = assignment.getQuestionIds().stream()
                 .map(qId -> {
-                    Question q = questionRepository.findById(qId).orElse(null);
+                    Question q = questionMap.get(qId);
                     if (q == null) return null;
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
@@ -262,7 +280,7 @@ public class AssignmentService {
                 .classId(assignment.getClassId())
                 .dueDate(assignment.getDueDate())
                 .totalMarks(assignment.getMaxScore())
-                .questions(questions)
+                .questions(questionsList)
                 .teacherName(assignment.getTeacherName())
                 .build();
     }
@@ -279,9 +297,14 @@ public class AssignmentService {
             throw new RuntimeException("Assignment is not yet available.");
         }
 
-        List<StudentQuestionDTO> questions = assignment.getQuestionIds().stream()
+        // Batch fetch all questions to eliminate N+1
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        List<StudentQuestionDTO> questionsList = assignment.getQuestionIds().stream()
                 .map(qId -> {
-                    Question q = questionRepository.findById(qId).orElse(null);
+                    Question q = questionMap.get(qId);
                     if (q == null) return null;
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
@@ -304,7 +327,7 @@ public class AssignmentService {
                 .classId(assignment.getClassId())
                 .dueDate(assignment.getDueDate())
                 .totalMarks(assignment.getMaxScore())
-                .questions(questions)
+                .questions(questionsList)
                 .build();
     }
 
@@ -337,19 +360,28 @@ public class AssignmentService {
     }
 
     public Assignment createAssignment(Assignment assignment, String loginIdentity) {
+        log.debug("Creating assignment '{}' for loginIdentity: {}", assignment.getTitle(), loginIdentity);
+
         User teacher = resolveTeacher(loginIdentity);
+        log.debug("Resolved teacher: {} (id: {})", teacher.getName(), teacher.getId());
 
         if (assignment.getQuestionIds() == null || assignment.getQuestionIds().isEmpty()) {
+            log.error("Assignment creation failed: no questions provided");
             throw new IllegalArgumentException("Assignment must have at least one question.");
         }
         if (assignment.getMaxScore() == null || assignment.getMaxScore() <= 0) {
+            log.error("Assignment creation failed: invalid max score: {}", assignment.getMaxScore());
             throw new IllegalArgumentException("Assignment must have a valid max score.");
         }
 
         assignment.setTeacherId(teacher.getId());
         assignment.setStatus("DRAFT");
         assignment.setCode(generateUniqueCode());
+        log.debug("Saving assignment with teacherId: {}", teacher.getId());
+
         Assignment saved = assignmentRepository.save(assignment);
+        log.info("Assignment created successfully: id={}, title='{}', teacherId={}", saved.getId(), saved.getTitle(), saved.getTeacherId());
+
         saved.setTeacherName(teacher.getName());
         return saved;
     }
@@ -427,6 +459,10 @@ public class AssignmentService {
         Map<String, List<AssignmentSubmission>> studentSubmissions = submissions.stream()
                 .collect(Collectors.groupingBy(AssignmentSubmission::getStudentId));
 
+        // Build lookup map to avoid O(n) stream filter per submission
+        Map<String, Assignment> assignmentMap = assignments.stream()
+                .collect(Collectors.toMap(Assignment::getId, a -> a));
+
         List<com.shikshasathi.backend.api.dto.ClassGradebookDTO.StudentPerformance> studentPerformances = studentSubmissions.entrySet().stream()
                 .map(entry -> {
                     String studentId = entry.getKey();
@@ -438,7 +474,7 @@ public class AssignmentService {
 
                     double avg = subs.stream()
                             .mapToDouble(s -> {
-                                Assignment a = assignments.stream().filter(as -> as.getId().equals(s.getAssignmentId())).findFirst().orElse(null);
+                                Assignment a = assignmentMap.get(s.getAssignmentId());
                                 if (a == null || a.getMaxScore() == 0) return 0.0;
                                 return (s.getScore() * 100.0) / a.getMaxScore();
                             })

@@ -118,8 +118,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student1")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
-        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
+        when(questionRepository.findByIdIn(List.of("q1", "q2"))).thenReturn(List.of(question1, question2));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -178,8 +177,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student2")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
-        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
+        when(questionRepository.findByIdIn(List.of("q1", "q2"))).thenReturn(List.of(question1, question2));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -214,8 +212,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student3")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
-        when(questionRepository.findById("q2")).thenReturn(Optional.of(question2));
+        when(questionRepository.findByIdIn(List.of("q1", "q2"))).thenReturn(List.of(question1, question2));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -258,7 +255,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student4")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -294,7 +291,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student5")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -323,7 +320,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student6")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -353,7 +350,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student7")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -397,7 +394,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student8")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -449,8 +446,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student9")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(q1));
-        when(questionRepository.findById("q2")).thenReturn(Optional.of(q2));
+        when(questionRepository.findByIdIn(List.of("q1", "q2"))).thenReturn(List.of(q1, q2));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);
@@ -480,7 +476,7 @@ public class AssignmentSubmissionServiceTest {
 
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student10")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
-        when(questionRepository.findById("q1")).thenReturn(Optional.of(question1));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
         when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SubmitAssignmentResponseDTO result = submissionService.submitAssignment(submission);

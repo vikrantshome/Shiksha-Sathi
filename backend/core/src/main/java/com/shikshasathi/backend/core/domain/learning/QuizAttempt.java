@@ -24,6 +24,9 @@ public class QuizAttempt extends BaseEntity {
     @Field("student_id")
     private String studentId;
 
+    @Field("student_roll_number")
+    private String studentRollNumber;
+
     @Field("started_at")
     private Instant startedAt;
 

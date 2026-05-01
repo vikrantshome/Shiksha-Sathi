@@ -98,7 +98,7 @@ export default function AssignmentDashboard({ initialAssignments, totalSubmissio
   }, [gradebook]);
 
   const filteredAndSorted = useMemo(() => {
-    let list = initialAssignments.filter(a => {
+    const list = initialAssignments.filter(a => {
       const matchesSearch = a.title.toLowerCase().includes(search.toLowerCase());
       const matchesClass = classFilter === "all" || a.className === classFilter;
       const matchesStatus = statusFilter === "all" || a.status === statusFilter;

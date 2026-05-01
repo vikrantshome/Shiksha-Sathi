@@ -11,9 +11,9 @@ interface Column {
 
 interface DataGridProps {
   columns: Column[];
-  data: any[];
+  data: Record<string, unknown>[];
   rowKey: string;
-  onCellChange?: (rowId: string, colKey: string, value: any) => void;
+  onCellChange?: (rowId: string, colKey: string, value: unknown) => void;
 }
 
 export default function DataGrid({ columns, data, rowKey, onCellChange }: DataGridProps) {
@@ -47,29 +47,31 @@ export default function DataGrid({ columns, data, rowKey, onCellChange }: DataGr
           </tr>
         </thead>
         <tbody className="divide-y divide-[#c0c8c6]/10">
-          {localData.map((row) => (
-            <tr key={row[rowKey]} className="hover:bg-[#f6f3ef] transition-colors">
+          {localData.map((row) => {
+            const rowId = String(row[rowKey]);
+            return (
+            <tr key={rowId} className="hover:bg-[#f6f3ef] transition-colors">
               {columns.map((col, i) => (
                 <td 
-                  key={`${row[rowKey]}-${col.key}`} 
+                  key={`${rowId}-${col.key}`} 
                   className={`p-0 border-r border-[#c0c8c6]/10 last:border-r-0 ${i === 0 ? 'sticky left-0 bg-white z-10 px-4 py-3 font-semibold text-[#1c1c1a] shadow-[1px_0_0_rgba(192,200,198,0.3)]' : 'px-4 py-3 text-[#404847]'}`}
                 >
                   {col.editable ? (
                     <input 
                       type="number"
-                      defaultValue={row[col.key]}
-                      onBlur={(e) => handleBlur(row[rowKey], col.key, e)}
+                      defaultValue={Number(row[col.key])}
+                      onBlur={(e) => handleBlur(rowId, col.key, e)}
                       className="w-full h-full p-0 text-center bg-transparent outline-none focus:text-[#12423f] font-bold transition-all"
                     />
                   ) : (
                     <div>
-                      {row[col.key]}
+                      {String(row[col.key] ?? '')}
                     </div>
                   )}
                 </td>
               ))}
             </tr>
-          ))}
+          )})}
         </tbody>
       </table>
     </div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 import { useState } from "react";
 
 /* ─────────────────────────────────────────────────────────
@@ -98,7 +99,7 @@ export default function AdminLayout({
 
   const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
-    sessionStorage.removeItem('shiksha-sathi-token');
+    api.auth.logout();
     router.push("/login");
   };
 
