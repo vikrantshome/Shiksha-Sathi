@@ -59,8 +59,21 @@ dependencies {
 }
 
 test {
-    filter {
-        excludeTestsMatching "*IntegrationTest"
+    // Load .env.local into test environment so @EnabledIfEnvironmentVariable works locally
+    def inheritedEnv = System.getenv()
+    def envFile = new File(rootProject.projectDir.parentFile, '.env.local')
+    if (envFile.exists()) {
+        parseDotEnv(envFile).each { key, value ->
+            if (!inheritedEnv.containsKey(key)) {
+                environment key, value
+            }
+        }
+    }
+    // Skip integration tests in CI (dummy NVIDIA_API_KEY) — they require real API key
+    if (System.getenv('CI') || System.getenv('NVIDIA_API_KEY') == 'test-key-not-used-in-ci') {
+        filter {
+            excludeTestsMatching "*IntegrationTest"
+        }
     }
 }
 
