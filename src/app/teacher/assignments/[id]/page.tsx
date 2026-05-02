@@ -201,7 +201,7 @@ export default function AssignmentReportPage({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[var(--color-outline-variant)]/10">
-                      {submissions.map((sub) => (
+                      {[...submissions].sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()).map((sub) => (
                         <tr 
                           key={sub.id} 
                           className="hover:bg-[var(--color-surface-container-high)] transition-colors cursor-pointer"
