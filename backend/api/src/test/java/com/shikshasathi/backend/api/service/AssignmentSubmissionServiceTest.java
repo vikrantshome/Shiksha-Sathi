@@ -527,4 +527,140 @@ public class AssignmentSubmissionServiceTest {
         assertEquals(8, updated.getScore(), "Total score should be 8 after manual update");
         verify(submissionRepository).save(submission);
     }
+
+    @Test
+    void regradeSubmission_UpdatesFailedQuestionsOnly() throws Exception {
+        // Setup submission with 2 questions: 1 failed AI, 1 success
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setId("sub123");
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student9");
+        submission.setAnswers(Map.of("q1", "answer1", "q2", "answer2"));
+        submission.setStatus("PARTIALLY_GRADED");
+        submission.setScore(2);
+        
+        List<QuestionFeedbackDTO> feedback = List.of(
+            QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("Question 1")
+                .studentAnswer("answer1")
+                .correctAnswer("correct1")
+                .isCorrect(false)
+                .marksAwarded(0)
+                .aiGradingFailed(true)
+                .build(),
+            QuestionFeedbackDTO.builder()
+                .questionId("q2")
+                .questionText("Question 2")
+                .studentAnswer("answer2")
+                .correctAnswer("correct2")
+                .isCorrect(true)
+                .marksAwarded(2)
+                .aiGradingFailed(false)
+                .build()
+        );
+        submission.setFeedbackJson(new ObjectMapper().writeValueAsString(feedback));
+
+        // Setup questions
+        Question q1 = new Question();
+        q1.setId("q1");
+        q1.setText("Question 1");
+        q1.setType("FILL_IN_BLANKS");
+        q1.setCorrectAnswer("correct1");
+        q1.setPoints(2);
+
+        mockedAssignment.setQuestionIds(List.of("q1", "q2"));
+        mockedAssignment.setMaxScore(4);
+
+        when(submissionRepository.findById("sub123")).thenReturn(Optional.of(submission));
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findByIdIn(List.of("q1", "q2"))).thenReturn(List.of(q1));
+
+        // AI re-grades q1 successfully
+        QuestionFeedbackDTO regradedFeedback = QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("Question 1")
+                .studentAnswer("answer1")
+                .correctAnswer("correct1")
+                .isCorrect(true)
+                .marksAwarded(2)
+                .reasoning("Re-graded successfully")
+                .confidence(0.9)
+                .aiGradingFailed(false)
+                .build();
+        when(aiGradingService.gradeAnswer(any(), anyString(), anyString(), anyInt()))
+                .thenReturn(regradedFeedback);
+
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(i -> i.getArgument(0));
+
+        var result = submissionService.regradeSubmission("sub123");
+
+        assertNotNull(result);
+        assertEquals(4, result.getScore()); // q1: 2 + q2: 2
+        verify(aiGradingService).gradeAnswer(any(), anyString(), anyString(), anyInt());
+    }
+
+    @Test
+    void regradeSubmission_PromotesStatusToGraded() throws Exception {
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setId("sub123");
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student10");
+        submission.setAnswers(Map.of("q1", "answer1"));
+        submission.setStatus("PARTIALLY_GRADED");
+        submission.setScore(0);
+        
+        List<QuestionFeedbackDTO> feedback = List.of(
+            QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("Question 1")
+                .studentAnswer("answer1")
+                .correctAnswer("correct1")
+                .isCorrect(false)
+                .marksAwarded(0)
+                .aiGradingFailed(true)
+                .build()
+        );
+        submission.setFeedbackJson(new ObjectMapper().writeValueAsString(feedback));
+
+        Question q1 = new Question();
+        q1.setId("q1");
+        q1.setText("Question 1");
+        q1.setType("SHORT_ANSWER");
+        q1.setCorrectAnswer("correct1");
+        q1.setPoints(5);
+
+        mockedAssignment.setQuestionIds(List.of("q1"));
+        mockedAssignment.setMaxScore(5);
+
+        when(submissionRepository.findById("sub123")).thenReturn(Optional.of(submission));
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(q1));
+
+        // AI succeeds this time
+        QuestionFeedbackDTO successFeedback = QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("Question 1")
+                .studentAnswer("answer1")
+                .correctAnswer("correct1")
+                .isCorrect(true)
+                .marksAwarded(5)
+                .reasoning("Correct answer")
+                .confidence(0.95)
+                .aiGradingFailed(false)
+                .build();
+        when(aiGradingService.gradeAnswer(any(), anyString(), anyString(), anyInt()))
+                .thenReturn(successFeedback);
+
+        when(submissionRepository.save(any(AssignmentSubmission.class))).thenAnswer(i -> i.getArgument(0));
+
+        var result = submissionService.regradeSubmission("sub123");
+
+        assertNotNull(result);
+        assertEquals(5, result.getScore());
+        // Verify status was updated to GRADED
+        verify(submissionRepository).save(argThat(savedSub -> 
+            "GRADED".equals(savedSub.getStatus())
+        ));
+    }
 }

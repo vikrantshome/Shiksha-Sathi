@@ -279,4 +279,94 @@ public class AIGradingServiceTest {
         assertTrue(result.isCorrect());
         assertFalse(result.isAiGradingFailed());
     }
+
+    @Test
+    void gradeAnswer_PrimaryFails_FallsBackToQwen() {
+        when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://primary-endpoint");
+        when(aiGradingProperties.getFallbackUrl1()).thenReturn("http://qwen-endpoint");
+        when(aiGradingProperties.getFallbackUrl2()).thenReturn("http://mistral-endpoint");
+        when(aiGradingProperties.getModel()).thenReturn("nvidia/model");
+        when(aiGradingProperties.getTemperature()).thenReturn(0.1);
+        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+
+        // Primary fails with 500 error after retries
+        when(restTemplate.postForEntity(eq("http://primary-endpoint"), any(), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Primary API unavailable"));
+
+        // Fallback 1 (qwen) succeeds
+        String qwenResponse = """
+            {"marks_awarded": 4.0, "max_marks": 5, "is_correct": true, "reasoning": "Fallback qwen grading", "confidence": 0.85}
+            """;
+        when(restTemplate.postForEntity(eq("http://qwen-endpoint"), any(), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(qwenResponse, HttpStatus.OK));
+
+        Question question = sampleQuestion();
+        QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
+                question, "Correct answer", "Student answer", 5);
+
+        assertTrue(result.isCorrect());
+        assertEquals(4, result.getMarksAwarded());
+        assertEquals("Fallback qwen grading", result.getReasoning());
+        assertFalse(result.isAiGradingFailed());
+    }
+
+    @Test
+    void gradeAnswer_PrimaryAndQwenFail_FallsBackToMistral() {
+        when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://primary-endpoint");
+        when(aiGradingProperties.getFallbackUrl1()).thenReturn("http://qwen-endpoint");
+        when(aiGradingProperties.getFallbackUrl2()).thenReturn("http://mistral-endpoint");
+        when(aiGradingProperties.getModel()).thenReturn("nvidia/model");
+        when(aiGradingProperties.getTemperature()).thenReturn(0.1);
+        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+
+        // Primary fails
+        when(restTemplate.postForEntity(eq("http://primary-endpoint"), any(), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Primary API unavailable"));
+
+        // Fallback 1 (qwen) also fails
+        when(restTemplate.postForEntity(eq("http://qwen-endpoint"), any(), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Qwen API unavailable"));
+
+        // Fallback 2 (mistral) succeeds
+        String mistralResponse = """
+            {"marks_awarded": 3.0, "max_marks": 5, "is_correct": true, "reasoning": "Fallback mistral grading", "confidence": 0.75}
+            """;
+        when(restTemplate.postForEntity(eq("http://mistral-endpoint"), any(), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(mistralResponse, HttpStatus.OK));
+
+        Question question = sampleQuestion();
+        QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
+                question, "Correct answer", "Student answer", 5);
+
+        assertTrue(result.isCorrect());
+        assertEquals(3, result.getMarksAwarded());
+        assertEquals("Fallback mistral grading", result.getReasoning());
+        assertFalse(result.isAiGradingFailed());
+    }
+
+    @Test
+    void gradeAnswer_AllModelsFail_ReturnsPendingReview() {
+        when(aiGradingProperties.isEnabled()).thenReturn(true);
+        when(aiGradingProperties.getEndpointUrl()).thenReturn("http://primary-endpoint");
+        when(aiGradingProperties.getFallbackUrl1()).thenReturn("http://qwen-endpoint");
+        when(aiGradingProperties.getFallbackUrl2()).thenReturn("http://mistral-endpoint");
+        when(aiGradingProperties.getModel()).thenReturn("nvidia/model");
+        when(aiGradingProperties.getTemperature()).thenReturn(0.1);
+        when(aiGradingProperties.isFallbackToStringMatch()).thenReturn(false);
+
+        // All APIs fail
+        when(restTemplate.postForEntity(anyString(), any(), eq(String.class)))
+                .thenThrow(new ResourceAccessException("All APIs unavailable"));
+
+        Question question = sampleQuestion();
+        QuestionFeedbackDTO result = aiGradingService.gradeAnswer(
+                question, "Correct answer", "Student answer", 5);
+
+        assertFalse(result.isCorrect());
+        assertEquals(0, result.getMarksAwarded());
+        assertTrue(result.isAiGradingFailed());
+        assertEquals("AI grading service unavailable — answer pending review", result.getReasoning());
+    }
 }
