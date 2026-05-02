@@ -66,14 +66,14 @@ export default function StudentDetailPanel({
                 <input
                   type="number"
                   min={0}
-                  max={f.maxMarks || assignment.totalMarks}
+                  max={f.maxMarks || 1}
                   defaultValue={f.marksAwarded}
                   className="w-14 px-2 py-1 text-sm font-semibold text-center bg-transparent border-0 border-b border-[var(--color-outline-variant)] focus:border-[var(--color-primary)] focus:outline-none focus:ring-0 transition-colors text-[var(--color-on-surface)]"
                   onBlur={(e) => onGradeUpdate(student.studentId, f.questionId, e.target.value)}
                   aria-label={`Score for question ${i + 1}`}
                 />
                 <span className="text-xs text-[var(--color-on-surface-variant)]">
-                  / {f.maxMarks || assignment.totalMarks}
+                  / {f.maxMarks || 1}
                 </span>
               </div>
             </div>

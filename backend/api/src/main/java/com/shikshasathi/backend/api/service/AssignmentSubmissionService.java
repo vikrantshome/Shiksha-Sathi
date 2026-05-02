@@ -302,6 +302,7 @@ public class AssignmentSubmissionService {
                         .correctAnswer(correctAnswer)
                         .isCorrect(isCorrect)
                         .marksAwarded(marksAwarded)
+                        .maxMarks(marks)
                         .build();
             }
             

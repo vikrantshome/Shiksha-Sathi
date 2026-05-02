@@ -84,6 +84,7 @@ public class QuizAttemptService {
                     .correctAnswer(correctAnswer)
                     .isCorrect(isCorrect)
                     .marksAwarded(awarded)
+                    .maxMarks(marks)
                     .aiGradingFailed(false)
                     .build());
         }

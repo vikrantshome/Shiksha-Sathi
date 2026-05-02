@@ -216,6 +216,7 @@ export interface QuestionFeedbackDTO {
   correctAnswer: string | string[];
   isCorrect: boolean;
   marksAwarded: number;
+  maxMarks?: number;
   reasoning?: string;
   confidence?: number;
   aiGradingFailed?: boolean;
