@@ -7,6 +7,7 @@ import {
   AssignmentWithStats,
   ClassGradebookDTO,
   GradeUpdateRequest,
+  PendingReviewItem,
   SubmitAssignmentResponse,
 } from './types';
 
@@ -72,5 +73,15 @@ export const assignments = {
         answers,
         submittedAt: new Date().toISOString(),
       }),
+    }),
+
+  regradeSubmission: (submissionId: string): Promise<SubmitAssignmentResponse> =>
+    fetchApi<SubmitAssignmentResponse>(`/submissions/${submissionId}/regrade`, {
+      method: 'POST',
+    }),
+
+  getPendingReview: (assignmentId: string): Promise<PendingReviewItem[]> =>
+    fetchApi<PendingReviewItem[]>(`/assignments/${assignmentId}/pending-review`, {
+      method: 'GET',
     }),
 };

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchApi } from "@/lib/api/client";
+import { api } from "@/lib/api";
 import type { SubmissionDTO, QuestionFeedbackDTO } from "@/lib/api/types";
 import Loader from "@/components/Loader";
 
@@ -33,6 +34,7 @@ export default function StudentResultsPage({
   const [result, setResult] = useState<ResultData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRegrading, setIsRegrading] = useState(false);
 
   // Load result data from backend (handles both assignments and quizzes)
   useEffect(() => {
@@ -159,6 +161,7 @@ export default function StudentResultsPage({
   if (!result) return null;
 
   const isGraded = result.status === "GRADED" || result.status === "COMPLETED";
+  const hasPendingAI = result?.feedback?.some(f => f.aiGradingFailed) ?? false;
 
   return (
     <div className="max-w-4xl mx-auto pb-12">
@@ -244,6 +247,47 @@ export default function StudentResultsPage({
           <p className="text-sm text-on-surface-variant">
             Your teacher hasn&apos;t graded this assignment yet. Check back later for your results.
           </p>
+        </div>
+      )}
+
+      {hasPendingAI && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+          <div className="mt-0.5 text-amber-600">⚠️</div>
+          <div className="flex-1">
+            <p className="text-sm font-bold text-amber-800 mb-2">
+              Some answers are pending AI review
+            </p>
+            <button
+              onClick={async () => {
+                const resolvedParams = await params;
+                setIsRegrading(true);
+                try {
+                  await api.assignments.regradeSubmission(resolvedParams.submissionId);
+                  const data = await fetchApi<SubmissionDTO>(`/submissions/${resolvedParams.submissionId}`);
+                  setResult({
+                    type: "assignment",
+                    title: data.assignmentTitle || "Assignment",
+                    feedback: data.feedback || [],
+                    score: data.score || 0,
+                    totalMarks: data.totalMarks || 0,
+                    scorePercent: data.totalMarks ? ((data.score || 0) / data.totalMarks) * 100 : 0,
+                    studentName: data.studentName || "",
+                    studentRoll: data.studentRollNumber || "",
+                    submittedAt: data.submittedAt || "",
+                    status: data.status || "",
+                  });
+                } catch (err) {
+                  console.error("Failed to re-grade:", err);
+                } finally {
+                  setIsRegrading(false);
+                }
+              }}
+              disabled={isRegrading}
+              className="px-4 py-2 bg-[#12423f] text-white text-sm font-bold rounded-lg hover:bg-[#12423f]/90 disabled:opacity-50"
+            >
+              {isRegrading ? "Re-grading..." : "Retry AI Grading"}
+            </button>
+          </div>
         </div>
       )}
 

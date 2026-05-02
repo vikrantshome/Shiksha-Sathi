@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
+import com.shikshasathi.backend.api.dto.PendingReviewItem;
 
 @RestController
 @RequestMapping("/api/v1/assignments")
@@ -97,5 +98,11 @@ public class AssignmentController {
         com.shikshasathi.backend.api.dto.ClassGradebookDTO gradebook = assignmentService.getClassGradebook(classId, email);
         String spreadsheetUrl = googleSheetsService.createGradebookSheet(gradebook);
         return ResponseEntity.ok(java.util.Collections.singletonMap("url", spreadsheetUrl));
+    }
+
+    @GetMapping("/{assignmentId}/pending-review")
+    public ResponseEntity<List<PendingReviewItem>> getPendingReview(@PathVariable String assignmentId) {
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(assignmentService.getPendingReviewQuestions(assignmentId, email));
     }
 }

@@ -14,9 +14,11 @@ interface DataGridProps {
   data: Record<string, unknown>[];
   rowKey: string;
   onCellChange?: (rowId: string, colKey: string, value: unknown) => void;
+  getCellBadge?: (rowId: string, colKey: string, value: unknown) => React.ReactNode | undefined;
+  getCellClassName?: (rowId: string, colKey: string, value: unknown) => string | undefined;
 }
 
-export default function DataGrid({ columns, data, rowKey, onCellChange }: DataGridProps) {
+export default function DataGrid({ columns, data, rowKey, onCellChange, getCellBadge, getCellClassName }: DataGridProps) {
   const [localData, setLocalData] = useState(data);
 
   useEffect(() => {
@@ -51,25 +53,31 @@ export default function DataGrid({ columns, data, rowKey, onCellChange }: DataGr
             const rowId = String(row[rowKey]);
             return (
             <tr key={rowId} className="hover:bg-[#f6f3ef] transition-colors">
-              {columns.map((col, i) => (
+              {columns.map((col, i) => {
+                const cellValue = row[col.key];
+                const cellId = `${rowId}-${col.key}`;
+                const badgeNode = getCellBadge?.(rowId, col.key, cellValue);
+                const extraClassName = getCellClassName?.(rowId, col.key, cellValue);
+                return (
                 <td 
-                  key={`${rowId}-${col.key}`} 
-                  className={`p-0 border-r border-[#c0c8c6]/10 last:border-r-0 ${i === 0 ? 'sticky left-0 bg-white z-10 px-4 py-3 font-semibold text-[#1c1c1a] shadow-[1px_0_0_rgba(192,200,198,0.3)]' : 'px-4 py-3 text-[#404847]'}`}
+                  key={cellId} 
+                  className={`p-0 border-r border-[#c0c8c6]/10 last:border-r-0 relative ${i === 0 ? 'sticky left-0 bg-white z-10 px-4 py-3 font-semibold text-[#1c1c1a] shadow-[1px_0_0_rgba(192,200,198,0.3)]' : 'px-4 py-3 text-[#404847]'} ${extraClassName || ''}`}
                 >
                   {col.editable ? (
                     <input 
                       type="number"
-                      defaultValue={Number(row[col.key])}
+                      defaultValue={Number(cellValue)}
                       onBlur={(e) => handleBlur(rowId, col.key, e)}
                       className="w-full h-full p-0 text-center bg-transparent outline-none focus:text-[#12423f] font-bold transition-all"
                     />
                   ) : (
-                    <div>
-                      {String(row[col.key] ?? '')}
+                    <div className="flex items-center justify-center">
+                      {String(cellValue ?? '')}
+                      {badgeNode}
                     </div>
                   )}
                 </td>
-              ))}
+              )})}
             </tr>
           )})}
         </tbody>

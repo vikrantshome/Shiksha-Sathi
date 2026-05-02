@@ -160,9 +160,17 @@ export interface AssignmentSubmission {
 
 export interface QuestionFeedback {
   questionId: string;
+  questionText?: string;
+  studentAnswer?: string;
+  correctAnswer?: string | string[];
+  isCorrect?: boolean;
   marksAwarded: number;
   maxMarks: number;
   feedback?: string;
+  reasoning?: string;
+  confidence?: number;
+  aiGradingFailed?: boolean;
+  explanation?: string;
 }
 
 export interface GradeUpdateRequest {
@@ -212,6 +220,17 @@ export interface QuestionFeedbackDTO {
   confidence?: number;
   aiGradingFailed?: boolean;
   explanation?: string;
+}
+
+export interface PendingReviewItem {
+  submissionId: string;
+  studentId: string;
+  studentName: string;
+  questionId: string;
+  questionText: string;
+  studentAnswer: string;
+  correctAnswer: string | string[];
+  maxMarks: number;
 }
 
 export interface SubmitAssignmentResponse {

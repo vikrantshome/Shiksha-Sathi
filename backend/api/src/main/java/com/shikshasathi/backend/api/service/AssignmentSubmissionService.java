@@ -402,4 +402,67 @@ public class AssignmentSubmissionService {
     private boolean shouldUseAIGrading(String questionType) {
         return questionType != null && AI_GRADED_TYPES.contains(questionType);
     }
+
+    public SubmissionDTO regradeSubmission(String submissionId) {
+        AssignmentSubmission submission = submissionRepository.findById(submissionId)
+                .orElseThrow(() -> new RuntimeException("Submission not found"));
+
+        Assignment assignment = assignmentRepository.findById(submission.getAssignmentId())
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        String feedbackJson = submission.getFeedbackJson();
+        if (feedbackJson != null && !feedbackJson.isBlank()) {
+            try {
+                feedback = objectMapper.readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {});
+            } catch (Exception e) {
+                log.warn("Failed to deserialize feedback JSON for submission {}: {}", submissionId, e.getMessage());
+            }
+        }
+
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        Map<String, Object> answers = submission.getAnswers();
+        boolean hasAIFailure = false;
+
+        for (QuestionFeedbackDTO qf : feedback) {
+            if (qf.isAiGradingFailed()) {
+                Question question = questionMap.get(qf.getQuestionId());
+                if (question != null) {
+                    String studentAnswer = stringifyAnswer(answers == null ? null : answers.get(question.getId()));
+                    String correctAnswer = stringifyAnswer(question.getCorrectAnswer());
+                    int marks = question.getPoints() == null ? 0 : question.getPoints();
+
+                    QuestionFeedbackDTO newFeedback = aiGradingService.gradeAnswer(question, correctAnswer, studentAnswer, marks);
+                    qf.setMarksAwarded(newFeedback.getMarksAwarded());
+                    qf.setCorrect(newFeedback.isCorrect());
+                    qf.setReasoning(newFeedback.getReasoning());
+                    qf.setConfidence(newFeedback.getConfidence());
+                    qf.setAiGradingFailed(newFeedback.isAiGradingFailed());
+
+                    if (newFeedback.isAiGradingFailed()) {
+                        hasAIFailure = true;
+                    }
+                }
+            }
+        }
+
+        int totalScore = feedback.stream()
+                .mapToInt(qf -> qf.getMarksAwarded() == null ? 0 : qf.getMarksAwarded())
+                .sum();
+
+        submission.setScore(totalScore);
+        submission.setStatus(hasAIFailure ? "PARTIALLY_GRADED" : "GRADED");
+
+        try {
+            submission.setFeedbackJson(objectMapper.writeValueAsString(feedback));
+        } catch (Exception e) {
+            log.error("Failed to serialize feedback JSON for submission {}: {}", submission.getId(), e.getMessage());
+        }
+
+        submissionRepository.save(submission);
+        return getSubmissionWithFeedback(submissionId);
+    }
 }

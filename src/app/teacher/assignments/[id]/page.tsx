@@ -24,6 +24,7 @@ export default function AssignmentReportPage({
   const [report, setReport] = useState<AssignmentReport | null>(null);
   const [viewMode, setViewMode] = useState<'report' | 'worksheet'>('report');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
 
   useEffect(() => {
     api.assignments.getReport(resolvedParams.id)
@@ -81,6 +82,9 @@ export default function AssignmentReportPage({
   if (!report) return notFound();
 
   const { assignment, submissions, questionStats } = report;
+  const selectedStudent = selectedStudentId 
+    ? submissions.find(s => s.studentId === selectedStudentId)
+    : null;
   const host = typeof window !== 'undefined' ? window.location.host : '';
   const protocol = typeof window !== 'undefined' ? window.location.protocol : 'https:';
   const path = `/student/assignment/${assignment.linkId}`;
@@ -157,7 +161,7 @@ export default function AssignmentReportPage({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {/* Student Submissions List */}
-            <div className="bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden w-full lg:w-80 flex-shrink-0">
               <div className="px-6 py-4 bg-[#f0ede9] border-b border-[#c0c8c6]/30 flex items-center justify-between">
                 <h2 className="text-sm font-black uppercase tracking-wider text-[#12423f] m-0">Student Results</h2>
                 <span className="text-[0.65rem] font-bold text-[#707977] bg-white px-2 py-0.5 rounded-full border border-[#c0c8c6]/20">
@@ -175,7 +179,11 @@ export default function AssignmentReportPage({
                   </thead>
                   <tbody className="divide-y divide-[#c0c8c6]/10">
                     {submissions.map((sub) => (
-                      <tr key={sub.id} className="hover:bg-[#f6f3ef] transition-colors">
+                      <tr 
+                        key={sub.id} 
+                        className="hover:bg-[#f6f3ef] transition-colors cursor-pointer"
+                        onClick={() => setSelectedStudentId(sub.studentId)}
+                      >
                         <td className="py-4 px-6 font-bold text-[#1c1c1a] text-sm">{sub.studentName}</td>
                         <td className="py-4 px-6 text-[#707977] text-xs font-mono">{sub.studentRollNumber}</td>
                         <td className="py-4 px-6 text-right">
@@ -219,6 +227,94 @@ export default function AssignmentReportPage({
                 })}
               </div>
             </div>
+
+            {selectedStudent && (
+              <div className="mt-8 bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden">
+                <div className="px-6 py-4 bg-[#f0ede9] border-b border-[#c0c8c6]/30 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-sm font-black uppercase tracking-wider text-[#12423f] m-0">
+                      {selectedStudent.studentName}
+                    </h2>
+                    <p className="text-xs text-[#707977] mt-1">
+                      Roll: {selectedStudent.studentRollNumber} | Score: {selectedStudent.score} / {assignment.totalMarks}
+                    </p>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedStudentId(null)}
+                    className="text-[#707977] hover:text-[#12423f] text-sm font-bold"
+                  >
+                    ✕ Close
+                  </button>
+                </div>
+                
+                <div className="p-6 space-y-4">
+                  {selectedStudent.feedback?.map((f, i) => (
+                    <div key={f.questionId} className="border border-[#c0c8c6]/20 rounded-lg p-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-[#707977]">Q{i+1}</span>
+                          {f.aiGradingFailed && (
+                            <span className="px-2 py-0.5 text-[0.6rem] font-bold bg-red-100 text-red-700 rounded">
+                              AI Failed
+                            </span>
+                          )}
+                        </div>
+                        <input
+                          type="number"
+                          defaultValue={f.marksAwarded}
+                          className="w-16 px-2 py-1 text-sm border border-[#c0c8c6]/30 rounded text-center"
+                          onBlur={(e) => handleGradeUpdate(selectedStudent.studentId, f.questionId, e.target.value)}
+                        />
+                      </div>
+                      
+                      <p className="text-sm text-[#1c1c1a] mb-3">{f.questionText}</p>
+                      
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div className="bg-red-50 p-2 rounded">
+                          <span className="font-bold text-red-700 block mb-1">Your Answer</span>
+                          <span className="text-red-800">{f.studentAnswer || "(No answer)"}</span>
+                        </div>
+                        <div className="bg-emerald-50 p-2 rounded">
+                          <span className="font-bold text-emerald-700 block mb-1">Correct Answer</span>
+                          <span className="text-emerald-800">
+                            {Array.isArray(f.correctAnswer) ? f.correctAnswer.join(" or ") : f.correctAnswer}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {f.reasoning && (
+                        <div className="mt-3 p-3 bg-[#f0ede9]/50 rounded text-xs">
+                          <span className="font-bold text-[#12423f] block mb-1">AI Reasoning</span>
+                          <span className="text-[#404847]">{f.reasoning}</span>
+                        </div>
+                      )}
+                      
+                      {f.aiGradingFailed && (
+                        <button
+                          onClick={async () => {
+                            try {
+                              await api.assignments.regradeSubmission(selectedStudent.id);
+                              const updated = await api.assignments.getReport(resolvedParams.id);
+                              setReport(updated);
+                              const updatedStudent = updated.submissions.find(s => s.studentId === selectedStudentId);
+                              if (updatedStudent) {
+                                setSelectedStudentId(null);
+                                setTimeout(() => setSelectedStudentId(selectedStudentId), 50);
+                              }
+                            } catch (err) {
+                              console.error("Failed to re-grade", err);
+                            }
+                          }}
+                          className="mt-3 px-4 py-2 bg-[#12423f] text-white text-xs font-bold rounded hover:bg-[#12423f]/90"
+                        >
+                          Re-grade with AI
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -238,6 +334,12 @@ export default function AssignmentReportPage({
               data={worksheetData}
               rowKey="id"
               onCellChange={handleGradeUpdate}
+              getCellClassName={(rowId, colKey) => {
+                const sub = submissions.find(s => s.studentId === rowId);
+                const qFeedback = sub?.feedback?.find(f => f.questionId === colKey);
+                if (qFeedback?.aiGradingFailed) return "bg-red-50";
+                return undefined;
+              }}
             />
 
             <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl flex items-start gap-3">

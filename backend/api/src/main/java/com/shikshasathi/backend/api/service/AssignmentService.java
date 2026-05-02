@@ -497,4 +497,53 @@ public class AssignmentService {
                 .students(studentPerformances)
                 .build();
     }
+
+    public List<com.shikshasathi.backend.api.dto.PendingReviewItem> getPendingReviewQuestions(String assignmentId, String loginIdentity) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+        }
+
+        List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
+
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        List<com.shikshasathi.backend.api.dto.PendingReviewItem> pendingItems = new ArrayList<>();
+
+        for (AssignmentSubmission sub : submissions) {
+            if (sub.getFeedbackJson() == null || sub.getFeedbackJson().isBlank()) {
+                continue;
+            }
+
+            try {
+                List<QuestionFeedbackDTO> feedback = objectMapper.readValue(sub.getFeedbackJson(),
+                        new TypeReference<List<QuestionFeedbackDTO>>() {});
+
+                for (QuestionFeedbackDTO qf : feedback) {
+                    if (qf.isAiGradingFailed()) {
+                        Question question = questionMap.get(qf.getQuestionId());
+                        pendingItems.add(com.shikshasathi.backend.api.dto.PendingReviewItem.builder()
+                                .submissionId(sub.getId())
+                                .studentId(sub.getStudentId())
+                                .studentName(sub.getStudentName())
+                                .questionId(qf.getQuestionId())
+                                .questionText(qf.getQuestionText())
+                                .studentAnswer(qf.getStudentAnswer())
+                                .correctAnswer(qf.getCorrectAnswer())
+                                .maxMarks(question != null ? question.getPoints() : null)
+                                .build());
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to parse feedback for submission {}: {}", sub.getId(), e.getMessage());
+            }
+        }
+
+        return pendingItems;
+    }
 }

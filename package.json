@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev:frontend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT\" && next dev --webpack --port 4000",
-    "dev:backend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT/backend\" && ./gradlew bootRun",
+    "dev:backend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT/backend\" && concurrently \"./gradlew bootRun\" \"./gradlew -t compileJava\"",
     "dev": "concurrently 'npm run dev:frontend' 'npm run dev:backend'",
+    "dev:backend:plain": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT/backend\" && ./gradlew bootRun",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
