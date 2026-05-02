@@ -3,6 +3,7 @@
 import { api } from "@/lib/api";
 import { AssignmentReport, AssignmentSubmission, QuestionFeedback } from "@/lib/api/types";
 import CopyAssignmentLinkButton from "@/components/CopyAssignmentLinkButton";
+import StudentDetailPanel from "@/components/StudentDetailPanel";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect, use, useMemo } from "react";
@@ -25,6 +26,7 @@ export default function AssignmentReportPage({
   const [viewMode, setViewMode] = useState<'report' | 'worksheet'>('report');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
+  const [regradingSubmission, setRegradingSubmission] = useState(false);
 
   useEffect(() => {
     api.assignments.getReport(resolvedParams.id)
@@ -45,6 +47,19 @@ export default function AssignmentReportPage({
       setReport(updated);
     } catch (err) {
       console.error("Failed to update grade", err);
+    }
+  };
+
+  const handleRegrade = async (submissionId: string) => {
+    setRegradingSubmission(true);
+    try {
+      await api.assignments.regradeSubmission(submissionId);
+      const updated = await api.assignments.getReport(resolvedParams.id);
+      setReport(updated);
+    } catch (err) {
+      console.error("Failed to re-grade", err);
+    } finally {
+      setRegradingSubmission(false);
     }
   };
 
@@ -78,7 +93,11 @@ export default function AssignmentReportPage({
     return { worksheetColumns: columns, worksheetData: data };
   }, [report]);
 
-  if (isLoading) return <div className="p-12 text-center text-[#707977] font-medium">Loading assignment data...</div>;
+  if (isLoading) return (
+    <div className="p-12 text-center text-[var(--color-on-surface-variant)] font-medium">
+      Loading assignment data...
+    </div>
+  );
   if (!report) return notFound();
 
   const { assignment, submissions, questionStats } = report;
@@ -104,26 +123,28 @@ export default function AssignmentReportPage({
           <div>
             <Link
               href="/teacher/assignments"
-              className="text-[#707977] text-xs font-bold uppercase tracking-wider no-underline hover:text-[#12423f] flex items-center gap-1.5 mb-4"
+              className="text-[var(--color-on-surface-variant)] text-xs font-bold uppercase tracking-wider no-underline hover:text-[var(--color-primary-dim)] flex items-center gap-1.5 mb-4 transition-colors"
             >
               <ArrowLeftIcon className="w-3 h-3" /> Back to Assignments
             </Link>
-            <h1 className="text-2xl md:text-3xl font-black text-[#12423f] m-0">{assignment.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-semibold text-[var(--color-on-surface)] m-0 tracking-tight">
+              {assignment.title}
+            </h1>
             <div className="mt-2">
               <CopyAssignmentLinkButton shareLink={shareLink} path={path} code={assignment.code} />
             </div>
           </div>
 
-          <div className="bg-[#f0ede9] p-1 rounded-xl flex gap-1 border border-[#c0c8c6]/30 shadow-sm self-start">
+          <div className="bg-[var(--color-surface-container-low)] p-1 rounded-sm flex gap-1 self-start">
             <button 
               onClick={() => setViewMode('report')}
-              className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'report' ? 'bg-[#12423f] text-white shadow-md' : 'text-[#707977] hover:text-[#1c1c1a]'}`}
+              className={`px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'report' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
             >
               <ChartPieIcon className="w-4 h-4" /> Report View
             </button>
             <button 
               onClick={() => setViewMode('worksheet')}
-              className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'worksheet' ? 'bg-[#12423f] text-white shadow-md' : 'text-[#707977] hover:text-[#1c1c1a]'}`}
+              className={`px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'worksheet' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
             >
               <TableCellsIcon className="w-4 h-4" /> Grading Worksheet
             </button>
@@ -132,200 +153,129 @@ export default function AssignmentReportPage({
       </div>
 
       {viewMode === 'report' ? (
-        <>
+        <div className="space-y-8">
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
-            <div className="bg-[#f0ede9] p-6 rounded-2xl border border-[#c0c8c6]/30 flex items-center gap-5">
-              <div className="w-12 h-12 rounded-full bg-[#12423f] text-white flex items-center justify-center shadow-inner">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-[var(--color-surface-container-low)] p-6 rounded-md flex items-center gap-5">
+              <div className="w-12 h-12 rounded-full bg-[var(--color-primary-dim)] text-[var(--color-on-primary)] flex items-center justify-center">
                 <ClipboardDocumentCheckIcon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-[#707977] mb-1">Submissions</p>
-                <p className="text-3xl font-black text-[#12423f] m-0">{submissions.length}</p>
+                <p className="text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-1">Submissions</p>
+                <p className="text-3xl font-semibold text-[var(--color-on-surface)] m-0">{submissions.length}</p>
               </div>
             </div>
 
-            <div className="bg-[#f0ede9] p-6 rounded-2xl border border-[#c0c8c6]/30 flex items-center gap-5">
-              <div className="w-12 h-12 rounded-full bg-[#12423f]/10 text-[#12423f] flex items-center justify-center shadow-inner">
+            <div className="bg-[var(--color-surface-container-low)] p-6 rounded-md flex items-center gap-5">
+              <div className="w-12 h-12 rounded-full bg-[var(--color-surface-container)] text-[var(--color-primary-dim)] flex items-center justify-center">
                 <ChartBarIcon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-[#707977] mb-1">Avg Score</p>
-                <p className="text-3xl font-black text-[#12423f] m-0">
+                <p className="text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-1">Avg Score</p>
+                <p className="text-3xl font-semibold text-[var(--color-on-surface)] m-0">
                   {averageScore.toFixed(1)}
-                  <span className="text-sm font-bold text-[#707977] ml-2">/ {assignment.totalMarks}</span>
+                  <span className="text-sm font-medium text-[var(--color-on-surface-variant)] ml-2">/ {assignment.totalMarks}</span>
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {/* Student Submissions List */}
-            <div className="bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden w-full lg:w-80 flex-shrink-0">
-              <div className="px-6 py-4 bg-[#f0ede9] border-b border-[#c0c8c6]/30 flex items-center justify-between">
-                <h2 className="text-sm font-black uppercase tracking-wider text-[#12423f] m-0">Student Results</h2>
-                <span className="text-[0.65rem] font-bold text-[#707977] bg-white px-2 py-0.5 rounded-full border border-[#c0c8c6]/20">
-                  {submissions.length} Total
-                </span>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead className="bg-[#f0ede9]/30">
-                    <tr>
-                      <th className="text-[0.6rem] font-black uppercase tracking-widest text-[#707977] py-3 px-6 text-left border-b border-[#c0c8c6]/10">Student</th>
-                      <th className="text-[0.6rem] font-black uppercase tracking-widest text-[#707977] py-3 px-6 text-left border-b border-[#c0c8c6]/10">Roll No</th>
-                      <th className="text-[0.6rem] font-black uppercase tracking-widest text-[#707977] py-3 px-6 text-right border-b border-[#c0c8c6]/10">Score</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#c0c8c6]/10">
-                    {submissions.map((sub) => (
-                      <tr 
-                        key={sub.id} 
-                        className="hover:bg-[#f6f3ef] transition-colors cursor-pointer"
-                        onClick={() => setSelectedStudentId(sub.studentId)}
-                      >
-                        <td className="py-4 px-6 font-bold text-[#1c1c1a] text-sm">{sub.studentName}</td>
-                        <td className="py-4 px-6 text-[#707977] text-xs font-mono">{sub.studentRollNumber}</td>
-                        <td className="py-4 px-6 text-right">
-                           <span className="font-black text-[#12423f] text-sm">{sub.score}</span>
-                           <span className="text-xs text-[#707977] font-bold"> / {assignment.totalMarks}</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Question Performance */}
-            <div className="bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden">
-               <div className="px-6 py-4 bg-[#f0ede9] border-b border-[#c0c8c6]/30">
-                <h2 className="text-sm font-black uppercase tracking-wider text-[#12423f] m-0">Question Insights</h2>
-              </div>
-              <div className="p-6 flex flex-col gap-6">
-                {questionStats.map((q, i) => {
-                  let statusColor = "bg-error";
-                  if (q.correctPercentage >= 70) statusColor = "bg-[#12423f]";
-                  else if (q.correctPercentage >= 40) statusColor = "bg-warning";
-
-                  return (
-                    <div key={q.questionId} className="group">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-sm font-bold text-[#1c1c1a] leading-tight">
-                          <span className="text-[#707977] opacity-60 mr-1">Q{i + 1}.</span> {q.topic}
-                        </span>
-                        <span className={`text-[0.6rem] font-black uppercase tracking-widest px-2 py-0.5 rounded-md border ${q.correctPercentage >= 70 ? 'text-[#12423f] border-[#12423f]/20 bg-[#12423f]/5' : 'text-error border-error/20 bg-error/5'}`}>
-                          {q.correctPercentage}% Correct
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#404847] mb-3 line-clamp-2">{q.text}</p>
-                      <div className="w-full h-1.5 bg-[#f0ede9] rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-700 ${statusColor}`} style={{ width: `${q.correctPercentage}%` }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {selectedStudent && (
-              <div className="mt-8 bg-white rounded-2xl border border-[#c0c8c6]/30 shadow-sm overflow-hidden">
-                <div className="px-6 py-4 bg-[#f0ede9] border-b border-[#c0c8c6]/30 flex items-center justify-between">
-                  <div>
-                    <h2 className="text-sm font-black uppercase tracking-wider text-[#12423f] m-0">
-                      {selectedStudent.studentName}
-                    </h2>
-                    <p className="text-xs text-[#707977] mt-1">
-                      Roll: {selectedStudent.studentRollNumber} | Score: {selectedStudent.score} / {assignment.totalMarks}
-                    </p>
-                  </div>
-                  <button 
-                    onClick={() => setSelectedStudentId(null)}
-                    className="text-[#707977] hover:text-[#12423f] text-sm font-bold"
-                  >
-                    ✕ Close
-                  </button>
+          {/* Main workspace: sidebar + content */}
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Student sidebar - fixed width on desktop */}
+            <aside className="w-full lg:w-80 flex-shrink-0">
+              <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
+                <div className="px-5 py-3 bg-[var(--color-surface-container-low)] flex items-center justify-between">
+                  <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Student Results</h2>
+                  <span className="text-[0.6875rem] font-medium text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container-lowest)] px-2 py-0.5 rounded-sm">
+                    {submissions.length} Total
+                  </span>
                 </div>
-                
-                <div className="p-6 space-y-4">
-                  {selectedStudent.feedback?.map((f, i) => (
-                    <div key={f.questionId} className="border border-[#c0c8c6]/20 rounded-lg p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-[#707977]">Q{i+1}</span>
-                          {f.aiGradingFailed && (
-                            <span className="px-2 py-0.5 text-[0.6rem] font-bold bg-red-100 text-red-700 rounded">
-                              AI Failed
-                            </span>
-                          )}
-                        </div>
-                        <input
-                          type="number"
-                          defaultValue={f.marksAwarded}
-                          className="w-16 px-2 py-1 text-sm border border-[#c0c8c6]/30 rounded text-center"
-                          onBlur={(e) => handleGradeUpdate(selectedStudent.studentId, f.questionId, e.target.value)}
-                        />
-                      </div>
-                      
-                      <p className="text-sm text-[#1c1c1a] mb-3">{f.questionText}</p>
-                      
-                      <div className="grid grid-cols-2 gap-3 text-xs">
-                        <div className="bg-red-50 p-2 rounded">
-                          <span className="font-bold text-red-700 block mb-1">Your Answer</span>
-                          <span className="text-red-800">{f.studentAnswer || "(No answer)"}</span>
-                        </div>
-                        <div className="bg-emerald-50 p-2 rounded">
-                          <span className="font-bold text-emerald-700 block mb-1">Correct Answer</span>
-                          <span className="text-emerald-800">
-                            {Array.isArray(f.correctAnswer) ? f.correctAnswer.join(" or ") : f.correctAnswer}
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-[var(--color-surface-container)]">
+                      <tr>
+                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-left">Student</th>
+                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-left">Roll No</th>
+                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-right">Score</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--color-outline-variant)]/10">
+                      {submissions.map((sub) => (
+                        <tr 
+                          key={sub.id} 
+                          className="hover:bg-[var(--color-surface-container-high)] transition-colors cursor-pointer"
+                          onClick={() => setSelectedStudentId(sub.studentId)}
+                        >
+                          <td className="py-3 px-5 font-medium text-[var(--color-on-surface)] text-sm">{sub.studentName}</td>
+                          <td className="py-3 px-5 text-[var(--color-on-surface-variant)] text-xs font-mono">{sub.studentRollNumber}</td>
+                          <td className="py-3 px-5 text-right">
+                             <span className="font-semibold text-[var(--color-on-surface)] text-sm">{sub.score}</span>
+                             <span className="text-xs text-[var(--color-on-surface-variant)] font-medium"> / {assignment.totalMarks}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </aside>
+            
+            {/* Main content area */}
+            <main className="flex-1 min-w-0">
+              <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
+                <div className="px-5 py-3 bg-[var(--color-surface-container-low)]">
+                  <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Question Insights</h2>
+                </div>
+                <div className="p-5 flex flex-col gap-5">
+                  {questionStats.map((q, i) => {
+                    let statusColor = "bg-[var(--color-error)]";
+                    if (q.correctPercentage >= 70) statusColor = "bg-[var(--color-success)]";
+                    else if (q.correctPercentage >= 40) statusColor = "bg-[var(--color-warning)]";
+
+                    return (
+                      <div key={q.questionId} className="group">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="text-sm font-medium text-[var(--color-on-surface)] leading-tight">
+                            <span className="text-[var(--color-on-surface-variant)] opacity-60 mr-1">Q{i + 1}.</span> {q.topic}
+                          </span>
+                          <span className={`text-[0.6875rem] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm ${q.correctPercentage >= 70 ? 'text-[var(--color-success)] bg-[var(--color-success-container)]/30' : 'text-[var(--color-error)] bg-[var(--color-error-container)]/30'}`}>
+                            {q.correctPercentage}% Correct
                           </span>
                         </div>
-                      </div>
-                      
-                      {f.reasoning && (
-                        <div className="mt-3 p-3 bg-[#f0ede9]/50 rounded text-xs">
-                          <span className="font-bold text-[#12423f] block mb-1">AI Reasoning</span>
-                          <span className="text-[#404847]">{f.reasoning}</span>
+                        <p className="text-xs text-[var(--color-on-surface-variant)] mb-3 line-clamp-2">{q.text}</p>
+                        <div className="w-full h-1.5 bg-[var(--color-surface-container)] rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full transition-all duration-700 ${statusColor}`} style={{ width: `${q.correctPercentage}%` }} />
                         </div>
-                      )}
-                      
-                      {f.aiGradingFailed && (
-                        <button
-                          onClick={async () => {
-                            try {
-                              await api.assignments.regradeSubmission(selectedStudent.id);
-                              const updated = await api.assignments.getReport(resolvedParams.id);
-                              setReport(updated);
-                              const updatedStudent = updated.submissions.find(s => s.studentId === selectedStudentId);
-                              if (updatedStudent) {
-                                setSelectedStudentId(null);
-                                setTimeout(() => setSelectedStudentId(selectedStudentId), 50);
-                              }
-                            } catch (err) {
-                              console.error("Failed to re-grade", err);
-                            }
-                          }}
-                          className="mt-3 px-4 py-2 bg-[#12423f] text-white text-xs font-bold rounded hover:bg-[#12423f]/90"
-                        >
-                          Re-grade with AI
-                        </button>
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            )}
+            </main>
           </div>
-        </>
+
+          {/* Student Detail Panel - full width below */}
+          {selectedStudent && (
+            <StudentDetailPanel 
+              student={selectedStudent}
+              assignment={assignment}
+              onClose={() => setSelectedStudentId(null)}
+              onGradeUpdate={handleGradeUpdate}
+              onRegrade={handleRegrade}
+              regrading={regradingSubmission}
+            />
+          )}
+        </div>
       ) : (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-           <div className="bg-[#f0ede9] p-4 rounded-2xl border border-[#c0c8c6]/30 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#12423f] text-white flex items-center justify-center">
+           <div className="bg-[var(--color-surface-container-low)] p-4 rounded-md flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[var(--color-primary-dim)] text-[var(--color-on-primary)] flex items-center justify-center">
                 <TableCellsIcon className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[0.65rem] font-bold uppercase tracking-wider text-[#707977] m-0">Grading Matrix</p>
-                <p className="text-sm font-bold text-[#12423f] m-0">Cell-Level Grade Overrides</p>
+                <p className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] m-0">Grading Matrix</p>
+                <p className="text-sm font-semibold text-[var(--color-on-surface)] m-0">Cell-Level Grade Overrides</p>
               </div>
             </div>
 
@@ -342,10 +292,10 @@ export default function AssignmentReportPage({
               }}
             />
 
-            <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl flex items-start gap-3">
-              <div className="mt-0.5 text-[#12423f]">💡</div>
-              <p className="text-xs text-[#404847] leading-relaxed m-0">
-                <span className="font-bold text-[#12423f]">Manual Grading:</span> Clicking into a question cell (Q1, Q2...) allows you to override the AI&apos;s calculation. The total score for the student will automatically update upon saving.
+            <div className="bg-[var(--color-surface-container-low)]/50 p-4 rounded-md flex items-start gap-3">
+              <div className="mt-0.5 text-[var(--color-primary-dim)]">💡</div>
+              <p className="text-xs text-[var(--color-on-surface-variant)] leading-relaxed m-0">
+                <span className="font-semibold text-[var(--color-on-surface)]">Manual Grading:</span> Clicking into a question cell (Q1, Q2...) allows you to override the AI&apos;s calculation. The total score for the student will automatically update upon saving.
               </p>
             </div>
         </div>
