@@ -6,14 +6,17 @@ import CopyAssignmentLinkButton from "@/components/CopyAssignmentLinkButton";
 import StudentDetailPanel from "@/components/StudentDetailPanel";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect, use, useMemo } from "react";
+import { useState, useEffect, use, useMemo, useRef } from "react";
 import DataGrid from "@/components/DataGrid";
 import { 
   ArrowLeftIcon, 
   ClipboardDocumentCheckIcon, 
   ChartBarIcon, 
   TableCellsIcon,
-  ChartPieIcon
+  ChartPieIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  UsersIcon
 } from "@heroicons/react/24/outline";
 
 export default function AssignmentReportPage({
@@ -27,6 +30,8 @@ export default function AssignmentReportPage({
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [regradingSubmission, setRegradingSubmission] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const mainContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     api.assignments.getReport(resolvedParams.id)
@@ -42,7 +47,6 @@ export default function AssignmentReportPage({
 
     try {
       await api.assignments.updateGrade(report.assignment.id, { studentId, questionId, score });
-      // Refresh report data to show updated totals
       const updated = await api.assignments.getReport(report.assignment.id);
       setReport(updated);
     } catch (err) {
@@ -60,6 +64,17 @@ export default function AssignmentReportPage({
       console.error("Failed to re-grade", err);
     } finally {
       setRegradingSubmission(false);
+    }
+  };
+
+  const handleStudentClick = (studentId: string) => {
+    setSelectedStudentId(studentId);
+    // On mobile, close sidebar and scroll to main content
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+      setTimeout(() => {
+        mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   };
 
@@ -81,7 +96,6 @@ export default function AssignmentReportPage({
 
     const data = submissions.map(sub => {
       const row: Record<string, unknown> = { id: sub.studentId, student: sub.studentName, total: `${sub.score} / ${assignment.totalMarks}` };
-      // Map scores from the feedback array added in the backend PR
       if (sub.feedback) {
         sub.feedback.forEach((f: QuestionFeedback) => {
           row[f.questionId] = f.marksAwarded;
@@ -115,22 +129,26 @@ export default function AssignmentReportPage({
         submissions.length
       : 0;
 
+  const sortedSubmissions = [...submissions].sort((a, b) => 
+    new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
+  );
+
   return (
     <div className="max-w-7xl mx-auto pb-8 md:pb-12 px-4">
-      {/* Header */}
-      <div className="mb-6 md:mb-8">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-20 -mx-4 px-4 py-3 mb-6 md:mb-8 bg-[var(--color-surface)]/80 backdrop-blur-xl border-b border-[var(--color-outline-variant)]/15">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <Link
               href="/teacher/assignments"
-              className="text-[var(--color-on-surface-variant)] text-xs font-bold uppercase tracking-wider no-underline hover:text-[var(--color-primary-dim)] flex items-center gap-1.5 mb-4 transition-colors"
+              className="text-[var(--color-on-surface-variant)] text-xs font-bold uppercase tracking-wider no-underline hover:text-[var(--color-primary-dim)] flex items-center gap-1.5 mb-2 transition-colors"
             >
               <ArrowLeftIcon className="w-3 h-3" /> Back to Assignments
             </Link>
-            <h1 className="text-2xl md:text-3xl font-semibold text-[var(--color-on-surface)] m-0 tracking-tight">
+            <h1 className="text-xl md:text-2xl font-semibold text-[var(--color-on-surface)] m-0 tracking-tight">
               {assignment.title}
             </h1>
-            <div className="mt-2">
+            <div className="mt-1 hidden md:block">
               <CopyAssignmentLinkButton shareLink={shareLink} path={path} code={assignment.code} />
             </div>
           </div>
@@ -138,78 +156,108 @@ export default function AssignmentReportPage({
           <div className="bg-[var(--color-surface-container-low)] p-1 rounded-sm flex gap-1 self-start">
             <button 
               onClick={() => setViewMode('report')}
-              className={`px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'report' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
+              className={`px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'report' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
             >
-              <ChartPieIcon className="w-4 h-4" /> Report View
+              <ChartPieIcon className="w-4 h-4" /> Report
             </button>
             <button 
               onClick={() => setViewMode('worksheet')}
-              className={`px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'worksheet' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
+              className={`px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${viewMode === 'worksheet' ? 'bg-[var(--color-primary-dim)] text-[var(--color-on-primary)]' : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'}`}
             >
-              <TableCellsIcon className="w-4 h-4" /> Grading Worksheet
+              <TableCellsIcon className="w-4 h-4" /> Worksheet
             </button>
           </div>
         </div>
       </div>
 
       {viewMode === 'report' ? (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="bg-[var(--color-surface-container-low)] p-6 rounded-md flex items-center gap-5">
-              <div className="w-12 h-12 rounded-full bg-[var(--color-primary-dim)] text-[var(--color-on-primary)] flex items-center justify-center">
-                <ClipboardDocumentCheckIcon className="w-6 h-6" />
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
+            <div className="bg-[var(--color-surface-container-low)] p-4 md:p-6 rounded-md flex items-center gap-3 md:gap-5">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--color-primary-dim)] text-[var(--color-on-primary)] flex items-center justify-center flex-shrink-0">
+                <ClipboardDocumentCheckIcon className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div>
-                <p className="text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-1">Submissions</p>
-                <p className="text-3xl font-semibold text-[var(--color-on-surface)] m-0">{submissions.length}</p>
+                <p className="text-[0.65rem] md:text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-0.5">Submissions</p>
+                <p className="text-2xl md:text-3xl font-semibold text-[var(--color-on-surface)] m-0">{submissions.length}</p>
               </div>
             </div>
 
-            <div className="bg-[var(--color-surface-container-low)] p-6 rounded-md flex items-center gap-5">
-              <div className="w-12 h-12 rounded-full bg-[var(--color-surface-container)] text-[var(--color-primary-dim)] flex items-center justify-center">
-                <ChartBarIcon className="w-6 h-6" />
+            <div className="bg-[var(--color-surface-container-low)] p-4 md:p-6 rounded-md flex items-center gap-3 md:gap-5">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--color-surface-container)] text-[var(--color-primary-dim)] flex items-center justify-center flex-shrink-0">
+                <ChartBarIcon className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div>
-                <p className="text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-1">Avg Score</p>
-                <p className="text-3xl font-semibold text-[var(--color-on-surface)] m-0">
+                <p className="text-[0.65rem] md:text-[0.6875rem] font-medium uppercase tracking-widest text-[var(--color-on-surface-variant)] mb-0.5">Avg Score</p>
+                <p className="text-2xl md:text-3xl font-semibold text-[var(--color-on-surface)] m-0">
                   {averageScore.toFixed(1)}
-                  <span className="text-sm font-medium text-[var(--color-on-surface-variant)] ml-2">/ {assignment.totalMarks}</span>
+                  <span className="text-xs md:text-sm font-medium text-[var(--color-on-surface-variant)] ml-1">/ {assignment.totalMarks}</span>
                 </p>
               </div>
             </div>
           </div>
 
+          {/* Mobile: Collapsible Student List Toggle */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-[var(--color-surface-container-lowest)] rounded-md text-left"
+            >
+              <div className="flex items-center gap-2">
+                <UsersIcon className="w-4 h-4 text-[var(--color-on-surface-variant)]" />
+                <span className="text-sm font-medium text-[var(--color-on-surface)]">
+                  {selectedStudent ? selectedStudent.studentName : 'Student Results'}
+                </span>
+                <span className="text-xs text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container)] px-1.5 py-0.5 rounded-sm">
+                  {submissions.length}
+                </span>
+              </div>
+              {sidebarOpen ? (
+                <ChevronUpIcon className="w-4 h-4 text-[var(--color-on-surface-variant)]" />
+              ) : (
+                <ChevronDownIcon className="w-4 h-4 text-[var(--color-on-surface-variant)]" />
+              )}
+            </button>
+          </div>
+
           {/* Main workspace: sidebar + content */}
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Student sidebar - fixed width on desktop */}
-            <aside className="w-full lg:w-80 flex-shrink-0">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+            {/* Student sidebar */}
+            <aside 
+              className={`w-full md:w-64 lg:w-80 flex-shrink-0 transition-all duration-300 ${
+                sidebarOpen ? 'block' : 'hidden md:block'
+              }`}
+            >
               <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
-                <div className="px-5 py-3 bg-[var(--color-surface-container-low)] flex items-center justify-between">
+                <div className="px-4 md:px-5 py-3 bg-[var(--color-surface-container-low)] flex items-center justify-between">
                   <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Student Results</h2>
                   <span className="text-[0.6875rem] font-medium text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container-lowest)] px-2 py-0.5 rounded-sm">
-                    {submissions.length} Total
+                    {submissions.length}
                   </span>
                 </div>
-                <div className="overflow-x-auto">
+                <div className="overflow-y-auto max-h-[300px] md:max-h-[calc(100vh-280px)]">
                   <table className="w-full">
-                    <thead className="bg-[var(--color-surface-container)]">
+                    <thead className="bg-[var(--color-surface-container)] sticky top-0 z-10">
                       <tr>
-                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-left">Student</th>
-                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-left">Roll No</th>
-                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2.5 px-5 text-right">Score</th>
+                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2 px-4 md:px-5 text-left">Student</th>
+                        <th className="text-[0.6875rem] font-medium uppercase tracking-wider text-[var(--color-on-surface-variant)] py-2 px-4 md:px-5 text-right">Score</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[var(--color-outline-variant)]/10">
-                      {[...submissions].sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()).map((sub) => (
+                      {sortedSubmissions.map((sub) => (
                         <tr 
                           key={sub.id} 
-                          className="hover:bg-[var(--color-surface-container-high)] transition-colors cursor-pointer"
-                          onClick={() => setSelectedStudentId(sub.studentId)}
+                          className={`hover:bg-[var(--color-surface-container-high)] transition-colors cursor-pointer ${
+                            selectedStudentId === sub.studentId ? 'bg-[var(--color-primary-container)]/30' : ''
+                          }`}
+                          onClick={() => handleStudentClick(sub.studentId)}
                         >
-                          <td className="py-3 px-5 font-medium text-[var(--color-on-surface)] text-sm">{sub.studentName}</td>
-                          <td className="py-3 px-5 text-[var(--color-on-surface-variant)] text-xs font-mono">{sub.studentRollNumber}</td>
-                          <td className="py-3 px-5 text-right">
+                          <td className="py-2.5 px-4 md:px-5">
+                            <div className="font-medium text-[var(--color-on-surface)] text-sm">{sub.studentName}</div>
+                            <div className="text-[var(--color-on-surface-variant)] text-xs font-mono">{sub.studentRollNumber}</div>
+                          </td>
+                          <td className="py-2.5 px-4 md:px-5 text-right">
                              <span className="font-semibold text-[var(--color-on-surface)] text-sm">{sub.score}</span>
                              <span className="text-xs text-[var(--color-on-surface-variant)] font-medium"> / {assignment.totalMarks}</span>
                           </td>
@@ -222,22 +270,25 @@ export default function AssignmentReportPage({
             </aside>
             
             {/* Main content area — Question Insights or Student Detail */}
-            <main className="flex-1 min-w-0">
+            <main ref={mainContentRef} className="flex-1 min-w-0">
               {selectedStudent ? (
                 <StudentDetailPanel 
                   student={selectedStudent}
                   assignment={assignment}
-                  onClose={() => setSelectedStudentId(null)}
+                  onClose={() => {
+                    setSelectedStudentId(null);
+                    setSidebarOpen(true);
+                  }}
                   onGradeUpdate={handleGradeUpdate}
                   onRegrade={handleRegrade}
                   regrading={regradingSubmission}
                 />
               ) : (
                 <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
-                  <div className="px-5 py-3 bg-[var(--color-surface-container-low)]">
+                  <div className="px-4 md:px-5 py-3 bg-[var(--color-surface-container-low)]">
                     <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Question Insights</h2>
                   </div>
-                  <div className="p-5 flex flex-col gap-5">
+                  <div className="p-4 md:p-5 flex flex-col gap-4 md:gap-5">
                     {questionStats.map((q, i) => {
                       let statusColor = "bg-[var(--color-error)]";
                       if (q.correctPercentage >= 70) statusColor = "bg-[var(--color-success)]";
