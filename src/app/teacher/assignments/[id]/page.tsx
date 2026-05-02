@@ -221,51 +221,50 @@ export default function AssignmentReportPage({
               </div>
             </aside>
             
-            {/* Main content area */}
+            {/* Main content area — Question Insights or Student Detail */}
             <main className="flex-1 min-w-0">
-              <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
-                <div className="px-5 py-3 bg-[var(--color-surface-container-low)]">
-                  <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Question Insights</h2>
-                </div>
-                <div className="p-5 flex flex-col gap-5">
-                  {questionStats.map((q, i) => {
-                    let statusColor = "bg-[var(--color-error)]";
-                    if (q.correctPercentage >= 70) statusColor = "bg-[var(--color-success)]";
-                    else if (q.correctPercentage >= 40) statusColor = "bg-[var(--color-warning)]";
+              {selectedStudent ? (
+                <StudentDetailPanel 
+                  student={selectedStudent}
+                  assignment={assignment}
+                  onClose={() => setSelectedStudentId(null)}
+                  onGradeUpdate={handleGradeUpdate}
+                  onRegrade={handleRegrade}
+                  regrading={regradingSubmission}
+                />
+              ) : (
+                <div className="bg-[var(--color-surface-container-lowest)] rounded-md overflow-hidden">
+                  <div className="px-5 py-3 bg-[var(--color-surface-container-low)]">
+                    <h2 className="text-sm font-semibold tracking-tight text-[var(--color-on-surface)] m-0">Question Insights</h2>
+                  </div>
+                  <div className="p-5 flex flex-col gap-5">
+                    {questionStats.map((q, i) => {
+                      let statusColor = "bg-[var(--color-error)]";
+                      if (q.correctPercentage >= 70) statusColor = "bg-[var(--color-success)]";
+                      else if (q.correctPercentage >= 40) statusColor = "bg-[var(--color-warning)]";
 
-                    return (
-                      <div key={q.questionId} className="group">
-                        <div className="flex justify-between items-start mb-2">
-                          <span className="text-sm font-medium text-[var(--color-on-surface)] leading-tight">
-                            <span className="text-[var(--color-on-surface-variant)] opacity-60 mr-1">Q{i + 1}.</span> {q.topic}
-                          </span>
-                          <span className={`text-[0.6875rem] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm ${q.correctPercentage >= 70 ? 'text-[var(--color-success)] bg-[var(--color-success-container)]/30' : 'text-[var(--color-error)] bg-[var(--color-error-container)]/30'}`}>
-                            {q.correctPercentage}% Correct
-                          </span>
+                      return (
+                        <div key={q.questionId} className="group">
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-sm font-medium text-[var(--color-on-surface)] leading-tight">
+                              <span className="text-[var(--color-on-surface-variant)] opacity-60 mr-1">Q{i + 1}.</span> {q.topic}
+                            </span>
+                            <span className={`text-[0.6875rem] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm ${q.correctPercentage >= 70 ? 'text-[var(--color-success)] bg-[var(--color-success-container)]/30' : 'text-[var(--color-error)] bg-[var(--color-error-container)]/30'}`}>
+                              {q.correctPercentage}% Correct
+                            </span>
+                          </div>
+                          <p className="text-xs text-[var(--color-on-surface-variant)] mb-3 line-clamp-2">{q.text}</p>
+                          <div className="w-full h-1.5 bg-[var(--color-surface-container)] rounded-full overflow-hidden">
+                            <div className={`h-full rounded-full transition-all duration-700 ${statusColor}`} style={{ width: `${q.correctPercentage}%` }} />
+                          </div>
                         </div>
-                        <p className="text-xs text-[var(--color-on-surface-variant)] mb-3 line-clamp-2">{q.text}</p>
-                        <div className="w-full h-1.5 bg-[var(--color-surface-container)] rounded-full overflow-hidden">
-                          <div className={`h-full rounded-full transition-all duration-700 ${statusColor}`} style={{ width: `${q.correctPercentage}%` }} />
-                        </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </main>
           </div>
-
-          {/* Student Detail Panel - full width below */}
-          {selectedStudent && (
-            <StudentDetailPanel 
-              student={selectedStudent}
-              assignment={assignment}
-              onClose={() => setSelectedStudentId(null)}
-              onGradeUpdate={handleGradeUpdate}
-              onRegrade={handleRegrade}
-              regrading={regradingSubmission}
-            />
-          )}
         </div>
       ) : (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">

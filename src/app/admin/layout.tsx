@@ -261,7 +261,7 @@ export default function AdminLayout({
 
         {/* ═══ Main Content ═══ */}
         <main className="flex-1 w-full max-w-full overflow-hidden pb-24 md:pb-0">
-          <div className="max-w-[80rem] mx-auto p-4 md:p-6 lg:p-8">
+          <div className="mx-auto p-4 md:p-6 lg:p-8">
             {children}
           </div>
         </main>
