@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -348,6 +349,20 @@ public class AssignmentSubmissionServiceTest {
         mockedAssignment.setQuestionIds(List.of("q1"));
         mockedAssignment.setMaxScore(2);
 
+        QuestionFeedbackDTO aiFeedback = QuestionFeedbackDTO.builder()
+                .questionId("q1")
+                .questionText("The powerhouse of the cell is the ________")
+                .studentAnswer("mitochondria")
+                .correctAnswer("mitochondria")
+                .isCorrect(true)
+                .marksAwarded(2)
+                .reasoning("The student provided the correct answer matching the expected term.")
+                .confidence(0.95)
+                .aiGradingFailed(false)
+                .build();
+        when(aiGradingService.gradeAnswer(eq(question1), eq("mitochondria"), eq("mitochondria"), eq(2)))
+                .thenReturn(aiFeedback);
+
         when(submissionRepository.findByAssignmentIdAndStudentId("assign123", "student7")).thenReturn(Optional.empty());
         when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
         when(questionRepository.findByIdIn(List.of("q1"))).thenReturn(List.of(question1));
@@ -357,7 +372,9 @@ public class AssignmentSubmissionServiceTest {
 
         assertEquals(2, result.getScore());
         assertTrue(result.getFeedback().get(0).isCorrect());
-        verifyNoInteractions(aiGradingService);
+        assertEquals("The student provided the correct answer matching the expected term.",
+                result.getFeedback().get(0).getReasoning());
+        verify(aiGradingService).gradeAnswer(eq(question1), eq("mitochondria"), eq("mitochondria"), eq(2));
     }
 
     @Test
