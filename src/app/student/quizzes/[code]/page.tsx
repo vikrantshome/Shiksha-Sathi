@@ -1,22 +1,71 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import StudentSelfPacedQuiz from "@/components/StudentSelfPacedQuiz";
 import { api } from "@/lib/api";
+import { StudentQuizDTO } from "@/lib/api/types";
+import Loader from "@/components/Loader";
+import ErrorState from "@/components/ErrorState";
 
-export const dynamic = "force-dynamic";
+export default function StudentSelfPacedQuizPage() {
+  const params = useParams();
+  const [quiz, setQuiz] = useState<StudentQuizDTO | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-export default async function StudentSelfPacedQuizPage({
-  params,
-}: {
-  params: Promise<{ code: string }>;
-}) {
-  const { code } = await params;
-  if (!code) notFound();
+  const code = params?.code as string;
 
-  let quiz;
-  try {
-    quiz = await api.quizzes.getByCode(code);
-  } catch {
-    notFound();
+  useEffect(() => {
+    if (!code) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
+
+    async function fetchQuiz() {
+      try {
+        const data = await api.quizzes.getByCode(code);
+        setQuiz(data);
+      } catch {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchQuiz();
+  }, [code]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--color-surface)" }}>
+        <Loader size="lg" label="Loading quiz..." />
+      </div>
+    );
+  }
+
+  if (error || !quiz) {
+    return (
+      <ErrorState
+        title="Quiz Not Found"
+        message="The quiz code may be invalid or expired."
+        type="not_found"
+        onRetry={() => {
+          setError(false);
+          setLoading(true);
+          api.quizzes.getByCode(code)
+            .then(data => {
+              setQuiz(data);
+              setLoading(false);
+            })
+            .catch(() => {
+              setError(true);
+              setLoading(false);
+            });
+        }}
+      />
+    );
   }
 
   return (

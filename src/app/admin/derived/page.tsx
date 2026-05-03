@@ -1,75 +1,91 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { Question } from "@/lib/api/types";
 import AdminDerivedReviewClient from "@/components/AdminDerivedReviewClient";
+import Loader from "@/components/Loader";
+import ErrorState from "@/components/ErrorState";
 
-export const dynamic = "force-dynamic";
+export default function AdminDerivedDashboard() {
+  const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-export default async function AdminDerivedDashboard({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const resolvedParams = await searchParams;
-  const board = typeof resolvedParams.board === "string" ? resolvedParams.board : null;
-  const classLevel = typeof resolvedParams.class === "string" ? resolvedParams.class : null;
-  const subjectId = typeof resolvedParams.subject === "string" ? resolvedParams.subject : null;
-  const book = typeof resolvedParams.book === "string" ? resolvedParams.book : null;
-  const chapter = typeof resolvedParams.chapter === "string" ? resolvedParams.chapter : null;
+  const board = searchParams.get("board");
+  const classLevel = searchParams.get("class");
+  const subjectId = searchParams.get("subject");
+  const book = searchParams.get("book");
+  const chapter = searchParams.get("chapter");
+  const status = searchParams.get("status") || "DRAFT";
 
-  const status = typeof resolvedParams.status === "string" ? resolvedParams.status : "DRAFT";
+  const [boards, setBoards] = useState<string[]>([]);
+  const [classes, setClasses] = useState<string[]>([]);
+  const [subjects, setSubjects] = useState<string[]>([]);
+  const [booksData, setBooksData] = useState<string[]>([]);
+  const [chapters, setChapters] = useState<string[]>([]);
+  const [derivedQuestions, setDerivedQuestions] = useState<Question[]>([]);
 
-  // Taxonomy
-  let boards: string[] = [];
-  let classes: string[] = [];
-  let subjects: string[] = [];
+  const fetchData = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+        const [boardsData, classesData, subjectsData] = await Promise.all([
+          api.questions.getBoards().catch(() => []),
+          api.questions.getClasses(board || undefined).catch(() => []),
+          api.questions.getSubjects({ board: board || undefined, classLevel: classLevel || undefined }).catch(() => []),
+        ]);
+        setBoards(boardsData);
+        setClasses(classesData);
+        setSubjects(subjectsData);
 
-  try {
-    boards = await api.questions.getBoards().catch(() => []);
-  } catch {
-    boards = [];
+        const books = await api.questions.getBooks({
+          board: board || undefined,
+          classLevel: classLevel || undefined,
+          subject: subjectId || undefined,
+        }).catch(() => []);
+        setBooksData(books);
+
+        const chaptersData = await api.questions.getChapters({
+          board: board || undefined,
+          subjectId: subjectId || undefined,
+          book: book || undefined,
+          classLevel: classLevel || undefined,
+        }).catch(() => []);
+        setChapters(chaptersData);
+
+        const questions = await api.derived.getDerivedQuestions(status, chapter || undefined).catch(() => []);
+        setDerivedQuestions(questions);
+      } catch (err) {
+        console.error("Failed to load admin derived data:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+  useEffect(() => {
+    fetchData();
+  }, [board, classLevel, subjectId, book, chapter, status]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader size="lg" label="Loading admin dashboard..." />
+      </div>
+    );
   }
 
-  try {
-    classes = await api.questions.getClasses(board || undefined).catch(() => []);
-  } catch {
-    classes = [];
-  }
-
-  try {
-    subjects = await api.questions.getSubjects({ board: board || undefined, classLevel: classLevel || undefined }).catch(() => []);
-  } catch {
-    subjects = [];
-  }
-
-  let booksData: string[] = [];
-  try {
-    booksData = await api.questions.getBooks({
-      board: board || undefined,
-      classLevel: classLevel || undefined,
-      subject: subjectId || undefined,
-    }).catch(() => []);
-  } catch {
-    booksData = [];
-  }
-
-  let chapters: string[] = [];
-  try {
-    chapters = await api.questions.getChapters({
-      board: board || undefined,
-      subjectId: subjectId || undefined,
-      book: book || undefined,
-      classLevel: classLevel || undefined,
-    }).catch(() => []);
-  } catch {
-    chapters = [];
-  }
-
-  // Derived Questions List — always fetch, optionally filtered by chapter
-  let derivedQuestions: Question[] = [];
-  try {
-    derivedQuestions = await api.derived.getDerivedQuestions(status, chapter || undefined).catch(() => []);
-  } catch {
-    derivedQuestions = [];
+  if (error) {
+    return (
+      <ErrorState
+        title="Failed to Load Dashboard"
+        message="Please check your connection and try again."
+        type="network"
+        onRetry={fetchData}
+      />
+    );
   }
 
   return (
