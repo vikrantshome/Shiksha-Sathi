@@ -1,17 +1,71 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
 import { ClassItem } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
+interface ClassType {
+  id: string;
+  name: string;
+  section: string;
+}
 
-export default async function CreateAssignmentPage() {
-  const classesData = await api.classes.getClasses();
+export default function CreateAssignmentPage() {
+  const [classes, setClasses] = useState<ClassType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const classes = classesData.map((item: ClassItem) => ({
-    id: item.id,
-    name: item.name,
-    section: item.section,
-  }));
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchClasses() {
+      try {
+        const classesData = await api.classes.getClasses();
+        const mapped = classesData.map((item: ClassItem) => ({
+          id: item.id,
+          name: item.name,
+          section: item.section,
+        }));
+        if (!cancelled) {
+          setClasses(mapped);
+        }
+      } catch (err: unknown) {
+        const apiError = err as { message?: string; status?: number };
+        if (!cancelled) {
+          setError(apiError.message || "Failed to load classes. Please try again.");
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchClasses();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="pb-12">
+        <div className="flex items-center justify-center py-20">
+          <Loader size="lg" label="Loading classes..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="pb-12">
+        <div className="rounded-md bg-error/10 p-4 text-sm text-error">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-12">

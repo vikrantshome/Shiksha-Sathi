@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import TeacherDashboard from "../page";
 import { AssignmentWithStats } from "@/lib/api/types";
@@ -23,10 +23,11 @@ import { api } from "@/lib/api";
 test("renders empty state when no assignments exist", async () => {
   vi.mocked(api.assignments.getStats).mockResolvedValueOnce([]);
 
-  const jsx = await TeacherDashboard();
-  render(jsx);
+  render(<TeacherDashboard />);
 
-  expect(screen.getByText("Teacher Dashboard")).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.getByText("Teacher Dashboard")).toBeInTheDocument();
+  });
   expect(screen.getByText("No Assignments Yet")).toBeInTheDocument();
   expect(
     screen.getByText(/Browse the Question Bank to build your first assignment/)
@@ -56,10 +57,11 @@ test("renders assignments list", async () => {
     },
   ] as AssignmentWithStats[]);
 
-  const jsx = await TeacherDashboard();
-  render(jsx);
+  render(<TeacherDashboard />);
 
-  expect(screen.getByText("Teacher Dashboard")).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.getByText("Teacher Dashboard")).toBeInTheDocument();
+  });
   expect(screen.getAllByText("Math Test 1").length).toBeGreaterThan(0);
   expect(screen.getByText("ID: link123")).toBeInTheDocument();
   expect(screen.getByText("Class X (A)")).toBeInTheDocument();

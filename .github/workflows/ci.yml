@@ -15,8 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+          cache: yarn
+      - run: yarn install --ignore-engines
       - run: npx tsc --noEmit
       - run: npm run lint
 
@@ -28,9 +28,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx vitest run --coverage
+          cache: yarn
+      - run: yarn install --ignore-engines
+      - run: yarn test
       - name: Upload coverage
         uses: actions/upload-artifact@v4
         with:
@@ -72,8 +72,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+          cache: yarn
+      - run: yarn install --ignore-engines
       - run: npm audit --audit-level=high || true
       - uses: actions/setup-java@v4
         with:

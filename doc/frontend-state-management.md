@@ -2,12 +2,11 @@
 
 ## Overview
 
-The Next.js 16 frontend uses a **hybrid state management** approach:
+The Next.js 16 frontend uses a **sessionStorage-only state management** approach:
 
 1. **React Context** - For UI/feature state (assignments, quizzes)
-2. **localStorage** - For persistent cross-session data
-3. **sessionStorage** - For tab-isolated auth tokens
-4. **Server Components** - For initial data fetching via cookies
+2. **sessionStorage** - For all persistent data (auth tokens, assignment selection, quiz selection, student identity)
+3. **Client Components** - All pages that need auth data are client components
 
 ---
 
@@ -19,7 +18,6 @@ The Next.js 16 frontend uses a **hybrid state management** approach:
 ┌─────────────────────────────────────────────────────────────┐
 │  Request Context                                           │
 ├─────────────────────────────────────────────────────────────┤
-│  Server (SSR)    →  Cookies (auth-token)                  │
 │  Client (CSR)    →  sessionStorage (tab-isolated)        │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -28,6 +26,7 @@ The Next.js 16 frontend uses a **hybrid state management** approach:
 - Provides **tab isolation** - logging out in one tab won't log out others
 - Enables multi-role testing (teacher + student in different tabs)
 - Uses `shiksha-sathi-token` key
+- All pages that need auth are client components
 
 ### Code: `src/lib/api/client.ts`
 
@@ -37,34 +36,16 @@ async function fetchApi<T>(
   options: RequestInit = {}
 ): Promise<T> {
   let token: string | undefined;
-    
-  if (typeof window === 'undefined') {
-    // Server-side: read from cookie using dynamic import of next/headers
-    token = await getServerToken();
-  } else {
-    // Client-side: read from sessionStorage for tab isolation
+  
+  if (typeof window !== 'undefined') {
     token = sessionStorage.getItem('shiksha-sathi-token') ?? undefined;
   }
-    
+  
   const headers = new Headers(options.headers);
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
   }
   // ...
-}
-```
-
-### Server Token Helper
-
-```typescript
-async function getServerToken(): Promise<string | undefined> {
-  try {
-    const { cookies } = await import('next/headers');
-    const cookieStore = await cookies();
-    return cookieStore.get('auth-token')?.value;
-  } catch {
-    return undefined;
-  }
 }
 ```
 
@@ -78,8 +59,8 @@ Manages selected questions when creating assignments.
 
 | Storage Key | `shiksha-sathi-assignment-questions` |
 |------------|-----------------------------------|
-| Storage Type | localStorage |
-| Persistence | Until manually cleared |
+| Storage Type | sessionStorage |
+| Persistence | Tab-isolated |
 
 ```typescript
 // Source: src/components/AssignmentContext.tsx
@@ -109,8 +90,8 @@ Manages selected questions when creating quizzes.
 
 | Storage Key | `shiksha-sathi-quiz-questions` |
 |------------|-------------------------------|
-| Storage Type | localStorage |
-| Persistence | Until manually cleared |
+| Storage Type | sessionStorage |
+| Persistence | Tab-isolated |
 
 ```typescript
 // Source: src/components/QuizContext.tsx
@@ -127,7 +108,7 @@ interface QuizContextType {
 
 ## Student Identity Persistence
 
-Student identity (for later quiz attempts) uses localStorage for cross-tab sharing.
+Student identity (for later quiz attempts) uses sessionStorage for tab isolation.
 
 ### Code: `src/lib/api/students.ts`
 
@@ -135,16 +116,16 @@ Student identity (for later quiz attempts) uses localStorage for cross-tab shari
 const STORAGE_KEY = "shiksha-sathi-student-identity";
 
 export function saveStudentIdentity(identity: StudentIdentity) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(identity));
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(identity));
 }
 
 export function loadStudentIdentity(): StudentIdentity | null {
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = sessionStorage.getItem(STORAGE_KEY);
   return stored ? JSON.parse(stored) : null;
 }
 
 export function clearStudentIdentity() {
-  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
 }
 ```
 
@@ -159,7 +140,7 @@ flowchart TD
         B -->|Auth| C[sessionStorage]
         B -->|Assignment| D[AssignmentContext]
         B -->|Quiz| E[QuizContext]
-        B -->|Student Identity| F[localStorage]
+        B -->|Student Identity| F[sessionStorage]
         
         C --> G[API Client]
         D --> G
@@ -169,14 +150,13 @@ flowchart TD
     
     subgraph Server["Server-Side"]
         G --> H[fetchApi]
-        H --> I[Cookie: auth-token]
-        I --> J[Next.js Server]
-        J --> K[Backend API]
+        H --> K[Backend API]
     end
     
     subgraph Persistence["Persistence"]
-        D -.->|persist| L[localStorage]
+        D -.->|persist| L[sessionStorage]
         E -.->|persist| L
+        F -.->|persist| L
     end
 ```
 
@@ -187,19 +167,16 @@ flowchart TD
 | Key | Type | Purpose | Persistence |
 |-----|------|---------|-------------|
 | `shiksha-sathi-token` | sessionStorage | Auth token | Tab-isolated |
-| `shiksha-sathi-assignment-questions` | localStorage | Selected assignment questions | Session |
-| `shiksha-sathi-quiz-questions` | localStorage | Selected quiz questions | Session |
-| `shiksha-sathi-student-identity` | localStorage | Student identity | Session |
+| `shiksha-sathi-assignment-questions` | sessionStorage | Selected assignment questions | Tab-isolated |
+| `shiksha-sathi-quiz-questions` | sessionStorage | Selected quiz questions | Tab-isolated |
+| `shiksha-sathi-student-identity` | sessionStorage | Student identity | Tab-isolated |
 
 ---
 
 ## Best Practices
 
-### 1. Never use cookies for auth (use sessionStorage)
+### 1. Use sessionStorage for all auth and state
 ```typescript
-// ❌ Bad - cookie is shared across tabs
-document.cookie = "token=...";
-
 // ✅ Good - sessionStorage is tab-isolated
 sessionStorage.setItem("shiksha-sathi-token", token);
 ```
@@ -208,13 +185,14 @@ sessionStorage.setItem("shiksha-sathi-token", token);
 ```typescript
 // When logging out
 sessionStorage.removeItem("shiksha-sathi-token");
+sessionStorage.removeItem("shiksha-sathi-student-identity");
 ```
 
 ### 3. Handle SSR hydration
 ```typescript
 // Always check for window before accessing browser storage
 if (typeof window !== "undefined") {
-  const data = localStorage.getItem(key);
+  const data = sessionStorage.getItem(key);
 }
 ```
 
@@ -223,6 +201,23 @@ if (typeof window !== "undefined") {
 // For components that need to share state
 import { createContext } from "react";
 import { useContext, useState } from "react";
+```
+
+### 5. Client components for auth-dependent pages
+```typescript
+// Pages that need auth data should be client components
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function MyPage() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    // Fetch auth-dependent data here
+    api.auth.getMe().then(setData);
+  }, []);
+}
 ```
 
 ---
@@ -264,3 +259,4 @@ try {
 | `src/lib/api/students.ts` | Student identity helpers |
 | `src/lib/api/types.ts` | TypeScript types |
 | `src/middleware.ts` | Route protection middleware |
+| `src/components/AuthSessionGuard.tsx` | Client-side auth validation |

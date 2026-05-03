@@ -1,66 +1,69 @@
+"use client";
+
 import { api } from "@/lib/api";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { ClassItem } from "@/lib/api/types";
 import ClassActionButtons from "@/components/ClassActionButtons";
 import { PlusIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
+export default function ClassesPage() {
+  const [classes, setClasses] = useState<ClassItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function ClassesPage() {
-  /* Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  let classes: ClassItem[] = [];
-  try {
-    classes = await api.classes.getClasses();
-  } catch (err: unknown) {
-    const error = err as { status?: number };
-    if (error.status !== 401) {
-      console.error("Failed to load classes:", err);
+  useEffect(() => {
+    async function fetchClasses() {
+      try {
+        const data = await api.classes.getClasses();
+        setClasses(data);
+      } catch (err: unknown) {
+        const error = err as { status?: number };
+        if (error.status !== 401) {
+          console.error("Failed to load classes:", err);
+        }
+      } finally {
+        setLoading(false);
+      }
     }
-    // Silently fail on 401 — client-side auth will redirect if needed
-  }
+    fetchClasses();
+  }, []);
 
   const activeClasses = classes.filter((cls) => cls.active);
   const archivedClasses = classes.filter((cls) => !cls.active);
 
-  // Handle class creation
   async function handleCreateClass(formData: FormData) {
-    "use server";
     const name = formData.get("name") as string;
     const section = formData.get("section") as string;
     const grade = formData.get("grade") as string;
 
     try {
       await api.classes.createClass({ name, section, grade });
-      revalidatePath("/teacher/classes");
       redirect("/teacher/classes");
     } catch (error) {
       console.error("Failed to create class:", error);
     }
   }
 
-  // Handle class archival
   async function handleArchiveClass(id: string) {
-    "use server";
     try {
       await api.classes.archiveClass(id);
-      revalidatePath("/teacher/classes");
     } catch (error) {
       console.error("Failed to archive class:", error);
     }
   }
 
-  // Handle class deletion
   async function handleDeleteClass(id: string) {
-    "use server";
     try {
       await api.classes.deleteClass(id);
-      revalidatePath("/teacher/classes");
     } catch (error) {
       console.error("Failed to delete class:", error);
     }
+  }
+
+  if (loading) {
+    return <Loader />;
   }
 
   return (

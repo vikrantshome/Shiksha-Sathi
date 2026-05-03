@@ -1,24 +1,40 @@
+"use client";
+
 import { api } from "@/lib/api";
 import Link from "next/link";
 import TeacherQuizActions from "@/components/TeacherQuizActions";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
+import type { Quiz } from "@/lib/api/types";
 
-export const dynamic = "force-dynamic";
-
-export default async function TeacherQuizDetailsPage({
+export default function TeacherQuizDetailsPage({
   params,
 }: {
   params: Promise<{ quizId: string }>;
 }) {
-  /* Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  try {
-    await api.auth.getMe();
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
-  }
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const { quizId } = await params;
-  const quiz = await api.quizzes.getById(quizId);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        await api.auth.getMe();
+      } catch {
+        // Silently fail — client-side auth will redirect if needed
+      }
+
+      const { quizId } = await params;
+      const quizData = await api.quizzes.getById(quizId);
+      setQuiz(quizData);
+      setLoading(false);
+    }
+
+    fetchData();
+  }, [params]);
+
+  if (loading || !quiz) {
+    return <Loader />;
+  }
 
   return (
     <div className="pb-12 grid gap-6">

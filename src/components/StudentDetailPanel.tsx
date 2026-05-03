@@ -109,6 +109,7 @@ export default function StudentDetailPanel({
         maxMarks: f.maxMarks || 1,
       };
     });
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDraftScores(initial);
   }, [student.id]);
 

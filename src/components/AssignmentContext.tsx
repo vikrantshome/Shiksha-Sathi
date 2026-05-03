@@ -19,7 +19,7 @@ const AssignmentContext = createContext<AssignmentContextType | undefined>(undef
 function loadQuestions(): Question[] {
   if (typeof window === "undefined") return [];
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = sessionStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];
@@ -29,7 +29,7 @@ function loadQuestions(): Question[] {
 function saveQuestions(questions: Question[]) {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
   } catch {
     // Storage full or unavailable — degrade gracefully
   }

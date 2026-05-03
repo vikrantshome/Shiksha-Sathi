@@ -1,25 +1,49 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import CreateQuizForm from "@/components/CreateQuizForm";
 import { QuizProvider } from "@/components/QuizContext";
+import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
+export default function CreateQuizPage() {
+  const [classes, setClasses] = useState<{ id: string; name: string; section: string }[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function CreateQuizPage() {
-  /* Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  try {
-    await api.auth.getMe();
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        await api.auth.getMe();
+      } catch {
+        // Silently fail — client-side auth will redirect if needed
+      }
+
+      try {
+        const classesData = await api.classes.getClasses();
+        setClasses(
+          classesData.map((item) => ({
+            id: item.id,
+            name: item.name,
+            section: item.section,
+          }))
+        );
+      } catch {
+        // Silently fail
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader />
+      </div>
+    );
   }
-
-  const classesData = await api.classes.getClasses();
-
-  const classes = classesData.map((item) => ({
-    id: item.id,
-    name: item.name,
-    section: item.section,
-  }));
 
   return (
     <QuizProvider>

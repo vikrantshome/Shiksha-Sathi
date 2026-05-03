@@ -21,6 +21,10 @@ test.describe('SessionStorage Tab Isolation', () => {
     // Verify token is in sessionStorage (not cookie)
     const token1 = await page1.evaluate(() => sessionStorage.getItem('shiksha-sathi-token'));
     expect(token1).toBeTruthy();
+
+    // Verify NO auth cookie is set (sessionStorage-only strategy)
+    const cookies = await page1.evaluate(() => document.cookie);
+    expect(cookies).not.toContain('auth-token');
     
     // Tab 2: Should NOT have the token (independent session)
     const token2 = await page2.evaluate(() => sessionStorage.getItem('shiksha-sathi-token'));

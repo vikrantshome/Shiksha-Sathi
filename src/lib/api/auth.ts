@@ -48,7 +48,5 @@ export const auth = {
     // Clear sessionStorage - tab-isolated (current tab only)
     // Does NOT affect other tabs
     sessionStorage.removeItem('shiksha-sathi-token');
-    // Clear cookie so server components no longer authenticate
-    document.cookie = 'auth-token=; path=/; max-age=0; SameSite=Lax';
   },
 };

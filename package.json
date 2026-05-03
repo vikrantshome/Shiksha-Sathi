@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run",
+    "test": "NODE_OPTIONS='--experimental-require-module' vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "questions:backfill-points": "node scripts/backfill-question-points.mjs",
@@ -54,5 +54,8 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.1"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.0.0-rc.17"
   }
 }
