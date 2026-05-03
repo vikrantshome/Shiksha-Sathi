@@ -1,5 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { ProfileResponse, User } from "@/lib/api/types";
+import Loader from "@/components/Loader";
 
 export const dynamic = "force-dynamic";
 
@@ -100,20 +104,42 @@ function SectionCard({
   );
 }
 
-export default async function ProfilePage() {
-  let profile: ProfileResponse | null = null;
-  let user: User | null = null;
+export default function ProfilePage() {
+  const [profile, setProfile] = useState<ProfileResponse | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    // Run both fetches in parallel
-    // Auth is handled client-side by AuthSessionGuard.
-    // Server components cannot access sessionStorage.
-    [user, profile] = await Promise.all([
-      api.auth.getMe().catch(() => null),
-      api.teachers.getProfile().catch(() => null),
-    ]) as [User | null, ProfileResponse | null];
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchData() {
+      try {
+        const [userRes, profileRes] = await Promise.all([
+          api.auth.getMe().catch(() => null),
+          api.teachers.getProfile().catch(() => null),
+        ]);
+        if (!cancelled) {
+          setUser(userRes);
+          setProfile(profileRes);
+        }
+      } catch {
+        // Silently fail — client-side auth will redirect if needed
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading) {
+    return <Loader />;
   }
 
   /* ── Derived values ── */

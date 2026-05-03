@@ -1,24 +1,12 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
-async function getServerToken(): Promise<string | undefined> {
-  try {
-    const { cookies } = await import('next/headers');
-    const cookieStore = await cookies();
-    return cookieStore.get('auth-token')?.value;
-  } catch {
-    return undefined;
-  }
-}
-
 export async function fetchApi<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
   let token: string | undefined;
 
-  if (typeof window === 'undefined') {
-    token = await getServerToken();
-  } else {
+  if (typeof window !== 'undefined') {
     token = sessionStorage.getItem('shiksha-sathi-token') ?? undefined;
   }
 

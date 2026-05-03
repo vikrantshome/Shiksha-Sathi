@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -6,32 +9,49 @@ import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import { enrollStudent, removeStudent } from "./actions";
 import EditStudentForm from "./EditStudentForm";
 import EnrollForm from "./EnrollForm";
+import Loader from "@/components/Loader";
 
 export const dynamic = "force-dynamic";
 
-export default async function ClassStudentsPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ edit?: string }> }) {
-  const { id } = await props.params;
-  const searchParams = await props.searchParams;
+export default function ClassStudentsPage(props: { params: { id: string }; searchParams: { edit?: string } }) {
+  const { id } = props.params;
+  const searchParams = props.searchParams;
   const editStudentId = searchParams?.edit;
 
-  /* Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  let classData: ClassItem | null = null;
-  let students: User[] = [];
+  const [classData, setClassData] = useState<ClassItem | null>(null);
+  const [students, setStudents] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    const [cls, stds] = await Promise.all([
-      api.classes.getClass(id),
-      api.classes.getStudents(id),
-    ]);
-    classData = cls;
-    students = stds;
-  } catch (err: unknown) {
-    const error = err as { status?: number };
-    if (error.status !== 401) {
-      console.error("Failed to load class details:", err);
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchData() {
+      try {
+        const [cls, stds] = await Promise.all([
+          api.classes.getClass(id),
+          api.classes.getStudents(id),
+        ]);
+        if (!cancelled) {
+          setClassData(cls);
+          setStudents(stds);
+        }
+      } catch (err: unknown) {
+        const error = err as { status?: number };
+        if (error.status !== 401) {
+          console.error("Failed to load class details:", err);
+        }
+        // Silently fail on 401 — client-side auth will redirect if needed
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
     }
-    // Silently fail on 401 — client-side auth will redirect if needed
+    fetchData();
+    return () => { cancelled = true; };
+  }, [id]);
+
+  if (loading) {
+    return <Loader />;
   }
 
   if (!classData) {

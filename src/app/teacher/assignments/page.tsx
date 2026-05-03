@@ -1,7 +1,11 @@
+"use client";
+
 import { api } from "@/lib/api";
-import { AssignmentWithStats } from "@/lib/api/types";
+import { AssignmentWithStats, User } from "@/lib/api/types";
 import Link from "next/link";
 import AssignmentDashboard from "@/components/AssignmentDashboard";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 export const dynamic = "force-dynamic";
 
@@ -17,26 +21,53 @@ const IconBack = () => (
   </svg>
 );
 
-export default async function TeacherAssignmentsPage() {
-  /* ── Auth ──
-   * Server components cannot access sessionStorage.
-   * Auth is handled client-side by AuthSessionGuard. */
-  let user = null;
-  try {
-    user = await api.auth.getMe();
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
-  }
+export default function TeacherAssignmentsPage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [assignments, setAssignments] = useState<AssignmentWithStats[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  /* ── Data ── */
-  let assignments: AssignmentWithStats[] = [];
-  let loadError: string | null = null;
-  try {
-    assignments = user ? await api.assignments.getStats(user.id) : [];
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    loadError = msg;
-    console.error("Failed to load assignments:", err);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchData() {
+      let currentUser = null;
+      try {
+        currentUser = await api.auth.getMe();
+      } catch {
+        // Silently fail — client-side auth will redirect if needed
+      }
+
+      if (!cancelled) {
+        setUser(currentUser);
+      }
+
+      let currentAssignments: AssignmentWithStats[] = [];
+      let currentLoadError: string | null = null;
+      try {
+        currentAssignments = currentUser ? await api.assignments.getStats(currentUser.id) : [];
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        currentLoadError = msg;
+        console.error("Failed to load assignments:", err);
+      }
+
+      if (!cancelled) {
+        setAssignments(currentAssignments);
+        setLoadError(currentLoadError);
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   const totalSubmissions = assignments.reduce(
@@ -44,7 +75,7 @@ export default async function TeacherAssignmentsPage() {
     0
   );
 
-  const avgScoreAll = assignments.length > 0 
+  const avgScoreAll = assignments.length > 0
     ? (assignments.reduce((acc, a) => (acc + (a.averageScore || 0) / (a.totalMarks || 1) * 100), 0) / assignments.length).toFixed(1)
     : "0";
 
@@ -112,7 +143,7 @@ export default async function TeacherAssignmentsPage() {
           </Link>
         </div>
       ) : (
-        <AssignmentDashboard 
+        <AssignmentDashboard
           initialAssignments={assignments}
           totalSubmissions={totalSubmissions}
           avgScoreAll={avgScoreAll}

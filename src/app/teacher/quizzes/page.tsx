@@ -1,26 +1,58 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { User, Quiz, ClassItem } from "@/lib/api/types";
 import Link from "next/link";
+import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
+export default function TeacherQuizzesPage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [classes, setClasses] = useState<ClassItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function TeacherQuizzesPage() {
-  /* Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  let user = null;
-  try {
-    user = await api.auth.getMe();
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
-  }
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      setLoading(true);
+      try {
+        let currentUser = null;
+        try {
+          currentUser = await api.auth.getMe();
+        } catch {
+          // Silently fail — client-side auth will redirect if needed
+        }
 
-  const [quizzes, classes] = await Promise.all([
-    user ? api.quizzes.listForTeacher(user.id).catch(() => []) : Promise.resolve([]),
-    api.classes.getClasses().catch(() => []),
-  ]);
+        const [quizzesData, classesData] = await Promise.all([
+          currentUser ? api.quizzes.listForTeacher(currentUser.id).catch(() => []) : Promise.resolve([]),
+          api.classes.getClasses().catch(() => []),
+        ]);
+
+        if (!cancelled) {
+          setUser(currentUser);
+          setQuizzes(quizzesData);
+          setClasses(classesData);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const classLabelById = new Map(
     classes.map((c) => [c.id, `${c.name}${c.section ? ` • Section ${c.section}` : ""}`])
   );
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="pb-12">
@@ -111,4 +143,3 @@ export default async function TeacherQuizzesPage() {
     </div>
   );
 }
-

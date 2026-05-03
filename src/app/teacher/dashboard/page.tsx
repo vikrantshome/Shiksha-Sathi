@@ -1,6 +1,10 @@
+"use client";
+
 import { api } from "@/lib/api";
-import { AssignmentWithStats } from "@/lib/api/types";
+import { AssignmentWithStats, User } from "@/lib/api/types";
 import Link from "next/link";
+import Loader from "@/components/Loader";
+import { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -54,23 +58,37 @@ const IconChevronRight = () => (
   </svg>
 );
 
-export default async function TeacherDashboard() {
-  /* ── Data Fetching (Server Component) ──
-   * Auth is handled client-side by AuthSessionGuard.
-   * Server components cannot access sessionStorage. */
-  let user = null;
-  try {
-    user = await api.auth.getMe();
-  } catch {
-    // Silently fail — client-side auth will redirect if needed
-  }
+export default function TeacherDashboard() {
+  const [user, setUser] = useState<User | null>(null);
+  const [assignments, setAssignments] = useState<AssignmentWithStats[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  let assignments: AssignmentWithStats[] = [];
-  try {
-    assignments = user ? await api.assignments.getStats(user.id) : [];
-  } catch (error) {
-    console.error("Failed to load assignments:", error);
-  }
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const userData = await api.auth.getMe();
+        if (cancelled) return;
+        setUser(userData);
+
+        if (userData) {
+          const stats = await api.assignments.getStats(userData.id);
+          if (cancelled) return;
+          setAssignments(stats);
+        }
+      } catch (error) {
+        console.error("Failed to load dashboard:", error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (loading) return <Loader />;
 
   const totalSubmissions = assignments.reduce(
     (acc: number, a: AssignmentWithStats) => acc + (a.submissionCount || 0),
@@ -83,7 +101,7 @@ export default async function TeacherDashboard() {
   const activeAssignmentsCount = activeAssignmentsList.length;
 
   /* ── Build Real Activity Feed from Assignments ── */
-  const recentActivity = assignments
+  const recentActivity: { text: string; time: string; isNew: boolean }[] = assignments
     .filter((a: AssignmentWithStats) => a.title)
     .slice(0, 5)
     .map((a: AssignmentWithStats & { updatedAt?: string }) => {
