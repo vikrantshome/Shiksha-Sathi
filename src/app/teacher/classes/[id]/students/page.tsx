@@ -10,10 +10,10 @@ import EditStudentForm from "./EditStudentForm";
 import EnrollForm from "./EnrollForm";
 import Loader from "@/components/Loader";
 
-export default function ClassStudentsPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ edit?: string }> | { edit?: string } }) {
+export default function ClassStudentsPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ edit?: string }> }) {
   const resolvedParams = use(props.params);
   const id = resolvedParams.id;
-  const searchParams = 'then' in props.searchParams ? {} : props.searchParams;
+  const searchParams = use(props.searchParams);
   const editStudentId = searchParams?.edit;
 
   const [classData, setClassData] = useState<ClassItem | null>(null);
