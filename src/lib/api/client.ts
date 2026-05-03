@@ -1,7 +1,13 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
 async function getServerToken(): Promise<string | undefined> {
-  return undefined;
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    return cookieStore.get('auth-token')?.value;
+  } catch {
+    return undefined;
+  }
 }
 
 export async function fetchApi<T>(

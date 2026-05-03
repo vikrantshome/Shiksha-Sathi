@@ -69,6 +69,8 @@ export default function StudentLoginPage() {
 
       // Set sessionStorage for client-side auth (tab-isolated)
       sessionStorage.setItem('shiksha-sathi-token', response.token);
+      // Also set cookie so server components can authenticate
+      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       const user = await auth.getMe();
       
@@ -117,6 +119,9 @@ export default function StudentLoginPage() {
 
       // Set sessionStorage for client-side auth (tab-isolated)
         sessionStorage.setItem('shiksha-sathi-token', response.token);
+        // Also set cookie so server components can authenticate
+        // eslint-disable-next-line react-hooks/immutability
+        document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
         const user = await auth.getMe();
         

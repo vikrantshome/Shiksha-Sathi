@@ -45,6 +45,8 @@ export default function LoginPage() {
 
     // Set sessionStorage for client-side auth (tab-isolated)
     sessionStorage.setItem('shiksha-sathi-token', response.token);
+    // Also set cookie so server components can authenticate
+    document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
     if (response.role === "TEACHER") {
       window.location.href = "/teacher/dashboard";
@@ -106,6 +108,8 @@ export default function LoginPage() {
 
       // Set sessionStorage for client-side auth (tab-isolated)
       sessionStorage.setItem('shiksha-sathi-token', response.token);
+      // Also set cookie so server components can authenticate
+      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       if (response.role === "TEACHER") {
         window.location.href = "/teacher/dashboard";
