@@ -35,15 +35,21 @@ function saveQuestions(questions: Question[]) {
 }
 
 export function QuizProvider({ children }: { children: ReactNode }) {
-  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>(() => loadQuestions());
-  const [initialized] = useState(true);
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  // Save to localStorage whenever questions change
+  // Load from sessionStorage after hydration to prevent mismatch
   useEffect(() => {
-    if (initialized) {
+    setSelectedQuestions(loadQuestions());
+    setIsHydrated(true);
+  }, []);
+
+  // Save to sessionStorage whenever questions change
+  useEffect(() => {
+    if (isHydrated) {
       saveQuestions(selectedQuestions);
     }
-  }, [selectedQuestions, initialized]);
+  }, [selectedQuestions, isHydrated]);
 
   const toggleQuestion = (question: Question) => {
     setSelectedQuestions((prev) => {
