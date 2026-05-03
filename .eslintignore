@@ -3,3 +3,4 @@ coverage
 node_modules
 vitest.config.ts
 vitest.setup.ts
+.vercel
