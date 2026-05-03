@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { api } from "@/lib/api";
 import Link from "next/link";
 import { ClassItem, User } from "@/lib/api/types";
@@ -10,9 +10,10 @@ import EditStudentForm from "./EditStudentForm";
 import EnrollForm from "./EnrollForm";
 import Loader from "@/components/Loader";
 
-export default function ClassStudentsPage(props: { params: { id: string }; searchParams: { edit?: string } }) {
-  const { id } = props.params;
-  const searchParams = props.searchParams;
+export default function ClassStudentsPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ edit?: string }> | { edit?: string } }) {
+  const resolvedParams = use(props.params);
+  const id = resolvedParams.id;
+  const searchParams = 'then' in props.searchParams ? {} : props.searchParams;
   const editStudentId = searchParams?.edit;
 
   const [classData, setClassData] = useState<ClassItem | null>(null);
