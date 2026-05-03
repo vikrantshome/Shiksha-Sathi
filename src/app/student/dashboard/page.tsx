@@ -7,7 +7,7 @@ import {
   getStudentIdentity,
   students,
 } from "@/lib/api/students";
-import type { StudentDashboardStats, StudentIdentity, Assignment, SubmissionDTO, Quiz, ClassItem } from "@/lib/api/types";
+import type { StudentDashboardStats, StudentIdentity, Assignment, SubmissionDTO, Quiz } from "@/lib/api/types";
 
 interface QuizAttempt {
   id: string;
@@ -108,7 +108,6 @@ export default function StudentDashboardPage() {
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   
   // New: pending/submitted from enrolled classes
-  const [, setEnrolledClasses] = useState<ClassItem[]>([]);
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
   const [submittedAssignments, setSubmittedAssignments] = useState<SubmissionDTO[]>([]);
   const [pendingQuizzes, setPendingQuizzes] = useState<Quiz[]>([]);
@@ -145,15 +144,13 @@ export default function StudentDashboardPage() {
     async function loadFromEnrolled() {
       setIsLoadingNew(true);
       try {
-        const [classes, pending, submitted, pQuizzes, sQuizzes] = await Promise.all([
-          students.getEnrolledClasses(),
+        const [pending, submitted, pQuizzes, sQuizzes] = await Promise.all([
           students.getPendingAssignments(),
           students.getSubmittedAssignments(),
           students.getPendingQuizzes(),
           students.getSubmittedQuizzes() as Promise<QuizAttempt[]>,
         ]);
         if (!cancelled) {
-          setEnrolledClasses(classes);
           setPendingAssignments(pending);
           setSubmittedAssignments(submitted);
           setPendingQuizzes(pQuizzes);
