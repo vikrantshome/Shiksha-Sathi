@@ -14,6 +14,8 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
   const searchParams = await props.searchParams;
   const editStudentId = searchParams?.edit;
 
+  /* Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
   let classData: ClassItem | null = null;
   let students: User[] = [];
 
@@ -26,10 +28,10 @@ export default async function ClassStudentsPage(props: { params: Promise<{ id: s
     students = stds;
   } catch (err: unknown) {
     const error = err as { status?: number };
-    if (error.status === 401) {
-      redirect("/login");
+    if (error.status !== 401) {
+      console.error("Failed to load class details:", err);
     }
-    console.error("Failed to load class details:", err);
+    // Silently fail on 401 — client-side auth will redirect if needed
   }
 
   if (!classData) {

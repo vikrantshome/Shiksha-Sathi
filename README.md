@@ -520,7 +520,7 @@ gcloud run deploy shiksha-sathi-backend \
   --source . \
   --region asia-south1 \
   --allow-unauthenticated \
-  --set-env-vars MONGODB_URI=<uri>,JWT_SECRET=<secret>
+  --set-env-vars MONGODB_URI=<uri>,JWT_SECRET=<secret>,FRONTEND_URL=https://shiksha-sathi-taupe.vercel.app
 ```
 
 ### Docker (Self-hosted)
@@ -554,6 +554,7 @@ docker run -p 8080:8080 --env-file .env.local shiksha-sathi-backend
 |----------|:--------:|-------------|
 | `MONGODB_URI` | ✅ | MongoDB Atlas connection string |
 | `JWT_SECRET` | ✅ | JWT signing key |
+| `FRONTEND_URL` | ✅ | Allowed CORS origin (e.g. `https://shiksha-sathi-taupe.vercel.app`) |
 | `PORT` | ❌ | Server port (default: `8080`) |
 | `AI_GRADING_ENABLED` | ❌ | Toggle NVIDIA grading (`true`/`false`) |
 

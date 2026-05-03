@@ -399,7 +399,7 @@ export default function QuestionBankFilters({
               </label>
             )}
 
-            {currentSubject && books.length > 1 && (
+            {currentSubject && books.length > 0 && (
               <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Book
@@ -409,7 +409,7 @@ export default function QuestionBankFilters({
                 onChange={(e) => handleFilterChange("book", e.target.value)}
                 className="w-full min-h-11 rounded-md border border-[var(--color-outline-variant)]/15 bg-[var(--color-surface-container-low)] px-3 text-sm text-on-surface outline-none transition-colors focus:border-primary"
               >
-                <option value="">Select Book</option>
+                <option value="">All Books</option>
                 {books.map((bookItem) => (
                   <option key={bookItem} value={bookItem}>
                     {bookItem}
@@ -419,7 +419,7 @@ export default function QuestionBankFilters({
               </label>
             )}
 
-            {currentSubject && (books.length <= 1 || currentBook) && (
+            {currentSubject && (books.length === 0 || currentBook !== undefined) && (
               <label className="flex flex-col gap-1">
               <span className="text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
                 Chapter
@@ -567,7 +567,7 @@ export default function QuestionBankFilters({
         )}
 
         {/* ── Book Series ── */}
-        {currentSubject && books.length > 1 && (
+        {currentSubject && books.length > 0 && (
           <div className="mb-2">
             <TaxonomyStep
               icon={<IconBook />}
@@ -576,6 +576,17 @@ export default function QuestionBankFilters({
               onClick={() => {}}
             />
             <div className="px-2">
+              <button
+                type="button"
+                onClick={() => handleFilterChange("book", "")}
+                className={`block w-full text-left px-3 py-2.5 text-[0.8125rem] border border-transparent rounded-md cursor-pointer transition-all duration-150 ${
+                  !currentBook
+                    ? "font-medium bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] border-[var(--color-primary)]/20"
+                    : "font-normal bg-surface-container-lowest text-on-surface hover:bg-surface-container-high"
+                }`}
+              >
+                All Books
+              </button>
               {books.map((bookItem) => (
               <button
                 key={bookItem}
@@ -595,7 +606,7 @@ export default function QuestionBankFilters({
         )}
 
         {/* ── Chapter List ── */}
-        {currentSubject && (books.length <= 1 || currentBook) && (
+        {currentSubject && (books.length === 0 || currentBook !== undefined) && (
           <div>
             <TaxonomyStep
               icon={<IconChapter />}

@@ -1,7 +1,6 @@
 import { api } from "@/lib/api";
 import { AssignmentWithStats } from "@/lib/api/types";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import AssignmentDashboard from "@/components/AssignmentDashboard";
 
 export const dynamic = "force-dynamic";
@@ -19,19 +18,24 @@ const IconBack = () => (
 );
 
 export default async function TeacherAssignmentsPage() {
-  /* ── Auth ── */
-  let user;
+  /* ── Auth ──
+   * Server components cannot access sessionStorage.
+   * Auth is handled client-side by AuthSessionGuard. */
+  let user = null;
   try {
     user = await api.auth.getMe();
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   /* ── Data ── */
   let assignments: AssignmentWithStats[] = [];
+  let loadError: string | null = null;
   try {
-    assignments = await api.assignments.getStats(user.id);
+    assignments = user ? await api.assignments.getStats(user.id) : [];
   } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    loadError = msg;
     console.error("Failed to load assignments:", err);
   }
 
@@ -93,6 +97,13 @@ export default async function TeacherAssignmentsPage() {
           <p className="text-xs text-[#404847] mt-2 leading-relaxed max-w-xs">
             Browse the Question Bank to build your first assignment and start your classroom workflow.
           </p>
+          {loadError && (
+            <div className="mt-4 p-3 rounded-lg bg-red-50 text-red-700 text-xs max-w-xs">
+              <strong>Debug:</strong> {loadError}
+              <br />
+              <span className="text-[10px] opacity-75">User: {user?.name} ({user?.id})</span>
+            </div>
+          )}
           <Link
             href="/teacher/question-bank"
             className="mt-6 text-xs font-bold text-[#12423f] no-underline flex items-center gap-1.5"

@@ -24,7 +24,7 @@ export default function StudentAssignmentForm({
   onProgressChange,
 }: StudentAssignmentFormProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<SubmitAssignmentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -111,6 +111,17 @@ export default function StudentAssignmentForm({
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
+  };
+
+  const handleMultiSelectChange = (questionId: string, option: string) => {
+    setAnswers((prev) => {
+      const current = prev[questionId];
+      const currentSelections: string[] = Array.isArray(current) ? current : current ? [current] : [];
+      const newSelections = currentSelections.includes(option)
+        ? currentSelections.filter((o) => o !== option)
+        : [...currentSelections, option];
+      return { ...prev, [questionId]: newSelections };
+    });
   };
 
   const handleSubmitAssignment = () => {
@@ -402,7 +413,51 @@ export default function StudentAssignmentForm({
           </div>
 
           <div className="sm:pl-10 md:pl-[3.25rem]">
-            {q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
+            {q.options && q.type === "MULTIPLE_CHOICE" ? (
+              /* ── Multi-select checkboxes ── */
+              <div className="grid grid-cols-1 gap-2 md:gap-2.5 max-w-2xl">
+                {q.options.map((opt, i) => {
+                  const current = answers[q.id];
+                  const selections: string[] = Array.isArray(current) ? current : [];
+                  const isSelected = selections.includes(opt);
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handleMultiSelectChange(q.id, opt)}
+                      className="group flex items-center gap-3 p-3 md:p-3.5 rounded-xl border-2 transition-all duration-200 text-left active:scale-[0.98]"
+                      style={{
+                        background: isSelected ? "var(--color-primary-container)" : "var(--color-surface)",
+                        borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline-variant)",
+                      }}
+                    >
+                      <div className="relative flex items-center justify-center shrink-0">
+                        <div
+                          className="w-5 h-5 rounded border-2 transition-all flex items-center justify-center"
+                          style={{
+                            borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline)",
+                            background: isSelected ? "var(--color-primary)" : "transparent",
+                          }}
+                        >
+                          {isSelected && (
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-sm md:text-[0.9375rem] flex-1" style={{
+                        color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
+                        fontWeight: isSelected ? 600 : 400,
+                      }}>
+                        {opt}
+                      </span>
+                      <span className="text-[0.6rem] opacity-30 font-bold uppercase tracking-tighter self-center hidden sm:inline">{String.fromCharCode(65 + i)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : q.options && (q.type === "MCQ" || q.type === "TRUE_FALSE") ? (
               <div className="grid grid-cols-1 gap-2 md:gap-2.5 max-w-2xl">
                 {q.options.map((opt, i) => {
                   const isSelected = answers[q.id] === opt;
@@ -425,7 +480,7 @@ export default function StudentAssignmentForm({
                           {isSelected && (
                             <div 
                               className="absolute inset-[3px] rounded-full animate-in zoom-in-50 duration-200"
-                              style={{ background: "var(--color-primary)" }}
+                                  style={{ background: "var(--color-primary)" }}
                             />
                           )}
                         </div>
@@ -455,7 +510,7 @@ export default function StudentAssignmentForm({
                   </label>
                   <textarea
                     rows={3}
-                    value={answers[q.id] || ""}
+                    value={typeof answers[q.id] === 'string' ? (answers[q.id] as string) : ""}
                     onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                     placeholder="Provide your answer..."
                     className="w-full bg-transparent pt-7 pb-3 px-4 text-base focus:ring-0 border-none placeholder:opacity-30 transition-colors resize-y min-h-[5rem]"

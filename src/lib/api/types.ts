@@ -104,7 +104,8 @@ export interface Question {
   text: string;
   type: 'MCQ' | 'TRUE_FALSE' | 'FILL_IN_BLANKS' | 'MULTIPLE_CHOICE' | 'SHORT_ANSWER' | 'ESSAY';
   options?: string[];
-  correctAnswer: string;
+  correctAnswer?: string | string[];
+  correctAnswers?: string[];
   points: number;
   explanation?: string;
   sourceKind?: 'CANONICAL' | 'DERIVED' | 'CUSTOM';

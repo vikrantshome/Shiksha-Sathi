@@ -40,17 +40,51 @@ export default function AssignmentReportPage({
       .finally(() => setIsLoading(false));
   }, [resolvedParams.id]);
 
-  const handleGradeUpdate = async (studentId: string, questionId: string, value: unknown) => {
-    if (!report) return;
-    const score = parseInt(value as string, 10);
-    if (isNaN(score)) return;
+  interface GradeChange {
+    questionId: string;
+    score: number;
+    originalScore: number;
+  }
+
+  const handleSaveChanges = async (studentId: string, changes: GradeChange[]) => {
+    if (!report || changes.length === 0) return;
 
     try {
-      await api.assignments.updateGrade(report.assignment.id, { studentId, questionId, score });
+      // Save each change sequentially
+      for (const change of changes) {
+        await api.assignments.updateGrade(report.assignment.id, {
+          studentId,
+          questionId: change.questionId,
+          score: change.score,
+        });
+      }
+      // Refresh report once after all saves
       const updated = await api.assignments.getReport(report.assignment.id);
       setReport(updated);
     } catch (err) {
-      console.error("Failed to update grade", err);
+      console.error("Failed to save grade changes", err);
+      throw err; // Let the panel handle the error state
+    }
+  };
+
+  const handleBatchSaveWorksheet = async (cellChanges: { rowId: string; colKey: string; value: number; originalValue: number }[]) => {
+    if (!report || cellChanges.length === 0) return;
+
+    try {
+      // Save each cell change sequentially
+      for (const cell of cellChanges) {
+        await api.assignments.updateGrade(report.assignment.id, {
+          studentId: cell.rowId,
+          questionId: cell.colKey,
+          score: cell.value,
+        });
+      }
+      // Refresh report once after all saves
+      const updated = await api.assignments.getReport(report.assignment.id);
+      setReport(updated);
+    } catch (err) {
+      console.error("Failed to save worksheet changes", err);
+      throw err;
     }
   };
 
@@ -132,6 +166,14 @@ export default function AssignmentReportPage({
   const sortedSubmissions = [...submissions].sort((a, b) => 
     new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
   );
+
+  /* ── Score tier helper ── */
+  const getScoreTier = (score: number, totalMarks: number): 'success' | 'warning' | 'error' => {
+    const pct = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
+    if (pct >= 60) return 'success';
+    if (pct >= 35) return 'warning';
+    return 'error';
+  };
 
   return (
     <div className="max-w-7xl mx-auto pb-8 md:pb-12 px-4">
@@ -245,24 +287,37 @@ export default function AssignmentReportPage({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[var(--color-outline-variant)]/10">
-                      {sortedSubmissions.map((sub) => (
-                        <tr 
-                          key={sub.id} 
-                          className={`hover:bg-[var(--color-surface-container-high)] transition-colors cursor-pointer ${
-                            selectedStudentId === sub.studentId ? 'bg-[var(--color-primary-container)]/30' : ''
-                          }`}
-                          onClick={() => handleStudentClick(sub.studentId)}
-                        >
-                          <td className="py-2.5 px-4 md:px-5">
-                            <div className="font-medium text-[var(--color-on-surface)] text-sm">{sub.studentName}</div>
-                            <div className="text-[var(--color-on-surface-variant)] text-xs font-mono">{sub.studentRollNumber}</div>
-                          </td>
-                          <td className="py-2.5 px-4 md:px-5 text-right">
-                             <span className="font-semibold text-[var(--color-on-surface)] text-sm">{sub.score}</span>
-                             <span className="text-xs text-[var(--color-on-surface-variant)] font-medium"> / {assignment.totalMarks}</span>
-                          </td>
-                        </tr>
-                      ))}
+                      {sortedSubmissions.map((sub) => {
+                        const tier = getScoreTier(sub.score, assignment.totalMarks);
+                        return (
+                          <tr 
+                            key={sub.id} 
+                            className={`transition-colors cursor-pointer ${
+                              selectedStudentId === sub.studentId 
+                                ? 'bg-[var(--color-primary-container)]/30' 
+                                : tier === 'success'
+                                  ? 'bg-[var(--color-success-container)]/25 hover:bg-[var(--color-success-container)]/40'
+                                  : tier === 'warning'
+                                    ? 'bg-[var(--color-warning-container)]/25 hover:bg-[var(--color-warning-container)]/40'
+                                    : 'bg-[var(--color-error-container)]/25 hover:bg-[var(--color-error-container)]/40'
+                            }`}
+                            onClick={() => handleStudentClick(sub.studentId)}
+                          >
+                            <td className="py-2.5 px-4 md:px-5">
+                              <div className="font-medium text-[var(--color-on-surface)] text-sm">{sub.studentName}</div>
+                              <div className="text-[var(--color-on-surface-variant)] text-xs font-mono">{sub.studentRollNumber}</div>
+                            </td>
+                            <td className="py-2.5 px-4 md:px-5 text-right">
+                               <span className={`font-semibold text-sm ${
+                                 tier === 'success' ? 'text-[var(--color-success)]'
+                                   : tier === 'warning' ? 'text-[var(--color-warning)]'
+                                   : 'text-[var(--color-error)]'
+                               }`}>{sub.score}</span>
+                               <span className="text-xs text-[var(--color-on-surface-variant)] font-medium"> / {assignment.totalMarks}</span>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -272,14 +327,14 @@ export default function AssignmentReportPage({
             {/* Main content area — Question Insights or Student Detail */}
             <main ref={mainContentRef} className="flex-1 min-w-0">
               {selectedStudent ? (
-                <StudentDetailPanel 
+                <StudentDetailPanel
                   student={selectedStudent}
                   assignment={assignment}
                   onClose={() => {
                     setSelectedStudentId(null);
                     setSidebarOpen(true);
                   }}
-                  onGradeUpdate={handleGradeUpdate}
+                  onSaveChanges={handleSaveChanges}
                   onRegrade={handleRegrade}
                   regrading={regradingSubmission}
                 />
@@ -329,11 +384,12 @@ export default function AssignmentReportPage({
               </div>
             </div>
 
-            <DataGrid 
+            <DataGrid
               columns={worksheetColumns}
               data={worksheetData}
               rowKey="id"
-              onCellChange={handleGradeUpdate}
+              batchEdit
+              onBatchSave={handleBatchSaveWorksheet}
               getCellClassName={(rowId, colKey) => {
                 const sub = submissions.find(s => s.studentId === rowId);
                 const qFeedback = sub?.feedback?.find(f => f.questionId === colKey);
@@ -345,7 +401,7 @@ export default function AssignmentReportPage({
             <div className="bg-[var(--color-surface-container-low)]/50 p-4 rounded-md flex items-start gap-3">
               <div className="mt-0.5 text-[var(--color-primary-dim)]">💡</div>
               <p className="text-xs text-[var(--color-on-surface-variant)] leading-relaxed m-0">
-                <span className="font-semibold text-[var(--color-on-surface)]">Manual Grading:</span> Clicking into a question cell (Q1, Q2...) allows you to override the AI&apos;s calculation. The total score for the student will automatically update upon saving.
+                <span className="font-semibold text-[var(--color-on-surface)]">Manual Grading:</span> Click into any question cell (Q1, Q2...) to edit the score. Modified cells are highlighted. Click <strong>Save Changes</strong> to apply all edits at once, or <strong>Cancel</strong> to revert.
               </p>
             </div>
         </div>

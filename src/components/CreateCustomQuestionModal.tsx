@@ -13,26 +13,42 @@ interface Props {
 }
 
 export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, initialClassLevel, initialSubject }: Props) {
+  const [boards, setBoards] = useState<string[]>([]);
   const [classes, setClasses] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
-  
+
+  const [board, setBoard] = useState("");
+  const [customBoard, setCustomBoard] = useState("");
   const [classLevel, setClassLevel] = useState(initialClassLevel || "");
   const [subjectId, setSubjectId] = useState(initialSubject || "");
+  const [customSubject, setCustomSubject] = useState("");
   const [topic, setTopic] = useState("");
   const [text, setText] = useState("");
-  const [type, setType] = useState<"MCQ" | "SHORT_ANSWER">("MCQ");
+  const [type, setType] = useState<"MCQ" | "MULTIPLE_CHOICE" | "SHORT_ANSWER">("MCQ");
   const [options, setOptions] = useState<string[]>(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState("");
+  const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
   const [points, setPoints] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /* ── Fetch boards on open ── */
   useEffect(() => {
     if (isOpen) {
-      api.questions.getClasses().then(setClasses).catch(console.error);
+      api.questions.getBoards().then(setBoards).catch(console.error);
       api.questions.getSubjects().then(setSubjects).catch(console.error);
     }
   }, [isOpen]);
+
+  /* ── Fetch classes when board changes ── */
+  useEffect(() => {
+    const selectedBoard = board === "__other__" ? customBoard : board;
+    if (!selectedBoard) {
+      setClasses([]);
+      return;
+    }
+    api.questions.getClasses(selectedBoard).then(setClasses).catch(console.error);
+  }, [board, customBoard]);
 
   if (!isOpen) return null;
 
@@ -42,30 +58,35 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
     setOptions(newOptions);
   };
 
+  const resolvedBoard = board === "__other__" ? customBoard.trim() : board;
+  const resolvedSubject = subjectId === "__other__" ? customSubject.trim() : subjectId;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
+      const filteredOptions = options.filter(o => o.trim() !== "");
       const payload: Partial<Question> = {
-        subjectId,
+        subjectId: resolvedSubject,
         topic,
         text,
         type,
-        options: type === "MCQ" ? options.filter(o => o.trim() !== "") : undefined,
-        correctAnswer: type === "MCQ" ? options[Number(correctAnswer)] || correctAnswer : correctAnswer,
+        options: type === "MCQ" || type === "MULTIPLE_CHOICE" ? filteredOptions : undefined,
+        correctAnswer: type === "MCQ" ? filteredOptions[Number(correctAnswer)] || correctAnswer : type === "SHORT_ANSWER" ? correctAnswer : undefined,
+        correctAnswers: type === "MULTIPLE_CHOICE" ? correctAnswers.filter(a => filteredOptions.includes(a)) : undefined,
         points: Number(points),
         provenance: {
-          board: "NCERT",
+          board: resolvedBoard,
           classLevel,
-          subject: subjectId,
+          subject: resolvedSubject,
           book: "My Custom Questions",
           chapterNumber: 999,
           chapterTitle: topic,
           sourceFile: "Teacher Created"
         }
       };
-      
+
       const newQuestion = await api.questions.createCustom(payload);
       onSuccess(newQuestion);
     } catch (err: unknown) {
@@ -86,7 +107,28 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 flex flex-col gap-5">
           {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Board */}
+            <div>
+              <label htmlFor="custom-board" className="block text-xs font-semibold text-gray-600 mb-1">Board *</label>
+              <select id="custom-board" required value={board} onChange={e => setBoard(e.target.value)} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
+                <option value="">Select Board</option>
+                {boards.map(b => <option key={b} value={b}>{b}</option>)}
+                <option value="__other__">+ Other...</option>
+              </select>
+              {board === "__other__" && (
+                <input
+                  type="text"
+                  required
+                  value={customBoard}
+                  onChange={e => setCustomBoard(e.target.value)}
+                  placeholder="Enter board name"
+                  className="w-full mt-2 p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none"
+                />
+              )}
+            </div>
+
+            {/* Class */}
             <div>
               <label htmlFor="custom-class-level" className="block text-xs font-semibold text-gray-600 mb-1">Class Level *</label>
               <select id="custom-class-level" required value={classLevel} onChange={e => setClassLevel(e.target.value)} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
@@ -96,12 +138,25 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
                 {["6","7","8","9","10","11","12"].filter(c => !classes.includes(c)).map(c => <option key={c} value={c}>Class {c}</option>)}
               </select>
             </div>
+
+            {/* Subject */}
             <div>
               <label htmlFor="custom-subject" className="block text-xs font-semibold text-gray-600 mb-1">Subject *</label>
               <select id="custom-subject" required value={subjectId} onChange={e => setSubjectId(e.target.value)} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
                 <option value="">Select Subject</option>
                 {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+                <option value="__other__">+ Other...</option>
               </select>
+              {subjectId === "__other__" && (
+                <input
+                  type="text"
+                  required
+                  value={customSubject}
+                  onChange={e => setCustomSubject(e.target.value)}
+                  placeholder="Enter subject name"
+                  className="w-full mt-2 p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none"
+                />
+              )}
             </div>
           </div>
           
@@ -118,8 +173,13 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Question Type</label>
-              <select value={type} onChange={e => setType(e.target.value as "MCQ" | "SHORT_ANSWER")} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
-                <option value="MCQ">Multiple Choice</option>
+              <select value={type} onChange={e => {
+                const newType = e.target.value as "MCQ" | "MULTIPLE_CHOICE" | "SHORT_ANSWER";
+                setType(newType);
+                if (newType !== "MULTIPLE_CHOICE") setCorrectAnswers([]);
+              }} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
+                <option value="MCQ">Single Answer (MCQ)</option>
+                <option value="MULTIPLE_CHOICE">Multiple Answers (Multi-Select)</option>
                 <option value="SHORT_ANSWER">Short Answer</option>
               </select>
             </div>
@@ -129,16 +189,35 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
             </div>
           </div>
 
-          {type === "MCQ" && (
+          {(type === "MCQ" || type === "MULTIPLE_CHOICE") && (
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-3">
               <label className="block text-xs font-semibold text-gray-600">Answer Options</label>
               {options.map((opt, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <input type="radio" name="correctAnswer" checked={correctAnswer === String(i)} onChange={() => setCorrectAnswer(String(i))} className="w-4 h-4 text-[#12423f] cursor-pointer" required />
+                  {type === "MULTIPLE_CHOICE" ? (
+                    <input
+                      type="checkbox"
+                      checked={correctAnswers.includes(options[i])}
+                      onChange={() => {
+                        const val = options[i];
+                        if (!val.trim()) return;
+                        setCorrectAnswers(prev =>
+                          prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]
+                        );
+                      }}
+                      className="w-4 h-4 text-[#12423f] cursor-pointer rounded"
+                    />
+                  ) : (
+                    <input type="radio" name="correctAnswer" checked={correctAnswer === String(i)} onChange={() => setCorrectAnswer(String(i))} className="w-4 h-4 text-[#12423f] cursor-pointer" required={type === "MCQ"} />
+                  )}
                   <input value={opt} onChange={e => handleOptionChange(i, e.target.value)} placeholder={`Option ${i + 1}`} className="flex-1 p-2 border rounded-md text-sm outline-none focus:border-[#12423f]" required />
                 </div>
               ))}
-              <p className="text-[10px] text-gray-500 mt-2">Select the radio button next to the correct answer.</p>
+              <p className="text-[10px] text-gray-500 mt-2">
+                {type === "MULTIPLE_CHOICE"
+                  ? "Select all checkboxes next to correct answers. Student must select ALL correct options to score."
+                  : "Select the radio button next to the correct answer."}
+              </p>
             </div>
           )}
 

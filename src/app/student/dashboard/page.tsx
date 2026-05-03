@@ -401,7 +401,6 @@ export default function StudentDashboardPage() {
               setIdentity(null);
               sessionStorage.removeItem("shiksha-sathi-student-identity");
               sessionStorage.removeItem('shiksha-sathi-token');
-              document.cookie = 'auth-token=; path=/; max-age=0; SameSite=Lax';
             }}
             className="ml-2 underline font-semibold cursor-pointer bg-transparent border-none"
             style={{ color: "var(--color-error)" }}

@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { api } from "@/lib/api";
 import { ProfileResponse, User } from "@/lib/api/types";
 
@@ -107,14 +106,14 @@ export default async function ProfilePage() {
 
   try {
     // Run both fetches in parallel
+    // Auth is handled client-side by AuthSessionGuard.
+    // Server components cannot access sessionStorage.
     [user, profile] = await Promise.all([
       api.auth.getMe().catch(() => null),
       api.teachers.getProfile().catch(() => null),
     ]) as [User | null, ProfileResponse | null];
-
-    if (!user) redirect("/login");
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   /* ── Derived values ── */

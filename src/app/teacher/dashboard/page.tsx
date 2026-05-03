@@ -1,7 +1,6 @@
 import { api } from "@/lib/api";
 import { AssignmentWithStats } from "@/lib/api/types";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -56,17 +55,19 @@ const IconChevronRight = () => (
 );
 
 export default async function TeacherDashboard() {
-  /* ── Data Fetching (Server Component) ── */
-  let user;
+  /* ── Data Fetching (Server Component) ──
+   * Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
+  let user = null;
   try {
     user = await api.auth.getMe();
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   let assignments: AssignmentWithStats[] = [];
   try {
-    assignments = await api.assignments.getStats(user.id);
+    assignments = user ? await api.assignments.getStats(user.id) : [];
   } catch (error) {
     console.error("Failed to load assignments:", error);
   }
@@ -163,7 +164,7 @@ export default async function TeacherDashboard() {
               Teacher Dashboard
             </span>
             <h1 className="font-manrope text-[clamp(1.5rem,3vw,1.875rem)] font-extrabold text-[#12423f] tracking-[-0.02em] leading-[1.2] m-0">
-              {greeting}, {user.name || "Teacher"}.
+              {greeting}, {user?.name || "Teacher"}.
             </h1>
             <p className="text-sm text-[#404847] mt-2 max-w-[28rem] leading-[1.6]">
               Your teaching studio is aligned for the day. You have{" "}

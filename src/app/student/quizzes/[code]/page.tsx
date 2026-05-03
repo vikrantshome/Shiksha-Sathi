@@ -1,7 +1,6 @@
-import { cookies } from "next/headers";
-import { redirect, notFound } from "next/navigation";
-import { api } from "@/lib/api";
+import { notFound } from "next/navigation";
 import StudentSelfPacedQuiz from "@/components/StudentSelfPacedQuiz";
+import { api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +9,6 @@ export default async function StudentSelfPacedQuizPage({
 }: {
   params: Promise<{ code: string }>;
 }) {
-  const cookieStore = await cookies();
-  const authToken = cookieStore.get("auth-token")?.value;
-  if (!authToken) {
-    redirect("/student/login");
-  }
-
   const { code } = await params;
   if (!code) notFound();
 
@@ -36,4 +29,3 @@ export default async function StudentSelfPacedQuizPage({
     </div>
   );
 }
-

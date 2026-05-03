@@ -46,21 +46,30 @@ public class QuestionService {
             java.util.Optional<com.shikshasathi.backend.core.domain.user.User> userOpt = userRepository.findByEmail(loginIdentity);
             if (userOpt.isEmpty()) {
                 java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
-                if (!phoneUsers.isEmpty()) userOpt = java.util.Optional.of(phoneUsers.get(0));
+                userOpt = phoneUsers.stream()
+                        .filter(u -> com.shikshasathi.backend.core.domain.user.Role.TEACHER.equals(u.getRole()))
+                        .findFirst()
+                        .or(() -> phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0)));
             }
             if (userOpt.isPresent()) {
                 userId = userOpt.get().getId();
             }
         }
-        
-        List<Criteria> orList = new ArrayList<>();
-        orList.add(Criteria.where("source_kind").ne("CUSTOM"));
-        orList.add(Criteria.where("source_kind").exists(false));
+
+        // Exclude questions marked as CUSTOM in either snake_case or camelCase storage
+        Criteria nonCustom = new Criteria().andOperator(
+                Criteria.where("source_kind").ne("CUSTOM"),
+                Criteria.where("sourceKind").ne("CUSTOM")
+        );
+
         if (userId != null) {
-            orList.add(Criteria.where("teacher_id").is(userId));
+            return new Criteria().orOperator(
+                    nonCustom,
+                    Criteria.where("teacher_id").is(userId),
+                    Criteria.where("teacherId").is(userId)
+            );
         }
-        
-        return new Criteria().orOperator(orList.toArray(new Criteria[0]));
+        return nonCustom;
     }
 
     public List<String> getDistinctSubjects(String board, String classLevel, String loginIdentity) {
@@ -156,7 +165,10 @@ public class QuestionService {
         }
         if (book != null && !book.isEmpty()) allCriteria.add(Criteria.where("provenance.book").is(book));
         if (visibleOnly != null && visibleOnly) {
-            allCriteria.add(Criteria.where("review_status").is("PUBLISHED"));
+            allCriteria.add(new Criteria().orOperator(
+                Criteria.where("review_status").is("PUBLISHED"),
+                Criteria.where("reviewStatus").is("PUBLISHED")
+            ));
             allCriteria.add(excludePlaceholderQuestionsCriteria());
         }
 
@@ -185,9 +197,15 @@ public class QuestionService {
         for (ChapterMetaRow row : results.getMappedResults()) {
             if (row.getChapterNumber() == null) continue;
             String title = row.getChapterTitle();
-            String label = title == null || title.isBlank()
-                    ? "Chapter " + row.getChapterNumber()
-                    : "Chapter " + row.getChapterNumber() + ": " + title;
+            String label;
+            if (row.getChapterNumber() >= 900) {
+                // Custom questions (e.g., chapterNumber=999) — show title only
+                label = title == null || title.isBlank() ? "Custom" : title;
+            } else {
+                label = title == null || title.isBlank()
+                        ? "Chapter " + row.getChapterNumber()
+                        : "Chapter " + row.getChapterNumber() + ": " + title;
+            }
             out.add(ChapterMetaDTO.builder()
                     .chapterNumber(row.getChapterNumber())
                     .chapterTitle(title)
@@ -241,10 +259,16 @@ public class QuestionService {
         }
 
         if (visibleOnly != null && visibleOnly) {
-            allCriteria.add(Criteria.where("review_status").is("PUBLISHED"));
+            allCriteria.add(new Criteria().orOperator(
+                Criteria.where("review_status").is("PUBLISHED"),
+                Criteria.where("reviewStatus").is("PUBLISHED")
+            ));
             allCriteria.add(excludePlaceholderQuestionsCriteria());
         } else if (approvedOnly != null && approvedOnly) {
-            allCriteria.add(Criteria.where("review_status").in("APPROVED", "PUBLISHED"));
+            allCriteria.add(new Criteria().orOperator(
+                Criteria.where("review_status").in("APPROVED", "PUBLISHED"),
+                Criteria.where("reviewStatus").in("APPROVED", "PUBLISHED")
+            ));
         }
 
         if (type != null && !type.equalsIgnoreCase("ALL")) {
@@ -275,9 +299,15 @@ public class QuestionService {
     private Criteria classLevelCriteria(String classLevel) {
         try {
             int numeric = Integer.parseInt(classLevel);
-            return Criteria.where("provenance.class").in(classLevel, numeric);
+            return new Criteria().orOperator(
+                Criteria.where("provenance.class").in(classLevel, numeric),
+                Criteria.where("provenance.classLevel").in(classLevel, numeric)
+            );
         } catch (NumberFormatException e) {
-            return Criteria.where("provenance.class").is(classLevel);
+            return new Criteria().orOperator(
+                Criteria.where("provenance.class").is(classLevel),
+                Criteria.where("provenance.classLevel").is(classLevel)
+            );
         }
     }
 
@@ -299,7 +329,10 @@ public class QuestionService {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(loginIdentity)
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
-                    return phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0));
+                    return phoneUsers.stream()
+                            .filter(u -> com.shikshasathi.backend.core.domain.user.Role.TEACHER.equals(u.getRole()))
+                            .findFirst()
+                            .or(() -> phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0)));
                 })
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
                 

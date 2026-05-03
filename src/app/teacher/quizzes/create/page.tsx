@@ -1,15 +1,16 @@
 import { api } from "@/lib/api";
-import { redirect } from "next/navigation";
 import CreateQuizForm from "@/components/CreateQuizForm";
 import { QuizProvider } from "@/components/QuizContext";
 
 export const dynamic = "force-dynamic";
 
 export default async function CreateQuizPage() {
+  /* Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
   try {
     await api.auth.getMe();
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   const classesData = await api.classes.getClasses();

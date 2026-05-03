@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getCookie } from "cookies-next";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 interface Student {
@@ -27,7 +26,9 @@ export default function EditStudentForm({ student }: EditStudentFormProps) {
     const rollNumber = formData.get("rollNumber") as string;
     
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
-    const token = getCookie('auth-token') as string | undefined;
+    const token = typeof window !== 'undefined'
+      ? sessionStorage.getItem('shiksha-sathi-token') ?? undefined
+      : undefined;
 
     try {
       const res = await fetch(`${API_URL}/classes/students/${student.id}`, {

@@ -72,6 +72,9 @@ export default function SignupPage() {
 
     setIsPending(true);
 
+    // Clear any stale token so the signup request reaches the endpoint.
+    sessionStorage.removeItem('shiksha-sathi-token');
+
     try {
       const response = await auth.signup({
         name,
@@ -87,7 +90,6 @@ export default function SignupPage() {
       });
 
       // Set sessionStorage for client-side auth (tab-isolated)
-      // No cookie - cookie is shared across all tabs, defeating tab isolation
       if (response.token) {
         sessionStorage.setItem('shiksha-sathi-token', response.token);
       }

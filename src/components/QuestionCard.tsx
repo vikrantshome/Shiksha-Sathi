@@ -126,11 +126,17 @@ export default function QuestionCard({ question: q, mode = "assignment" }: { que
           {q.text}
         </p>
 
-        {/* MCQ Options Grid — correct option highlighted by default */}
+        {/* MCQ Options Grid — correct option(s) highlighted by default */}
         {q.options && (
           <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 mb-4 md:mb-6">
             {q.options.map((opt, i) => {
-              const isCorrect = q.correctAnswer === opt || q.correctAnswer === String.fromCharCode(65 + i);
+              const allCorrect = Array.isArray(q.correctAnswers) && q.correctAnswers.length > 0
+                ? q.correctAnswers
+                : Array.isArray(q.correctAnswer)
+                  ? q.correctAnswer
+                  : q.correctAnswer ? [q.correctAnswer] : [];
+              const correctSet = new Set(allCorrect);
+              const isCorrect = correctSet.has(opt) || correctSet.has(String.fromCharCode(65 + i));
               return (
                 <div
                   key={i}
@@ -194,7 +200,11 @@ export default function QuestionCard({ question: q, mode = "assignment" }: { que
                   Correct Answer
                 </h4>
                 <p className="m-0 text-lg font-bold text-[#1B6B47]">
-                  {q.correctAnswer}
+                  {Array.isArray(q.correctAnswers) && q.correctAnswers.length > 0
+                    ? q.correctAnswers.join(", ")
+                    : Array.isArray(q.correctAnswer)
+                      ? q.correctAnswer.join(", ")
+                      : q.correctAnswer || "—"}
                 </p>
               </div>
 

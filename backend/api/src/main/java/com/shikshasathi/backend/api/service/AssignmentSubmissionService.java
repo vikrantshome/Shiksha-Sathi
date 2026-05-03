@@ -292,6 +292,20 @@ public class AssignmentSubmissionService {
                 if (questionFeedback.isAiGradingFailed()) {
                     hasAIFailure = true;
                 }
+            } else if ("MULTIPLE_CHOICE".equals(question.getType()) && question.getCorrectAnswers() != null) {
+                // Multi-select MCQ: all-or-nothing grading
+                java.util.List<String> studentSelections = parseMultiAnswer(answers == null ? null : answers.get(questionId));
+                boolean isCorrect = multiAnswersMatch(studentSelections, question.getCorrectAnswers());
+                int marksAwarded = isCorrect ? marks : 0;
+                questionFeedback = QuestionFeedbackDTO.builder()
+                        .questionId(question.getId())
+                        .questionText(question.getText())
+                        .studentAnswer(formatMultiAnswer(studentSelections))
+                        .correctAnswer(formatMultiAnswer(question.getCorrectAnswers()))
+                        .isCorrect(isCorrect)
+                        .marksAwarded(marksAwarded)
+                        .maxMarks(marks)
+                        .build();
             } else {
                 boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
                 int marksAwarded = isCorrect ? marks : 0;
@@ -351,6 +365,47 @@ public class AssignmentSubmissionService {
 
     private String stringifyAnswer(Object answer) {
         return answer == null ? "" : answer.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    private java.util.List<String> parseMultiAnswer(Object answer) {
+        if (answer == null) {
+            return java.util.List.of();
+        }
+        if (answer instanceof java.util.List) {
+            return ((java.util.List<?>) answer).stream()
+                    .map(Object::toString)
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .toList();
+        }
+        String str = answer.toString().trim();
+        if (str.isEmpty()) {
+            return java.util.List.of();
+        }
+        return java.util.List.of(str);
+    }
+
+    private boolean multiAnswersMatch(java.util.List<String> studentAnswers, java.util.List<String> correctAnswers) {
+        if (studentAnswers == null || correctAnswers == null) {
+            return false;
+        }
+        java.util.Set<String> normalizedStudent = studentAnswers.stream()
+                .map(String::trim)
+                .map(String::toLowerCase)
+                .collect(java.util.stream.Collectors.toSet());
+        java.util.Set<String> normalizedCorrect = correctAnswers.stream()
+                .map(String::trim)
+                .map(String::toLowerCase)
+                .collect(java.util.stream.Collectors.toSet());
+        return normalizedStudent.equals(normalizedCorrect);
+    }
+
+    private String formatMultiAnswer(java.util.List<String> answers) {
+        if (answers == null || answers.isEmpty()) {
+            return "";
+        }
+        return String.join(", ", answers);
     }
 
     private String normalizeAnswer(String answer) {

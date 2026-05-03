@@ -1,14 +1,8 @@
-import { notFound, redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import AssignmentProgress from "@/components/AssignmentProgress";
 import { api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
-
-/* ─────────────────────────────────────────────────────────
-   Student Assignment Page — Requires Authentication
-   Students must be logged in to access assignments.
-   ───────────────────────────────────────────────────────── */
 
 interface StudentAssignmentPageProps {
   params: Promise<{
@@ -25,13 +19,6 @@ export default async function StudentAssignmentPage({
     notFound();
   }
 
-  // Check for auth token — redirect to login if missing, preserving the return URL
-  const cookieStore = await cookies();
-  const authToken = cookieStore.get("auth-token")?.value;
-  if (!authToken) {
-    redirect(`/student/login?redirect=/student/assignment/${resolvedParams.linkId}`);
-  }
-
   let assignment;
   try {
     assignment = await api.assignments.getByLinkId(resolvedParams.linkId);
@@ -45,15 +32,12 @@ export default async function StudentAssignmentPage({
 
   return (
     <div className="min-h-screen" style={{ background: "var(--color-surface)" }}>
-      {/* ═══ Main Content Area (no left margin — student has no sidebar) ═══ */}
       <main className="pt-2 pb-24 px-4 md:px-8 lg:px-16 xl:pr-80">
         <div className="max-w-3xl mx-auto relative">
-          {/* Question Sequence with Live Header */}
           <AssignmentProgress assignment={assignment} />
         </div>
       </main>
 
-      {/* ═══ M3 Assistance Card (Floating Right — Desktop xl) ═══ */}
       <aside className="fixed right-4 xl:right-12 top-40 xl:top-48 hidden xl:block w-72 z-10">
         <div className="rounded-xl p-6 space-y-5" style={{ background: "var(--color-surface-container-low)" }}>
           <h3 className="text-[0.75rem] font-bold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>

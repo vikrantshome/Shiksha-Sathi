@@ -1,19 +1,20 @@
 import { api } from "@/lib/api";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function TeacherQuizzesPage() {
-  let user;
+  /* Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
+  let user = null;
   try {
     user = await api.auth.getMe();
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   const [quizzes, classes] = await Promise.all([
-    api.quizzes.listForTeacher(user.id).catch(() => []),
+    user ? api.quizzes.listForTeacher(user.id).catch(() => []) : Promise.resolve([]),
     api.classes.getClasses().catch(() => []),
   ]);
 

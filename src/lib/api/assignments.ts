@@ -59,7 +59,7 @@ export const assignments = {
     school: string,
     studentClass: string,
     section: string,
-    answers: Record<string, string>
+    answers: Record<string, string | string[]>
   ): Promise<SubmitAssignmentResponse> =>
     fetchApi<SubmitAssignmentResponse>('/submissions', {
       method: 'POST',
