@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   getStudentIdentity,
-  saveStudentIdentity,
   students,
 } from "@/lib/api/students";
 import type { StudentDashboardStats, StudentIdentity, Assignment, SubmissionDTO, Quiz, ClassItem } from "@/lib/api/types";
@@ -19,7 +18,6 @@ interface QuizAttempt {
   maxScore?: number;
   submittedAt?: string;
 }
-import SearchableSchoolDropdown from "@/components/SearchableSchoolDropdown";
 import Loader from "@/components/Loader";
 import CodeEntryModal from "@/components/CodeEntryModal";
 
@@ -77,143 +75,6 @@ const IconZap = () => (
   </svg>
 );
 
-/* ── Identity Entry Modal ── */
-function IdentityEntry({ onSubmit }: { onSubmit: (identity: StudentIdentity) => void }) {
-  const [studentSchool, setStudentSchool] = useState("");
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const rollNumber = formData.get("rollNumber") as string;
-    const school = formData.get("school") as string || studentSchool;
-    const studentClass = formData.get("studentClass") as string;
-    const section = formData.get("section") as string;
-    if (name && rollNumber && school && studentClass && section) {
-      const identity: StudentIdentity = {
-        studentId: rollNumber,
-        studentName: name,
-        school,
-        class: studentClass,
-        section,
-        storedAt: new Date().toISOString(),
-      };
-      saveStudentIdentity(identity);
-      onSubmit(identity);
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-center min-h-[60vh] px-4">
-      <div className="relative w-full max-w-md">
-        <div className="relative mt-8 rounded-2xl p-6 md:p-8" style={{ background: "var(--color-surface-container-lowest)" }}>
-          <div className="mb-6 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
-              <IconAssignment />
-            </div>
-            <h2 className="mb-2 text-xl font-semibold tracking-tight" style={{ color: "var(--color-on-surface)" }}>
-              Welcome to Shiksha Sathi
-            </h2>
-            <p className="max-w-xs mx-auto text-sm leading-relaxed" style={{ color: "var(--color-on-surface-variant)" }}>
-              Enter your details to view your assignments and progress.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* School/Institute — Searchable Dropdown */}
-            <SearchableSchoolDropdown value={studentSchool} onChange={setStudentSchool} />
-            <input type="hidden" name="school" value={studentSchool} />
-
-            {/* Class and Section Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="relative group">
-                <label htmlFor="dashboard-class" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
-                  Class / Grade
-                </label>
-                <select
-                  id="dashboard-class"
-                  name="studentClass"
-                  required
-                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body appearance-none cursor-pointer"
-                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                >
-                  <option value="">Select</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={String(i + 1)}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="relative group">
-                <label htmlFor="dashboard-section" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
-                  Section
-                </label>
-                <input
-                  id="dashboard-section"
-                  name="section"
-                  required
-                  placeholder="e.g. A"
-                  type="text"
-                  className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                  style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                  onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                  onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-                />
-              </div>
-            </div>
-
-            {/* Name */}
-            <div className="relative group">
-              <label htmlFor="student-name" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
-                Full Name
-              </label>
-              <input
-                id="student-name"
-                name="name"
-                required
-                placeholder="e.g. Aarav Patel"
-                type="text"
-                className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-              />
-            </div>
-            {/* Roll Number */}
-            <div className="relative group">
-              <label htmlFor="student-roll" className="block text-[0.75rem] font-medium uppercase tracking-[0.05em] mb-2 transition-colors" style={{ color: "var(--color-on-surface-variant)" }}>
-                Roll Number
-              </label>
-              <input
-                id="student-roll"
-                name="rollNumber"
-                required
-                placeholder="Enter your unique ID"
-                type="text"
-                className="w-full px-0 py-3 text-base transition-all border-t-0 border-b border-l-0 border-r-0 bg-transparent focus:ring-0 font-body"
-                style={{ borderColor: "var(--color-outline-variant)", color: "var(--color-on-surface)" }}
-                onFocus={(e) => e.target.style.borderColor = "var(--color-primary)"}
-                onBlur={(e) => e.target.style.borderColor = "var(--color-outline-variant)"}
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-4 px-6 rounded-full font-semibold transition-all duration-200"
-              style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}
-            >
-              View My Dashboard
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ── Empty State ── */
 function EmptyState({ onEnterCode }: { onEnterCode: () => void }) {
   return (
@@ -247,7 +108,7 @@ export default function StudentDashboardPage() {
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   
   // New: pending/submitted from enrolled classes
-  const [enrolledClasses, setEnrolledClasses] = useState<ClassItem[]>([]);
+  const [, setEnrolledClasses] = useState<ClassItem[]>([]);
   const [pendingAssignments, setPendingAssignments] = useState<Assignment[]>([]);
   const [submittedAssignments, setSubmittedAssignments] = useState<SubmissionDTO[]>([]);
   const [pendingQuizzes, setPendingQuizzes] = useState<Quiz[]>([]);
@@ -401,7 +262,6 @@ export default function StudentDashboardPage() {
               setIdentity(null);
               sessionStorage.removeItem("shiksha-sathi-student-identity");
               sessionStorage.removeItem('shiksha-sathi-token');
-              document.cookie = 'auth-token=; path=/; max-age=0; SameSite=Lax';
             }}
             className="ml-2 underline font-semibold cursor-pointer bg-transparent border-none"
             style={{ color: "var(--color-error)" }}
@@ -759,7 +619,6 @@ export default function StudentDashboardPage() {
                     const score = attempt.score ?? 0;
                     const total = attempt.totalMarks ?? attempt.maxScore ?? 100;
                     const scorePct = Math.round((score / total) * 100);
-                    const isGraded = attempt.submittedAt != null;
                     return (
                       <tr
                         key={attempt.id}

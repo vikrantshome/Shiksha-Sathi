@@ -88,7 +88,11 @@ export default async function QuestionBankPage({
     subject: selectedSubject || undefined,
   });
 
-  const selectedBook = book && booksData.includes(book) ? book : null;
+  const selectedBook = book && booksData.includes(book)
+    ? book
+    : booksData.length > 0
+      ? booksData[0]
+      : null;
 
   const chaptersMeta = await api.questions.getChaptersMeta({
     board: board || undefined,

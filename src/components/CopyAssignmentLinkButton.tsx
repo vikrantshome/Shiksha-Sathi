@@ -10,77 +10,153 @@ type CopyAssignmentLinkButtonProps = {
   code?: string;
 };
 
-export default function CopyAssignmentLinkButton({ shareLink, path, code }: CopyAssignmentLinkButtonProps) {
+/* ── Material Design 3 Tonal Button ── */
+const TonalButton = ({
+  children,
+  onClick,
+  copied,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  copied: boolean;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-bold transition-all duration-200 ease-out active:scale-[0.96] hover:shadow-sm"
+    style={{
+      background: copied
+        ? "var(--color-tertiary-container)"
+        : "var(--color-primary-container)",
+      color: copied
+        ? "var(--color-on-tertiary-container)"
+        : "var(--color-on-primary-container)",
+    }}
+  >
+    {copied ? (
+      <CheckIcon className="h-4 w-4" />
+    ) : (
+      <ClipboardDocumentIcon className="h-4 w-4" />
+    )}
+    {copied ? "Copied" : children}
+  </button>
+);
+
+export default function CopyAssignmentLinkButton({
+  shareLink,
+  path,
+  code,
+}: CopyAssignmentLinkButtonProps) {
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
 
   useEffect(() => {
     if (!copiedLink) return;
-    const timeoutId = window.setTimeout(() => setCopiedLink(false), 1800);
+    const timeoutId = window.setTimeout(() => setCopiedLink(false), 2000);
     return () => window.clearTimeout(timeoutId);
   }, [copiedLink]);
 
   useEffect(() => {
     if (!copiedCode) return;
-    const timeoutId = window.setTimeout(() => setCopiedCode(false), 1800);
+    const timeoutId = window.setTimeout(() => setCopiedCode(false), 2000);
     return () => window.clearTimeout(timeoutId);
   }, [copiedCode]);
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="min-w-0 flex-1 rounded-md border border-outline-variant/30 bg-surface-container/60 px-3 py-2">
-        <div className="mb-1 flex items-center gap-2 text-label-sm text-on-surface-variant">
-          <LinkIcon className="h-4 w-4" />
-          <span>Student Link</span>
-        </div>
-        <Link
-          href={path}
-          className="block break-all font-mono text-xs text-primary underline-offset-4 transition hover:underline"
-          target="_blank"
-          rel="noreferrer"
+    <div
+      className="rounded-xl p-4 flex flex-col md:flex-row gap-4 md:gap-0 md:items-center"
+      style={{
+        background: "var(--color-surface-container-lowest)",
+        border: "1px solid var(--color-outline-variant)",
+      }}
+    >
+      {/* ═══ Student Link ═══ */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+          style={{
+            background: "var(--color-primary-container)",
+            color: "var(--color-on-primary-container)",
+          }}
         >
-          {shareLink}
-        </Link>
+          <LinkIcon className="h-5 w-5" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <p
+            className="text-[0.6875rem] font-bold uppercase tracking-wider mb-0.5"
+            style={{ color: "var(--color-on-surface-variant)" }}
+          >
+            Student Link
+          </p>
+          <Link
+            href={path}
+            className="block truncate font-mono text-xs transition hover:opacity-80"
+            style={{ color: "var(--color-primary)" }}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {shareLink}
+          </Link>
+        </div>
+
+        <TonalButton
+          onClick={async () => {
+            await navigator.clipboard.writeText(shareLink);
+            setCopiedLink(true);
+          }}
+          copied={copiedLink}
+        >
+          Copy Link
+        </TonalButton>
       </div>
 
-      <button
-        type="button"
-        onClick={async () => {
-          await navigator.clipboard.writeText(shareLink);
-          setCopiedLink(true);
-        }}
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
-        style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))", color: "var(--color-on-primary)" }}
-      >
-        {copiedLink ? <CheckIcon className="h-4 w-4" /> : <ClipboardDocumentIcon className="h-4 w-4" />}
-        {copiedLink ? "Copied" : "Copy Link"}
-      </button>
-
+      {/* ═══ Divider ═══ */}
       {code && (
-        <>
-          <div className="min-w-0 flex-1 rounded-md border border-outline-variant/30 bg-primary-container/40 px-3 py-2">
-            <div className="mb-1 flex items-center gap-2 text-label-sm text-on-primary-container">
-              <KeyIcon className="h-4 w-4" />
-              <span>Entry Code</span>
-            </div>
-            <code className="block break-all font-mono text-lg font-extrabold tracking-[0.2em] text-primary">
+        <div
+          className="h-px w-full md:w-px md:h-10 md:mx-4"
+          style={{ background: "var(--color-outline-variant)" }}
+        />
+      )}
+
+      {/* ═══ Entry Code ═══ */}
+      {code && (
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+            style={{
+              background: "var(--color-tertiary-container)",
+              color: "var(--color-on-tertiary-container)",
+            }}
+          >
+            <KeyIcon className="h-5 w-5" />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <p
+              className="text-[0.6875rem] font-bold uppercase tracking-wider mb-0.5"
+              style={{ color: "var(--color-on-surface-variant)" }}
+            >
+              Entry Code
+            </p>
+            <code
+              className="block font-mono text-xl font-extrabold tracking-[0.15em]"
+              style={{ color: "var(--color-on-surface)" }}
+            >
               {code}
             </code>
           </div>
 
-          <button
-            type="button"
+          <TonalButton
             onClick={async () => {
               await navigator.clipboard.writeText(code);
               setCopiedCode(true);
             }}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm px-4 py-2.5 text-sm font-medium text-on-primary transition-all duration-150 ease-out hover:opacity-90 hover:shadow-sm active:scale-[0.98]"
-            style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
+            copied={copiedCode}
           >
-            {copiedCode ? <CheckIcon className="h-4 w-4" /> : <ClipboardDocumentIcon className="h-4 w-4" />}
-            {copiedCode ? "Copied" : "Copy Code"}
-          </button>
-        </>
+            Copy Code
+          </TonalButton>
+        </div>
       )}
     </div>
   );

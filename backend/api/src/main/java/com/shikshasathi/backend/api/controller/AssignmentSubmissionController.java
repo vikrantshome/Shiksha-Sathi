@@ -39,4 +39,9 @@ public class AssignmentSubmissionController {
     public ResponseEntity<SubmitAssignmentResponseDTO> submitAssignment(@RequestBody com.shikshasathi.backend.core.domain.learning.AssignmentSubmission submission) {
         return ResponseEntity.ok(submissionService.submitAssignment(submission));
     }
+
+    @PostMapping("/{submissionId}/regrade")
+    public ResponseEntity<SubmissionDTO> regradeSubmission(@PathVariable String submissionId) {
+        return ResponseEntity.ok(submissionService.regradeSubmission(submissionId));
+    }
 }

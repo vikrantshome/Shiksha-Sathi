@@ -32,13 +32,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * AI-powered grading service supporting both NVIDIA API (primary) and HF Space (fallback).
+ * AI-powered grading service supporting a fallback chain: NVIDIA → Qwen → Mistral.
  *
  * <p>Features:
  * <ul>
  *   <li>Retry with exponential backoff (max 3 attempts, 1s-4s delays)</li>
  *   <li>Response caching (24h TTL, 10k max entries via Caffeine)</li>
- *   <li>Fallback to HF Space on persistent API failure</li>
+ *   <li>Fallback chain: primary (NVIDIA) → fallback1 (Qwen) → fallback2 (Mistral)</li>
  *   <li>Smart JSON extraction from verbose model output</li>
  * </ul>
  */
@@ -101,25 +101,55 @@ public class AIGradingService {
     }
 
     /**
-     * Call the AI grading agent via NVIDIA API only.
-     * Naviksha AI agent (HF Space) fallback is disabled.
+     * Call the AI grading agent with fallback chain: primary (NVIDIA) → fallback1 (Qwen) → fallback2 (Mistral).
      */
     private AIGradingResponse callAIGradingAgent(String questionText, String expectedAnswer,
                                                   String studentAnswer, int maxMarks) {
-        return callNvidiaApi(questionText, expectedAnswer, studentAnswer, maxMarks);
+        // Try primary NVIDIA endpoint
+        try {
+            return callAiApi(questionText, expectedAnswer, studentAnswer, maxMarks,
+                    aiGradingProperties.getEndpointUrl(), aiGradingProperties.getModel());
+        } catch (Exception primaryEx) {
+            log.warn("Primary AI model failed: {}. Trying fallback 1 (qwen)...", primaryEx.getMessage());
+        }
+
+        // Try fallback 1 (qwen)
+        String fallbackUrl1 = aiGradingProperties.getFallbackUrl1();
+        if (fallbackUrl1 != null && !fallbackUrl1.isBlank()) {
+            try {
+                return callAiApi(questionText, expectedAnswer, studentAnswer, maxMarks,
+                        fallbackUrl1, "qwen3.5-122b-a10b");
+            } catch (Exception fallback1Ex) {
+                log.warn("Fallback 1 (qwen) failed: {}. Trying fallback 2 (mistral)...", fallback1Ex.getMessage());
+            }
+        }
+
+        // Try fallback 2 (mistral)
+        String fallbackUrl2 = aiGradingProperties.getFallbackUrl2();
+        if (fallbackUrl2 != null && !fallbackUrl2.isBlank()) {
+            try {
+                return callAiApi(questionText, expectedAnswer, studentAnswer, maxMarks,
+                        fallbackUrl2, "mistral-small-4-119b-2603");
+            } catch (Exception fallback2Ex) {
+                log.warn("Fallback 2 (mistral) failed: {}", fallback2Ex.getMessage());
+            }
+        }
+
+        throw new RuntimeException("All AI grading models failed (primary + 2 fallbacks)");
     }
 
-    /**
-     * Call NVIDIA API (OpenAI-compatible format) with retry and exponential backoff.
+/**
+     * Call AI API with provided URL and model (OpenAI-compatible format) with retry and exponential backoff.
      * Handles 429 (rate limit) and 5xx errors with up to 3 retries.
      */
-    private AIGradingResponse callNvidiaApi(String questionText, String expectedAnswer,
-                                             String studentAnswer, int maxMarks) {
+    private AIGradingResponse callAiApi(String questionText, String expectedAnswer,
+                                              String studentAnswer, int maxMarks,
+                                              String url, String model) {
         String systemMsg = buildSystemPrompt();
         String userMsg = buildUserPrompt(questionText, expectedAnswer, studentAnswer, maxMarks);
 
         Map<String, Object> requestBody = new LinkedHashMap<>();
-        requestBody.put("model", aiGradingProperties.getModel());
+        requestBody.put("model", model);
         requestBody.put("temperature", aiGradingProperties.getTemperature());
 
         List<Map<String, String>> messages = new ArrayList<>();
@@ -133,8 +163,7 @@ public class AIGradingService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        String url = aiGradingProperties.getEndpointUrl();
-        log.info("Calling NVIDIA API: model={}, endpoint={}", aiGradingProperties.getModel(), url);
+        log.info("Calling AI API: model={}, endpoint={}", model, url);
 
         Exception lastException = null;
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -142,14 +171,14 @@ public class AIGradingService {
                 ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
                 if (response.getBody() == null) {
-                    throw new IllegalStateException("NVIDIA API returned empty body");
+                    throw new IllegalStateException("AI API returned empty body");
                 }
                 if (!response.getStatusCode().is2xxSuccessful()) {
-                    throw new IllegalStateException("NVIDIA API returned " + response.getStatusCode());
+                    throw new IllegalStateException("AI API returned " + response.getStatusCode());
                 }
 
                 if (attempt > 1) {
-                    log.info("NVIDIA API succeeded on attempt {}", attempt);
+                    log.info("AI API succeeded on attempt {}", attempt);
                 }
                 return parseJsonContent(response.getBody());
 
@@ -158,7 +187,7 @@ public class AIGradingService {
                 lastException = e;
                 if (attempt < MAX_RETRIES) {
                     long backoff = INITIAL_BACKOFF_MS * (1L << (attempt - 1));
-                    log.warn("NVIDIA API {} error (attempt {}/{}), retrying in {}ms: {}",
+                    log.warn("AI API {} error (attempt {}/{}), retrying in {}ms: {}",
                             e.getStatusCode().value(), attempt, MAX_RETRIES, backoff, e.getMessage());
                     try {
                         Thread.sleep(backoff);
@@ -172,7 +201,7 @@ public class AIGradingService {
                 lastException = e;
                 if (attempt < MAX_RETRIES) {
                     long backoff = INITIAL_BACKOFF_MS * (1L << (attempt - 1));
-                    log.warn("NVIDIA API network error (attempt {}/{}), retrying in {}ms: {}",
+                    log.warn("AI API network error (attempt {}/{}), retrying in {}ms: {}",
                             attempt, MAX_RETRIES, backoff, e.getMessage());
                     try {
                         Thread.sleep(backoff);
@@ -184,7 +213,7 @@ public class AIGradingService {
             }
         }
 
-        throw new RuntimeException("NVIDIA API failed after " + MAX_RETRIES + " attempts", lastException);
+        throw new RuntimeException("AI API failed after " + MAX_RETRIES + " attempts", lastException);
     }
 
     // --- Prompt Building ---
@@ -460,6 +489,7 @@ public class AIGradingService {
                 .correctAnswer(expectedAnswer)
                 .isCorrect(response.isCorrect())
                 .marksAwarded((int) Math.round(response.getMarksAwarded()))
+                .maxMarks(question.getPoints())
                 .reasoning(response.getReasoning())
                 .confidence(response.getConfidence())
                 .aiGradingFailed(false)
@@ -476,6 +506,7 @@ public class AIGradingService {
                 .correctAnswer(expectedAnswer)
                 .isCorrect(false)
                 .marksAwarded(0)
+                .maxMarks(maxMarks)
                 .reasoning(reason)
                 .confidence(0.0)
                 .aiGradingFailed(true)
@@ -497,6 +528,7 @@ public class AIGradingService {
                 .correctAnswer(expectedAnswer)
                 .isCorrect(isCorrect)
                 .marksAwarded(marksAwarded)
+                .maxMarks(maxMarks)
                 .reasoning(null)
                 .confidence(null)
                 .aiGradingFailed(false)

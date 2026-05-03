@@ -42,6 +42,9 @@ public class Question extends BaseEntity {
     @Field("correct_answer")
     private String correctAnswer;
 
+    @Field("correct_answers")
+    private java.util.List<String> correctAnswers;
+
     @Getter(AccessLevel.NONE)
     @Field("correctAnswer")
     private String legacyCorrectAnswer;

@@ -86,6 +86,23 @@ public class AssignmentService {
         Map<String, Question> questionMap = questions.stream()
                 .collect(Collectors.toMap(Question::getId, q -> q));
 
+        // Build a map of submission -> parsed feedback for accurate correctness counting
+        Map<String, List<QuestionFeedbackDTO>> feedbackBySubmission = submissions.stream()
+                .collect(Collectors.toMap(
+                        AssignmentSubmission::getId,
+                        sub -> {
+                            try {
+                                String fb = sub.getFeedbackJson();
+                                if (fb != null && !fb.isBlank()) {
+                                    return objectMapper.readValue(fb, new TypeReference<List<QuestionFeedbackDTO>>() {});
+                                }
+                            } catch (Exception e) {
+                                log.warn("Failed to parse feedback for submission {}", sub.getId());
+                            }
+                            return List.<QuestionFeedbackDTO>of();
+                        }
+                ));
+
         List<QuestionPerformance> questionStats = assignment.getQuestionIds().stream()
                 .map(qId -> {
                     Question question = questionMap.get(qId);
@@ -93,8 +110,17 @@ public class AssignmentService {
 
                     long correctCount = submissions.stream()
                             .filter(sub -> {
-                                Object answer = sub.getAnswers().get(qId);
-                                return answer != null && answer.toString().equalsIgnoreCase(question.getCorrectAnswer());
+                                List<QuestionFeedbackDTO> feedbackList = feedbackBySubmission.getOrDefault(sub.getId(), List.of());
+                                // Use graded feedback when available (respects AI grading)
+                                return feedbackList.stream()
+                                        .filter(fb -> qId.equals(fb.getQuestionId()))
+                                        .findFirst()
+                                        .map(QuestionFeedbackDTO::isCorrect)
+                                        .orElseGet(() -> {
+                                            // Fallback to exact match for ungraded submissions
+                                            Object answer = sub.getAnswers().get(qId);
+                                            return answer != null && answer.toString().equalsIgnoreCase(question.getCorrectAnswer());
+                                        });
                             })
                             .count();
 
@@ -496,5 +522,54 @@ public class AssignmentService {
                 .assignments(assignmentSummaries)
                 .students(studentPerformances)
                 .build();
+    }
+
+    public List<com.shikshasathi.backend.api.dto.PendingReviewItem> getPendingReviewQuestions(String assignmentId, String loginIdentity) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        User teacher = resolveTeacher(loginIdentity);
+        if (!teacher.getId().equals(assignment.getTeacherId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+        }
+
+        List<AssignmentSubmission> submissions = submissionRepository.findByAssignmentId(assignmentId);
+
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        List<com.shikshasathi.backend.api.dto.PendingReviewItem> pendingItems = new ArrayList<>();
+
+        for (AssignmentSubmission sub : submissions) {
+            if (sub.getFeedbackJson() == null || sub.getFeedbackJson().isBlank()) {
+                continue;
+            }
+
+            try {
+                List<QuestionFeedbackDTO> feedback = objectMapper.readValue(sub.getFeedbackJson(),
+                        new TypeReference<List<QuestionFeedbackDTO>>() {});
+
+                for (QuestionFeedbackDTO qf : feedback) {
+                    if (qf.isAiGradingFailed()) {
+                        Question question = questionMap.get(qf.getQuestionId());
+                        pendingItems.add(com.shikshasathi.backend.api.dto.PendingReviewItem.builder()
+                                .submissionId(sub.getId())
+                                .studentId(sub.getStudentId())
+                                .studentName(sub.getStudentName())
+                                .questionId(qf.getQuestionId())
+                                .questionText(qf.getQuestionText())
+                                .studentAnswer(qf.getStudentAnswer())
+                                .correctAnswer(qf.getCorrectAnswer())
+                                .maxMarks(question != null ? question.getPoints() : null)
+                                .build());
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to parse feedback for submission {}: {}", sub.getId(), e.getMessage());
+            }
+        }
+
+        return pendingItems;
     }
 }

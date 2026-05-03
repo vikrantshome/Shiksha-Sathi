@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useAssignment } from "@/components/AssignmentContext";
 import Link from "next/link";
 
@@ -20,8 +21,16 @@ import Link from "next/link";
 
 export default function AssignmentTray() {
   const { selectedQuestions, removeQuestion, clearSelection } = useAssignment();
+  const [mounted, setMounted] = useState(false);
 
-  if (selectedQuestions.length === 0) {
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  /* ── Prevent hydration mismatch: always render empty state
+     during SSR and first client paint; real state appears after mount ── */
+  if (!mounted || selectedQuestions.length === 0) {
     return (
       <div className="sticky top-6 hidden lg:flex flex-col h-[calc(100vh-6rem)] p-4 bg-surface-container-lowest rounded-lg border border-outline-variant/10">
         <h2 className="text-label-md text-on-surface-variant font-medium mb-4">Assignment Basket</h2>

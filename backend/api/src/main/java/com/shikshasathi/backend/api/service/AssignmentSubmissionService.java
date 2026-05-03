@@ -292,6 +292,20 @@ public class AssignmentSubmissionService {
                 if (questionFeedback.isAiGradingFailed()) {
                     hasAIFailure = true;
                 }
+            } else if ("MULTIPLE_CHOICE".equals(question.getType()) && question.getCorrectAnswers() != null) {
+                // Multi-select MCQ: all-or-nothing grading
+                java.util.List<String> studentSelections = parseMultiAnswer(answers == null ? null : answers.get(questionId));
+                boolean isCorrect = multiAnswersMatch(studentSelections, question.getCorrectAnswers());
+                int marksAwarded = isCorrect ? marks : 0;
+                questionFeedback = QuestionFeedbackDTO.builder()
+                        .questionId(question.getId())
+                        .questionText(question.getText())
+                        .studentAnswer(formatMultiAnswer(studentSelections))
+                        .correctAnswer(formatMultiAnswer(question.getCorrectAnswers()))
+                        .isCorrect(isCorrect)
+                        .marksAwarded(marksAwarded)
+                        .maxMarks(marks)
+                        .build();
             } else {
                 boolean isCorrect = answersMatch(studentAnswer, correctAnswer);
                 int marksAwarded = isCorrect ? marks : 0;
@@ -302,6 +316,7 @@ public class AssignmentSubmissionService {
                         .correctAnswer(correctAnswer)
                         .isCorrect(isCorrect)
                         .marksAwarded(marksAwarded)
+                        .maxMarks(marks)
                         .build();
             }
             
@@ -350,6 +365,47 @@ public class AssignmentSubmissionService {
 
     private String stringifyAnswer(Object answer) {
         return answer == null ? "" : answer.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    private java.util.List<String> parseMultiAnswer(Object answer) {
+        if (answer == null) {
+            return java.util.List.of();
+        }
+        if (answer instanceof java.util.List) {
+            return ((java.util.List<?>) answer).stream()
+                    .map(Object::toString)
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .toList();
+        }
+        String str = answer.toString().trim();
+        if (str.isEmpty()) {
+            return java.util.List.of();
+        }
+        return java.util.List.of(str);
+    }
+
+    private boolean multiAnswersMatch(java.util.List<String> studentAnswers, java.util.List<String> correctAnswers) {
+        if (studentAnswers == null || correctAnswers == null) {
+            return false;
+        }
+        java.util.Set<String> normalizedStudent = studentAnswers.stream()
+                .map(String::trim)
+                .map(String::toLowerCase)
+                .collect(java.util.stream.Collectors.toSet());
+        java.util.Set<String> normalizedCorrect = correctAnswers.stream()
+                .map(String::trim)
+                .map(String::toLowerCase)
+                .collect(java.util.stream.Collectors.toSet());
+        return normalizedStudent.equals(normalizedCorrect);
+    }
+
+    private String formatMultiAnswer(java.util.List<String> answers) {
+        if (answers == null || answers.isEmpty()) {
+            return "";
+        }
+        return String.join(", ", answers);
     }
 
     private String normalizeAnswer(String answer) {
@@ -401,5 +457,68 @@ public class AssignmentSubmissionService {
      */
     private boolean shouldUseAIGrading(String questionType) {
         return questionType != null && AI_GRADED_TYPES.contains(questionType);
+    }
+
+    public SubmissionDTO regradeSubmission(String submissionId) {
+        AssignmentSubmission submission = submissionRepository.findById(submissionId)
+                .orElseThrow(() -> new RuntimeException("Submission not found"));
+
+        Assignment assignment = assignmentRepository.findById(submission.getAssignmentId())
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        List<QuestionFeedbackDTO> feedback = new ArrayList<>();
+        String feedbackJson = submission.getFeedbackJson();
+        if (feedbackJson != null && !feedbackJson.isBlank()) {
+            try {
+                feedback = objectMapper.readValue(feedbackJson, new TypeReference<List<QuestionFeedbackDTO>>() {});
+            } catch (Exception e) {
+                log.warn("Failed to deserialize feedback JSON for submission {}: {}", submissionId, e.getMessage());
+            }
+        }
+
+        List<Question> questions = questionRepository.findByIdIn(assignment.getQuestionIds());
+        Map<String, Question> questionMap = questions.stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+
+        Map<String, Object> answers = submission.getAnswers();
+        boolean hasAIFailure = false;
+
+        for (QuestionFeedbackDTO qf : feedback) {
+            if (qf.isAiGradingFailed()) {
+                Question question = questionMap.get(qf.getQuestionId());
+                if (question != null) {
+                    String studentAnswer = stringifyAnswer(answers == null ? null : answers.get(question.getId()));
+                    String correctAnswer = stringifyAnswer(question.getCorrectAnswer());
+                    int marks = question.getPoints() == null ? 0 : question.getPoints();
+
+                    QuestionFeedbackDTO newFeedback = aiGradingService.gradeAnswer(question, correctAnswer, studentAnswer, marks);
+                    qf.setMarksAwarded(newFeedback.getMarksAwarded());
+                    qf.setCorrect(newFeedback.isCorrect());
+                    qf.setReasoning(newFeedback.getReasoning());
+                    qf.setConfidence(newFeedback.getConfidence());
+                    qf.setAiGradingFailed(newFeedback.isAiGradingFailed());
+
+                    if (newFeedback.isAiGradingFailed()) {
+                        hasAIFailure = true;
+                    }
+                }
+            }
+        }
+
+        int totalScore = feedback.stream()
+                .mapToInt(qf -> qf.getMarksAwarded() == null ? 0 : qf.getMarksAwarded())
+                .sum();
+
+        submission.setScore(totalScore);
+        submission.setStatus(hasAIFailure ? "PARTIALLY_GRADED" : "GRADED");
+
+        try {
+            submission.setFeedbackJson(objectMapper.writeValueAsString(feedback));
+        } catch (Exception e) {
+            log.error("Failed to serialize feedback JSON for submission {}: {}", submission.getId(), e.getMessage());
+        }
+
+        submissionRepository.save(submission);
+        return getSubmissionWithFeedback(submissionId);
     }
 }

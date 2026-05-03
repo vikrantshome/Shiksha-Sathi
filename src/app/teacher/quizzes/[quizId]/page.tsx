@@ -1,6 +1,5 @@
 import { api } from "@/lib/api";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import TeacherQuizActions from "@/components/TeacherQuizActions";
 
 export const dynamic = "force-dynamic";
@@ -10,10 +9,12 @@ export default async function TeacherQuizDetailsPage({
 }: {
   params: Promise<{ quizId: string }>;
 }) {
+  /* Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
   try {
     await api.auth.getMe();
   } catch {
-    redirect("/login");
+    // Silently fail — client-side auth will redirect if needed
   }
 
   const { quizId } = await params;

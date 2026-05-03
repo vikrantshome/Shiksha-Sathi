@@ -199,4 +199,55 @@ public class QuestionServiceTest {
         }
         return false;
     }
+
+    @Test
+    void createCustomQuestion_PrefersTeacherRole_WhenMultipleUsersSharePhone() {
+        com.shikshasathi.backend.core.domain.user.User teacher = new com.shikshasathi.backend.core.domain.user.User();
+        teacher.setId("teacherId");
+        teacher.setRole(com.shikshasathi.backend.core.domain.user.Role.TEACHER);
+
+        com.shikshasathi.backend.core.domain.user.User student = new com.shikshasathi.backend.core.domain.user.User();
+        student.setId("studentId");
+        student.setRole(com.shikshasathi.backend.core.domain.user.Role.STUDENT);
+
+        // Student returned first (simulating random MongoDB order)
+        when(userRepository.findByPhone("+911234567890")).thenReturn(List.of(student, teacher));
+        when(questionRepository.save(any(Question.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Question q = new Question();
+        q.setText("Custom question");
+        q.setType("MCQ");
+        q.setProvenance(new com.shikshasathi.backend.core.domain.learning.Provenance());
+
+        Question result = questionService.createCustomQuestion(q, "+911234567890");
+
+        assertEquals("teacherId", result.getTeacherId(), "Should assign to teacher, not student");
+    }
+
+    @Test
+    void getPrivacyCriteria_PrefersTeacherRole_WhenMultipleUsersSharePhone() {
+        com.shikshasathi.backend.core.domain.user.User teacher = new com.shikshasathi.backend.core.domain.user.User();
+        teacher.setId("teacherId");
+        teacher.setRole(com.shikshasathi.backend.core.domain.user.Role.TEACHER);
+
+        com.shikshasathi.backend.core.domain.user.User student = new com.shikshasathi.backend.core.domain.user.User();
+        student.setId("studentId");
+        student.setRole(com.shikshasathi.backend.core.domain.user.Role.STUDENT);
+
+        when(userRepository.findByPhone("+911234567890")).thenReturn(List.of(student, teacher));
+        when(mongoTemplate.findDistinct(any(Query.class), eq("subject_id"), eq(Question.class), eq(String.class)))
+                .thenReturn(List.of());
+        when(mongoTemplate.findDistinct(any(Query.class), eq("provenance.subject"), eq(Question.class), eq(String.class)))
+                .thenReturn(List.of());
+
+        questionService.getDistinctSubjects(null, null, "+911234567890");
+
+        ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);
+        verify(mongoTemplate).findDistinct(queryCaptor.capture(), eq("subject_id"), eq(Question.class), eq(String.class));
+
+        Document queryDoc = queryCaptor.getValue().getQueryObject();
+        // Privacy criteria should include teacher_id = "teacherId", not "studentId"
+        assertTrue(containsFieldValue(queryDoc, "teacher_id", "teacherId"),
+                "Privacy criteria should use teacher's ID, not student's ID");
+    }
 }

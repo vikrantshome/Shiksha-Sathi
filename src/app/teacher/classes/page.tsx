@@ -9,15 +9,17 @@ import { PlusIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
 export const dynamic = "force-dynamic";
 
 export default async function ClassesPage() {
+  /* Auth is handled client-side by AuthSessionGuard.
+   * Server components cannot access sessionStorage. */
   let classes: ClassItem[] = [];
   try {
     classes = await api.classes.getClasses();
   } catch (err: unknown) {
     const error = err as { status?: number };
-    if (error.status === 401) {
-      redirect("/login");
+    if (error.status !== 401) {
+      console.error("Failed to load classes:", err);
     }
-    console.error("Failed to load classes:", err);
+    // Silently fail on 401 — client-side auth will redirect if needed
   }
 
   const activeClasses = classes.filter((cls) => cls.active);

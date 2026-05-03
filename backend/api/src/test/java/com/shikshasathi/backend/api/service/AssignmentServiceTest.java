@@ -4,6 +4,7 @@ import com.shikshasathi.backend.api.dto.AssignmentReportDTO;
 import com.shikshasathi.backend.api.dto.StudentAssignmentDTO;
 import com.shikshasathi.backend.core.domain.learning.Assignment;
 import com.shikshasathi.backend.core.domain.learning.AssignmentSubmission;
+import com.shikshasathi.backend.core.domain.learning.Question;
 import com.shikshasathi.backend.core.domain.user.User;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentRepository;
 import com.shikshasathi.backend.infrastructure.repository.learning.AssignmentSubmissionRepository;
@@ -49,12 +50,14 @@ public class AssignmentServiceTest {
     @InjectMocks
     private AssignmentService assignmentService;
 
+    private com.fasterxml.jackson.databind.ObjectMapper realObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
     private User teacherOwner;
     private User anotherTeacher;
     private Assignment mockedAssignment;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         teacherOwner = new User();
         teacherOwner.setId("teacherOwnedId");
         teacherOwner.setEmail("teacher@owner.com");
@@ -67,6 +70,11 @@ public class AssignmentServiceTest {
         mockedAssignment.setId("assign123");
         mockedAssignment.setTeacherId("teacherOwnedId");
         mockedAssignment.setQuestionIds(new ArrayList<>());
+
+        // Inject real ObjectMapper since @InjectMocks only injects @Mock fields
+        java.lang.reflect.Field omField = AssignmentService.class.getDeclaredField("objectMapper");
+        omField.setAccessible(true);
+        omField.set(assignmentService, realObjectMapper);
     }
 
     @Test
@@ -150,5 +158,44 @@ public class AssignmentServiceTest {
         assertEquals("Anuraag Patil", result.getSubmissions().get(0).getStudentName());
         assertEquals("1002", result.getSubmissions().get(0).getStudentRollNumber());
         assertEquals(2, result.getSubmissions().get(0).getScore());
+    }
+
+    @Test
+    void getAssignmentReport_QuestionStatsUsesGradedFeedback_NotExactStringMatch() {
+        // Setup: one SHORT_ANSWER question with a specific correct answer
+        String questionId = "q-short-001";
+        mockedAssignment.setQuestionIds(List.of(questionId));
+
+        Question question = new Question();
+        question.setId(questionId);
+        question.setText("What is puberty?");
+        question.setType("SHORT_ANSWER");
+        question.setCorrectAnswer("The process of physical changes leading to sexual maturity.");
+        question.setPoints(2);
+
+        // Student's answer does NOT exactly match the correctAnswer string
+        // but AI feedback marks it as correct
+        AssignmentSubmission submission = new AssignmentSubmission();
+        submission.setId("sub-ai-graded");
+        submission.setAssignmentId("assign123");
+        submission.setStudentId("student-1");
+        submission.setScore(2);
+        submission.setAnswers(java.util.Map.of(questionId, "when body becomes mature"));
+        // AI graded feedback: isCorrect=true even though raw answer doesn't match
+        submission.setFeedbackJson("[{\"questionId\":\"q-short-001\",\"isCorrect\":true,\"marksAwarded\":2,\"maxMarks\":2}]");
+
+        when(userRepository.findByEmail("teacher@owner.com")).thenReturn(Optional.of(teacherOwner));
+        when(assignmentRepository.findById("assign123")).thenReturn(Optional.of(mockedAssignment));
+        when(submissionRepository.findByAssignmentId("assign123")).thenReturn(List.of(submission));
+        when(questionRepository.findByIdIn(List.of(questionId))).thenReturn(List.of(question));
+        when(userRepository.findById("student-1")).thenReturn(Optional.empty());
+
+        AssignmentReportDTO result = assignmentService.getAssignmentReport("assign123", "teacher@owner.com");
+
+        assertNotNull(result.getQuestionStats());
+        assertEquals(1, result.getQuestionStats().size());
+        // Should be 100% correct because feedback says isCorrect=true,
+        // NOT 0% which would happen with exact string match
+        assertEquals(100, result.getQuestionStats().get(0).getCorrectPercentage());
     }
 }

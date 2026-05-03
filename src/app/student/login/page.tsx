@@ -40,6 +40,10 @@ export default function StudentLoginPage() {
     setIsPending(true);
     setError(null);
 
+    // Clear any stale token so the login request reaches the endpoint
+    // instead of being intercepted by the JWT filter.
+    sessionStorage.removeItem('shiksha-sathi-token');
+
     const formData = new FormData(e.currentTarget);
     const phone = formData.get("phone") as string;
     const password = formData.get("password") as string;
@@ -65,8 +69,7 @@ export default function StudentLoginPage() {
 
       // Set sessionStorage for client-side auth (tab-isolated)
       sessionStorage.setItem('shiksha-sathi-token', response.token);
-      
-      // Also set cookie for middleware and server-side logic
+      // Also set cookie so server components can authenticate
       document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       const user = await auth.getMe();
@@ -98,6 +101,9 @@ export default function StudentLoginPage() {
     setIsPending(true);
     setSelectedCandidate(candidate);
 
+    // Ensure no stale token interferes with profile selection.
+    sessionStorage.removeItem('shiksha-sathi-token');
+
     try {
       const response = await auth.login({
         phone: loginData.phone.replace(/\D/g, ""),
@@ -111,9 +117,11 @@ export default function StudentLoginPage() {
         return;
       }
 
-// Set sessionStorage for client-side auth (tab-isolated)
-        // No cookie - cookie is shared across all tabs, defeating tab isolation
+      // Set sessionStorage for client-side auth (tab-isolated)
         sessionStorage.setItem('shiksha-sathi-token', response.token);
+        // Also set cookie so server components can authenticate
+        // eslint-disable-next-line react-hooks/immutability
+        document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
         const user = await auth.getMe();
         

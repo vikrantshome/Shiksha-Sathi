@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api/auth";
 import type { CandidateProfile } from "@/lib/api/types";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -10,7 +8,6 @@ import AuthShell from "@/components/AuthShell";
 import Loader from "@/components/Loader";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
@@ -41,18 +38,17 @@ export default function LoginPage() {
       return;
     }
 
-// Normal single-user login
-if (!response.token) {
-        throw new Error("Invalid credentials");
-      }
+    // Normal single-user login
+    if (!response.token) {
+      throw new Error("Invalid credentials");
+    }
 
-      // Set sessionStorage for client-side auth (tab-isolated)
-      sessionStorage.setItem('shiksha-sathi-token', response.token);
-      
-      // Also set cookie for middleware and server-side logic
-      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
+    // Set sessionStorage for client-side auth (tab-isolated)
+    sessionStorage.setItem('shiksha-sathi-token', response.token);
+    // Also set cookie so server components can authenticate
+    document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
-      if (response.role === "TEACHER") {
+    if (response.role === "TEACHER") {
       window.location.href = "/teacher/dashboard";
     } else {
       window.location.href = "/";
@@ -65,6 +61,10 @@ if (!response.token) {
     setError(null);
     setPhoneError(null);
     setCandidates(null);
+
+    // Clear any stale token from previous sessions so the login request
+    // is not intercepted by the JWT filter before reaching the endpoint.
+    sessionStorage.removeItem('shiksha-sathi-token');
 
     const formData = new FormData(e.currentTarget);
     const phone = (formData.get("phone") as string).replace(/\D/g, "");
@@ -91,6 +91,9 @@ if (!response.token) {
     setIsPending(true);
     setError(null);
 
+    // Ensure no stale token interferes with profile selection.
+    sessionStorage.removeItem('shiksha-sathi-token');
+
     try {
       // Login with the selected profile's userId
       const response = await auth.login({
@@ -103,9 +106,10 @@ if (!response.token) {
         throw new Error("Invalid credentials");
       }
 
-// Set sessionStorage for client-side auth (tab-isolated)
-      // No cookie - cookie is shared across all tabs, defeating tab isolation
+      // Set sessionStorage for client-side auth (tab-isolated)
       sessionStorage.setItem('shiksha-sathi-token', response.token);
+      // Also set cookie so server components can authenticate
+      document.cookie = `auth-token=${response.token}; path=/; max-age=86400; SameSite=Lax`;
 
       if (response.role === "TEACHER") {
         window.location.href = "/teacher/dashboard";

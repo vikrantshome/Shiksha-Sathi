@@ -104,7 +104,8 @@ export interface Question {
   text: string;
   type: 'MCQ' | 'TRUE_FALSE' | 'FILL_IN_BLANKS' | 'MULTIPLE_CHOICE' | 'SHORT_ANSWER' | 'ESSAY';
   options?: string[];
-  correctAnswer: string;
+  correctAnswer?: string | string[];
+  correctAnswers?: string[];
   points: number;
   explanation?: string;
   sourceKind?: 'CANONICAL' | 'DERIVED' | 'CUSTOM';
@@ -160,9 +161,17 @@ export interface AssignmentSubmission {
 
 export interface QuestionFeedback {
   questionId: string;
+  questionText?: string;
+  studentAnswer?: string;
+  correctAnswer?: string | string[];
+  isCorrect?: boolean;
   marksAwarded: number;
   maxMarks: number;
   feedback?: string;
+  reasoning?: string;
+  confidence?: number;
+  aiGradingFailed?: boolean;
+  explanation?: string;
 }
 
 export interface GradeUpdateRequest {
@@ -208,10 +217,22 @@ export interface QuestionFeedbackDTO {
   correctAnswer: string | string[];
   isCorrect: boolean;
   marksAwarded: number;
+  maxMarks?: number;
   reasoning?: string;
   confidence?: number;
   aiGradingFailed?: boolean;
   explanation?: string;
+}
+
+export interface PendingReviewItem {
+  submissionId: string;
+  studentId: string;
+  studentName: string;
+  questionId: string;
+  questionText: string;
+  studentAnswer: string;
+  correctAnswer: string | string[];
+  maxMarks: number;
 }
 
 export interface SubmitAssignmentResponse {

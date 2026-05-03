@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchApi } from "@/lib/api/client";
+import { api } from "@/lib/api";
 import type { SubmissionDTO, QuestionFeedbackDTO } from "@/lib/api/types";
 import Loader from "@/components/Loader";
 
@@ -33,6 +34,7 @@ export default function StudentResultsPage({
   const [result, setResult] = useState<ResultData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRegrading, setIsRegrading] = useState(false);
 
   // Load result data from backend (handles both assignments and quizzes)
   useEffect(() => {
@@ -159,6 +161,7 @@ export default function StudentResultsPage({
   if (!result) return null;
 
   const isGraded = result.status === "GRADED" || result.status === "COMPLETED";
+  const hasPendingAI = result?.feedback?.some(f => f.aiGradingFailed) ?? false;
 
   return (
     <div className="max-w-4xl mx-auto pb-12">
@@ -244,6 +247,57 @@ export default function StudentResultsPage({
           <p className="text-sm text-on-surface-variant">
             Your teacher hasn&apos;t graded this assignment yet. Check back later for your results.
           </p>
+        </div>
+      )}
+
+      {/* Pending AI Review Warning */}
+      {hasPendingAI && (
+        <div className="mb-6 p-4 rounded-md bg-[var(--color-warning-container)]/30 border-l-4 border-[var(--color-warning)] flex items-start gap-3">
+          <div className="mt-0.5 text-[var(--color-warning)]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="M12 17h.01"/>
+            </svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-[var(--color-warning)] mb-2">
+              Some answers are pending AI review
+            </p>
+            <p className="text-xs text-[var(--color-on-surface-variant)] mb-3">
+              AI grading was temporarily unavailable. You can retry grading below for each affected question.
+            </p>
+            <button
+              onClick={async () => {
+                const resolvedParams = await params;
+                setIsRegrading(true);
+                try {
+                  await api.assignments.regradeSubmission(resolvedParams.submissionId);
+                  const data = await fetchApi<SubmissionDTO>(`/submissions/${resolvedParams.submissionId}`);
+                  setResult({
+                    type: "assignment",
+                    title: data.assignmentTitle || "Assignment",
+                    feedback: data.feedback || [],
+                    score: data.score || 0,
+                    totalMarks: data.totalMarks || 0,
+                    scorePercent: data.totalMarks ? ((data.score || 0) / data.totalMarks) * 100 : 0,
+                    studentName: data.studentName || "",
+                    studentRoll: data.studentRollNumber || "",
+                    submittedAt: data.submittedAt || "",
+                    status: data.status || "",
+                  });
+                } catch (err) {
+                  console.error("Failed to re-grade:", err);
+                } finally {
+                  setIsRegrading(false);
+                }
+              }}
+              disabled={isRegrading}
+              className="px-4 py-2 bg-[var(--color-primary-dim)] text-[var(--color-on-primary)] text-sm font-semibold rounded-sm hover:brightness-110 disabled:opacity-50 transition-all"
+            >
+              {isRegrading ? "Re-grading..." : "Retry AI Grading"}
+            </button>
+          </div>
         </div>
       )}
 
@@ -347,6 +401,51 @@ export default function StudentResultsPage({
                         </div>
                         <div className="text-sm text-on-secondary-container leading-relaxed">
                           {f.explanation}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Per-question retry button for AI failures */}
+                    {f.aiGradingFailed && (
+                      <div className="mt-3 p-3 rounded-sm bg-[var(--color-warning-container)]/20 border border-[var(--color-warning)]/20">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-[var(--color-warning)] font-medium">
+                            AI grading failed for this question
+                          </span>
+                          <button
+                            onClick={async () => {
+                              const resolvedParams = await params;
+                              setIsRegrading(true);
+                              try {
+                                await api.assignments.regradeSubmission(resolvedParams.submissionId);
+                                const data = await fetchApi<SubmissionDTO>(`/submissions/${resolvedParams.submissionId}`);
+                                setResult({
+                                  type: "assignment",
+                                  title: data.assignmentTitle || "Assignment",
+                                  feedback: data.feedback || [],
+                                  score: data.score || 0,
+                                  totalMarks: data.totalMarks || 0,
+                                  scorePercent: data.totalMarks ? ((data.score || 0) / data.totalMarks) * 100 : 0,
+                                  studentName: data.studentName || "",
+                                  studentRoll: data.studentRollNumber || "",
+                                  submittedAt: data.submittedAt || "",
+                                  status: data.status || "",
+                                });
+                              } catch (err) {
+                                console.error("Failed to re-grade:", err);
+                              } finally {
+                                setIsRegrading(false);
+                              }
+                            }}
+                            disabled={isRegrading}
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dim)] disabled:opacity-50 transition-colors"
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isRegrading ? 'animate-spin' : ''}>
+                              <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                              <path d="M21 3v5h-5"/>
+                            </svg>
+                            {isRegrading ? 'Retrying...' : 'Retry AI Grading'}
+                          </button>
                         </div>
                       </div>
                     )}
