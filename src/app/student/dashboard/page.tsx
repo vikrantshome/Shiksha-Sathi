@@ -159,8 +159,8 @@ export default function StudentDashboardPage() {
           setPendingQuizzes(pQuizzes);
           setSubmittedQuizzes(sQuizzes);
         }
-      } catch {
-        // Fall silently - the "code entry" path still works
+      } catch (err) {
+        console.error("Failed to load enrolled classes/assignments:", err);
       } finally {
         if (!cancelled) setIsLoadingNew(false);
       }

@@ -60,13 +60,34 @@ public class StudentService {
     }
 
     public List<ClassEntity> getEnrolledClasses(String studentId) {
-        return classRepository.findByStudentIdsContaining(studentId);
+        List<String> ids = getStudentIdentifiers(studentId);
+
+        // Use all student identifiers (id, rollNumber, email, phone) to find enrolled classes
+        Set<String> seenClasses = new HashSet<>();
+        List<ClassEntity> result = new ArrayList<>();
+        for (String id : ids) {
+            for (ClassEntity c : classRepository.findByStudentIdsContaining(id)) {
+                if (seenClasses.add(c.getId())) {
+                    result.add(c);
+                }
+            }
+        }
+        return result;
     }
 
     public List<Assignment> getPendingAssignments(String studentId) {
         List<String> ids = getStudentIdentifiers(studentId);
 
-        List<ClassEntity> enrolledClasses = classRepository.findByStudentIdsContaining(studentId);
+        // Use all student identifiers (id, rollNumber, email, phone) to find enrolled classes
+        Set<String> seenClasses = new HashSet<>();
+        List<ClassEntity> enrolledClasses = new ArrayList<>();
+        for (String id : ids) {
+            for (ClassEntity c : classRepository.findByStudentIdsContaining(id)) {
+                if (seenClasses.add(c.getId())) {
+                    enrolledClasses.add(c);
+                }
+            }
+        }
         if (enrolledClasses == null || enrolledClasses.isEmpty()) {
             return new ArrayList<>();
         }
@@ -112,7 +133,18 @@ public class StudentService {
     }
 
     public List<Quiz> getPendingQuizzes(String studentId) {
-        List<ClassEntity> enrolledClasses = classRepository.findByStudentIdsContaining(studentId);
+        List<String> ids = getStudentIdentifiers(studentId);
+
+        // Use all student identifiers (id, rollNumber, email, phone) to find enrolled classes
+        Set<String> seenClasses = new HashSet<>();
+        List<ClassEntity> enrolledClasses = new ArrayList<>();
+        for (String id : ids) {
+            for (ClassEntity c : classRepository.findByStudentIdsContaining(id)) {
+                if (seenClasses.add(c.getId())) {
+                    enrolledClasses.add(c);
+                }
+            }
+        }
         if (enrolledClasses == null || enrolledClasses.isEmpty()) {
             return new ArrayList<>();
         }
@@ -129,7 +161,6 @@ public class StudentService {
         // Batch fetch all quizzes for all classes instead of N queries
         List<Quiz> classQuizzes = quizRepository.findByClassIdIn(classIds);
 
-        List<String> ids = getStudentIdentifiers(studentId);
         Set<String> attemptedIds = new HashSet<>();
         for (String id : ids) {
             quizAttemptRepository.findByStudentId(id).forEach(a -> attemptedIds.add(a.getQuizId()));

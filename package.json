@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "kill-port --port 4000 --port 8080",
+    "predev:frontend": "kill-port --port 4000",
+    "predev:backend": "kill-port --port 8080",
     "dev:frontend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT\" && next dev --webpack --port 4000",
     "dev:backend": "APP_ROOT=\"$(dirname \"$npm_package_json\")\" && cd \"$APP_ROOT/backend\" && concurrently \"./gradlew bootRun\" \"./gradlew -t compileJava\"",
     "dev": "concurrently 'npm run dev:frontend' 'npm run dev:backend'",
@@ -49,6 +52,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "jsdom": "^29.0.1",
+    "kill-port": "^2.0.1",
     "mongodb": "^7.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
@@ -56,6 +60,6 @@
     "vitest": "^4.1.1"
   },
   "optionalDependencies": {
-    "@rolldown/binding-darwin-arm64": "^1.0.0-rc.17"
+    "@rolldown/binding-darwin-arm64": "^1.0.0-rc.18"
   }
 }
