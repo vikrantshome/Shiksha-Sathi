@@ -7,8 +7,6 @@ import AssignmentDashboard from "@/components/AssignmentDashboard";
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
-
 /* ── Icons ── */
 const IconPlus = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

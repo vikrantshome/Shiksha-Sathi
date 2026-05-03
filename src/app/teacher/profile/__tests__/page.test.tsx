@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ProfilePage from '../page';
 import { ProfileResponse, User } from '@/lib/api/types';
@@ -46,10 +46,11 @@ describe('ProfilePage', () => {
   it('renders ProfilePage with empty defaults if no profile found', async () => {
     vi.mocked(api.teachers.getProfile).mockRejectedValue({ status: 500 });
 
-    const Page = await ProfilePage();
-    render(Page);
+    render(<ProfilePage />);
 
-    expect(screen.getByText('Your Profile')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Your Profile')).toBeInTheDocument();
+    });
     expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: 'Test Teacher', school: '', board: 'CBSE' }));
   });
 
@@ -61,9 +62,10 @@ describe('ProfilePage', () => {
       board: 'ICSE',
     } as ProfileResponse);
 
-    const Page = await ProfilePage();
-    render(Page);
+    render(<ProfilePage />);
 
-    expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: 'Alice', school: 'Wonderland', board: 'ICSE' }));
+    await waitFor(() => {
+      expect(screen.getByTestId('profile-form')).toHaveTextContent(JSON.stringify({ name: 'Alice', school: 'Wonderland', board: 'ICSE' }));
+    });
   });
 });

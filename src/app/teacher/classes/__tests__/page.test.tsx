@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ClassesPage from '../page';
 import { ClassItem } from '@/lib/api/types';
@@ -31,10 +31,11 @@ describe('ClassesPage', () => {
   });
 
   it('renders empty state when no classes exist', async () => {
-    const Page = await ClassesPage();
-    render(Page);
+    render(<ClassesPage />);
     
-    expect(screen.getAllByText('Create Class').length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(screen.getAllByText('Create Class').length).toBeGreaterThan(0);
+    });
     expect(screen.getByText('No active classes yet')).toBeInTheDocument();
   });
 
@@ -52,10 +53,11 @@ describe('ClassesPage', () => {
       }
     ] as ClassItem[]);
 
-    const Page = await ClassesPage();
-    render(Page);
+    render(<ClassesPage />);
 
-    expect(screen.getByText('Mathematics')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Mathematics')).toBeInTheDocument();
+    });
     expect(screen.getByText('Class 10 • Section A')).toBeInTheDocument();
   });
 });

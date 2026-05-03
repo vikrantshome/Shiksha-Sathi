@@ -9,8 +9,6 @@ import { PlusIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 
-export const dynamic = "force-dynamic";
-
 export default function ClassesPage() {
   const [classes, setClasses] = useState<ClassItem[]>([]);
   const [loading, setLoading] = useState(true);

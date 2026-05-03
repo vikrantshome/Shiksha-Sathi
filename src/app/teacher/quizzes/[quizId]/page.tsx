@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import type { Quiz } from "@/lib/api/types";
 
-export const dynamic = "force-dynamic";
-
 export default function TeacherQuizDetailsPage({
   params,
 }: {

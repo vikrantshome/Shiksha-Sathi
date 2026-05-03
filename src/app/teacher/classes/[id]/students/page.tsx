@@ -2,16 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ClassItem, User } from "@/lib/api/types";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
-import { enrollStudent, removeStudent } from "./actions";
+import { removeStudent } from "./actions";
 import EditStudentForm from "./EditStudentForm";
 import EnrollForm from "./EnrollForm";
 import Loader from "@/components/Loader";
-
-export const dynamic = "force-dynamic";
 
 export default function ClassStudentsPage(props: { params: { id: string }; searchParams: { edit?: string } }) {
   const { id } = props.params;
@@ -67,12 +64,16 @@ export default function ClassStudentsPage(props: { params: { id: string }; searc
   const editingStudentId = editStudentId ? (Array.isArray(editStudentId) ? editStudentId[0] : editStudentId) : null;
   const editingStudent = editingStudentId ? sortedStudents.find(s => s.id === editingStudentId) : null;
 
-  async function handleRemoveStudent(formData: FormData) {
-    "use server";
-    const studentId = formData.get("studentId") as string;
-    await removeStudent(id, studentId || "");
-    redirect(`/teacher/classes/${id}/students`);
-  }
+  const handleRemoveStudent = async (studentId: string) => {
+    await removeStudent(id, studentId);
+    // Refresh the student list after removal
+    try {
+      const updatedStudents = await api.classes.getStudents(id);
+      setStudents(updatedStudents);
+    } catch (err) {
+      console.error("Failed to refresh students:", err);
+    }
+  };
 
   return (
     <div className="pb-8 md:pb-10">
@@ -173,12 +174,12 @@ export default function ClassStudentsPage(props: { params: { id: string }; searc
                             <Link href={`?edit=${student.id}`} className="text-xs text-primary hover:text-primary-dim font-medium">
                               Edit
                             </Link>
-                            <form action={handleRemoveStudent} className="inline">
-                              <input type="hidden" name="studentId" value={student.id} />
-                              <button type="submit" className="text-xs text-error hover:text-error-dim font-medium">
-                                Remove
-                              </button>
-                            </form>
+                            <button
+                              onClick={() => handleRemoveStudent(student.id)}
+                              className="text-xs text-error hover:text-error-dim font-medium"
+                            >
+                              Remove
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -208,12 +209,12 @@ export default function ClassStudentsPage(props: { params: { id: string }; searc
                           </p>
                         </div>
                       </div>
-                      <form action={handleRemoveStudent}>
-                        <input type="hidden" name="studentId" value={student.id} />
-                        <button type="submit" className="text-xs text-error font-medium">
-                          Remove
-                        </button>
-                      </form>
+                      <button
+                        onClick={() => handleRemoveStudent(student.id)}
+                        className="text-xs text-error font-medium"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </article>
                 ))}

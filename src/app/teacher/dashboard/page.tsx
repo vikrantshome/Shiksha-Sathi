@@ -6,14 +6,6 @@ import Link from "next/link";
 import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
 
-export const dynamic = "force-dynamic";
-
-/* ─────────────────────────────────────────────────────────
-   Stitch-Directed Teacher Dashboard
-   Design Source: doc/stitch_shiksha_sathi_ui_refresh/teacher_dashboard_consolidated
-   Design System: design-system.md ("Digital Atelier")
-   ───────────────────────────────────────────────────────── */
-
 /* ── Inline SVG Icon Components (2px stroke, outline style) ── */
 const IconAssignment = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
