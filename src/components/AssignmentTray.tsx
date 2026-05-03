@@ -24,7 +24,8 @@ export default function AssignmentTray() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   /* ── Prevent hydration mismatch: always render empty state

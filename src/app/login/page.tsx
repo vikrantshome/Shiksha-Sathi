@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api/auth";
 import type { CandidateProfile } from "@/lib/api/types";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -10,7 +8,6 @@ import AuthShell from "@/components/AuthShell";
 import Loader from "@/components/Loader";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
