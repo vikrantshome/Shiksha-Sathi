@@ -18,6 +18,7 @@ export default function StudentLiveQuizPage() {
   const [state, setState] = useState<StudentQuizSessionStateDTO | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   useEffect(() => {
     let active = true;
@@ -31,7 +32,6 @@ export default function StudentLiveQuizPage() {
         if (!active) return;
         const message = err instanceof Error ? err.message : "Failed to join session.";
         setError(message);
-        // If unauthorized, redirect to login
         if (message.toLowerCase().includes("unauthorized") || message.toLowerCase().includes("forbidden")) {
           router.push("/student/login");
         }
@@ -55,6 +55,10 @@ export default function StudentLiveQuizPage() {
         if (active) {
           setState(next);
           setError(null);
+          // Reset selections when question changes
+          if (next.currentQuestionIndex !== state?.currentQuestionIndex) {
+            setSelectedOptions([]);
+          }
         }
       } catch (err: unknown) {
         if (!active) return;
@@ -68,13 +72,36 @@ export default function StudentLiveQuizPage() {
       active = false;
       if (interval) clearInterval(interval);
     };
-  }, [sessionId]);
+  }, [sessionId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const currentQuestion = state?.currentQuestion;
-  const canAnswer = state?.status === "LIVE" && !!currentQuestion && !state?.myAnswer;
+  const isMultiSelect = !!currentQuestion?.correctAnswers && currentQuestion.correctAnswers.length > 0;
+  const hasSubmitted = !!state?.myAnswer;
+  const canAnswer = state?.status === "LIVE" && !!currentQuestion && !hasSubmitted;
 
-  const handleAnswer = async (answer: string) => {
+  const handleSingleAnswer = async (answer: string) => {
     if (!sessionId || !canAnswer) return;
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await api.quizSessions.submitAnswer(sessionId, answer);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to submit answer.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleMultiSelectToggle = (opt: string) => {
+    if (!canAnswer || isSubmitting) return;
+    setSelectedOptions((prev) =>
+      prev.includes(opt) ? prev.filter((o) => o !== opt) : [...prev, opt]
+    );
+  };
+
+  const handleMultiSubmit = async () => {
+    if (!sessionId || !canAnswer || selectedOptions.length === 0) return;
+    const answer = selectedOptions.join(",");
     setIsSubmitting(true);
     setError(null);
     try {
@@ -121,8 +148,8 @@ export default function StudentLiveQuizPage() {
             </p>
             <div className="mt-2 flex items-start justify-between gap-4">
               <h1 className="m-0 text-2xl font-extrabold tracking-tight text-on-surface">
-              {header.title}
-            </h1>
+                {header.title}
+              </h1>
               <CountdownRing
                 secondsRemaining={state?.secondsRemaining}
                 totalSeconds={state?.timePerQuestionSec}
@@ -131,9 +158,11 @@ export default function StudentLiveQuizPage() {
             <p className="m-0 mt-2 text-sm text-on-surface-variant">
               {header.subtitle} • Code: <span className="font-semibold text-on-surface">{sessionCode}</span>
             </p>
-            <p className="m-0 mt-2 text-xs text-on-surface-variant">
-              Tip: answer fast for extra points (speed bonus on correct answers).
-            </p>
+            {isMultiSelect && (
+              <p className="m-0 mt-2 text-xs font-bold" style={{ color: "var(--color-primary)" }}>
+                Multi-select: Choose all correct answers and click Submit.
+              </p>
+            )}
           </header>
 
           {error ? (
@@ -186,60 +215,128 @@ export default function StudentLiveQuizPage() {
                   <span className="text-[0.75rem] font-bold tracking-wider px-3 py-1 rounded-full shrink-0"
                     style={{ background: "var(--color-surface-container)", color: "var(--color-on-surface-variant)" }}
                   >
-                    FAST FINGERS
+                    {isMultiSelect ? "MULTI-SELECT" : "FAST FINGERS"}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {(currentQuestion.options ?? []).map((opt, idx) => {
-                    const isSelected = state.myAnswer === opt;
-                    const disabled = !canAnswer || isSubmitting;
-                    return (
-                      <motion.button
-                        key={opt}
-                        type="button"
-                        disabled={disabled}
-                        onClick={() => handleAnswer(opt)}
-                        whileTap={!disabled ? { scale: 0.98 } : undefined}
-                        whileHover={!disabled ? { y: -1 } : undefined}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: idx * 0.03 }}
-                        className="flex items-center justify-between gap-3 p-4 rounded-xl transition-all text-left text-sm border"
-                        style={{
-                          background: isSelected
-                            ? "linear-gradient(145deg, var(--color-primary-container), rgba(44,95,110,0.10))"
-                            : "var(--color-surface-container-low)",
-                          borderColor: isSelected ? "var(--color-primary)" : "transparent",
-                          opacity: disabled ? 0.8 : 1,
-                          cursor: disabled ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        <span
-                          className="text-sm font-semibold"
+                {isMultiSelect ? (
+                  /* Multi-select UI */
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {(currentQuestion.options ?? []).map((opt, idx) => {
+                        const isSelected = selectedOptions.includes(opt);
+                        const disabled = !canAnswer || isSubmitting;
+                        return (
+                          <motion.button
+                            key={opt}
+                            type="button"
+                            disabled={disabled}
+                            onClick={() => handleMultiSelectToggle(opt)}
+                            whileTap={!disabled ? { scale: 0.98 } : undefined}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: idx * 0.03 }}
+                            className="flex items-center justify-between gap-3 p-4 rounded-xl transition-all text-left text-sm border"
+                            style={{
+                              background: isSelected
+                                ? "linear-gradient(145deg, var(--color-primary-container), rgba(44,95,110,0.10))"
+                                : "var(--color-surface-container-low)",
+                              borderColor: isSelected ? "var(--color-primary)" : "transparent",
+                              opacity: disabled ? 0.8 : 1,
+                              cursor: disabled ? "not-allowed" : "pointer",
+                            }}
+                          >
+                            <span className="flex items-center gap-2">
+                              <span
+                                className="w-5 h-5 rounded border-2 flex items-center justify-center text-white text-xs font-bold"
+                                style={{
+                                  borderColor: isSelected ? "var(--color-primary)" : "var(--color-outline)",
+                                  background: isSelected ? "var(--color-primary)" : "transparent",
+                                }}
+                              >
+                                {isSelected ? "✓" : ""}
+                              </span>
+                              <span
+                                className="text-sm font-semibold"
+                                style={{
+                                  color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
+                                }}
+                              >
+                                {String.fromCharCode(65 + idx)}) {opt}
+                              </span>
+                            </span>
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                    <button
+                      type="button"
+                      disabled={!canAnswer || isSubmitting || selectedOptions.length === 0}
+                      onClick={handleMultiSubmit}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-bold transition-all active:scale-95 disabled:opacity-50"
+                      style={{
+                        background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))",
+                        color: "var(--color-on-primary)",
+                      }}
+                    >
+                      {isSubmitting ? "Submitting…" : `Submit Answer (${selectedOptions.length} selected)`}
+                    </button>
+                  </>
+                ) : (
+                  /* Single-select UI */
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {(currentQuestion.options ?? []).map((opt, idx) => {
+                      const isSelected = state.myAnswer === opt;
+                      const disabled = !canAnswer || isSubmitting;
+                      return (
+                        <motion.button
+                          key={opt}
+                          type="button"
+                          disabled={disabled}
+                          onClick={() => handleSingleAnswer(opt)}
+                          whileTap={!disabled ? { scale: 0.98 } : undefined}
+                          whileHover={!disabled ? { y: -1 } : undefined}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: idx * 0.03 }}
+                          className="flex items-center justify-between gap-3 p-4 rounded-xl transition-all text-left text-sm border"
                           style={{
-                            color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
+                            background: isSelected
+                              ? "linear-gradient(145deg, var(--color-primary-container), rgba(44,95,110,0.10))"
+                              : "var(--color-surface-container-low)",
+                            borderColor: isSelected ? "var(--color-primary)" : "transparent",
+                            opacity: disabled ? 0.8 : 1,
+                            cursor: disabled ? "not-allowed" : "pointer",
                           }}
                         >
-                          {String.fromCharCode(65 + idx)}) {opt}
-                        </span>
-                        {isSelected ? (
-                          <span className="text-xs font-extrabold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
-                            Locked
+                          <span
+                            className="text-sm font-semibold"
+                            style={{
+                              color: isSelected ? "var(--color-on-primary-container)" : "var(--color-on-surface)",
+                            }}
+                          >
+                            {String.fromCharCode(65 + idx)}) {opt}
                           </span>
-                        ) : null}
-                      </motion.button>
-                    );
-                  })}
-                </div>
+                          {isSelected ? (
+                            <span className="text-xs font-extrabold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+                              Locked
+                            </span>
+                          ) : null}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                )}
 
-                {state.myAnswer ? (
+                {hasSubmitted ? (
                   <p className="m-0 text-sm text-on-surface-variant">
                     Answer submitted: <span className="font-semibold text-on-surface">{state.myAnswer}</span>
                   </p>
                 ) : (
                   <p className="m-0 text-xs text-on-surface-variant">
-                    Choose once. Correct + fast answers earn more points.
+                    {isMultiSelect
+                      ? "Select all correct answers, then click Submit."
+                      : "Choose once. Correct + fast answers earn more points."}
                   </p>
                 )}
               </motion.section>
@@ -258,7 +355,11 @@ export default function StudentLiveQuizPage() {
               <h2 className="m-0 text-lg font-bold text-on-surface">
                 {state.status === "ENDED" ? "Quiz Ended" : "Answer Reveal"}
               </h2>
-              {state.correctAnswer ? (
+              {state.correctAnswers && state.correctAnswers.length > 0 ? (
+                <p className="m-0 text-sm text-on-surface-variant">
+                  Correct answers: <span className="font-semibold text-on-surface">{state.correctAnswers.join(", ")}</span>
+                </p>
+              ) : state.correctAnswer ? (
                 <p className="m-0 text-sm text-on-surface-variant">
                   Correct answer: <span className="font-semibold text-on-surface">{state.correctAnswer}</span>
                 </p>

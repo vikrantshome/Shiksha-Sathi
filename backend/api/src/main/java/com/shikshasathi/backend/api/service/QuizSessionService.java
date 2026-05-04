@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -78,6 +79,7 @@ public class QuizSessionService {
 
         StudentQuestionDTO currentQuestion = null;
         String correctAnswer = null;
+        List<String> correctAnswers = null;
         Map<String, Long> distribution = Map.of();
         int totalResponses = 0;
         Integer secondsRemaining = secondsRemaining(session);
@@ -87,10 +89,19 @@ public class QuizSessionService {
             if (q != null) {
                 currentQuestion = toStudentQuestion(q, quiz, q.getId());
                 correctAnswer = q.getCorrectAnswer();
+                correctAnswers = q.getCorrectAnswers();
                 List<QuizSessionAnswer> answers = answerRepository.findBySessionIdAndQuestionIndex(session.getId(), session.getCurrentQuestionIndex());
                 totalResponses = answers.size();
+                // For multi-select, split comma-separated answers and count each option individually
                 distribution = answers.stream()
-                        .collect(Collectors.groupingBy(a -> a.getAnswer() == null ? "" : a.getAnswer(), Collectors.counting()));
+                        .flatMap(a -> {
+                            String ans = a.getAnswer() == null ? "" : a.getAnswer();
+                            if (ans.contains(",")) {
+                                return Arrays.stream(ans.split(",")).map(String::trim).filter(s -> !s.isEmpty());
+                            }
+                            return Stream.of(ans);
+                        })
+                        .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
             }
         }
 
@@ -119,6 +130,7 @@ public class QuizSessionService {
                 .timePerQuestionSec(quiz.getTimePerQuestionSec())
                 .currentQuestion(currentQuestion)
                 .correctAnswer(correctAnswer)
+                .correctAnswers(correctAnswers)
                 .questionEndsAt(session.getQuestionEndsAt())
                 .secondsRemaining(secondsRemaining)
                 .participants(roster)
@@ -138,9 +150,11 @@ public class QuizSessionService {
 
         StudentQuestionDTO currentQuestion = null;
         String correctAnswer = null;
+        List<String> correctAnswers = null;
         Boolean myCorrect = null;
         Integer myPoints = null;
         String myAnswer = null;
+        List<String> myAnswers = null;
         Integer secondsRemaining = secondsRemaining(session);
 
         if (session.getCurrentQuestionIndex() != null && session.getCurrentQuestionIndex() >= 0) {
@@ -153,12 +167,14 @@ public class QuizSessionService {
                         .orElse(null);
                 if (existing != null) {
                     myAnswer = existing.getAnswer();
+                    myAnswers = parseMultiAnswer(myAnswer);
                     myCorrect = existing.getIsCorrect();
                     myPoints = existing.getPointsAwarded();
                 }
 
                 if ("REVEAL".equals(session.getStatus()) || "ENDED".equals(session.getStatus())) {
                     correctAnswer = q.getCorrectAnswer();
+                    correctAnswers = q.getCorrectAnswers();
                 }
             }
         }
@@ -186,7 +202,9 @@ public class QuizSessionService {
                 .myScore(myScore)
                 .myRank(myRank)
                 .myAnswer(myAnswer)
+                .myAnswers(myAnswers)
                 .correctAnswer(correctAnswer)
+                .correctAnswers(correctAnswers)
                 .myCorrect(myCorrect)
                 .myPointsAwarded(myPoints)
                 .build();
@@ -217,7 +235,7 @@ public class QuizSessionService {
             throw new IllegalArgumentException("Answer already submitted for this question.");
         }
 
-        boolean isCorrect = answersMatch(answer, question.getCorrectAnswer());
+        boolean isCorrect = gradeAnswer(question, answer);
         int points = 0;
         if (isCorrect) {
             int base = pointsFor(quiz, questionId, question);
@@ -406,6 +424,8 @@ public class QuizSessionService {
                 .type(q.getType())
                 .text(q.getText())
                 .options(q.getOptions())
+                .correctAnswer(q.getCorrectAnswer())
+                .correctAnswers(q.getCorrectAnswers())
                 .marks(marks)
                 .build();
     }
@@ -507,5 +527,124 @@ public class QuizSessionService {
                 .replaceAll("[\\p{Punct}\\p{S}]+", " ")
                 .replaceAll("\\s+", " ")
                 .trim();
+    }
+
+    private List<String> parseMultiAnswer(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return List.of();
+        }
+        return Arrays.stream(raw.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    private boolean multiAnswersMatch(List<String> studentAnswers, List<String> correctAnswers) {
+        if (studentAnswers == null || correctAnswers == null) {
+            return false;
+        }
+        Set<String> normalizedStudent = studentAnswers.stream()
+                .map(this::normalizeAnswer)
+                .collect(Collectors.toSet());
+        Set<String> normalizedCorrect = correctAnswers.stream()
+                .map(this::normalizeAnswer)
+                .collect(Collectors.toSet());
+        return normalizedStudent.equals(normalizedCorrect);
+    }
+
+    /**
+     * Grades a student answer against a question.
+     * For MCQ/TF, handles both label-based ("B") and text-based correct answers.
+     */
+    private boolean gradeAnswer(Question question, String studentAnswer) {
+        if (studentAnswer == null || studentAnswer.isBlank()) {
+            return false;
+        }
+
+        String type = question.getType() == null ? "" : question.getType().toUpperCase();
+        boolean isMcqOrTf = type.equals("MCQ") || type.equals("TRUE_FALSE") || type.equals("TF");
+
+        if (!isMcqOrTf) {
+            // Non-MCQ: direct text comparison
+            return answersMatch(studentAnswer, question.getCorrectAnswer());
+        }
+
+        // Multi-select MCQ
+        if (question.getCorrectAnswers() != null && !question.getCorrectAnswers().isEmpty()) {
+            List<String> studentSelections = parseMultiAnswer(studentAnswer);
+            // Map each selection to its label, then compare labels
+            Set<String> studentLabels = studentSelections.stream()
+                    .map(sel -> resolveOptionLabel(question, sel))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+            Set<String> correctLabels = question.getCorrectAnswers().stream()
+                    .map(ca -> resolveOptionLabel(question, ca))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+            // Also compare raw normalized values as fallback
+            Set<String> normalizedStudent = studentSelections.stream()
+                    .map(this::normalizeAnswer)
+                    .collect(Collectors.toSet());
+            Set<String> normalizedCorrect = question.getCorrectAnswers().stream()
+                    .map(this::normalizeAnswer)
+                    .collect(Collectors.toSet());
+            return studentLabels.equals(correctLabels) || normalizedStudent.equals(normalizedCorrect);
+        }
+
+        // Single-select MCQ/TF
+        String correctAnswer = question.getCorrectAnswer();
+        if (correctAnswer == null || correctAnswer.isBlank()) {
+            return false;
+        }
+
+        // Direct text match
+        if (answersMatch(studentAnswer, correctAnswer)) {
+            return true;
+        }
+
+        // Label-based match: find which option the student picked, check its label
+        String studentLabel = resolveOptionLabel(question, studentAnswer);
+        String correctLabel = resolveOptionLabel(question, correctAnswer);
+
+        if (studentLabel != null && correctLabel != null) {
+            return answersMatch(studentLabel, correctLabel);
+        }
+
+        // If correctAnswer is a label, check if student's selected option has that label
+        if (studentLabel != null) {
+            return answersMatch(studentLabel, correctAnswer);
+        }
+
+        // If student sent a label, check if it matches the correct option's label
+        if (correctLabel != null) {
+            return answersMatch(studentAnswer, correctLabel);
+        }
+
+        return false;
+    }
+
+    /**
+     * Given an option text or label, returns the label (A/B/C/D) for that option.
+     * Returns null if not found.
+     */
+    private String resolveOptionLabel(Question question, String textOrLabel) {
+        if (question.getOptions() == null || textOrLabel == null) {
+            return null;
+        }
+        String[] labels = {"A", "B", "C", "D"};
+        String normalized = normalizeAnswer(textOrLabel);
+        for (int i = 0; i < question.getOptions().size(); i++) {
+            String opt = question.getOptions().get(i);
+            String label = i < labels.length ? labels[i] : String.valueOf(i + 1);
+            // Match by option text
+            if (normalizeAnswer(opt).equals(normalized)) {
+                return label;
+            }
+            // Match by label directly
+            if (normalizeAnswer(label).equals(normalized)) {
+                return label;
+            }
+        }
+        return null;
     }
 }

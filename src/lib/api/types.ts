@@ -364,6 +364,8 @@ export interface QuizStudentQuestionDTO {
   type: string;
   text: string;
   options?: string[];
+  correctAnswer?: string;
+  correctAnswers?: string[];
   marks?: number;
 }
 
@@ -400,7 +402,9 @@ export interface StudentQuizSessionStateDTO {
   myScore?: number;
   myRank?: number;
   myAnswer?: string;
+  myAnswers?: string[];
   correctAnswer?: string;
+  correctAnswers?: string[];
   myCorrect?: boolean;
   myPointsAwarded?: number;
 }
@@ -424,6 +428,7 @@ export interface TeacherQuizSessionStateDTO {
   timePerQuestionSec?: number;
   currentQuestion?: QuizStudentQuestionDTO;
   correctAnswer?: string;
+  correctAnswers?: string[];
   questionEndsAt?: string;
   secondsRemaining?: number;
   participants?: TeacherParticipantDTO[];

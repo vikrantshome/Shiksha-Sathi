@@ -29,9 +29,11 @@ public class StudentQuizSessionStateDTO {
     private Integer myScore;
     private Integer myRank;
     private String myAnswer;
+    private List<String> myAnswers;
 
     // Reveal-only fields (present when status is REVEAL or ENDED)
     private String correctAnswer;
+    private List<String> correctAnswers;
     private Boolean myCorrect;
     private Integer myPointsAwarded;
 }

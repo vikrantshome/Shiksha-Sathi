@@ -315,7 +315,8 @@ export default function TeacherQuizSessionPage() {
                     const count = state.answerDistribution?.[opt] ?? 0;
                     const total = state.totalResponses ?? 0;
                     const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-                    const isCorrect = state.correctAnswer === opt;
+                    const isCorrect = state.correctAnswer === opt ||
+                      (state.correctAnswers?.includes(opt) ?? false);
                     return (
                       <motion.div
                         key={opt}
@@ -361,7 +362,8 @@ export default function TeacherQuizSessionPage() {
                     const count = state.answerDistribution?.[optionLabel] ?? 0;
                     const total = state.totalResponses ?? 0;
                     const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-                    const isCorrect = state.correctAnswer === optionLabel;
+                    const isCorrect = state.correctAnswer === optionLabel ||
+                      (state.correctAnswers?.includes(optionLabel) ?? false);
                     return (
                       <motion.div
                         key={idx}
@@ -406,7 +408,12 @@ export default function TeacherQuizSessionPage() {
 
               {/* Answer Footer */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 md:gap-4 pt-2">
-                {state.correctAnswer ? (
+                {state.correctAnswers && state.correctAnswers.length > 0 ? (
+                  <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs md:text-sm font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
+                    <CheckIcon />
+                    Correct: {state.correctAnswers.join(", ")}
+                  </div>
+                ) : state.correctAnswer ? (
                   <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs md:text-sm font-bold" style={{ background: "var(--color-primary-container)", color: "var(--color-on-primary-container)" }}>
                     <CheckIcon />
                     Correct: {state.correctAnswer}

@@ -24,6 +24,7 @@ public class TeacherQuizSessionStateDTO {
 
     private StudentQuestionDTO currentQuestion;
     private String correctAnswer;
+    private List<String> correctAnswers;
     private Instant questionEndsAt;
     private Integer secondsRemaining;
 

@@ -78,6 +78,9 @@ next-env.d.ts
 
 # accidental commits
 doc/temporary stuck chat/
+
+# Local database files
+data/
 # Ignore NCERT content artifacts by default but allow selected policy files
 doc/NCERT/**
 !doc/NCERT/

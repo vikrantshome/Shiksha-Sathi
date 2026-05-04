@@ -16,5 +16,7 @@ public class StudentQuestionDTO {
     private String type;
     private String text;
     private List<String> options;
+    private String correctAnswer;
+    private List<String> correctAnswers;
     private Integer marks;
 }
