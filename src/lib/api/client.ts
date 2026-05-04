@@ -45,11 +45,15 @@ export async function fetchApi<T>(
     }
     
     // Extract message from various possible response formats
-    const message = errorData.message 
-      || errorData.error 
-      || (typeof errorData === 'string' ? errorData : null)
-      || response.statusText 
-      || `Server error (${response.status})`;
+    let message: string;
+    if (typeof errorData === 'string') {
+      message = errorData || response.statusText || `Server error (${response.status})`;
+    } else {
+      message = (errorData.message as string) 
+        || (errorData.error as string) 
+        || response.statusText 
+        || `Server error (${response.status})`;
+    }
       
     const error = new Error(message) as Error & { status?: number; response?: Record<string, unknown> | string };
     error.status = response.status;

@@ -85,7 +85,7 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
     
     startTransition(async () => {
       try {
-        const payload: Record<string, unknown> = {
+        const payload = {
           title: data.title.trim(),
           description: data.classId ? `Quiz for class ${data.classId}` : "General knowledge quiz",
           questionIds: supportedQuestions.map((q) => q.id),
@@ -94,8 +94,8 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
             return acc;
           }, {} as Record<string, number>),
           timePerQuestionSec: data.timePerQuestionSec,
+          ...(data.classId && data.classId !== "general" ? { classId: data.classId } : {}),
         };
-        if (data.classId && data.classId !== "general") payload.classId = data.classId;
 
         const created = await api.quizzes.create(payload);
 
