@@ -113,3 +113,19 @@ backend/graphify-out/
 google/
 test-results/
 opencode.json
+
+# Lock files - using yarn
+package-lock.json
+
+# Screenshots and local images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+!public/**/*.svg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.gif
+!src/**/*.svg
