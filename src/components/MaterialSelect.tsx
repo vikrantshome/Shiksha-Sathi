@@ -129,7 +129,7 @@ export default function MaterialSelect({
           role="listbox"
           className="absolute z-50 w-full mt-1 py-1 bg-white rounded-xl shadow-xl border border-outline-variant/20 animate-fade-in max-h-60 overflow-y-auto"
         >
-          {options.map((option, i) => (
+          {options.map((option) => (
             <button
               key={option.value}
               type="button"

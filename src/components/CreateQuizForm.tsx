@@ -85,7 +85,7 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
     
     startTransition(async () => {
       try {
-        const payload: any = {
+        const payload: Record<string, unknown> = {
           title: data.title.trim(),
           description: data.classId ? `Quiz for class ${data.classId}` : "General knowledge quiz",
           questionIds: supportedQuestions.map((q) => q.id),
@@ -112,9 +112,10 @@ export default function CreateQuizForm({ classes }: { classes: ClassType[] }) {
           title: data.title.trim(),
           selfPacedCode: publishedCode,
         });
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to create quiz:", err);
-        setError(err.message || "Failed to create quiz. Please try again.");
+        const message = err instanceof Error ? err.message : "Failed to create quiz. Please try again.";
+        setError(message);
       }
     });
   };

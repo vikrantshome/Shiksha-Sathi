@@ -28,7 +28,7 @@ export async function fetchApi<T>(
   });
 
   if (!response.ok) {
-    let errorData: any = {};
+    let errorData: Record<string, unknown> | string = {};
     const contentType = response.headers.get('content-type') || '';
     
     // Always try to read body - first as JSON, then as text
@@ -51,7 +51,7 @@ export async function fetchApi<T>(
       || response.statusText 
       || `Server error (${response.status})`;
       
-    const error = new Error(message) as Error & { status?: number; response?: any };
+    const error = new Error(message) as Error & { status?: number; response?: Record<string, unknown> | string };
     error.status = response.status;
     error.response = errorData;
     

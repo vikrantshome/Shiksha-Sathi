@@ -35,7 +35,7 @@ const MaterialTextField: ForwardRefRenderFunction<HTMLInputElement, MaterialText
   const showFloatingLabel = isFocused || hasValue;
 
   return (
-    <div className="relative w-full">
+    <div className={`relative w-full ${className || ""}`}>
       {/* Input Container */}
       <div
         className={`
