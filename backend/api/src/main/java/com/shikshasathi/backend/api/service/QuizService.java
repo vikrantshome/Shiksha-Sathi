@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuizService {
 
-    private static final Set<String> SUPPORTED_QUIZ_TYPES = Set.of("MCQ", "TRUE_FALSE", "MULTIPLE_CHOICE");
+    private static final Set<String> SUPPORTED_QUIZ_TYPES = Set.of("MCQ", "TRUE_FALSE");
 
     private final QuizRepository quizRepository;
     private final QuizSessionRepository quizSessionRepository;
@@ -48,14 +48,14 @@ public class QuizService {
             throw new IllegalArgumentException("Quiz title is required.");
         }
 
-        if (request.getClassId() == null || request.getClassId().isBlank()) {
-            throw new IllegalArgumentException("Class is required.");
-        }
-
-        ClassEntity classEntity = classRepository.findById(request.getClassId())
-                .orElseThrow(() -> new IllegalArgumentException("Class not found."));
-        if (classEntity.getTeacherIds() == null || !classEntity.getTeacherIds().contains(teacher.getId())) {
-            throw new org.springframework.security.access.AccessDeniedException("Unauthorized for this class");
+        // Class is optional for general quizzes; skip required check
+        ClassEntity classEntity = null;
+        if (request.getClassId() != null && !request.getClassId().isBlank()) {
+            classEntity = classRepository.findById(request.getClassId())
+                    .orElseThrow(() -> new IllegalArgumentException("Class not found."));
+            if (classEntity.getTeacherIds() == null || !classEntity.getTeacherIds().contains(teacher.getId())) {
+                throw new org.springframework.security.access.AccessDeniedException("Unauthorized for this class");
+            }
         }
 
         // Validate question types — batch fetch to eliminate N+1

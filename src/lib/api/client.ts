@@ -28,10 +28,37 @@ export async function fetchApi<T>(
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    const message = errorData.message || errorData.error || 'An unexpected error occurred';
-    const error = new Error(message) as Error & { status?: number };
+    let errorData: any = {};
+    const contentType = response.headers.get('content-type') || '';
+    
+    // Always try to read body - first as JSON, then as text
+    if (contentType.toLowerCase().includes('application/json')) {
+      errorData = await response.json().catch(async () => {
+        // If JSON parse fails, try reading as text
+        const text = await response.text().catch(() => '');
+        return { error: text || response.statusText };
+      });
+    } else {
+      // For non-JSON responses (like HTML error pages), read as text
+      const text = await response.text().catch(() => '');
+      errorData = { error: text || response.statusText };
+    }
+    
+    // Extract message from various possible response formats
+    const message = errorData.message 
+      || errorData.error 
+      || (typeof errorData === 'string' ? errorData : null)
+      || response.statusText 
+      || `Server error (${response.status})`;
+      
+    const error = new Error(message) as Error & { status?: number; response?: any };
     error.status = response.status;
+    error.response = errorData;
+    
+    if (response.status === 401 && typeof window !== 'undefined') {
+      sessionStorage.removeItem('shiksha-sathi-token');
+      window.location.href = '/login';
+    }
     throw error;
   }
 

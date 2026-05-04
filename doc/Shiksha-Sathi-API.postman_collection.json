@@ -313,7 +313,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"subjectId\": \"math\",\n  \"chapter\": \"Chapter 1\",\n  \"topic\": \"Real Numbers\",\n  \"text\": \"What is the square root of 144?\",\n  \"type\": \"MULTIPLE_CHOICE\",\n  \"options\": [\"10\", \"11\", \"12\", \"14\"],\n  \"correctAnswer\": \"12\",\n  \"points\": 5\n}"
+              "raw": "{\n  \"subjectId\": \"math\",\n  \"chapter\": \"Chapter 1\",\n  \"topic\": \"Real Numbers\",\n  \"text\": \"What is the square root of 144?\",\n  \"type\": \"MCQ\",\n  \"options\": [\"10\", \"11\", \"12\", \"14\"],\n  \"correctAnswer\": \"12\",\n  \"points\": 5\n}"
             }
           }
         }

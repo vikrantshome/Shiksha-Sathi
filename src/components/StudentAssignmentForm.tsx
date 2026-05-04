@@ -413,7 +413,7 @@ export default function StudentAssignmentForm({
           </div>
 
           <div className="sm:pl-10 md:pl-[3.25rem]">
-            {q.options && q.type === "MULTIPLE_CHOICE" ? (
+            {q.options && q.correctAnswers && q.correctAnswers.length > 0 ? (
               /* ── Multi-select checkboxes ── */
               <div className="grid grid-cols-1 gap-2 md:gap-2.5 max-w-2xl">
                 {q.options.map((opt, i) => {

@@ -11,6 +11,7 @@ interface QuizContextType {
   removeQuestion: (questionId: string) => void;
   clearSelection: () => void;
   isSelected: (questionId: string) => boolean;
+  reorderQuestions: (questions: Question[]) => void;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -73,8 +74,12 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return selectedQuestions.some((q) => q.id === questionId);
   };
 
+  const reorderQuestions = (questions: Question[]) => {
+    setSelectedQuestions(questions);
+  };
+
   return (
-    <QuizContext.Provider value={{ selectedQuestions, toggleQuestion, removeQuestion, clearSelection, isSelected }}>
+    <QuizContext.Provider value={{ selectedQuestions, toggleQuestion, removeQuestion, clearSelection, isSelected, reorderQuestions }}>
       {children}
     </QuizContext.Provider>
   );

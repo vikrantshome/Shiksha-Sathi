@@ -144,6 +144,7 @@ export default function QuestionBankPage() {
   }, [board, classLevel, subjectId, book, chapter, chapterNumberParam, chapterTitleParam, q, type, context]);
 
   const getEmptyState = () => {
+    const hasChapterSelection = chapter || chapterNumberParam || chapterTitleParam;
     if (!board && !q) {
       return { title: "Select a Board to Begin", description: "Select a board from the left to start browsing.", icon: "board" };
     }
@@ -153,7 +154,7 @@ export default function QuestionBankPage() {
     if (!subjectId && !q) {
       return { title: "Choose a Subject", description: "Select a subject to explore available chapters.", icon: "subject" };
     }
-    if (!chapter && !q) {
+    if (!hasChapterSelection && !q) {
       return { title: "Pick a Chapter", description: "Select a chapter to view questions.", icon: "chapter" };
     }
     return null;
@@ -161,7 +162,7 @@ export default function QuestionBankPage() {
 
   const emptyState = getEmptyState();
   const chapterMeta = chaptersMeta.find((c) => c.chapterNumber === Number(chapterNumberParam) || c.chapterTitle === chapter);
-  const chapterLabel = chapterMeta?.label || (chapter ? `Chapter ${chapter}` : null);
+  const chapterLabel = chapterMeta?.label || chapterTitleParam || (chapter ? `Chapter ${chapter}` : null);
   const breadcrumb = [board, classLevel ? `Class ${classLevel}` : null, subjectId, chapterLabel]
     .filter(Boolean)
     .join(" / ");

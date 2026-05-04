@@ -283,7 +283,7 @@ public class AssignmentSubmissionServiceTest {
         Question question1 = new Question();
         question1.setId("q1");
         question1.setText("Two triangles are similar if corresponding angles are:");
-        question1.setType("MULTIPLE_CHOICE");
+        question1.setType("MCQ");
         question1.setCorrectAnswer("Equal");
         question1.setPoints(3);
 
@@ -434,7 +434,7 @@ public class AssignmentSubmissionServiceTest {
         Question q1 = new Question();
         q1.setId("q1");
         q1.setText("MCQ question");
-        q1.setType("MULTIPLE_CHOICE");
+        q1.setType("MCQ");
         q1.setCorrectAnswer("Correct MCQ answer");
         q1.setPoints(2);
 

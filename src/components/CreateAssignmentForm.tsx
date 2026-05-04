@@ -26,7 +26,6 @@ const typeLabels: Record<string, string> = {
   MCQ: "MCQ",
   TRUE_FALSE: "True / False",
   FILL_IN_BLANKS: "Fill in the Blank",
-  MULTIPLE_CHOICE: "Multiple Choice",
   SHORT_ANSWER: "Short Answer",
   ESSAY: "Essay",
 };
