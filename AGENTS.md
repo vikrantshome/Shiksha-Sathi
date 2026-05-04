@@ -131,3 +131,22 @@ Rules:
 - If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
 - For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep — these traverse the graph's EXTRACTED + INFERRED edges instead of scanning files
 - After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)
+
+## Future Enhancements
+
+### Session-Based Authentication (Backlogged)
+**Status:** Planned — do not implement yet  
+**Context:** Current JWT tokens have a fixed 24-hour expiry (`JwtUtil.EXPIRATION_MS`). If a teacher's token expires during a live quiz session, they lose the host console with no graceful recovery.  
+**Proposed Solution:** Migrate from JWT to Spring Security session-based auth (`HttpSession` + cookie). This enables:
+- Server-side session invalidation
+- Sliding expiry on activity
+- Graceful timeout handling during live quizzes
+- Simpler "remember me" logic
+
+**Implementation Sketch:**
+1. Replace `JwtUtil` with Spring Security session management
+2. Update `SecurityConfig` for form-login / session-cookie auth
+3. Frontend: remove `Authorization: Bearer` header logic, switch to `credentials: 'include'`
+4. Add MongoDB/Redis session store for horizontal scaling
+
+**Files Involved:** `JwtUtil.java`, `SecurityConfig.java`, `QuizController.java`, `fetchApi` client, `CreateQuizForm.tsx`

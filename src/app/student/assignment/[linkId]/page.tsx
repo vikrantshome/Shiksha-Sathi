@@ -1,33 +1,71 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import AssignmentProgress from "@/components/AssignmentProgress";
 import { api } from "@/lib/api";
+import { AssignmentByLinkResponse } from "@/lib/api/types";
+import Loader from "@/components/Loader";
+import ErrorState from "@/components/ErrorState";
 
-export const dynamic = "force-dynamic";
+export default function StudentAssignmentPage() {
+  const params = useParams();
+  const [assignment, setAssignment] = useState<AssignmentByLinkResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-interface StudentAssignmentPageProps {
-  params: Promise<{
-    linkId: string;
-  }>;
-}
+  const linkId = params?.linkId as string;
 
-export default async function StudentAssignmentPage({
-  params,
-}: StudentAssignmentPageProps) {
-  const resolvedParams = await params;
+  useEffect(() => {
+    if (!linkId) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
 
-  if (!resolvedParams.linkId) {
-    notFound();
+    async function fetchAssignment() {
+      try {
+        const data = await api.assignments.getByLinkId(linkId);
+        setAssignment(data);
+      } catch {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAssignment();
+  }, [linkId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--color-surface)" }}>
+        <Loader size="lg" label="Loading assignment..." />
+      </div>
+    );
   }
 
-  let assignment;
-  try {
-    assignment = await api.assignments.getByLinkId(resolvedParams.linkId);
-  } catch {
-    notFound();
-  }
-
-  if (!assignment) {
-    notFound();
+  if (error || !assignment) {
+    return (
+      <ErrorState
+        title="Assignment Not Found"
+        message="The assignment link may be invalid or expired."
+        type="not_found"
+        onRetry={() => {
+          setError(false);
+          setLoading(true);
+          api.assignments.getByLinkId(linkId)
+            .then(data => {
+              setAssignment(data);
+              setLoading(false);
+            })
+            .catch(() => {
+              setError(true);
+              setLoading(false);
+            });
+        }}
+      />
+    );
   }
 
   return (

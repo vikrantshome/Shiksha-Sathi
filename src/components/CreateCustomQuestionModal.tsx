@@ -24,10 +24,10 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
   const [customSubject, setCustomSubject] = useState("");
   const [topic, setTopic] = useState("");
   const [text, setText] = useState("");
-  const [type, setType] = useState<"MCQ" | "MULTIPLE_CHOICE" | "SHORT_ANSWER">("MCQ");
+  const [type, setType] = useState<"MCQ" | "SHORT_ANSWER">("MCQ");
   const [options, setOptions] = useState<string[]>(["", "", "", ""]);
-  const [correctAnswer, setCorrectAnswer] = useState("");
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
+  const [shortAnswer, setShortAnswer] = useState("");
   const [points, setPoints] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,14 +67,17 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
     setError(null);
     try {
       const filteredOptions = options.filter(o => o.trim() !== "");
+      console.log('[DEBUG] Submit - options:', JSON.stringify(options));
+      console.log('[DEBUG] Submit - filteredOptions:', JSON.stringify(filteredOptions));
+      console.log('[DEBUG] Submit - correctAnswers state:', JSON.stringify(correctAnswers));
       const payload: Partial<Question> = {
         subjectId: resolvedSubject,
         topic,
         text,
-        type,
-        options: type === "MCQ" || type === "MULTIPLE_CHOICE" ? filteredOptions : undefined,
-        correctAnswer: type === "MCQ" ? filteredOptions[Number(correctAnswer)] || correctAnswer : type === "SHORT_ANSWER" ? correctAnswer : undefined,
-        correctAnswers: type === "MULTIPLE_CHOICE" ? correctAnswers.filter(a => filteredOptions.includes(a)) : undefined,
+        type: type,
+        options: type === "MCQ" ? filteredOptions : undefined,
+        correctAnswer: type === "SHORT_ANSWER" ? shortAnswer : undefined,
+        correctAnswers: type === "MCQ" ? correctAnswers.filter(a => filteredOptions.includes(a)) : undefined,
         points: Number(points),
         provenance: {
           board: resolvedBoard,
@@ -82,10 +85,11 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
           subject: resolvedSubject,
           book: "My Custom Questions",
           chapterNumber: 999,
-          chapterTitle: topic,
+          chapterTitle: topic.trim(),
           sourceFile: "Teacher Created"
         }
       };
+      console.log('[DEBUG] Submit - payload.correctAnswers:', JSON.stringify(payload.correctAnswers));
 
       const newQuestion = await api.questions.createCustom(payload);
       onSuccess(newQuestion);
@@ -174,12 +178,11 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Question Type</label>
               <select value={type} onChange={e => {
-                const newType = e.target.value as "MCQ" | "MULTIPLE_CHOICE" | "SHORT_ANSWER";
+                const newType = e.target.value as "MCQ" | "SHORT_ANSWER";
                 setType(newType);
-                if (newType !== "MULTIPLE_CHOICE") setCorrectAnswers([]);
+                if (newType === "SHORT_ANSWER") setCorrectAnswers([]);
               }} className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 focus:border-[#12423f] focus:ring-1 focus:ring-[#12423f] outline-none">
-                <option value="MCQ">Single Answer (MCQ)</option>
-                <option value="MULTIPLE_CHOICE">Multiple Answers (Multi-Select)</option>
+                <option value="MCQ">MCQ (Single or Multiple Answers)</option>
                 <option value="SHORT_ANSWER">Short Answer</option>
               </select>
             </div>
@@ -189,34 +192,31 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
             </div>
           </div>
 
-          {(type === "MCQ" || type === "MULTIPLE_CHOICE") && (
+          {(type === "MCQ") && (
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-3">
-              <label className="block text-xs font-semibold text-gray-600">Answer Options</label>
+              <label className="block text-xs font-semibold text-gray-600">Answer Options (select one or more correct answers)</label>
               {options.map((opt, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  {type === "MULTIPLE_CHOICE" ? (
-                    <input
-                      type="checkbox"
-                      checked={correctAnswers.includes(options[i])}
-                      onChange={() => {
-                        const val = options[i];
-                        if (!val.trim()) return;
-                        setCorrectAnswers(prev =>
-                          prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]
-                        );
-                      }}
-                      className="w-4 h-4 text-[#12423f] cursor-pointer rounded"
-                    />
-                  ) : (
-                    <input type="radio" name="correctAnswer" checked={correctAnswer === String(i)} onChange={() => setCorrectAnswer(String(i))} className="w-4 h-4 text-[#12423f] cursor-pointer" required={type === "MCQ"} />
-                  )}
+                  <input
+                    type="checkbox"
+                    checked={correctAnswers.includes(options[i].trim())}
+                    onChange={() => {
+                      const val = options[i].trim();
+                      console.log('[DEBUG] Checkbox click - val:', JSON.stringify(val), 'current correctAnswers:', JSON.stringify(correctAnswers));
+                      if (!val) return;
+                      setCorrectAnswers(prev => {
+                        const next = prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val];
+                        console.log('[DEBUG] After setCorrectAnswers:', JSON.stringify(next));
+                        return next;
+                      });
+                    }}
+                    className="w-4 h-4 text-[#12423f] cursor-pointer rounded"
+                  />
                   <input value={opt} onChange={e => handleOptionChange(i, e.target.value)} placeholder={`Option ${i + 1}`} className="flex-1 p-2 border rounded-md text-sm outline-none focus:border-[#12423f]" required />
                 </div>
               ))}
               <p className="text-[10px] text-gray-500 mt-2">
-                {type === "MULTIPLE_CHOICE"
-                  ? "Select all checkboxes next to correct answers. Student must select ALL correct options to score."
-                  : "Select the radio button next to the correct answer."}
+                Select the checkboxes next to all correct answers.
               </p>
             </div>
           )}
@@ -224,7 +224,7 @@ export default function CreateCustomQuestionModal({ isOpen, onClose, onSuccess, 
           {type === "SHORT_ANSWER" && (
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Model / Correct Answer *</label>
-              <textarea required value={correctAnswer} onChange={e => setCorrectAnswer(e.target.value)} placeholder="Enter the correct answer or grading rubric..." className="w-full p-3 border rounded-lg text-sm bg-gray-50 min-h-[80px] resize-y focus:border-[#12423f] outline-none" />
+              <textarea required value={shortAnswer} onChange={e => setShortAnswer(e.target.value)} placeholder="Enter the correct answer or grading rubric..." className="w-full p-3 border rounded-lg text-sm bg-gray-50 min-h-[80px] resize-y focus:border-[#12423f] outline-none" />
             </div>
           )}
           

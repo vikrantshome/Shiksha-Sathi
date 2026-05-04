@@ -5,7 +5,7 @@ export const quizzes = {
   create: (data: {
     title: string;
     description?: string;
-    classId: string;
+    classId?: string;
     questionIds: string[];
     questionPointsMap?: Record<string, number>;
     timePerQuestionSec?: number;

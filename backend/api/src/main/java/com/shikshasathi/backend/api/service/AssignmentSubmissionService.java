@@ -292,8 +292,8 @@ public class AssignmentSubmissionService {
                 if (questionFeedback.isAiGradingFailed()) {
                     hasAIFailure = true;
                 }
-            } else if ("MULTIPLE_CHOICE".equals(question.getType()) && question.getCorrectAnswers() != null) {
-                // Multi-select MCQ: all-or-nothing grading
+            } else if (question.getCorrectAnswers() != null && !question.getCorrectAnswers().isEmpty()) {
+                // Multi-select MCQ (type is MCQ with correctAnswers array): all-or-nothing grading
                 java.util.List<String> studentSelections = parseMultiAnswer(answers == null ? null : answers.get(questionId));
                 boolean isCorrect = multiAnswersMatch(studentSelections, question.getCorrectAnswers());
                 int marksAwarded = isCorrect ? marks : 0;
@@ -453,7 +453,7 @@ public class AssignmentSubmissionService {
     /**
      * Determines whether a question type should be graded by AI or exact matching.
      * AI grading: SHORT_ANSWER, FILL_IN_BLANKS, ESSAY
-     * Exact match: MCQ, TRUE_FALSE, MULTIPLE_CHOICE, and any other type
+     * Exact match: MCQ (single or multi-select), TRUE_FALSE, and any other type
      */
     private boolean shouldUseAIGrading(String questionType) {
         return questionType != null && AI_GRADED_TYPES.contains(questionType);

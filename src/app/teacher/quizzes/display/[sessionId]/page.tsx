@@ -61,7 +61,7 @@ export default function QuizDisplayPage({
   // Normalize question type for comparisons (handle case variations and null)
   const questionType = question?.type?.toUpperCase() ?? "";
   const isTrueFalse = questionType === "TRUE_FALSE" || questionType === "TF";
-  const isMCQ = questionType === "MCQ" || questionType === "MULTIPLE_CHOICE";
+  const isMCQ = questionType === "MCQ";
 
   // Default answers for display
   const defaultOptions = ["A", "B", "C", "D"];
@@ -138,7 +138,7 @@ export default function QuizDisplayPage({
             </div>
           )}
 
-          {/* Options with labels - show grid for MCQ/MULTIPLE_CHOICE type with valid options */}
+          {/* Options with labels - show grid for MCQ type with valid options */}
           {!isTrueFalse && question.options && question.options.length > 0 && (
             <div className="grid grid-cols-2 gap-2 md:gap-3 max-w-4xl mx-auto w-full">
               {question.options.map((option, idx) => {

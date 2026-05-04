@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Question } from "@/lib/api/types";
 import { useAssignment } from "./AssignmentContext";
 import { useQuiz } from "./QuizContext";
@@ -49,11 +49,15 @@ const getSourceLabel = (q: Question): string => {
 
 export default function QuestionCard({ question: q, mode = "assignment" }: { question: Question; mode?: "assignment" | "quiz" }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [selected, setSelected] = useState(false);
   const assignmentCtx = useAssignment();
   const quizCtx = useQuiz();
   const { toggleQuestion, isSelected } = mode === "quiz" ? { toggleQuestion: quizCtx.toggleQuestion, isSelected: quizCtx.isSelected } : assignmentCtx;
 
-  const selected = isSelected(q.id);
+  useEffect(() => {
+    setSelected(isSelected(q.id));
+  }, [q.id, isSelected]);
+
   const badge = getTypeBadge(q.type);
   const difficultyBadge = getDifficultyBadge(q.points || 1);
   const sourceLabel = getSourceLabel(q);
@@ -101,7 +105,7 @@ export default function QuestionCard({ question: q, mode = "assignment" }: { que
           {/* Add/Check Button — w-10 h-10 rounded-full */}
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); toggleQuestion(q); }}
+            onClick={(e) => { e.stopPropagation(); toggleQuestion(q); setSelected(!selected); }}
             className={`w-10 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border transition-all active:scale-95 group/btn ${
               selected
                 ? "bg-primary text-on-primary border-primary"

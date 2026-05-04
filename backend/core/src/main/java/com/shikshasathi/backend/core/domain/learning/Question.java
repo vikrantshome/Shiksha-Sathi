@@ -33,7 +33,7 @@ public class Question extends BaseEntity {
     @Field("text")
     private String text;
 
-    @Field("type") // MULTIPLE_CHOICE, SHORT_ANSWER, ESSAY
+    @Field("type") // MCQ, SHORT_ANSWER, ESSAY (MCQ can be single or multi-select based on correctAnswers)
     private String type;
 
     @Field("options")
