@@ -45,6 +45,7 @@
 | 🏫 **Class Management** | Manage multiple classes, enroll students, and organize cohorts |
 | 🔍 **Review Workflow** | 3-stage content pipeline: `PENDING → APPROVED → PUBLISHED` |
 | 🧑‍💼 **Admin Panel** | Content review, derived question generation, and publish management |
+| 🎮 **Live Quiz** | Real-time Kahoot-style quizzes with projector-optimized display, countdown animations, interstitial leaderboards, and multi-select MCQ support |
 | 📱 **Responsive UI** | Adaptive design with Framer Motion animations, dark-mode tokens, and mobile-first layout |
 | 📦 **Content Versioning** | Full provenance tracking for every extracted question (source, version, chapter) |
 
@@ -98,6 +99,7 @@ Shiksha-Sathi/
 │   │   │   ├── AuthController.java
 │   │   │   ├── AssignmentController.java
 │   │   │   ├── AssignmentSubmissionController.java
+│   │   │   ├── QuizSessionController.java          # Live quiz hosting & real-time state
 │   │   │   ├── QuestionController.java
 │   │   │   ├── TeacherController.java
 │   │   │   ├── ClassController.java
@@ -119,6 +121,7 @@ Shiksha-Sathi/
 │   │   │   ├── dashboard/
 │   │   │   ├── question-bank/
 │   │   │   ├── assignments/
+│   │   │   ├── quizzes/                # Live quiz creation & hosting
 │   │   │   ├── classes/
 │   │   │   └── profile/
 │   │   ├── student/                    # Student portal
@@ -128,6 +131,13 @@ Shiksha-Sathi/
 │   │   │   └── results/
 │   │   └── admin/                      # Admin review panel
 │   ├── components/
+│   │   ├── quiz/display/               # Live quiz projector display components
+│   │   │   ├── QuizLobbyScreen.tsx
+│   │   │   ├── CountdownOverlay.tsx
+│   │   │   ├── QuizQuestionDisplay.tsx
+│   │   │   ├── AnswerRevealDisplay.tsx
+│   │   │   ├── InterstitialLeaderboard.tsx
+│   │   │   └── FinalPodium.tsx
 │   │   ├── QuestionBankFilters.tsx
 │   │   ├── StudentAssignmentForm.tsx
 │   │   ├── CreateAssignmentForm.tsx
@@ -161,6 +171,54 @@ Shiksha-Sathi/
 ├── .env.local.example                  # Environment template
 └── vitest.config.ts                    # Frontend test runner (Vitest)
 ```
+
+---
+
+## 🎮 Live Quiz
+
+Real-time interactive quizzes inspired by Kahoot and Mentimeter. Teachers host, students join with a code, and everyone competes on a big screen.
+
+### How It Works
+
+1. **Teacher creates a quiz** from the question bank (MCQ and True/False supported)
+2. **Hosts the session** — a unique 6-character code is generated
+3. **Students join** at `shiksha-sathi.com` using the code
+4. **Teacher clicks Start** — a 3-2-1 countdown appears on the projector display
+5. **Students answer** on their devices within the time limit
+6. **Teacher reveals** — correct answer glows green, wrong answers dim, distribution bars show who picked what
+7. **Top 5 leaderboard** slides up automatically after each reveal
+8. **Final podium** appears when the quiz ends — gold/silver/bronze animated bars
+
+### Display Modes
+
+| Mode | Purpose | Audience |
+|------|---------|----------|
+| **Teacher Console** | Host controls — Start, Reveal, Next, End | Teacher only |
+| **Projector Display** | Big-screen optimized for classroom / Zoom / projector | Students |
+
+### Display Features
+
+- **Warm light theme** (`#fffbf7`) — readable in lit classrooms and on video calls
+- **Color-coded options** — A=Teal, B=Amber, C=Coral, D=Violet (projector-friendly)
+- **Animated countdown** — 3-2-1 spring bounce at quiz start
+- **Urgency timer** — turns amber at 10s, red + pulse at 5s
+- **Answer distribution** — horizontal bars showing % of students per option
+- **Interstitial leaderboard** — Top 5 with gold/silver/bronze highlights, auto-dismisses
+- **Final podium** — Animated 3D-style podium with confetti and full top-10 leaderboard
+- **Persistent join code** — visible throughout so late joiners can still hop in
+
+### Multi-Select MCQ
+
+Questions with multiple correct answers are automatically detected:
+- **Student UI** shows checkbox-style selection with a Submit button
+- **Grading** is all-or-nothing (must select all correct answers, no partial credit)
+- **Distribution** counts each selected option individually
+
+### Tech Stack
+
+- **Frontend**: Framer Motion animations, polling-based real-time state (1s intervals)
+- **Backend**: `QuizSessionService` manages session lifecycle, `QuizSessionAnswer` stores responses
+- **Grading**: Label-based matching (handles both option text and A/B/C/D labels)
 
 ---
 
