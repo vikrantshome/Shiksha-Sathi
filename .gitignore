@@ -116,6 +116,10 @@ backend/graphify-out/
 google/
 test-results/
 opencode.json
+.sisyphus/
+.graphify_analysis.json
+audit-agent/__pycache__/
+audit-agent/.venv/
 
 # Lock files - using yarn
 package-lock.json

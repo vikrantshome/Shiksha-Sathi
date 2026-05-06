@@ -12,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @AllArgsConstructor
 public class Provenance {
 
+    @Field("teacher_id")
+    private String teacherId;
+
     @Field("extraction_run_id")
     private String extractionRunId;
 

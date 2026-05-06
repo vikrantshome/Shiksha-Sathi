@@ -41,6 +41,8 @@ public class QuestionService {
     private static final int DEFAULT_LONG_ANSWER_POINTS = 5;
 
     private Criteria getPrivacyCriteria(String loginIdentity) {
+        Criteria nonCustom = Criteria.where("source_kind").ne("CUSTOM");
+
         String userId = null;
         if (loginIdentity != null && !loginIdentity.equals("anonymousUser")) {
             java.util.Optional<com.shikshasathi.backend.core.domain.user.User> userOpt = userRepository.findByEmail(loginIdentity);
@@ -56,19 +58,11 @@ public class QuestionService {
             }
         }
 
-        // Exclude questions marked as CUSTOM in either snake_case or camelCase storage
-        Criteria nonCustom = new Criteria().andOperator(
-                Criteria.where("source_kind").ne("CUSTOM"),
-                Criteria.where("sourceKind").ne("CUSTOM")
-        );
-
         if (userId != null) {
-            return new Criteria().orOperator(
-                    nonCustom,
-                    Criteria.where("teacher_id").is(userId),
-                    Criteria.where("teacherId").is(userId)
-            );
+            Criteria ownCustom = Criteria.where("provenance.teacherId").is(userId);
+            return new Criteria().orOperator(nonCustom, ownCustom);
         }
+
         return nonCustom;
     }
 
@@ -312,10 +306,7 @@ public class QuestionService {
     }
 
     private Criteria subjectCriteria(String subjectId) {
-        return new Criteria().orOperator(
-                Criteria.where("subject_id").is(subjectId),
-                Criteria.where("provenance.subject").is(subjectId)
-        );
+        return Criteria.where("provenance.subject").is(subjectId);
     }
 
     public Question createQuestion(Question question) {
@@ -325,7 +316,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question createCustomQuestion(Question question, String loginIdentity) {
+public Question createCustomQuestion(Question question, String loginIdentity) {
         com.shikshasathi.backend.core.domain.user.User teacher = userRepository.findByEmail(loginIdentity)
                 .or(() -> {
                     java.util.List<com.shikshasathi.backend.core.domain.user.User> phoneUsers = userRepository.findByPhone(loginIdentity);
@@ -335,14 +326,14 @@ public class QuestionService {
                             .or(() -> phoneUsers.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(phoneUsers.get(0)));
                 })
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
-                
-        question.setTeacherId(teacher.getId());
+        
         question.setSourceKind("CUSTOM");
         question.setReviewStatus("PUBLISHED");
         
         if (question.getProvenance() == null) {
             question.setProvenance(new com.shikshasathi.backend.core.domain.learning.Provenance());
         }
+        question.getProvenance().setTeacherId(teacher.getId());
         question.getProvenance().setBook("My Custom Questions");
         
         if (question.getPoints() == null || question.getPoints() <= 0) {

@@ -417,7 +417,7 @@ public class QuizSessionService {
         int marks = pointsFor(quiz, questionId, q);
         return StudentQuestionDTO.builder()
                 .id(q.getId())
-                .subject(q.getSubjectId())
+                .subject(q.getProvenance() != null ? q.getProvenance().getSubject() : null)
                 .grade(null)
                 .chapter(q.getChapter())
                 .topic(q.getTopic())

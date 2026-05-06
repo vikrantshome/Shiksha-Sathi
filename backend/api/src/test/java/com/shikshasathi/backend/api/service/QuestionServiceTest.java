@@ -1,6 +1,7 @@
 package com.shikshasathi.backend.api.service;
 
 import com.shikshasathi.backend.core.domain.learning.Question;
+import com.shikshasathi.backend.core.domain.learning.Provenance;
 import com.shikshasathi.backend.infrastructure.repository.learning.QuestionRepository;
 import com.shikshasathi.backend.infrastructure.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -217,11 +218,11 @@ public class QuestionServiceTest {
         Question q = new Question();
         q.setText("Custom question");
         q.setType("MCQ");
-        q.setProvenance(new com.shikshasathi.backend.core.domain.learning.Provenance());
+        q.setProvenance(Provenance.builder().build());
 
         Question result = questionService.createCustomQuestion(q, "+911234567890");
 
-        assertEquals("teacherId", result.getTeacherId(), "Should assign to teacher, not student");
+        assertEquals("teacherId", result.getProvenance().getTeacherId());
     }
 
     @Test
@@ -243,11 +244,10 @@ public class QuestionServiceTest {
         questionService.getDistinctSubjects(null, null, "+911234567890");
 
         ArgumentCaptor<Query> queryCaptor = ArgumentCaptor.forClass(Query.class);
-        verify(mongoTemplate).findDistinct(queryCaptor.capture(), eq("subject_id"), eq(Question.class), eq(String.class));
+        verify(mongoTemplate).findDistinct(queryCaptor.capture(), eq("provenance.subject"), eq(Question.class), eq(String.class));
 
         Document queryDoc = queryCaptor.getValue().getQueryObject();
-        // Privacy criteria should include teacher_id = "teacherId", not "studentId"
-        assertTrue(containsFieldValue(queryDoc, "teacher_id", "teacherId"),
-                "Privacy criteria should use teacher's ID, not student's ID");
+        assertTrue(containsFieldValue(queryDoc, "provenance.teacherId", "teacherId"),
+                "Privacy criteria should use provenance.teacherId");
     }
 }

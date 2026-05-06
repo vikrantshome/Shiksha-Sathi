@@ -287,7 +287,7 @@ public class AssignmentService {
                     if (q == null) return null;
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
-                            .subject(q.getSubjectId())
+                            .subject(q.getProvenance() != null ? q.getProvenance().getSubject() : null)
                             .grade(null)
                             .chapter(q.getChapter())
                             .topic(q.getTopic())
@@ -334,7 +334,7 @@ public class AssignmentService {
                     if (q == null) return null;
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
-                            .subject(q.getSubjectId())
+                            .subject(q.getProvenance() != null ? q.getProvenance().getSubject() : null)
                             .grade(null)
                             .chapter(q.getChapter())
                             .topic(q.getTopic())
