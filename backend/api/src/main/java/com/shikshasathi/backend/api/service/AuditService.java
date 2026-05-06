@@ -28,8 +28,46 @@ public class AuditService {
         return stats;
     }
 
-    public String runAudit(AuditRequestDTO request) {
-        return "Audit feature coming soon";
+    public String runAudit(AuditRequestDTO request) throws Exception {
+        String scriptPath = "audit-agent/main.py";
+        ProcessBuilder pb = new ProcessBuilder(
+            "python3", scriptPath,
+            "--mode", request.getMode() != null ? request.getMode() : "check",
+            "--limit", String.valueOf(request.getLimit() != null ? request.getLimit() : 100)
+        );
+        
+        if (request.getClassLevel() != null) {
+            pb.command().add("--class");
+            pb.command().add(String.valueOf(request.getClassLevel()));
+        }
+        if (request.getSubject() != null) {
+            pb.command().add("--subject");
+            pb.command().add(request.getSubject());
+        }
+        if (request.getFixMode() != null) {
+            pb.command().add("--fix-mode");
+            pb.command().add(request.getFixMode());
+        }
+        
+        pb.directory(new java.io.File("."));
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+        
+        StringBuilder output = new StringBuilder();
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                new java.io.InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+        }
+        
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new RuntimeException("Audit script failed with exit code " + exitCode + ": " + output);
+        }
+        
+        return output.toString();
     }
 
     public List<AuditQueueItemDTO> getReviewQueue() {
