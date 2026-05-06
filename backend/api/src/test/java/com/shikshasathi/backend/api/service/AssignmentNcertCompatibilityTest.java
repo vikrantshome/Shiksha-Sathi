@@ -45,7 +45,6 @@ public class AssignmentNcertCompatibilityTest {
     void testQuestionSchemaWithProvenance() {
         // Verify Question schema supports NCERT provenance
         Question question = new Question();
-        question.setSubjectId("Science");
         question.setChapter("Chapter 1: The Wonderful World of Science");
         question.setType("MCQ");
         question.setText("Which of the following is a method used by scientists?");
@@ -57,17 +56,17 @@ public class AssignmentNcertCompatibilityTest {
         question.setReviewStatus("APPROVED");
 
         // Set provenance
-        Provenance provenance = new Provenance();
-        provenance.setBoard("NCERT");
-        provenance.setClassLevel("6");
-        provenance.setSubject("Science");
-        provenance.setBook("Curiosity");
-        provenance.setChapterNumber(1);
-        provenance.setChapterTitle("The Wonderful World of Science");
+        Provenance provenance = Provenance.builder()
+                .board("NCERT")
+                .classLevel("6")
+                .subject("Science")
+                .book("Curiosity")
+                .chapterNumber(1)
+                .chapterTitle("The Wonderful World of Science")
+                .build();
         question.setProvenance(provenance);
 
-        // Verify all fields are accessible
-        assertEquals("Science", question.getSubjectId());
+        assertEquals("Science", question.getProvenance().getSubject());
         assertEquals("MCQ", question.getType());
         assertEquals("Observation", question.getCorrectAnswer());
         assertEquals("CANONICAL", question.getSourceKind());
@@ -170,34 +169,29 @@ public class AssignmentNcertCompatibilityTest {
 
     @Test
     void testNcertQuestionFieldsCompatibility() {
-        // Verify all NCERT question fields are compatible with assignment system
         Question ncertQuestion = new Question();
         
-        // Core fields
-        ncertQuestion.setSubjectId("Mathematics");
         ncertQuestion.setChapter("Chapter 1: Sets");
         ncertQuestion.setType("MCQ");
         ncertQuestion.setText("What is a set?");
         ncertQuestion.setCorrectAnswer("A well-defined collection");
         ncertQuestion.setPoints(1);
         
-        // NCERT-specific fields
         ncertQuestion.setSourceKind("CANONICAL");
         ncertQuestion.setReviewStatus("APPROVED");
         ncertQuestion.setExplanation("A set is a well-defined collection of objects.");
         
-        // Provenance
-        Provenance provenance = new Provenance();
-        provenance.setBoard("NCERT");
-        provenance.setClassLevel("11");
-        provenance.setSubject("Mathematics");
-        provenance.setBook("Mathematics");
-        provenance.setChapterNumber(1);
-        provenance.setChapterTitle("Sets");
+        Provenance provenance = Provenance.builder()
+                .board("NCERT")
+                .classLevel("11")
+                .subject("Mathematics")
+                .book("Mathematics")
+                .chapterNumber(1)
+                .chapterTitle("Sets")
+                .build();
         ncertQuestion.setProvenance(provenance);
 
-        // Verify all fields are accessible for assignment display
-        assertNotNull(ncertQuestion.getSubjectId());
+        assertNotNull(ncertQuestion.getProvenance().getSubject());
         assertNotNull(ncertQuestion.getText());
         assertNotNull(ncertQuestion.getCorrectAnswer());
         assertNotNull(ncertQuestion.getExplanation());

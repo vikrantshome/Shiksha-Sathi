@@ -18,12 +18,6 @@ public class Question extends BaseEntity {
     @Id
     private String id;
 
-    @Field("subject_id")
-    private String subjectId;
-
-    @Field("teacher_id")
-    private String teacherId;
-
     @Field("chapter")
     private String chapter;
 

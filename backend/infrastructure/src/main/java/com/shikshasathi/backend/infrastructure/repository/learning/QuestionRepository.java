@@ -10,13 +10,13 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends MongoRepository<Question, String> {
-    List<Question> findBySubjectId(String subjectId);
+    List<Question> findByProvenanceSubject(String subject);
 
     // Batch fetch for N+1 elimination
     List<Question> findByIdIn(List<String> ids);
 
     // Pagination for large datasets
-    Page<Question> findBySubjectId(String subjectId, Pageable pageable);
+    Page<Question> findByProvenanceSubject(String subject, Pageable pageable);
     Page<Question> findAll(Pageable pageable);
 
     // Filtered queries for PublishService (replaces findAll() + in-memory filtering)

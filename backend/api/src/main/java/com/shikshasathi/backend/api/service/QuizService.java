@@ -164,7 +164,7 @@ public class QuizService {
                     int marks = quiz.getQuestionPointsMap() != null ? quiz.getQuestionPointsMap().getOrDefault(qId, q.getPoints() != null ? q.getPoints() : 1) : (q.getPoints() != null ? q.getPoints() : 1);
                     return StudentQuestionDTO.builder()
                             .id(q.getId())
-                            .subject(q.getSubjectId())
+                            .subject(q.getProvenance() != null ? q.getProvenance().getSubject() : null)
                             .grade(null)
                             .chapter(q.getChapter())
                             .topic(q.getTopic())

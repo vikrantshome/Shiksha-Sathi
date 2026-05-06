@@ -15,11 +15,7 @@
     "lint": "eslint",
     "test": "NODE_OPTIONS='--experimental-require-module' vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "questions:backfill-points": "node scripts/backfill-question-points.mjs",
-    "ingest:exemplar": "node scripts/ingest-exemplar.mjs",
-    "ingest:exemplar:dry": "node scripts/ingest-exemplar.mjs --dry-run",
-    "ingest:exemplar:verify": "node scripts/ingest-exemplar.mjs --verify"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
