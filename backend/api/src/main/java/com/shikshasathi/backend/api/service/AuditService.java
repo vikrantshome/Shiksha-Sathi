@@ -28,25 +28,8 @@ public class AuditService {
         return stats;
     }
 
-    public String runAudit(AuditRequestDTO request) throws Exception {
-        String scriptPath = "audit-agent/main.py";
-        ProcessBuilder pb = new ProcessBuilder(
-            "python3", scriptPath, "--mode", "fix"
-        );
-        pb.directory(new java.io.File("."));
-        Process process = pb.start();
-
-        StringBuilder output = new StringBuilder();
-        try (java.io.BufferedReader reader = new java.io.BufferedReader(
-                new java.io.InputStreamReader(process.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-        }
-
-        process.waitFor();
-        return output.toString();
+    public String runAudit(AuditRequestDTO request) {
+        return "Audit feature coming soon";
     }
 
     public List<AuditQueueItemDTO> getReviewQueue() {
