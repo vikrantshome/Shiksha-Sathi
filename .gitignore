@@ -120,6 +120,7 @@ opencode.json
 .graphify_analysis.json
 audit-agent/__pycache__/
 audit-agent/.venv/
+audit-agent/*.pyc
 
 # Lock files - using yarn
 package-lock.json
