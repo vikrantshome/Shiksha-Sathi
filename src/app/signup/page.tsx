@@ -157,37 +157,38 @@ function SignupInner() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-        {/* Role Toggle — M3 Segmented Button */}
-        <div className="flex max-w-xs gap-2 p-1 mx-auto mb-2 rounded-full bg-surface-container">
-          <button
-            type="button"
-            onClick={() => setRole("TEACHER")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
-              role === "TEACHER"
-                ? "bg-primary-container text-on-primary-container shadow-sm"
-                : "text-on-surface-variant hover:bg-surface-container-high"
-            }`}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-            </svg>
-            Teacher
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole("STUDENT")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
-              role === "STUDENT"
-                ? "bg-primary-container text-on-primary-container shadow-sm"
-                : "text-on-surface-variant hover:bg-surface-container-high"
-            }`}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
-            </svg>
-            Student
-          </button>
-        </div>
+        {!searchParams.get("role") && (
+          <div className="flex max-w-xs gap-2 p-1 mx-auto mb-2 rounded-full bg-surface-container">
+            <button
+              type="button"
+              onClick={() => setRole("TEACHER")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
+                role === "TEACHER"
+                  ? "bg-primary-container text-on-primary-container shadow-sm"
+                  : "text-on-surface-variant hover:bg-surface-container-high"
+              }`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+              </svg>
+              Teacher
+            </button>
+            <button
+              type="button"
+              onClick={() => setRole("STUDENT")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
+                role === "STUDENT"
+                  ? "bg-primary-container text-on-primary-container shadow-sm"
+                  : "text-on-surface-variant hover:bg-surface-container-high"
+              }`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+              Student
+            </button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
           {/* Full Name */}
