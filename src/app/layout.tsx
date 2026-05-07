@@ -70,14 +70,68 @@ export default function RootLayout({
     <html
       lang="en"
       className="h-full antialiased font-sans"
+      suppressHydrationWarning
     >
       <head>
+        <meta name="darkreader" content="false" />
+        <meta name="color-scheme" content="light" />
+        <style>{`html { color-scheme: light; }`}</style>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function() {
+          var attrs = [
+            'data-darkreader-mode',
+            'data-darkreader-scheme',
+            'data-darkreader-proxy-injected',
+            'data-darkreader-inline-stroke',
+            'data-darkreader-inline-bg',
+            'data-darkreader-inline-color',
+            'data-darkreader-inline-bgimg'
+          ];
+          var styles = [
+            '--darkreader-inline-stroke',
+            '--darkreader-inline-bg',
+            '--darkreader-inline-color',
+            '--darkreader-inline-bgimg'
+          ];
+          function clean() {
+            var elements = document.querySelectorAll('[' + attrs.join('],[') + ']');
+            for (var i = 0; i < elements.length; i++) {
+              for (var j = 0; j < attrs.length; j++) {
+                elements[i].removeAttribute(attrs[j]);
+              }
+              for (var k = 0; k < styles.length; k++) {
+                elements[i].style.removeProperty(styles[k]);
+              }
+            }
+            var root = document.documentElement;
+            var body = document.body;
+            for (var l = 0; l < attrs.length; l++) {
+              if (root) root.removeAttribute(attrs[l]);
+              if (body) body.removeAttribute(attrs[l]);
+            }
+            for (var m = 0; m < styles.length; m++) {
+              if (root) root.style.removeProperty(styles[m]);
+              if (body) body.style.removeProperty(styles[m]);
+            }
+          }
+          clean();
+          if (typeof requestAnimationFrame !== 'undefined') {
+            requestAnimationFrame(clean);
+          } else {
+            setTimeout(clean, 0);
+          }
+        })();
+      `,
+          }}
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>{children}</body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
