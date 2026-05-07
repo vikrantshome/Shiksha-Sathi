@@ -68,23 +68,11 @@ const Navbar = () => {
             ))}
             <div className="flex items-center gap-3">
               <Link
-href="/student/login"
-                className="text-[0.875rem] font-[600] tracking-tight text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors font-manrope"
-              >
-                Student Portal
-              </Link>
-              <Link
-                href="/login"
-                className="px-4 py-2 text-[0.875rem] font-[600] text-[var(--color-primary)] hover:bg-[var(--color-surface-container-low)] rounded-md transition-all"
-              >
-                Teacher Login
-              </Link>
-              <Link
-                href="/signup"
+                href="/get-started"
                 className="px-5 py-2 text-[0.875rem] font-[700] text-[var(--color-on-primary)] rounded-md shadow-sm hover:opacity-90 transition-all active:scale-[0.98]"
                 style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
               >
-                Create Free Account
+                Get Started
               </Link>
             </div>
           </div>
@@ -126,25 +114,12 @@ href="/student/login"
               </Link>
             ))}
             <Link
-              href="/student/login"
+              href="/get-started"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 text-center rounded-md font-[600] text-[var(--color-primary)] border border-[var(--color-primary)]"
-            >
-              Student Portal
-            </Link>
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 text-center rounded-md font-[600] text-[var(--color-primary)] border border-[var(--color-primary)]"
-            >
-              Teacher Login
-            </Link>
-            <Link
-              href="/signup"
               className="w-full py-3 text-center rounded-md font-[700] text-[var(--color-on-primary)]"
               style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
             >
-              Create Free Account
+              Get Started
             </Link>
           </motion.div>
         )}
@@ -198,11 +173,11 @@ export default function LandingPage() {
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
               <Link
-                href="/signup"
+                href="/get-started"
                 className="px-8 py-4 text-[1rem] font-[700] rounded-lg shadow-lg hover:shadow-xl transition-all text-[var(--color-on-primary)] text-center hover:scale-[1.02] active:scale-[0.98]"
                 style={{ background: "linear-gradient(145deg, var(--color-primary), var(--color-primary-dim))" }}
               >
-                Get Started for Free
+                Get Started
               </Link>
               {/* Watch demo removed per instruction */}
             </motion.div>
@@ -382,7 +357,7 @@ export default function LandingPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-2 md:pt-4">
                 <Link
-                  href="/signup"
+                  href="/get-started"
                   className="bg-[var(--color-surface-container-lowest)] text-[var(--color-primary)] px-8 md:px-10 py-4 md:py-5 text-[1rem] md:text-[1.125rem] font-[700] rounded-lg shadow-lg hover:bg-[var(--color-surface-container-low)] transition-all inline-block hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Get Started Now — It&apos;s Free

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { auth } from "@/lib/api/auth";
 import { saveStudentIdentity } from "@/lib/api/students";
 import { trackEvent } from "@/lib/analytics";
@@ -13,8 +14,9 @@ import Loader from "@/components/Loader";
 
 type Role = "TEACHER" | "STUDENT";
 
-export default function SignupPage() {
+function SignupInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [role, setRole] = useState<Role>("TEACHER");
@@ -22,6 +24,13 @@ export default function SignupPage() {
   const [board, setBoard] = useState("");
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const paramRole = searchParams.get("role");
+    if (paramRole === "TEACHER" || paramRole === "STUDENT") {
+      setRole(paramRole);
+    }
+  }, [searchParams]);
 
   const boardOptions = ["CBSE", "ICSE", "State Board", "IB", "IGCSE"];
 
@@ -49,22 +58,18 @@ export default function SignupPage() {
     const section = formData.get("section") as string;
     const rollNumber = formData.get("rollNumber") as string;
 
-    // Validate phone
     if (!validatePhone(phone)) return;
 
-    // Validate school
     if (!school.trim()) {
       setError("Please select or enter a school name");
       return;
     }
 
-    // Validate board (for teachers)
     if (role === "TEACHER" && !board.trim()) {
       setError("Please select your board");
       return;
     }
 
-    // Student-specific validation
     if (role === "STUDENT" && (!studentClass || !section || !rollNumber)) {
       setError("Please fill in all student details (class, section, roll number)");
       return;
@@ -72,7 +77,6 @@ export default function SignupPage() {
 
     setIsPending(true);
 
-    // Clear any stale token so the signup request reaches the endpoint.
     sessionStorage.removeItem('shiksha-sathi-token');
 
     try {
@@ -360,5 +364,13 @@ export default function SignupPage() {
         </button>
       </form>
     </AuthShell>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupInner />
+    </Suspense>
   );
 }

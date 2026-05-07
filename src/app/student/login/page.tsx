@@ -210,7 +210,7 @@ export default function StudentLoginPage() {
       title="Student Sign In"
       description="Sign in to access your assignments, submit answers, and track your academic progress."
       alternatePrompt="Don't have an account?"
-      alternateHref="/signup"
+      alternateHref="/get-started"
       alternateLabel="Create one now"
       legalNote={
         <>

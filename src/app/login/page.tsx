@@ -49,7 +49,7 @@ export default function LoginPage() {
     if (response.role === "TEACHER") {
       window.location.href = "/teacher/dashboard";
     } else {
-      window.location.href = "/";
+      window.location.href = "/student/dashboard";
     }
   };
 
@@ -110,7 +110,7 @@ export default function LoginPage() {
       if (response.role === "TEACHER") {
         window.location.href = "/teacher/dashboard";
       } else {
-        window.location.href = "/";
+        window.location.href = "/student/dashboard";
       }
     } catch (err: unknown) {
       const apiError = err as { message?: string };
@@ -192,7 +192,7 @@ export default function LoginPage() {
       title="Return to Your Studio"
       description="Sign in to your Shiksha Sathi workspace to create assignments, monitor submissions, and keep your classroom rhythm on track."
       alternatePrompt="Need a teacher account?"
-      alternateHref="/signup"
+      alternateHref="/get-started"
       alternateLabel="Create one now"
       legalNote={
         <>
