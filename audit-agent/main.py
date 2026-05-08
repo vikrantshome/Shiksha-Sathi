@@ -1,10 +1,12 @@
 import json
 import sys
 import argparse
+import asyncio
 from datetime import datetime
 from pymongo import UpdateOne
 from mongodb_utils import get_questions_collection, get_audit_logs_collection, get_audit_queue_collection, close_connection
 from config import BATCH_SIZE, MAX_QUESTIONS, FIX_MODES
+from ncert_verifier import verify_question_ncert, batch_verify_questions
 
 
 def audit_question(question):
@@ -70,56 +72,77 @@ def audit_question(question):
     }
 
 
-def run_audit(mode="check", fix_mode=None, class_level=None, subject=None, limit=MAX_QUESTIONS):
+def run_audit(mode="check", fix_mode=None, class_level=None, subject=None, limit=MAX_QUESTIONS, enable_ncert=False):
     questions_collection = get_questions_collection()
     audit_logs_collection = get_audit_logs_collection()
     audit_queue_collection = get_audit_queue_collection()
-    
+
     query = {}
     if class_level:
         query["provenance.class"] = str(class_level)
     if subject:
         query["provenance.subject"] = subject
-    
+
     total_count = questions_collection.count_documents(query)
     print(f"Found {total_count} questions to audit")
-    
+
     if total_count == 0:
         print("No questions found matching criteria")
         return
-    
+
     audit_results = []
     fixes_applied = 0
     queued_items = 0
-    
+
     cursor = questions_collection.find(query).limit(min(limit, total_count))
-    
-    for question in cursor:
+    questions = list(cursor)
+
+    if enable_ncert:
+        print(f"Running NCERT verification on {len(questions)} questions...")
+        ncert_results = asyncio.run(batch_verify_questions(questions))
+        print(f"NCERT verification complete")
+    else:
+        ncert_results = [None] * len(questions)
+
+    for idx, question in enumerate(questions):
         result = audit_question(question)
-        
+
+        ncert = ncert_results[idx] if enable_ncert and idx < len(ncert_results) else None
+        if ncert:
+            result["issues"].extend(ncert.issues)
+            result["fixes"].extend(ncert.fixes)
+            result["ncert_verified"] = ncert.verified
+            result["ncert_confidence"] = ncert.confidence
+            result["ncert_reasoning"] = ncert.reasoning
+
         if result["issues"]:
             audit_results.append(result)
-            
-            audit_logs_collection.insert_one({
+
+            log_entry = {
                 "question_id": result["question_id"],
                 "issues": result["issues"],
                 "fixes": result["fixes"],
                 "severity": result["severity"],
                 "created_at": datetime.utcnow(),
                 "status": "pending_review"
-            })
-            
+            }
+            if ncert:
+                log_entry["ncert_verified"] = ncert.verified
+                log_entry["ncert_confidence"] = ncert.confidence
+                log_entry["ncert_reasoning"] = ncert.reasoning
+            audit_logs_collection.insert_one(log_entry)
+
             if mode == "fix" and result["fixes"]:
                 should_fix = True
                 if fix_mode:
                     should_fix = any(f["issue"] == fix_mode for f in result["fixes"])
-                
+
                 if should_fix:
                     for fix in result["fixes"]:
                         if fix_mode and fix["issue"] != fix_mode:
                             continue
-                        
-                        audit_queue_collection.insert_one({
+
+                        queue_entry = {
                             "question_id": result["question_id"],
                             "suggested_fix": fix["suggestion"],
                             "field": fix["field"],
@@ -127,26 +150,35 @@ def run_audit(mode="check", fix_mode=None, class_level=None, subject=None, limit
                             "confidence": 0.8,
                             "status": "pending",
                             "created_at": datetime.utcnow()
-                        })
+                        }
+                        if ncert:
+                            queue_entry["ncert_verified"] = ncert.verified
+                            queue_entry["ncert_confidence"] = ncert.confidence
+                            queue_entry["ncert_reasoning"] = ncert.reasoning
+                        audit_queue_collection.insert_one(queue_entry)
                         queued_items += 1
-    
+
     summary = {
-        "total_audited": len(audit_results),
+        "total_audited": len(questions),
         "issues_found": len(audit_results),
         "fixes_queued": queued_items,
         "mode": mode,
+        "ncert_verification": enable_ncert,
         "criteria": {
             "class_level": class_level,
             "subject": subject,
             "limit": limit
         }
     }
-    
+
     print(f"\nAudit Complete:")
     print(f"  Total questions audited: {summary['total_audited']}")
     print(f"  Issues found: {summary['issues_found']}")
     print(f"  Fixes queued: {summary['fixes_queued']}")
-    
+    if enable_ncert:
+        ncert_verified_count = sum(1 for r in ncert_results if r and r.verified)
+        print(f"  NCERT verified: {ncert_verified_count}/{len(questions)}")
+
     return summary
 
 
@@ -162,16 +194,19 @@ def main():
                        help="Filter by subject")
     parser.add_argument("--limit", type=int, default=MAX_QUESTIONS,
                        help="Maximum questions to audit")
-    
+    parser.add_argument("--ncert", action="store_true",
+                       help="Enable NCERT external verification via crawl4ai")
+
     args = parser.parse_args()
-    
+
     try:
         summary = run_audit(
             mode=args.mode,
             fix_mode=args.fix_mode,
             class_level=args.class_level,
             subject=args.subject,
-            limit=args.limit
+            limit=args.limit,
+            enable_ncert=args.ncert
         )
         
         print(json.dumps(summary, indent=2, default=str))
