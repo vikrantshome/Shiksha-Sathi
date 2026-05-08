@@ -10,4 +10,5 @@ public class AuditRequestDTO {
     private Integer classLevel;
     private String subject;
     private Integer limit;
+    private Boolean enableNcert;
 }
