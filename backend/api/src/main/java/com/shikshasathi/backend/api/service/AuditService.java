@@ -48,7 +48,10 @@ public class AuditService {
             pb.command().add("--fix-mode");
             pb.command().add(request.getFixMode());
         }
-        
+        if (Boolean.TRUE.equals(request.getEnableNcert())) {
+            pb.command().add("--ncert");
+        }
+
         pb.directory(new java.io.File("."));
         pb.redirectErrorStream(true);
         Process process = pb.start();

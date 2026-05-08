@@ -5,3 +5,4 @@ langchain-community
 python-dotenv
 pydantic
 requests
+crawl4ai>=0.4.0

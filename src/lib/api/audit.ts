@@ -1,130 +1,73 @@
 import { fetchApi } from './client';
-import { Question } from './types';
 
-export interface AuditResult {
-  id?: string;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+function getToken(): string | undefined {
+  if (typeof window !== 'undefined') {
+    return sessionStorage.getItem('shiksha-sathi-token') ?? undefined;
+  }
+  return undefined;
+}
+
+export interface AuditStats {
+  totalInvalidQuestions: number;
+  pendingReview: number;
+  autoApplied: number;
+  manualReviewNeeded: number;
+}
+
+export interface AuditQueueItem {
+  id: string;
   questionId: string;
-  classLevel: number | null;
-  chapter: string;
-  subject: string;
-  auditStatus: 'ok' | 'needs_fix' | 'fixed' | 'error';
-  issues: string[];
-  autoFixes: Record<string, unknown>;
-  recommendation: string;
-  dbStatus: string;
   questionText: string;
-  questionType: string;
-  correctAnswer: string | null;
-  questionOptions: string[];
-  explanation: string;
-  auditedAt: string;
-  appliedAt: string | null;
-  appliedBy: string | null;
-  auditRunId: string;
+  originalType: string;
+  suggestedFix: Record<string, unknown>;
+  confidence: number;
+  status: string;
 }
 
-export interface AuditStatistics {
-  total: number;
-  ok: number;
-  needsFix: number;
-  error: number;
-  byChapter: Record<string, { total: number; ok: number; needsFix: number; error: number }>;
-}
-
-export interface AuditJob {
-  id?: string;
+export interface AuditRunRequest {
+  mode?: 'check' | 'fix';
+  limit?: number;
   classLevel?: number;
-  status?: string;
-  startedAt?: string;
-  completedAt?: string;
-  totalCount?: number;
-  processedCount?: number;
-  auditRunId?: string;
-  stdout?: string;
-  stderr?: string;
+  subject?: string;
+  fixMode?: string;
+  enableNcert?: boolean;
 }
 
 export const audit = {
-  getResults: (params?: {
-    classLevel?: number;
-    chapter?: string;
-    status?: string;
-  }): Promise<AuditResult[]> => {
-    const searchParams = new URLSearchParams();
-    if (params?.classLevel) searchParams.append('classLevel', params.classLevel.toString());
-    if (params?.chapter) searchParams.append('chapter', params.chapter);
-    if (params?.status) searchParams.append('status', params.status);
-    return fetchApi<AuditResult[]>(`/audit-results?${searchParams.toString()}`, { method: 'GET' });
+  getStats: (): Promise<AuditStats> =>
+    fetchApi<AuditStats>('/admin/audit/stats', { method: 'GET' }),
+
+  getQueue: (): Promise<AuditQueueItem[]> =>
+    fetchApi<AuditQueueItem[]>('/admin/audit/queue', { method: 'GET' }),
+
+  runAudit: async (request: AuditRunRequest): Promise<string> => {
+    const token = getToken();
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/admin/audit/run`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => response.statusText);
+      throw new Error(text || `Server error (${response.status})`);
+    }
+
+    return response.text();
   },
 
-  getStatistics: (params?: {
-    classLevel?: number;
-    chapter?: string;
-  }): Promise<AuditStatistics> => {
-    const searchParams = new URLSearchParams();
-    if (params?.classLevel) searchParams.append('classLevel', params.classLevel.toString());
-    if (params?.chapter) searchParams.append('chapter', params.chapter);
-    return fetchApi<AuditStatistics>(`/audit-results/statistics?${searchParams.toString()}`, { method: 'GET' });
-  },
+  approveFix: (queueItemId: string): Promise<void> =>
+    fetchApi<void>(`/admin/audit/approve/${queueItemId}`, { method: 'POST' }),
 
-  getQuestionCountsByClass: (): Promise<Record<string, number>> => {
-    return fetchApi<Record<string, number>>('/questions/counts-by-class', { method: 'GET' });
-  },
-
-  applyFix: (questionId: string, appliedBy?: string): Promise<Question> =>
-    fetchApi<Question>('/audit-results/apply-fix', {
-      method: 'POST',
-      body: JSON.stringify({ questionId, appliedBy: appliedBy || 'admin' }),
-    }),
-
-  reject: (questionId: string, reason?: string): Promise<Question> =>
-    fetchApi<Question>('/audit-results/reject', {
-      method: 'POST',
-      body: JSON.stringify({ questionId, reason: reason || 'Rejected via audit' }),
-    }),
-
-  bulkApplyFixes: (
-    questionIds: string[],
-    appliedBy?: string
-  ): Promise<{ appliedCount: number; status: string }> =>
-    fetchApi<{ appliedCount: number; status: string }>('/audit-results/bulk-apply-fix', {
-      method: 'POST',
-      body: JSON.stringify({ questionIds, appliedBy: appliedBy || 'admin' }),
-    }),
-
-  bulkReject: (
-    questionIds: string[],
-    reason?: string
-  ): Promise<{ rejectedCount: number; status: string }> =>
-    fetchApi<{ rejectedCount: number; status: string }>('/audit-results/bulk-reject', {
-      method: 'POST',
-      body: JSON.stringify({
-        questionIds,
-        reason: reason || 'Bulk rejected via audit',
-      }),
-    }),
-
-  deleteByRunId: (runId: string): Promise<{ status: string; deletedRunId: string }> =>
-    fetchApi<{ status: string; deletedRunId: string }>(`/audit-results/run/${runId}`, {
-      method: 'DELETE',
-    }),
-
-  // Audit job management
-  runAudit: (classLevel: number): Promise<AuditJob> =>
-    fetchApi<AuditJob>('/audit/run', {
-      method: 'POST',
-      body: JSON.stringify({ classLevel }),
-    }),
-
-  getJobs: (): Promise<AuditJob[]> =>
-    fetchApi<AuditJob[]>('/audit/jobs', { method: 'GET' }),
-
-  getJob: (id: string): Promise<AuditJob> =>
-    fetchApi<AuditJob>(`/audit/jobs/${id}`, { method: 'GET' }),
-
-  cancelJob: (id: string): Promise<void> =>
-    fetchApi<void>(`/audit/jobs/${id}/cancel`, { method: 'POST' }),
-
-  deleteJob: (id: string): Promise<void> =>
-    fetchApi<void>(`/audit/jobs/${id}`, { method: 'DELETE' }),
+  rejectFix: (queueItemId: string): Promise<void> =>
+    fetchApi<void>(`/admin/audit/reject/${queueItemId}`, { method: 'POST' }),
 };
